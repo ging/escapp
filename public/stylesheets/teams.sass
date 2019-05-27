@@ -1,0 +1,59 @@
+@import 'common/colors'
+#mainSection .main.teams
+  .flex-table-retos-wrapper
+    margin: 10px 0px
+    .flex-table-retos
+      overflow: hidden
+      .flex-row-retos
+        .flex-cell
+          &.flex-name
+            width: 20%
+          &.flex-turno
+            width: 20%
+          &.flex-participants
+            width: 60%
+            border-right: none
+        &:not(.flex-row-retos-title)
+          .flex-cell
+            font-family: 'Lato', sans-serif
+            padding: 5px
+  .filters
+    *
+      font-size: 16px
+    label
+      margin-right: 10px
+      &:focus-within
+        color: white
+  input[type=submit], button
+    outline: 0
+    cursor: pointer
+    border-radius: 20px
+    padding: 10px
+    text-align: center
+    font-size: 16px
+    background: transparent
+    border: 2px solid $textpurple
+    color: $textpurple
+    @extend %scale-animation-down
+    &.participants-button
+      &.download-button
+        background-color: $lightred
+        color: $darkerpurple
+        border-color: $lightred
+        border-style: solid
+      &.attendance-button
+        background-color: $brightgreen
+        color: $darkerpurple
+        border-color: $brightgreen
+        border-style: solid
+      &.attendance-all-button
+        background-color: $brightyellow
+        color: $darkerpurple
+        border-color: $brightyellow
+        border-style: solid
+  .no-teams
+    display: block
+    font-family: Lato, sans-serif
+    text-align: center
+    width: 100%
+    padding: 15px

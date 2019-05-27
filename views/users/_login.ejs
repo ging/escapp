@@ -1,0 +1,28 @@
+<h1 class="loginWelcomeMessage"></h1>
+
+<%=i18n.user.messages.welcome%>
+<h1>Login</h1>
+
+<form method='POST' action='/'>
+
+    <input type='hidden' name='redir' value='<%= redir %>'>
+
+    <div>
+        <label for="login"><span><%=i18n.user.username%></span>
+            <input type="email" id="login" name="login" size="30" autofocus placeholder="<%=i18n.user.inputs.usernamePlaceHolder%>" autocomplete="off"/>
+        </label>
+    </div>
+    <br />
+    <div>
+        <label for="password"><span><%=i18n.user.password%></span>
+            <input type="password" id="password" name="password" size="30" placeholder="<%=i18n.user.inputs.passwordPlaceHolder%>" autocomplete="off" />
+        </label>
+    </div>
+    <br />
+    <div>
+        <button class="login" type="submit" value="Login"><%=i18n.user.actions.login%></button>
+        <br />
+    </div>
+</form>
+<br />
+<a class="login" href="/users/new?redir=<%=redir%>%>"><%=i18n.user.actions.notRegistered%></a>

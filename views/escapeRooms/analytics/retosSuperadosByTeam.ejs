@@ -1,0 +1,74 @@
+<% include ../../partials/_header.ejs %>
+
+<div class="main retosSuperados">
+    <h2><%=i18n.analytics.retosSuperados.title%></h2>
+    <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/puzzles/teams">
+        <div class="filters">
+            <label for="turnId"><%=i18n.turnos.Turno%>
+                <select name="turnId" id="turnId">
+                    <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
+                    <% for (t in escapeRoom.turnos) { %>
+                    <% var turno = escapeRoom.turnos[t] %>
+                    <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
+                        <%= getFullDate(turno.date)%>
+                    </option>
+                    <% } %>
+                </select>
+            </label>
+            <button type="submit" class="filter-button white" >filtrar</button>
+            <a href="participants"><button  type="button" class="buttonTab "><%=i18n.participant.seeByParticipant%></button></a>
+
+        </div>
+    </form>
+    <br/>
+    <table>
+        <tr class="animated fadeInRight">
+            <th><%=i18n.team.Team%></th>
+            <%for (var p in escapeRoom.puzzles) {
+                var puzzle = escapeRoom.puzzles[p];
+            %>
+        <th>
+            <%=puzzle.title%>
+        </th>
+        <%} %>
+            <th><%=i18n.common.Total%></th>
+        </tr>
+        <% var totalRetosSuperados = escapeRoom.puzzles.map(p=>0)%>
+        <%for (var p in results) {
+            var result = results[p];
+        %>
+        <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(p)+(0.3)%>s;">
+            <td class="align-left"><%=result.name%></td>
+            <% for (var r in result.retosSuperados) {
+                var superado = result.retosSuperados[r];
+                if (superado) {
+                    totalRetosSuperados[r] += 1;
+                }
+            %>
+                <td class="<%= superado ? "complete":"incomplete"%>">
+                    <span class="icon"></span>
+                </td>
+            <% } %>
+            <td><%=Math.round(result.retosSuperados.filter(r=>r==1).length*10000/result.retosSuperados.length)/100%>%</td>
+        </tr>
+        <%} %>
+        <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(results.length)+0.3%>s;">
+            <td class="align-left"><b>Total:</b> <%=results.length%></td>
+            <% for (var s in totalRetosSuperados) { %>
+                <td>
+                    <b><%=totalRetosSuperados[s]%></b>
+                    <br/>
+                    <% if (results.length > 0 ) {%>
+                    <%=Math.round(totalRetosSuperados[s]/results.length*10000)/100 %>%
+                    <% } %>
+                </td>
+            <% } %>
+            <td></td>
+        </tr>
+    </table>
+    <br/>
+
+    <br/>
+
+</div>
+<% include ../../partials/_footer %>

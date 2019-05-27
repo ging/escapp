@@ -1,0 +1,20 @@
+<header class="" id="mainHeader">
+    <div class="left">
+        <% if (session.user) { %>
+            <a title="Salir" href="/?_method=DELETE"><i class="navBarIcon material-icons">power_settings_new</i></a>
+            <span style="display:inline-block;width:10px;"></span>
+            <a title="<%=i18n.common.mainPage%>" href="/escapeRooms"><i class="navBarIcon material-icons">home</i></a>
+            <span style="display:inline-block;width:10px;"></span>
+            <% if (!session.user.isStudent) { %>
+                <a title="<%=i18n.common.ideas%>" href="/inspiration"><i class="navBarIcon material-icons">widgets</i></a>
+            <% } %>
+        <% } %>
+    </div>
+    <div class="right">
+        <% if (!session.user) { %>
+            <a href="/">Login</a>
+        <% } else { %>
+            <a title="<%=i18n.common.profile%>" href="/users/<%=session.user.id%>/edit"><%= session.user.username %></a>
+        <% } %>
+    </div>
+</header>

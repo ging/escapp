@@ -1,0 +1,38 @@
+<div class="podium">
+	<div class="podium-col second">
+		<% if(teams[1]) { %>
+			<div class="podium-label">
+				<%=teams[1].name%>
+			</div>
+		<% } %>
+		<div class="podium-rect">
+			2
+		</div>
+	</div>
+	<div class="podium-col first">
+		<i class="material-icons animated zoomIn star">star</i>
+		<% if(teams[0]) { %>
+			<div class="podium-label">
+				<%=teams[0].name%>
+			</div>
+		<% } %>
+		<div class="podium-rect">
+			1
+		</div>
+	</div>
+	<div class="podium-col third">
+		<% if(teams[2]) { %>
+			<div class="podium-label">
+				<%=teams[2].name%>
+			</div>
+		<% } %>
+		<div class="podium-rect">
+			3
+		</div>
+	</div>
+</div>
+<script>
+$(function(){
+    $(".podium").addClass("started");
+})
+</script>

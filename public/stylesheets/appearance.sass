@@ -1,0 +1,37 @@
+#mainSection
+  .main
+    &.step-appearance
+      .half-flex-container
+        display: flex
+        flex-direction: row
+        text-align: center
+        h2
+          text-align: left
+        .left-half-flex
+          width: 50%
+          padding: 0px
+          .buttonApp
+            width: 40%
+            margin: 2%
+            margin-left: 0px
+            border-radius: 5px
+            border: 3px solid white
+            cursor: pointer
+            background-color: white
+            @extend %scale-animation-down
+            &.selected
+              border-color: $brightyellow
+        .right-half-flex
+          width: 50%
+          height: 60vh
+          .preview
+            width: 100%
+            height: 100%
+            #previewIframe
+              width: 100%
+              height: 94%
+              overflow: auto
+              border: 3px solid white
+              border-radius: 20px
+              margin-top: 10px
+              margin-bottom: 3%

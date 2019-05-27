@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<% include ../../partials/_header.ejs %>
+<div class="main step-turnos">
+  	<h2><%=i18n.escapeRoom.steps.turnos.title%></h2>
+	<% var turnos = escapeRoom.turnos; %>
+	<div class="contenedor">
+	    <div class="turnosLeft animated bounceInUp">
+	        <div id="datepicker"></div>
+	    </div>
+	    <div class="turnosRight" >
+	        <h2>
+	            <span id="currentDate"></span>
+	        </h2>
+	        <% include ../../turnos/index %>
+	    </div>
+	</div>
+	<form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/turnos'  >
+		<div class="align-right flex-buttons">
+    		<a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
+    		<button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
+		    <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
+		</div>
+        <%- include('../../partials/_progress', {progress: 1}) %>
+	</form>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+</div>
+<% include ../../partials/_footer %>
+
+<script>
+var selectedDates = [
+<% for (var d = 0; d < turnos.length; d++) { %>
+	new Date("<%= turnos[d].date%>") <%if (d !== turnos.length -1) {%>,<% }%>
+<% } %>
+].map(d=>{d.setHours(0,0,0,0); return d.getTime()}); 
+
+</script>
+<script type="text/javascript" src="/js/turnos.js"></script>
+<% include ../../turnos/_turnosCommonLogic %>

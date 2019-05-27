@@ -1,0 +1,192 @@
+@import 'common/colors'
+#mainSection
+  .main
+    .flex-table-retos-wrapper
+      position: relative
+      overflow: visible
+      .flex-table-retos
+        display: flex
+        flex-direction: column
+        background-color: $purpleedit
+        color: $darkerpurple
+        border: 3px solid white
+        border-radius: 10px
+        overflow: visible
+        font-size: 18px
+        word-break: break-word
+        .flex-row-retos
+          display: flex
+          flex-direction: row
+          border-top: 3px solid white
+          &.flex-row-retos-title
+            background-color: $darkerpurple
+            color: white
+            border-top: none
+            .flex-cell
+              font-family: 'Gugi', sans-serif !important
+              padding: 20px
+          .flex-cell
+            text-align: center
+            border-right: 3px solid white
+            &.flex-cell-retos
+              width: 15%
+            &.flex-cell-sol
+              width: 15%
+              .retoTextArea
+                &:empty:before
+                  content: 'xxxx'
+            &.flex-cell-desc
+              width: 30%
+            &.flex-cell-pista
+              width: 40%
+              border-right: none
+            .retoTextArea
+              padding: 20px
+              font-family: 'Lato', sans-serif !important
+              font-size: 16px
+              width: 100%
+              border: none
+              margin: 0
+              background: transparent
+              height: 100%
+              resize: none
+              outline: none
+              display: inline-block
+              &.retoEditable, &[contenteditable]
+                background-color:  $textpurple
+                color: $purpleedit
+              .no-pistas
+                cursor: not-allowed
+                font-style: italic
+              &:empty:before
+                content: 'Escribe aquí...'
+                opacity: 0.5
+                display: block
+              &:focus:before
+                content: '' !important
+
+              &.hints-cell
+                &.hints-cell-preview
+                  background-color:  inherit
+                padding: 0
+                background-color:  $textpurple
+                *:not(.material-icons)
+                  font-family: inherit
+                .hint-text-preview
+                  text-align: left
+                .no-pistas-preview
+                  padding: 0px
+                  font-style: italic
+                .edit-hints
+                  padding: 0
+                  list-style: none
+                  margin: 0px
+
+                  .hint-li
+                    padding: 0px
+                    background-color: $purpleedit
+                    border-bottom: 3px solid white
+                    display: flex
+                    &.editable
+                      background-color:  $textpurple
+                      color: $purpleedit
+                    &.no-pistas
+                      font-style: italic
+                      padding: 6px
+                      line-height: 25px
+                      justify-content: center
+                    .hint-text-preview
+                      padding: 5px
+                    form
+                      &.formLeft
+                        display: flex
+                        flex: 1
+                        align-items: flex-start
+                      span
+                        flex: 1
+                        padding: 6px
+                        line-height: 25px
+                        margin-left: 50px
+                    .button-hint
+                      border: none
+                      background: transparent
+                      padding: 6px
+                      color: white
+                      @extend %scale-animation-up
+                    .hidden
+                      display: none
+                    .hiddenInputPistaEdit
+                      flex: 1
+                      border: none
+                      background: transparent
+                      font-size: 16px
+                      -webkit-text-fill-color: $purpleedit !important
+                      &:focus, &:active
+                        color: white
+                        -webkit-text-fill-color: white !important
+                .add-new-hint
+                  background-color:  $textpurple
+                  color: $darkerpurple
+                  //min-height: 59px
+                  form
+                    display: flex
+                    input
+                      flex: 1
+                      font-style: inherit
+                      font-family: inherit
+                      font-size: inherit
+                      margin-left: 25px
+                      border: none
+                      background-color:  $textpurple
+                      color: $darkerpurple
+                      height: 36px
+                      min-width: 0px
+                      -webkit-text-fill-color: $purpleedit !important
+                      &:-webkit-autofill
+                        -webkit-box-shadow: 0 0 0 30px  $textpurple inset !important
+                        -webkit-text-fill-color: $purpleedit !important
+                      color: $purpleedit
+                      &:focus, &:active
+                        color: white
+                        -webkit-text-fill-color: white !important
+                      &::placeholder
+                        content: 'Escribe aquí...'
+                        opacity: 0.5
+                        display: block
+                .add-hint
+                  font-style: inherit
+                  font-family: inherit
+                  font-size: inherit
+                  border: none
+                  color: white
+                  margin-left: -5px
+                  padding: 6px
+                  vertical-align: bottom
+                  background-color: transparent
+                  &:hover i
+                    @extend %scale-animation-up
+        .operations-reto
+          position: absolute
+          left: 0
+          margin-left: -65px
+          margin-top: 8px
+          width: 62px
+          text-align: right
+          form
+            display: inline-block
+            .delete-reto
+              background: transparent
+              border: none
+              color: white
+              padding: 2px
+              @extend %scale-animation-up
+              &.hidden
+                display: none
+    #add-reto
+      background: none
+      border: none
+      color: white
+      font-size: 38px
+      .material-icons
+        font-size: 32px
+      @extend %scale-animation-up

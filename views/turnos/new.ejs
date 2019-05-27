@@ -1,0 +1,12 @@
+<div class="turno add-turno" data-date="">
+    <form method="POST" id="newForm" action="/escapeRooms/<%= escapeRoom.id %>/turnos/new">
+        <input class="fecha" type="hidden" id="date" name="date">
+        <div class="hora">
+            <input autofocus class="turnos-picker turnos-time-picker" type="time" id="start" required name="start" value="09:00" placeholder="00:00" autocomplete="off"/>
+        </div>
+        <div class="indications">
+            <textarea class="turnos-picker turnos-indications-picker" type="text"  id="indications" name="indications" value="" placeholder="¿Alguna indicación?" autocomplete="off"></textarea>
+        </div>
+        <button type="submit" class="little-button more"><i class="material-icons">add</i></button>
+    </form>
+</div>

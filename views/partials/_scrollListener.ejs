@@ -1,0 +1,143 @@
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
+<script>
+
+    $.fn.upform = function() {
+        var $this = $(this);
+        var container = $this.find(".basicConfig");
+
+        $(document).ready(function() {
+            $(container).find(".erFormField").first().click();
+        });
+
+        $(container)
+            .find(".erFormField")
+            .not(".erFormField input")
+            .on("click", function() {
+                rescroll(this);
+            });
+
+        $(container).find(".erFormField input").keypress(function(e) {
+            if (e.which == 13) {
+                if ($(this).hasClass("required") && $(this).val() == "") {
+                } else moveNext(this);
+            }
+        });
+
+        $(container).find('.erFormField input[type="radio"]').change(function(e) {
+            moveNext(this);
+        });
+
+        $(window).on("scroll", function() {
+            $(container).find(".erFormField").each(function() {
+                var etop = $(this).offset().top;
+                var diff = etop - $(window).scrollTop();
+
+                if (diff > 100 && diff < 300) {
+                    reinitState(this);
+                }
+            });
+        });
+
+        function reinitState(e) {
+            $(container).find(".erFormField").removeClass("active");
+
+            $(container).find(".erFormField input").each(function() {
+                $(this).blur();
+            });
+            $(e).addClass("active");
+            /*$(e).find('input').focus();*/
+        }
+
+        function rescroll(e) {
+            $(window).scrollTo($(e), 200, {
+                offset: { left: 100, top: -200 },
+                queue: false
+            });
+        }
+
+        function reinit(e) {
+            reinitState(e);
+            rescroll(e);
+        }
+
+        function moveNext(e) {
+            $(e).parent().parent().next().click();
+        }
+
+        function movePrev(e) {
+            $(e).parent().parent().prev().click();
+        }
+    };
+
+    $(".main").upform();
+    $.fn.upform = function() {
+        var $this = $(this);
+        var container = $this.find(".basicConfig");
+
+        $(document).ready(function() {
+            $(container).find(".erFormField").first().click()
+        });
+
+
+        $(container)
+            .find(".erFormField")
+            .not(".erFormField input")
+            .on("click", function() {
+                rescroll(this);
+            });
+
+        $(container).find(".erFormField input").keypress(function(e) {
+            if (e.which === 13) {
+                if ($(this).hasClass("required") && $(this).val() == "") {
+                } else moveNext(this);
+            }
+        });
+
+        $(container).find('.erFormField input[type="radio"]').change(function(e) {
+            moveNext(this);
+        });
+
+        $(window).on("scroll", function() {
+            $(container).find(".erFormField").each(function() {
+                var etop = $(this).offset().top;
+                var diff = etop - $(window).scrollTop();
+
+                if (diff > 90 && diff < 300) {
+                    reinitState(this);
+                }
+            });
+        });
+
+        function reinitState(e) {
+            $(container).find(".erFormField").removeClass("active");
+
+            $(container).find(".erFormField input").each(function() {
+                $(this).blur();
+            });
+            $(e).find("input").focus();
+        }
+
+        function rescroll(e) {
+            $(window).scrollTo($(e), 200, {
+                offset: { left: 100, top: -200 },
+                queue: false
+            });
+        }
+
+        function reinit(e) {
+            reinitState(e);
+            rescroll(e);
+        }
+
+        function moveNext(e) {
+            $(e).parent().parent().next().click();
+        }
+
+        function movePrev(e) {
+            $(e).parent().parent().prev().click();
+        }
+    };
+
+    $(".main").upform();
+
+</script>

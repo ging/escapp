@@ -1,0 +1,111 @@
+<%if (!user.id) {%>
+<h1 class="loginWelcomeMessage">
+    Regístrate:
+</h1>
+    <form method="post" action="/users<%=redir ? ("?redir="+redir) : "" %>">
+        <%}else{%>
+    <form method="post" action="/users/<%=user.id%>?_method=PUT%>">
+<%}%>
+
+<div>
+         <label for="name"><span><%=i18n.user.name%></span>
+         <input type="text" class="customInput" id="name" name="name" value="<%= user.name %>" required placeholder="<%=i18n.user.inputs.namePlaceHolder %>" autocomplete="off"/> </label>
+</div>
+<br />
+<div>
+         <label for="surname"><span><%=i18n.user.surname%></span>
+        <input type="text" class="customInput" id="surname" name="surname" value="<%= user.surname %>" required placeholder="<%=i18n.user.inputs.surnamePlaceHolder %>" autocomplete="off"/></label>
+</div>
+<br />
+<div>
+        <label for="gender"><span><%=i18n.user.gender%></span>
+        <select  required class="customInput" id="gender" name="gender" value="<%= user.gender %>" placeholder="<%=i18n.user.inputs.genderPlaceHolder %>" autocomplete="off">
+            <option value="" disabled <%= !user.id ? "selected" : ""%>> <option>
+            <option value="Femenino" <%= user.gender === "Femenino" ? "selected" : ""%>>Mujer</option>
+            <option value="Masculino" <%= user.gender === "Masculino" ? "selected" : ""%>>Hombre</option>
+            <option value="Otro" <%= user.gender === "Otro" ? "selected" : ""%>>Otro</option>
+        </select></label>
+</div>
+<br />
+<div>
+        <label for="username"><span><%=i18n.user.username%> (UPM)</span>
+        <input type="email" <%=user.id?"disabled":""%> class="customInput" id="username" name="username" value="<%= user.username %>" required placeholder="<%=i18n.user.inputs.usernamePlaceHolder %>" autocomplete="off"/></label>
+</div>
+<br />
+<div>
+    <label for="dni"><span><%=i18n.user.dni%></span>
+        <input type="dni" <%=user.id?"disabled":""%> class="customInput" id="dni" name="dni" value="<%= user.dni %>" required placeholder="<%=i18n.user.inputs.dniPlaceHolder %>" autocomplete="off"/></label>
+</div>
+<br />
+<div>
+        <label for="user_password"><span><%=i18n.user.password%></span>
+        <input type="password" class="customInput" id="user_password" name="password" required placeholder="<%=i18n.user.inputs.passwordPlaceHolder %>" autocomplete="off"/></label>
+</div>
+<br />
+<div>
+        <label for="user_confirm_password"><span><%=i18n.user.passwordConfirm%></span>
+        <input type="password" class="customInput" id="user_confirm_password" required placeholder="<%=i18n.user.inputs.passwordConfirmPlaceHolder %>" autocomplete="off"/></label>
+</div>
+<br />
+<%if (!user.id) {%>
+    <button class="registro" type="submit" value="Save" onclick="return (confirmPassword() && confirmDNI())"><%=i18n.user.actions.register %></button>
+    <br />
+    <br />
+    <a class="login" href="/"><%=i18n.user.actions.alreadyRegistered %></a>
+<%} else {%>
+    <button class="save" type="submit" value="edit" onclick="return confirmPassword()"><%=i18n.user.actions.save %></button>
+
+<%} %>
+
+
+<script>
+    function confirmPassword() {
+        var pw1 = document.getElementById('user_password').value;
+        var pw2 = document.getElementById('user_confirm_password').value;
+        if (!pw1 || !pw2) {
+            alert('<%=i18n.user.messages.fillIn %>.');
+            return false;
+        }
+        if (pw1 === pw2) {
+            return true;
+        } else {
+            alert('<%=i18n.user.messages.doNotMatch %>.');
+            return false;
+        }
+    }
+    function validateDNI(value){
+
+      var validChars = 'TRWAGMYFPDXBNJZSQVHLCKET';
+      var nifRexp = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
+      var nieRexp = /^[XYZ]{1}[0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
+      var str = value.toString().toUpperCase();
+      if (!nifRexp.test(str) && !nieRexp.test(str)) return false;
+
+      var nie = str
+        .replace(/^[X]/, '0')
+        .replace(/^[Y]/, '1')
+        .replace(/^[Z]/, '2');
+
+      var letter = str.substr(-1);
+      var charIndex = parseInt(nie.substr(0, 8)) % 23;
+
+      if (validChars.charAt(charIndex) === letter) return true;
+
+      return false;
+    }
+    function confirmDNI(){
+        return true;
+        var numero, letr, letra, expresion_regular_dni;
+        var dni = document.getElementById('dni').value;
+
+        if(!validateDNI(dni)){
+            alert('<%=i18n.user.messages.invalidDNI %>');
+            return false;
+        } else {
+          return true;
+        }
+    }
+</script>
+
+</form>
+</form>

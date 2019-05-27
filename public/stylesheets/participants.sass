@@ -1,0 +1,62 @@
+@import 'common/colors'
+@import 'common/mixins'
+#mainSection .main.participants
+  .flex-table-retos-wrapper
+    margin: 10px 0px
+    .flex-table-retos
+      overflow: hidden
+      .flex-row-retos
+        .flex-cell
+          &.flex-name
+            width: 15%
+          &.flex-surname
+            width: 15%
+          &.flex-username
+            width: 15%
+            text-overflow: ellipsis
+            white-space: pre
+            overflow: hidden
+          &.flex-dni
+            width: 15%
+          &.flex-gender
+            width: 15%
+          &.flex-turno
+            width: 13%
+          &.flex-attendance
+            width: 12%
+            border-right: none
+            .attendance-checkbox
+              width: 20px
+        &:not(.flex-row-retos-title)
+          .flex-cell
+            font-family: 'Lato', sans-serif
+            padding: 5px
+
+  input[type=submit], button
+    @extend %common-button-props
+    &.participants-button
+      &.download-button
+        background-color: $lightred
+        color: $darkerpurple
+        border-color: $lightred
+        border-style: solid
+      &.attendance-button
+        background-color: $brightgreen
+        color: $darkerpurple
+        border-color: $brightgreen
+        border-style: solid
+      &.attendance-all-button
+        background-color: $brightyellow
+        color: $darkerpurple
+        border-color: $brightyellow
+        border-style: solid
+  .no-participants
+    display: block
+    font-family: Lato
+    text-align: center
+    width: 100%
+    padding: 15px
+.total-number
+  font-family: Lato
+  b
+    font-family: Lato

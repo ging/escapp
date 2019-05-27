@@ -1,0 +1,54 @@
+<% if (messages.success || messages.info || messages.error) { %> 
+    <% if (bs) { %>
+        <div class="alert alert-warning " id="flassmessages">
+        <button type="button" class="close" id="close"data-dismiss="alert" aria-label="Close"> 
+           <span aria-hidden="true">&times;</span>
+             </button> 
+    <% } else { %>
+        <div id="flassmessages">
+            <span class="close" id="close">&#x2716;</span>
+     <% } %> 
+            
+            <% if (messages.info) { %>
+                <article id='flashinfo'>
+                    <h3><%=i18n.common.flash.interestingInfo%>:</h3>
+                    <ul>
+                        <% for (var i in messages.info) { %>
+                            <li> <%= messages.info[i] %> </li>
+                        <% } %>
+                    </ul>
+                </article>
+            <% } %>
+
+            <% if (messages.success) { %>
+                <article id='flashsuccess'>
+                    <h3><%=i18n.common.flash.success%>:</h3>
+                    <ul>
+                        <% for (var i in messages.success) { %>
+                            <li> <%= messages.success[i] %> </li>
+                        <% } %>
+                    </ul>
+                </article>
+            <% } %>
+
+            <% if (messages.error) { %>
+                <article id='flasherror'>
+                    <h3><%=i18n.common.flash.errors%>:</h3>
+                    <ul>
+                        <% for (var i in messages.error) { %>
+                            <li> <%= messages.error[i] %> </li>
+                        <% } %>
+                    </ul>
+                </article>
+            <% } %>
+        </div>
+   
+    <script>
+    document.getElementById('close').onclick = (e)=>{
+         document.getElementById('flassmessages').style.display = 'none';
+    }
+    setTimeout(()=>{
+        document.getElementById('flassmessages').style.display = 'none';
+    }, 4000)
+    </script>
+<% } %>

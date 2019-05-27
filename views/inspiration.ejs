@@ -1,0 +1,146 @@
+<% include partials/_header.ejs %>
+<div class="main inspiration">
+	<h2><%=i18n.inspiration.title%></h2>
+	<p class="intro-paragraph"><%-i18n.inspiration.intro%></p>
+	<p class="intro-paragraph"><%-i18n.inspiration.downloadText%><br/><br/>
+		<a downloaod="escapp.pdf" href="https://docs.google.com/document/d/1it1LYHozJ5fpnBDZpTlXx7jXv7RGbUS4MEUpAgxuCSY/export?format=pdf">
+			<button class="rounded deleteButton">
+				<i class="material-icons">file_download</i>
+				<%=i18n.common.download%>
+			</button>
+		</a>
+	</p>
+
+	<!-- <div class="banner">
+		<a href="#step1"><button class="button" style="background-image:url(/inspiration/flag1.svg); color: white">  Diseña  </button></a>
+		<a href="#step1"><button class="button" style="background-image:url(/inspiration/flag2.svg); padding-left: 15px"> Planteamiento </button></a>
+		<a href="#step2"> <button class="button" style="background-image:url(/inspiration/flag2.svg); padding-left: 15px"> Objetivos </button></a>
+		<a href="#step3"> <button class="button" style="background-image:url(/inspiration/flag2.svg)"> Retos </button></a>
+		<a href="#step4"> <button class="button" style="background-image:url(/inspiration/flag2.svg)"> Temática </button></a>
+		</div>
+
+		<div class="banner">
+			<a href="#step5"> <button class="button" style="background-image:url(/inspiration/flag3.svg); padding-left: 15px; color: white"> Construye </button></a>
+			<a href="#puzzles"> <button class="button" style="background-image:url(/inspiration/flag4.svg)"> Retos </button></a>
+			<a href="#hints"> <button class="button" style="background-image:url(/inspiration/flag4.svg)"> Pistas </button></a>
+			<a href="#instructions"> <button class="button" style="background-image:url(/inspiration/flag4.svg); padding-left: 25px"> Instrucciones </button></a>
+		</div>
+
+		<div class="banner">
+			<a href="#step6"> <button class="button" style="background-image:url(/inspiration/flag5.svg); color: white"> Prueba </button></a>
+			<a href="#step6"> <button class="button" style="background-image:url(/inspiration/flag6.svg)"> Reto a <br> reto </button></a>
+			<a href="#step6"> <button class="button" style="background-image:url(/inspiration/flag6.svg)"> Simulación <br> completa </button></a>
+		</div>
+
+		<div class="banner">
+			<a href="#step7"> <button class="button" style="background-image:url(/inspiration/flag7.svg); color: white"> Evalúa </button></a>
+			<a href="#step7"> <button class="button" style="background-image:url(/inspiration/flag8.svg)"> Pre-test </button></a>
+			<a href="#step7"> <button class="button" style="background-image:url(/inspiration/flag8.svg)"> Post-test </button></a>
+			<a href="#step7"> <button class="button" style="background-image:url(/inspiration/flag8.svg)"> Encuesta </button></a>
+		</div>
+	-->
+
+    <h3 id="step1"><%=i18n.inspiration.steps.first.title%></h3>
+    <p><%-i18n.inspiration.steps.first.intro%></p>
+    <ul class="specialList">
+    	<li><%=i18n.inspiration.steps.first.list.first%></li>
+    	<li><%=i18n.inspiration.steps.first.list.second%></li>
+    	<li><%=i18n.inspiration.steps.first.list.third%></li>
+    	<li><%=i18n.inspiration.steps.first.list.fourth%></li>
+    	<li><%=i18n.inspiration.steps.first.list.fifth%></li>
+    	<li><%=i18n.inspiration.steps.first.list.sixth%></li>
+    </ul>
+
+    <h3 id="step2"><%=i18n.inspiration.steps.second.title%></h3>
+    <p><%-i18n.inspiration.steps.second.intro%></p>
+
+    <h3 id="step3"><%=i18n.inspiration.steps.third.title%></h3>
+    <p><%-i18n.inspiration.steps.third.intro%></p>
+    <p></p>
+    <div class="flex-horizontal"/>
+	    <div class="square">
+	    	<img src="/images/inspiration/code.png"/>
+	    	<span><%=i18n.inspiration.steps.third.list.search%></span>
+
+	    </div>
+	    <div class="square">
+	    	<img src="/images/inspiration/puzzle2.png"/>
+	    	<span><%=i18n.inspiration.steps.third.list.unusual%></span>
+
+	    </div>
+	    <div class="square">
+	    	<img src="/images/inspiration/message.png"/>
+	    	<span><%=i18n.inspiration.steps.third.list.light%></span>
+
+	    </div>
+	    <div class="square">
+	    	<img src="/images/inspiration/cards.png"/>
+	    	<span><%=i18n.inspiration.steps.third.list.coded%></span>
+
+	    </div>
+	</div>
+	<p><%=i18n.inspiration.steps.third.middle%></p>
+	<div class="flex-horizontal"/>
+	<div class="square">
+		<img src="/images/inspiration/loupe.png"/>
+		<span><%=i18n.inspiration.steps.third.list.assembly%></span>
+	</div>
+	<div class="square">
+		<img src="/images/inspiration/dashboard.png"/>
+		<span><%=i18n.inspiration.steps.third.list.info%></span>
+	</div>
+	<div class="square">
+		<img src="/images/inspiration/light.png"/>
+		<span><%=i18n.inspiration.steps.third.list.logic%></span>
+	</div>
+	</div>
+	<h3 id="step4"><%=i18n.inspiration.steps.fourth.title%></h3>
+	<p><%-i18n.inspiration.steps.fourth.intro%></p>
+	<ul class="specialList">
+		<li><%-i18n.inspiration.steps.fourth.list.first%></li>
+		<li><%-i18n.inspiration.steps.fourth.list.second%></li>
+		<li><%-i18n.inspiration.steps.fourth.list.third%></li>
+		<li><%-i18n.inspiration.steps.fourth.list.fourth%></li>
+	</ul>
+	<p><%-i18n.inspiration.steps.fourth.list.booksAndMovies%></p>
+	<div class="flex-horizontal"/>
+	<div class="square">
+		<img src="/images/inspiration/sciencefiction.png"/>
+		<span><%=i18n.inspiration.steps.fourth.list.sciencefiction%></span>
+	</div>
+	<div class="square">
+		<img src="/images/inspiration/knife.png"/>
+		<span><%=i18n.inspiration.steps.fourth.list.thriller%></span>
+	</div>
+	<div class="square">
+		<img src="/images/inspiration/spy.png"/>
+		<span><%=i18n.inspiration.steps.fourth.list.adventure%></span>
+	</div>
+	<div class="square">
+		<img src="/images/inspiration/history.png"/>
+		<span><%=i18n.inspiration.steps.fourth.list.history%></span>
+	</div>
+	</div>
+
+	<h3 id="step5"><%=i18n.inspiration.steps.fifth.title%></h3>
+	<p><%-i18n.inspiration.steps.fifth.intro%></p>
+
+	<h4 id="puzzles"><%=i18n.inspiration.steps.fifth.puzzles.title%></h4>
+	<p><%-i18n.inspiration.steps.fifth.puzzles.content%></p>
+
+	<h4 id="hints"><%=i18n.inspiration.steps.fifth.hints.title%></h4>
+	<p><%-i18n.inspiration.steps.fifth.hints.content%></p>
+
+	<h4 id="instructions"><%=i18n.inspiration.steps.fifth.instructions.title%> </h4>
+	<p><%-i18n.inspiration.steps.fifth.instructions.intro%></p>
+
+	<h3 id="step6"><%=i18n.inspiration.steps.sixth.title%></h3>
+	<p><%-i18n.inspiration.steps.sixth.intro%></p>
+
+	<h3 id="step7"><%=i18n.inspiration.steps.seventh.title%></h3>
+	<p><%-i18n.inspiration.steps.seventh.intro%></p>
+
+	<br/>
+	<br/>
+</div>
+<% include partials/_footer %>

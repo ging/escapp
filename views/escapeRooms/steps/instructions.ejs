@@ -1,0 +1,42 @@
+
+<link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
+<script src="/js/vendor/quill.min.js"></script>
+<script src="/js/vendor/image-resize.min.js"></script>
+<!-- Theme included stylesheets -->
+ <% include ../../partials/_header.ejs %>
+<div class="main step-instructions">
+  <h2><%=i18n.escapeRoom.steps.instructions.title%></h2>
+    <p class="intro-paragraph">
+       <%=i18n.escapeRoom.steps.instructions.explanation%>
+    </p>
+
+    <form method='POST' id="instructionsForm" action='/escapeRooms/<%= escapeRoom.id %>/instructions'  >
+  	<div class="editor-wrapper animated zoomInUp">
+        <div id="editor" class="" style="background-color: white;">
+            <%if (escapeRoom.instructions) {%>
+                <%- escapeRoom.instructions %>
+            <%} else {%>
+                <h1 class="ql-align-center"><%=i18n.escapeRoom.steps.instructions.placeholder%></h1>
+            <%}%>
+  		</div>
+  	</div>
+
+      <div class="align-right flex-buttons">
+          <input id="instructions" name="instructions" type="hidden" value=""/>
+          <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
+          <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
+          <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
+    </div>
+        <%- include('../../partials/_progress', {progress: 4}) %>
+
+    </form>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+</div>
+
+<% include ../../partials/_footer %>
+<script src="/js/instructions.js">
+
+</script>

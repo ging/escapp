@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="/stylesheets/vendor/owl.carousel.min.css">
+<link rel="stylesheet" href="/stylesheets/vendor/owl.theme.default.css">
+<% include ../partials/_header.ejs %>
+<div class="main student">
+    <div class="dialog" >
+        </br>
+        Seleccione un equipo <a id="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new">
+            <i class="material-icons">add_circle_outline</i></a>
+        </br>
+        </br>
+        <div class="">
+
+            <% if (!turno.teams) { %>
+                <%=i18n.team.noTeamYet%>
+            <% } else { %>
+                <div class="owl-carousel">
+                    <% for (var i in turno.teams) { %>
+                        <% var team = turno.teams[i]; %>
+                        <div class="teamCarouselItem <%=team.teamMembers.length >= escapeRoom.teamSize ? "disabled":""%> " data-id="<%=team.id%>">
+                            <%= team.name %>
+                            <%for (var m in team.teamMembers) {%>
+                            <p><%=team.teamMembers[m].name %> <%=team.teamMembers[m].surname %></p>
+                            <%}%>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+            <br/>
+            <div>
+
+                <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/participants/turnos/<%= turno.id %>/members/xxxx?_method=put'>
+                    <div class="join-button-flex-container">
+                        <a href="javascript:history.back()">
+                            <button class="rounded deleteButton" type="button">
+                                <%=i18n.common.back%>
+                            </button>
+                        </a>
+                        <button disabled id="continue" class="rounded acceptButton" type="submit">
+                            <%=i18n.common.continue%>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="/js/vendor/owl.carousel.min.js"></script>
+
+<script>
+    $(function(){
+        let selectedId = "";
+        let repl = false;
+        $('.teamCarouselItem').on('click', function(e) {
+            var currentClicked = $(this);
+            var teamId = currentClicked.data('id');
+            $('.selected').removeClass('selected');
+            currentClicked.addClass('selected');
+            selectedId = teamId;
+            $('#continue').prop("disabled", false);
+        });
+        $('#form').on('submit', function(e){
+            console.log($('#form').attr('action'))
+            if (!repl) {
+                e.preventDefault();
+                repl= true;
+                let action = document.getElementById('form').getAttribute('action');
+                action = action.replace("xxxx",selectedId);
+                console.log(action)
+                $('#form').attr('action', action);
+                $('#form').submit();
+            }
+        });
+        var car = $(".owl-carousel").owlCarousel(
+            {  center: false,
+                items:3,
+                loop: false,
+                rewind: true,
+                margin: 10,
+                nav:true,
+                dots:true,
+                checkVisible: false
+            }
+        );
+        console.log($(".owl-carousel").data('owlCarousel'))
+    });
+</script>

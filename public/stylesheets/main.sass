@@ -1,0 +1,159 @@
+@import 'common/colors'
+#mainSection
+	min-height: 100%
+	position: relative
+	#mainHeader, #mainFooter
+		.navBarIcon
+			@extend %scale-animation-up
+		#logoImg
+			width: 12%
+			margin-top: 0px
+			margin-bottom: 5px
+		#logoUpm
+			width: 5%
+			margin-top: 0px
+			margin-bottom: 5px
+			float: right
+	#mainHeader
+		height: 50px
+		display: flex
+		justify-content: space-between
+		align-items: center
+		background-color: $darkerpurple
+		width: 100%
+		z-index: 1
+		position: absolute
+
+		.left, .right
+			padding: 10px
+			color: white
+		.right
+			text-overflow: ellipsis
+			overflow: hidden
+			flex: 1
+			text-align: right
+		.wideRow
+			margin-bottom: 5px
+			&:focus-within
+			label
+	   			color: white
+	.main
+		font-size: 22px
+		min-height: calc(100vh - 0em)
+		color: white
+		height: 100%
+		background-image: url("../images/background.png")
+		background-size: 100%
+		height: 100%
+		padding: 35px
+		padding-top: 70px !important
+		position: relative
+		.analyticsTag
+			display: inline-block
+			font-family: Lato, sans-serif
+			font-weight: bold
+			background-color: white
+			color: $darkerpurple
+			padding: 9px 18px
+			border-radius: 40px
+			margin: 5px
+			@extend %scale-animation-down
+		.filters
+			*
+				font-size: 16px
+			label
+				margin-right: 10px
+				&:focus-within
+					color: white
+		&.no-bckg
+			background: none
+		footer
+			margin-left: -35px
+		.menuERShow
+			display: flex
+			.attachmentShow
+				text-align: center
+				//max-width: 60%
+				flex: 1
+			.menuERShowRight
+				margin-left:  50px
+				padding: 10px
+				border-left: 2px solid white
+				.menuERactionList
+					list-style: none
+					font-size: 16px
+					li
+						margin-bottom: 16px
+						a
+							line-height: 24px
+							&:hover
+								color: $brightgreen
+
+						.showMenuButton
+							font-size: 16px
+							border-radius: 20px
+							padding: 5px 20px
+							width: 100%
+							transition: 0.1s all ease-in
+							&:hover
+								transform: scale(0.9)
+		.turno-date-title-show
+			color: white
+			margin: 5px
+		#dialog-preview-video
+			padding: 0
+			background-color: white
+			outline: none
+			border: none
+			#previewVideoContent
+				padding: 10px
+		.ui-dialog
+			outline: none !important
+		.ui-dialog-title
+			line-height: 50px
+			padding-left: 10px
+		.ui-dialog-titlebar-close
+			visibility: hidden
+			float: right
+			width: 50px
+		.ui-button-icon-space
+			visibility: visible
+			&:after
+				content: '\e5cd'
+				font-family: 'Material Icons'
+		.ui-dialog .ui-dialog-titlebar
+			background: white !important
+			border-color: white !important
+			color: $lightred
+@media (min-width: 1200px)
+	#mainSection
+		.main
+			padding: 35px calc(50vw - 600px)
+			footer 
+				margin-left: calc(600px - 50vw)
+
+
+
+// Small devices (landscape phones, 576px and up)
+// @media (min-width: 576px)
+
+
+// Medium devices (tablets, 768px and up)
+@media (max-width: 768px)
+	#mainHeader, #mainFooter
+		#logoImg
+			width: 22%
+		#logoUpm
+			width: 14%
+@media (max-width: 576px)
+	#mainSection
+		#mainHeader, #mainFooter
+			#logoImg
+				width: 32%
+			#logoUpm
+				width: 14%
+// Large devices (desktops, 992px and up)
+// @media (min-width: 992px)
+
+
+// Extra large devices (large desktops, 1200px and up)

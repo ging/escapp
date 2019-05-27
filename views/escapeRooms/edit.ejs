@@ -1,0 +1,8 @@
+<% include ../partials/_header.ejs %>
+    <div class="main">
+    <h2><%=i18n.escapeRoom.steps.edit.title%></h2>
+    <form method="post" class="basicConfig" action="/escapeRooms/<%= escapeRoom.id %>?_method=PUT" enctype="multipart/form-data">
+        <% include ../partials/_form.ejs %>
+    </form>
+</div>
+<% include ../partials/_footer %>

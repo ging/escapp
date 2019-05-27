@@ -1,0 +1,158 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><%=escapeRoom.title%></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom.appearance%>.bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
+    <link rel="stylesheet" href="/stylesheets/play.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/animate.css">
+
+</head>
+<body>
+<a class="backToMain" href="/escapeRooms/<%=escapeRoom.id%>">&#11013;
+</a>
+<%if (isStudent) {%><span style="float: right;"><b>Equipo: </b><%=team.name%></span><%}%>
+<div class="previewContainer">
+    <div class="container">
+    <h1><%=escapeRoom.title%></h1>
+        <div class="row" style="justify-content: center;">
+                <% if (escapeRoom.video) { %>
+                    <% if (parseURL(escapeRoom.video)) { %>
+                    <iframe id="previewVideoContent" width="560" height="315" style="max-width: 100%;" src="<%=parseURL(escapeRoom.video)%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <% } else { %>
+                    <video id="previewVideoContent" width="560" height="315" style="max-width: 100%;" src="<%= escapeRoom.video %>">"></video>
+                    <% } %>
+                <% } else if (escapeRoom.attachment) { %>
+                    <div class="previewImage">
+                        <% var attachment = escapeRoom.attachment; %>
+                        <%- include("../../attachments/_show", {attachment})%>
+                    </div>
+                <% } %>
+        </div>
+        <br/><br/>
+        <div class=" row-centered">
+            <div class="col-xs-12 text-left ql-editor instructionsShow">
+                <%if (escapeRoom.instructions) {%>
+                    <%-escapeRoom.instructions %>
+                <%} else {%>
+                    <p><%=escapeRoom.description%></p>
+                <%}%>
+            </div>
+        </div>
+        <% if (escapeRoom.hintApp) {%>
+            <div class=" row-centered">
+                <div class="col-xs-12">
+                    <div >
+                        <h4><%=i18n.hint.Hints%></h4>
+                        <ul id="hintList" >
+                        <% for (var h in hints) {
+                            let hint = hints[h];
+                            if (hint) {%>
+                            <li>
+                                <div class="card border-info mb-3">
+                                    <div class="card-body">
+                                        <div class="card-text">
+                                            <%=hint.hint ? hint.hint.content : i18n.hint.empty%>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        <% }
+                        } %>
+                        </ul>
+                        <br/>
+                        <button onclick="previewHintApp()" class="btn btn-primary">
+                            <%=i18n.hint.need%>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+        <br/><br/>
+        <% 
+        var finish = false;
+        %>
+        <%if (isStudent) { %>
+            <% 
+            var retosSuperados = team.retos.map(a=>a.id);
+            finish = retosSuperados.length === escapeRoom.puzzles.length;
+            %>
+            <div class="dialog" >
+                
+                <div class="dialog-content">
+                    <% if (finish) {   %>
+                        <h4 id="puzzles"><%=i18n.puzzle.finish%></h4>
+                        <br/>
+                        <a href="/escapeRooms/<%= escapeRoom.id %>/finish">
+                            <button class="btn btn-primary">
+                                <%=i18n.common.finish%>
+                            </button>
+                        </a>
+                    <%} else if(!escapeRoom.automatic){
+
+                        var puzzles = escapeRoom.puzzles;
+                        for (var reto in puzzles){ %>
+                        <% var puzzle = puzzles[reto] %>
+                        <% var noSuperado = retosSuperados.indexOf(puzzle.id) === -1; %>
+                        <h4 id="puzzles"><%=i18n.puzzle.Puzzles%></h4>
+                        <div class="flex-cell flex-cell-retos">
+                            <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="title"><%= puzzle.title%></div>
+                        </div>
+                        <!--<div class="flex-cell flex-cell-desc">
+                            <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="desc"><%= puzzle.desc%>
+                            </div>
+                        </div>-->
+
+                        <div class="flex-cell flex-cell-sol">
+                            <form method="get" action="/escapeRooms/<%= escapeRoom.id %>/puzzles/<%= puzzle.id %>/check">
+                                <%if (noSuperado){%>
+                                    <div class="input-group mb-3 sol-input">
+                                      <input type="text" class="form-control" name="answer" placeholder="<%=i18n.puzzle.writeSol%>" aria-label="Answer" aria-describedby="basic-addon2" autocomplete="off">
+                                      <div class="input-group-append">
+                                        <button class="btn btn-warning" type="submit"><%=i18n.puzzle.check%></button>
+                                      </div>
+                                    </div>
+                                <%} else { %>
+                                    <b><%= i18n.puzzle.correctAnswer%></b>
+                                <% } %>
+                            </form>
+                        </div>
+                    <%}%>
+                    <%}%>
+                </div>
+            </div>
+
+        <% } %>
+
+        <div class=" row-centered">
+            <div class="col-xs-12">
+                <script>
+                    <%if (team.turno && team.turno.status === "active") { %>
+                            var countdown = true;
+                            var startTime = new Date("<%=team.turno.startTime%>");
+                            var duration = <%=escapeRoom.duration || 0%>;
+                        <% if (finish) {  %>
+                            var stopped = true;
+                            var now = new Date("<%=team.retos[team.retos.length - 1].retosSuperados.createdAt%>");
+                       <% } %>
+                    <% } else {%>
+                        var countdown = false;
+                        var duration = 0;
+                    <% } %>
+                </script>
+            <% include ../../partials/_countdown.ejs %>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var escapeRoomId = "<%= escapeRoom.id%>";
+</script>
+<script src="/js/handleHintApp.js"></script>
+<%- include("../../partials/_flash",{bs:true}) %>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+@import 'common/colors'
+.ranking
+	text-align: center
+	.content
+		width: auto
+		display: inline-block
+		margin: auto
+		table
+			margin: auto
+		.podium
+			width: 100%
+			height: 75vh
+			display: flex
+			flex-direction: row
+			overflow-y: hidden
+			.podium-col
+				display: flex
+				flex-direction: column
+				flex: 1
+				justify-content: flex-end
+				align-items: center
+				transition: 
+				.podium-label
+					text-align: center
+					padding:  5px 25px
+					font-family: Lato
+					font-size: 24px
+					color: $brightgreen
+					background: white
+					margin: 10px
+					margin-top: 0px
+					margin-bottom: 20px
+					width: auto
+					border-radius: 25px
+					display: inline-block
+					font-weight: bold
+				.podium-rect
+					flex: 1
+					background-color: $lightred
+					width: 100%
+					font-size: 13vh
+					text-align: center
+					line-height: 26vh
+					vertical-align: text-bottom
+					max-height: 0
+					transition: max-height 2s ease-in-out
+				&.first
+					.podium-rect
+						animation-delay: 1s
+				&.second
+					.podium-rect
+						animation-delay: 3s
+				&.third
+					.podium-rect
+						animation-delay: 5s	
+				.star
+					color: $brightyellow
+					font-size: 15vh
+					animation-delay: 1s
+
+			&.started
+				.podium-col
+					&.first
+						.podium-rect
+							max-height: 70vh
+					&.second
+						.podium-rect
+							max-height: 33vh
+					&.third
+						.podium-rect
+							max-height: 23vh
+ 	.filters
+ 		text-align: left

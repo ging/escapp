@@ -1,0 +1,45 @@
+@import 'common/colors'
+.main 
+	&.step-turnos
+		#datepicker
+			.ui-datepicker-inline.ui-datepicker
+				width: 20em
+				padding-left: 75px
+				padding-right: 75px
+				padding-bottom: 25px
+				padding-top: 25px
+				border-radius: 20px
+				line-height: 30px
+				th
+					color: #333
+				th:nth-child(6), th:nth-child(7)
+					color: $lightred
+				*
+					font-family: 'Lato', sans-serif
+					font-size: 16px
+				td, a
+					color: #92A3AB
+					text-align: center
+					font-weight: bold
+					&.turn-day-highlight
+						.ui-state-default
+							color: blue
+							background-color: $brightyellow
+							border-radius: 50%
+							color: black
+				.ui-datepicker-header 
+					&.ui-widget-header
+						background-color: white
+						border-color: white
+					.ui-datepicker-title
+						span
+							font-size: 20px
+				.ui-state-default
+					background-color: transparent
+					border-color: transparent
+				.ui-state-highlight:not(.ui-state-active)
+					color: $lightred
+				.ui-state-active
+					background-color: $brightgreen !important
+					border-radius: 50%
+					color: black

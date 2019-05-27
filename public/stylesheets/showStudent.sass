@@ -1,0 +1,56 @@
+.showStudent
+	.flex
+		display: flex
+		.flex-thumb
+			width: 25%
+			position: relative
+			img
+				width: 100%
+			padding-top: 40px
+		.flex-er-info
+			flex: 1
+			padding: 15px
+			*:not(h2)
+				font-family: Lato, sans-serif
+			*:not(b)
+				font-weight: normal
+	.desc
+		font-family: Lato, sans-serif
+	.status
+		text-align: center
+	#unjoin
+		text-align: right
+	.pulseButton
+		margin: 100px
+		cursor: pointer
+		box-shadow: 0 0 2px 0px rgba(204, 169, 44, 0.2)
+		animation: pulseButton 2s infinite
+		&:hover
+			animation: none
+
+.finish
+	.finish-button
+		background-color: white
+		color: rgb(22, 25, 56)
+		border-color: white
+		border-style: solid
+		outline: 0px
+	@-webkit-keyframes pulseButton
+		0%
+			-webkit-box-shadow: 0 0 2px 0 rgba(204,169,44, 0.4)
+		70%
+			-webkit-box-shadow: 0 0 2px 10px rgba(204,169,44, 0)
+		100%
+			-webkit-box-shadow: 0 0 2px 0 rgba(204,169,44, 0)
+
+	@keyframes pulseButton
+		0%
+			-moz-box-shadow: 0 0 2px 0 rgba(204,169,44, 0.4)
+			box-shadow: 0 0 0 0 rgba(204,169,44, 0.4)
+		70%
+			-moz-box-shadow: 0 0 2px 10px rgba(204,169,44, 0)
+			box-shadow: 0 0 2px 10px rgba(204,169,44, 0)
+		100%
+			-moz-box-shadow: 0 0 2px 0 rgba(204,169,44, 0)
+			box-shadow: 0 0 2px 0 rgba(204,169,44, 0)
+

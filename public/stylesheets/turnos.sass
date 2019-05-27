@@ -1,0 +1,128 @@
+@import 'common/colors'
+@import 'calendar'
+@import 'common/mixins'
+
+#mainSection
+  #mainHeader
+  .main
+    &.step-turnos
+      position: relative
+      .contenedor
+        display: flex
+        height: 100%
+        h2
+          color: $textpurple
+        .turnosLeft
+          width: 50%
+        .turnosRight
+          width: 50%
+          .flexBoxTurnos
+            .turno
+              &.turno-play
+                @extend %scale-animation-down
+              &.add-turno
+                .turnos-picker
+                  background: transparent
+                  padding: 0px
+                  margin: 0px
+                  text-align: center
+                  text-align-last: center
+                  width: 100%
+                  color: $textgrey
+                  border: none
+                  font-size: 1em
+                  caret-color: $textgrey
+                  color: $textgrey !important
+                  -webkit-text-fill-color: $textgrey !important
+                  &:focus, &:active, &:-webkit-autofill:focus, &:-webkit-autofill:active
+                    color: $textgrey !important
+                    -webkit-text-fill-color: $textgrey !important
+                  &:-webkit-autofill
+                    -webkit-box-shadow: 0 0 0 30px $mainpurple inset !important
+                    -webkit-text-fill-color: $textgrey !important
+                  &.turnos-time-picker
+                    width: 150%
+                    margin-top: -1em
+                    margin-bottom: -1em
+                    &::-webkit-clear-button, &::-ms-clear
+                      display: none
+                  &.turnos-indications-picker
+                    resize: none
+                    height: 40px
+                    outline: none !important
+              .little-button
+                padding: 3px
+                padding-left: 4px
+                font-size: 14px
+                border: none
+                float: right
+                color: white
+                border-radius: 50%
+                line-height: 11px
+                vertical-align: text-bottom
+                margin-right: -15px
+                position: absolute
+                bottom: 0
+                right: 10px
+                .material-icons
+                  font-size: 16px
+                &.more
+                  background: $brightyellow
+                &.less
+                  background: $lightred
+
+    .flexBoxTurnos
+      display: flex
+      flex-direction: row
+      flex-wrap: wrap
+      margin-bottom: 20px
+      .turno
+        background-color: white
+        border: 3px solid transparent
+        width: 100px
+        height: 100px
+        position: relative
+        margin: 5px
+        color: $darkerpurple
+        text-align: center
+        padding: 12px
+        border-radius: 20px
+        &.disabled
+          opacity: 0.4
+          cursor: not-allowed
+        &.selected
+          border: 3px solid $brightyellow
+        &.turnoAlumno, &.turnoProfe
+          cursor: pointer
+          &:not(.disabled):not(.finished):hover
+            @extend %scale-animation-down
+          &.finished
+            opacity: 0.8
+            cursor: not-allowed
+        &.turnoProfe
+          &.active
+            color: $brightgreen
+        &.hidden
+          display: none
+        .hora
+          font-size: 25px
+          margin-bottom: 10px
+          overflow: hidden
+        .indications
+          color: $darkerpurple
+          font-size: 12px
+          line-height: 100%
+          .no-indications
+            color: #ddd
+@media (max-width: 992px)
+  .contenedor
+    flex-wrap: wrap
+    .turnosLeft
+      width: 100% !important
+    .turnosRight
+      width: 100% !important
+@media (max-width: 500px)
+  .ui-datepicker-inline.ui-datepicker
+    width: 83vw !important
+    padding-left: 10px !important
+    padding-right: 10px !important

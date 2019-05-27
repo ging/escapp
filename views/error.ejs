@@ -1,0 +1,7 @@
+<% include partials/_header.ejs %>
+<div class="main errorPage">
+<h1><%= message %></h1>
+<h2><%= error.status %></h2>
+<pre><%= error.stack %></pre>
+</div>
+<% include partials/_footer %>

@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="/stylesheets/vendor/owl.carousel.min.css">
+<link rel="stylesheet" href="/stylesheets/vendor/owl.theme.default.css">
+<% include ../partials/_header.ejs %>
+<%
+const monthArray = [ 
+    i18n.turnos.months.jan,
+    i18n.turnos.months.feb,
+    i18n.turnos.months.mar,
+    i18n.turnos.months.apr,
+    i18n.turnos.months.may,
+    i18n.turnos.months.jun,
+    i18n.turnos.months.jul,
+    i18n.turnos.months.aug,
+    i18n.turnos.months.sep,
+    i18n.turnos.months.oct,
+    i18n.turnos.months.nov,
+    i18n.turnos.months.dec
+];
+
+const formatDate = function (currentDate) {
+    return `${currentDate.getDate()} de ${monthArray[currentDate.getMonth()]} de ${currentDate.getFullYear()}`;
+};
+%>
+<div class="main student" style="display: flex; justify-content: center; align-items: center;">
+    <div class="dialog" >
+        <div style="font-size: xx-large;">
+            </br>
+            <%=i18n.turnos.selectActivate%>:
+            </br>
+            </br>
+        </div>        
+        <%
+        var pastDates = [];
+        var firstDiv = false;
+        %>
+        <%if (turnos && turnos.length > 0) {%>
+            <div class="owl-carousel">
+                <% for (var i in turnos) { %>
+                    <% 	var turn = turnos[i];
+                        var date = new Date(turn.date);
+                        var dateNoTime = new Date(turn.date);
+                        dateNoTime.setHours(0,0,0,0); %>
+
+                    <%	if (pastDates.indexOf(dateNoTime.getTime()) === -1) {
+                        pastDates.push(dateNoTime.getTime());
+                    if (firstDiv) {
+                    %>
+            </div>
+    </div>
+    <% } else {
+        firstDiv = true;
+    }%>
+    <div class="day-wrapper">
+        <p class="turno-date-title-show"><%=formatDate(dateNoTime)%></p>
+        <div class="flexBoxTurnos">
+            <%}%>
+            <div class="turno turnoProfe <%=turn.status%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
+                <div class="hora">
+                    <%= formatTime(date) %>
+                </div>
+                <div class="indications">
+                    <% if (turn.indications) { %>
+                        <%= turn.indications %> <br/>
+                    <% } else { %>
+                        <em class="no-indications"><%=i18n.turnos.noIndications%></em>
+                    <% } %>
+                </div>
+            </div>
+            <%}%>
+        </div>
+    </div>
+</div>
+<%}%>
+<div class="join-button-flex-container">
+    <form method='GET' id="form" action='/users/<%= session.user.id %>/escapeRooms'>
+        <button class="rounded deleteButton" type="submit" style="display:inline-block;"><%=i18n.common.cancel%></button>
+    </form>
+    <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/activar?_method=put'>
+        <input type="hidden" id="turnSelected" name="turnSelected" value="">
+        <button class="rounded acceptButton"  id="continue" disabled type="submit" style="display:inline-block;"><%=i18n.common.continue%></button>
+    </form>
+</div>
+</div>
+</div>
+<script src="/js/vendor/owl.carousel.min.js"></script>
+<script src="/js/turnoSelect.js"></script>
+
+

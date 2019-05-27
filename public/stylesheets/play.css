@@ -1,0 +1,70 @@
+@font-face {
+    font-family: 'Digital';
+    src: url('/fonts/ds-digib.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+h1 {
+    font-size: 4em;
+}
+
+.previewContainer {
+    text-align: center;
+    padding: 20px;
+}
+p {
+    text-align: left;
+}
+.countdown, #explosion {
+    font-family: 'Digital';
+    font-size: 17vw;
+}
+
+.previewImage img {
+    max-width: 40%;
+}
+
+.row-centered {
+    text-align: center;
+    justify-content: center;
+}
+.instructionsShow {
+    height: auto;
+    overflow: visible;
+    whitespace: inherit;
+}
+
+.backToMain {
+    padding: 15px;
+    font-size: 25px;
+    text-decoration: none;
+}
+
+.backToMain:hover, .backToMain:active, .backToMain:focus {
+    text-decoration: none;
+}
+
+#hintList {
+    width: auto;
+    display: inline-block;
+    list-style: none;
+    padding-left: 0px;
+
+}
+
+#hintList .card{
+    display: inline-block;
+    width: auto;
+}
+
+.sol-input {
+    width: 40%;
+    margin: auto;
+}
+
+#flassmessages {
+  position: fixed;
+  bottom: 0px;
+  left: 10px;
+}

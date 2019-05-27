@@ -1,0 +1,94 @@
+<% include ../../partials/_header.ejs %>
+<div class="main step-hints">
+  	<h2><%=i18n.escapeRoom.steps.hints.title%></h2>  
+  	<form class="basicConfig" method='POST' action='/escapeRooms/<%= escapeRoom.id %>/hints' enctype="multipart/form-data" >
+  		<div class="wideRow erFormField animated flipInX">
+		    <label class="itemNarrow">1. <%=i18n.escapeRoom.steps.hints.MoodleXML%>:</label>
+		    <p class="explanation"><%=i18n.escapeRoom.steps.hints.explanation%></p>
+		  	<input class="attach" style="display: none;" type="file" id="hints" name="hints" accept="text/xml"/>
+		  	<label for="hints" class="fileUpload customInput itemWide">
+		  	  <span id="hintsLabel" >
+		  	    <% if (escapeRoom.id && escapeRoom.hintApp) { %>
+		  	      <%=i18n.escapeRoom.steps.hints.hintFile%>: <%= escapeRoom.hintApp.filename ||  "file" %>
+		  	    <% } else { %>
+		  	      <%=i18n.escapeRoom.steps.hints.uploadFile%>
+		  	    <% } %>
+		  	  </span>
+		  	  <span id="upload"
+		  	    <% if (escapeRoom.id && escapeRoom.hintApp) { %>
+		  	      style="display: none;"
+		  	    <% } %>
+		  	    class="fileUploadButton">
+		  	      <i class="material-icons">file_upload</i>
+		  	  </span>
+		  	  <span id="delete"
+		  	    <% if (!escapeRoom.id && !escapeRoom.hintApp) { %>
+		  	      style="display: none;"
+		  	    <% } %>
+		  	    class="fileUploadButton">
+		  	      <i class="material-icons">delete</i>
+		  	    </span>
+		  	  <input type="hidden" name="keepAttachment" id="keepAttachment" value="<%= (escapeRoom.id && escapeRoom.hintApp) ? "1" : "0" %>" >
+		  	</label>
+	  </div>
+		<div class="wideRow erFormField animated flipInX">
+		  <label for="vid"  class="itemNarrow">2. <%=i18n.escapeRoom.steps.hints.questionNumber%>:</label>
+		  <p class="explanation"><%=i18n.escapeRoom.steps.hints.questionNumberExplanation%></p>
+		  <input type="number" min="1" class="customInput itemWide" id="numQuestions" name="numQuestions" value="<%= escapeRoom.numQuestions %>" placeholder="<%=i18n.escapeRoom.steps.hints.questionNumberPlaceHolder%>" autocomplete="off"/>
+		</div>
+		<div class="wideRow erFormField animated flipInX">
+		    <label for="vid"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.hints.correctNumber%>:</label>
+		    <input type="number" min="0" class="customInput itemWide" id="numRight" name="numRight" value="<%= Math.round(escapeRoom.numRight/100*escapeRoom.numQuestions)  %>" placeholder="<%=i18n.escapeRoom.steps.hints.correctNumberPlaceHolder%>" autocomplete="off"/>
+		</div>
+		<div class="wideRow erFormField animated flipInX">
+		    <label for="vid"  class="itemNarrow">4. <%=i18n.escapeRoom.steps.hints.feedback%>:
+		    <input type="checkbox" class="customCheckbox" id="feedback" name="feedback" <%= escapeRoom.feedback ? "checked" : "" %> autocomplete="off"/></label>
+		    <p class="explanation"><%=i18n.escapeRoom.steps.hints.feedbackExplanation%></p>
+		</div>		
+		<br/><br/><br/>
+	  	<div class="align-right flex-buttons" style="margin-bottom: 60px;">
+			<a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
+			<button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
+			<button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
+		</div>
+        <%- include('../../partials/_progress', {progress: 3}) %>
+	</form>
+	<br/><br/>
+</div>
+<% include ../../partials/_footer %>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	$('#hints').on("change", function(e){
+	  let path = $(this).val();
+	  try {
+	    let fileNameArr = path.split("\\");
+	    let fileName = fileNameArr[fileNameArr.length - 1];
+	    if(fileName) {
+	      $('#delete').show();
+	      $('#upload').hide();
+	      $('#hintsLabel').html(fileName);
+	    }
+	  } catch (e) {
+	      $('#delete').hide();
+	      $('#upload').show();
+	      $('#imgLabel').html("<%=i18n.escapeRoom.steps.hints.noFile%>");
+	  }
+	});
+
+	$('#delete').on('click', function(e){
+	    e.preventDefault();
+	    $('#delete').hide();
+	    $('#upload').show();
+	    $('#hintsLabel').html("<%=i18n.escapeRoom.steps.hints.noFile%>");
+	    $('#keepAttachment').val("0");
+	});
+
+
+});
+
+
+</script>
+
+<% include ../../partials/_scrollListener %>

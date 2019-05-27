@@ -1,0 +1,49 @@
+<% include ../../partials/_header.ejs %>
+<div class="main step-appearance">
+  <h2><%=i18n.escapeRoom.steps.appearance.title%></h2>  
+  <div class="half-flex-container">
+    <div class="left-half-flex">
+        <img class="buttonApp animated zoomInUp <%= escapeRoom.appearance  === "litera"    ?  "selected" : "" %>" id="litera" src="/images/litera.png" autocomplete="off" style="animation-delay: 0.1s;"/>
+        <img class="buttonApp animated zoomInUp <%= escapeRoom.appearance  === "cerulean"  ?  "selected" : "" %>" id="cerulean" src="/images/cerulean.png" autocomplete="off" style="animation-delay: 0.2s;"/>
+        <img class="buttonApp animated zoomInUp <%= escapeRoom.appearance  === "journal"   ?  "selected" : "" %>" id="journal" src="/images/journal.png" autocomplete="off" style="animation-delay: 0.3s;"/>
+        <img class="buttonApp animated zoomInUp <%= escapeRoom.appearance  === "sketchy"   ?  "selected" : "" %>" id="sketchy" src="/images/sketchy.png" autocomplete="off" style="animation-delay: 0.4s;"/>
+        <img class="buttonApp animated zoomInUp <%= escapeRoom.appearance  === "darkly"    ?  "selected" : "" %>" id="darkly" src="/images/darkly.png" autocomplete="off" style="animation-delay: 0.5s;"/>
+        <img class="buttonApp animated zoomInUp <%= escapeRoom.appearance  === "cyborg"    ?  "selected" : "" %>" id="cyborg" src="/images/cyborg.png" autocomplete="off" style="animation-delay: 0.6s;"/>
+
+    </div>
+    <div class="right-half-flex">
+      <div class="preview">
+        <iframe id="previewIframe" class="animated slideInDown" src='/escapeRooms/<%= escapeRoom.id %>/preview?appearance=<%=escapeRoom.appearance%>'></iframe>
+      </div>
+    </div>
+  </div>
+  <form method='POST' action='/escapeRooms/<%= escapeRoom.id %>/appearance'  >
+    <input type="hidden" id="appearance" name="appearance" value="<%= escapeRoom.appearance  || "litera" %>" />
+    <div class="align-right flex-buttons">
+        <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
+        <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
+        <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
+    </div>
+      <%- include('../../partials/_progress', {progress: 5}) %>
+  </form>
+  <br/><br/><br/><br/>
+</div>
+
+<% include ../../partials/_footer %>
+<script>
+    var url = '/escapeRooms/<%= escapeRoom.id %>/preview?appearance=';
+    $(function() {
+        $('.buttonApp').on('click', function(e){
+            let input = $('#appearance');
+            let val = input.val();
+            let oldSelected = $('#'+val);
+            input.val(this.id);
+            if (oldSelected) {
+                oldSelected.removeClass('selected');
+            }
+            $('#previewIframe').attr('src', url + this.id);
+            this.classList.add('selected')
+        })
+
+    })
+</script>

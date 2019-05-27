@@ -1,0 +1,1616 @@
+@charset "UTF-8";
+button, input[type="submit"] {
+  background-color: white;
+  color: #161938;
+  font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+  border-radius: 5px;
+  border-color: white;
+  border-style: solid;
+  padding: 10px;
+  text-align: center;
+  outline: 0;
+  cursor: pointer; }
+  button:disabled, button.disabled, input[type="submit"]:disabled, input[type="submit"].disabled {
+    cursor: not-allowed; }
+  button.rounded, input[type="submit"].rounded {
+    border-radius: 25px !important;
+    padding: 8px 25px !important; }
+  button.white, input[type="submit"].white {
+    background-color: white !important;
+    border: #161938 !important;
+    color: #161938 !important; }
+  button.login, input[type="submit"].login {
+    background-color: #48C18E;
+    color: #161938;
+    border: #48C18E;
+    text-align: center;
+    font-size: medium;
+    border-radius: 20px;
+    width: 100%;
+    height: 42px;
+    outline: 0; }
+  button.registro, input[type="submit"].registro {
+    background-color: #FAC855;
+    color: #161938;
+    border: #FAC855;
+    border-radius: 20px;
+    text-align: center;
+    font-size: medium;
+    width: 100%;
+    height: 42px;
+    outline: 0; }
+  button.editButton, input[type="submit"].editButton {
+    background-color: #FAC855;
+    color: #161938;
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    border-color: #FAC855;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    outline: 0; }
+  button.deleteButton, input[type="submit"].deleteButton {
+    background-color: #F47E84;
+    color: #161938;
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    border-color: #F47E84;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    outline: 0; }
+  button.playButton, input[type="submit"].playButton {
+    background-color: #FF6347;
+    color: #161938;
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    border-color: #FF6347;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    outline: 0; }
+  button.acceptButton, input[type="submit"].acceptButton {
+    background-color: #48C18E;
+    color: #161938;
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    border-color: #48C18E;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    outline: 0; }
+  button.inverse, input[type="submit"].inverse {
+    background-color: transparent;
+    color: white;
+    border-color: white;
+    -webkit-text-fill-color: white !important; }
+  button[type=submit], input[type="submit"][type=submit] {
+    cursor: pointer; }
+
+@font-face {
+  font-family: "Gugi";
+  src: url("../../fonts/Gugi-Regular.eot?") format("eot"), url("../../fonts/Gugi-Regular.woff2") format("woff2"), url("../../fonts/Gugi-Regular.woff") format("woff"), url("../../fonts/Gugi-Regular.ttf") format("truetype"), url("../fonts/Gugi-Regular.svg#Gugi-Regular") format("svg"); }
+
+#mainSection {
+  min-height: 100%;
+  position: relative; }
+  #mainSection #mainHeader #logoImg, #mainSection #mainFooter #logoImg {
+    width: 12%;
+    margin-top: 0px;
+    margin-bottom: 5px; }
+  #mainSection #mainHeader #logoUpm, #mainSection #mainFooter #logoUpm {
+    width: 5%;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    float: right; }
+  #mainSection #mainHeader {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #161938;
+    width: 100%;
+    z-index: 1;
+    position: absolute; }
+    #mainSection #mainHeader .left, #mainSection #mainHeader .right {
+      padding: 10px;
+      color: white; }
+    #mainSection #mainHeader .right {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      flex: 1;
+      text-align: right; }
+    #mainSection #mainHeader .wideRow {
+      margin-bottom: 5px; }
+      #mainSection #mainHeader .wideRow label {
+        color: white; }
+  #mainSection .main {
+    font-size: 22px;
+    min-height: calc(100vh - 0em);
+    color: white;
+    height: 100%;
+    background-image: url("../images/background.png");
+    background-size: 100%;
+    height: 100%;
+    padding: 35px;
+    padding-top: 70px !important;
+    position: relative; }
+    #mainSection .main .analyticsTag {
+      display: inline-block;
+      font-family: Lato, sans-serif;
+      font-weight: bold;
+      background-color: white;
+      color: #161938;
+      padding: 9px 18px;
+      border-radius: 40px;
+      margin: 5px; }
+    #mainSection .main .filters * {
+      font-size: 16px; }
+    #mainSection .main .filters label {
+      margin-right: 10px; }
+      #mainSection .main .filters label:focus-within {
+        color: white; }
+    #mainSection .main.no-bckg {
+      background: none; }
+    #mainSection .main footer {
+      margin-left: -35px; }
+    #mainSection .main .menuERShow {
+      display: flex; }
+      #mainSection .main .menuERShow .attachmentShow {
+        text-align: center;
+        flex: 1; }
+      #mainSection .main .menuERShow .menuERShowRight {
+        margin-left: 50px;
+        padding: 10px;
+        border-left: 2px solid white; }
+        #mainSection .main .menuERShow .menuERShowRight .menuERactionList {
+          list-style: none;
+          font-size: 16px; }
+          #mainSection .main .menuERShow .menuERShowRight .menuERactionList li {
+            margin-bottom: 16px; }
+            #mainSection .main .menuERShow .menuERShowRight .menuERactionList li a {
+              line-height: 24px; }
+              #mainSection .main .menuERShow .menuERShowRight .menuERactionList li a:hover {
+                color: #48C18E; }
+            #mainSection .main .menuERShow .menuERShowRight .menuERactionList li .showMenuButton {
+              font-size: 16px;
+              border-radius: 20px;
+              padding: 5px 20px;
+              width: 100%;
+              transition: 0.1s all ease-in; }
+              #mainSection .main .menuERShow .menuERShowRight .menuERactionList li .showMenuButton:hover {
+                transform: scale(0.9); }
+    #mainSection .main .turno-date-title-show {
+      color: white;
+      margin: 5px; }
+    #mainSection .main #dialog-preview-video {
+      padding: 0;
+      background-color: white;
+      outline: none;
+      border: none; }
+      #mainSection .main #dialog-preview-video #previewVideoContent {
+        padding: 10px; }
+    #mainSection .main .ui-dialog {
+      outline: none !important; }
+    #mainSection .main .ui-dialog-title {
+      line-height: 50px;
+      padding-left: 10px; }
+    #mainSection .main .ui-dialog-titlebar-close {
+      visibility: hidden;
+      float: right;
+      width: 50px; }
+    #mainSection .main .ui-button-icon-space {
+      visibility: visible; }
+      #mainSection .main .ui-button-icon-space:after {
+        content: '\e5cd';
+        font-family: 'Material Icons'; }
+    #mainSection .main .ui-dialog .ui-dialog-titlebar {
+      background: white !important;
+      border-color: white !important;
+      color: #F47E84; }
+
+@media (min-width: 1200px) {
+  #mainSection .main {
+    padding: 35px calc(50vw - 600px); }
+    #mainSection .main footer {
+      margin-left: calc(600px - 50vw); } }
+
+@media (max-width: 768px) {
+  #mainHeader #logoImg, #mainFooter #logoImg {
+    width: 22%; }
+  #mainHeader #logoUpm, #mainFooter #logoUpm {
+    width: 14%; } }
+
+@media (max-width: 576px) {
+  #mainSection #mainHeader #logoImg, #mainSection #mainFooter #logoImg {
+    width: 32%; }
+  #mainSection #mainHeader #logoUpm, #mainSection #mainFooter #logoUpm {
+    width: 14%; } }
+
+.portada + #mainHeader {
+  position: absolute;
+  padding: 15px;
+  display: block;
+  width: 100%;
+  background-color: transparent !important;
+  top: 0px;
+  height: auto !important; }
+
+.portada {
+  flex: 1 100%;
+  height: 100%;
+  background-color: #232951;
+  font: 18px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: white; }
+  .portada .contenedor {
+    display: flex;
+    min-height: 100%;
+    background-color: #161938; }
+    .portada .contenedor .loginLeft {
+      background-color: #161938;
+      width: 50%;
+      text-align: center;
+      flex: 7;
+      padding: 30px;
+      display: flex;
+      height: 100vh;
+      justify-content: center; }
+      .portada .contenedor .loginLeft #imagenPortada {
+        max-height: 90%;
+        width: auto;
+        max-width: 85%;
+        align-self: center; }
+    .portada .contenedor .loginRight {
+      color: white;
+      background-color: #232951;
+      text-align: center;
+      width: 50%;
+      flex: 3;
+      padding: 3em; }
+      .portada .contenedor .loginRight h1 {
+        text-align: left; }
+      .portada .contenedor .loginRight input, .portada .contenedor .loginRight select {
+        width: 100%;
+        text-align-last: center;
+        padding: 0px 15px; }
+      .portada .contenedor .loginRight label span {
+        padding-bottom: 7px;
+        text-align: left;
+        display: block; }
+      .portada .contenedor .loginRight label:focus-within {
+        color: white; }
+      .portada .contenedor .loginRight .loginWelcomeMessage {
+        color: #656683;
+        text-align: left;
+        padding-top: 15px; }
+    .portada .contenedor #imagenPortada {
+      width: auto; }
+
+@media (max-width: 768px) {
+  .portada .contenedor .loginLeft {
+    display: none; } }
+
+.escapeRooms .flexBoxEscapeRooms {
+  display: flex;
+  justify-content: space-around;
+  -webkit-flex-flow: row;
+  flex-wrap: wrap; }
+  .escapeRooms .flexBoxEscapeRooms:after {
+    content: "";
+    flex: 1; }
+  .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper {
+    width: 19%;
+    padding: 10px;
+    height: auto; }
+    .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper:before {
+      content: '';
+      float: left;
+      padding-top: 100%; }
+    .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem {
+      background: white;
+      color: black;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      border-radius: 10px;
+      padding: 1vw;
+      position: relative; }
+      .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem .sign {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        color: WHITE;
+        padding: 9px;
+        border-radius: 50%;
+        background-color: #48C18E; }
+        .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem .sign.add {
+          background-color: #FAC855; }
+      .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem .erFoto {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        flex: 1 auto; }
+        .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem .erFoto .bckgFoto {
+          flex: 1;
+          background-position: center;
+          background-size: cover; }
+        .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem .erFoto .escapeRoomTitle {
+          white-space: nowrap;
+          width: 100%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          padding-top: 5px; }
+      .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom {
+        background-color: #9196A9;
+        color: #D2D4DC;
+        font-size: 100px;
+        padding: 10px 20px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #D2D4DC;
+        outline: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; }
+
+@media (max-width: 1200px) {
+  .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper {
+    width: 25%; } }
+
+@media (max-width: 992px) {
+  .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper {
+    width: 33.33%; } }
+
+@media (max-width: 576px) {
+  .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper {
+    width: 50%; } }
+
+.main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker {
+  width: 20em;
+  padding-left: 75px;
+  padding-right: 75px;
+  padding-bottom: 25px;
+  padding-top: 25px;
+  border-radius: 20px;
+  line-height: 30px; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th {
+    color: #333; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th:nth-child(6), .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th:nth-child(7) {
+    color: #F47E84; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker * {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker td, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker a {
+    color: #92A3AB;
+    text-align: center;
+    font-weight: bold; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker td.turn-day-highlight .ui-state-default, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker a.turn-day-highlight .ui-state-default {
+      color: blue;
+      background-color: #FAC855;
+      border-radius: 50%;
+      color: black; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header.ui-widget-header {
+    background-color: white;
+    border-color: white; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-title span {
+    font-size: 20px; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-default {
+    background-color: transparent;
+    border-color: transparent; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-highlight:not(.ui-state-active) {
+    color: #F47E84; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-active {
+    background-color: #48C18E !important;
+    border-radius: 50%;
+    color: black; }
+
+#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto, #mainSection .main #add-reto {
+  transition: 0.2s all ease-in; }
+  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2); }
+
+#mainSection .main .analyticsTag, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom, #mainSection .main.participants input[type=submit], #mainSection .main.participants button, .retosSuperados input[type=submit], .retosSuperados button, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:not(.disabled):not(.finished):hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp, #mainSection .main.student .dialog .teamCarouselItem:not(.disabled):hover, #mainSection .main.teams input[type=submit], #mainSection .main.teams button {
+  transition: 0.2s all ease-in; }
+  #mainSection .main .analyticsTag:hover, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:hover, #mainSection .main.participants input:hover[type=submit], #mainSection .main.participants button:hover, .retosSuperados input:hover[type=submit], .retosSuperados button:hover, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:hover, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:hover:not(.disabled):not(.finished), #mainSection .main .flexBoxTurnos .turno.turnoProfe:hover:not(.disabled):not(.finished), #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:hover, #mainSection .main.student .dialog .teamCarouselItem:hover:not(.disabled), #mainSection .main.teams input:hover[type=submit], #mainSection .main.teams button:hover, #mainSection .main .analyticsTag:active, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:active, #mainSection .main.participants input:active[type=submit], #mainSection .main.participants button:active, .retosSuperados input:active[type=submit], .retosSuperados button:active, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:active, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:active:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:active:not(.disabled):not(.finished):hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:active, #mainSection .main.student .dialog .teamCarouselItem:active:not(.disabled):hover, #mainSection .main.teams input:active[type=submit], #mainSection .main.teams button:active, #mainSection .main .analyticsTag:focus, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:focus, #mainSection .main.participants input:focus[type=submit], #mainSection .main.participants button:focus, .retosSuperados input:focus[type=submit], .retosSuperados button:focus, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:focus, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:focus:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:focus:not(.disabled):not(.finished):hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:focus, #mainSection .main.student .dialog .teamCarouselItem:focus:not(.disabled):hover, #mainSection .main.teams input:focus[type=submit], #mainSection .main.teams button:focus {
+    -webkit-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    transform: scale(0.8); }
+
+#mainSection .main.participants input[type=submit], #mainSection .main.participants button, .retosSuperados input[type=submit], .retosSuperados button {
+  outline: 0;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  background: transparent;
+  border: 2px solid #656683;
+  color: #656683; }
+
+#mainSection .main .attachmentShow img {
+  max-width: 100%;
+  border: 2px solid white; }
+
+#mainSection .main .align-right {
+  text-align: right; }
+  #mainSection .main .align-right.flex-buttons {
+    display: flex;
+    justify-content: flex-end; }
+    #mainSection .main .align-right.flex-buttons #previous {
+      order: 1; }
+    #mainSection .main .align-right.flex-buttons #next {
+      order: 2; }
+
+#mainSection .main .basicConfig, #mainSection .main.step-evaluation {
+  font-size: 26px;
+  text-align: center; }
+  #mainSection .main .basicConfig .erFormField, #mainSection .main.step-evaluation .erFormField {
+    padding: 40px;
+    text-align: left; }
+    #mainSection .main .basicConfig .erFormField:focus-within, #mainSection .main.step-evaluation .erFormField:focus-within {
+      color: white !important; }
+      #mainSection .main .basicConfig .erFormField:focus-within label, #mainSection .main .basicConfig .erFormField:focus-within .explanation, #mainSection .main .basicConfig .erFormField:focus-within span, #mainSection .main.step-evaluation .erFormField:focus-within label, #mainSection .main.step-evaluation .erFormField:focus-within .explanation, #mainSection .main.step-evaluation .erFormField:focus-within span {
+        color: white; }
+    #mainSection .main .basicConfig .erFormField .customCheckbox, #mainSection .main.step-evaluation .erFormField .customCheckbox {
+      vertical-align: middle;
+      width: 20px;
+      border: 0px;
+      background: white; }
+    #mainSection .main .basicConfig .erFormField .customInput, #mainSection .main.step-evaluation .erFormField .customInput {
+      border: none;
+      border-radius: 0px;
+      text-align: left;
+      margin-left: 26px;
+      width: 100%;
+      background-color: transparent;
+      color: #656683;
+      font-size: 0.8em;
+      height: 42px;
+      padding-top: 10px;
+      font-family: Lato, sans-serif;
+      font-weight: normal;
+      padding-left: 5px; }
+      #mainSection .main .basicConfig .erFormField .customInput .fileUploadButton, #mainSection .main.step-evaluation .erFormField .customInput .fileUploadButton {
+        background-color: transparent;
+        color: white;
+        border: none;
+        padding: 0px; }
+      #mainSection .main .basicConfig .erFormField .customInput #imgLabel, #mainSection .main .basicConfig .erFormField .customInput #hintsLabel, #mainSection .main.step-evaluation .erFormField .customInput #imgLabel, #mainSection .main.step-evaluation .erFormField .customInput #hintsLabel {
+        font-size: 1em;
+        margin-top: 0.4em;
+        font-family: Lato, sans-serif; }
+        #mainSection .main .basicConfig .erFormField .customInput #imgLabel:focus, #mainSection .main .basicConfig .erFormField .customInput #hintsLabel:focus, #mainSection .main.step-evaluation .erFormField .customInput #imgLabel:focus, #mainSection .main.step-evaluation .erFormField .customInput #hintsLabel:focus {
+          color: white; }
+    #mainSection .main .basicConfig .erFormField input[type=file], #mainSection .main.step-evaluation .erFormField input[type=file] {
+      font-family: Lato, sans-serif;
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1; }
+    #mainSection .main .basicConfig .erFormField label.itemNarrow, #mainSection .main.step-evaluation .erFormField label.itemNarrow {
+      display: block; }
+    #mainSection .main .basicConfig .erFormField .explanation, #mainSection .main.step-evaluation .erFormField .explanation {
+      color: #656683;
+      font-size: 0.6em;
+      padding-left: 30px;
+      font-family: 'Lato', sans-serif; }
+
+#mainSection .main .intro-paragraph {
+  font-family: 'Lato', sans-serif;
+  text-align: left; }
+  #mainSection .main .intro-paragraph a {
+    font-family: inherit; }
+
+#mainSection .main .flexShow {
+  width: 100%; }
+  #mainSection .main .flexShow .flexRow {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding-bottom: 20px; }
+    #mainSection .main .flexShow .flexRow:first-child {
+      font-size: 26px; }
+    #mainSection .main .flexShow .flexRow .flexShowLeft {
+      width: 250px;
+      line-height: 37px; }
+    #mainSection .main .flexShow .flexRow .flexShowRight {
+      width: 100%;
+      font-size: 24px;
+      flex: 1;
+      color: #656683;
+      font-family: 'Lato', sans-serif;
+      line-height: 32px;
+      word-break: break-word; }
+      #mainSection .main .flexShow .flexRow .flexShowRight.instructionsPreview {
+        font-family: 'Lato', sans-serif; }
+        #mainSection .main .flexShow .flexRow .flexShowRight.instructionsPreview * {
+          font-family: inherit; }
+      #mainSection .main .flexShow .flexRow .flexShowRight .show_link {
+        font-family: inherit; }
+      #mainSection .main .flexShow .flexRow .flexShowRight em {
+        font-family: inherit;
+        opacity: 0.3; }
+      #mainSection .main .flexShow .flexRow .flexShowRight img {
+        width: 250px;
+        border-radius: 5px; }
+      #mainSection .main .flexShow .flexRow .flexShowRight #joinUrl {
+        height: 10px;
+        opacity: 0.01;
+        width: 10px;
+        padding: 2px;
+        margin: 0px; }
+      #mainSection .main .flexShow .flexRow .flexShowRight .copy {
+        background: transparent;
+        border: none;
+        font-size: 16px;
+        color: white;
+        vertical-align: middle; }
+
+#mainSection .main .progress-buttons {
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin-right: 5px; }
+  #mainSection .main .progress-buttons#exit {
+    border: 2px solid white;
+    background-color: transparent;
+    color: white; }
+
+#mainSection .progressBar {
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  left: 25%;
+  color: white;
+  text-align: center;
+  padding-bottom: 10px;
+  margin-bottom: 25px; }
+  #mainSection .progressBar .progressText {
+    padding-bottom: 10px;
+    font-size: 14px; }
+  #mainSection .progressBar .outterBar {
+    height: 10px;
+    border: 2px solid white;
+    border-radius: 5px;
+    position: relative;
+    z-index: 9999;
+    overflow: hidden; }
+    #mainSection .progressBar .outterBar .innerBar {
+      background-color: white;
+      height: 100%;
+      position: absolute;
+      display: inline-block;
+      border: none;
+      border-radius: 0px;
+      border-width: 0px;
+      padding: 0px; }
+      #mainSection .progressBar .outterBar .innerBar:hover {
+        opacity: 0.7 !important; }
+
+@media (max-width: 768px) {
+  #mainSection .main .menuERShow {
+    flex-wrap: wrap;
+    flex: 1; }
+    #mainSection .main .menuERShow .attachmentShow {
+      width: 100%;
+      max-width: 100%; }
+    #mainSection .main .menuERShow .menuERShowRight {
+      width: 100%;
+      margin-left: 0px;
+      border-left: none; }
+      #mainSection .main .menuERShow .menuERShowRight .menuERactionList {
+        padding: 0px; } }
+
+@media (max-width: 992px) {
+  .half-flex-container {
+    flex-wrap: wrap; }
+    .half-flex-container .left-half-flex, .half-flex-container .right-half-flex {
+      width: 100% !important; } }
+
+@media (max-width: 700px) {
+  #mainSection .main .flexShow .flexRow {
+    flex-wrap: wrap; }
+    #mainSection .main .flexShow .flexRow .flexShowLeft {
+      width: 100%; }
+    #mainSection .main .flexShow .flexRow .flexShowRight {
+      width: 100%; } }
+
+.main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker {
+  width: 20em;
+  padding-left: 75px;
+  padding-right: 75px;
+  padding-bottom: 25px;
+  padding-top: 25px;
+  border-radius: 20px;
+  line-height: 30px; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th {
+    color: #333; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th:nth-child(6), .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th:nth-child(7) {
+    color: #F47E84; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker * {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker td, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker a {
+    color: #92A3AB;
+    text-align: center;
+    font-weight: bold; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker td.turn-day-highlight .ui-state-default, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker a.turn-day-highlight .ui-state-default {
+      color: blue;
+      background-color: #FAC855;
+      border-radius: 50%;
+      color: black; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header.ui-widget-header {
+    background-color: white;
+    border-color: white; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-title span {
+    font-size: 20px; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-default {
+    background-color: transparent;
+    border-color: transparent; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-highlight:not(.ui-state-active) {
+    color: #F47E84; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-active {
+    background-color: #48C18E !important;
+    border-radius: 50%;
+    color: black; }
+
+#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto, #mainSection .main #add-reto {
+  transition: 0.2s all ease-in; }
+  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2); }
+
+#mainSection .main .analyticsTag, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom, #mainSection .main.participants input[type=submit], #mainSection .main.participants button, .retosSuperados input[type=submit], .retosSuperados button, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:not(.disabled):not(.finished):hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp, #mainSection .main.student .dialog .teamCarouselItem:not(.disabled):hover, #mainSection .main.teams input[type=submit], #mainSection .main.teams button {
+  transition: 0.2s all ease-in; }
+  #mainSection .main .analyticsTag:hover, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:hover, #mainSection .main.participants input:hover[type=submit], #mainSection .main.participants button:hover, .retosSuperados input:hover[type=submit], .retosSuperados button:hover, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:hover, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:hover:not(.disabled):not(.finished), #mainSection .main .flexBoxTurnos .turno.turnoProfe:hover:not(.disabled):not(.finished), #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:hover, #mainSection .main.student .dialog .teamCarouselItem:hover:not(.disabled), #mainSection .main.teams input:hover[type=submit], #mainSection .main.teams button:hover, #mainSection .main .analyticsTag:active, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:active, #mainSection .main.participants input:active[type=submit], #mainSection .main.participants button:active, .retosSuperados input:active[type=submit], .retosSuperados button:active, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:active, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:active:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:active:not(.disabled):not(.finished):hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:active, #mainSection .main.student .dialog .teamCarouselItem:active:not(.disabled):hover, #mainSection .main.teams input:active[type=submit], #mainSection .main.teams button:active, #mainSection .main .analyticsTag:focus, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:focus, #mainSection .main.participants input:focus[type=submit], #mainSection .main.participants button:focus, .retosSuperados input:focus[type=submit], .retosSuperados button:focus, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:focus, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:focus:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:focus:not(.disabled):not(.finished):hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:focus, #mainSection .main.student .dialog .teamCarouselItem:focus:not(.disabled):hover, #mainSection .main.teams input:focus[type=submit], #mainSection .main.teams button:focus {
+    -webkit-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    transform: scale(0.8); }
+
+#mainSection .main.participants input[type=submit], #mainSection .main.participants button, .retosSuperados input[type=submit], .retosSuperados button {
+  outline: 0;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  background: transparent;
+  border: 2px solid #656683;
+  color: #656683; }
+
+#mainSection .main.step-turnos {
+  position: relative; }
+  #mainSection .main.step-turnos .contenedor {
+    display: flex;
+    height: 100%; }
+    #mainSection .main.step-turnos .contenedor h2 {
+      color: #656683; }
+    #mainSection .main.step-turnos .contenedor .turnosLeft {
+      width: 50%; }
+    #mainSection .main.step-turnos .contenedor .turnosRight {
+      width: 50%; }
+      #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker {
+        background: transparent;
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+        text-align-last: center;
+        width: 100%;
+        color: #a1a3af;
+        border: none;
+        font-size: 1em;
+        caret-color: #a1a3af;
+        color: #a1a3af !important;
+        -webkit-text-fill-color: #a1a3af !important; }
+        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker:focus, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker:active, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker:-webkit-autofill:focus, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker:-webkit-autofill:active {
+          color: #a1a3af !important;
+          -webkit-text-fill-color: #a1a3af !important; }
+        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0 30px #232951 inset !important;
+          -webkit-text-fill-color: #a1a3af !important; }
+        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker.turnos-time-picker {
+          width: 150%;
+          margin-top: -1em;
+          margin-bottom: -1em; }
+          #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker.turnos-time-picker::-webkit-clear-button, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker.turnos-time-picker::-ms-clear {
+            display: none; }
+        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker.turnos-indications-picker {
+          resize: none;
+          height: 40px;
+          outline: none !important; }
+      #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button {
+        padding: 3px;
+        padding-left: 4px;
+        font-size: 14px;
+        border: none;
+        float: right;
+        color: white;
+        border-radius: 50%;
+        line-height: 11px;
+        vertical-align: text-bottom;
+        margin-right: -15px;
+        position: absolute;
+        bottom: 0;
+        right: 10px; }
+        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button .material-icons {
+          font-size: 16px; }
+        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.more {
+          background: #FAC855; }
+        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.less {
+          background: #F47E84; }
+
+#mainSection .main .flexBoxTurnos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 20px; }
+  #mainSection .main .flexBoxTurnos .turno {
+    background-color: white;
+    border: 3px solid transparent;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin: 5px;
+    color: #161938;
+    text-align: center;
+    padding: 12px;
+    border-radius: 20px; }
+    #mainSection .main .flexBoxTurnos .turno.disabled {
+      opacity: 0.4;
+      cursor: not-allowed; }
+    #mainSection .main .flexBoxTurnos .turno.selected {
+      border: 3px solid #FAC855; }
+    #mainSection .main .flexBoxTurnos .turno.turnoAlumno, #mainSection .main .flexBoxTurnos .turno.turnoProfe {
+      cursor: pointer; }
+      #mainSection .main .flexBoxTurnos .turno.turnoAlumno.finished, #mainSection .main .flexBoxTurnos .turno.turnoProfe.finished {
+        opacity: 0.8;
+        cursor: not-allowed; }
+    #mainSection .main .flexBoxTurnos .turno.turnoProfe.active {
+      color: #48C18E; }
+    #mainSection .main .flexBoxTurnos .turno.hidden {
+      display: none; }
+    #mainSection .main .flexBoxTurnos .turno .hora {
+      font-size: 25px;
+      margin-bottom: 10px;
+      overflow: hidden; }
+    #mainSection .main .flexBoxTurnos .turno .indications {
+      color: #161938;
+      font-size: 12px;
+      line-height: 100%; }
+      #mainSection .main .flexBoxTurnos .turno .indications .no-indications {
+        color: #ddd; }
+
+@media (max-width: 992px) {
+  .contenedor {
+    flex-wrap: wrap; }
+    .contenedor .turnosLeft {
+      width: 100% !important; }
+    .contenedor .turnosRight {
+      width: 100% !important; } }
+
+@media (max-width: 500px) {
+  .ui-datepicker-inline.ui-datepicker {
+    width: 83vw !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important; } }
+
+#mainSection .main .editor-wrapper {
+  background-color: white;
+  margin-bottom: 20px;
+  color: black; }
+  #mainSection .main .editor-wrapper #editor {
+    min-height: 300px; }
+    #mainSection .main .editor-wrapper #editor.ql-container {
+      font-size: 18px; }
+    #mainSection .main .editor-wrapper #editor * {
+      font-family: 'Lato', sans-serif; }
+    #mainSection .main .editor-wrapper #editor .ql-active, #mainSection .main .editor-wrapper #editor .ql-snow.ql-toolbar button:hover {
+      color: #F47E84; }
+      #mainSection .main .editor-wrapper #editor .ql-active *, #mainSection .main .editor-wrapper #editor .ql-snow.ql-toolbar button:hover * {
+        stroke: #F47E84; }
+
+#mainSection .main.step-appearance .half-flex-container {
+  display: flex;
+  flex-direction: row;
+  text-align: center; }
+  #mainSection .main.step-appearance .half-flex-container h2 {
+    text-align: left; }
+  #mainSection .main.step-appearance .half-flex-container .left-half-flex {
+    width: 50%;
+    padding: 0px; }
+    #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp {
+      width: 40%;
+      margin: 2%;
+      margin-left: 0px;
+      border-radius: 5px;
+      border: 3px solid white;
+      cursor: pointer;
+      background-color: white; }
+      #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp.selected {
+        border-color: #FAC855; }
+  #mainSection .main.step-appearance .half-flex-container .right-half-flex {
+    width: 50%;
+    height: 60vh; }
+    #mainSection .main.step-appearance .half-flex-container .right-half-flex .preview {
+      width: 100%;
+      height: 100%; }
+      #mainSection .main.step-appearance .half-flex-container .right-half-flex .preview #previewIframe {
+        width: 100%;
+        height: 94%;
+        overflow: auto;
+        border: 3px solid white;
+        border-radius: 20px;
+        margin-top: 10px;
+        margin-bottom: 3%; }
+
+#mainSection .main .flex-table-retos-wrapper {
+  position: relative;
+  overflow: visible; }
+  #mainSection .main .flex-table-retos-wrapper .flex-table-retos {
+    display: flex;
+    flex-direction: column;
+    background-color: #9091A6;
+    color: #161938;
+    border: 3px solid white;
+    border-radius: 10px;
+    overflow: visible;
+    font-size: 18px;
+    word-break: break-word; }
+    #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos {
+      display: flex;
+      flex-direction: row;
+      border-top: 3px solid white; }
+      #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos.flex-row-retos-title {
+        background-color: #161938;
+        color: white;
+        border-top: none; }
+        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos.flex-row-retos-title .flex-cell {
+          font-family: 'Gugi', sans-serif !important;
+          padding: 20px; }
+      #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell {
+        text-align: center;
+        border-right: 3px solid white; }
+        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-retos {
+          width: 15%; }
+        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-sol {
+          width: 15%; }
+          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-sol .retoTextArea:empty:before {
+            content: 'xxxx'; }
+        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-desc {
+          width: 30%; }
+        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-pista {
+          width: 40%;
+          border-right: none; }
+        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea {
+          padding: 20px;
+          font-family: 'Lato', sans-serif !important;
+          font-size: 16px;
+          width: 100%;
+          border: none;
+          margin: 0;
+          background: transparent;
+          height: 100%;
+          resize: none;
+          outline: none;
+          display: inline-block; }
+          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.retoEditable, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea[contenteditable] {
+            background-color: #656683;
+            color: #9091A6; }
+          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea .no-pistas {
+            cursor: not-allowed;
+            font-style: italic; }
+          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea:empty:before {
+            content: 'Escribe aquí...';
+            opacity: 0.5;
+            display: block; }
+          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea:focus:before {
+            content: '' !important; }
+          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell {
+            padding: 0;
+            background-color: #656683; }
+            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell.hints-cell-preview {
+              background-color: inherit; }
+            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell *:not(.material-icons) {
+              font-family: inherit; }
+            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .hint-text-preview {
+              text-align: left; }
+            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .no-pistas-preview {
+              padding: 0px;
+              font-style: italic; }
+            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints {
+              padding: 0;
+              list-style: none;
+              margin: 0px; }
+              #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li {
+                padding: 0px;
+                background-color: #9091A6;
+                border-bottom: 3px solid white;
+                display: flex; }
+                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li.editable {
+                  background-color: #656683;
+                  color: #9091A6; }
+                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li.no-pistas {
+                  font-style: italic;
+                  padding: 6px;
+                  line-height: 25px;
+                  justify-content: center; }
+                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hint-text-preview {
+                  padding: 5px; }
+                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li form.formLeft {
+                  display: flex;
+                  flex: 1;
+                  align-items: flex-start; }
+                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li form span {
+                  flex: 1;
+                  padding: 6px;
+                  line-height: 25px;
+                  margin-left: 50px; }
+                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint {
+                  border: none;
+                  background: transparent;
+                  padding: 6px;
+                  color: white; }
+                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hidden {
+                  display: none; }
+                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hiddenInputPistaEdit {
+                  flex: 1;
+                  border: none;
+                  background: transparent;
+                  font-size: 16px;
+                  -webkit-text-fill-color: #9091A6 !important; }
+                  #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hiddenInputPistaEdit:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hiddenInputPistaEdit:active {
+                    color: white;
+                    -webkit-text-fill-color: white !important; }
+            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint {
+              background-color: #656683;
+              color: #161938; }
+              #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form {
+                display: flex; }
+                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form input {
+                  flex: 1;
+                  font-style: inherit;
+                  font-family: inherit;
+                  font-size: inherit;
+                  margin-left: 25px;
+                  border: none;
+                  background-color: #656683;
+                  color: #161938;
+                  height: 36px;
+                  min-width: 0px;
+                  -webkit-text-fill-color: #9091A6 !important;
+                  color: #9091A6; }
+                  #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form input:-webkit-autofill {
+                    -webkit-box-shadow: 0 0 0 30px #656683 inset !important;
+                    -webkit-text-fill-color: #9091A6 !important; }
+                  #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form input:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form input:active {
+                    color: white;
+                    -webkit-text-fill-color: white !important; }
+                  #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form input::placeholder {
+                    content: 'Escribe aquí...';
+                    opacity: 0.5;
+                    display: block; }
+            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint {
+              font-style: inherit;
+              font-family: inherit;
+              font-size: inherit;
+              border: none;
+              color: white;
+              margin-left: -5px;
+              padding: 6px;
+              vertical-align: bottom;
+              background-color: transparent; }
+    #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto {
+      position: absolute;
+      left: 0;
+      margin-left: -65px;
+      margin-top: 8px;
+      width: 62px;
+      text-align: right; }
+      #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form {
+        display: inline-block; }
+        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto {
+          background: transparent;
+          border: none;
+          color: white;
+          padding: 2px; }
+          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto.hidden {
+            display: none; }
+
+#mainSection .main #add-reto {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 38px; }
+  #mainSection .main #add-reto .material-icons {
+    font-size: 32px; }
+
+#mainSection .main h2 {
+  text-align: left; }
+
+#mainSection .main.step-hints #noHintsLabel {
+  font-family: 'Lato', sans-serif !important;
+  display: block; }
+
+#mainSection .main.step-hints #noHints {
+  vertical-align: middle;
+  margin-left: 10px; }
+
+#mainSection .main.step-hints #yourScorm {
+  color: #656683;
+  font-size: 18px;
+  display: block;
+  height: 0px; }
+
+#mainSection .main.step-hints .ui-dialog .ui-dialog-titlebar {
+  background: white !important;
+  border-color: white !important;
+  color: #F47E84; }
+
+#mainSection .main.step-hints #dialog-rescorm {
+  padding: 0;
+  background-color: white; }
+  #mainSection .main.step-hints #dialog-rescorm #rescorm {
+    width: 100%;
+    border: none;
+    margin: 0px;
+    height: calc(100% - 16px); }
+
+#mainSection .main.student {
+  background-image: url("../images/puzzle_bg.png");
+  font-size: xx-large;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  #mainSection .main.student .dialog {
+    background-color: #2A2A52;
+    width: 50%;
+    text-align: center;
+    padding: 30px 100px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7); }
+    #mainSection .main.student .dialog .owl-next, #mainSection .main.student .dialog .owl-prev {
+      margin: 10px;
+      width: 40px;
+      height: 40px;
+      background-color: #FAC855;
+      border-radius: 50%;
+      vertical-align: middle;
+      line-height: 30px;
+      text-align: center;
+      font-family: Lato, sans-serif; }
+      #mainSection .main.student .dialog .owl-next span, #mainSection .main.student .dialog .owl-prev span {
+        vertical-align: text-top;
+        font-weight: bolder; }
+    #mainSection .main.student .dialog .join-button-flex-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px; }
+      #mainSection .main.student .dialog .join-button-flex-container div {
+        padding: 5px;
+        flex: 1;
+        width: 100%; }
+        #mainSection .main.student .dialog .join-button-flex-container div form {
+          width: 100%; }
+        #mainSection .main.student .dialog .join-button-flex-container div button {
+          border-radius: 25px;
+          width: 100%; }
+    #mainSection .main.student .dialog .teamCarouselItem {
+      background-color: white;
+      border-radius: 20px;
+      color: #656683;
+      font-size: 18px;
+      padding: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+      #mainSection .main.student .dialog .teamCarouselItem.disabled {
+        opacity: 0.5; }
+      #mainSection .main.student .dialog .teamCarouselItem p {
+        font-size: 10px; }
+      #mainSection .main.student .dialog .teamCarouselItem.selected {
+        border: 2px solid #FAC855; }
+    #mainSection .main.student .dialog h1 {
+      font-size: 26px; }
+    #mainSection .main.student .dialog #add-team i {
+      color: #656683;
+      font-size: 28px; }
+    #mainSection .main.student .dialog .info {
+      font-size: 18px; }
+    #mainSection .main.student .dialog .dialog-content {
+      font-family: 'Lato', sans-serif; }
+      #mainSection .main.student .dialog .dialog-content * {
+        font-family: inherit; }
+      #mainSection .main.student .dialog .dialog-content .evaluation-paragraph {
+        font-size: 18px; }
+        #mainSection .main.student .dialog .dialog-content .evaluation-paragraph a {
+          max-width: 100%;
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: #FAC855; }
+
+@media (max-width: 992px) {
+  #mainSection .main.student .dialog {
+    width: 80%;
+    padding: 30px 30px; } }
+
+@media (max-width: 767px) {
+  #mainSection .main.student .dialog {
+    width: 90%;
+    padding: 30px 20px; }
+    #mainSection .main.student .dialog .join-button-flex-container {
+      flex-flow: column-reverse;
+      text-align: center; }
+      #mainSection .main.student .dialog .join-button-flex-container button {
+        width: 100%;
+        margin-bottom: 10px; } }
+
+#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto, #mainSection .main #add-reto {
+  transition: 0.2s all ease-in; }
+  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2); }
+
+#mainSection .main .analyticsTag, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom, #mainSection .main.participants input[type=submit], #mainSection .main.participants button, .retosSuperados input[type=submit], .retosSuperados button, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:not(.disabled):not(.finished):hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp, #mainSection .main.student .dialog .teamCarouselItem:not(.disabled):hover, #mainSection .main.teams input[type=submit], #mainSection .main.teams button {
+  transition: 0.2s all ease-in; }
+  #mainSection .main .analyticsTag:hover, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:hover, #mainSection .main.participants input:hover[type=submit], #mainSection .main.participants button:hover, .retosSuperados input:hover[type=submit], .retosSuperados button:hover, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:hover, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:hover:not(.disabled):not(.finished), #mainSection .main .flexBoxTurnos .turno.turnoProfe:hover:not(.disabled):not(.finished), #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:hover, #mainSection .main.student .dialog .teamCarouselItem:hover:not(.disabled), #mainSection .main.teams input:hover[type=submit], #mainSection .main.teams button:hover, #mainSection .main .analyticsTag:active, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:active, #mainSection .main.participants input:active[type=submit], #mainSection .main.participants button:active, .retosSuperados input:active[type=submit], .retosSuperados button:active, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:active, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:active:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:active:not(.disabled):not(.finished):hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:active, #mainSection .main.student .dialog .teamCarouselItem:active:not(.disabled):hover, #mainSection .main.teams input:active[type=submit], #mainSection .main.teams button:active, #mainSection .main .analyticsTag:focus, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:focus, #mainSection .main.participants input:focus[type=submit], #mainSection .main.participants button:focus, .retosSuperados input:focus[type=submit], .retosSuperados button:focus, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:focus, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:focus:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:focus:not(.disabled):not(.finished):hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:focus, #mainSection .main.student .dialog .teamCarouselItem:focus:not(.disabled):hover, #mainSection .main.teams input:focus[type=submit], #mainSection .main.teams button:focus {
+    -webkit-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    transform: scale(0.8); }
+
+#mainSection .main.participants input[type=submit], #mainSection .main.participants button, .retosSuperados input[type=submit], .retosSuperados button {
+  outline: 0;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  background: transparent;
+  border: 2px solid #656683;
+  color: #656683; }
+
+#mainSection .main.participants .flex-table-retos-wrapper {
+  margin: 10px 0px; }
+  #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos {
+    overflow: hidden; }
+    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-name {
+      width: 15%; }
+    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-surname {
+      width: 15%; }
+    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-username {
+      width: 15%;
+      text-overflow: ellipsis;
+      white-space: pre;
+      overflow: hidden; }
+    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-dni {
+      width: 15%; }
+    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-gender {
+      width: 15%; }
+    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-turno {
+      width: 13%; }
+    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-attendance {
+      width: 12%;
+      border-right: none; }
+      #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-attendance .attendance-checkbox {
+        width: 20px; }
+    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos:not(.flex-row-retos-title) .flex-cell {
+      font-family: 'Lato', sans-serif;
+      padding: 5px; }
+
+#mainSection .main.participants input[type=submit].participants-button.download-button, #mainSection .main.participants button.participants-button.download-button {
+  background-color: #F47E84;
+  color: #161938;
+  border-color: #F47E84;
+  border-style: solid; }
+
+#mainSection .main.participants input[type=submit].participants-button.attendance-button, #mainSection .main.participants button.participants-button.attendance-button {
+  background-color: #48C18E;
+  color: #161938;
+  border-color: #48C18E;
+  border-style: solid; }
+
+#mainSection .main.participants input[type=submit].participants-button.attendance-all-button, #mainSection .main.participants button.participants-button.attendance-all-button {
+  background-color: #FAC855;
+  color: #161938;
+  border-color: #FAC855;
+  border-style: solid; }
+
+#mainSection .main.participants .no-participants {
+  display: block;
+  font-family: Lato;
+  text-align: center;
+  width: 100%;
+  padding: 15px; }
+
+.total-number {
+  font-family: Lato; }
+  .total-number b {
+    font-family: Lato; }
+
+#mainSection .main.teams .flex-table-retos-wrapper {
+  margin: 10px 0px; }
+  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos {
+    overflow: hidden; }
+    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-name {
+      width: 20%; }
+    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-turno {
+      width: 20%; }
+    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-participants {
+      width: 60%;
+      border-right: none; }
+    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos:not(.flex-row-retos-title) .flex-cell {
+      font-family: 'Lato', sans-serif;
+      padding: 5px; }
+
+#mainSection .main.teams .filters * {
+  font-size: 16px; }
+
+#mainSection .main.teams .filters label {
+  margin-right: 10px; }
+  #mainSection .main.teams .filters label:focus-within {
+    color: white; }
+
+#mainSection .main.teams input[type=submit], #mainSection .main.teams button {
+  outline: 0;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  background: transparent;
+  border: 2px solid #656683;
+  color: #656683; }
+  #mainSection .main.teams input[type=submit].participants-button.download-button, #mainSection .main.teams button.participants-button.download-button {
+    background-color: #F47E84;
+    color: #161938;
+    border-color: #F47E84;
+    border-style: solid; }
+  #mainSection .main.teams input[type=submit].participants-button.attendance-button, #mainSection .main.teams button.participants-button.attendance-button {
+    background-color: #48C18E;
+    color: #161938;
+    border-color: #48C18E;
+    border-style: solid; }
+  #mainSection .main.teams input[type=submit].participants-button.attendance-all-button, #mainSection .main.teams button.participants-button.attendance-all-button {
+    background-color: #FAC855;
+    color: #161938;
+    border-color: #FAC855;
+    border-style: solid; }
+
+#mainSection .main.teams .no-teams {
+  display: block;
+  font-family: Lato, sans-serif;
+  text-align: center;
+  width: 100%;
+  padding: 15px; }
+
+.retosSuperados {
+  overflow: hidden; }
+  .retosSuperados table {
+    display: table !important;
+    margin: auto;
+    color: #161938;
+    border-spacing: 0px; }
+    .retosSuperados table *:not(i) {
+      font-family: Lato, sans-serif; }
+    .retosSuperados table tr {
+      background-color: #9091A6;
+      border-left: 1px solid white; }
+      .retosSuperados table tr:first-child {
+        background-color: #161938;
+        color: white; }
+        .retosSuperados table tr:first-child th {
+          border-bottom-width: 0px; }
+          .retosSuperados table tr:first-child th:first-child {
+            border-radius: 20px 0px 0px 0px; }
+      .retosSuperados table tr th {
+        text-align: left;
+        padding: 10px;
+        border: 3px solid white;
+        border-right-width: 0px; }
+        .retosSuperados table tr th:last-child {
+          border-right-width: 3px;
+          border-radius: 0px 20px 0px 0px; }
+      .retosSuperados table tr:last-child th, .retosSuperados table tr:last-child td {
+        border-bottom-width: 3px; }
+      .retosSuperados table tr:last-child td:first-child {
+        border-radius: 0px 0px 0px 20px; }
+      .retosSuperados table tr:last-child td:last-child {
+        border-radius: 0px 0px 20px 0px; }
+      .retosSuperados table tr td {
+        padding: 10px;
+        text-align: center;
+        border: 3px solid white;
+        border-bottom-width: 0px;
+        border-right-width: 0px; }
+        .retosSuperados table tr td:last-child {
+          border-right-width: 3px; }
+        .retosSuperados table tr td.align-left {
+          text-align: left; }
+        .retosSuperados table tr td.complete {
+          color: #48C18E; }
+          .retosSuperados table tr td.complete .icon {
+            background-color: #48C18E; }
+        .retosSuperados table tr td.incomplete {
+          color: #F47E84; }
+          .retosSuperados table tr td.incomplete .icon {
+            background-color: #F47E84; }
+        .retosSuperados table tr td .icon {
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          border: 2px solid #161938;
+          border-radius: 12px; }
+
+.ranking {
+  text-align: center; }
+  .ranking .content {
+    width: auto;
+    display: inline-block;
+    margin: auto; }
+    .ranking .content table {
+      margin: auto; }
+    .ranking .content .podium {
+      width: 100%;
+      height: 75vh;
+      display: flex;
+      flex-direction: row;
+      overflow-y: hidden; }
+      .ranking .content .podium .podium-col {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        justify-content: flex-end;
+        align-items: center; }
+        .ranking .content .podium .podium-col .podium-label {
+          text-align: center;
+          padding: 5px 25px;
+          font-family: Lato;
+          font-size: 24px;
+          color: #48C18E;
+          background: white;
+          margin: 10px;
+          margin-top: 0px;
+          margin-bottom: 20px;
+          width: auto;
+          border-radius: 25px;
+          display: inline-block;
+          font-weight: bold; }
+        .ranking .content .podium .podium-col .podium-rect {
+          flex: 1;
+          background-color: #F47E84;
+          width: 100%;
+          font-size: 13vh;
+          text-align: center;
+          line-height: 26vh;
+          vertical-align: text-bottom;
+          max-height: 0;
+          transition: max-height 2s ease-in-out; }
+        .ranking .content .podium .podium-col.first .podium-rect {
+          animation-delay: 1s; }
+        .ranking .content .podium .podium-col.second .podium-rect {
+          animation-delay: 3s; }
+        .ranking .content .podium .podium-col.third .podium-rect {
+          animation-delay: 5s; }
+        .ranking .content .podium .podium-col .star {
+          color: #FAC855;
+          font-size: 15vh;
+          animation-delay: 1s; }
+      .ranking .content .podium.started .podium-col.first .podium-rect {
+        max-height: 70vh; }
+      .ranking .content .podium.started .podium-col.second .podium-rect {
+        max-height: 33vh; }
+      .ranking .content .podium.started .podium-col.third .podium-rect {
+        max-height: 23vh; }
+    .ranking .content .filters {
+      text-align: left; }
+
+.showStudent .flex {
+  display: flex; }
+  .showStudent .flex .flex-thumb {
+    width: 25%;
+    position: relative;
+    padding-top: 40px; }
+    .showStudent .flex .flex-thumb img {
+      width: 100%; }
+  .showStudent .flex .flex-er-info {
+    flex: 1;
+    padding: 15px; }
+    .showStudent .flex .flex-er-info *:not(h2) {
+      font-family: Lato, sans-serif; }
+    .showStudent .flex .flex-er-info *:not(b) {
+      font-weight: normal; }
+
+.showStudent .desc {
+  font-family: Lato, sans-serif; }
+
+.showStudent .status {
+  text-align: center; }
+
+.showStudent #unjoin {
+  text-align: right; }
+
+.showStudent .pulseButton {
+  margin: 100px;
+  cursor: pointer;
+  box-shadow: 0 0 2px 0px rgba(204, 169, 44, 0.2);
+  animation: pulseButton 2s infinite; }
+  .showStudent .pulseButton:hover {
+    animation: none; }
+
+.finish .finish-button {
+  background-color: white;
+  color: #161938;
+  border-color: white;
+  border-style: solid;
+  outline: 0px; }
+
+@-webkit-keyframes pulseButton {
+  0% {
+    -webkit-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0.4); }
+  70% {
+    -webkit-box-shadow: 0 0 2px 10px rgba(204, 169, 44, 0); }
+  100% {
+    -webkit-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0); } }
+
+@keyframes pulseButton {
+  0% {
+    -moz-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0.4);
+    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4); }
+  70% {
+    -moz-box-shadow: 0 0 2px 10px rgba(204, 169, 44, 0);
+    box-shadow: 0 0 2px 10px rgba(204, 169, 44, 0); }
+  100% {
+    -moz-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0);
+    box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0); } }
+
+.main.inspiration {
+  font-size: 18px; }
+  .main.inspiration *:not(i):not(h2) {
+    font-family: Lato, sans-serif; }
+  .main.inspiration h3 {
+    color: #48C18E;
+    font-weight: bold; }
+  .main.inspiration h4 {
+    color: #FAC855;
+    font-weight: bold;
+    font-size: 24px; }
+  .main.inspiration b, .main.inspiration strong {
+    color: #F47E84; }
+  .main.inspiration .flex-images {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; }
+    .main.inspiration .flex-images .flex-col {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+      padding: 10px; }
+      .main.inspiration .flex-images .flex-col div {
+        text-align: center; }
+      .main.inspiration .flex-images .flex-col img {
+        height: 200px; }
+  .main.inspiration .lettered {
+    list-style-type: lower-alpha; }
+  .main.inspiration .narrative {
+    width: 80px; }
+  .main.inspiration table img {
+    width: 80px; }
+  .main.inspiration .specialList {
+    list-style: none; }
+    .main.inspiration .specialList li::before {
+      content: "\2022";
+      color: #FAC855;
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em; }
+  .main.inspiration .flex-horizontal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center; }
+    .main.inspiration .flex-horizontal .square {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      text-align: center;
+      justify-content: flex-end;
+      align-items: center; }
+      .main.inspiration .flex-horizontal .square img {
+        width: 80px; }
+      .main.inspiration .flex-horizontal .square span {
+        font-weight: bold;
+        color: #F47E84; }
+
+* {
+  font-family: 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+  box-sizing: border-box; }
+
+html {
+  min-height: 100%;
+  background-color: #2A2A52; }
+  html body {
+    min-height: 100%;
+    margin: 0; }
+    html body a {
+      color: white;
+      text-decoration: none;
+      font-weight: lighter; }
+    html body h1, html body h2, html body h3 {
+      font-weight: lighter; }
+    html body div.flexBoxEscapeRooms {
+      flex-flow: row wrap; }
+    html body label {
+      color: #656683; }
+    html body footer {
+      display: flex;
+      align-content: space-around;
+      align-items: flex-end;
+      justify-content: space-between;
+      bottom: 0;
+      position: absolute;
+      width: 100%;
+      margin-left: -15px;
+      padding: 18px; }
+    html body input, html body select {
+      background-color: #232951;
+      -webkit-text-fill-color: #656683 !important;
+      color: #656683;
+      font-size: large;
+      text-align: center;
+      border-color: #656683;
+      border-radius: 20px;
+      border-style: solid;
+      border-width: 2px;
+      height: 42px;
+      outline: 0;
+      caret-color: white;
+      font-weight: lighter;
+      box-shadow: none !important; }
+      html body input:-webkit-autofill, html body select:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 30px #232951 inset !important;
+        -webkit-text-fill-color: #656683 !important; }
+      html body input:focus, html body input:active, html body input:-webkit-autofill:focus, html body input:-webkit-autofill:active, html body select:focus, html body select:active, html body select:-webkit-autofill:focus, html body select:-webkit-autofill:active {
+        background-color: #232951;
+        color: white;
+        -webkit-text-fill-color: white !important;
+        border-color: white; }
+        html body input:focus + label, html body input:active + label, html body input:-webkit-autofill:focus + label, html body input:-webkit-autofill:active + label, html body select:focus + label, html body select:active + label, html body select:-webkit-autofill:focus + label, html body select:-webkit-autofill:active + label {
+          color: white; }
+    html body #flassmessages {
+      position: fixed;
+      bottom: 0;
+      font-size: 1em !important;
+      background: white;
+      max-width: 600px;
+      margin: 1%;
+      color: #232951;
+      padding: 15px;
+      opacity: 0.9;
+      padding-top: 0px;
+      left: 0px; }
+      html body #flassmessages .close {
+        content: '\2716';
+        top: 0;
+        right: 0;
+        display: block;
+        position: absolute;
+        text-align: right;
+        height: 0;
+        cursor: pointer;
+        padding: 4px; }
+
+.material-icons {
+  vertical-align: middle; }
+
+.errorPage pre {
+  font-size: 16px; }

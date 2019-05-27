@@ -1,0 +1,63 @@
+@import 'common/colors'
+
+.main.inspiration
+	font-size: 18px
+	*:not(i):not(h2)
+		font-family: Lato, sans-serif
+	h3
+		color: $brightgreen
+		font-weight: bold
+	h4
+		color: $brightyellow
+		font-weight: bold
+		font-size: 24px
+	b, strong
+		color: $lightred
+	.flex-images
+		display: flex
+		flex-direction: row
+		justify-content: center
+		.flex-col
+			display: flex
+			flex-direction: column
+			text-align: center
+			align-items: center
+			padding: 10px
+			div
+				text-align: center
+			img
+				height: 200px
+	.lettered
+		list-style-type: lower-alpha
+	.narrative
+		width: 80px
+	table
+		img
+			width: 80px
+	.specialList
+		list-style: none
+		li
+			&::before
+				content: "\2022"
+				color: $brightyellow
+				font-weight: bold
+				display: inline-block
+				width: 1em
+				margin-left: -1em
+	.flex-horizontal
+		display: flex
+		flex-direction: row
+		flex-wrap: nowrap
+		justify-content: center
+		.square
+			display: flex
+			flex-direction: column
+			padding: 10px
+			text-align: center
+			justify-content: flex-end
+			align-items: center
+			img
+				width: 80px
+			span
+				font-weight: bold
+				color: $lightred

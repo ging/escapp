@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <title>Escape room</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom.appearance%>.bootstrap.min.css">
+
+	</head>
+	<body>
+		<div id="root"></div>
+		<script> 
+			window.config= {
+				"title":"Quiz",
+			  	"closeMessage": "Ya puedes cerrar esta ventana",
+				"primaryColor":"#20BEB8",
+				"primaryColorText":"#ffffff",
+				"secondaryColor":"#333333",
+				"secondaryColorText":"#ffffff",
+				"backgroundColor":"#ffffff",
+				"generalTextColor":"#000000",
+				"finish_screen":true,
+				"feedback": <% if (escapeRoom.feedback){%> true <%} else {%>false<%}%>,
+				"randomQuestions":true,
+				"n": <%= escapeRoom.numQuestions || 1 %>,
+				"scormVersion":"1.2",
+				"showInfoModal":false,
+				"threshold": "<%= escapeRoom.numRight || 50 %>",
+				"successMessage": "<%=i18n.hint.successMessage%>",
+				"failMessage": "<%=i18n.hint.failMessage%>",
+				"moodleXMLPath": "<%=escapeRoom.hintApp.url %>",
+				"dev": false
+			}
+
+
+		</script>
+		<script type="text/javascript" src="/js/hintApp.js"></script>
+	</body>
+</html>

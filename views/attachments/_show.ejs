@@ -1,0 +1,17 @@
+<% if (attachment) { %>
+        <% if ( attachment.mime === 'image/jpeg' ||
+                attachment.mime === 'image/gif'  ||
+                attachment.mime === 'image/jpg'  ||
+                attachment.mime === 'image/png'    ) { %>
+            <%- cloudinary.image(attachment.public_id, { secure: true})%>
+        <% } else if ( attachment.mime === 'video/mp4') { %>
+            <%- cloudinary.video(attachment.public_id, {controls: false, secure: true})%>
+        <% } else if ( attachment.mime === 'application/pdf') { %>
+            <%- cloudinary.image(attachment.public_id, {format: 'jpg', secure: true}) %>
+        <% } else { %>
+            <img class="animated bounceIn" src="/images/none.png">
+        <% } %>
+    </a>
+<% } else { %>
+    <img class="animated bounceIn" src="/images/placeholder.png"/>
+<% } %>

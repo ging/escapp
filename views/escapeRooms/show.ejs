@@ -1,0 +1,294 @@
+<% include ../partials/_header.ejs %>
+<div class="main no-bckg">
+
+    <h1>
+        <%=i18n.escapeRoom.steps.edit.title%>:
+    </h1>
+
+    <br class="escapeRoomItem">
+    <div class="menuERShow">
+    <div class="attachmentShow" >
+        <% var attachment = escapeRoom.attachment; %>
+        <% include ../attachments/_show %>
+    </div>
+    <div class="menuERShowRight">
+       <ul class="menuERactionList">
+           <li><a href="#basic"><%=i18n.showTeacher.actionList.basic%></a></li>
+           <li><a href="#appearance"><%=i18n.showTeacher.actionList.appearance%></a></li>
+           <li><a href="#turnos"><%=i18n.showTeacher.actionList.turnos%></a></li>
+           <li><a href="#join"><%=i18n.showTeacher.actionList.join%></a></li>
+           <li><a href="/escapeRooms/<%= escapeRoom.id %>/participants"><%=i18n.showTeacher.actionList.participants%> <i class="material-icons">keyboard_arrow_right</i></a></li>
+           <li><a href="/escapeRooms/<%= escapeRoom.id %>/teams"><%=i18n.showTeacher.actionList.teams%> <i class="material-icons">keyboard_arrow_right</i> </a></li>
+           <li><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <i class="material-icons">keyboard_arrow_right</i> </a></li>
+           <li><a href="/escapeRooms/<%= escapeRoom.id %>/activarTurno"><button class="showMenuButton acceptButton"><%=i18n.showTeacher.actionList.activateTurno%></button></a></li>
+           <li><a href="/escapeRooms/<%= escapeRoom.id %>/edit"><button class="showMenuButton editButton"><%=i18n.showTeacher.actionList.edit%></button></a></li>
+           <li><a href="/escapeRooms/<%= escapeRoom.id %>?_method=DELETE" onClick="return confirm('Delete: <%= escapeRoom.title %>');"><button class="showMenuButton deleteButton"><%=i18n.showTeacher.actionList.delete%></button></a></li>
+           <li><a href="/users/<%= session.user.id %>/escapeRooms"><button class="showMenuButton"><%=i18n.showTeacher.actionList.volver%></button></a></li>
+       </ul>
+
+    </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="flexShow">
+        <div class="flexRow animated bounceIn" id="basic">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.title%>:
+            </div>
+            <div class="flexShowRight">
+                <%= escapeRoom.title %>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.subject%>:
+            </div>
+            <div class="flexShowRight">
+                <%= escapeRoom.subject %>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.duration%>:
+            </div>
+            <div class="flexShowRight">
+                <%= escapeRoom.duration %>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.instructions%>:
+            </div>
+            <div class="flexShowRight instructionsPreview">
+                <%- escapeRoom.instructions %>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn">
+             <div class="flexShowLeft">
+                 <%=i18n.showTeacher.titles.description%>:
+             </div>
+             <div class="flexShowRight">
+                 <%= escapeRoom.description %>
+             </div>
+        </div>
+        <div class="flexRow animated bounceIn">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.video%>:
+            </div>
+            <div class="flexShowRight">
+                <% if (escapeRoom.video) { %>
+                <a class="show_link" href="<%= escapeRoom.video %>"><%= escapeRoom.video %></a> 
+                    <button class="copy" id="previewVideo"><i class="material-icons">remove_red_eye</i></button>
+                <%  } else { %>
+                    <em><%=i18n.showTeacher.messages.noVideo%>:</em>
+                <%  } %>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.nmax%>:
+            </div>
+            <div class="flexShowRight">
+                <%= escapeRoom.nmax %>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.teamSize%>:
+            </div>
+            <div class="flexShowRight">
+                <%= escapeRoom.teamSize %>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn" id="join">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.invitation%>:
+            </div>
+            <div class="flexShowRight">
+                <% var invitationLink = hostName + "/escapeRooms/" + escapeRoom.id +"/join?token=" + escapeRoom.invitation; %>
+
+                <a class="show_link" href="<%= invitationLink %>"><%= invitationLink %></a>
+
+                <input id="joinUrl" value="<%= invitationLink %>"/>
+                <button class="copy" id="copyButton"><i class="material-icons">file_copy</i></button>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn" id="appearance">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.appearance%>:
+            </div>
+            <div class="flexShowRight">
+                <img src="/images/<%=escapeRoom.appearance%>.png"/>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn" id="turnos">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.turnos%>:
+            </div>
+            <div class="flexShowRight">
+                <% var turnos = escapeRoom.turnos; %>
+                <%  include ../turnos/_indexShow  %>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn" id="pistas">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.puzzles%>:
+            </div>
+            <div class="flexShowRight previewPuzzles">
+                <%if (escapeRoom.puzzles && escapeRoom.puzzles.length > 0) {%>
+                <div class="flex-table-retos-wrapper">
+                    <div class="flex-table-retos animated jello">
+                        <div class="flex-row-retos flex-row-retos-title">
+                            <div class="flex-cell flex-cell-retos">
+                                <%=i18n.escapeRoom.steps.puzzles.puzzleTitle%>:
+                            </div>
+                            <div class="flex-cell flex-cell-sol">
+                                Solución
+                            </div>
+                            <div class="flex-cell flex-cell-desc">
+                                <%=i18n.escapeRoom.steps.puzzles.description%>:
+                            </div>
+                            <div class="flex-cell flex-cell-pista">
+                                <%=i18n.escapeRoom.steps.puzzles.hints%>:
+                            </div>
+                        </div>
+                        <% for(var reto in escapeRoom.puzzles) { %>
+                        <% var puzzle = escapeRoom.puzzles[reto] %>
+
+                        <div class="flex-row-retos">
+                            <div class="flex-cell flex-cell-retos">
+                                <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="title"><%= puzzle.title%></div>
+                            </div>
+                            <div class="flex-cell flex-cell-sol">
+                                <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="sol"><%= puzzle.sol%></div>
+                            </div>
+                            <div class="flex-cell flex-cell-desc">
+                                <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="desc"><%= puzzle.desc%></div>
+                            </div>
+                            <div class="flex-cell flex-cell-pista">
+                                <div class="retoTextArea hints-cell hints-cell-preview" data-reto="<%=puzzle.id%>" data-id="hint">
+                                    <ul class=" ">
+                                        <%if (puzzle.hints && puzzle.hints.length > 0) {%>
+                                        <% for (var p in puzzle.hints) { %>
+                                        <% var hint = puzzle.hints[p] %>
+                                        <li class="hint-text-preview">
+                                             <%= hint.content %>
+                                        </li>
+                                        <% } %>
+                                        <% } else {%>
+                                        <span class="no-pistas-preview">
+                                            <%=i18n.escapeRoom.steps.puzzles.noCluesYet%>:
+                                        </span>
+                                        <% } %>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+                <%} else {%>
+                    <%=i18n.escapeRoom.steps.puzzles.noPuzzlesYet%>:
+                <%}%>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn" id="pistas">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.hints%>:
+            </div>
+            <div class="flexShowRight">
+                <% if (escapeRoom.hintApp) { %>
+
+                    <a class="show_link" download="quiz.xml" href="<%= escapeRoom.hintApp.url%>"><%=escapeRoom.hintApp.filename%></a>
+                    <button class="copy" onclick="previewHintApp()"><i class="material-icons">remove_red_eye</i></button>
+                <% } else { %>
+                   <%=i18n.showTeacher.messages.noHintControl%>
+                <% } %>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn" id="pretest">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.pretest%>:
+            </div>
+            <div class="flexShowRight">
+                 <a class="show_link" href="<%= escapeRoom.pretest %>"><%= escapeRoom.pretest %></a>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn" id="posttest">
+            <div class="flexShowLeft">
+               <%=i18n.showTeacher.titles.posttest%>:
+            </div>
+            <div class="flexShowRight">
+                 <a class="show_link" href="<%= escapeRoom.posttest %>"><%= escapeRoom.posttest %></a>
+            </div>
+        </div>
+        <div class="flexRow animated bounceIn" id="survey">
+            <div class="flexShowLeft">
+                <%=i18n.showTeacher.titles.survey%>:
+            </div>
+            <div class="flexShowRight">
+                 <a class="show_link" href="<%= escapeRoom.survey %>"><%= escapeRoom.survey %></a>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+
+<br/>
+
+<div style="height: 100px"></div>
+
+
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+
+  $( function() {
+    $('#copyButton').on('click', function() {
+      var copyText = $("#joinUrl");
+      copyText.select();
+      document.execCommand("copy");
+    });
+    $("#dialog-preview-video").dialog({
+      autoOpen: false,
+      resizable: false,
+      width: screen.width > 600 ? 560 : screen.width*0.9,
+      height: "auto",
+      show: {
+        effect: "blind",
+        duration: 100
+      },
+      hide: {
+        effect: "explode",
+        duration: 400
+      },
+      appendTo: '.main'
+    });
+
+
+
+    $( "#previewVideo" ).on( "click", function() {
+      $( "#dialog-preview-video" ).dialog( "open" );
+    });
+
+
+  });
+
+
+</script>
+
+<% if (escapeRoom.video) { %>
+<div id="dialog-preview-video" title="Previsualizar video">
+    <% if (parseURL(escapeRoom.video)) { %>
+        <iframe id="previewVideoContent" width="560" height="315" style="max-width: 100%;" src="<%=parseURL(escapeRoom.video)%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <% } else { %>
+        <video id="previewVideoContent" width="560" height="315" style="max-width: 100%;" src="<%= escapeRoom.video %>">"></video>
+    <% } %>
+
+</div>
+<% } %>
+<% include ../partials/_footer %>
+<script>
+    var escapeRoomId = "<%= escapeRoom.id%>";
+</script>
+<script src="/js/handleHintApp.js"></script>

@@ -1,0 +1,97 @@
+@import 'colors'
+
+button, input[type="submit"]
+  background-color: white
+  color: $darkerpurple
+  font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
+  border-radius: 5px
+  border-color: white
+  border-style: solid
+  padding: 10px
+  text-align: center
+  outline: 0
+  cursor: pointer
+  &:disabled, &.disabled
+    cursor: not-allowed
+  &.rounded
+    border-radius: 25px !important
+    padding: 8px 25px !important
+  &.white
+    background-color: white !important
+    border: $darkerpurple !important
+    color: $darkerpurple !important
+  &.login
+    background-color: $brightgreen
+    color: $darkerpurple
+    border: $brightgreen
+    text-align: center
+    font-size: medium
+    border-radius: 20px
+    width: 100%
+    height: 42px
+    outline: 0
+
+  &.registro
+    background-color: $brightyellow
+    color: $darkerpurple
+    border: $brightyellow
+    border-radius: 20px
+    text-align: center
+    font-size: medium
+    width: 100%
+    height: 42px
+    outline: 0
+
+  &.editButton
+    background-color: $brightyellow
+    color: $darkerpurple
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
+    border-radius: 5px
+    border-color: $brightyellow
+    border-style: solid
+    padding: 10px
+    text-align: center
+    outline: 0
+
+  &.deleteButton
+    background-color: $lightred
+    color: $darkerpurple
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
+    border-radius: 5px
+    border-color: $lightred
+    border-style: solid
+    padding: 10px
+    text-align: center
+    outline: 0
+
+  &.playButton
+    background-color: #FF6347
+    color: $darkerpurple
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
+    border-radius: 5px
+    border-color: #FF6347
+    border-style: solid
+    padding: 10px
+    text-align: center
+    outline: 0
+
+  &.acceptButton
+    background-color: $brightgreen
+    color: $darkerpurple
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
+    border-radius: 5px
+    border-color: $brightgreen
+    border-style: solid
+    padding: 10px
+    text-align: center
+    outline: 0
+
+  &.inverse
+    background-color: transparent
+    color: white
+    border-color: white
+    -webkit-text-fill-color: white !important
+
+  &[type=submit]
+    cursor: pointer
+

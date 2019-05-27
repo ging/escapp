@@ -1,0 +1,26 @@
+<% include ../../partials/_header.ejs %>
+
+<div class="main">
+    <h2><%=i18n.analytics.main.title%></h2>
+    <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/summary" class="">
+        <span class="analyticsTag animated jackInTheBox delay-1s">
+            <i class="material-icons">dashboard</i> <%=i18n.analytics.main.summary%>
+        </span>
+    </a>
+    <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/ranking" class="">
+        <span class="analyticsTag animated jackInTheBox delay-1s">
+            <i class="material-icons">equalizer</i> <%=i18n.analytics.main.ranking%>
+        </span>
+    </a>
+    <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/puzzles/participants" class="">
+        <span class="analyticsTag animated jackInTheBox delay-1s">
+            <i class="material-icons">check</i> <%=i18n.analytics.main.retosSuperados%>
+        </span>
+    </a>
+    <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/timeline" class="">
+        <span class="analyticsTag animated jackInTheBox delay-1s">
+            <i class="material-icons">timeline</i> <%=i18n.analytics.main.timeline%>
+        </span>
+    </a>
+</div>
+<% include ../../partials/_footer %>
