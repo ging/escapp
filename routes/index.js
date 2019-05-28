@@ -123,6 +123,7 @@ router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/play", sessio
 
 
 router.get("/inspiration", sessionController.loginRequired, (req, res) => res.render("inspiration"));
+router.get("/resources", sessionController.loginRequired, (req, res) => res.render("resources"));
 router.post("/escapeRooms/:escapeRoomId(\\d+)/confirm", sessionController.loginRequired, participantController.confirmAttendance);
 
 // Routes for the resource participants of a turn

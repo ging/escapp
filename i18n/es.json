@@ -194,6 +194,23 @@
         "downloadText": "También puedes descargar la guía completa",
         "intro": "¿No sabes por donde empezar a crear tu <em>escape room</em>? <br/> Sigue los siguientes pasos",
         "title": "Guía para crear una escape room",
+        "banner": {
+            "design": "Diseña",
+            "apprach": "Planteamiento",
+            "objectives": "Objetivos",
+            "puzzles": "Retos",
+            "theme": "Temática",
+            "build": "Construye",
+            "hints": "Pistas",
+            "instructions": "Intrucciones",
+            "try": "Prueba",
+            "puzzleByPuzzle": "Reto a reto",
+            "simulation": "Simulación completa",
+            "evaluate": "Evalúa",
+            "prequiz": "Pre-test",
+            "postquiz": "Post-test",
+            "survey": "Encuesta"
+        },
         "steps": {
             "first": {
                 "title": "Paso 1: Establecer el planteamiento general",
@@ -223,7 +240,8 @@
                     "assembly": "Formar las partes de un objeto",
                     "info": "Extraer información",
                     "logic": "Lógica abstracta"
-                }
+                }, 
+                "resources": "Aqui podrás encontrar webs que ofrecen estos recursos."
             },
             "fourth": {
                 "title": "Paso 4: Seleccionar una temática apropiada",
@@ -265,6 +283,35 @@
                 "intro": "Existen varias maneras de evaluar si los alumnos han aprendido realizando la actividad. Una manera es mediante un grupo de control, comparando las notas de los alumnos que realizaron la escape room con los que no. Otra manera es realizando un test al principio de la escape room y al final, comprobando si ha habido un incremento significativo de los conocimientos de los alumnos. Por último, al final de la actividad es conveniente realizar una encuesta para conocer la opinión de los alumnos acerca de la escape room."
             }
         }
+    },
+    "resources": {
+        "title": "Recursos para crear una Escape Room",
+        "coded": "Mensajes codificados",
+        "assembly": "Formar las partes de un objeto",
+        "info": "Extraer información",
+        "logic": "Lógica abstracta",
+        "search": "Búsqueda de objetos escondidos",
+        "secretCode": "Código secreto",
+        "snotes": "Mensajes ocultos",
+        "ar": "Realidad aumentada",
+        "roulette": "Ruleta con colores y numeros",
+        "coordinates": "Mensajes con coordenadas",
+        "codeGen": "Generador de códigos",
+        "url": "URL con contraseña",
+        "postcard": "Postal con codigo",
+        "puzzleGen": "Generador de puzzles",
+        "ticket": "ticket falso",
+        "id": "Tarjetas ID falsas",
+        "whatsapp": "Whatsapp falso",
+        "vt": "Tour virtual falso",
+        "anonymus": "Mensajes anónimos",
+        "rhyme": "Generador de rimas",
+        "soupe": "Generador de sopas de letras",
+        "crossword": "Generador de crucigramas",
+        "labyrinth": "Generador de laberintos",
+        "math": "Puzzles matemáticos",
+        "hidden": "Juegos de objetos ocultos"
+
     },
     "participant": {
         "attendanceSaved": "Asistencia guardada correctamente",
