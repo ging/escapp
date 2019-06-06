@@ -1,28 +1,26 @@
 <% include partials/_header.ejs %>
 <div class="main inspiration">
 	<h2><%=i18n.inspiration.title%></h2>
+    <a downloaod="escapp.pdf" id="downloadGuide" href="https://docs.google.com/document/d/1it1LYHozJ5fpnBDZpTlXx7jXv7RGbUS4MEUpAgxuCSY/export?format=pdf">
+        <button class="rounded deleteButton">
+            <i class="material-icons">file_download</i>
+            <%=i18n.inspiration.downloadText%>
+        </button>
+    </a>
 	<p class="intro-paragraph"><%-i18n.inspiration.intro%></p>
-	<p class="intro-paragraph"><%-i18n.inspiration.downloadText%><br/><br/>
-		<a downloaod="escapp.pdf" href="https://docs.google.com/document/d/1it1LYHozJ5fpnBDZpTlXx7jXv7RGbUS4MEUpAgxuCSY/export?format=pdf">
-			<button class="rounded deleteButton">
-				<i class="material-icons">file_download</i>
-                <%=i18n.common.download%>
-			</button>
-		</a>
-	</p>
 
 	<div class="banner">
 		<a href="#step1"><button class="button" style="background-image:url(/images/inspiration/flag1.svg); color: white">  <%-i18n.inspiration.banner.design%></button></a>
 		<a href="#step1"><button class="button" style="background-image:url(/images/inspiration/flag2.svg); padding-left: 15px"><%-i18n.inspiration.banner.approach%></button></a>
 		<a href="#step2"> <button class="button" style="background-image:url(/images/inspiration/flag2.svg); padding-left: 15px"><%-i18n.inspiration.banner.objectives%></button></a>
 		<a href="#step3"> <button class="button" style="background-image:url(/images/inspiration/flag2.svg)"><%-i18n.inspiration.banner.puzzles%></button></a>
-		<a href="#step4"> <button class="button" style="background-image:url(/inspiration/flag2.svg)"><%-i18n.inspiration.banner.theme%></button></a>
+		<a href="#step4"> <button class="button" style="background-image:url(/images/inspiration/flag2.svg)"><%-i18n.inspiration.banner.theme%></button></a>
 	</div>
 	<div class="banner">
 		<a href="#step5"> <button class="button" style="background-image:url(/images/inspiration/flag3.svg); padding-left: 15px; color: white"><%-i18n.inspiration.banner.build%></button></a>
 		<a href="#puzzles"> <button class="button" style="background-image:url(/images/inspiration/flag4.svg)"><%-i18n.inspiration.banner.puzzles%></button></a>
 		<a href="#hints"> <button class="button" style="background-image:url(/images/inspiration/flag4.svg)"><%-i18n.inspiration.banner.hints%></button></a>
-		<a href="#instructions"> <button class="button" style="background-image:url(/images/inspiration/flag4.svg); padding-left: 25px"><%-i18n.inspiration.banner.istructions%></button></a>
+		<a href="#instructions"> <button class="button" style="background-image:url(/images/inspiration/flag4.svg); padding-left: 25px"><%-i18n.inspiration.banner.instructions%></button></a>
 	</div>
 	<div class="banner">
 		<a href="#step6"> <button class="button" style="background-image:url(/images/inspiration/flag5.svg); color: white"><%-i18n.inspiration.banner.try%></button></a>

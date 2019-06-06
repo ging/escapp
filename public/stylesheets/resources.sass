@@ -1,0 +1,58 @@
+@import 'common/colors'
+
+.main.resources
+	font-size: 18px
+	*:not(i):not(h2)
+		font-family: Lato, sans-serif
+	h3
+		font-weight: bold
+
+	.icon
+		width: 80px
+
+	.flex-screenshots
+		display: flex
+		flex-direction: row
+		justify-content: flex-start
+		flex-wrap: wrap
+		align-items: center
+		margin: 10px
+		padding: 10px
+		
+
+	.container 
+		position: relative
+		width: 100%
+	.image 
+		display: block
+		height: 150px
+		width: auto
+		
+		
+	.overlay 
+		position: absolute
+		top: 0
+		bottom: 0
+		left: 0
+		right: 0
+		height: 100%
+		width: 100%
+		opacity: 0
+		transition: .5s ease
+		background-color: $lightred
+		border-radius : 35%
+		
+	.container:hover .overlay 
+		opacity: 1
+
+	.text 
+		color: white
+		font-size: 20px
+		font-weight: bold
+		position: absolute
+		top: 50%
+		left: 50%
+		-webkit-transform: translate(-50%, -50%)
+		-ms-transform: translate(-50%, -50%)
+		transform: translate(-50%, -50%)
+		text-align: center

@@ -191,12 +191,12 @@
         "successMessage": "Enhorabuena! Has conseguido una nueva pista."
     },
     "inspiration": {
-        "downloadText": "También puedes descargar la guía completa",
+        "downloadText": "descargar guía",
         "intro": "¿No sabes por donde empezar a crear tu <em>escape room</em>? <br/> Sigue los siguientes pasos",
         "title": "Guía para crear una escape room",
         "banner": {
             "design": "Diseña",
-            "apprach": "Planteamiento",
+            "approach": "Planteamiento",
             "objectives": "Objetivos",
             "puzzles": "Retos",
             "theme": "Temática",

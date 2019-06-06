@@ -1502,6 +1502,9 @@ button, input[type="submit"] {
     list-style-type: lower-alpha; }
   .main.inspiration .narrative {
     width: 80px; }
+  .main.inspiration #downloadGuide {
+    float: right;
+    margin-top: -55px; }
   .main.inspiration table img {
     width: 80px; }
   .main.inspiration .specialList {
@@ -1530,6 +1533,89 @@ button, input[type="submit"] {
       .main.inspiration .flex-horizontal .square span {
         font-weight: bold;
         color: #F47E84; }
+  .main.inspiration .icon {
+    width: 80px; }
+  .main.inspiration .image {
+    align-items: center;
+    vertical-align: middle;
+    max-width: 90%; }
+  .main.inspiration .banner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    vertical-align: middle; }
+    .main.inspiration .banner .button {
+      background-color: #ffffff00;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      padding-left: 10px;
+      padding-right: 0px;
+      border: none;
+      width: 180px;
+      height: 85px;
+      text-align: center;
+      font-family: 'Gugi', "Lucida Grande";
+      font-size: 18px;
+      display: inline-block; }
+
+@media (max-width: 800px) {
+  .main.inspiration #downloadGuide {
+    float: none;
+    margin-top: 0px; }
+  .main.inspiration .banner .button {
+    width: 100px;
+    height: 47px;
+    font-size: 10px; } }
+
+.main.resources {
+  font-size: 18px; }
+  .main.resources *:not(i):not(h2) {
+    font-family: Lato, sans-serif; }
+  .main.resources h3 {
+    font-weight: bold; }
+  .main.resources .icon {
+    width: 80px; }
+  .main.resources .flex-screenshots {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 10px;
+    padding: 10px; }
+  .main.resources .container {
+    position: relative;
+    width: 100%; }
+  .main.resources .image {
+    display: block;
+    height: 150px;
+    width: auto; }
+  .main.resources .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #F47E84;
+    border-radius: 35%; }
+  .main.resources .container:hover .overlay {
+    opacity: 1; }
+  .main.resources .text {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center; }
 
 * {
   font-family: 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;

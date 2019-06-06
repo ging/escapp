@@ -191,12 +191,12 @@
         "successMessage": "Congratulations! You've achieved a new hint"
     },
     "inspiration": {
-        "downloadText": "You can also download the complete guide",
+        "downloadText": "download guide",
         "intro": "You don't know how to start creating the Escape Room? <br/> Follow these steps",
         "title": "Escape Room setting up guide",
         "banner": {
             "design": "Design",
-            "apprach": "General <br> approach",
+            "approach": "General <br> approach",
             "objectives": "Objectives",
             "puzzles": "Puzzles",
             "theme": "theme",
