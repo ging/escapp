@@ -1,0 +1,104 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/">
+    <div class="filters">
+        <label for="turnId"><%=i18n.turnos.Turno%>
+            <select name="turnId" id="turnId">
+                <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
+                <% for (t in escapeRoom.turnos) {
+                    var turno = escapeRoom.turnos[t] ;
+                    // if (turno.status !== "pending" ) {
+                %>
+                <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
+                    <%= getFullDate(turno.date)%>
+                </option>
+                <% // }
+                } %>
+            </select>
+        </label>
+        <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
+
+    </div>
+</form>
+<div class="card-container">
+    <% var counter = 0;
+            for (var k in summary) {%>
+    <div class="card <%=k%> animated zoomIn  " style="animation-delay: <%=counter/5%>s;">
+        <div class="card-icon"><i class="material-icons"><%=summary[k].icon%></i></div>
+        <div class="card-title"><%=i18n.analytics.main.dashboard[k]%></div>
+        <div class="card-content"><%=summary[k].value%></div>
+    </div>
+    <%counter++;
+    }%>
+</div>
+<script>
+  var bodyStyles = window.getComputedStyle(document.body);
+  var cp = (prop) => bodyStyles.getPropertyValue(prop);
+  function hexToRgbA(hex,alpha=1){
+    hex = hex.trim();
+    var c;
+    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+      c= hex.substring(1).split('');
+      if(c.length== 3){
+        c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+      c= '0x'+c.join('');
+      return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+alpha+')';
+    }
+    throw new Error('Bad Hex');
+  }
+  var colors = [
+    cp('--brightgreen'),
+    cp('--brightyellow'),
+    cp('--brightorange'),
+    cp('--lightred'),
+    cp('--textpurple')]
+</script>
+<div class="chart-summary">
+    <%for (var i in charts) {%>
+        <canvas id="<%=i%>"  height="400px" style="width:100%; height:400px; "></canvas>
+        <script>
+          var ctx = document.getElementById("<%=i%>").getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: <%-JSON.stringify(charts[i].labels)%>,
+              datasets: [{
+                data: <%-JSON.stringify(charts[i].data)%>,
+                backgroundColor: colors.map((c)=>hexToRgbA(c)),
+                borderColor: colors.map((c)=>hexToRgbA(c)),
+                borderWidth: 4
+              }]
+            },
+            options: {
+              legend: {
+                display: false,
+              },
+              scales: {
+                yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: "<%=i18n.analytics.main.dashboard[i]%>",
+                    fontColor: "white",
+                    fontSize: 18
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                    stepSize: 1,
+                    fontColor: "white",
+                    fontSize: 18
+                  },
+
+                }],
+                xAxes: [{
+                  ticks: {
+                    fontColor: "white",
+                    fontSize: 18
+                  }
+                }]
+
+              }
+            }
+          });
+        </script>
+    <%}%>
+</div>

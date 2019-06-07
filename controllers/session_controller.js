@@ -204,7 +204,6 @@ exports.create = (req, res, next) => {
 
 // DELETE /  --  Close the session
 exports.destroy = (req, res) => {
-    console.lg
     delete req.session.user;
 
     res.redirect("/"); // Redirect to login page

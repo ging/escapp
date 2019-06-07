@@ -35,11 +35,11 @@
 		
 		if (turno.status === "pending") { 
 			let date = new Date(turno.date);
-			let now = new Date();
+			let now = new Date();%>
 			<script>
 			console.log(<%=date%>)
 			console.log("<%=now%>")
-			</script>
+			</script><%
 			const lessThanHalfAnHour = ((date - now) / 1000 / 60) < 30;
 			if (lessThanHalfAnHour) {%>
 				<div class="desc centered animated slideInLeft">

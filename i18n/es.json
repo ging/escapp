@@ -5,7 +5,15 @@
             "retosSuperados": "Retos superados",
             "summary": "Resumen",
             "timeline": "Cronograma",
-            "title": "Analíticas de aprendizaje"
+            "title": "Analíticas de aprendizaje",
+            "dashboard": {
+                "nParticipants": "Nº participantes",
+                "sucessRate": "Tasa de salida",
+                "bestTime": "Mejor tiempo",
+                "avgTeamSize": "Tamaño medio equipos",
+                "avgReqHints": "Pistas pedidas en media",
+                "retosSuperadosTeam": "Nº de equipos que superó el reto"
+            }
         },
         "ranking": {
             "members": "Miembros",

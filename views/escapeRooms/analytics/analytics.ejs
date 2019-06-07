@@ -29,17 +29,7 @@
             </a>
         </div>
         <div class="flex-container-right">
-            <div class="card-container">
-                <% var counter = 0;
-                for (var k in summary) {%>
-                    <div class="card <%=k%> animated bounce  " style="animation-delay: <%=counter/5%>s;">
-                        <div class="card-icon"><i class="material-icons"><%=summary[k].icon%></i></div>
-                        <div class="card-title"><%=summary[k].label%></div>
-                        <div class="card-content"><%=summary[k].value%></div>
-                    </div>
-                <%counter++;
-                }%>
-            </div>
+            <%include _analytics_summary.ejs%>
         </div>
     </div>
 

@@ -1320,16 +1320,18 @@ button, input[type="submit"] {
   .main.summary .flex-container.analytics-menu .flex-container-right {
     flex: 1; }
     .main.summary .flex-container.analytics-menu .flex-container-right .card-container {
-      display: flex; }
+      display: flex;
+      flex-wrap: wrap; }
       .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card {
         background-color: white;
         color: #656683;
         font-family: Lato, sans-serif;
         width: 25%;
-        margin: 10px;
-        padding: 25px;
-        box-shadow: 2px 2px 41px rgba(255, 255, 255, 0.25); }
-        .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.numberOfParticipants {
+        margin: 15px;
+        padding: 20px;
+        box-shadow: 2px 2px 41px rgba(255, 255, 255, 0.25);
+        box-sizing: content-box; }
+        .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.nParticipants {
           color: #FAC855; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.avgTeamSize {
           color: #F47E84; }
@@ -1337,6 +1339,8 @@ button, input[type="submit"] {
           color: #48C18E; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.bestTime {
           color: #232951; }
+        .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.avgReqHints {
+          color: #F3945E; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card .card-title {
           font-family: inherit;
           font-weight: bold; }
@@ -1677,6 +1681,18 @@ button, input[type="submit"] {
 * {
   font-family: 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
   box-sizing: border-box; }
+
+:root {
+  --mainpurple: #232951;
+  --darkerpurple: #161938;
+  --textpurple: #656683;
+  --bckg: #2A2A52;
+  --brightgreen: #48C18E;
+  --brightyellow: #FAC855;
+  --brightorange: #F3945E;
+  --lightred: #F47E84;
+  --textgrey: #a1a3af;
+  --purpleedit: #9091A6; }
 
 html {
   min-height: 100%;

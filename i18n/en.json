@@ -5,7 +5,16 @@
             "retosSuperados": "Solved puzzles",
             "summary": "Summary",
             "timeline": "Timeline",
-            "title": "Learning analytics"
+            "title": "Learning analytics",
+            "dashboard": {
+                "nParticipants": "# Participants",
+                "sucessRate": "Success Rate",
+                "bestTime": "Best time",
+                "avgTeamSize": "Avg. team size",
+                "avgReqHints": "Avg. requested hints",
+                "retosSuperadosTeam": "# of teams that completed the puzzle"
+
+            }
         },
         "ranking": {
             "members": "Members",

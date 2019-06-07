@@ -3,91 +3,109 @@ const {models} = require("../models");
 const converter = require("json-2-csv");
 
 // GET /escapeRooms/:escapeRoomId/analytics
-exports.analytics = (req, res) => {
+exports.analytics = (req, res, next) => {
     const {escapeRoom, query} = req;
-  const {turnId} = query;
-  const where = {
-    "attributes": [],
-    "include": [
-      {
-        "model": models.turno,
-        "attributes": ["startTime"],
-        "where": {
-          "escapeRoomId": escapeRoom.id
-        }
-      },
-      {
-        "model": models.user,
-        "as": "teamMembers",
-        "attributes": [
-          "name",
-          "surname"
+    const {turnId} = query;
+    const where = {
+        "attributes": [],
+        "include": [
+            {
+                "model": models.turno,
+                "attributes": ["startTime"],
+                "where": {
+                    "escapeRoomId": escapeRoom.id
+                }
+            },
+            {
+                "model": models.user,
+                "as": "teamMembers",
+                "attributes": [
+                    "name",
+                    "surname"
+                ]
+            },
+            {
+                "model": models.puzzle,
+                "as": "retos",
+                "through": {
+                    "model": models.retosSuperados
+                }
+            },
+            {
+                "model": models.requestedHint,
+                "attributes": ["id"],
+                "where": {"success": true},
+                "required": false
+            }
         ]
-      },
-      {
-        "model": models.puzzle,
-        "as": "retos",
-        "through": {
-          "model": models.retosSuperados
-        }
-      }
-    ]
-  };
-
-  if (turnId) {
-    where.include[0].where.id = turnId;
-  }
-  models.team.findAll(where).then((teams) => {
-    const teamSizes = {
-      "label": "Team Sizes",
-      "value": teams.map((t) => t.teamMembers.length)
     };
 
-    const numberOfParticipants = {
-      "label": "Nº of participants",
-      "value": teamSizes.value.reduce((acc, c) => acc + c, 0),
-      "icon": "person"
-    };
+    if (turnId) {
+        where.include[0].where.id = turnId;
+    }
+    models.team.findAll(where).then((teams) => {
+        const teamSizes =  teams.map((t) => t.teamMembers.length)
 
-    const avgTeamSize = {
-      "label": "Average team size",
-      "value": Math.round(numberOfParticipants.value / teamSizes.value.length * 100) / 100 || 0,
-      "icon": "group"
-    };
+        const nParticipants = {
+            "value": teamSizes.reduce((acc, c) => acc + c, 0),
+            "icon": "person"
+        };
 
-    const finished = teams.filter(t => t.retos.length === escapeRoom.puzzles.length);
+        const avgTeamSize = {
+            "value": Math.round(nParticipants.value / teamSizes.length * 100) / 100 || 0,
+            "icon": "group"
+        };
 
-    const bestTime = {
-      "label": "Best time",
-      "value": (finished.map(t => t.retos
-        .map(r => Math.round((r.retosSuperados.createdAt - t.turno.startTime) / 10 / 60) / 100)
-        .reduce((a, b) => a > b ? a : b, Math.Infinity))
-        .reduce((a, b) =>  a < b ? a : b, Math.Infinity) || 0) + " min.",
-      "icon": "timer"
-    };
-    const sucessRate = {
-      "label": "Sucess rate",
-      "value": Math.round(finished.length / teams.length * 10000) / 100 || 0 + "%",
-      "icon": "star"
-    };
+        const finished = teams.filter((t) => t.retos.length === escapeRoom.puzzles.length);
 
-    const summary = {
-      numberOfParticipants,
-      sucessRate,
-      bestTime,
-      avgTeamSize
-    };
-    const charts = {teamSizes};
+        const bestTime = {
+            "value": `${finished.map((t) => t.retos.
+                map((r) => Math.round((r.retosSuperados.createdAt - t.turno.startTime) / 10 / 60) / 100).
+                reduce((a, b) => a > b ? a : b, Math.Infinity)).
+                reduce((a, b) => a < b ? a : b, Math.Infinity) || 0} min.`,
+            "icon": "timer"
+        };
+        const sucessRate = {
+            "value":  `${Math.round(finished.length / teams.length * 10000) / 100 || 0 }%`,
+            "icon": "star"
+        };
 
-    res.render("escapeRooms/analytics/analytics", {escapeRoom,
-      turnId,
-      summary,
-      charts});
-  }).
-  catch((e) => {
-    console.error(e);
-    next(e);
-  });
+        const avgReqHints = {
+            "value": teams.length > 0 ? Math.round(teams.map(team=>team.requestedHints.length).reduce((acc, c) => acc + c, 0) / teams.length*100)/100 : "n/a",
+            "icon": "search"
+        };
+
+        const idPuzzles = escapeRoom.puzzles.map(p => p.id);
+        const retosSuperadosTeam = {
+            "labels": escapeRoom.puzzles.map(p => p.title),
+            "data": Array(escapeRoom.puzzles.length).fill(0),
+        };
+
+        teams.forEach(team=>{
+            if (team.retos) {
+                team.retos.forEach(reto=>{
+                    retosSuperadosTeam.data[idPuzzles.indexOf(reto.id)] += 1;
+                });
+            }
+        });
+        const summary = {
+            nParticipants,
+            sucessRate,
+            bestTime,
+            avgTeamSize,
+            avgReqHints
+        };
+        const charts = {retosSuperadosTeam};
+
+        res.render("escapeRooms/analytics/analytics", {escapeRoom,
+            turnId,
+            summary,
+            charts});
+    }).
+        catch((e) => {
+            console.error(e);
+            next(e);
+        });
 };
 
 // GET /escapeRooms/:escapeRoomId/analytics/puzzles/participants
@@ -271,7 +289,6 @@ exports.puzzlesByTeams = (req, res, next) => {
 exports.ranking = (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId} = query;
-    const isPg = process.env.DATABASE_URL;
     const options = {
         // "includeIgnoreAttributes": false,
         "attributes": ["name"],
@@ -344,5 +361,5 @@ exports.ranking = (req, res, next) => {
 
 // GET /escapeRooms/:escapeRoomId/analytics/timeline
 exports.timeline = (req, res) => {
-    res.render("escapeRooms/analytics/timeline", {escapeRoom: req.escapeRoom});
+    res.render("escapeRooms/analytics/timeline", {"escapeRoom": req.escapeRoom});
 };

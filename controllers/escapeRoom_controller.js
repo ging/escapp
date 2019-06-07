@@ -504,8 +504,8 @@ exports.pistasUpdate = (req, res, next) => {
     let pctgRight = numRight || 0;
 
     pctgRight = (numRight >= 0 && numRight <= numQuestions ? numRight : numQuestions) * 100 / (numQuestions || 1);
-    escapeRoom.numQuestions = numQuestions;
-    escapeRoom.numRight = pctgRight;
+    escapeRoom.numQuestions = numQuestions || 0;
+    escapeRoom.numRight = pctgRight || 0;
     escapeRoom.feedback = Boolean(feedback);
 
     const back = `/escapeRooms/${escapeRoom.id}/${isPrevious ? "puzzles" : progressBar || "instructions"}`;

@@ -32,15 +32,17 @@
         flex: 1
         .card-container
           display: flex
+          flex-wrap: wrap
           .card
             background-color: white
             color: $textpurple
             font-family: Lato, sans-serif
             width: 25%
-            margin: 10px
-            padding: 25px
+            margin: 15px
+            padding: 20px
             box-shadow: 2px 2px 41px rgba(255,255,255,0.25)
-            &.numberOfParticipants
+            box-sizing: content-box
+            &.nParticipants
               color: $brightyellow
             &.avgTeamSize
               color: $lightred
@@ -48,6 +50,8 @@
               color: $brightgreen
             &.bestTime
               color: $mainpurple
+            &.avgReqHints
+              color: $brightorange
             .card-title
               font-family: inherit
               font-weight: bold

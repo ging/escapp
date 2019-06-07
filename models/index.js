@@ -131,6 +131,6 @@ puzzle.belongsToMany(team, {"as": "superados",
 requestedHint.belongsTo(hint, {"onDelete": "CASCADE",
     "hooks ": true});
 requestedHint.belongsTo(team);
-
+team.hasMany(requestedHint);
 
 module.exports = sequelize;
