@@ -1,26 +1,49 @@
 <% include ../../partials/_header.ejs %>
 
-<div class="main">
+<div class="main summary">
+    <div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+            <i class="material-icons">chevron_right</i>
+            <span><%=i18n.analytics.main.title%></span>
+        </div>
+    </div>
     <h2><%=i18n.analytics.main.title%></h2>
-    <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/summary" class="">
-        <span class="analyticsTag animated jackInTheBox delay-1s">
-            <i class="material-icons">dashboard</i> <%=i18n.analytics.main.summary%>
-        </span>
-    </a>
-    <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/ranking" class="">
-        <span class="analyticsTag animated jackInTheBox delay-1s">
-            <i class="material-icons">equalizer</i> <%=i18n.analytics.main.ranking%>
-        </span>
-    </a>
-    <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/puzzles/participants" class="">
-        <span class="analyticsTag animated jackInTheBox delay-1s">
-            <i class="material-icons">check</i> <%=i18n.analytics.main.retosSuperados%>
-        </span>
-    </a>
-    <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/timeline" class="">
-        <span class="analyticsTag animated jackInTheBox delay-1s">
-            <i class="material-icons">timeline</i> <%=i18n.analytics.main.timeline%>
-        </span>
-    </a>
+
+    <div class="flex-container analytics-menu">
+        <div class="flex-container-left">
+            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/ranking" class="linkAnalyticsTag">
+                <span class="analyticsTag animated jackInTheBox  ">
+                    <i class="material-icons">equalizer</i> <span><%=i18n.analytics.main.ranking%></span>
+                </span>
+            </a>
+            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/puzzles/participants" class="linkAnalyticsTag">
+                <span class="analyticsTag animated jackInTheBox  ">
+                    <i class="material-icons">check</i> <span><%=i18n.analytics.main.retosSuperados%></span>
+                </span>
+            </a>
+            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/timeline" class="linkAnalyticsTag">
+                <span class="analyticsTag animated jackInTheBox  ">
+                    <i class="material-icons">timeline</i> <span><%=i18n.analytics.main.timeline%></span>
+                </span>
+            </a>
+        </div>
+        <div class="flex-container-right">
+            <div class="card-container">
+                <% var counter = 0;
+                for (var k in summary) {%>
+                    <div class="card <%=k%> animated bounce  " style="animation-delay: <%=counter/5%>s;">
+                        <div class="card-icon"><i class="material-icons"><%=summary[k].icon%></i></div>
+                        <div class="card-title"><%=summary[k].label%></div>
+                        <div class="card-content"><%=summary[k].value%></div>
+                    </div>
+                <%counter++;
+                }%>
+            </div>
+        </div>
+    </div>
+
+
+
 </div>
 <% include ../../partials/_footer %>

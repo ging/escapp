@@ -15,7 +15,7 @@ const {models} = require("../models"),
     maxIdleTime = 3 * 60 * 60 * 1000; /* * * Middleware used to destroy the user's session if the inactivity time * has been exceeded. * */
 
 exports.deleteExpiredUserSession = (req, res, next) => {
-    if (req.session.user) { // There exista user's session
+    if (req.session.user) { // There exists a user session
         if (req.session.user.expires < Date.now()) { // Expired
             delete req.session.user; // Logout
             req.flash("info", req.app.locals.i18n.user.sessionExpired);
@@ -204,6 +204,7 @@ exports.create = (req, res, next) => {
 
 // DELETE /  --  Close the session
 exports.destroy = (req, res) => {
+    console.lg
     delete req.session.user;
 
     res.redirect("/"); // Redirect to login page

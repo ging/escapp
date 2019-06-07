@@ -1,0 +1,60 @@
+@import 'common/colors'
+.main
+  &.summary
+    .flex-container.analytics-menu
+      display: flex
+      flex-direction: row
+      flex-wrap: nowrap
+      .flex-container-left
+        display: flex
+        flex-direction: column
+        .linkAnalyticsTag
+          .analyticsTag
+            display: inline-block
+            background-color: transparent
+            span
+              font-family: Lato, sans-serif
+              color: white
+            padding: 9px 18px
+            border-radius: 40px
+            margin: 15px
+            margin-top: 0px
+            margin-bottom: 5px
+            i
+              font-size: 30px
+              margin-right: 10px
+              transition: 0.3s ease-in all
+          &:hover
+            i
+              transform: scale(1.2)
+
+      .flex-container-right
+        flex: 1
+        .card-container
+          display: flex
+          .card
+            background-color: white
+            color: $textpurple
+            font-family: Lato, sans-serif
+            width: 25%
+            margin: 10px
+            padding: 25px
+            box-shadow: 2px 2px 41px rgba(255,255,255,0.25)
+            &.numberOfParticipants
+              color: $brightyellow
+            &.avgTeamSize
+              color: $lightred
+            &.sucessRate
+              color: $brightgreen
+            &.bestTime
+              color: $mainpurple
+            .card-title
+              font-family: inherit
+              font-weight: bold
+            .card-content
+              font-family: inherit
+              color: $textpurple
+            .card-icon
+              float: right
+              i
+                font-size: 40px

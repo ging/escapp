@@ -147,7 +147,6 @@ router.get("/escapeRooms/:escapeRoomId/turnos/:turnoId(\\d+)/teams", sessionCont
 
 // Routes for learning analytics
 router.get("/escapeRooms/:escapeRoomId/analytics/", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.analytics);
-router.get("/escapeRooms/:escapeRoomId/analytics/summary", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.summary);
 router.get("/escapeRooms/:escapeRoomId/analytics/ranking", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.ranking);
 router.get("/escapeRooms/:escapeRoomId/analytics/timeline", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.timeline);
 router.get("/escapeRooms/:escapeRoomId/analytics/puzzles/participants", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.puzzlesByParticipants);

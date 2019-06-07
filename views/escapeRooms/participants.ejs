@@ -1,6 +1,13 @@
 <% include ../partials/_header.ejs %>
 
 <div class="main participants">
+    <div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+            <i class="material-icons">chevron_right</i>
+            <span><%=i18n.participant.title%></span>
+        </div>
+    </div>
     <h2><%=i18n.participant.title%></h2>
         <form method="get" class="teamsList" action="/escapeRooms/<%= escapeRoom.id %>/participants">
             <div class="filters">
@@ -68,9 +75,6 @@
             <b><%=i18n.common.Total%>:</b> <%= participants.length %> <%=i18n.participant.participantS%>
         </div>
         <div class="align-right">
-            <a href="/escapeRooms/<%=escapeRoom.id%>">
-                <button type="button"><%=i18n.participant.back%></button>
-            </a>
             <button type="submit" id="csv-button" class="participants-button download-button" name="csv" value="csv"><%=i18n.participant.download%></button>
             <button type="button" id="attendance-all-button" class="participants-button attendance-all-button"  ><%=i18n.participant.select%></button>
             <button type="button" id="attendance-button" class="participants-button attendance-button" name="attendance"><%=i18n.participant.confirm%></button>

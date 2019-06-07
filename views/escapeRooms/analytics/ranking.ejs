@@ -1,5 +1,14 @@
 <% include ../../partials/_header.ejs %>
 <div class="main retosSuperados ranking">
+	<div class="breadcrumbs-container">
+		<div class="breadcrumbs">
+			<a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+			<i class="material-icons">chevron_right</i>
+			<a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
+			<i class="material-icons">chevron_right</i>
+			<span><%=i18n.analytics.ranking.title%></span>
+		</div>
+	</div>
     <h2><%=i18n.analytics.ranking.title%></h2>
     	<div class="content">
     		<%-include("../../partials/_podium")%>
@@ -12,11 +21,12 @@
 	    	                <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
 	    	                <% for (t in escapeRoom.turnos) { 
 	    	                	var turno = escapeRoom.turnos[t] ;
-	    	                if (turno.status !== "pending" ) {%>
+	    	                // if (turno.status !== "pending" ) {
+							%>
 	    	                <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
 	    	                    <%= getFullDate(turno.date)%>
 	    	                </option>
-	    	                <%  }
+	    	                <% // }
 	    	            } %>
 	    	            </select>
 	    	        </label>
