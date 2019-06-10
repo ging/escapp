@@ -44,7 +44,7 @@ exports.analytics = (req, res, next) => {
         where.include[0].where.id = turnId;
     }
     models.team.findAll(where).then((teams) => {
-        const teamSizes =  teams.map((t) => t.teamMembers.length)
+        const teamSizes = teams.map((t) => t.teamMembers.length);
 
         const nParticipants = {
             "value": teamSizes.reduce((acc, c) => acc + c, 0),
@@ -66,24 +66,24 @@ exports.analytics = (req, res, next) => {
             "icon": "timer"
         };
         const sucessRate = {
-            "value":  `${Math.round(finished.length / teams.length * 10000) / 100 || 0 }%`,
+            "value": `${Math.round(finished.length / teams.length * 10000) / 100 || 0}%`,
             "icon": "star"
         };
 
         const avgReqHints = {
-            "value": teams.length > 0 ? Math.round(teams.map(team=>team.requestedHints.length).reduce((acc, c) => acc + c, 0) / teams.length*100)/100 : "n/a",
+            "value": teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a",
             "icon": "search"
         };
 
-        const idPuzzles = escapeRoom.puzzles.map(p => p.id);
+        const idPuzzles = escapeRoom.puzzles.map((p) => p.id);
         const retosSuperadosTeam = {
-            "labels": escapeRoom.puzzles.map(p => p.title),
-            "data": Array(escapeRoom.puzzles.length).fill(0),
+            "labels": escapeRoom.puzzles.map((p) => p.title),
+            "data": Array(escapeRoom.puzzles.length).fill(0)
         };
 
-        teams.forEach(team=>{
+        teams.forEach((team) => {
             if (team.retos) {
-                team.retos.forEach(reto=>{
+                team.retos.forEach((reto) => {
                     retosSuperadosTeam.data[idPuzzles.indexOf(reto.id)] += 1;
                 });
             }
