@@ -7,6 +7,7 @@
       .flex-container-left
         display: flex
         flex-direction: column
+        margin-bottom: 20px
         .linkAnalyticsTag
           .analyticsTag
             display: inline-block
@@ -19,6 +20,7 @@
             margin: 15px
             margin-top: 0px
             margin-bottom: 5px
+            font-size: 25px
             i
               font-size: 30px
               margin-right: 10px
@@ -48,7 +50,7 @@
             &.sucessRate
               color: $brightgreen
             &.bestTime
-              color: $mainpurple
+              color: $brightblue
             &.avgReqHints
               color: $brightorange
             .card-title
@@ -88,3 +90,13 @@
     .title
       font-weight: lighter
       font-size: 25px
+
+@media(max-width: 972px)
+  .main
+    &.summary
+      .flex-container.analytics-menu
+        flex-direction: column
+        .flex-container-right
+          .card-container
+            .card
+              width: 32%

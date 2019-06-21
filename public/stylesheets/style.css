@@ -122,7 +122,8 @@ button, input[type="submit"] {
   flex-wrap: nowrap; }
   .main.summary .flex-container.analytics-menu .flex-container-left {
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+    margin-bottom: 20px; }
     .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag {
       display: inline-block;
       background-color: transparent;
@@ -130,7 +131,8 @@ button, input[type="submit"] {
       border-radius: 40px;
       margin: 15px;
       margin-top: 0px;
-      margin-bottom: 5px; }
+      margin-bottom: 5px;
+      font-size: 25px; }
       .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag span {
         font-family: Lato, sans-serif;
         color: white; }
@@ -162,7 +164,7 @@ button, input[type="submit"] {
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.sucessRate {
           color: #48C18E; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.bestTime {
-          color: #232951; }
+          color: #36A2EB; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.avgReqHints {
           color: #F3945E; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card .card-title {
@@ -207,6 +209,12 @@ button, input[type="submit"] {
 .main.timeline .title, .main.summary .title {
   font-weight: lighter;
   font-size: 25px; }
+
+@media (max-width: 972px) {
+  .main.summary .flex-container.analytics-menu {
+    flex-direction: column; }
+    .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card {
+      width: 32%; } }
 
 #mainSection .main.step-appearance .half-flex-container {
   display: flex;
@@ -1543,7 +1551,7 @@ button, input[type="submit"] {
     display: flex;
     height: 100%; }
     #mainSection .main.step-turnos .contenedor h2 {
-      color: #656683; }
+      color: white; }
     #mainSection .main.step-turnos .contenedor .turnosLeft {
       width: 50%; }
     #mainSection .main.step-turnos .contenedor .turnosRight {
