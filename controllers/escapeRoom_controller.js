@@ -210,7 +210,7 @@ exports.show = (req, res) => {
     const hostName = process.env.APP_NAME || "http://localhost:3000";
 
     if (participant) {
-        res.render("escapeRooms/show_student", {escapeRoom,
+        res.render("escapeRooms/showStudent", {escapeRoom,
             cloudinary,
             participant,
             parseURL});

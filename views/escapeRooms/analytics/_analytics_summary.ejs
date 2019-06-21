@@ -1,4 +1,5 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="/js/apexcharts.js"></script>
+
 <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/">
     <div class="filters">
         <label for="turnId"><%=i18n.turnos.Turno%>
@@ -32,73 +33,78 @@
 </div>
 <script>
   var bodyStyles = window.getComputedStyle(document.body);
-  var cp = (prop) => bodyStyles.getPropertyValue(prop);
-  function hexToRgbA(hex,alpha=1){
-    hex = hex.trim();
-    var c;
-    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
-      c= hex.substring(1).split('');
-      if(c.length== 3){
-        c= [c[0], c[0], c[1], c[1], c[2], c[2]];
-      }
-      c= '0x'+c.join('');
-      return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+alpha+')';
-    }
-    throw new Error('Bad Hex');
-  }
-  var colors = [
+  var cp = (prop) => bodyStyles.getPropertyValue(prop).trim();
+  var puzzleColor = [
+    cp('--lightred'),
     cp('--brightgreen'),
     cp('--brightyellow'),
     cp('--brightorange'),
-    cp('--lightred'),
+    cp('--brightblue'),
     cp('--textpurple')]
 </script>
 <div class="chart-summary">
+
     <%for (var i in charts) {%>
-        <canvas id="<%=i%>"  height="400px" style="width:100%; height:400px; "></canvas>
+    <div id="chart_<%=i%>">
+    </div>
         <script>
-          var ctx = document.getElementById("<%=i%>").getContext('2d');
-          new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: <%-JSON.stringify(charts[i].labels)%>,
-              datasets: [{
-                data: <%-JSON.stringify(charts[i].data)%>,
-                backgroundColor: colors.map((c)=>hexToRgbA(c)),
-                borderColor: colors.map((c)=>hexToRgbA(c)),
-                borderWidth: 4
-              }]
-            },
-            options: {
-              legend: {
-                display: false,
+          var nTeams = <%= charts[i].data.length %>
+          var options = {
+            chart: {
+              height: 380,
+              type: "bar",
+              events: {
+                click: function(chart, w, e){
+                  console.log(chart, w, e )
+                }
               },
-              scales: {
-                yAxes: [{
-                  scaleLabel: {
-                    display: true,
-                    labelString: "<%=i18n.analytics.main.dashboard[i]%>",
-                    fontColor: "white",
-                    fontSize: 18
-                  },
-                  ticks: {
-                    beginAtZero: true,
-                    stepSize: 1,
-                    fontColor: "white",
-                    fontSize: 18
-                  },
-
-                }],
-                xAxes: [{
-                  ticks: {
-                    fontColor: "white",
-                    fontSize: 18
-                  }
-                }]
-
+            },
+            colors: puzzleColor,
+            plotOptions: {
+              bar: {
+                columnWidth: '70%',
+                distributed: true
               }
+            },
+            dataLabels: {
+              enabled: false,
+            },
+            series: [{
+              name: '',
+              data: <%- JSON.stringify(charts[i].data)%>
+            }],
+            xaxis: {
+              categories:  <%- JSON.stringify(charts[i].labels)%>,
+              labels: {
+                style: {
+                  colors: 'black',
+                  fontSize: '14px'
+                }
+              }
+            },
+            yaxis: {
+              show: true,
+              tickAmount: nTeams,
+              min: 0,
+              max: nTeams,
+              labels: {
+                formatter: function (value) {
+                  if (value == 1){
+                    return value + " <%=i18n.team.team%>";
+                  }
+                  else {
+                    return value + " <%=i18n.team.teams%>";
+                  };
+                },
+                style: {
+                  color: 'black'
+                }
+              }
+
             }
-          });
+          };
+          var chart = new ApexCharts(document.querySelector("#chart_<%=i%>"), options);
+          chart.render();
         </script>
     <%}%>
 </div>

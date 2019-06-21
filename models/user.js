@@ -22,7 +22,7 @@ module.exports = function (sequelize, DataTypes) {
     "dni": {"type": DataTypes.STRING,
         "unique": true,
         "validate": {"notEmpty": {"msg": "DNI must not be empty."},
-            "isValidDNI": (dni) => {
+            "isValidDNI": (/* @param dni */) => {
             /*  // DNI Check
                 const validChars = "TRWAGMYFPDXBNJZSQVHLCKET";
                 const nifRexp = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;

@@ -32,7 +32,7 @@
                 </select></label>
             <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
             <button type="submit" name="csv" value="1" class="filter-button white" >descargar</button>
-            <a href="teams"><button type="button" class="buttonTab"><%=i18n.team.seeByTeam%></button></a>
+            <a href="teams"><button type="button" class="buttonTab inverse"><%=i18n.team.seeByTeam%></button></a>
 
         </div>
     </form>
@@ -40,7 +40,7 @@
     <table>
         <tr class="animated fadeInRight">
             <th><%=i18n.user.name%></th>
-            <%for (var p in escapeRoom.puzzles) {
+            <%for (let p in escapeRoom.puzzles) {
                 var puzzle = escapeRoom.puzzles[p];
             %>
         <th>
@@ -50,13 +50,13 @@
             <th><%=i18n.common.Total%></th>
         </tr>
         <% var totalRetosSuperados = escapeRoom.puzzles.map(p=>0)%>
-        <%for (var p in results) {
+        <%for (let p in results) {
             var result = results[p];
         %>
         <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(p)+(0.3)%>s;">
             <td class="align-left"><%=result.name%> <%= result.surname%></td>
-            <% for (var r in result.retosSuperados) {
-                var superado = result.retosSuperados[r];
+            <% for (let r in result.retosSuperados) {
+                let superado = result.retosSuperados[r];
                 if (superado) {
                     totalRetosSuperados[r] += 1;
                 }
@@ -70,7 +70,7 @@
         <%} %>
         <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(results.length)+0.3%>s;">
             <td class="align-left"><b><%=i18n.common.Total%>:</b> <%=results.length%></td>
-            <% for (var s in totalRetosSuperados) { %>
+            <% for (let s in totalRetosSuperados) { %>
                 <td>
                     <b><%=totalRetosSuperados[s]%></b>
                     <br/>

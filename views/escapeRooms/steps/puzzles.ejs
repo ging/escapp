@@ -110,22 +110,22 @@
     </div>
     <br/>
     <input type="hidden" name="retos" id="retos" value="">
-  <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/puzzles'  >
-    <div>
-      <label for="at"><span><%=i18n.escapeRoom.steps.puzzles.tracking%></span>
-        <select  required class="customInput" id="at" name="automatic" value="<%= escapeRoom.automatic %>" placeholder="Selecciona la monitorización" autocomplete="off">
-            <option value="0" <%= !escapeRoom.automatic ? "selected" : ""%>><%=i18n.escapeRoom.steps.puzzles.manual%></option>
-            <option value="1" <%= escapeRoom.automatic ? "selected" : ""%>><%=i18n.escapeRoom.steps.puzzles.automatic%></option>
-        </select>
-      </label>
-    </div>
-    <div class="align-right flex-buttons" style="margin-bottom: 60px;">
-    <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
-    <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
-    <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
-    </div>
+    <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/puzzles'  >
+        <div class="filters">
+          <label for="at"><span><%=i18n.escapeRoom.steps.puzzles.tracking%></span>
+            <select  required class="customInput" id="at" name="automatic" value="<%= escapeRoom.automatic %>" placeholder="<%i18n.escapeRoom.steps.puzzles.placeholder%>" autocomplete="off">
+                <option value="0" <%= !escapeRoom.automatic ? "selected" : ""%>><%=i18n.escapeRoom.steps.puzzles.manual%></option>
+                <option value="1" <%= escapeRoom.automatic ? "selected" : ""%>><%=i18n.escapeRoom.steps.puzzles.automatic%></option>
+            </select>
+          </label>
+        </div>
+        <div class="align-right flex-buttons" style="margin-bottom: 60px;">
+        <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
+        <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
+        <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
+        </div>
       <%- include('../../partials/_progress', {progress: 2}) %>
-  </form>
+    </form>
     <br/>
     <br/>
   

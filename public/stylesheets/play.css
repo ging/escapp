@@ -17,7 +17,7 @@ p {
     text-align: left;
 }
 .countdown, #explosion {
-    font-family: 'Digital';
+    font-family: 'Digital', monospace;
     font-size: 17vw;
 }
 
@@ -32,7 +32,7 @@ p {
 .instructionsShow {
     height: auto;
     overflow: visible;
-    whitespace: inherit;
+    white-space: inherit;
 }
 
 .backToMain {

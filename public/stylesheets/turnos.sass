@@ -1,9 +1,4 @@
-@import 'common/colors'
-@import 'calendar'
-@import 'common/mixins'
-
 #mainSection
-  #mainHeader
   .main
     &.step-turnos
       position: relative
@@ -28,7 +23,6 @@
                   text-align: center
                   text-align-last: center
                   width: 100%
-                  color: $textgrey
                   border: none
                   font-size: 1em
                   caret-color: $textgrey
@@ -114,6 +108,9 @@
           line-height: 100%
           .no-indications
             color: #ddd
+    .turno-date-title-show
+      color: white
+      margin: 5px
 @media (max-width: 992px)
   .contenedor
     flex-wrap: wrap

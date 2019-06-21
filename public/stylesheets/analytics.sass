@@ -1,4 +1,3 @@
-@import 'common/colors'
 .main
   &.summary
     .flex-container.analytics-menu
@@ -27,7 +26,6 @@
           &:hover
             i
               transform: scale(1.2)
-
       .flex-container-right
         flex: 1
         .card-container
@@ -40,6 +38,7 @@
             width: 25%
             margin: 15px
             padding: 20px
+            min-height: 80px
             box-shadow: 2px 2px 41px rgba(255,255,255,0.25)
             box-sizing: content-box
             &.nParticipants
@@ -62,3 +61,30 @@
               float: right
               i
                 font-size: 40px
+  &.timeline, &.summary
+    .apexcharts-xaxis-label, .apexcharts-yaxis-label
+      fill: white !important
+    .apexcharts-legend-text
+      color: white !important
+      font-family: Lato, sans-serif
+    .apexcharts-tooltip
+      color: $textpurple
+      &.light
+        background: white
+        border-radius: 0px
+      .apexcharts-tooltip-title
+        background: white
+    .apexcharts-menu
+      background-color: white
+      border-radius: 0px
+      .apexcharts-menu-item
+        color: $textpurple
+        font-family: Lato, sans-serif
+    .apexcharts-menu-icon svg
+      fill: white !important
+    .filters
+      .filter-button
+        border-radius: 50px
+    .title
+      font-weight: lighter
+      font-size: 25px

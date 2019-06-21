@@ -31,7 +31,11 @@
             "title": "Summary"
         },
         "timeline": {
-            "title": "Timeline"
+            "title": "Timeline",
+            "nTeamsPuzzle": "Number of teams that completed each puzzle",
+            "nTeamsPuzzleButton": "ver por equipo",
+            "nPuzzlesTeam": "Number of puzzles completed by each team",
+            "nPuzzlesTeamButton": "ver por reto"
         }
     },
     "common": {
@@ -180,7 +184,8 @@
                 "noCluesYet": "You haven't defined any puzzles yet",
                 "noPuzzlesYet": "You haven't defined any hints yet",
                 "notYet": "Please create a new puzzle before assigning it any hints",
-                "puzzleTitle": "Pzzle title",
+                "placeholder": "Select tracking mode",
+                "puzzleTitle": "Puzzle title",
                 "solution": "Answer",
                 "title": "Puzzles",
                 "tracking": "Tracking"
@@ -407,7 +412,9 @@
         "noTeamYet": "There aren't any teams yet",
         "seeByTeam": "See by team",
         "Team": "Team",
-        "teamS": "Team(s)",
+        "team": "team",
+        "teams": "teams",
+        "teamS": "team(s)",
         "title": "Teams"
     },
     "turnos": {

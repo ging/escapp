@@ -1,28 +1,32 @@
-@import 'common/buttons'
 @import 'common/gugi'
 @import 'common/colors'
-@import 'main'
-@import 'portada'
-@import 'escapeRooms'
-@import 'escapeRoomCustomization'
-@import 'turnos'
-@import 'instructions'
+@import 'common/buttons'
+@import 'common/mixins'
+
+@import 'analytics'
 @import 'appearance'
-@import 'puzzles'
-@import 'evaluation'
+@import 'calendar'
+@import 'escapeRoomCustomization'
+@import 'escapeRoomForm'
+@import 'escapeRoomShow'
+@import 'escapeRooms'
+@import 'filters'
+@import 'flash'
 @import 'hints'
-@import 'join'
-@import 'participants'
-@import 'teams'
-@import 'analyticSummary'
-@import 'retosSuperados'
-@import 'ranking'
-@import 'showStudent'
 @import 'inspiration'
+@import 'instructions'
+@import 'join'
+@import 'main'
+@import 'participants'
+@import 'portada'
+@import 'puzzles'
+@import 'ranking'
 @import 'resources'
-*
-  font-family: 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
-  box-sizing: border-box
+@import 'retosSuperados'
+@import 'showStudent'
+@import 'teams'
+@import 'turnos'
+
 \:root
   --mainpurple: #{$mainpurple}
   --darkerpurple: #{$darkerpurple}
@@ -30,14 +34,18 @@
   --bckg: #{$bckg}
   --brightgreen: #{$brightgreen}
   --brightyellow: #{$brightyellow}
+  --brightblue: #{$brightblue}
   --brightorange: #{$brightorange}
   --lightred: #{$lightred}
   --textgrey: #{$textgrey}
   --purpleedit: #{$purpleedit}
+
+*
+  font-family: 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
+  box-sizing: border-box
 html
   min-height: 100%
   background-color: $bckg
-
   body
     min-height: 100%
     margin: 0
@@ -45,25 +53,10 @@ html
       color: white
       text-decoration: none
       font-weight: lighter
-
     h1, h2, h3
       font-weight: lighter
-
-    div.flexBoxEscapeRooms
-      flex-flow: row wrap
-
     label
-      color: $textpurple
-    footer
-      display: flex
-      align-content: space-around
-      align-items: flex-end
-      justify-content: space-between
-      bottom: 0
-      position: absolute
-      width: 100%
-      margin-left: -15px
-      padding: 18px
+      color: $textpurple //TODO Generalize
     input, select
       background-color: $mainpurple
       -webkit-text-fill-color: $textpurple !important
@@ -89,30 +82,18 @@ html
         border-color: white
         & + label
           color: white
-    #flassmessages
-      position: fixed
+    footer
+      display: flex
+      align-content: space-around
+      align-items: flex-end
+      justify-content: space-between
       bottom: 0
-      font-size: 1em !important
-      background: white
-      max-width: 600px
-      margin: 1%
-      color: $mainpurple
-      padding: 15px
-      opacity: 0.9
-      padding-top: 0px
-      left: 0px
-      .close
-        content: '\2716'
-        top: 0
-        right: 0
-        display: block
-        position: absolute
-        text-align: right
-        height: 0
-        cursor: pointer
-        padding: 4px
-.material-icons
-  vertical-align: middle
-.errorPage
-  pre
-    font-size: 16px
+      position: absolute
+      width: 100%
+      margin-left: -15px
+      padding: 18px
+    .material-icons
+      vertical-align: middle
+    .errorPage
+      pre
+        font-size: 16px

@@ -1,39 +1,60 @@
+<% let formFields = [
+     {
+         name: "title",
+         id: "tit",
+         i18n: "title",
+         value: escapeRoom.title
+     },
+     {
+         name: "subject",
+         id: "subj",
+         i18n: "subject",
+         value: escapeRoom.subject
+     },
+     {
+         name: "duration",
+         id: "dur",
+         i18n: "duration",
+         number: true,
+         value: escapeRoom.duration
+     },
+     {
+         name: "description",
+         id: "desc",
+         i18n: "description",
+         value: escapeRoom.description
+     },
+     {
+         name: "video",
+         id: "vid",
+         i18n: "video",
+         value: escapeRoom.video
+     },
+     {
+         name: "nmax",
+         id: "nm",
+         i18n: "nmax",
+         number: true,
+         value: escapeRoom.nmax
+     },
+     {
+         name: "teamSize",
+         id: "ts",
+         i18n: "teamSize",
+         number: true,
+         value: escapeRoom.teamSize
+     }]; %>
+<% for (let f in formFields) {
+  var field = formFields[f];%>
+    <div class="inputFormField erFormField animated flipInX">
+        <label for="<%=field.id%>"  class="itemNarrow"><%=parseInt(f)+1%>. <%=i18n.showTeacher.titles[field.i18n]%>:</label>
+        <input autofocus type="<%=field.number ? "number" : "text"%>" min="1" class="customInput itemWide" id="<%= field.id %>" name="<%= field.name %>" value="<%= field.value %>"
+               placeholder="<%=i18n.escapeRoom.steps.edit[field.i18n + "PlaceHolder"]%>" autocomplete="off"/>
+    </div>
+<%}%>
 
-<div class="wideRow erFormField animated flipInX">
-    <label for="tit"  class="itemNarrow">1. <%=i18n.showTeacher.titles.title%>:</label>
-    <input autofocus type="text" class="customInput itemWide" id="tit" name="title" value="<%= escapeRoom.title %>" placeholder="<%=i18n.escapeRoom.steps.edit.titlePlaceHolder%>" autocomplete="off"/>
-</div>
 
-<div class="wideRow erFormField animated flipInX">
-    <label for="subj"  class="itemNarrow">2. <%=i18n.showTeacher.titles.subject%>:</label>
-    <input type="text" class="customInput itemWide" id="subj" name="subject" value="<%= escapeRoom.subject %>" placeholder="<%=i18n.escapeRoom.steps.edit.subjectPlaceHolder%>" autocomplete="off"/>
-</div>
-
-<div class="wideRow erFormField animated flipInX">3. <%=i18n.showTeacher.titles.duration%>:</label>
-    <input type="number" type="text" class="customInput itemWide" id="dur" name="duration" value="<%= escapeRoom.duration %>" placeholder="<%=i18n.escapeRoom.steps.edit.durationPlaceHolder%>" autocomplete="off"/>
-</div>
-
-<div class="wideRow erFormField animated flipInX">
-    <label for="desc"  class="itemNarrow">4. <%=i18n.showTeacher.titles.description%>:</label>
-    <input type="text" class="customInput itemWide" id="desc" name="description" value="<%= escapeRoom.description %>" placeholder="<%=i18n.escapeRoom.steps.edit.descriptionPlaceHolder%>" autocomplete="off"/>
-</div>
-
-<div class="wideRow erFormField animated flipInX">
-    <label for="vid"  class="itemNarrow">5. <%=i18n.showTeacher.titles.video%>:</label>
-    <input type="text" class="customInput itemWide" id="vid" name="video" value="<%= escapeRoom.video %>" placeholder="<%=i18n.escapeRoom.steps.edit.videoPlaceHolder%>" autocomplete="off"/>
-</div>
-
-<div class="wideRow erFormField animated flipInX">
-    <label for="nm"  class="itemNarrow">6. <%=i18n.showTeacher.titles.nmax%>:</label>
-    <input type="number" min="1" class="customInput itemWide" id="nm" name="nmax" value="<%= escapeRoom.nmax %>" placeholder="<%=i18n.escapeRoom.steps.edit.nmaxPlaceHolder%>" autocomplete="off"/>
-</div>
-
-<div class="wideRow erFormField animated flipInX">
-    <label for="ts"  class="itemNarrow">7. <%=i18n.showTeacher.titles.teamSize%>:</label>
-    <input type="number" min="1" class="customInput itemWide" id="ts" name="teamSize" value="<%= escapeRoom.teamSize %>" placeholder="<%=i18n.escapeRoom.steps.edit.teamSizePlaceHolder%>" autocomplete="off"/>
-</div>
-
-<div class="wideRow erFormField animated flipInX">
+<div class="inputFormField erFormField animated flipInX">
     <label class="itemNarrow">8. <%=i18n.showTeacher.titles.thumbnail%>:</label>
     <input class="attach" type="file" id="img" name="image"/>
     <label for="img" class="fileUpload customInput itemWide">

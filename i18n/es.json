@@ -30,7 +30,11 @@
             "title": "Resumen"
         },
         "timeline": {
-            "title": "Cronograma"
+            "title": "Cronograma",
+            "nTeamsPuzzle": "Nº de equipos que han superado cada reto",
+            "nTeamsPuzzleButton": "ver por equipo",
+            "nPuzzlesTeam": "Nº de retos que ha superado cada equipo",
+            "nPuzzlesTeamButton": "ver por reto"
         }
     },
     "common": {
@@ -179,6 +183,7 @@
                 "noCluesYet": "No has definido ninguna pista todavía",
                 "noPuzzlesYet": "No has definido ninguna pista todavía",
                 "notYet": "Hasta que crees el reto no puedes asignarle pistas",
+                "placeholder": "Selecciona la monitorización",
                 "puzzleTitle": "Título",
                 "solution": "Solución",
                 "title": "Retos",
@@ -405,6 +410,8 @@
         "noTeamYet": "No hay equipos todavía...",
         "seeByTeam": "ver por equipo",
         "Team": "Equipo",
+        "team": "equipo",
+        "teams": "equipos",
         "teamS": "equipo(s)",
         "title": "Equipos"
     },

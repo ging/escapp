@@ -1,0 +1,70 @@
+#mainSection
+  .main.escapeRoomShow
+    background: none
+    .menuERShow
+      display: flex
+      .attachmentShow
+        text-align: center
+        flex: 1
+      .menuERShowRight
+        margin-left:  50px
+        padding: 10px
+        border-left: 2px solid white
+        .menuERactionList
+          list-style: none
+          font-size: 16px
+          li
+            margin-bottom: 16px
+            a
+              line-height: 24px
+              &:hover
+                color: $brightgreen
+
+            .showMenuButton
+              font-size: 16px
+              border-radius: 20px
+              padding: 5px 20px
+              width: 100%
+              transition: 0.1s all ease-in
+              &:hover
+                transform: scale(0.9)
+    #dialog-preview-video
+      padding: 0
+      background-color: white
+      outline: none
+      border: none
+      #previewVideoContent
+        padding: 10px
+    .ui-dialog
+      outline: none !important
+    .ui-dialog-title
+      line-height: 50px
+      padding-left: 10px
+    .ui-dialog-titlebar-close
+      visibility: hidden
+      float: right
+      width: 50px
+    .ui-button-icon-space
+      visibility: visible
+      &:after
+        content: '\e5cd'
+        font-family: 'Material Icons'
+    .ui-dialog .ui-dialog-titlebar
+      background: white !important
+      border-color: white !important
+      color: $lightred
+@media (max-width: 768px)
+  #mainSection
+    .main.escapeRoomShow
+      .menuERShow
+        flex-wrap: wrap
+        flex: 1
+        .attachmentShow
+          width: 100%
+          max-width: 100%
+        .menuERShowRight
+          width: 100%
+          margin-left: 0px
+          border-left: none
+          .menuERactionList
+            padding: 0px
