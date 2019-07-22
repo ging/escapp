@@ -1664,6 +1664,24 @@ button, input[type="submit"] {
     padding-left: 10px !important;
     padding-right: 10px !important; } }
 
+.user-flex-container {
+  display: flex;
+  flex-direction: row; }
+  .user-flex-container .user-flex-container-left {
+    padding-right: 40px;
+    text-align: center; }
+    .user-flex-container .user-flex-container-left img {
+      margin: 20px;
+      border: 2px solid white;
+      max-width: 70%; }
+  .user-flex-container .user-flex-container-right .editUserForm .userField label input, .user-flex-container .user-flex-container-right .editUserForm .userField label select, .user-flex-container .user-flex-container-right .editUserForm .userField label option {
+    width: 350px;
+    text-align: center;
+    text-align-last: center; }
+  .user-flex-container .user-flex-container-right .editUserForm .userField label span {
+    display: block;
+    margin-bottom: 5px; }
+
 :root {
   --mainpurple: #232951;
   --darkerpurple: #161938;

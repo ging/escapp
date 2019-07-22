@@ -4,20 +4,20 @@
 </h1>
     <form method="post" action="/users<%=redir ? ("?redir="+redir) : "" %>">
         <%}else{%>
-    <form method="post" action="/users/<%=user.id%>?_method=PUT%>">
+    <form method="post" class="editUserForm" action="/users/<%=user.id%>?_method=PUT%>">
 <%}%>
 
-<div>
+<div class="userField">
  <label for="name"><span><%=i18n.user.name%></span>
  <input type="text" class="customInput" id="name" name="name" value="<%= user.name %>" required placeholder="<%=i18n.user.inputs.namePlaceHolder %>" autocomplete="off"/> </label>
 </div>
 <br />
-<div>
+<div class="userField">
     <label for="surname"><span><%=i18n.user.surname%></span>
     <input type="text" class="customInput" id="surname" name="surname" value="<%= user.surname %>" required placeholder="<%=i18n.user.inputs.surnamePlaceHolder %>" autocomplete="off"/></label>
 </div>
 <br />
-<div>
+<div class="userField">
     <label for="gender"><span><%=i18n.user.gender%></span>
     <select  required class="customInput" id="gender" name="gender" value="<%= user.gender %>" placeholder="<%=i18n.user.inputs.genderPlaceHolder %>" autocomplete="off">
         <option value="" disabled <%= !user.id ? "selected" : ""%>> <option>
@@ -27,22 +27,22 @@
     </select></label>
 </div>
 <br />
-<div>
+<div class="userField">
     <label for="username"><span><%=i18n.user.username%> (UPM)</span>
     <input type="email" <%=user.id?"disabled":""%> class="customInput" id="username" name="username" value="<%= user.username %>" required placeholder="<%=i18n.user.inputs.usernamePlaceHolder %>" autocomplete="off"/></label>
 </div>
 <br />
-<div>
+<div class="userField">
     <label for="dni"><span><%=i18n.user.dni%></span>
     <input type="dni" <%=user.id?"disabled":""%> class="customInput" id="dni" name="dni" value="<%= user.dni %>" required placeholder="<%=i18n.user.inputs.dniPlaceHolder %>" autocomplete="off"/></label>
 </div>
 <br />
-<div>
+<div class="userField">
         <label for="user_password"><span><%=i18n.user.password%></span>
         <input type="password" class="customInput" id="user_password" name="password" required placeholder="<%=i18n.user.inputs.passwordPlaceHolder %>" autocomplete="off"/></label>
 </div>
 <br />
-<div>
+<div class="userField">
         <label for="user_confirm_password"><span><%=i18n.user.passwordConfirm%></span>
         <input type="password" class="customInput" id="user_confirm_password" required placeholder="<%=i18n.user.inputs.passwordConfirmPlaceHolder %>" autocomplete="off"/></label>
 </div>
