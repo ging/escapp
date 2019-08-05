@@ -53,11 +53,14 @@
     cp('--lightred'),
     cp('--textpurple')]
 </script>
+<br/>
 <div class="chart-summary">
     <%for (var i in charts) {%>
         <canvas id="<%=i%>"  height="400px" style="width:100%; height:400px; "></canvas>
         <script>
           var ctx = document.getElementById("<%=i%>").getContext('2d');
+          Chart.defaults.global.defaultFontFamily="Lato";
+
           new Chart(ctx, {
             type: 'bar',
             data: {

@@ -1,6 +1,12 @@
 {
     "analytics": {
+        "hints": {
+            "title": "Hints",
+            "failed": "Hint requests failed",
+            "succeeded": "Hints obtained"
+        },
         "main": {
+            "hints": "Hints",
             "ranking": "Ranking",
             "retosSuperados": "Solved puzzles",
             "summary": "Summary",

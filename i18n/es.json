@@ -1,6 +1,12 @@
 {
     "analytics": {
+        "hints": {
+            "title": "Pistas",
+            "failed": "Peticiones de pista fallidas",
+            "succeeded": "Pistas obtenidas"
+        },
         "main": {
+            "hints": "Pistas",
             "ranking": "Ranking",
             "retosSuperados": "Retos superados",
             "summary": "Resumen",

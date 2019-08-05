@@ -44,7 +44,7 @@ exports.analytics = (req, res, next) => {
         where.include[0].where.id = turnId;
     }
     models.team.findAll(where).then((teams) => {
-        const teamSizes =  teams.map((t) => t.teamMembers.length)
+        const teamSizes = teams.map((t) => t.teamMembers.length);
 
         const nParticipants = {
             "value": teamSizes.reduce((acc, c) => acc + c, 0),
@@ -66,24 +66,24 @@ exports.analytics = (req, res, next) => {
             "icon": "timer"
         };
         const sucessRate = {
-            "value":  `${Math.round(finished.length / teams.length * 10000) / 100 || 0 }%`,
+            "value": `${Math.round(finished.length / teams.length * 10000) / 100 || 0}%`,
             "icon": "star"
         };
 
         const avgReqHints = {
-            "value": teams.length > 0 ? Math.round(teams.map(team=>team.requestedHints.length).reduce((acc, c) => acc + c, 0) / teams.length*100)/100 : "n/a",
+            "value": teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a",
             "icon": "search"
         };
 
-        const idPuzzles = escapeRoom.puzzles.map(p => p.id);
+        const idPuzzles = escapeRoom.puzzles.map((p) => p.id);
         const retosSuperadosTeam = {
-            "labels": escapeRoom.puzzles.map(p => p.title),
-            "data": Array(escapeRoom.puzzles.length).fill(0),
+            "labels": escapeRoom.puzzles.map((p) => p.title),
+            "data": Array(escapeRoom.puzzles.length).fill(0)
         };
 
-        teams.forEach(team=>{
+        teams.forEach((team) => {
             if (team.retos) {
-                team.retos.forEach(reto=>{
+                team.retos.forEach((reto) => {
                     retosSuperadosTeam.data[idPuzzles.indexOf(reto.id)] += 1;
                 });
             }
@@ -358,6 +358,124 @@ exports.ranking = (req, res, next) => {
         }).
         catch((e) => next(e));
 };
+
+exports.hints = (req, res, next) => {
+    const {escapeRoom, query} = req;
+    const {turnId, orderBy, csv} = query;
+    const options = {
+        "include": [
+            {
+                "model": models.team,
+                "as": "teamsAgregados",
+                "required": true,
+                "include": [
+                    {
+                        "model": models.turno,
+                         "include": {
+                            "model": models.escapeRoom,
+                            "required": true,
+                            "where": {
+                                "id": escapeRoom.id
+                            }
+                        }
+                    },
+                    {
+                        "model": models.requestedHint,
+                        "include": {
+                            "model": models.hint,
+                        }
+                    }
+                ]
+            }
+
+        ]
+    };
+
+    if (turnId) {
+        options.include[0].include[0].where.id = turnId;
+    }
+    if (orderBy) {
+        const isPg = process.env.DATABASE_URL;
+
+        options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
+    }
+    const hints = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map(h=>h.id)));
+    const hintNames = [].concat.apply([],escapeRoom.puzzles.map((puz) => puz.hints.map(h=>h.title)));
+    models.user.findAll(options).
+        then((users) => {
+            const results = users.map((u) => {
+                let hintsSucceeded = 0
+                let hintsFailed = 0
+                const {id, name, surname, dni, username} = u;
+                u.teamsAgregados[0].requestedHints.map((h) => {
+                    if (h.success) {
+                        hintsSucceeded++;
+                    } else {
+                        hintsFailed++;
+                    }
+                });
+                return {
+                    id,
+                    name,
+                    surname,
+                    dni,
+                    username,
+                    hintsSucceeded,
+                    hintsFailed
+                };
+            });
+            if (!csv) {
+                res.render("escapeRooms/analytics/hints", {escapeRoom,
+                    results,
+                    turnId,
+                    orderBy});
+            } else {
+                const resultsCsv = results.map((rslt) => {
+                    const {name, surname, dni, username, retosSuperados, total} = rslt;
+                    const rs = {};
+
+                    for (const r in retosSuperados) {
+                        rs[puzzleNames[r]] = retosSuperados[r];
+                    }
+                    return {
+                        name,
+                        surname,
+                        dni,
+                        username,
+                        ...rs,
+                        total
+                    };
+                });
+
+                converter.json2csv(
+                    resultsCsv,
+                    (err, csvText) => {
+                        if (err) {
+                            next(err);
+                            return;
+                        }
+                        res.setHeader("Content-Type", "text/csv");
+                        res.setHeader("Content-Disposition", `attachment; filename="results-${Date.now()}.csv`);
+                        res.write(csvText);
+                        res.end();
+                    },
+                    {
+                        "delimiter": {
+                            "field": ";"
+                        }
+                    }
+                );
+            }
+        }).
+        catch((e) => {
+            console.error(e);
+            if (csv) {
+                res.send("Error");
+            } else {
+                next(e);
+            }
+        });
+}
 
 // GET /escapeRooms/:escapeRoomId/analytics/timeline
 exports.timeline = (req, res) => {
