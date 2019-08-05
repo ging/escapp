@@ -371,7 +371,7 @@ exports.hints = (req, res, next) => {
                 "include": [
                     {
                         "model": models.turno,
-                         "include": {
+                        "include": {
                             "model": models.escapeRoom,
                             "required": true,
                             "where": {
@@ -382,7 +382,7 @@ exports.hints = (req, res, next) => {
                     {
                         "model": models.requestedHint,
                         "include": {
-                            "model": models.hint,
+                            "model": models.hint
                         }
                     }
                 ]
@@ -399,14 +399,16 @@ exports.hints = (req, res, next) => {
 
         options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
     }
-    const hints = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map(h=>h.id)));
-    const hintNames = [].concat.apply([],escapeRoom.puzzles.map((puz) => puz.hints.map(h=>h.title)));
+    const hints = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map((h) => h.id)));
+    const hintNames = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map((h) => h.title)));
+
     models.user.findAll(options).
         then((users) => {
             const results = users.map((u) => {
-                let hintsSucceeded = 0
-                let hintsFailed = 0
+                let hintsSucceeded = 0;
+                let hintsFailed = 0;
                 const {id, name, surname, dni, username} = u;
+
                 u.teamsAgregados[0].requestedHints.map((h) => {
                     if (h.success) {
                         hintsSucceeded++;
@@ -424,6 +426,7 @@ exports.hints = (req, res, next) => {
                     hintsFailed
                 };
             });
+
             if (!csv) {
                 res.render("escapeRooms/analytics/hints", {escapeRoom,
                     results,
@@ -475,7 +478,7 @@ exports.hints = (req, res, next) => {
                 next(e);
             }
         });
-}
+};
 
 // GET /escapeRooms/:escapeRoomId/analytics/timeline
 exports.timeline = (req, res) => {

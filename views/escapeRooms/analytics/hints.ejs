@@ -1,0 +1,100 @@
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<% include ../../partials/_header.ejs %>
+<div class="main retosSuperados ranking">
+	<div class="breadcrumbs-container">
+		<div class="breadcrumbs">
+			<a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+			<i class="material-icons">chevron_right</i>
+			<a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
+			<i class="material-icons">chevron_right</i>
+			<span><%=i18n.analytics.hints.title%></span>
+		</div>
+	</div>
+    <h2><%=i18n.analytics.hints.title%></h2>
+
+    <div id="hints-chart" ></div>
+    <script>
+    	var bodyStyles = window.getComputedStyle(document.body);
+    	var cp = (prop) => bodyStyles.getPropertyValue(prop);
+    	function hexToRgbA(hex,alpha=1){
+    	  hex = hex.trim();
+    	  var c;
+    	  if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+    	    c= hex.substring(1).split('');
+    	    if(c.length== 3){
+    	      c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+    	    }
+    	    c= '0x'+c.join('');
+    	    return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+alpha+')';
+    	  }
+    	  throw new Error('Bad Hex');
+    	}
+    	const green = cp('--brightgreen').trim();
+    	const red = cp('--lightred').trim();
+    	const purple = cp('--textpurple').trim();
+
+		var options = {
+            chart: {
+                height: 440,
+                type: 'bar',
+                stacked: true
+            },
+            colors: [green, red],
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    barHeight: '80%',
+                    
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 1,
+                colors: undefined,
+
+            },
+            series: [{
+                name: "<%=i18n.analytics.hints.succeeded%>",
+                data:  <%-JSON.stringify(results.map(user=>user.hintsSucceeded))%>
+            },
+            {
+                name: "<%=i18n.analytics.hints.failed%>",
+                data:  <%-JSON.stringify(results.map(user=>-user.hintsFailed))%>
+            }],
+            grid: {
+                xaxis: {
+                    showLines: false
+                }
+            },
+            xaxis: {
+              categories: <%-JSON.stringify(results.map(user=> user.name + " " + user.surname))%>,
+            },
+            tooltip: {
+                shared: false,
+                style: {
+                  fontSize: '12px',
+                  fontColor: purple,
+                  fontFamily: undefined
+                },
+            }
+        }
+
+       var chart = new ApexCharts(
+            document.querySelector("#hints-chart"),
+            options
+        );
+        
+        chart.render();
+
+
+    </script>
+
+
+	<br/>
+	<br/>
+	<br/>
+</div>
+
+<% include ../../partials/_footer %>
