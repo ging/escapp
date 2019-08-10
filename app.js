@@ -91,7 +91,7 @@ app.use((req, res) => {
     res.locals.message = "Not found";
     res.locals.error = req.app.get("env") === "development" ? err : {};
     res.render("error");
-    // Next(err);
+    next(createError(404));
 });
 
 // Error handler

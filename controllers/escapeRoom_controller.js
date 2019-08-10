@@ -4,7 +4,7 @@ const {models} = require("../models");
 const cloudinary = require("cloudinary");
 const fs = require("fs");
 const {parseURL} = require("../helpers/video");
-
+const query = require("../queries");
 const attHelper = require("../helpers/attachments"),
     // Options for the files uploaded to Cloudinary
     cloudinary_upload_options = {"folder": "/escapeRoom/attachments",
@@ -22,33 +22,7 @@ const attHelper = require("../helpers/attachments"),
 
 // Autoload the escape room with id equals to :escapeRoomId
 exports.load = (req, res, next, escapeRoomId) => {
-    models.escapeRoom.findByPk(escapeRoomId, {"include": [
-        {"model": models.turno},
-        {"model": models.puzzle,
-            "include": [{"model": models.hint}]},
-        models.attachment,
-        models.hintApp,
-        {"model": models.user,
-            "as": "author"}
-    ],
-    "order": [
-        [
-            {"model": models.turno},
-            "date",
-            "asc"
-        ],
-        [
-            {"model": models.puzzle},
-            "createdAt",
-            "asc"
-        ],
-        [
-            {"model": models.puzzle},
-            {"model": models.hint},
-            "createdAt",
-            "asc"
-        ]
-    ]}).
+    models.escapeRoom.findByPk(escapeRoomId, query.escapeRoom.load).
         then((escapeRoom) => {
             if (escapeRoom) {
                 req.escapeRoom = escapeRoom;
@@ -83,38 +57,7 @@ exports.adminOrAuthorOrParticipantRequired = (req, res, next) => {
         next();
         return;
     }
-    models.user.findAll({
-        "include": [
-
-            {
-                "model": models.team,
-                "as": "teamsAgregados",
-                "required": true,
-                "include": [
-                    {
-                        "model": models.user,
-                        "as": "teamMembers",
-                        "attributes": [
-                            "name",
-                            "id",
-                            "surname"
-                        ]
-                    },
-                    {
-                        "model": models.turno,
-                        "where": {
-                            "escapeRoomId": req.escapeRoom.id
-                        },
-                        "required": true
-                    }
-
-                ]
-            }
-        ],
-        "where": {
-            "id": req.session.user.id
-        }
-    }).then((participants) => {
+    models.user.findAll(query.user.all(req.escapeRoom.id, req.session.user.id)).then((participants) => {
         const isParticipant = participants && participants.length > 0;
 
         req.isParticipant = isParticipant ? participants[0] : null;
@@ -146,39 +89,9 @@ exports.index = (req, res, next) => {
             "user": req.user})).
             catch((error) => next(error));
     } else {
-        const findOptions = {
-            "attributes": [
-                "id",
-                "title",
-                "invitation"
-            ],
-            "include": [
-                {
-                    "model": models.turno,
-                    "attributes": [],
-                    "duplicating": false,
-                    "required": true,
-                    "include": [
-                        {
-                            "model": models.user,
-                            "attributes": [],
-                            "as": "students",
-                            "duplicating": false,
-                            "required": false
-                            // "where": {"id": req.user.id}
-                        }
-                    ]
-                },
-                models.attachment
-            ]
-        };
-
-        models.escapeRoom.findAll(findOptions).
+        models.escapeRoom.findAll(query.escapeRoom.all()).
             then((erAll) => {
-                findOptions.include[0].include[0].where = {"id": req.user.id};
-                findOptions.include[0].include[0].required = true;
-                findOptions.attributes = ["id"];
-                models.escapeRoom.findAll(findOptions).
+                models.escapeRoom.findAll(query.escapeRoom.all(req.user.id)).
                     then((erFiltered) => {
                         const ids = erFiltered.map((e) => e.id);
                         const escapeRooms = erAll.map((er) => ({
@@ -246,7 +159,6 @@ exports.new = (req, res) => {
 
     res.render("escapeRooms/new", {escapeRoom});
 };
-
 
 // POST /escapeRooms/create
 exports.create = (req, res, next) => {
@@ -667,22 +579,20 @@ exports.destroy = (req, res, next) => {
 
 
 // GET /escapeRooms/:escapeRoomId/join
-exports.studentToken = (req, res) => {
+exports.studentToken = async (req, res) => {
     const {escapeRoom} = req;
 
-    models.participants.findOne({"where": {
+    const participant = await models.participants.findOne({"where": {
         "userId": req.session.user.id,
         "turnId": {[Sequelize.Op.or]: [escapeRoom.turnos.map((t) => t.id)]}
-    }}).then((p) => {
-        console.log(p);
-        console.log([escapeRoom.turnos.map((t) => t.id)]);
-        if (p) {
-            res.redirect(`/escapeRooms/${escapeRoom.id}`);
-        } else if (escapeRoom.invitation === req.query.token) {
-            res.render("escapeRooms/indexInvitation", {escapeRoom,
-                cloudinary});
-        } else {
-            res.redirect("/");
-        }
-    });
+    }});
+
+    if (participant) {
+        res.redirect(`/escapeRooms/${escapeRoom.id}`);
+    } else if (escapeRoom.invitation === req.query.token) {
+        res.render("escapeRooms/indexInvitation", {escapeRoom,
+            cloudinary});
+    } else {
+        res.redirect("/");
+    }
 };

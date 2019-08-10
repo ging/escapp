@@ -1352,6 +1352,10 @@ button, input[type="submit"] {
           .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card .card-icon i {
             font-size: 40px; }
 
+.apexcharts-canvas * {
+  font-family: "Lato" !important;
+  color: #656683; }
+
 .apexcharts-xaxis-label {
   fill: white !important;
   font-family: "Lato"; }

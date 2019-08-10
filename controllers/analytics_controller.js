@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
-const converter = require("json-2-csv");
-
+const {createCsvFile} = require("../helpers/csv");
 // GET /escapeRooms/:escapeRoomId/analytics
-exports.analytics = (req, res, next) => {
+
+exports.analytics = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId} = query;
     const where = {
@@ -43,7 +43,8 @@ exports.analytics = (req, res, next) => {
     if (turnId) {
         where.include[0].where.id = turnId;
     }
-    models.team.findAll(where).then((teams) => {
+    try {
+        const teams = await models.team.findAll(where);
         const teamSizes = teams.map((t) => t.teamMembers.length);
 
         const nParticipants = {
@@ -101,15 +102,14 @@ exports.analytics = (req, res, next) => {
             turnId,
             summary,
             charts});
-    }).
-        catch((e) => {
-            console.error(e);
-            next(e);
-        });
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/analytics/puzzles/participants
-exports.puzzlesByParticipants = (req, res, next) => {
+exports.puzzlesByParticipants = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId, orderBy, csv} = query;
     const options = {
@@ -154,88 +154,70 @@ exports.puzzlesByParticipants = (req, res, next) => {
     const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
 
-    models.user.findAll(options).
-        then((users) => {
-            const results = users.map((u) => {
-                const {id, name, surname, dni, username} = u;
-                const retosSuperados = new Array(puzzles.length).fill(0);
+    try {
+        const users = await models.user.findAll(options);
+        const results = users.map((u) => {
+            const {id, name, surname, dni, username} = u;
+            const retosSuperados = new Array(puzzles.length).fill(0);
 
-                u.teamsAgregados[0].retos.map((reto) => {
-                    const idx = puzzles.indexOf(reto.id);
+            u.teamsAgregados[0].retos.map((reto) => {
+                const idx = puzzles.indexOf(reto.id);
 
-                    if (idx > -1) {
-                        retosSuperados[idx] = 1;
-                    }
-                    return 0;
-                });
-                const total = Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
+                if (idx > -1) {
+                    retosSuperados[idx] = 1;
+                }
+                return 0;
+            });
+            const total = Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
 
-                return {id,
+            return {id,
+                name,
+                surname,
+                dni,
+                username,
+                retosSuperados,
+                total};
+        });
+
+        if (!csv) {
+            res.render("escapeRooms/analytics/retosSuperadosByParticipant", {escapeRoom,
+                results,
+                turnId,
+                orderBy});
+        } else {
+            const resultsCsv = results.map((rslt) => {
+                const {name, surname, dni, username, retosSuperados, total} = rslt;
+                const rs = {};
+
+                for (const r in retosSuperados) {
+                    rs[puzzleNames[r]] = retosSuperados[r];
+                }
+                return {
                     name,
                     surname,
                     dni,
                     username,
-                    retosSuperados,
-                    total};
+                    ...rs,
+                    total
+                };
             });
 
-            if (!csv) {
-                res.render("escapeRooms/analytics/retosSuperadosByParticipant", {escapeRoom,
-                    results,
-                    turnId,
-                    orderBy});
-            } else {
-                const resultsCsv = results.map((rslt) => {
-                    const {name, surname, dni, username, retosSuperados, total} = rslt;
-                    const rs = {};
-
-                    for (const r in retosSuperados) {
-                        rs[puzzleNames[r]] = retosSuperados[r];
-                    }
-                    return {
-                        name,
-                        surname,
-                        dni,
-                        username,
-                        ...rs,
-                        total
-                    };
-                });
-
-                converter.json2csv(
-                    resultsCsv,
-                    (err, csvText) => {
-                        if (err) {
-                            next(err);
-                            return;
-                        }
-                        res.setHeader("Content-Type", "text/csv");
-                        res.setHeader("Content-Disposition", `attachment; filename="results-${Date.now()}.csv`);
-                        res.write(csvText);
-                        res.end();
-                    },
-                    {
-                        "delimiter": {
-                            "field": ";"
-                        }
-                    }
-                );
-            }
-        }).
-        catch((e) => {
-            console.error(e);
-            if (csv) {
-                res.send("Error");
-            } else {
-                next(e);
-            }
-        });
+            createCsvFile(res, resultsCsv);
+        }
+    } catch (e) {
+        console.error(e);
+        if (csv) {
+            res.send("Error");
+        } else {
+            next(e);
+        }
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/analytics/puzzles/teams
-exports.puzzlesByTeams = (req, res, next) => {
+exports.puzzlesByTeams = async (req, res, next) => {
     const {escapeRoom, query} = req;
-    const {turnId} = query;
+    const {turnId, csv} = query;
     const options = {
         "include": [
             {
@@ -257,32 +239,57 @@ exports.puzzlesByTeams = (req, res, next) => {
         options.include[0].where.id = turnId;
     }
     const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
+    const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
 
-    models.team.findAll(options).
-        then((teams) => {
-            const results = teams.map((u) => {
-                const {id, name} = u;
-                const retosSuperados = new Array(puzzles.length).fill(0);
+    try {
+        const teams = await models.team.findAll(options);
+        const results = teams.map((u) => {
+            const {id, name} = u;
+            const retosSuperados = new Array(puzzles.length).fill(0);
 
-                u.retos.map((reto) => {
-                    const idx = puzzles.indexOf(reto.id);
+            u.retos.map((reto) => {
+                const idx = puzzles.indexOf(reto.id);
 
-                    if (idx > -1) {
-                        retosSuperados[idx] = 1;
-                    }
-                    return 0;
-                });
-                return {id,
-                    name,
-                    retosSuperados,
-                    turnId};
+                if (idx > -1) {
+                    retosSuperados[idx] = 1;
+                }
+                return 0;
             });
+            const total = Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
 
+            return {id,
+                name,
+                retosSuperados,
+                turnId,
+                total};
+        });
+
+        if (!csv) {
             res.render("escapeRooms/analytics/retosSuperadosByTeam", {escapeRoom,
                 results,
                 turnId});
-        }).
-        catch((e) => next(e));
+        } else {
+            const resultsCsv = results.map((rslt) => {
+                const {id, name, retosSuperados, total} = rslt;
+                const rs = {};
+
+                for (const r in retosSuperados) {
+                    rs[puzzleNames[r]] = retosSuperados[r];
+                }
+                return {
+                    id,
+                    name,
+                    ...rs,
+                    total
+                };
+            });
+
+            createCsvFile(res, resultsCsv);
+        }
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/analytics/ranking
@@ -359,7 +366,8 @@ exports.ranking = (req, res, next) => {
         catch((e) => next(e));
 };
 
-exports.hints = (req, res, next) => {
+// GET /escapeRooms/:escapeRoomId/analytics/hints/participants
+exports.hintsByParticipants = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId, orderBy, csv} = query;
     const options = {
@@ -371,6 +379,7 @@ exports.hints = (req, res, next) => {
                 "include": [
                     {
                         "model": models.turno,
+                        "where": {},
                         "include": {
                             "model": models.escapeRoom,
                             "required": true,
@@ -402,15 +411,118 @@ exports.hints = (req, res, next) => {
     const hints = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map((h) => h.id)));
     const hintNames = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map((h) => h.title)));
 
-    models.user.findAll(options).
-        then((users) => {
-            const results = users.map((u) => {
-                let hintsSucceeded = 0;
-                let hintsFailed = 0;
+    try {
+        const users = await models.user.findAll(options);
+        const results = users.map((u) => {
+            let hintsSucceeded = 0;
+            let hintsFailed = 0;
+            const {name, surname} = u;
+
+            u.teamsAgregados[0].requestedHints.map((h) => {
+                if (h.success) {
+                    hintsSucceeded++;
+                } else {
+                    hintsFailed++;
+                }
+            });
+            return {
+                "name": `${name} ${surname}`,
+                hintsSucceeded,
+                hintsFailed
+            };
+        });
+
+        if (!csv) {
+            res.render("escapeRooms/analytics/hints", {escapeRoom,
+                results,
+                turnId,
+                orderBy,
+                "single": true});
+        } else {
+            const resultsCsv = [];
+
+            users.map((u) => {
+                const hintsSucceeded = 0;
+                const hintsFailed = 0;
                 const {id, name, surname, dni, username} = u;
 
                 u.teamsAgregados[0].requestedHints.map((h) => {
-                    if (h.success) {
+                    const {success, score, createdAt} = h;
+
+                    resultsCsv.push({
+                        id,
+                        name,
+                        surname,
+                        dni,
+                        username,
+                        success,
+                        score,
+                        createdAt
+                    });
+                });
+            });
+            createCsvFile(res, resultsCsv);
+        }
+    } catch (e) {
+        console.error(e);
+        if (csv) {
+            res.send("Error");
+        } else {
+            next(e);
+        }
+    }
+};
+
+// GET /escapeRooms/:escapeRoomId/analytics/hints/teams
+exports.hintsByTeams = async (req, res, next) => {
+    const {escapeRoom, query} = req;
+    const {turnId, orderBy, csv} = query;
+    const options = {
+        "include": [
+            {
+                "model": models.turno,
+                "where": {},
+                "include": {
+                    "model": models.escapeRoom,
+                    "required": true,
+                    "where": {
+                        "id": escapeRoom.id
+                    }
+                }
+            },
+            {
+                "model": models.requestedHint,
+                "include": {
+                    "model": models.hint
+                }
+            }
+        ]
+    };
+
+    if (turnId) {
+        options.include[0].where.id = turnId;
+    }
+    if (orderBy) {
+        const isPg = process.env.DATABASE_URL;
+
+        options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
+    }
+    const hints = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map((h) => h.id)));
+    const hintNames = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map((h) => h.title)));
+
+    try {
+        const teams = await models.team.findAll(options);
+
+        if (!csv) {
+            const results = teams.map((t) => {
+                let hintsSucceeded = 0;
+                let hintsFailed = 0;
+                const {id, name, requestedHints} = t;
+
+                requestedHints.map((h) => {
+                    const {success, score, createdAt} = h;
+
+                    if (success) {
                         hintsSucceeded++;
                     } else {
                         hintsFailed++;
@@ -419,68 +531,109 @@ exports.hints = (req, res, next) => {
                 return {
                     id,
                     name,
-                    surname,
-                    dni,
-                    username,
                     hintsSucceeded,
                     hintsFailed
                 };
             });
 
-            if (!csv) {
-                res.render("escapeRooms/analytics/hints", {escapeRoom,
-                    results,
-                    turnId,
-                    orderBy});
-            } else {
-                const resultsCsv = results.map((rslt) => {
-                    const {name, surname, dni, username, retosSuperados, total} = rslt;
-                    const rs = {};
+            res.render("escapeRooms/analytics/hints", {
+                escapeRoom,
+                results,
+                turnId,
+                "single": false,
+                orderBy
+            });
+        } else {
+            const resultsCsv = [];
 
-                    for (const r in retosSuperados) {
-                        rs[puzzleNames[r]] = retosSuperados[r];
-                    }
-                    return {
-                        name,
-                        surname,
-                        dni,
-                        username,
-                        ...rs,
-                        total
-                    };
+            teams.map((t) => {
+                const {id, name, requestedHints} = t;
+
+                requestedHints.map((h) => {
+                    const {success, score, createdAt} = h;
+
+                    resultsCsv.push({
+                        id,
+                        "team": name,
+                        score,
+                        success,
+                        "createdAt": new Date(createdAt)
+                    });
                 });
-
-                converter.json2csv(
-                    resultsCsv,
-                    (err, csvText) => {
-                        if (err) {
-                            next(err);
-                            return;
-                        }
-                        res.setHeader("Content-Type", "text/csv");
-                        res.setHeader("Content-Disposition", `attachment; filename="results-${Date.now()}.csv`);
-                        res.write(csvText);
-                        res.end();
-                    },
-                    {
-                        "delimiter": {
-                            "field": ";"
-                        }
-                    }
-                );
-            }
-        }).
-        catch((e) => {
-            console.error(e);
-            if (csv) {
-                res.send("Error");
-            } else {
-                next(e);
-            }
-        });
+            });
+            createCsvFile(res, resultsCsv);
+        }
+    } catch (e) {
+        console.error(e);
+        if (csv) {
+            res.send("Error");
+        } else {
+            next(e);
+        }
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/analytics/timeline
-exports.timeline = (req, res) => {
-    res.render("escapeRooms/analytics/timeline", {"escapeRoom": req.escapeRoom});
+exports.timeline = async (req, res) => {
+    const {escapeRoom, query} = req;
+    const {turnId, csv} = query;
+    const options = {
+        "attributes": [
+            "id",
+            "name"
+        ],
+        "include": [
+            {
+                "model": models.turno,
+                "where": {
+                    "escapeRoomId": escapeRoom.id
+                }
+            },
+            {
+                "model": models.puzzle,
+                "as": "retos",
+                "through": {"model": models.retosSuperados}
+            }
+        ],
+        "order": Sequelize.literal("lower(team.name) ASC")
+    };
+
+    if (turnId) {
+        options.include[0].where.id = turnId;
+    }
+    const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
+    const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
+
+    try {
+        const teams = await models.team.findAll(options);
+        const result = teams.map((team) => {
+            const {id, name, retos, turno} = team;
+            const {startTime} = turno;
+            const retosSuperados = retos.map((reto) => {
+                const {id, retosSuperados} = reto;
+                const {createdAt} = retosSuperados;
+                let time;
+
+                if (startTime) {
+                    time = (createdAt - startTime) / 1000;
+                }
+                return {id,
+                    time};
+            });
+
+            return {
+                id,
+                name,
+                "retosSuperados": turno.startTime ? retosSuperados : []
+            };
+        });
+
+        console.dir(result, {"depth": null,
+            "pretty": true});
+        res.render("escapeRooms/analytics/timeline", {"escapeRoom": req.escapeRoom,
+            "teams": result});
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
 };

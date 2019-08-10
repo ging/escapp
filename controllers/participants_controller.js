@@ -1,11 +1,10 @@
 const {models} = require("../models");// Autoload the user with id equals to :userId
-const converter = require("json-2-csv");
+const {createCsvFile} = require("../helpers/csv");
 const Sequelize = require("sequelize");
 const {Op} = Sequelize;
 
 // POST  /escapeRooms/:escapeRoomId/users/:userId/selectTurno
 exports.selectTurno = (req, res) => {
-    console.log("Marcado como turno");
     const {escapeRoom} = req;
     const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.body.turnSelected}/teams`;
 
@@ -67,24 +66,7 @@ exports.index = (req, res, next) => {
                 "attendance": user.turnosAgregados[0].participants.attendance});
         });
         if (req.query.csv) {
-            converter.json2csv(
-                participants,
-                (err, csv) => {
-                    if (err) {
-                        next(err);
-                        return;
-                    }
-                    res.setHeader("Content-Type", "text/csv");
-                    res.setHeader("Content-Disposition", `${"attachment; filename=\"participants-"}${Date.now()}.csv"`);
-                    res.write(csv);
-                    res.end();
-                },
-                {
-                    "delimiter": {
-                        "field": ";"
-                    }
-                }
-            );
+            createCsvFile(res, participants, "participants");
         } else {
             res.render("escapeRooms/participants", {escapeRoom,
                 participants,
