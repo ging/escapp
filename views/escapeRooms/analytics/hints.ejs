@@ -1,5 +1,5 @@
-<script src="/js/vendor/extractColor.js"></script>
-<script src="/js/apexcharts.js"></script>
+<script src="/js/extractColor.js"></script>
+<script src="/js/vendor/apexcharts.js"></script>
 <% include ../../partials/_header.ejs %>
 <div class="main retosSuperados ranking">
 	<div class="breadcrumbs-container">
@@ -50,7 +50,18 @@
             chart: {
                 height: 440,
                 type: 'bar',
-                stacked: true
+                stacked: true,
+                locales: [{
+                  "name": "en",
+                  "options": {
+                    "toolbar": {
+                        "exportToSVG": "<%=i18n.analytics.main.chart.svg%>",
+                        "exportToPNG": "<%=i18n.analytics.main.chart.png%>",
+                        "menu": "Menu",
+                    }
+                  }
+                }],
+                defaultLocale: "en"
             },
             colors: [green, red],
             plotOptions: {
@@ -70,11 +81,11 @@
             },
             series: [{
                 name: "<%=i18n.analytics.hints.succeeded%>",
-                data:  <%-JSON.stringify(results.map(user=>user.hintsSucceeded))%>
+                data:  <%-JSON.stringify(results.map(user => user.hintsSucceeded))%>
             },
             {
                 name: "<%=i18n.analytics.hints.failed%>",
-                data:  <%-JSON.stringify(results.map(user=>-user.hintsFailed))%>
+                data:  <%-JSON.stringify(results.map(user => -user.hintsFailed))%>
             }],
             grid: {
                 xaxis: {
@@ -82,7 +93,7 @@
                 }
             },
             xaxis: {
-                categories: <%-JSON.stringify(results.map(user=> user.name))%>,
+                categories: <%-JSON.stringify(results.map(user => user.name))%>,
                 labels: {
                     formatter: (value) => { return Math.abs(value) }
                 },

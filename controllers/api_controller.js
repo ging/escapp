@@ -2,7 +2,7 @@ const {models} = require("../models");
 
 
 // POST /api/escapeRooms/:escapeRoomId/puzzles/:puzzleId/check
-exports.check = async (req, res, next) => {
+exports.check = async (req, res) => {
     const {puzzle, body} = req;
     const {solution, token} = body;
     const where = {};

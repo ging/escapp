@@ -5,13 +5,22 @@
             "failed": "Peticiones de pista fallidas",
             "succeeded": "Pistas obtenidas"
         },
+        "histogram": {
+            "title": "Histograma"
+        },
         "main": {
             "hints": "Pistas",
+            "histogram":"Histograma",
+            "progress":"Progress",
             "ranking": "Ranking",
             "retosSuperados": "Retos superados",
             "summary": "Resumen",
             "timeline": "Cronograma",
             "title": "Analíticas de aprendizaje",
+            "chart": {
+                "svg": "Descargar SVG",
+                "png": "Descargar PNG"
+            },
             "dashboard": {
                 "nParticipants": "Nº participantes",
                 "sucessRate": "Tasa de salida",
@@ -20,6 +29,9 @@
                 "avgReqHints": "Pistas pedidas en media",
                 "retosSuperadosTeam": "Nº de equipos que superó el reto"
             }
+        },
+        "progress": {
+            "title": "Progreso"
         },
         "ranking": {
             "members": "Miembros",
@@ -350,7 +362,8 @@
         "writeSol": "Escriba la solución",
         "wrongAnswer": "Respuesta incorrecta",
         "correctAnswer": "¡Reto superado!",
-        "finish": "¡Has superado todos los retos!"
+        "finish": "¡Has superado todos los retos!",
+        "start":"Inicio"
     },
     "showStudent": {
         "access": "acceder",

@@ -139,7 +139,6 @@ router.put(
     membersController.add
 );
 
-
 // Routes for the resource /teams
 router.get("/escapeRooms/:escapeRoomId/users/:userId(\\d+)/turnos/:turnoId(\\d+)/teams/new", sessionController.loginRequired, sessionController.studentOrAdminRequired, teamController.new);
 router.post("/escapeRooms/:escapeRoomId/users/:userId(\\d+)/turnos/:turnoId(\\d+)/teams", sessionController.loginRequired, sessionController.studentOrAdminRequired, teamController.create);
@@ -149,6 +148,8 @@ router.get("/escapeRooms/:escapeRoomId/turnos/:turnoId(\\d+)/teams", sessionCont
 router.get("/escapeRooms/:escapeRoomId/analytics/", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.analytics);
 router.get("/escapeRooms/:escapeRoomId/analytics/ranking", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.ranking);
 router.get("/escapeRooms/:escapeRoomId/analytics/timeline", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.timeline);
+router.get("/escapeRooms/:escapeRoomId/analytics/progress", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.progress);
+router.get("/escapeRooms/:escapeRoomId/analytics/histogram", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.histogram);
 router.get("/escapeRooms/:escapeRoomId/analytics/hints/participants", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.hintsByParticipants);
 router.get("/escapeRooms/:escapeRoomId/analytics/hints/teams", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.hintsByTeams);
 router.get("/escapeRooms/:escapeRoomId/analytics/puzzles/participants", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.puzzlesByParticipants);

@@ -1,50 +1,16 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
 const {createCsvFile} = require("../helpers/csv");
-// GET /escapeRooms/:escapeRoomId/analytics
+const queries = require("../queries");
+const {retosSuperadosByWho} = require("../helpers/utils");
 
+// GET /escapeRooms/:escapeRoomId/analytics
 exports.analytics = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId} = query;
-    const where = {
-        "attributes": [],
-        "include": [
-            {
-                "model": models.turno,
-                "attributes": ["startTime"],
-                "where": {
-                    "escapeRoomId": escapeRoom.id
-                }
-            },
-            {
-                "model": models.user,
-                "as": "teamMembers",
-                "attributes": [
-                    "name",
-                    "surname"
-                ]
-            },
-            {
-                "model": models.puzzle,
-                "as": "retos",
-                "through": {
-                    "model": models.retosSuperados
-                }
-            },
-            {
-                "model": models.requestedHint,
-                "attributes": ["id"],
-                "where": {"success": true},
-                "required": false
-            }
-        ]
-    };
 
-    if (turnId) {
-        where.include[0].where.id = turnId;
-    }
     try {
-        const teams = await models.team.findAll(where);
+        const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId));
         const teamSizes = teams.map((t) => t.teamMembers.length);
 
         const nParticipants = {
@@ -112,62 +78,14 @@ exports.analytics = async (req, res, next) => {
 exports.puzzlesByParticipants = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId, orderBy, csv} = query;
-    const options = {
-        "include": [
-            {
-                "model": models.team,
-                "as": "teamsAgregados",
-                "required": true,
-                "include": [
-                    {
-                        "model": models.turno,
-                        "where": {},
-                        "include": {
-                            "model": models.escapeRoom,
-                            "required": true,
-                            "where": {
-                                "id": escapeRoom.id
-                            }
-                        }
-                    },
-                    {
-                        "model": models.puzzle,
-                        "as": "retos",
-                        "through": {
-                            "model": models.retosSuperados
-                        }
-                    }
-                ]
-            }
-
-        ]
-    };
-
-    if (turnId) {
-        options.include[0].include[0].where.id = turnId;
-    }
-    if (orderBy) {
-        const isPg = process.env.DATABASE_URL;
-
-        options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
-    }
     const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
 
     try {
-        const users = await models.user.findAll(options);
+        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom, turnId, orderBy));
         const results = users.map((u) => {
             const {id, name, surname, dni, username} = u;
-            const retosSuperados = new Array(puzzles.length).fill(0);
-
-            u.teamsAgregados[0].retos.map((reto) => {
-                const idx = puzzles.indexOf(reto.id);
-
-                if (idx > -1) {
-                    retosSuperados[idx] = 1;
-                }
-                return 0;
-            });
+            const retosSuperados = retosSuperadosByWho(u.teamsAgregados[0], puzzles);
             const total = Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
 
             return {id,
@@ -218,43 +136,15 @@ exports.puzzlesByParticipants = async (req, res, next) => {
 exports.puzzlesByTeams = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId, csv} = query;
-    const options = {
-        "include": [
-            {
-                "model": models.turno,
-                "where": {
-                    "escapeRoomId": escapeRoom.id
-                }
-            },
-            {
-                "model": models.puzzle,
-                "as": "retos",
-                "through": {"model": models.retosSuperados}
-            }
-        ],
-        "order": Sequelize.literal("lower(team.name) ASC")
-    };
 
-    if (turnId) {
-        options.include[0].where.id = turnId;
-    }
     const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
 
     try {
-        const teams = await models.team.findAll(options);
+        const teams = await models.team.findAll(queries.team.puzzlesByTeam(escapeRoom, turnId));
         const results = teams.map((u) => {
             const {id, name} = u;
-            const retosSuperados = new Array(puzzles.length).fill(0);
-
-            u.retos.map((reto) => {
-                const idx = puzzles.indexOf(reto.id);
-
-                if (idx > -1) {
-                    retosSuperados[idx] = 1;
-                }
-                return 0;
-            });
+            const retosSuperados = retosSuperadosByWho(u, puzzles);
             const total = Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
 
             return {id,
@@ -293,77 +183,30 @@ exports.puzzlesByTeams = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/analytics/ranking
-exports.ranking = (req, res, next) => {
+exports.ranking = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId} = query;
-    const options = {
-        // "includeIgnoreAttributes": false,
-        "attributes": ["name"],
-        "include": [
-            {
-                "model": models.user,
-                "as": "teamMembers",
-                "attributes": [
-                    "name",
-                    "surname"
-                ],
-                "through": {
-                    "model": models.members,
-                    "duplicating": true,
-                    "attributes": []
+
+    try {
+        const result = await models.team.findAll(queries.team.ranking(escapeRoom, turnId));
+        const teams = result.map((teamRes) => ({...teamRes.dataValues,
+            "countretos": teamRes.dataValues.retos.length,
+            "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => r.retosSuperados.createdAt).sort((a, b) => a < b)[0] : null})).sort((t1, t2) => {
+            if (t1.countretos === t2.countretos) {
+                if (t1.latestretosuperado === t2.latestretosuperado) {
+                    return 0;
                 }
-            },
-            {
-                "model": models.turno,
-                "duplicating": true,
-                "attributes": [
-                    "id",
-                    "date",
-                    "startTime"
-                ],
-                "where": {
-                    // "status": {[Sequelize.Op.not]: "pending"},
-                    "escapeRoomId": escapeRoom.id
-                }
-            },
-            {
-                "model": models.puzzle,
-                "attributes": ["id"],
-                "as": "retos",
-                "required": false,
-                "duplicating": true,
-                "through": {
-                    "model": models.retosSuperados,
-                    "attributes": ["createdAt"],
-                    "required": true
-                }
+                return t1.latestretosuperado > t2.latestretosuperado ? 1 : -1;
             }
-        ]
-    };
+            return t1.countretos > t2.countretos ? -1 : 1;
+        });
 
-
-    if (turnId) {
-        options.include[1].where.id = turnId;
+        res.render("escapeRooms/analytics/ranking", {teams,
+            escapeRoom,
+            turnId});
+    } catch (e) {
+        next(e);
     }
-    models.team.findAll(options).
-        then((result) => {
-            const teams = result.map((teamRes) => ({...teamRes.dataValues,
-                "countretos": teamRes.dataValues.retos.length,
-                "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => r.retosSuperados.createdAt).sort((a, b) => a < b)[0] : null})).sort((t1, t2) => {
-                if (t1.countretos === t2.countretos) {
-                    if (t1.latestretosuperado === t2.latestretosuperado) {
-                        return 0;
-                    }
-                    return t1.latestretosuperado > t2.latestretosuperado ? 1 : -1;
-                }
-                return t1.countretos > t2.countretos ? -1 : 1;
-            });
-
-            res.render("escapeRooms/analytics/ranking", {teams,
-                escapeRoom,
-                turnId});
-        }).
-        catch((e) => next(e));
 };
 
 // GET /escapeRooms/:escapeRoomId/analytics/hints/participants
@@ -408,8 +251,6 @@ exports.hintsByParticipants = async (req, res, next) => {
 
         options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
     }
-    const hints = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map((h) => h.id)));
-    const hintNames = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map((h) => h.title)));
 
     try {
         const users = await models.user.findAll(options);
@@ -418,13 +259,15 @@ exports.hintsByParticipants = async (req, res, next) => {
             let hintsFailed = 0;
             const {name, surname} = u;
 
-            u.teamsAgregados[0].requestedHints.map((h) => {
-                if (h.success) {
+            for (const h in u.teamsAgregados[0].requestedHints) {
+                const hint = u.teamsAgregados[0].requestedHints[h];
+
+                if (hint.success) {
                     hintsSucceeded++;
                 } else {
                     hintsFailed++;
                 }
-            });
+            }
             return {
                 "name": `${name} ${surname}`,
                 hintsSucceeded,
@@ -441,13 +284,13 @@ exports.hintsByParticipants = async (req, res, next) => {
         } else {
             const resultsCsv = [];
 
-            users.map((u) => {
-                const hintsSucceeded = 0;
-                const hintsFailed = 0;
-                const {id, name, surname, dni, username} = u;
+            for (const u in users) {
+                const user = users[u];
+                const {id, name, surname, dni, username} = user;
 
-                u.teamsAgregados[0].requestedHints.map((h) => {
-                    const {success, score, createdAt} = h;
+                for (const h in u.teamsAgregados[0].requestedHints) {
+                    const hint = u.teamsAgregados[0].requestedHints[h];
+                    const {success, score, createdAt} = hint;
 
                     resultsCsv.push({
                         id,
@@ -459,8 +302,9 @@ exports.hintsByParticipants = async (req, res, next) => {
                         score,
                         createdAt
                     });
-                });
-            });
+                }
+            }
+
             createCsvFile(res, resultsCsv);
         }
     } catch (e) {
@@ -507,8 +351,6 @@ exports.hintsByTeams = async (req, res, next) => {
 
         options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
     }
-    const hints = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map((h) => h.id)));
-    const hintNames = [].concat.apply([], escapeRoom.puzzles.map((puz) => puz.hints.map((h) => h.title)));
 
     try {
         const teams = await models.team.findAll(options);
@@ -519,15 +361,16 @@ exports.hintsByTeams = async (req, res, next) => {
                 let hintsFailed = 0;
                 const {id, name, requestedHints} = t;
 
-                requestedHints.map((h) => {
-                    const {success, score, createdAt} = h;
+                for (const h in requestedHints) {
+                    const hint = requestedHints[h];
+                    const {success} = hint;
 
                     if (success) {
                         hintsSucceeded++;
                     } else {
                         hintsFailed++;
                     }
-                });
+                }
                 return {
                     id,
                     name,
@@ -546,11 +389,13 @@ exports.hintsByTeams = async (req, res, next) => {
         } else {
             const resultsCsv = [];
 
-            teams.map((t) => {
-                const {id, name, requestedHints} = t;
+            for (const t in teams) {
+                const team = teams[t];
+                const {id, name, requestedHints} = team;
 
-                requestedHints.map((h) => {
-                    const {success, score, createdAt} = h;
+                for (const h in requestedHints) {
+                    const hint = requestedHints[h];
+                    const {success, score, createdAt} = hint;
 
                     resultsCsv.push({
                         id,
@@ -559,8 +404,9 @@ exports.hintsByTeams = async (req, res, next) => {
                         success,
                         "createdAt": new Date(createdAt)
                     });
-                });
-            });
+                }
+            }
+
             createCsvFile(res, resultsCsv);
         }
     } catch (e) {
@@ -573,65 +419,89 @@ exports.hintsByTeams = async (req, res, next) => {
     }
 };
 
-// GET /escapeRooms/:escapeRoomId/analytics/timeline
-exports.timeline = async (req, res) => {
+// GET /escapeRooms/:escapeRoomId/analytics/progress
+exports.progress = async (req, res, next) => {
     const {escapeRoom, query} = req;
-    const {turnId, csv} = query;
-    const options = {
-        "attributes": [
-            "id",
-            "name"
-        ],
-        "include": [
-            {
-                "model": models.turno,
-                "where": {
-                    "escapeRoomId": escapeRoom.id
-                }
-            },
-            {
-                "model": models.puzzle,
-                "as": "retos",
-                "through": {"model": models.retosSuperados}
-            }
-        ],
-        "order": Sequelize.literal("lower(team.name) ASC")
-    };
-
-    if (turnId) {
-        options.include[0].where.id = turnId;
-    }
-    const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
-    const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
+    const {turnId} = query;
 
     try {
-        const teams = await models.team.findAll(options);
+        const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId, "lower(team.name) ASC"));
         const result = teams.map((team) => {
             const {id, name, retos, turno} = team;
             const {startTime} = turno;
-            const retosSuperados = retos.map((reto) => {
-                const {id, retosSuperados} = reto;
+            const retosSuperadosArr = retos.map((reto) => {
+                const {retosSuperados} = reto;
                 const {createdAt} = retosSuperados;
-                let time;
+                const time = startTime ? (createdAt - startTime) / 1000 : null;
 
-                if (startTime) {
-                    time = (createdAt - startTime) / 1000;
-                }
-                return {id,
+                return {"id": reto.id,
                     time};
             });
 
             return {
                 id,
                 name,
-                "retosSuperados": turno.startTime ? retosSuperados : []
+                "retosSuperados": turno.startTime ? retosSuperadosArr : []
             };
         });
 
-        console.dir(result, {"depth": null,
-            "pretty": true});
-        res.render("escapeRooms/analytics/timeline", {"escapeRoom": req.escapeRoom,
+        res.render("escapeRooms/analytics/progress", {"escapeRoom": req.escapeRoom,
             "teams": result});
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+};
+
+// GET /escapeRooms/:escapeRoomId/analytics/timeline
+exports.timeline = async (req, res, next) => {
+    const {escapeRoom, query} = req;
+    const {turnId} = query;
+
+    try {
+        const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId));
+
+        res.render("escapeRooms/analytics/timeline", {"escapeRoom": req.escapeRoom,
+            teams});
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+};
+
+// GET /escapeRooms/:escapeRoomId/analytics/histogram
+exports.histogram = async (req, res, next) => {
+    const {escapeRoom, query} = req;
+    const {turnId} = query;
+
+    try {
+        const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId)).
+            map((team) => {
+                const {turno} = team;
+
+                return {
+                    "id": team.id,
+                    "retosSuperados": team.retos.map((reto) => ({"id": reto.id,
+                        "time": turno.startTime ? (reto.retosSuperados.createdAt - turno.startTime) / 1000 : null}))
+                };
+            });
+        const result = {};
+
+        for (const t in teams) {
+            const team = teams[t];
+
+            for (const r in team.retosSuperados) {
+                const reto = team.retosSuperados[r];
+
+                result[reto.id] = [
+                    ...result[reto.id] || [],
+                    reto.time
+                ];
+            }
+        }
+
+        res.render("escapeRooms/analytics/histogram", {"escapeRoom": req.escapeRoom,
+            "puzzles": result});
     } catch (e) {
         console.error(e);
         next(e);

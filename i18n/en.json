@@ -5,13 +5,22 @@
             "failed": "Hint requests failed",
             "succeeded": "Hints obtained"
         },
+        "histogram": {
+            "title": "Histogram"
+        },
         "main": {
             "hints": "Hints",
+            "histogram":"Histogram",
+            "progress":"Progress",
             "ranking": "Ranking",
             "retosSuperados": "Solved puzzles",
             "summary": "Summary",
             "timeline": "Timeline",
             "title": "Learning analytics",
+            "chart": {
+                "svg": "Download SVG",
+                "png": "Download PNG"
+            },
             "dashboard": {
                 "nParticipants": "# Participants",
                 "sucessRate": "Success Rate",
@@ -21,6 +30,9 @@
                 "retosSuperadosTeam": "# of teams that completed the puzzle"
 
             }
+        },
+        "progress": {
+            "title": "Progress"
         },
         "ranking": {
             "members": "Members",
@@ -351,8 +363,9 @@
         "Puzzles": "Puzzles",
         "writeSol": "Writre here the solution",
         "wrongAnswer": "Sorry! Wrong answer",
-        "correctAnswer": "Congratilations! You've completed this puzzle",
-        "finish": "Congratilations! You've exited the Escape Room."
+        "correctAnswer": "Congratulations! You've completed this puzzle",
+        "finish": "Congratulations! You've exited the Escape Room.",
+        "start":"Start"
     },
     "showStudent": {
         "access": "acceder",

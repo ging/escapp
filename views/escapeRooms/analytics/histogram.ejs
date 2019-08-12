@@ -1,0 +1,132 @@
+<script src="/js/vendor/apexcharts.js"></script>
+<script src="/js/extractColor.js"></script>
+
+<% include ../../partials/_header.ejs %>
+<div class="main">
+    <div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+            <i class="material-icons">chevron_right</i>
+            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
+            <i class="material-icons">chevron_right</i>
+            <span><%=i18n.analytics.histogram.title%></span>
+        </div>
+    </div>
+  <h2><%=i18n.analytics.histogram.title%></h2>
+
+  <div id="chart"></div>
+  <script>
+    var escapeRoom = <%-JSON.stringify(escapeRoom)%>
+    var duration = escapeRoom.duration;
+    var puzzles = escapeRoom.puzzles;
+    var nPuzzles = puzzles.length;
+    var retosSuperados = <%-JSON.stringify(puzzles) %>
+    const colors = [green, yellow, orange, red, purple];
+
+
+    function formData(){
+      return puzzles.map( puz => {
+      	let size = duration/5 + 1;
+      	let data = new Array(size).fill(0);
+      	for (let i = 0; i < retosSuperados[puz.id].length; i++) {
+      		let idx = Math.round((size*retosSuperados[puz.id][i])/(duration*60));
+      		if (idx >= 0 && idx < data.length) {
+      			data[idx] += 1
+      		}
+      	}
+      	return { name: puz.title, data }
+      });
+    }
+
+    function xAxis(){
+      let size = duration/5 + 1;
+      let values = new Array(size);
+      for (let i = 0; i<=size; i++){
+        values[i]=i*5 + "'";
+      }
+      return values;
+    }
+    const series = formData();
+    let options = {
+      chart: {
+        height: 380,
+        type: 'line',
+        locales: [{
+          "name": "en",
+          "options": {
+            "toolbar": {
+                "exportToSVG": "<%=i18n.analytics.main.chart.svg%>",
+                "exportToPNG": "<%=i18n.analytics.main.chart.png%>",
+                "menu": "Menu",
+            }
+          }
+        }],
+        defaultLocale: "en",
+        // stacked: true
+      },
+      stroke: {
+          curve: 'smooth'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      colors,
+      series,
+      // fill: {
+      //   type: 'gradient',
+      //       gradient: {
+      //         opacityFrom: 0,
+      //         opacityTo: 0
+      //       }
+      // },
+      xaxis: {
+        labels: {
+          style:{
+            colors: 'black',
+            fontSize: '11px',
+          }
+        },
+        crosshairs: {
+          show: true,
+          opacity: 1,
+          stroke: {
+            color: 'white',
+            width: 0.5,
+            dashArray: 5,
+          },
+          fill: {
+            type: 'solid',
+            color: 'white',
+          },
+        },
+        categories: xAxis(),
+      },
+      yaxis: {
+        show: true,
+        decimalsInFloat: 0,
+        labels: {
+          formatter: function (value) {
+            return parseInt(value) + " <%=i18n.team.teamS%>";
+          }, 
+          style: {
+            color: 'black'
+          }
+        },
+      },
+      legend: {
+        labels: {
+            colors:'black'
+        }
+      },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+    chart.render();
+
+</script>
+<br/>
+<br/>
+<br/>
+</div>
+<% include ../../partials/_footer %>

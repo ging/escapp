@@ -57,7 +57,7 @@ exports.adminOrAuthorOrParticipantRequired = (req, res, next) => {
         next();
         return;
     }
-    models.user.findAll(query.user.all(req.escapeRoom.id, req.session.user.id)).then((participants) => {
+    models.user.findAll(query.user.escapeRoomsForUser(req.escapeRoom.id, req.session.user.id)).then((participants) => {
         const isParticipant = participants && participants.length > 0;
 
         req.isParticipant = isParticipant ? participants[0] : null;
@@ -91,8 +91,11 @@ exports.index = (req, res, next) => {
     } else {
         models.escapeRoom.findAll(query.escapeRoom.all()).
             then((erAll) => {
+                console.log(erAll);
                 models.escapeRoom.findAll(query.escapeRoom.all(req.user.id)).
                     then((erFiltered) => {
+                        console.log(erFiltered);
+
                         const ids = erFiltered.map((e) => e.id);
                         const escapeRooms = erAll.map((er) => ({
                             "id": er.id,

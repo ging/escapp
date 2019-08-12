@@ -12,136 +12,61 @@
             <span><%=i18n.analytics.timeline.title%></span>
         </div>
     </div>
-    <h2><%=i18n.analytics.timeline.title%></h2>
+  <h2><%=i18n.analytics.timeline.title%></h2>
 
-    <div id="chart"></div>
+  <div id="timeline">
+    <% let duration = escapeRoom.duration %>
+    <% let puzzles = escapeRoom.puzzles %>
+    <%
+    var timePercent = function(puzzleTime, prevPuzzleTime) {
+      var time = ( puzzleTime - prevPuzzleTime)/60000;
+      return (time/duration)*100;
+    }
+    %>
+
+    <% for (let t in teams) { 
+      let team = teams[t];%>
+      <div id="team">
+        <div class="team-name">
+          <%=team.name%>
+        </div>
+        <div class="progress">
+          <img class="door" src="https://sonsoleslp.neocities.org/puertacerrada.png" alt=""/>
+          <%
+            let startTime = team.turno.startTime;
+            let prevPuzzleTime = startTime;
+          %>
+          <% for (let r in team.retos) { 
+            let reto = team.retos[r];
+            let puzzleTime = reto.retosSuperados.createdAt;
+            let perc = timePercent(puzzleTime, prevPuzzleTime, startTime)
+            prevPuzzleTime = puzzleTime
+            %>
+              <div class="step progress-puzzle-<%=r % 5 %>" style="width:<%=perc%>%;">
+                <%var dur = Math.round(perc*duration/100)%>
+                <%=dur%>'
+
+              </div>
+          <% } %>
+          <% if (team.retos.length === puzzles.length) {%>
+            <img class="door" src="https://sonsoleslp.neocities.org/puertaabierta.png" alt=""/>
+          <%} else { %>
+              <div class="step step-flex progress-puzzle-<%= team.retos.length % 5%>" style=""></div>
+
+          <% } %>
+        </div>
+      </div>
+    <% } %>
+  </div>
   <script>
     var escapeRoom = <%-JSON.stringify(escapeRoom)%>
     var duration = escapeRoom.duration;
-    var nPuzzles = escapeRoom.puzzles.length;
-  
+    var puzzles = escapeRoom.puzzles;
+    var nPuzzles = puzzles.length;
     var teams = <%-JSON.stringify(teams) %>
-    console.dir(teams, {depth: 5})
+    const colors = [green, yellow, orange, red, purple];
 
-    var nTeams = teams.length;
-    const puzzleColor = [green, yellow, orange, red, purple];
 
-    function currentPuzzle(team){
-      var size = duration/5 + 1;
-      var position =0;
-      var puzzles = new Array(size);
-      var times = new Array(teams[team].retosSuperados.length)
-      if (teams[team].retosSuperados.length == nPuzzles) {
-        //ha superado todos los retos 
-        puzzles.fill(nPuzzles);
-      };
-      if (teams[team].retosSuperados.length < nPuzzles){
-        puzzles.fill(teams[team].retosSuperados.length);
-      };
-       //llenamos un array con el numero de puntos correspondientes a cada prueba y en orden
-      for(var i = 0; i<teams[team].retosSuperados.length; i++){
-        times[i]= Math.round((size*teams[team].retosSuperados[i].time)/(duration*60));
-      };
-      times = times.reverse();
-      console.log(times);
-      
-      for (var i = 0; i < times.length; i++){
-        var nHoles= times[i];
-        puzzles.fill(i, position, position + nHoles);
-        position+=nHoles;
-      };
-      return puzzles;
-    };
-    function formData(){
-      var series = new Array(nTeams);
-      for (var i=0; i<nTeams; i++){
-        var arrayTimes = currentPuzzle(i);
-        //en cada posicion del array se mete un objeto 
-        series[i] = { name: teams[i].name, data: arrayTimes };
-      }
-      return series;
-    };
-    function xAxis(){
-      var size = duration/5 + 1;
-      var values = new Array(size);
-      for (var i = 0; i<=size; i++){
-        values[i]=i*5 + "'";
-      };
-      return values
-    };
-    function yAxis(){
-      var values = new Array(nPuzzles+1);
-      for(vari=0; i<=values; i++){
-        values[i]= "Reto " + (i+1);
-      };
-      values[0] = "Inicio"
-    };
-
-    var options = {
-      chart: {
-        height: 380,
-        type: 'area',
-      },
-      dataLabels: {
-        enabled: false
-      },
-      colors: puzzleColor,
-      series: formData(),
-      fill: {
-        type: 'gradient',
-            gradient: {
-              opacityFrom: 0,
-              opacityTo: 0
-            }
-      },
-      xaxis: {
-        labels: {
-          style:{
-            colors:'black',
-            fontSize: '11px',
-          }
-        },
-        crosshairs: {
-          show: true,
-          opacity: 1,
-          stroke: {
-            color: 'white',
-            width: 0.5,
-            dashArray: 5,
-          },
-          fill: {
-            type: 'solid',
-            color: 'white',
-          },
-        },
-        categories: xAxis(),
-        
-      },
-      yaxis: {
-        show: true,
-        tickAmount: nPuzzles+1,
-        min: 0,
-        max: nPuzzles+1,
-        decimalsInFloat: 0,
-        labels: {
-          formatter: function (value) {
-            return value ? "Reto " + value : "Inicio";
-          }, 
-          style: {
-            color: 'black'
-          }
-        },
-    },
-      legend: {
-        labels: {
-            colors:'black'
-        }
-      },
-    };
-
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-    chart.render();
 
 </script>
 <br/>
