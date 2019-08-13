@@ -1553,55 +1553,138 @@ button, input[type="submit"] {
     -moz-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0);
     box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0); } }
 
-#timeline #team {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  width: 100%;
-  margin: 5px; }
-  #timeline #team * {
-    font-family: 'Lato'; }
-  #timeline #team .team-name {
-    width: 10%;
-    line-height: 45px;
-    vertical-align: middle; }
-  #timeline #team .progress {
+.timeline #timeline-chart {
+  text-align: right; }
+  .timeline #timeline-chart #team {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    width: 90%;
-    align-items: center; }
-    #timeline #team .progress .door {
-      width: 30px; }
-    #timeline #team .progress .step {
-      background-color: white;
-      margin: 3px;
-      text-align: center;
+    width: 100%;
+    text-align: left;
+    margin: 5px;
+    margin-bottom: -15px; }
+    .timeline #timeline-chart #team * {
+      font-family: 'Lato'; }
+    .timeline #timeline-chart #team .team-name {
+      width: 10%;
+      line-height: 63px;
+      vertical-align: middle;
       text-overflow: ellipsis;
-      overflow: hidden;
-      height: 30px; }
-    #timeline #team .progress .step-flex {
-      flex: 1; }
-    #timeline #team .progress .progress-puzzle-0 {
-      background-color: var(--brightgreen); }
-      #timeline #team .progress .progress-puzzle-0.step-flex {
-        background-image: linear-gradient(to right, var(--brightgreen) 80%, var(--mainpurple) 100%); }
-    #timeline #team .progress .progress-puzzle-1 {
-      background-color: var(--lightred); }
-      #timeline #team .progress .progress-puzzle-1.step-flex {
-        background-image: linear-gradient(to right, var(--lightred) 80%, var(--mainpurple) 100%); }
-    #timeline #team .progress .progress-puzzle-2 {
-      background-color: var(--textpurple); }
-      #timeline #team .progress .progress-puzzle-2.step-flex {
-        background-image: linear-gradient(to right, var(--textpurple) 80%, var(--mainpurple) 100%); }
-    #timeline #team .progress .progress-puzzle-3 {
-      background-color: var(--brightorange); }
-      #timeline #team .progress .progress-puzzle-3.step-flex {
-        background-image: linear-gradient(to right, var(--brightorange) 80%, var(--mainpurple) 100%); }
-    #timeline #team .progress .progress-puzzle-4 {
-      background-color: var(--brightyellow); }
-      #timeline #team .progress .progress-puzzle-4.step-flex {
-        background-image: linear-gradient(to right, var(--brightyellow) 80%, var(--mainpurple) 100%); }
+      overflow: hidden; }
+    .timeline #timeline-chart #team .door {
+      width: 28px;
+      height: 56px;
+      margin: 4px; }
+    .timeline #timeline-chart #team .progress {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      width: 90%;
+      align-items: center; }
+      .timeline #timeline-chart #team .progress .step {
+        margin: 3px;
+        text-align: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        height: 30px;
+        font-size: 12px;
+        line-height: 30px;
+        vertical-align: middle;
+        position: relative;
+        overflow: visible; }
+        .timeline #timeline-chart #team .progress .step .tooltip {
+          left: 55%; }
+        .timeline #timeline-chart #team .progress .step:hover .tooltip {
+          visibility: visible;
+          opacity: 1; }
+      .timeline #timeline-chart #team .progress .step-flex {
+        flex: 1; }
+  .timeline #timeline-chart .requestedHints {
+    position: relative;
+    width: calc(90% - 40px);
+    height: 1px;
+    display: inline-block;
+    margin-bottom: 35px; }
+    .timeline #timeline-chart .requestedHints .requestedHint {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: white;
+      border-radius: 6px;
+      border: 2px solid white;
+      cursor: crosshair; }
+      .timeline #timeline-chart .requestedHints .requestedHint.success {
+        background-color: #48C18E; }
+      .timeline #timeline-chart .requestedHints .requestedHint.fail {
+        background-color: #F47E84; }
+      .timeline #timeline-chart .requestedHints .requestedHint:hover .tooltip {
+        visibility: visible;
+        opacity: 1; }
+
+.timeline #legend {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 30px; }
+  .timeline #legend .puzzle-legend {
+    font-family: 'Lato';
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 14px;
+    justify-content: center; }
+    .timeline #legend .puzzle-legend .puzzle-legend-circle {
+      border-radius: 7px;
+      width: 14px;
+      height: 14px;
+      margin: 2px; }
+
+.timeline .tooltip {
+  display: inline-block;
+  visibility: hidden;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  color: #656683;
+  font-size: 12px;
+  width: auto;
+  min-width: 150px;
+  padding: 10px;
+  line-height: 15px;
+  opacity: 0;
+  transition: 0.3s opacity ease-in;
+  z-index: 1;
+  text-align: left; }
+  .timeline .tooltip * {
+    font-family: 'Lato'; }
+
+.timeline .progress-puzzle-0 {
+  background-color: var(--brightgreen); }
+  .timeline .progress-puzzle-0.step-flex {
+    background-image: linear-gradient(to right, var(--brightgreen) 80%, var(--mainpurple) 100%); }
+
+.timeline .progress-puzzle-1 {
+  background-color: var(--lightred); }
+  .timeline .progress-puzzle-1.step-flex {
+    background-image: linear-gradient(to right, var(--lightred) 80%, var(--mainpurple) 100%); }
+
+.timeline .progress-puzzle-2 {
+  background-color: var(--textpurple); }
+  .timeline .progress-puzzle-2.step-flex {
+    background-image: linear-gradient(to right, var(--textpurple) 80%, var(--mainpurple) 100%); }
+
+.timeline .progress-puzzle-3 {
+  background-color: var(--brightorange); }
+  .timeline .progress-puzzle-3.step-flex {
+    background-image: linear-gradient(to right, var(--brightorange) 80%, var(--mainpurple) 100%); }
+
+.timeline .progress-puzzle-4 {
+  background-color: var(--brightyellow); }
+  .timeline .progress-puzzle-4.step-flex {
+    background-image: linear-gradient(to right, var(--brightyellow) 80%, var(--mainpurple) 100%); }
 
 .main.inspiration {
   font-size: 18px; }

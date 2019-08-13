@@ -38,7 +38,7 @@ exports.analytics = async (req, res, next) => {
         };
 
         const avgReqHints = {
-            "value": teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a",
+            "value": teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter(h=>h.success).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a",
             "icon": "search"
         };
 
@@ -461,7 +461,8 @@ exports.timeline = async (req, res, next) => {
     try {
         const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId));
 
-        res.render("escapeRooms/analytics/timeline", {"escapeRoom": req.escapeRoom,
+        res.render("escapeRooms/analytics/timeline", {
+            "escapeRoom": req.escapeRoom,
             teams});
     } catch (e) {
         console.error(e);

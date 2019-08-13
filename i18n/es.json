@@ -11,7 +11,7 @@
         "main": {
             "hints": "Pistas",
             "histogram":"Histograma",
-            "progress":"Progress",
+            "progress":"Progreso",
             "ranking": "Ranking",
             "retosSuperados": "Retos superados",
             "summary": "Resumen",
@@ -48,7 +48,13 @@
             "title": "Resumen"
         },
         "timeline": {
-            "title": "Cronograma"
+            "failed": "Pista fallida",
+            "hint": "Pista",
+            "score": "Puntuación",
+            "solved": "Resuelto",
+            "title": "Cronograma",
+            "time": "Tiempo",
+            "unsolved": "No resuelto"
         }
     },
     "common": {

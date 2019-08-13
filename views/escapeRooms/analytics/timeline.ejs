@@ -2,7 +2,7 @@
 <script src="/js/extractColor.js"></script>
 
 <% include ../../partials/_header.ejs %>
-<div class="main">
+<div class="main timeline">
     <div class="breadcrumbs-container">
         <div class="breadcrumbs">
             <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
@@ -13,25 +13,44 @@
         </div>
     </div>
   <h2><%=i18n.analytics.timeline.title%></h2>
+  <% let duration = escapeRoom.duration %>
+  <% let puzzles = escapeRoom.puzzles %>
+  <div id="legend">
+    
+    <% for (let p in puzzles) { 
+      let puzzle = puzzles[p];
+      %>
+      <div class="puzzle-legend">
+      <div class="puzzle-legend-circle progress-puzzle-<%=p%>"></div>
+        <%= puzzle.title %>
+      </div>
 
-  <div id="timeline">
-    <% let duration = escapeRoom.duration %>
-    <% let puzzles = escapeRoom.puzzles %>
+    <% } %>
+  </div>
+  <div id="timeline-chart">
+   
     <%
-    var timePercent = function(puzzleTime, prevPuzzleTime) {
-      var time = ( puzzleTime - prevPuzzleTime)/60000;
+    var calculatePuzzleTime = function(puzzleTime, prevPuzzleTime) {
+      return (puzzleTime - prevPuzzleTime)/60000;
+    }
+
+    var puzzlePosition = function(puzzleTime, prevPuzzleTime) {
+      var time = calculatePuzzleTime(puzzleTime, prevPuzzleTime);
       return (time/duration)*100;
     }
+
     %>
 
     <% for (let t in teams) { 
-      let team = teams[t];%>
+      let team = teams[t];
+      let requestedHints = team.requestedHints;
+      %>
       <div id="team">
         <div class="team-name">
           <%=team.name%>
-        </div>
+        </div><img class="door" src="/images/doorclosed.png" alt=""/>
         <div class="progress">
-          <img class="door" src="https://sonsoleslp.neocities.org/puertacerrada.png" alt=""/>
+          
           <%
             let startTime = team.turno.startTime;
             let prevPuzzleTime = startTime;
@@ -39,36 +58,63 @@
           <% for (let r in team.retos) { 
             let reto = team.retos[r];
             let puzzleTime = reto.retosSuperados.createdAt;
-            let perc = timePercent(puzzleTime, prevPuzzleTime, startTime)
-            prevPuzzleTime = puzzleTime
+            let perc = puzzlePosition(puzzleTime, prevPuzzleTime);
+            prevPuzzleTime = puzzleTime;
             %>
               <div class="step progress-puzzle-<%=r % 5 %>" style="width:<%=perc%>%;">
-                <%var dur = Math.round(perc*duration/100)%>
-                <%=dur%>'
-
+                <%= Math.round(perc*duration/100)%>'
+                <div class="tooltip">
+                  <div class="tooltip-info">
+                  <b><%=puzzles[r].title%></b>
+                  </div>
+                  <div class="tooltip-info">
+                    <b><%=i18n.analytics.timeline.solved%>: </b> <%=Math.round(calculatePuzzleTime(puzzleTime, startTime))%>'
+                  </div>
+                </div>
               </div>
           <% } %>
           <% if (team.retos.length === puzzles.length) {%>
-            <img class="door" src="https://sonsoleslp.neocities.org/puertaabierta.png" alt=""/>
+            <img class="door" src="/images/dooropen.png" alt=""/>
           <%} else { %>
-              <div class="step step-flex progress-puzzle-<%= team.retos.length % 5%>" style=""></div>
-
+              <div class="step step-flex progress-puzzle-<%= team.retos.length % 5%>" style="">
+                  <div class="tooltip">
+                    <div class="tooltip-info">
+                    <b><%=puzzles[team.retos.length].title%></b>
+                    </div>
+                    <div class="tooltip-info">
+                     <%=i18n.analytics.timeline.unsolved%>
+                    </div>
+                </div>
+              </div>
           <% } %>
-        </div>
+          </div>
+
+      </div>
+      <div class="requestedHints">
+        <% for (let h in requestedHints) { %>
+          <% let hint = requestedHints[h] %>
+          <div class="requestedHint <%= hint.success ? "success":"fail" %>" style="left: <%=puzzlePosition(hint.createdAt, startTime)%>%;">
+            <div class="tooltip">
+              <div class="tooltip-info">
+                <b><%=i18n.analytics.timeline.time%>: </b> <%= calculatePuzzleTime(hint.createdAt, startTime)%>'
+              </div>
+              <div class="tooltip-info">
+                <b><%=i18n.analytics.timeline.score%>: </b> <%= hint.score %>%
+              </div>
+              <%if(hint.hint){%>
+                <div class="tooltip-info">
+                  <b><%=i18n.analytics.timeline.hint%>: </b><%= hint.hint.content %>
+                </div>
+              <%} else { %>
+                <div class="tooltip-info"><%=i18n.analytics.timeline.failed%></div>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
       </div>
     <% } %>
   </div>
-  <script>
-    var escapeRoom = <%-JSON.stringify(escapeRoom)%>
-    var duration = escapeRoom.duration;
-    var puzzles = escapeRoom.puzzles;
-    var nPuzzles = puzzles.length;
-    var teams = <%-JSON.stringify(teams) %>
-    const colors = [green, yellow, orange, red, purple];
-
-
-
-</script>
+ 
 <br/>
 <br/>
 <br/>

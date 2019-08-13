@@ -29,9 +29,12 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
             },
             {
                 "model": models.requestedHint,
-                "attributes": ["id"],
-                "where": {"success": true},
-                "required": false
+                "attributes": ["id", "success", "score", "createdAt"],
+                // "where": {"success": true},
+                "required": false,
+                "include" : [{
+                    "model": models.hint
+                }]
             }
         ]
     };
