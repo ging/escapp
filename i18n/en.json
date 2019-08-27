@@ -1,5 +1,12 @@
 {
     "analytics": {
+        "grading": {
+            "config": "Edit grading scheme",
+            "title": "Grading",
+            "attendance": "Attendance",
+            "hintSuccess": "Hints obtained",
+            "hintFailed": "Hints missed"
+        },
         "hints": {
             "title": "Hints",
             "failed": "Hint requests failed",
@@ -155,7 +162,13 @@
                 "videoPlaceHolder": "An URL dor the Escape Room's introduction video"
             },
             "evaluation": {
+                "eachHint": "Assign a penalty or reward for requesting a hint",
+                "eachPuzzle": "Assign a different weight to each puzzle",
                 "forSurveys": "create surveys and quizes for your Escape Room",
+                "hintSuccess": "Points for each hint request succeeded",
+                "hintFailed": "Points for each hint request failed",
+                "justParticipating": "Just for participating",
+                "gradingIntro": "You can customize a grading scheme to grade the activity",
                 "or": "or",
                 "posttestField": "Post-quiz",
                 "posttestPlaceHolder": "Write here your post-quiz link",
@@ -164,7 +177,9 @@
                 "surveyField": "Survey",
                 "surveyPlaceHolder": "Write here your survey link",
                 "title": "Eval",
+                "total": "Total",
                 "youCanUse": "You can use"
+
             },
             "hints": {
                 "correctNumber": "Hit number",

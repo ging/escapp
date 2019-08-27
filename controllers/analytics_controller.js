@@ -1,4 +1,3 @@
-const Sequelize = require("sequelize");
 const {models} = require("../models");
 const {createCsvFile} = require("../helpers/csv");
 const queries = require("../queries");
@@ -38,7 +37,7 @@ exports.analytics = async (req, res, next) => {
         };
 
         const avgReqHints = {
-            "value": teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter(h=>h.success).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a",
+            "value": teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter((h) => h.success).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a",
             "icon": "search"
         };
 
@@ -82,7 +81,7 @@ exports.puzzlesByParticipants = async (req, res, next) => {
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
 
     try {
-        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom, turnId, orderBy));
+        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy));
         const results = users.map((u) => {
             const {id, name, surname, dni, username} = u;
             const retosSuperados = retosSuperadosByWho(u.teamsAgregados[0], puzzles);
@@ -141,7 +140,7 @@ exports.puzzlesByTeams = async (req, res, next) => {
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
 
     try {
-        const teams = await models.team.findAll(queries.team.puzzlesByTeam(escapeRoom, turnId));
+        const teams = await models.team.findAll(queries.team.puzzlesByTeam(escapeRoom.id, turnId));
         const results = teams.map((u) => {
             const {id, name} = u;
             const retosSuperados = retosSuperadosByWho(u, puzzles);
@@ -188,7 +187,7 @@ exports.ranking = async (req, res, next) => {
     const {turnId} = query;
 
     try {
-        const result = await models.team.findAll(queries.team.ranking(escapeRoom, turnId));
+        const result = await models.team.findAll(queries.team.ranking(escapeRoom.id, turnId));
         const teams = result.map((teamRes) => ({...teamRes.dataValues,
             "countretos": teamRes.dataValues.retos.length,
             "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => r.retosSuperados.createdAt).sort((a, b) => a < b)[0] : null})).sort((t1, t2) => {
@@ -213,54 +212,18 @@ exports.ranking = async (req, res, next) => {
 exports.hintsByParticipants = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId, orderBy, csv} = query;
-    const options = {
-        "include": [
-            {
-                "model": models.team,
-                "as": "teamsAgregados",
-                "required": true,
-                "include": [
-                    {
-                        "model": models.turno,
-                        "where": {},
-                        "include": {
-                            "model": models.escapeRoom,
-                            "required": true,
-                            "where": {
-                                "id": escapeRoom.id
-                            }
-                        }
-                    },
-                    {
-                        "model": models.requestedHint,
-                        "include": {
-                            "model": models.hint
-                        }
-                    }
-                ]
-            }
 
-        ]
-    };
-
-    if (turnId) {
-        options.include[0].include[0].where.id = turnId;
-    }
-    if (orderBy) {
-        const isPg = process.env.DATABASE_URL;
-
-        options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
-    }
 
     try {
-        const users = await models.user.findAll(options);
+        const users = await models.user.findAll(queries.hint.hintsByParticipant(escapeRoom.id, turnId, orderBy));
         const results = users.map((u) => {
             let hintsSucceeded = 0;
             let hintsFailed = 0;
+            const [{requestedHints}] = u.teamsAgregados;
             const {name, surname} = u;
 
-            for (const h in u.teamsAgregados[0].requestedHints) {
-                const hint = u.teamsAgregados[0].requestedHints[h];
+            for (const h in requestedHints) {
+                const hint = requestedHints[h];
 
                 if (hint.success) {
                     hintsSucceeded++;
@@ -287,9 +250,10 @@ exports.hintsByParticipants = async (req, res, next) => {
             for (const u in users) {
                 const user = users[u];
                 const {id, name, surname, dni, username} = user;
+                const [{requestedHints}] = u.teamsAgregados;
 
-                for (const h in u.teamsAgregados[0].requestedHints) {
-                    const hint = u.teamsAgregados[0].requestedHints[h];
+                for (const h in requestedHints) {
+                    const hint = requestedHints[h];
                     const {success, score, createdAt} = hint;
 
                     resultsCsv.push({
@@ -321,39 +285,10 @@ exports.hintsByParticipants = async (req, res, next) => {
 exports.hintsByTeams = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId, orderBy, csv} = query;
-    const options = {
-        "include": [
-            {
-                "model": models.turno,
-                "where": {},
-                "include": {
-                    "model": models.escapeRoom,
-                    "required": true,
-                    "where": {
-                        "id": escapeRoom.id
-                    }
-                }
-            },
-            {
-                "model": models.requestedHint,
-                "include": {
-                    "model": models.hint
-                }
-            }
-        ]
-    };
 
-    if (turnId) {
-        options.include[0].where.id = turnId;
-    }
-    if (orderBy) {
-        const isPg = process.env.DATABASE_URL;
-
-        options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
-    }
 
     try {
-        const teams = await models.team.findAll(options);
+        const teams = await models.team.findAll(queries.hint.hintsByTeam(escapeRoom.id, turnId, orderBy));
 
         if (!csv) {
             const results = teams.map((t) => {
@@ -461,8 +396,7 @@ exports.timeline = async (req, res, next) => {
     try {
         const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId));
 
-        res.render("escapeRooms/analytics/timeline", {
-            "escapeRoom": req.escapeRoom,
+        res.render("escapeRooms/analytics/timeline", {"escapeRoom": req.escapeRoom,
             teams});
     } catch (e) {
         console.error(e);
@@ -506,5 +440,95 @@ exports.histogram = async (req, res, next) => {
     } catch (e) {
         console.error(e);
         next(e);
+    }
+};
+
+// GET /escapeRooms/:escapeRoomId/analytics/grading
+exports.grading = async (req, res, next) => {
+    const {escapeRoom, query} = req;
+    const {turnId, orderBy, csv} = query;
+    const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
+    const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
+
+    try {
+        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true));
+
+        const results = users.map((user) => {
+            const {name, surname, dni, username} = user;
+            const turno = user.turnosAgregados[0].date;
+            let hintsSucceeded = 0;
+            let hintsFailed = 0;
+
+            const retosSuperados = retosSuperadosByWho(user.teamsAgregados[0], puzzles);
+            const [{requestedHints}] = user.teamsAgregados;
+
+            for (const h in requestedHints) {
+                const hint = requestedHints[h];
+
+                if (hint.success) {
+                    hintsSucceeded++;
+                } else {
+                    hintsFailed++;
+                }
+            }
+            const grades = retosSuperados.map((reto, index) => reto * (escapeRoom.puzzles[index].score || 0));
+            const gradeScore = grades.reduce((a, b) => a + b);
+            const attendance = user.turnosAgregados[0].participants.attendance ? escapeRoom.scoreParticipation : 0;
+
+            hintsFailed *= escapeRoom.hintFailed || 0;
+            hintsSucceeded *= escapeRoom.hintSuccess || 0;
+            const total = hintsFailed + hintsSucceeded + attendance + gradeScore;
+
+            return {
+                name,
+                surname,
+                dni,
+                username,
+                turno,
+                grades,
+                turnId,
+                attendance,
+                hintsFailed,
+                hintsSucceeded,
+                total
+            };
+        });
+
+        if (csv) {
+            const resultsCsv = results.map((rslt) => {
+                const {name, surname, username, dni, turno, grades, attendance, hintsFailed, hintsSucceeded, total} = rslt;
+                const rs = {};
+
+                for (const r in grades) {
+                    rs[puzzleNames[r]] = grades[r];
+                }
+                return {
+                    name,
+                    surname,
+                    username,
+                    dni,
+                    turno,
+                    ...rs,
+                    attendance,
+                    hintsFailed,
+                    hintsSucceeded,
+                    total
+                };
+            });
+
+            createCsvFile(res, resultsCsv);
+        } else {
+            res.render("escapeRooms/analytics/grading", {escapeRoom,
+                results,
+                turnId,
+                orderBy});
+        }
+    } catch (e) {
+        console.error(e);
+        if (csv) {
+            res.send("Error");
+        } else {
+            next(e);
+        }
     }
 };

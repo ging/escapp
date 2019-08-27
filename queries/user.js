@@ -33,7 +33,7 @@ exports.escapeRoomsForUser = (escapeRoomId, userId) => ({
     }
 });
 
-exports.puzzlesByParticipant = (escapeRoom, turnId, orderBy) => {
+exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints) => {
     const options = {
         "include": [
             {
@@ -46,20 +46,40 @@ exports.puzzlesByParticipant = (escapeRoom, turnId, orderBy) => {
                         "where": {},
                         "include": {
                             "model": models.escapeRoom,
+                            "attributes": [],
                             "required": true,
                             "where": {
-                                "id": escapeRoom.id
+                                "id": escapeRoomId
                             }
                         }
                     },
                     {
                         "model": models.puzzle,
+                        // "attributes": ["id"],
                         "as": "retos",
                         "through": {
                             "model": models.retosSuperados
                         }
                     }
+
                 ]
+            },
+            {
+                "model": models.turno,
+                "as": "turnosAgregados",
+                "duplicating": false,
+                "required": true,
+                "attributes": [
+                    "id",
+                    "date"
+                ],
+                "where": {
+                    escapeRoomId
+                },
+                "through": {
+                    "model": models.participants,
+                    "attributes": ["attendance"]
+                }
             }
 
         ]
@@ -73,5 +93,15 @@ exports.puzzlesByParticipant = (escapeRoom, turnId, orderBy) => {
 
         options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
     }
+
+    if (includeReqHints) {
+        options.include[0].include.push({
+            "model": models.requestedHint,
+            "include": {
+                "model": models.hint
+            }
+        });
+    }
+    console.log(options);
     return options;
 };

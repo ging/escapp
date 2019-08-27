@@ -1,5 +1,12 @@
 {
     "analytics": {
+        "grading": {
+            "config": "Modificar rúbrica",
+            "title": "Calificaciones",
+            "attendance": "Attendance",
+            "hintSuccess": "Hints obtained",
+            "hintFailed": "Hints missed"
+        },
         "hints": {
             "title": "Pistas",
             "failed": "Peticiones de pista fallidas",
@@ -9,6 +16,7 @@
             "title": "Histograma"
         },
         "main": {
+            "grading": "Calificaciones",
             "hints": "Pistas",
             "histogram":"Histograma",
             "progress":"Progreso",
@@ -154,6 +162,12 @@
                 "videoPlaceHolder": "URL del vídeo de presentación de la Escape Room"
             },
             "evaluation": {
+                "eachHint": "Asigna una penalización o recompensa por solicitar una pista",
+                "eachPuzzle": "Asigna un peso diferente a cada reto",
+                "gradingIntro": "Puedes configurar la rúbrica de evaluación para calificar a los alumnos",
+                "hintSuccess": "Puntos por solicitud de pista conseguida",
+                "hintFailed": "Puntos por solicitud de pista fallida",
+                "justParticipating": "Sólo por participar",
                 "forSurveys": "para crear las encuestas y cuestionarios de tu escape room",
                 "or": "o",
                 "posttestField": "Post-test",
@@ -163,6 +177,7 @@
                 "surveyField": "Encuesta",
                 "surveyPlaceHolder": "Escribe el enlace a la encuesta",
                 "title": "Evaluación",
+                "total": "Total",
                 "youCanUse": "Puedes utilizar"
             },
             "hints": {

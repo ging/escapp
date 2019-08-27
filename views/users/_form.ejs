@@ -2,9 +2,9 @@
 <h1 class="loginWelcomeMessage">
     Regístrate:
 </h1>
-    <form method="post" action="/users<%=redir ? ("?redir="+redir) : "" %>">
+    <form method="post" class=" " action="/users<%=redir ? ("?redir="+redir) : "" %>">
         <%}else{%>
-    <form method="post" action="/users/<%=user.id%>?_method=PUT%>">
+    <form method="post" class="userForm" action="/users/<%=user.id%>?_method=PUT%>">
 <%}%>
 
 <div>

@@ -1,20 +1,68 @@
 <% include ../../partials/_header.ejs %>
 <div class="main step-evaluation">
   <h2><%=i18n.escapeRoom.steps.evaluation.title%></h2>  
-	<p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.youCanUse%> <a target="_blank" href="https://docs.google.com/forms/u/0/">Google Forms</a> o <a target="_blank" href="https://www.typeform.com/es/">TypeForm</a> <%=i18n.escapeRoom.steps.evaluation.forSurveys%></p>
   <form method='POST' class="basicConfig" action='/escapeRooms/<%= escapeRoom.id %>/evaluation'  >
-  	<div class="wideRow erFormField animated flipInX">
-  	    <label for="tit"  class="itemNarrow">1. <%=i18n.escapeRoom.steps.evaluation.pretestField%>:</label>
-  	    <input autofocus type="text" class="customInput itemWide" id="pretest" name="pretest" value="<%= escapeRoom.pretest %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.pretestPlaceHolder%>" autocomplete="off"/>
-  	</div>
-  	<div class="wideRow erFormField animated flipInX">
-  	    <label for="subj"  class="itemNarrow">2. <%=i18n.escapeRoom.steps.evaluation.posttestField%>:</label>
-  	    <input type="text" class="customInput itemWide" id="posttest" name="posttest" value="<%= escapeRoom.posttest %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.posttestPlaceHolder%>" autocomplete="off"/>
-  	</div>
-  	<div class="wideRow erFormField animated flipInX">
-  	    <label for="subj"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.surveyField%>:</label>
-  	    <input type="text" class="customInput itemWide" id="survey" name="survey" value="<%= escapeRoom.survey %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.surveyPlaceHolder%>" autocomplete="off"/>
-  	</div>
+	  <p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.youCanUse%> <a target="_blank" href="https://docs.google.com/forms/u/0/">Google Forms</a> o <a target="_blank" href="https://www.typeform.com/es/">TypeForm</a> <%=i18n.escapeRoom.steps.evaluation.forSurveys%></p>
+	  <div class="wideRow erFormField animated flipInX">
+  	      <label for="tit"  class="itemNarrow">1. <%=i18n.escapeRoom.steps.evaluation.pretestField%>:</label>
+  	      <input autofocus type="text" class="customInput itemWide" id="pretest" name="pretest" value="<%= escapeRoom.pretest %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.pretestPlaceHolder%>" autocomplete="off"/>
+	  </div>
+	  <div class="wideRow erFormField animated flipInX">
+		  <label for="subj"  class="itemNarrow">2. <%=i18n.escapeRoom.steps.evaluation.posttestField%>:</label>
+		  <input type="text" class="customInput itemWide" id="posttest" name="posttest" value="<%= escapeRoom.posttest %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.posttestPlaceHolder%>" autocomplete="off"/>
+	  </div>
+	  <div class="wideRow erFormField animated flipInX">
+		  <label for="subj"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.surveyField%>:</label>
+		  <input type="text" class="customInput itemWide" id="survey" name="survey" value="<%= escapeRoom.survey %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.surveyPlaceHolder%>" autocomplete="off"/>
+	  </div>
+	  <p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.gradingIntro%> </p>
+	  <div class="wideRow erFormField animated flipInX">
+		  <label for="tit"  class="itemNarrow">4. <%=i18n.escapeRoom.steps.evaluation.eachPuzzle%>:</label>
+		  <table class="scorePuzzles">
+			  <tr><td><label>Puzzle</label></td><td><label>Weight(%)</label></td></tr>
+			  <tr>
+				  <td><label for="score-participation"><%=i18n.escapeRoom.steps.evaluation.justParticipating%></label></td>
+				  <td>
+					  <input type="number" min="0" max="100" value="<%=escapeRoom.scoreParticipation || 0%>" name="scoreParticipation" class="customInput scoreInput"  id="score-participation"/>
+				  </td>
+			  </tr>
+
+			<% var totalScore = escapeRoom.scoreParticipation || 0;%>
+		  <% for (let p in escapeRoom.puzzles) { let puzzle = escapeRoom.puzzles[p] %>
+			  <tr>
+					<td><label for="score-puzzle-<%=puzzle.id%>"><%= puzzle.title %></label></td>
+				  	<td>
+						<input type="number" min="0" max="100" value="<%= puzzle.score || 0 %>" name="scores" class="customInput scoreInput" id="score-puzzle-<%=puzzle.id%>"/>
+						<% totalScore += puzzle.score || 0 %>
+					</td>
+			  </tr>
+
+		  <% } %>
+			  <tr>
+			  </tr>
+		  </table>
+	  </div>
+	  <div class="wideRow erFormField animated flipInX">
+		  <label for="tit"  class="itemNarrow">4. <%=i18n.escapeRoom.steps.evaluation.eachHint%>:</label>
+		  <table class="scorePuzzles">
+			  <tr>
+				  <td><label for="hintSuccess"><%=i18n.escapeRoom.steps.evaluation.hintSuccess%>(%)</label></td>
+				  <td>
+					  <input type="number" min="-100" max="100" value="<%=escapeRoom.hintSuccess || 0%>" class="customInput" id="hintSuccess" name="hintSuccess"/>
+				  </td>
+			  </tr>
+			  <tr>
+				  <td><label for="hintFailed"><%=i18n.escapeRoom.steps.evaluation.hintFailed%>(%)</label></td>
+				  <td>
+					  <input type="number" min="-100" max="100" value="<%=escapeRoom.hintFailed || 0%>" class="customInput" id="hintFailed" name="hintFailed"/>
+				  </td>
+			  </tr>
+		  </table>
+	  </div>
+	  <div class="score-total">
+		  <span><%=i18n.escapeRoom.steps.evaluation.total%></span>
+		  <span id="totalScore"><%=totalScore%>%</span>
+	  </div>
 	  <br>
 	  <br>
 	  <div class="align-right flex-buttons" style="margin-bottom: 60px;">
@@ -30,3 +78,18 @@
 
 <% include ../../partials/_footer %>
 <% include ../../partials/_scrollListener %>
+
+<script>
+	$(function(){
+	  let updateScore = function(){
+		let newScore = 0;
+		$(".scoreInput").each(function(i, e){
+		  newScore += parseFloat(e.value || 0);
+		});
+		$("#totalScore").text(newScore + "%");
+	  }
+	  let scoreInput = $('.scoreInput');
+	  scoreInput.on("keyup", updateScore);
+	  scoreInput.on("change", updateScore);
+	});
+</script>

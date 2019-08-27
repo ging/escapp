@@ -3,8 +3,10 @@ const {models} = require("../models");
 exports.load = {
     "include": [
         {"model": models.turno},
-        {"model": models.puzzle,
-            "include": [{"model": models.hint}]},
+        {
+            "model": models.puzzle,
+            "include": [{"model": models.hint}]
+        },
         models.attachment,
         models.hintApp,
         {"model": models.user,
@@ -24,7 +26,7 @@ exports.load = {
         [
             {"model": models.puzzle},
             {"model": models.hint},
-            "createdAt",
+            "id",
             "asc"
         ]
     ]

@@ -49,6 +49,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
     }
 };
 
+// MW that allows actions only if the user logged in is admin, the author, or a participant of the escape room.
 exports.adminOrAuthorOrParticipantRequired = (req, res, next) => {
     const isAdmin = Boolean(req.session.user.isAdmin),
         isAuthor = req.escapeRoom.authorId === req.session.user.id;
@@ -69,7 +70,6 @@ exports.adminOrAuthorOrParticipantRequired = (req, res, next) => {
     }).
         catch((e) => next(e));
 };
-
 
 // GET /escapeRooms
 exports.index = (req, res, next) => {
@@ -115,9 +115,7 @@ exports.index = (req, res, next) => {
 };
 
 // GET /escapeRooms
-exports.indexBreakDown = (req, res) => {
-    res.redirect("/");
-};
+exports.indexBreakDown = (req, res) => res.redirect("/");
 
 // GET /escapeRooms/:escapeRoomId
 exports.show = (req, res) => {
@@ -233,11 +231,7 @@ exports.create = (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/edit
-exports.edit = (req, res) => {
-    const {escapeRoom} = req;
-
-    res.render("escapeRooms/edit", {escapeRoom});
-};
+exports.edit = (req, res) => res.render("escapeRooms/edit", {"escapeRoom": req.escapeRoom});
 
 // PUT /escapeRooms/:escapeRoomId
 exports.update = (req, res, next) => {
@@ -504,7 +498,7 @@ exports.encuestas = (req, res) => {
 };
 
 // POST /escapeRooms/:escapeRoomId/evaluation
-exports.encuestasUpdate = (req, res, next) => {
+exports.evaluationUpdate = (req, res, next) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
@@ -512,14 +506,35 @@ exports.encuestasUpdate = (req, res, next) => {
     escapeRoom.survey = body.survey;
     escapeRoom.pretest = body.pretest;
     escapeRoom.posttest = body.posttest;
-
+    escapeRoom.scoreParticipation = body.scoreParticipation;
+    escapeRoom.hintSuccess = body.hintSuccess;
+    escapeRoom.hintFailed = body.hintFailed;
     escapeRoom.save({"fields": [
         "survey",
         "pretest",
-        "posttest"
+        "posttest",
+        "scoreParticipation",
+        "hintSuccess",
+        "hintFailed"
     ]}).then(() => {
-        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? "appearance" : progressBar || ""}`);
+        if (!body.scores || body.scores.length !== escapeRoom.puzzles.length) {
+            return;
+        }
+        const promises = [];
+
+        for (const p in body.scores) {
+            if (parseFloat(escapeRoom.puzzles[p].score || 0) !== parseFloat(body.scores[p] || 0)) {
+                escapeRoom.puzzles[p].score = body.scores[p];
+                promises.push(new Promise((resolve) => {
+                    escapeRoom.puzzles[p].save({"fields": ["score"]}).then(resolve);
+                }));
+            }
+        }
+        return Promise.all(promises);
     }).
+        then(() => {
+            res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? "appearance" : progressBar || ""}`);
+        }).
         catch(Sequelize.ValidationError, (error) => {
             error.errors.forEach(({message}) => req.flash("error", message));
             res.redirect(`/escapeRooms/${escapeRoom.id}/evaluation`);

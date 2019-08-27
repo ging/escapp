@@ -3,7 +3,7 @@ button, input[type="submit"] {
   background-color: white;
   color: #161938;
   font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
-  border-radius: 5px;
+  border-radius: 20px;
   border-color: white;
   border-style: solid;
   padding: 10px;
@@ -1034,8 +1034,20 @@ button, input[type="submit"] {
   #mainSection .main #add-reto .material-icons {
     font-size: 32px; }
 
-#mainSection .main h2 {
+#mainSection .main.step-evaluation h2 {
   text-align: left; }
+
+#mainSection .main.step-evaluation .scorePuzzles {
+  margin: 36px;
+  margin-bottom: 40px; }
+  #mainSection .main.step-evaluation .scorePuzzles * {
+    font-family: Lato, sans-serif; }
+  #mainSection .main.step-evaluation .scorePuzzles td {
+    padding: 10px;
+    font-size: 0.8em; }
+    #mainSection .main.step-evaluation .scorePuzzles td .customInput {
+      margin: 0;
+      padding-top: 0px; }
 
 #mainSection .main.step-hints #noHintsLabel {
   font-family: 'Lato', sans-serif !important;
@@ -1430,6 +1442,10 @@ button, input[type="submit"] {
           height: 24px;
           border: 2px solid #161938;
           border-radius: 12px; }
+  .retosSuperados .editGradingScheme {
+    vertical-align: baseline;
+    padding-left: 50px;
+    display: inline-block; }
 
 .ranking {
   text-align: center; }
@@ -1685,6 +1701,13 @@ button, input[type="submit"] {
   background-color: var(--brightyellow); }
   .timeline .progress-puzzle-4.step-flex {
     background-image: linear-gradient(to right, var(--brightyellow) 80%, var(--mainpurple) 100%); }
+
+.userForm label, .userForm span, .userForm input {
+  font-family: Lato; }
+
+.userForm button {
+  font-size: 16px;
+  height: 36px; }
 
 .main.inspiration {
   font-size: 18px; }

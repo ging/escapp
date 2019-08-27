@@ -29,12 +29,19 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
             },
             {
                 "model": models.requestedHint,
-                "attributes": ["id", "success", "score", "createdAt"],
+                "attributes": [
+                    "id",
+                    "success",
+                    "score",
+                    "createdAt"
+                ],
                 // "where": {"success": true},
                 "required": false,
-                "include" : [{
-                    "model": models.hint
-                }]
+                "include": [
+                    {
+                        "model": models.hint
+                    }
+                ]
             }
         ]
     };
@@ -49,13 +56,13 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
     return where;
 };
 
-exports.puzzlesByTeam = (escapeRoom, turnId) => {
+exports.puzzlesByTeam = (escapeRoomId, turnId) => {
     const options = {
         "include": [
             {
                 "model": models.turno,
                 "where": {
-                    "escapeRoomId": escapeRoom.id
+                    escapeRoomId
                 }
             },
             {
@@ -73,7 +80,7 @@ exports.puzzlesByTeam = (escapeRoom, turnId) => {
     return options;
 };
 
-exports.ranking = (escapeRoom, turnId) => {
+exports.ranking = (escapeRoomId, turnId) => {
     const options = {
         // "includeIgnoreAttributes": false,
         "attributes": ["name"],
@@ -101,7 +108,7 @@ exports.ranking = (escapeRoom, turnId) => {
                 ],
                 "where": {
                     // "status": {[Sequelize.Op.not]: "pending"},
-                    "escapeRoomId": escapeRoom.id
+                    escapeRoomId
                 }
             },
             {

@@ -1,0 +1,84 @@
+<% include ../../partials/_header.ejs %>
+
+<div class="main retosSuperados">
+    <div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+            <i class="material-icons">chevron_right</i>
+            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
+            <i class="material-icons">chevron_right</i>
+            <span><%=i18n.analytics.grading.title%></span>
+        </div>
+    </div>
+    <h2><%=i18n.analytics.grading.title%></h2>
+    <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/grading">
+        <div class="filters">
+            <label for="turnId"><%=i18n.turnos.Turno%>
+                <select name="turnId" id="turnId">
+                    <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
+                    <% for (t in escapeRoom.turnos) { %>
+                    <% var turno = escapeRoom.turnos[t] %>
+                    <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
+                        <%= getFullDate(turno.date)%>
+                    </option>
+                    <% } %>
+                </select>
+            </label>
+            <label for="orderBy">Ordenar por
+                <select name="orderBy" id="orderBy">
+                    <option value="" <%= !orderBy ? "selected": ""%>  disabled></option>
+                    <option value="name" <%= orderBy === "name" ? "selected": ""%>><%=i18n.user.name%></option>
+                    <option value="surname" <%= orderBy === "surname" ? "selected": ""%>><%=i18n.user.surname%></option>
+                </select></label>
+            <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
+            <button type="submit" name="csv" value="1" class="filter-button white" >descargar</button>
+            <a class="editGradingScheme" href="/escapeRooms/<%=escapeRoom.id%>/evaluation"><%=i18n.analytics.grading.config%></a>
+
+        </div>
+    </form>
+    <br/>
+    <table>
+        <tr class="animated fadeInRight">
+            <th><%=i18n.user.name%></th>
+            <th><%=i18n.turnos.Turno%></th>
+            <th><%=i18n.analytics.grading.attendance%></th>
+            <%for (var p in escapeRoom.puzzles) {
+                var puzzle = escapeRoom.puzzles[p];
+            %>
+            <th>
+                <%=puzzle.title%>
+            </th>
+            <%} %>
+            <th><%=i18n.analytics.grading.hintSuccess%></th>
+            <th><%=i18n.analytics.grading.hintFailed%></th>
+            <th><%=i18n.common.Total%></th>
+        </tr>
+        <%for (var p in results) {
+            var result = results[p];
+        %>
+        <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(p)+(0.3)%>s;">
+            <td class="align-left"><%=result.name%> <%= result.surname%></td>
+            <td><%= getFullDate(result.turno)%></td>
+
+            <td><%=result.attendance%></td>
+            <% for (var r in result.grades) {
+                var grade = result.grades[r];
+            %>
+            <td >
+                <%=grade%>
+            </td>
+            <% } %>
+            <td><%=result.hintsSucceeded%></td>
+            <td><%=result.hintsFailed%></td>
+            <td><%=result.total%>%</td>
+        </tr>
+        <%} %>
+
+    </table>
+
+    <br/>
+
+    <br/>
+
+</div>
+<% include ../../partials/_footer %>

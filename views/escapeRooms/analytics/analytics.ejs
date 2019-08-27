@@ -9,39 +9,52 @@
         </div>
     </div>
     <h2><%=i18n.analytics.main.title%></h2>
+<%
+    var sections = [
+        {
+            url:"/ranking",
+            icon:"event_seat",
+            title: i18n.analytics.main.ranking
+        },
+        {
+            url:"/puzzles/teams",
+            icon:"check",
+            title: i18n.analytics.main.retosSuperados
+        },
+        {
+            url:"/progress",
+            icon:"timelapse",
+            title: i18n.analytics.main.progress
+        },
+        {
+            url:"/timeline",
+            icon:"timeline",
+            title: i18n.analytics.main.timeline
+        },
+        {
+            url:"/hints/teams",
+            icon:"search",
+            title: i18n.analytics.main.hints
+        },
+        {
+            url:"/histogram",
+            icon:"equalizer",
+            title: i18n.analytics.main.histogram
+        },
+        {
+            url:"/grading",
+            icon:"school",
+            title: i18n.analytics.main.grading
+        },
+    ]
 
+ %>
     <div class="flex-container analytics-menu">
         <div class="flex-container-left">
-            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/ranking" class="linkAnalyticsTag">
-                <span class="analyticsTag animated jackInTheBox  ">
-                    <i class="material-icons">event_seat</i> <span><%=i18n.analytics.main.ranking%></span>
-                </span>
-            </a>
-            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/puzzles/teams" class="linkAnalyticsTag">
-                <span class="analyticsTag animated jackInTheBox  ">
-                    <i class="material-icons">check</i> <span><%=i18n.analytics.main.retosSuperados%></span>
-                </span>
-            </a>
-            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/progress" class="linkAnalyticsTag">
-                <span class="analyticsTag animated jackInTheBox  ">
-                    <i class="material-icons">timelapse</i> <span><%=i18n.analytics.main.progress%></span>
-                </span>
-            </a>
-            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/timeline" class="linkAnalyticsTag">
-                <span class="analyticsTag animated jackInTheBox  ">
-                    <i class="material-icons">timeline</i> <span><%=i18n.analytics.main.timeline%></span>
-                </span>
-            </a>
-            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/hints/teams" class="linkAnalyticsTag">
-                <span class="analyticsTag animated jackInTheBox  ">
-                    <i class="material-icons">search</i> <span><%=i18n.analytics.main.hints%></span>
-                </span>
-            </a>
-            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics/histogram" class="linkAnalyticsTag">
-                <span class="analyticsTag animated jackInTheBox  ">
-                    <i class="material-icons">equalizer</i> <span><%=i18n.analytics.main.histogram%></span>
-                </span>
-            </a>
+            <%for (let i in sections) {
+            let {url, icon, title} = sections[i];%>
+            <%- include('_analytics_link', {url, icon, title, escapeRoom}) %>
+            <%}%>
         </div>
         <div class="flex-container-right">
             <%include _analytics_summary.ejs%>
