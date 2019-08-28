@@ -16,7 +16,7 @@
   <% let duration = escapeRoom.duration %>
   <% let puzzles = escapeRoom.puzzles %>
   <div id="legend">
-    
+
     <% for (let p in puzzles) { 
       let puzzle = puzzles[p];
       %>
@@ -31,6 +31,7 @@
    
     <%
     var calculatePuzzleTime = function(puzzleTime, prevPuzzleTime) {
+      console.log(puzzleTime, prevPuzzleTime, (puzzleTime - prevPuzzleTime)/60000)
       return (puzzleTime - prevPuzzleTime)/60000;
     }
 

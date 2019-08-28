@@ -70,7 +70,7 @@
             <% } %>
             <td><%=result.hintsSucceeded%></td>
             <td><%=result.hintsFailed%></td>
-            <td><%=result.total%>%</td>
+            <td style="background-color: <%=getGradientColor(result.total)%>;"><%=result.total%>%</td>
         </tr>
         <%} %>
 

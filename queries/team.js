@@ -43,6 +43,14 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
                     }
                 ]
             }
+        ],
+        "order": [
+            [
+                {"model": models.puzzle,
+                    "as": "retos"},
+                "id",
+                "ASC"
+            ]
         ]
     };
 
@@ -51,7 +59,13 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
     }
 
     if (order) {
-        where.order = Sequelize.literal("lower(team.name) ASC");
+        where.order = [
+            ...where.order,
+            [
+                {"model": models.team},
+                Sequelize.literal("lower(team.name) ASC")
+            ]
+        ];
     }
     return where;
 };
