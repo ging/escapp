@@ -1363,6 +1363,9 @@ button, input[type="submit"] {
           float: right; }
           .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card .card-icon i {
             font-size: 40px; }
+    .main.summary .flex-container.analytics-menu .flex-container-right .la-chart-title {
+      font-size: 20px;
+      padding-left: 20px; }
 
 .apexcharts-canvas * {
   font-family: "Lato" !important;

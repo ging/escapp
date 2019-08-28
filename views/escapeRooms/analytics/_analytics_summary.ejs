@@ -17,7 +17,13 @@
             </select>
         </label>
         <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
-
+        <a href="/escapeRooms/<%= escapeRoom.id %>/analytics/download">
+            <button type="button" class="filter-button white" >
+                download
+            </button>
+            <%=i18n.analytics.charts.titles[0]%>
+            <%=i18n.analytics.charts.titles["0"]%>
+        </a>
     </div>
 </form>
 <div class="card-container">
@@ -32,8 +38,10 @@
       }%>
 </div>
 <br/>
+
 <div class="chart-summary">
     <%for (var i in charts) {%>
+        <h3 class="la-chart-title"><%=i18n.analytics.charts.titles[i]%></h3>
         <div id="chart-<%=i%>"  ></div>
         <script>
           var colors = [green, yellow, orange, red, purple];
@@ -65,7 +73,7 @@
 
             },
             series: [{
-                name: "<%=i18n.analytics.retosSuperados.title%>",
+                name: "<%=i18n.analytics.charts.titles[i]%>",
                 data: <%-JSON.stringify(charts[i].data)%> 
             }],
             xaxis: {

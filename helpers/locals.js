@@ -48,7 +48,6 @@ module.exports = function (app) {
             mDisplay,
             sDisplay
         ].filter((a) => a !== "").join(", ");
-
     };
 
 

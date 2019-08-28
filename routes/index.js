@@ -155,5 +155,6 @@ router.get("/escapeRooms/:escapeRoomId/analytics/hints/teams", sessionController
 router.get("/escapeRooms/:escapeRoomId/analytics/puzzles/participants", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.puzzlesByParticipants);
 router.get("/escapeRooms/:escapeRoomId/analytics/puzzles/teams", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.puzzlesByTeams);
 router.get("/escapeRooms/:escapeRoomId/analytics/grading", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.grading);
+router.get("/escapeRooms/:escapeRoomId/analytics/download", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.download);
 
 module.exports = router;

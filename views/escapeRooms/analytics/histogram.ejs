@@ -46,7 +46,10 @@
       }
       return values;
     }
+
+
     const series = formData();
+    const tickAmount = Math.max(...series.flatMap(s=>s.data));
     let options = {
       chart: {
         height: 380,
@@ -62,7 +65,6 @@
           }
         }],
         defaultLocale: "en",
-        // stacked: true
       },
       stroke: {
           curve: 'smooth'
@@ -72,13 +74,6 @@
       },
       colors,
       series,
-      // fill: {
-      //   type: 'gradient',
-      //       gradient: {
-      //         opacityFrom: 0,
-      //         opacityTo: 0
-      //       }
-      // },
       xaxis: {
         labels: {
           style:{
@@ -103,11 +98,12 @@
       },
       yaxis: {
         show: true,
-        decimalsInFloat: 0,
+        tickAmount,
+        min: 0,
         labels: {
           formatter: function (value) {
             return parseInt(value) + " <%=i18n.team.teamS%>";
-          }, 
+          },
           style: {
             color: 'black'
           }

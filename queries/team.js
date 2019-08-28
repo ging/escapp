@@ -31,6 +31,7 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
                 "model": models.requestedHint,
                 "attributes": [
                     "id",
+                    "hintId",
                     "success",
                     "score",
                     "createdAt"
@@ -60,11 +61,11 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
 
     if (order) {
         where.order = [
-            ...where.order,
-            [
-                {"model": models.team},
-                Sequelize.literal("lower(team.name) ASC")
-            ]
+            ...where.order
+            // [
+            //     {"model": models.team},
+            //     Sequelize.literal("lower(team.name) ASC")
+            // ]
         ];
     }
     return where;

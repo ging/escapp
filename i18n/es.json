@@ -1,5 +1,8 @@
 {
     "analytics": {
+        "charts": {
+            "titles": { "retosSuperadosTeam": "Retos superados", "hintsByTeam":"Pistas solicitadas"}
+        },
         "grading": {
             "config": "Modificar rúbrica",
             "title": "Calificaciones",
@@ -8,14 +11,17 @@
             "hintFailed": "Hints missed"
         },
         "hints": {
-            "title": "Pistas",
+            "customClue": "Custom clue",
             "failed": "Peticiones de pista fallidas",
-            "succeeded": "Pistas obtenidas"
+            "failedClue": "Failed clue",
+            "succeeded": "Pistas obtenidas",
+            "title": "Pistas"
         },
         "histogram": {
             "title": "Histograma"
         },
         "main": {
+            "download": "descargar",
             "grading": "Calificaciones",
             "hints": "Pistas",
             "histogram":"Histograma",
