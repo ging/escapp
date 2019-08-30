@@ -1,7 +1,7 @@
 const {models} = require("../models");
 const {createCsvFile} = require("../helpers/csv");
 const queries = require("../queries");
-const {retosSuperadosByWho, flattenObject, getRetosSuperados, countHints} = require("../helpers/utils");
+const {retosSuperadosByWho, flattenObject, getRetosSuperados, countHints, pctgRetosSuperados} = require("../helpers/utils");
 
 // GET /escapeRooms/:escapeRoomId/analytics
 exports.analytics = async (req, res, next) => {
@@ -103,7 +103,7 @@ exports.puzzlesByParticipants = async (req, res, next) => {
         } else {
             const resultsCsv = results.map((rslt) => {
                 const {name, surname, dni, username, retosSuperados, total} = rslt;
-                const rs = flattenObject(retosSuperados, puzzleNames)
+                const rs = flattenObject(retosSuperados, puzzleNames);
 
                 return {
                     name,
@@ -156,7 +156,7 @@ exports.puzzlesByTeams = async (req, res, next) => {
         } else {
             const resultsCsv = results.map((rslt) => {
                 const {id, name, retosSuperados, total} = rslt;
-                const rs = flattenObject(retosSuperados, puzzleNames)
+                const rs = flattenObject(retosSuperados, puzzleNames);
 
                 return {
                     id,
@@ -207,7 +207,8 @@ exports.hintsByParticipants = async (req, res, next) => {
             const [{requestedHints}] = u.teamsAgregados;
             const {name, surname} = u;
 
-            let {hintsSucceeded, hintsFailed } = countHints(requestedHints);
+            const {hintsSucceeded, hintsFailed} = countHints(requestedHints);
+
             return {
                 "name": `${name} ${surname}`,
                 hintsSucceeded,
@@ -271,7 +272,8 @@ exports.hintsByTeams = async (req, res, next) => {
             const results = teams.map((t) => {
                 const {id, name, requestedHints} = t;
 
-                let {hintsSucceeded, hintsFailed } = countHints(requestedHints);
+                const {hintsSucceeded, hintsFailed} = countHints(requestedHints);
+
                 return {
                     id,
                     name,
@@ -354,69 +356,6 @@ exports.progress = async (req, res, next) => {
     }
 };
 
-
-const currentPuzzle = (team, nPuzzles) => {
-    const times = new Array(nPuzzles).fill(0);
-
-    for (let i = 0; i < nPuzzles; i++) {
-        for (let j = 0; j < team.retosSuperados.length; j++) {
-            if (team.retosSuperados[j].id === i + 1) {
-                times[i] = Math.round(team.retosSuperados[j].time / (60 * 5));
-            }
-        }
-    }
-    for (let i = 0; i < times.length - 1; i++) {
-        times[i + 1] += times[i];
-    }
-    return times;
-};
-
-const nTeamsPuzzle = (puzzles, teams, duration) => {
-    const nPuzzles = puzzles.length;
-    const nTeams = teams.length;
-    const info = new Array(nPuzzles);
-    const times = new Array(nTeams);
-    const intervals = Math.ceil(duration / 5) + 1;
-
-    for (let i = 0; i < nTeams; i++) {
-        times[i] = currentPuzzle(teams[i], nPuzzles);
-    }
-    for (let i = 0; i < nPuzzles; i++) {
-        info[i] = new Array(intervals).fill(0);
-        for (let j = 0; j < nTeams; j++) {
-            const index = times[j][i];
-
-            for (let k = index; k < intervals; k++) {
-                if (index !== 0) {
-                    info[i][k] += 1;
-                }
-            }
-        }
-    }
-
-    return puzzles.map((puzzle, i) => ({"name": puzzle.title,
-        "data": info[i]}));
-};
-
-
-const currentPuzzleBis = (team, duration) => {
-    const intervals = Math.ceil(duration / 5) + 1;
-    let position = 0;
-    const puzzles = new Array(intervals).fill(team.retosSuperados.length);
-    const times = team.retosSuperados.map((reto) => Math.floor(intervals * reto.time / (duration * 60))).reverse();
-
-    for (let i = 0; i < times.length; i++) {
-        const nHoles = times[i];
-
-        puzzles.fill(i, position, position + nHoles);
-        position += nHoles;
-    }
-    return puzzles;
-};
-
-const nPuzzlesTeam = (teams, duration, nPuzzles) => teams.map((team) => ({"name": team.name,
-    "data": currentPuzzleBis(team, duration, nPuzzles)}));
-
 // GET /escapeRooms/:escapeRoomId/analytics/timeline
 exports.timeline = async (req, res, next) => {
     const {escapeRoom, query} = req;
@@ -490,7 +429,7 @@ exports.grading = async (req, res, next) => {
             const retosSuperados = retosSuperadosByWho(user.teamsAgregados[0], puzzles);
             const [{requestedHints}] = user.teamsAgregados;
 
-            let {hintsSucceeded, hintsFailed } = countHints(requestedHints);
+            let {hintsSucceeded, hintsFailed} = countHints(requestedHints);
 
             const grades = retosSuperados.map((reto, index) => reto * (escapeRoom.puzzles[index].score || 0));
             const gradeScore = grades.reduce((a, b) => a + b);
