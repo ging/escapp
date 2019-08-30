@@ -1469,9 +1469,11 @@ button, input[type="submit"] {
   .timeline #timeline-chart .requestedHints {
     position: relative;
     width: calc(90% - 40px);
-    height: 1px;
     display: inline-block;
-    margin-bottom: 35px; }
+    margin-bottom: 35px;
+    height: 13px;
+    display: inline-block;
+    overflow: hidden; }
     .timeline #timeline-chart .requestedHints .requestedHint {
       position: absolute;
       width: 12px;

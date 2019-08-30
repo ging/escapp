@@ -4,7 +4,13 @@ const {models} = require("../models");
 exports.teamComplete = (escapeRoomId, turnId, order) => {
     const where = {
         // "attributes": [],
-        "order": [[{model: models.puzzle, as: "retos"}, "id"]],
+        "order": [
+            [
+                {"model": models.puzzle,
+                    "as": "retos"},
+                "id"
+            ]
+        ],
         "include": [
             {
                 "model": models.turno,
