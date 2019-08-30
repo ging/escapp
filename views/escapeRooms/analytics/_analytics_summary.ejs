@@ -1,5 +1,5 @@
-<script src="/js/apexcharts.js"></script>
-
+<script src="/js/extractColor.js"></script>
+<script src="/js/vendor/apexcharts.js"></script>
 <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/">
     <div class="filters">
         <label for="turnId"><%=i18n.turnos.Turno%>
@@ -22,89 +22,76 @@
 </form>
 <div class="card-container">
     <% var counter = 0;
-            for (var k in summary) {%>
-    <div class="card <%=k%> animated zoomIn  " style="animation-delay: <%=counter/5%>s;">
-        <div class="card-icon"><i class="material-icons"><%=summary[k].icon%></i></div>
-        <div class="card-title"><%=i18n.analytics.main.dashboard[k]%></div>
-        <div class="card-content"><%=summary[k].value%></div>
-    </div>
-    <%counter++;
-    }%>
+      for (var k in summary) {%>
+        <div class="card <%=k%> animated zoomIn  " style="animation-delay: <%=counter/5%>s;">
+            <div class="card-icon"><i class="material-icons"><%=summary[k].icon%></i></div>
+            <div class="card-title"><%=i18n.analytics.main.dashboard[k]%></div>
+            <div class="card-content"><%=summary[k].value%></div>
+        </div>
+      <%counter++;
+      }%>
 </div>
-<script>
-  var bodyStyles = window.getComputedStyle(document.body);
-  var cp = (prop) => bodyStyles.getPropertyValue(prop).trim();
-  var puzzleColor = [
-    cp('--lightred'),
-    cp('--brightgreen'),
-    cp('--brightyellow'),
-    cp('--brightorange'),
-    cp('--brightblue'),
-    cp('--textpurple')]
-</script>
+<br/>
 <div class="chart-summary">
 
     <%for (var i in charts) {%>
-    <div id="chart_<%=i%>">
-    </div>
+        <div id="chart-<%=i%>"  ></div>
         <script>
-          var nTeams = <%= charts[i].data.length %>
+          var colors = [green, yellow, orange, red, purple];
           var options = {
             chart: {
-              height: 380,
-              type: "bar",
-              events: {
-                click: function(chart, w, e){
-                  console.log(chart, w, e )
-                }
-              },
+                height: 350,
+                type: 'bar',
+                locales: [{
+                  "name": "en",
+                  "options": {
+                    "toolbar": {
+                        "exportToSVG": "<%=i18n.analytics.main.chart.svg%>",
+                        "exportToPNG": "<%=i18n.analytics.main.chart.png%>",
+                        "menu": "Menu",
+                    }
+                  }
+                }],
+                defaultLocale: "en",
             },
-            colors: puzzleColor,
+            colors: colors,
             plotOptions: {
-              bar: {
-                columnWidth: '70%',
-                distributed: true
-              }
+                bar: {
+                    columnWidth: '45%',
+                    distributed: true
+                }
             },
             dataLabels: {
-              enabled: false,
+                enabled: false,
+
             },
             series: [{
-              name: '',
-              data: <%- JSON.stringify(charts[i].data)%>
+                name: "<%=i18n.analytics.retosSuperados.title%>",
+                data: <%-JSON.stringify(charts[i].data)%> 
             }],
             xaxis: {
-              categories:  <%- JSON.stringify(charts[i].labels)%>,
-              labels: {
-                style: {
-                  colors: 'black',
-                  fontSize: '14px'
+                categories: <%-JSON.stringify(charts[i].labels)%>,
+                labels: {
+                    style: {
+                        colors: colors,
+                        fontSize: '14px'
+                    }
                 }
-              }
             },
             yaxis: {
-              show: true,
-              tickAmount: nTeams,
-              min: 0,
-              max: nTeams,
               labels: {
-                formatter: function (value) {
-                  if (value == 1){
-                    return value + " <%=i18n.team.team%>";
+                  formatter: function (value) {
+                    return parseInt(value);
                   }
-                  else {
-                    return value + " <%=i18n.team.teams%>";
-                  };
                 },
-                style: {
-                  color: 'black'
-                }
-              }
-
             }
+            
           };
-          var chart = new ApexCharts(document.querySelector("#chart_<%=i%>"), options);
+
+          var chart = new ApexCharts(document.querySelector("#chart-<%=i%>"), options);
+
           chart.render();
+ 
         </script>
     <%}%>
 </div>

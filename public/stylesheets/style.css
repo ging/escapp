@@ -7,7 +7,7 @@ button, input[type="submit"] {
   background-color: white;
   color: #161938;
   font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
-  border-radius: 5px;
+  border-radius: 20px;
   border-color: white;
   border-style: solid;
   padding: 10px;
@@ -164,7 +164,7 @@ button, input[type="submit"] {
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.sucessRate {
           color: #48C18E; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.bestTime {
-          color: #36A2EB; }
+          color: #232951; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.avgReqHints {
           color: #F3945E; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card .card-title {
@@ -178,35 +178,56 @@ button, input[type="submit"] {
           .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card .card-icon i {
             font-size: 40px; }
 
-.main.timeline .apexcharts-xaxis-label, .main.timeline .apexcharts-yaxis-label, .main.summary .apexcharts-xaxis-label, .main.summary .apexcharts-yaxis-label {
+.apexcharts-canvas * {
+  font-family: "Lato" !important;
+  color: #656683; }
+
+.apexcharts-xaxis-label {
+  fill: white !important;
+  font-family: "Lato"; }
+
+.apexcharts-yaxis-label {
+  fill: white !important;
+  font-family: "Lato"; }
+
+.apexcharts-legend-text {
+  color: white !important;
+  font-family: "Lato"; }
+
+#hints-chart * {
+  color: #656683;
+  font-family: "Lato" !important;
+  font-size: 12px !important; }
+
+#hints-chart.timeline .apexcharts-xaxis-label, #hints-chart.timeline .apexcharts-yaxis-label, #hints-chart.summary .apexcharts-xaxis-label, #hints-chart.summary .apexcharts-yaxis-label {
   fill: white !important; }
 
-.main.timeline .apexcharts-legend-text, .main.summary .apexcharts-legend-text {
+#hints-chart.timeline .apexcharts-legend-text, #hints-chart.summary .apexcharts-legend-text {
   color: white !important;
   font-family: Lato, sans-serif; }
 
-.main.timeline .apexcharts-tooltip, .main.summary .apexcharts-tooltip {
+#hints-chart.timeline .apexcharts-tooltip, #hints-chart.summary .apexcharts-tooltip {
   color: #656683; }
-  .main.timeline .apexcharts-tooltip.light, .main.summary .apexcharts-tooltip.light {
+  #hints-chart.timeline .apexcharts-tooltip.light, #hints-chart.summary .apexcharts-tooltip.light {
     background: white;
     border-radius: 0px; }
-  .main.timeline .apexcharts-tooltip .apexcharts-tooltip-title, .main.summary .apexcharts-tooltip .apexcharts-tooltip-title {
+  #hints-chart.timeline .apexcharts-tooltip .apexcharts-tooltip-title, #hints-chart.summary .apexcharts-tooltip .apexcharts-tooltip-title {
     background: white; }
 
-.main.timeline .apexcharts-menu, .main.summary .apexcharts-menu {
+#hints-chart.timeline .apexcharts-menu, #hints-chart.summary .apexcharts-menu {
   background-color: white;
   border-radius: 0px; }
-  .main.timeline .apexcharts-menu .apexcharts-menu-item, .main.summary .apexcharts-menu .apexcharts-menu-item {
+  #hints-chart.timeline .apexcharts-menu .apexcharts-menu-item, #hints-chart.summary .apexcharts-menu .apexcharts-menu-item {
     color: #656683;
     font-family: Lato, sans-serif; }
 
-.main.timeline .apexcharts-menu-icon svg, .main.summary .apexcharts-menu-icon svg {
+#hints-chart.timeline .apexcharts-menu-icon svg, #hints-chart.summary .apexcharts-menu-icon svg {
   fill: white !important; }
 
-.main.timeline .filters .filter-button, .main.summary .filters .filter-button {
+#hints-chart.timeline .filters .filter-button, #hints-chart.summary .filters .filter-button {
   border-radius: 50px; }
 
-.main.timeline .title, .main.summary .title {
+#hints-chart.timeline .title, #hints-chart.summary .title {
   font-weight: lighter;
   font-size: 25px; }
 
@@ -603,6 +624,21 @@ button, input[type="submit"] {
 @media (max-width: 576px) {
   .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper {
     width: 50%; } }
+
+#mainSection .main.step-evaluation h2 {
+  text-align: left; }
+
+#mainSection .main.step-evaluation .scorePuzzles {
+  margin: 36px;
+  margin-bottom: 40px; }
+  #mainSection .main.step-evaluation .scorePuzzles * {
+    font-family: Lato, sans-serif; }
+  #mainSection .main.step-evaluation .scorePuzzles td {
+    padding: 10px;
+    font-size: 0.8em; }
+    #mainSection .main.step-evaluation .scorePuzzles td .customInput {
+      margin: 0;
+      padding-top: 0px; }
 
 .filters * {
   font-size: 16px; }
@@ -1323,6 +1359,198 @@ button, input[type="submit"] {
     .ranking .content .filters {
       text-align: left; }
 
+.showStudent .flex {
+  display: flex; }
+  .showStudent .flex .flex-thumb {
+    width: 25%;
+    position: relative;
+    padding-top: 40px; }
+    .showStudent .flex .flex-thumb img {
+      width: 100%; }
+  .showStudent .flex .flex-er-info {
+    flex: 1;
+    padding: 15px; }
+    .showStudent .flex .flex-er-info *:not(h2) {
+      font-family: Lato, sans-serif; }
+    .showStudent .flex .flex-er-info *:not(b) {
+      font-weight: normal; }
+
+.showStudent .desc {
+  font-family: Lato, sans-serif; }
+
+.showStudent .status {
+  text-align: center; }
+
+.showStudent #unjoin {
+  text-align: right; }
+
+.showStudent .pulseButton {
+  margin: 100px;
+  cursor: pointer;
+  box-shadow: 0 0 2px 0px rgba(204, 169, 44, 0.2);
+  animation: pulseButton 2s infinite; }
+  .showStudent .pulseButton:hover {
+    animation: none; }
+
+.finish .finish-button {
+  background-color: white;
+  color: #161938;
+  border-color: white;
+  border-style: solid;
+  outline: 0px; }
+
+@-webkit-keyframes pulseButton {
+  0% {
+    -webkit-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0.4); }
+  70% {
+    -webkit-box-shadow: 0 0 2px 10px rgba(204, 169, 44, 0); }
+  100% {
+    -webkit-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0); } }
+
+@keyframes pulseButton {
+  0% {
+    -moz-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0.4);
+    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4); }
+  70% {
+    -moz-box-shadow: 0 0 2px 10px rgba(204, 169, 44, 0);
+    box-shadow: 0 0 2px 10px rgba(204, 169, 44, 0); }
+  100% {
+    -moz-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0);
+    box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0); } }
+
+.timeline #timeline-chart {
+  text-align: right; }
+  .timeline #timeline-chart #team {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    width: 100%;
+    text-align: left;
+    margin: 5px;
+    margin-bottom: -15px; }
+    .timeline #timeline-chart #team * {
+      font-family: 'Lato'; }
+    .timeline #timeline-chart #team .team-name {
+      width: 10%;
+      line-height: 63px;
+      vertical-align: middle;
+      text-overflow: ellipsis;
+      overflow: hidden; }
+    .timeline #timeline-chart #team .door {
+      width: 28px;
+      height: 56px;
+      margin: 4px; }
+    .timeline #timeline-chart #team .progress {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      width: 90%;
+      align-items: center; }
+      .timeline #timeline-chart #team .progress .step {
+        margin: 3px;
+        text-align: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        height: 30px;
+        font-size: 12px;
+        line-height: 30px;
+        vertical-align: middle;
+        position: relative;
+        overflow: visible; }
+        .timeline #timeline-chart #team .progress .step .tooltip {
+          left: 55%; }
+        .timeline #timeline-chart #team .progress .step:hover .tooltip {
+          visibility: visible;
+          opacity: 1; }
+      .timeline #timeline-chart #team .progress .step-flex {
+        flex: 1; }
+  .timeline #timeline-chart .requestedHints {
+    position: relative;
+    width: calc(90% - 40px);
+    height: 1px;
+    display: inline-block;
+    margin-bottom: 35px; }
+    .timeline #timeline-chart .requestedHints .requestedHint {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: white;
+      border-radius: 6px;
+      border: 2px solid white;
+      cursor: crosshair; }
+      .timeline #timeline-chart .requestedHints .requestedHint.success {
+        background-color: #48C18E; }
+      .timeline #timeline-chart .requestedHints .requestedHint.fail {
+        background-color: #F47E84; }
+      .timeline #timeline-chart .requestedHints .requestedHint:hover .tooltip {
+        visibility: visible;
+        opacity: 1; }
+
+.timeline #legend {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 30px; }
+  .timeline #legend .puzzle-legend {
+    font-family: 'Lato';
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 14px;
+    justify-content: center; }
+    .timeline #legend .puzzle-legend .puzzle-legend-circle {
+      border-radius: 7px;
+      width: 14px;
+      height: 14px;
+      margin: 2px; }
+
+.timeline .tooltip {
+  display: inline-block;
+  visibility: hidden;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  color: #656683;
+  font-size: 12px;
+  width: auto;
+  min-width: 150px;
+  padding: 10px;
+  line-height: 15px;
+  opacity: 0;
+  transition: 0.3s opacity ease-in;
+  z-index: 1;
+  text-align: left; }
+  .timeline .tooltip * {
+    font-family: 'Lato'; }
+
+.timeline .progress-puzzle-0 {
+  background-color: var(--brightgreen); }
+  .timeline .progress-puzzle-0.step-flex {
+    background-image: linear-gradient(to right, var(--brightgreen) 80%, var(--mainpurple) 100%); }
+
+.timeline .progress-puzzle-1 {
+  background-color: var(--lightred); }
+  .timeline .progress-puzzle-1.step-flex {
+    background-image: linear-gradient(to right, var(--lightred) 80%, var(--mainpurple) 100%); }
+
+.timeline .progress-puzzle-2 {
+  background-color: var(--textpurple); }
+  .timeline .progress-puzzle-2.step-flex {
+    background-image: linear-gradient(to right, var(--textpurple) 80%, var(--mainpurple) 100%); }
+
+.timeline .progress-puzzle-3 {
+  background-color: var(--brightorange); }
+  .timeline .progress-puzzle-3.step-flex {
+    background-image: linear-gradient(to right, var(--brightorange) 80%, var(--mainpurple) 100%); }
+
+.timeline .progress-puzzle-4 {
+  background-color: var(--brightyellow); }
+  .timeline .progress-puzzle-4.step-flex {
+    background-image: linear-gradient(to right, var(--brightyellow) 80%, var(--mainpurple) 100%); }
+
 .main.resources {
   font-size: 18px; }
   .main.resources *:not(i):not(h2) {
@@ -1429,65 +1657,10 @@ button, input[type="submit"] {
           height: 24px;
           border: 2px solid #161938;
           border-radius: 12px; }
-
-.showStudent .flex {
-  display: flex; }
-  .showStudent .flex .flex-thumb {
-    width: 25%;
-    position: relative;
-    padding-top: 40px; }
-    .showStudent .flex .flex-thumb img {
-      width: 100%; }
-  .showStudent .flex .flex-er-info {
-    flex: 1;
-    padding: 15px; }
-    .showStudent .flex .flex-er-info *:not(h2) {
-      font-family: Lato, sans-serif; }
-    .showStudent .flex .flex-er-info *:not(b) {
-      font-weight: normal; }
-
-.showStudent .desc {
-  font-family: Lato, sans-serif; }
-
-.showStudent .status {
-  text-align: center; }
-
-.showStudent #unjoin {
-  text-align: right; }
-
-.showStudent .pulseButton {
-  margin: 100px;
-  cursor: pointer;
-  box-shadow: 0 0 2px 0px rgba(204, 169, 44, 0.2);
-  animation: pulseButton 2s infinite; }
-  .showStudent .pulseButton:hover {
-    animation: none; }
-
-.finish .finish-button {
-  background-color: white;
-  color: #161938;
-  border-color: white;
-  border-style: solid;
-  outline: 0px; }
-
-@-webkit-keyframes pulseButton {
-  0% {
-    -webkit-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0.4); }
-  70% {
-    -webkit-box-shadow: 0 0 2px 10px rgba(204, 169, 44, 0); }
-  100% {
-    -webkit-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0); } }
-
-@keyframes pulseButton {
-  0% {
-    -moz-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0.4);
-    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4); }
-  70% {
-    -moz-box-shadow: 0 0 2px 10px rgba(204, 169, 44, 0);
-    box-shadow: 0 0 2px 10px rgba(204, 169, 44, 0); }
-  100% {
-    -moz-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0);
-    box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0); } }
+  .retosSuperados .editGradingScheme {
+    vertical-align: baseline;
+    padding-left: 50px;
+    display: inline-block; }
 
 #mainSection .main.teams .flex-table-retos-wrapper {
   margin: 10px 0px; }
@@ -1664,6 +1837,13 @@ button, input[type="submit"] {
     padding-left: 10px !important;
     padding-right: 10px !important; } }
 
+.userForm label, .userForm span, .userForm input {
+  font-family: Lato; }
+
+.userForm button {
+  font-size: 16px;
+  height: 36px; }
+
 .user-flex-container {
   display: flex;
   flex-direction: row; }
@@ -1748,7 +1928,9 @@ html {
       width: 100%;
       margin-left: -15px;
       padding: 18px; }
-    html body .material-icons {
-      vertical-align: middle; }
-    html body .errorPage pre {
-      font-size: 16px; }
+
+.material-icons {
+  vertical-align: middle; }
+
+.errorPage pre {
+  font-size: 16px; }

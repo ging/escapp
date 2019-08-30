@@ -1,4 +1,6 @@
-<script src="/js/apexcharts.js"></script>
+<script src="/js/vendor/apexcharts.js"></script>
+<script src="/js/extractColor.js"></script>
+
 <% include ../../partials/_header.ejs %>
 <div class="main timeline">
     <div class="breadcrumbs-container">
@@ -12,155 +14,112 @@
             <span><%=i18n.analytics.timeline.title%></span>
         </div>
     </div>
-    <h2><%=i18n.analytics.timeline.title%>:
-      <span class="title">
-        <%=i18n.analytics.timeline[inverted ? "nPuzzlesTeam" : "nTeamsPuzzle"]%>
-      </span>
-   </h2>
-<form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/timeline">
-    <div class="filters">
-        <label for="turnId"><%=i18n.turnos.Turno%>
-            <select name="turnId" id="turnId">
-                <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
-                <% for (t in escapeRoom.turnos) {
-                    var turno = escapeRoom.turnos[t] ;
-                    // if (turno.status !== "pending" ) {
-                %>
-                <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
-                    <%= getFullDate(turno.date)%>
-                </option>
-                <% // }
-                } %>
-            </select>
-        </label>
-      <%if (inverted) {%>
-        <input type="hidden" name="inverted" value="1"/>
-      <%}%>
 
-        <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
-        <a href="/escapeRooms/<%= escapeRoom.id %>/analytics/timeline?<%=!inverted ? "inverted=1&":""%><%=turnId ? "turnId="+turnId:""%>">
-          <button type="button" class="filter-button inverse"><%=i18n.analytics.timeline[inverted ? "nPuzzlesTeamButton" : "nTeamsPuzzleButton"]%></button>
-        </a>
+  <h2><%=i18n.analytics.timeline.title%></h2>
+  <% let duration = escapeRoom.duration %>
+  <% let puzzles = escapeRoom.puzzles %>
+  <div id="legend">
+    
+    <% for (let p in puzzles) { 
+      let puzzle = puzzles[p];
+      %>
+      <div class="puzzle-legend">
+      <div class="puzzle-legend-circle progress-puzzle-<%=p%>"></div>
+        <%= puzzle.title %>
+      </div>
 
-    </div>
-</form>
-<div id="chart">
-</div>
-</div>
-<script>
-  var duration = <%=escapeRoom.duration%>;
-  var puzzles = JSON.parse('<%-JSON.stringify(escapeRoom.puzzles)%>');
-  var nPuzzles = puzzles.length;
-  var teams = <%-JSON.stringify(teams)%>;
-  var data = JSON.parse('<%-JSON.stringify(data)%>');
-  var nTeams = teams.length;
-  var bodyStyles = window.getComputedStyle(document.body);
-  var cp = (prop) => bodyStyles.getPropertyValue(prop);
-
-  var options = {
-    chart: {
-      height: 380,
-      type: "area",
-      style: {
-      },
-      toolbar: {
-        show: true,
-        tools: {
-          download: true,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-          customIcons: []
-        },
-        autoSelected: 'zoom'
-      },
-    },
-    dataLabels: {
-      enabled: false
-    },
-    colors: [
-      cp('--brightgreen'),
-      cp('--brightyellow'),
-      cp('--brightorange'),
-      cp('--brightblue'),
-      cp('--lightred'),
-      cp('--textpurple')
-    ],
-    series: data,
-    fill: {
-      type: 'gradient',
-      gradient: {
-        opacityFrom: 0,
-        opacityTo: 0
-      }
-    },
-    xaxis: {
-      categories: function(){
-        let size = Math.ceil(duration / 5) + 1;
-        let values = new Array(size);
-        for (let i = 0; i <= size; i++) {
-          values[i]=i*5 + "'";
-        }
-        return values
-      }(),
-      labels: {
-        style:{
-          colors:'black'
-        }
-      },
-      crosshairs: {
-        show: true,
-        opacity: 1,
-        stroke: {
-          color: 'white',
-          dashArray: 4,
-        },
-
-      }
-    },
-    yaxis: {
-      show: true,
-      min: 0,
-      decimalsInFloat: 0,
-      labels: {
-        show: true,
-        style: {
-          color: "black"
-        },
-      }
-    },
-    legend: {
-      labels: {
-        colors:'black'
-      }
-    },
-  };
-
-  <% if (inverted) { %>
-  options.yaxis.tickAmount = nPuzzles;
-  options.yaxis.max = nPuzzles
-  options.yaxis.labels.formatter = function (value) {
-    return puzzles[value-1] ? puzzles[value-1].title : ""
-  }
-
-  <% } else { %>
-
-  options.yaxis.tickAmount = nTeams;
-  options.yaxis.max = nTeams;
-  options.yaxis.labels.formatter = function(value) {
-    if (value === 1) {
-      return value + " <%=i18n.team.team%>";
-    } else {
-      return value + " <%=i18n.team.teams%>";
+    <% } %>
+  </div>
+  <div id="timeline-chart">
+   
+    <%
+    var calculatePuzzleTime = function(puzzleTime, prevPuzzleTime) {
+      return (puzzleTime - prevPuzzleTime)/60000;
     }
-  };
-  <% } %>
 
-  var chart = new ApexCharts(document.querySelector("#chart"), options);
-  chart.render();
+    var puzzlePosition = function(puzzleTime, prevPuzzleTime) {
+      var time = calculatePuzzleTime(puzzleTime, prevPuzzleTime);
+      return (time/duration)*100;
+    }
 
-</script>
+    %>
+
+    <% for (let t in teams) { 
+      let team = teams[t];
+      let requestedHints = team.requestedHints;
+      %>
+      <div id="team">
+        <div class="team-name">
+          <%=team.name%>
+        </div><img class="door" src="/images/doorclosed.png" alt=""/>
+        <div class="progress">
+          
+          <%
+            let startTime = team.turno.startTime;
+            let prevPuzzleTime = startTime;
+          %>
+          <% for (let r in team.retos) { 
+            let reto = team.retos[r];
+            let puzzleTime = reto.retosSuperados.createdAt;
+            let perc = puzzlePosition(puzzleTime, prevPuzzleTime);
+            prevPuzzleTime = puzzleTime;
+            %>
+              <div class="step progress-puzzle-<%=r % 5 %>" style="width:<%=perc%>%;">
+                <%= Math.round(perc*duration/100)%>'
+                <div class="tooltip">
+                  <div class="tooltip-info">
+                  <b><%=puzzles[r].title%></b>
+                  </div>
+                  <div class="tooltip-info">
+                    <b><%=i18n.analytics.timeline.solved%>: </b> <%=Math.round(calculatePuzzleTime(puzzleTime, startTime))%>'
+                  </div>
+                </div>
+              </div>
+          <% } %>
+          <% if (team.retos.length === puzzles.length) {%>
+            <img class="door" src="/images/dooropen.png" alt=""/>
+          <%} else { %>
+              <div class="step step-flex progress-puzzle-<%= team.retos.length % 5%>" style="">
+                  <div class="tooltip">
+                    <div class="tooltip-info">
+                    <b><%=puzzles[team.retos.length].title%></b>
+                    </div>
+                    <div class="tooltip-info">
+                     <%=i18n.analytics.timeline.unsolved%>
+                    </div>
+                </div>
+              </div>
+          <% } %>
+          </div>
+
+      </div>
+      <div class="requestedHints">
+        <% for (let h in requestedHints) { %>
+          <% let hint = requestedHints[h] %>
+          <div class="requestedHint <%= hint.success ? "success":"fail" %>" style="left: <%=puzzlePosition(hint.createdAt, startTime)%>%;">
+            <div class="tooltip">
+              <div class="tooltip-info">
+                <b><%=i18n.analytics.timeline.time%>: </b> <%= calculatePuzzleTime(hint.createdAt, startTime)%>'
+              </div>
+              <div class="tooltip-info">
+                <b><%=i18n.analytics.timeline.score%>: </b> <%= hint.score %>%
+              </div>
+              <%if(hint.hint){%>
+                <div class="tooltip-info">
+                  <b><%=i18n.analytics.timeline.hint%>: </b><%= hint.hint.content %>
+                </div>
+              <%} else { %>
+                <div class="tooltip-info"><%=i18n.analytics.timeline.failed%></div>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+ 
+<br/>
+<br/>
+<br/>
+</div>
 <% include ../../partials/_footer %>

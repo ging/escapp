@@ -1,11 +1,34 @@
 {
     "analytics": {
+        "grading": {
+            "config": "Modificar rúbrica",
+            "title": "Calificaciones",
+            "attendance": "Attendance",
+            "hintSuccess": "Hints obtained",
+            "hintFailed": "Hints missed"
+        },
+        "hints": {
+            "title": "Pistas",
+            "failed": "Peticiones de pista fallidas",
+            "succeeded": "Pistas obtenidas"
+        },
+        "histogram": {
+            "title": "Histograma"
+        },
         "main": {
+            "grading": "Calificaciones",
+            "hints": "Pistas",
+            "histogram":"Histograma",
+            "progress":"Progreso",
             "ranking": "Ranking",
             "retosSuperados": "Retos superados",
             "summary": "Resumen",
             "timeline": "Cronograma",
             "title": "Analíticas de aprendizaje",
+            "chart": {
+                "svg": "Descargar SVG",
+                "png": "Descargar PNG"
+            },
             "dashboard": {
                 "nParticipants": "Nº participantes",
                 "sucessRate": "Tasa de salida",
@@ -14,6 +37,9 @@
                 "avgReqHints": "Pistas pedidas en media",
                 "retosSuperadosTeam": "Nº de equipos que superó el reto"
             }
+        },
+        "progress": {
+            "title": "Progreso"
         },
         "ranking": {
             "members": "Miembros",
@@ -34,7 +60,13 @@
             "nTeamsPuzzle": "Nº de equipos que han superado cada reto",
             "nTeamsPuzzleButton": "ver por equipo",
             "nPuzzlesTeam": "Nº de retos que ha superado cada equipo",
-            "nPuzzlesTeamButton": "ver por reto"
+            "nPuzzlesTeamButton": "ver por reto",
+            "failed": "Pista fallida",
+            "hint": "Pista",
+            "score": "Puntuación",
+            "solved": "Resuelto",
+            "time": "Tiempo",
+            "unsolved": "No resuelto"
         }
     },
     "common": {
@@ -134,6 +166,12 @@
                 "videoPlaceHolder": "URL del vídeo de presentación de la Escape Room"
             },
             "evaluation": {
+                "eachHint": "Asigna una penalización o recompensa por solicitar una pista",
+                "eachPuzzle": "Asigna un peso diferente a cada reto",
+                "gradingIntro": "Puedes configurar la rúbrica de evaluación para calificar a los alumnos",
+                "hintSuccess": "Puntos por solicitud de pista conseguida",
+                "hintFailed": "Puntos por solicitud de pista fallida",
+                "justParticipating": "Sólo por participar",
                 "forSurveys": "para crear las encuestas y cuestionarios de tu escape room",
                 "or": "o",
                 "posttestField": "Post-test",
@@ -143,6 +181,7 @@
                 "surveyField": "Encuesta",
                 "surveyPlaceHolder": "Escribe el enlace a la encuesta",
                 "title": "Evaluación",
+                "total": "Total",
                 "youCanUse": "Puedes utilizar"
             },
             "hints": {
@@ -349,7 +388,8 @@
         "writeSol": "Escriba la solución",
         "wrongAnswer": "Respuesta incorrecta",
         "correctAnswer": "¡Reto superado!",
-        "finish": "¡Has superado todos los retos!"
+        "finish": "¡Has superado todos los retos!",
+        "start":"Inicio"
     },
     "showStudent": {
         "access": "acceder",

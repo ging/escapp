@@ -1,0 +1,132 @@
+<script src="/js/extractColor.js"></script>
+<script src="/js/vendor/apexcharts.js"></script>
+<% include ../../partials/_header.ejs %>
+<div class="main retosSuperados hintAnalytics">
+	<div class="breadcrumbs-container">
+		<div class="breadcrumbs">
+			<a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+			<i class="material-icons">chevron_right</i>
+			<a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
+			<i class="material-icons">chevron_right</i>
+			<span><%=i18n.analytics.hints.title%></span>
+		</div>
+	</div>
+    <h2><%=i18n.analytics.hints.title%></h2>
+    <form method="get" class="" action="/escapeRooms/<%= escapeRoom.id %>/analytics/hints/<%=single?"participants":"teams"%>" style="text-align: left;">
+        <div class="filters">
+            <label for="turnId"><%=i18n.turnos.Turno%>
+                <select name="turnId" id="turnId">
+                    <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
+                    <% for (t in escapeRoom.turnos) { %>
+                        <% var turno = escapeRoom.turnos[t] %>
+                        <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
+                            <%= getFullDate(turno.date)%>
+                        </option>
+                    <% } %>
+                </select>
+            </label>
+            <% if (single) { %> 
+            <label for="orderBy">Ordenar por
+                <select name="orderBy" id="orderBy">
+                    <option value="" <%= !orderBy ? "selected": ""%>  disabled></option>
+                    <option value="name" <%= orderBy === "name" ? "selected": ""%>><%=i18n.user.name%></option>
+                    <option value="surname" <%= orderBy === "surname" ? "selected": ""%>><%=i18n.user.surname%></option>
+                </select></label>
+            <% } %>    
+            <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
+            <button type="submit" name="csv" value="1" class="filter-button white" >descargar</button>
+            <% if (single) { %> 
+                <a href="teams"><button type="button" class="filter-button inverse"><%=i18n.team.seeByTeam%></button></a>
+            <% } else {%>    
+                <a href="participants"><button type="button" class="filter-button inverse"><%=i18n.participant.seeByParticipant%></button></a>
+            <% } %>    
+
+        </div>
+    </form>
+    <div id="hints-chart" ></div>
+    <script>
+
+		var options = {
+            chart: {
+                height: 440,
+                type: 'bar',
+                stacked: true,
+                locales: [{
+                  "name": "en",
+                  "options": {
+                    "toolbar": {
+                        "exportToSVG": "<%=i18n.analytics.main.chart.svg%>",
+                        "exportToPNG": "<%=i18n.analytics.main.chart.png%>",
+                        "menu": "Menu",
+                    }
+                  }
+                }],
+                defaultLocale: "en"
+            },
+            colors: [green, red],
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    barHeight: '80%',
+                    
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 1,
+                colors: undefined,
+
+            },
+            series: [{
+                name: "<%=i18n.analytics.hints.succeeded%>",
+                data:  <%-JSON.stringify(results.map(user => user.hintsSucceeded))%>
+            },
+            {
+                name: "<%=i18n.analytics.hints.failed%>",
+                data:  <%-JSON.stringify(results.map(user => -user.hintsFailed))%>
+            }],
+            grid: {
+                xaxis: {
+                    showLines: false
+                }
+            },
+            xaxis: {
+                categories: <%-JSON.stringify(results.map(user => user.name))%>,
+                labels: {
+                    formatter: (value) => { return Math.abs(value) }
+                },
+            },
+            tooltip: {
+                shared: false,
+                style: {
+                  fontSize: '12px',
+                  fontColor: purple,
+                  fontFamily: undefined
+                },
+                y: {
+                  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+                    return Math.abs(value);
+                }
+              },
+            }
+        }
+
+       var chart = new ApexCharts(
+            document.querySelector("#hints-chart"),
+            options
+        );
+        
+        chart.render();
+
+
+    </script>
+
+
+	<br/>
+	<br/>
+	<br/>
+</div>
+
+<% include ../../partials/_footer %>

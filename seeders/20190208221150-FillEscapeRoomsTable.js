@@ -14,6 +14,7 @@ module.exports = {up (queryInterface) {
             "appearance": "litera",
             "automatic": false,
             "authorId": 1,
+            "scoreParticipation": 40,
             "createdAt": new Date(),
             "updatedAt": new Date()
         }

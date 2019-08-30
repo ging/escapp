@@ -1,3 +1,4 @@
+@import 'common/colors'
 .main
   &.summary
     .flex-container.analytics-menu
@@ -28,6 +29,7 @@
           &:hover
             i
               transform: scale(1.2)
+
       .flex-container-right
         flex: 1
         .card-container
@@ -50,7 +52,7 @@
             &.sucessRate
               color: $brightgreen
             &.bestTime
-              color: $brightblue
+              color: $mainpurple
             &.avgReqHints
               color: $brightorange
             .card-title
@@ -63,6 +65,26 @@
               float: right
               i
                 font-size: 40px
+.apexcharts-canvas
+  *
+    font-family: "Lato" !important
+    color: $textpurple
+.apexcharts-xaxis-label
+  fill: white !important
+  font-family: "Lato"
+
+.apexcharts-yaxis-label
+  fill: white !important
+  font-family: "Lato"
+
+.apexcharts-legend-text
+  color: white !important
+  font-family: "Lato"
+#hints-chart
+  *
+    color: $textpurple
+    font-family: "Lato" !important
+    font-size: 12px !important
   &.timeline, &.summary
     .apexcharts-xaxis-label, .apexcharts-yaxis-label
       fill: white !important

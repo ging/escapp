@@ -1,11 +1,33 @@
 {
     "analytics": {
+        "grading": {
+            "config": "Edit grading scheme",
+            "title": "Grading",
+            "attendance": "Attendance",
+            "hintSuccess": "Hints obtained",
+            "hintFailed": "Hints missed"
+        },
+        "hints": {
+            "title": "Hints",
+            "failed": "Hint requests failed",
+            "succeeded": "Hints obtained"
+        },
+        "histogram": {
+            "title": "Histogram"
+        },
         "main": {
+            "hints": "Hints",
+            "histogram":"Histogram",
+            "progress":"Progress",
             "ranking": "Ranking",
             "retosSuperados": "Solved puzzles",
             "summary": "Summary",
             "timeline": "Timeline",
             "title": "Learning analytics",
+            "chart": {
+                "svg": "Download SVG",
+                "png": "Download PNG"
+            },
             "dashboard": {
                 "nParticipants": "# Participants",
                 "sucessRate": "Success Rate",
@@ -15,6 +37,9 @@
                 "retosSuperadosTeam": "# of teams that completed the puzzle"
 
             }
+        },
+        "progress": {
+            "title": "Progress"
         },
         "ranking": {
             "members": "Members",
@@ -31,11 +56,17 @@
             "title": "Summary"
         },
         "timeline": {
-            "title": "Timeline",
             "nTeamsPuzzle": "Number of teams that completed each puzzle",
             "nTeamsPuzzleButton": "ver por equipo",
             "nPuzzlesTeam": "Number of puzzles completed by each team",
-            "nPuzzlesTeamButton": "ver por reto"
+            "nPuzzlesTeamButton": "ver por reto",
+            "failed": "Failed request",
+            "hint": "Hint",
+            "score": "Score",
+            "solved": "Resuelto",
+            "title": "Timeline",
+            "time": "Time",
+            "unsolved": "No resuelto"
         }
     },
     "common": {
@@ -135,7 +166,13 @@
                 "videoPlaceHolder": "An URL dor the Escape Room's introduction video"
             },
             "evaluation": {
+                "eachHint": "Assign a penalty or reward for requesting a hint",
+                "eachPuzzle": "Assign a different weight to each puzzle",
                 "forSurveys": "create surveys and quizes for your Escape Room",
+                "hintSuccess": "Points for each hint request succeeded",
+                "hintFailed": "Points for each hint request failed",
+                "justParticipating": "Just for participating",
+                "gradingIntro": "You can customize a grading scheme to grade the activity",
                 "or": "or",
                 "posttestField": "Post-quiz",
                 "posttestPlaceHolder": "Write here your post-quiz link",
@@ -144,7 +181,9 @@
                 "surveyField": "Survey",
                 "surveyPlaceHolder": "Write here your survey link",
                 "title": "Eval",
+                "total": "Total",
                 "youCanUse": "You can use"
+
             },
             "hints": {
                 "correctNumber": "Hit number",
@@ -350,8 +389,9 @@
         "Puzzles": "Puzzles",
         "writeSol": "Writre here the solution",
         "wrongAnswer": "Sorry! Wrong answer",
-        "correctAnswer": "Congratilations! You've completed this puzzle",
-        "finish": "Congratilations! You've exited the Escape Room."
+        "correctAnswer": "Congratulations! You've completed this puzzle",
+        "finish": "Congratulations! You've exited the Escape Room.",
+        "start":"Start"
     },
     "showStudent": {
         "access": "acceder",

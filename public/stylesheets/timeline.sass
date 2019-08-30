@@ -1,0 +1,132 @@
+.timeline
+	#timeline-chart
+		text-align: right
+		#team
+			display: flex
+			flex-wrap: nowrap
+			flex-direction: row
+			width: 100%
+			text-align: left
+			margin: 5px
+			margin-bottom: -15px
+			*
+				font-family: 'Lato'
+			.team-name
+				width: 10%
+				line-height: 63px
+				vertical-align: middle
+				text-overflow: ellipsis
+				overflow: hidden
+			.door
+				width: 28px
+				height: 56px
+				margin: 4px
+			.progress
+				display: flex
+				flex-wrap: nowrap
+				flex-direction: row
+				width: 90%
+				align-items: center
+				.step
+					margin: 3px
+					text-align: center
+					text-overflow: ellipsis
+					overflow: hidden
+					height: 30px
+					font-size: 12px
+					line-height: 30px
+					vertical-align: middle
+					position: relative
+					overflow: visible
+					.tooltip
+						left: 55%
+					&:hover 
+						.tooltip
+							visibility: visible
+							opacity: 1
+
+
+				.step-flex
+					flex: 1
+		.requestedHints
+			position: relative
+			width: calc(90% - 40px)
+			height: 1px
+			display: inline-block
+			margin-bottom: 35px
+			.requestedHint
+				position: absolute
+				width: 12px
+				height: 12px
+				background-color: white
+				border-radius: 6px
+				border: 2px solid white
+				cursor: crosshair
+				&.success
+					background-color: $brightgreen
+				&.fail
+					background-color: $lightred
+				&:hover 
+					.tooltip
+						visibility: visible
+						opacity: 1
+
+	#legend
+		display: flex
+		flex-direction: row
+		justify-content: center
+		margin-top: 30px
+		.puzzle-legend
+			font-family: 'Lato'
+			display: flex
+			flex-direction: row
+			flex-wrap: nowrap
+			align-items: center
+			padding: 5px 10px
+			font-size: 14px
+			justify-content: center
+			.puzzle-legend-circle
+				border-radius: 7px
+				width: 14px
+				height: 14px
+				margin: 2px
+	.tooltip
+		display: inline-block
+		visibility: hidden
+		position: absolute
+		top: 10px
+		left: 10px
+		background-color: white
+		color: $textpurple
+		font-size: 12px
+		width: auto
+		min-width: 150px
+		padding: 10px
+		line-height: 15px
+		opacity: 0
+		transition: 0.3s opacity ease-in
+		z-index: 1
+		text-align: left
+
+		*
+			font-family: 'Lato'
+	.progress-puzzle-0
+		&.step-flex
+			background-image: linear-gradient(to right, var(--brightgreen) 80%, var(--mainpurple) 100%)
+		background-color: var(--brightgreen)
+	.progress-puzzle-1
+		&.step-flex
+			background-image: linear-gradient(to right, var(--lightred) 80%, var(--mainpurple) 100%)
+		background-color: var(--lightred)
+	.progress-puzzle-2
+		&.step-flex
+			background-image: linear-gradient(to right, var(--textpurple) 80%, var(--mainpurple) 100%)
+		background-color: var(--textpurple)
+	.progress-puzzle-3
+		&.step-flex
+			background-image: linear-gradient(to right, var(--brightorange) 80%, var(--mainpurple) 100%)
+		background-color: var(--brightorange)
+	.progress-puzzle-4
+		&.step-flex
+			background-image: linear-gradient(to right, var(--brightyellow) 80%, var(--mainpurple) 100%)
+		background-color: var(--brightyellow)
