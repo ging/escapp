@@ -6,7 +6,7 @@ const fs = require("fs");
 const {parseURL} = require("../helpers/video");
 const query = require("../queries");
 const attHelper = require("../helpers/attachments");
-    // Options for the files uploaded to Cloudinary
+// Options for the files uploaded to Cloudinary
 
 
 // Autoload the escape room with id equals to :escapeRoomId
