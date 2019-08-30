@@ -1318,7 +1318,7 @@ button, input[type="submit"] {
       padding: 9px 18px;
       border-radius: 40px;
       margin: 15px;
-      margin-top: 0px;
+      margin-top: 0;
       margin-bottom: 5px; }
       .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag span {
         font-family: Lato, sans-serif;
@@ -1373,15 +1373,15 @@ button, input[type="submit"] {
 
 .apexcharts-xaxis-label {
   fill: white !important;
-  font-family: "Lato"; }
+  font-family: "Lato", sans-serif; }
 
 .apexcharts-yaxis-label {
   fill: white !important;
-  font-family: "Lato"; }
+  font-family: "Lato", sans-serif; }
 
 .apexcharts-legend-text {
   color: white !important;
-  font-family: "Lato"; }
+  font-family: "Lato", sans-serif; }
 
 #hints-chart * {
   color: #656683;
