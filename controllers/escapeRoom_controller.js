@@ -5,20 +5,9 @@ const cloudinary = require("cloudinary");
 const fs = require("fs");
 const {parseURL} = require("../helpers/video");
 const query = require("../queries");
-const attHelper = require("../helpers/attachments"),
+const attHelper = require("../helpers/attachments");
     // Options for the files uploaded to Cloudinary
-    cloudinary_upload_options = {"folder": "/escapeRoom/attachments",
-        "resource_type": "auto",
-        "tags": [
-            "tfg",
-            "escapeRoom"
-        ]},
-    cloudinary_upload_options_zip = {"folder": "/escapeRoom/attachments",
-        "resource_type": "auto",
-        "tags": [
-            "tfg",
-            "escapeRoom"
-        ]};
+
 
 // Autoload the escape room with id equals to :escapeRoomId
 exports.load = (req, res, next, escapeRoomId) => {
@@ -199,7 +188,7 @@ exports.create = (req, res, next) => {
             // Save the attachment into  Cloudinary
 
             return attHelper.checksCloudinaryEnv().
-                then(() => attHelper.uploadResource(req.file.path, cloudinary_upload_options)).
+                then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options)).
                 then((uploadResult) => models.attachment.create({"public_id": uploadResult.public_id,
                     "url": uploadResult.url,
                     "filename": req.file.originalname,
@@ -270,7 +259,7 @@ exports.update = (req, res, next) => {
 
                 // Save the new attachment into Cloudinary:
                 return attHelper.checksCloudinaryEnv().
-                    then(() => attHelper.uploadResource(req.file.path, cloudinary_upload_options)).
+                    then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options)).
                     then((uploadResult) => {
                         // Remenber the public_id of the old image.
                         const old_public_id = er.attachment ? er.attachment.public_id : null; // Update the attachment into the data base.
@@ -438,7 +427,7 @@ exports.pistasUpdate = (req, res, next) => {
 
                 return attHelper.checksCloudinaryEnv().
                     // Save the new attachment into Cloudinary:
-                    then(() => attHelper.uploadResource(req.file.path, cloudinary_upload_options_zip)).
+                    then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options_zip)).
                     then((uploadResult) => {
                         // Remenber the public_id of the old image.
                         const old_public_id = escapeRoom.hintApp ? escapeRoom.hintApp.public_id : null; // Update the attachment into the data base.

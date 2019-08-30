@@ -1,7 +1,7 @@
 const {models} = require("../models");
 const {createCsvFile} = require("../helpers/csv");
 const queries = require("../queries");
-const {retosSuperadosByWho} = require("../helpers/utils");
+const {retosSuperadosByWho, flattenObject, getRetosSuperados, countHints} = require("../helpers/utils");
 
 // GET /escapeRooms/:escapeRoomId/analytics
 exports.analytics = async (req, res, next) => {
@@ -84,7 +84,7 @@ exports.puzzlesByParticipants = async (req, res, next) => {
         const results = users.map((u) => {
             const {id, name, surname, dni, username} = u;
             const retosSuperados = retosSuperadosByWho(u.teamsAgregados[0], puzzles);
-            const total = Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
+            const total = pctgRetosSuperados(retosSuperados);
 
             return {id,
                 name,
@@ -103,11 +103,8 @@ exports.puzzlesByParticipants = async (req, res, next) => {
         } else {
             const resultsCsv = results.map((rslt) => {
                 const {name, surname, dni, username, retosSuperados, total} = rslt;
-                const rs = {};
+                const rs = flattenObject(retosSuperados, puzzleNames)
 
-                for (const r in retosSuperados) {
-                    rs[puzzleNames[r]] = retosSuperados[r];
-                }
                 return {
                     name,
                     surname,
@@ -143,7 +140,7 @@ exports.puzzlesByTeams = async (req, res, next) => {
         const results = teams.map((u) => {
             const {id, name} = u;
             const retosSuperados = retosSuperadosByWho(u, puzzles);
-            const total = Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
+            const total = pctgRetosSuperados(retosSuperados);
 
             return {id,
                 name,
@@ -159,11 +156,8 @@ exports.puzzlesByTeams = async (req, res, next) => {
         } else {
             const resultsCsv = results.map((rslt) => {
                 const {id, name, retosSuperados, total} = rslt;
-                const rs = {};
+                const rs = flattenObject(retosSuperados, puzzleNames)
 
-                for (const r in retosSuperados) {
-                    rs[puzzleNames[r]] = retosSuperados[r];
-                }
                 return {
                     id,
                     name,
@@ -176,7 +170,11 @@ exports.puzzlesByTeams = async (req, res, next) => {
         }
     } catch (e) {
         console.error(e);
-        next(e);
+        if (csv) {
+            res.send("Error");
+        } else {
+            next(e);
+        }
     }
 };
 
@@ -187,17 +185,7 @@ exports.ranking = async (req, res, next) => {
 
     try {
         const result = await models.team.findAll(queries.team.ranking(escapeRoom.id, turnId));
-        const teams = result.map((teamRes) => ({...teamRes.dataValues,
-            "countretos": teamRes.dataValues.retos.length,
-            "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => r.retosSuperados.createdAt).sort((a, b) => a < b)[0] : null})).sort((t1, t2) => {
-            if (t1.countretos === t2.countretos) {
-                if (t1.latestretosuperado === t2.latestretosuperado) {
-                    return 0;
-                }
-                return t1.latestretosuperado > t2.latestretosuperado ? 1 : -1;
-            }
-            return t1.countretos > t2.countretos ? -1 : 1;
-        });
+        const teams = getRetosSuperados(result);
 
         res.render("escapeRooms/analytics/ranking", {teams,
             escapeRoom,
@@ -216,20 +204,10 @@ exports.hintsByParticipants = async (req, res, next) => {
     try {
         const users = await models.user.findAll(queries.hint.hintsByParticipant(escapeRoom.id, turnId, orderBy));
         const results = users.map((u) => {
-            let hintsSucceeded = 0;
-            let hintsFailed = 0;
             const [{requestedHints}] = u.teamsAgregados;
             const {name, surname} = u;
 
-            for (const h in requestedHints) {
-                const hint = requestedHints[h];
-
-                if (hint.success) {
-                    hintsSucceeded++;
-                } else {
-                    hintsFailed++;
-                }
-            }
+            let {hintsSucceeded, hintsFailed } = countHints(requestedHints);
             return {
                 "name": `${name} ${surname}`,
                 hintsSucceeded,
@@ -291,20 +269,9 @@ exports.hintsByTeams = async (req, res, next) => {
 
         if (!csv) {
             const results = teams.map((t) => {
-                let hintsSucceeded = 0;
-                let hintsFailed = 0;
                 const {id, name, requestedHints} = t;
 
-                for (const h in requestedHints) {
-                    const hint = requestedHints[h];
-                    const {success} = hint;
-
-                    if (success) {
-                        hintsSucceeded++;
-                    } else {
-                        hintsFailed++;
-                    }
-                }
+                let {hintsSucceeded, hintsFailed } = countHints(requestedHints);
                 return {
                     id,
                     name,
@@ -518,21 +485,13 @@ exports.grading = async (req, res, next) => {
         const results = users.map((user) => {
             const {name, surname, dni, username} = user;
             const turno = user.turnosAgregados[0].date;
-            let hintsSucceeded = 0;
-            let hintsFailed = 0;
+
 
             const retosSuperados = retosSuperadosByWho(user.teamsAgregados[0], puzzles);
             const [{requestedHints}] = user.teamsAgregados;
 
-            for (const h in requestedHints) {
-                const hint = requestedHints[h];
+            let {hintsSucceeded, hintsFailed } = countHints(requestedHints);
 
-                if (hint.success) {
-                    hintsSucceeded++;
-                } else {
-                    hintsFailed++;
-                }
-            }
             const grades = retosSuperados.map((reto, index) => reto * (escapeRoom.puzzles[index].score || 0));
             const gradeScore = grades.reduce((a, b) => a + b);
             const attendance = user.turnosAgregados[0].participants.attendance ? escapeRoom.scoreParticipation : 0;

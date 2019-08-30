@@ -108,3 +108,17 @@ exports.checksCloudinaryEnv = () => new Promise((resolve, reject) => {
         reject(new Error("La variable de entonrno CLOUDINARY_URL no está definida."));
     }
 });
+
+exports.cloudinary_upload_options = {"folder": "/escapeRoom/attachments",
+    "resource_type": "auto",
+    "tags": [
+        "tfg",
+        "escapeRoom"
+    ]};
+
+exports.cloudinary_upload_options_zip = {"folder": "/escapeRoom/attachments",
+    "resource_type": "auto",
+    "tags": [
+        "tfg",
+        "escapeRoom"
+    ]};
