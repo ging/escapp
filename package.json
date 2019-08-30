@@ -16,7 +16,9 @@
     "reset_local": "rm -rf escaperoom.sqlite",
     "open_heroku": "heroku open",
     "css": "node-sass public/stylesheets/style.sass public/stylesheets/style.css",
-    "lint": "eslint . "
+    "lint": "eslint . ",
+    "lint:fix": "eslint . --fix",
+    "dump": "heroku pg:backups:download -o escape-room-upm.dump --app escape-room-upm"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
