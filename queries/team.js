@@ -4,6 +4,7 @@ const {models} = require("../models");
 exports.teamComplete = (escapeRoomId, turnId, order) => {
     const where = {
         // "attributes": [],
+        "order": [[{model: models.puzzle, as: "retos"}, "id"]],
         "include": [
             {
                 "model": models.turno,
@@ -51,7 +52,10 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
     }
 
     if (order) {
-        where.order = Sequelize.literal("lower(team.name) ASC");
+        where.order = [
+            Sequelize.literal(order),
+            ...where.order
+        ];
     }
     return where;
 };

@@ -362,7 +362,7 @@ exports.timeline = async (req, res, next) => {
     const {turnId} = query;
 
     try {
-        const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId));
+        const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId, "lower(team.name) ASC"));
 
         res.render("escapeRooms/analytics/timeline", {"escapeRoom": req.escapeRoom,
             teams});

@@ -24,7 +24,7 @@
       let puzzle = puzzles[p];
       %>
       <div class="puzzle-legend">
-      <div class="puzzle-legend-circle progress-puzzle-<%=p%>"></div>
+      <div class="puzzle-legend-circle progress-puzzle-<%=p%5%>"></div>
         <%= puzzle.title %>
       </div>
 
@@ -99,7 +99,7 @@
           <div class="requestedHint <%= hint.success ? "success":"fail" %>" style="left: <%=puzzlePosition(hint.createdAt, startTime)%>%;">
             <div class="tooltip">
               <div class="tooltip-info">
-                <b><%=i18n.analytics.timeline.time%>: </b> <%= calculatePuzzleTime(hint.createdAt, startTime)%>'
+                <b><%=i18n.analytics.timeline.time%>: </b> <%= Math.round(calculatePuzzleTime(hint.createdAt, startTime))%>'
               </div>
               <div class="tooltip-info">
                 <b><%=i18n.analytics.timeline.score%>: </b> <%= hint.score %>%

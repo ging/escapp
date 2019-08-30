@@ -1435,7 +1435,9 @@ button, input[type="submit"] {
       line-height: 63px;
       vertical-align: middle;
       text-overflow: ellipsis;
-      overflow: hidden; }
+      overflow: hidden;
+      word-break: keep-all;
+      white-space: nowrap; }
     .timeline #timeline-chart #team .door {
       width: 28px;
       height: 56px;
