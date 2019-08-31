@@ -38,6 +38,7 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
                 "model": models.requestedHint,
                 "attributes": [
                     "id",
+                    "hintId",
                     "success",
                     "score",
                     "createdAt"
@@ -50,6 +51,14 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
                     }
                 ]
             }
+        ],
+        "order": [
+            [
+                {"model": models.puzzle,
+                    "as": "retos"},
+                "id",
+                "ASC"
+            ]
         ]
     };
 

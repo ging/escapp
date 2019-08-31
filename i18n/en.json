@@ -1,5 +1,11 @@
 {
     "analytics": {
+        "charts": {
+            "titles": {
+                "retosSuperadosTeam": "Solved puzzles",
+                "hintsByTeam": "Requested hints"
+            }
+        },
         "grading": {
             "config": "Edit grading scheme",
             "title": "Grading",
@@ -8,14 +14,17 @@
             "hintFailed": "Hints missed"
         },
         "hints": {
-            "title": "Hints",
+            "customClue": "Custom clue",
             "failed": "Hint requests failed",
-            "succeeded": "Hints obtained"
+            "failedClue": "Failed clue",
+            "succeeded": "Hints obtained",
+            "title": "Hints"
         },
         "histogram": {
             "title": "Histogram"
         },
         "main": {
+            "download": "download",
             "hints": "Hints",
             "histogram":"Histogram",
             "progress":"Progress",

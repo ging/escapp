@@ -41,13 +41,23 @@ module.exports = function (app) {
         const hDisplay = h > 0 ? `${h}h` : "";
         const mDisplay = m > 0 ? `${m}m` : "";
         const sDisplay = s > 0 ? `${s}s` : "";
-        const arr = [
+
+        return [
             dDisplay,
             hDisplay,
             mDisplay,
             sDisplay
         ].filter((a) => a !== "").join(", ");
+    };
 
-        return arr;
+
+    app.locals.getGradientColor = function (grade, threshold = 50, margin = 10) {
+        if (grade < threshold - margin) {
+            return "var(--lightred)";
+        } else if (grade >= threshold - margin && grade <= threshold + margin) {
+            return "var(--brightorange)";
+        } else if (grade > threshold + margin) {
+            return "var(--brightgreen)";
+        }
     };
 };
