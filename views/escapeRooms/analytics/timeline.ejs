@@ -96,10 +96,12 @@
       <div class="requestedHints">
         <% for (let h in requestedHints) { %>
           <% let hint = requestedHints[h] %>
+          <% let hintTime = calculatePuzzleTime(hint.createdAt, startTime);%>
+          <% if (hintTime > escapeRoom.duration) { return;} %>
           <div class="requestedHint <%= hint.success ? "success":"fail" %>" style="left: <%=puzzlePosition(hint.createdAt, startTime)%>%;">
             <div class="tooltip">
               <div class="tooltip-info">
-                <b><%=i18n.analytics.timeline.time%>: </b> <%= Math.round(calculatePuzzleTime(hint.createdAt, startTime))%>'
+                <b><%=i18n.analytics.timeline.time%>: </b> <%= Math.round(hintTime)%>'
               </div>
               <div class="tooltip-info">
                 <b><%=i18n.analytics.timeline.score%>: </b> <%= hint.score %>%
