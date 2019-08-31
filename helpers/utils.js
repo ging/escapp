@@ -3,6 +3,7 @@ exports.retosSuperadosByWho = (who, puzzles, showDate = false) => {
 
     who.retos.map((reto) => {
         const idx = puzzles.indexOf(reto.id);
+
         if (idx > -1) {
             retosSuperados[idx] = showDate ? reto.retosSuperados.createdAt : 1;
         }
