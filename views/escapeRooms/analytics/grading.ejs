@@ -31,7 +31,7 @@
                     <option value="surname" <%= orderBy === "surname" ? "selected": ""%>><%=i18n.user.surname%></option>
                 </select></label>
             <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
-            <button type="submit" name="csv" value="1" class="filter-button white" >descargar</button>
+            <button type="submit" name="csv" value="1" class="filter-button white" ><%=i18n.analytics.main.download%></button>
             <a class="editGradingScheme" href="/escapeRooms/<%=escapeRoom.id%>/evaluation"><%=i18n.analytics.grading.config%></a>
 
         </div>
@@ -70,7 +70,7 @@
             <% } %>
             <td><%=result.hintsSucceeded%></td>
             <td><%=result.hintsFailed%></td>
-            <td><%=result.total%>%</td>
+            <td style="background-color: <%=getGradientColor(result.total)%>;"><%=result.total%>%</td>
         </tr>
         <%} %>
 

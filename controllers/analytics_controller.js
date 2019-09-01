@@ -35,10 +35,34 @@ exports.analytics = async (req, res, next) => {
             "value": `${Math.round(finished.length / teams.length * 10000) / 100 || 0}%`,
             "icon": "star"
         };
+        const hintIds = escapeRoom.puzzles.map((p) => p.hints.map((h) => h.id)).reduce((x, y) => x.concat(y), []);
+        const hintLabels = escapeRoom.puzzles.map((p) => p.hints.map((h) => h.content)).reduce((x, y) => x.concat(y), []);
+        const reqHints = {
+            "-1": 0,
+            "0": 0
+        };
 
+        hintLabels.unshift(res.app.locals.i18n.analytics.hints.customClue);
+        hintLabels.push(res.app.locals.i18n.analytics.hints.failedClue);
+        hintIds.forEach((e) => {
+            reqHints[e] = 0;
+        });
         const avgReqHints = {
-            "value": teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter((h) => h.success).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a",
+            "value": teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter((h) => {
+                if (h.hintId) {
+                    reqHints[h.hintId]++;
+                } else {
+                    reqHints[h.success ? 0 : -1]++;
+                }
+
+                return h.success;
+            }).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a",
             "icon": "search"
+        };
+        const hintCount = Object.values(reqHints);
+        const hintsByTeam = {
+            "labels": hintLabels,
+            "data": hintCount
         };
 
         const idPuzzles = escapeRoom.puzzles.map((p) => p.id);
@@ -61,7 +85,8 @@ exports.analytics = async (req, res, next) => {
             avgTeamSize,
             avgReqHints
         };
-        const charts = {retosSuperadosTeam};
+        const charts = {retosSuperadosTeam,
+            hintsByTeam};
 
         res.render("escapeRooms/analytics/analytics", {escapeRoom,
             turnId,
@@ -490,5 +515,49 @@ exports.grading = async (req, res, next) => {
         } else {
             next(e);
         }
+    }
+};
+
+// GET /escapeRooms/:escapeRoomId/analytics/download
+exports.download = async (req, res) => {
+    const {escapeRoom, query} = req;
+    const {turnId, orderBy} = query;
+    const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
+    const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
+
+    try {
+        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true));
+
+        const results = users.map((user) => {
+            const {name, surname, dni, username} = user;
+
+            const turno = user.turnosAgregados[0].date;
+            const team = user.teamsAgregados[0].name;
+
+            const retosSuperados = retosSuperadosByWho(user.teamsAgregados[0], puzzles, true);
+            const rs = flattenObject(retosSuperados, puzzleNames);
+            const [{requestedHints}] = user.teamsAgregados;
+
+            const {hintsSucceeded, hintsFailed} = countHints(requestedHints);
+            const attendance = Boolean(user.turnosAgregados[0].participants.attendance);
+
+            return {
+                name,
+                surname,
+                dni,
+                username,
+                team,
+                attendance,
+                ...rs,
+                turno,
+                hintsFailed,
+                hintsSucceeded
+            };
+        });
+
+        createCsvFile(res, results);
+    } catch (e) {
+        console.error(e);
+        res.send("Error");
     }
 };
