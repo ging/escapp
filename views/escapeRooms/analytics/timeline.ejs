@@ -97,7 +97,7 @@
         <% for (let h in requestedHints) { %>
           <% let hint = requestedHints[h] %>
           <% let hintTime = calculatePuzzleTime(hint.createdAt, startTime);%>
-          <% if (hintTime > escapeRoom.duration) { return;} %>
+          <% if (hintTime > escapeRoom.duration) { continue; } %>
           <div class="requestedHint <%= hint.success ? "success":"fail" %>" style="left: <%=puzzlePosition(hint.createdAt, startTime)%>%;">
             <div class="tooltip">
               <div class="tooltip-info">
