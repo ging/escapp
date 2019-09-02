@@ -1,5 +1,5 @@
 <span class="progressBar"> 
-	<div class="progressText"><%=progress%>/6 completado </div>
+	<div class="progressText"><%=progress%>/6 <%=i18n.common.completado%> </div>
 	<% var width = progress / 6 * 100 ; %>
 	<% var labels = ["edit","turnos","puzzles","hints","instructions","appearance","evaluation"]%>
 	<% var realLabels = labels.map(label=>i18n.escapeRoom.steps.list[label]) %>
