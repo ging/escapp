@@ -236,7 +236,8 @@
                 "tracking": "Monitorización"
             },
             "turnos": {
-                "title": "Turnos"
+                "title": "Turnos",
+                "indicacion": "¿Alguna indicación?"
             }
         }
     },

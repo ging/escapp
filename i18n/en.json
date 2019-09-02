@@ -241,7 +241,8 @@
                 "tracking": "Tracking"
             },
             "turnos": {
-                "title": "Shifts"
+                "title": "Shifts",
+                "indicacion": "Add a comment"
             }
         }
     },
