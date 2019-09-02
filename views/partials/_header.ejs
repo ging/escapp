@@ -1,7 +1,7 @@
 <header class="" id="mainHeader">
     <div class="left">
         <% if (session.user) { %>
-            <a title="Salir" href="/?_method=DELETE"><i class="navBarIcon material-icons">power_settings_new</i></a>
+            <a title="<%=i18n.common.exit%>" href="/?_method=DELETE"><i class="navBarIcon material-icons">power_settings_new</i></a>
             <span style="display:inline-block;width:10px;"></span>
             <a title="<%=i18n.common.mainPage%>" href="/escapeRooms"><i class="navBarIcon material-icons">home</i></a>
             <span style="display:inline-block;width:10px;"></span>
