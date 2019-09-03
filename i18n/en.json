@@ -67,16 +67,16 @@
         },
         "timeline": {
             "nTeamsPuzzle": "Number of teams that completed each puzzle",
-            "nTeamsPuzzleButton": "ver por equipo",
+            "nTeamsPuzzleButton": "see by team",
             "nPuzzlesTeam": "Number of puzzles completed by each team",
-            "nPuzzlesTeamButton": "ver por reto",
+            "nPuzzlesTeamButton": "see by puzzle",
             "failed": "Failed request",
             "hint": "Hint",
             "score": "Score",
-            "solved": "Resuelto",
+            "solved": "Solved",
             "title": "Timeline",
             "time": "Time",
-            "unsolved": "No resuelto"
+            "unsolved": "Not solved"
         }
     },
     "common": {
@@ -94,28 +94,28 @@
             "errors": "Errors",
             "interestingInfo": "Relevant information",
             "success": "Successfully completed tasks",
-            "errorActivatingTurno": "An error ocurred while activating/deactivating turns.",
-            "errorCreatingER": "An error ocurred while setting up the Escape Room.",
-            "errorCreatingHint": "An error ocurred while creating the hint.",
-            "errorCreatingPuzzle": "An error ocurred while creating the puzzle.",
-            "errorCreatingTeam": "An error ocurred while creating the team.",
-            "errorCreatingTurno": "An error ocurred while creating the shift",
-            "errorCreatingUser": "An error ocurred while creating a new user",
-            "errorDeletingER": "An error ocurred while deleting the Escape Room",
-            "errorDeletingHint": "An error ocurred while deleting the hint",
-            "errorDeletingPuzzle": "An error ocurred while deleting the puzzle",
-            "errorDeletingTeam": "An error ocurred while deleting the team",
-            "errorDeletingTurno": "An error ocurred while deleting the shift",
-            "errorDeletingUser": "An error ocurred while deleting the user",
-            "errorEditingER": "An error ocurred while editing the Escape Room",
-            "errorEditingHint": "An error ocurred while editing the hint",
-            "errorEditingPuzzle": "An error ocurred while editing the puzzle",
-            "errorEditingTeam": "An error ocurred while editing the team",
-            "errorEditingTurno": "An error ocurred while editing the shift",
-            "errorEditingUser": "An error ocurred while editing the user",
+            "errorActivatingTurno": "An error occurred while activating/deactivating turns.",
+            "errorCreatingER": "An error occurred while setting up the Escape Room.",
+            "errorCreatingHint": "An error occurred while creating the hint.",
+            "errorCreatingPuzzle": "An error occurred while creating the puzzle.",
+            "errorCreatingTeam": "An error occurred while creating the team.",
+            "errorCreatingTurno": "An error occurred while creating the shift",
+            "errorCreatingUser": "An error occurred while creating a new user",
+            "errorDeletingER": "An error occurred while deleting the Escape Room",
+            "errorDeletingHint": "An error occurred while deleting the hint",
+            "errorDeletingPuzzle": "An error occurred while deleting the puzzle",
+            "errorDeletingTeam": "An error occurred while deleting the team",
+            "errorDeletingTurno": "An error occurred while deleting the shift",
+            "errorDeletingUser": "An error occurred while deleting the user",
+            "errorEditingER": "An error occurred while editing the Escape Room",
+            "errorEditingHint": "An error occurred while editing the hint",
+            "errorEditingPuzzle": "An error occurred while editing the puzzle",
+            "errorEditingTeam": "An error occurred while editing the team",
+            "errorEditingTurno": "An error occurred while editing the shift",
+            "errorEditingUser": "An error occurred while editing the user",
             "errorExistingUser": "This user already exists",
-            "errorFile": "An error ocurred while uploading the file",
-            "errorImage": "An error ocurred while uploading the picture",
+            "errorFile": "An error occurred while uploading the file",
+            "errorImage": "An error occurred while uploading the picture",
             "errorMandatoryPass": "Sorry, password is required for login",
             "mustBeUPMAccount": "You need to register with your UPM E-mail address",
             "successActivatingTurno": "Shift successfully activated/deactivated",
@@ -199,7 +199,7 @@
             "hints": {
                 "correctNumber": "Hit number",
                 "correctNumberPlaceHolder": "How many correct answers do students need to obtain a hint?",
-                "explanation": "If you want students to answer a quiz before obteining any hints, please upload a MoodleXML with a battery of questions",
+                "explanation": "If you want students to answer a quiz in order to get a hint, please upload a MoodleXML with a battery of questions",
                 "feedback": "Feedback",
                 "feedbackExplanation": "Do you want to show students the correct answers once the quiz is completed?",
                 "hintFile": "Battery of questions file",
@@ -217,13 +217,14 @@
                 "title": "Instructions"
             },
             "list": {
-            	"edit":"Basic congiguration",
-            	"turnos": "Shifts",
-            	"puzzles": "Puzzles",
-            	"hints": "Hints",
-            	"instructions": "instructions",
-            	"appearance": "Appearance",
-            	"evaluation": "Evaluation"
+                "appearance": "Appearance",
+                "edit":"Basic configuration",
+                "evaluation": "Evaluation",
+                "hints": "Hints",
+                "instructions": "Instructions",
+                "participants": "Participants",
+                "puzzles": "Puzzles",
+                "turnos": "Shifts"
             },
             "puzzles": {
             	"automatic": "automatic",
@@ -406,14 +407,14 @@
         "start":"Start"
     },
     "showStudent": {
-        "access": "acceder",
-        "beforeLeave": "Antes de irte rellena el siguiente cuestionario",
-        "beforeStart": "Antes de empezar rellena el siguiente cuestionario",
+        "access": "access",
+        "beforeLeave": "Before you leave, fill in the following questionnaire",
+        "beforeStart": "Before you start, fill in the following questionnaire",
         "opinion": "Your opinion matters to us! Please tell us what do you think about it",
         "play": "play",
-        "sureUnjoin": "Are you sure you want to unjoin the Escape Room?",
+        "sureUnjoin": "Are you sure you want to leave the Escape Room?",
         "congrats": "Congratulations! You've successfully exited the Escape Room.",
-        "unjoin": "desapuntarse"
+        "unjoin": "leave"
     },
     "showTeacher": {
         "actionList": {
@@ -424,14 +425,14 @@
             "delete": "delete",
             "edit": "edit",
             "join": "Join invitation",
-            "participants": "participants",
+            "participants": "Participants",
             "teams": "Teams",
             "shifts": "Shifts",
             "volver": "back"
         },
         "messages": {
-            "noHintControl": "This Escape Romm hasn't any hint system yet",
-            "noVideo": "This Escape Romm hasn't any video yet"
+            "noHintControl": "This Escape Room does not have any hint system yet",
+            "noVideo": "This Escape Room does not have any video yet"
         },
         "titles": {
             "appearance": "Appearance",
@@ -471,7 +472,7 @@
     },
     "turnos": {
         "all": "All shifts",
-        "alreadyIn": "You're already assignined to a shift",
+        "alreadyIn": "You're already assigned to a shift",
         "arrows": {
         	"closeText": "Close",
         	"currentText": "Today",
@@ -504,7 +505,7 @@
         },
         "noIndications": "No indications",
         "notActive": "This Escape Room isn't available for you right now",
-        "selectActivate": "Select the shift you want to activete/deactivate",
+        "selectActivate": "Select the shift you want to activate/deactivate",
         "selectStudent": "Select a shift",
         "todayEscapeRoom": "The Escape Room will be celebrated this day",
         "Turno": "Shift"
@@ -540,13 +541,13 @@
         },
         "name": "Name",
         "password": "Password",
-        "passwordConfirm": "Confrm password",
+        "passwordConfirm": "Confirm password",
         "roles": {
             "admin": "Admin",
             "student": "student",
             "teacher": "Teacher"
         },
-        "sessionExpired": "Your session expired",
+        "sessionExpired": "Your session has expired",
         "surname": "Last name",
         "title": "User",
         "username": "E-mail",
