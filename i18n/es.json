@@ -6,14 +6,14 @@
         "grading": {
             "config": "Modificar rúbrica",
             "title": "Calificaciones",
-            "attendance": "Attendance",
-            "hintSuccess": "Hints obtained",
-            "hintFailed": "Hints missed"
+            "attendance": "Asistencia",
+            "hintSuccess": "Pistas obtenidas",
+            "hintFailed": "Pistas falladas"
         },
         "hints": {
-            "customClue": "Custom clue",
+            "customClue": "Pista personalizada",
             "failed": "Peticiones de pista fallidas",
-            "failedClue": "Failed clue",
+            "failedClue": "Peticiones de pista fallidas",
             "succeeded": "Pistas obtenidas",
             "title": "Pistas"
         },
@@ -85,6 +85,7 @@
         "exit": "salir",
         "filter": "filtrar",
         "finish": "finalizar",
+        "completado": "completado",
         "flash": {
             "errors": "Errores",
             "interestingInfo": "Información de interés",
@@ -235,7 +236,8 @@
                 "tracking": "Monitorización"
             },
             "turnos": {
-                "title": "Turnos"
+                "title": "Turnos",
+                "indicacion": "¿Alguna indicación?"
             }
         }
     },
@@ -542,6 +544,7 @@
         "surname": "Apellidos",
         "title": "Usuario",
         "username": "E-mail",
-        "wrongCredentials": "Error al iniciar sesión"
+        "wrongCredentials": "Error al iniciar sesión",
+        "turno": "Turno"
     }
 }
