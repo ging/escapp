@@ -2,7 +2,7 @@
   .flex-table-retos-wrapper
     margin: 10px 0px
     .flex-table-retos
-      overflow: hidden
+      overflow: visible
       .flex-row-retos
         .flex-cell
           &.flex-name
@@ -29,6 +29,30 @@
           .flex-cell
             font-family: 'Lato', sans-serif
             padding: 5px
+      .operations-participant
+        position: absolute
+        left: 0
+        margin-left: -65px
+        margin-top: 8px
+        width: 62px
+        text-align: right
+        color: white
+        form
+          display: inline-block
+          .delete-participant
+            background: transparent
+            border: none
+            color: white
+            padding: 2px
+            .material-icons
+              background: transparent
+              border: none
+              color: white
+            @extend %scale-animation-up
+            &.hidden
+              display: none
+
+
 
   input[type=submit], button
     @extend %common-button-props

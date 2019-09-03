@@ -1,3 +1,4 @@
+
 <% include ../partials/_header.ejs %>
 
 <div class="main participants">
@@ -57,6 +58,11 @@
                                data-id="<%=participant.id%>"
                                data-turnId="<%=participant.turnId%>"
                                 <%= participant.attendance ? "checked":"" %> />
+                    </div>
+                    <div class="operations-participant">
+                        <form method='POST' action='/escapeRooms/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams/<%= team.id %>/users/<%= user.id %>?_method=DELETE'>
+                            <button class="delete-participant"><i class="material-icons"> delete </i></button>
+                        </form>
                     </div>
                 </div>
                 <% } %>
