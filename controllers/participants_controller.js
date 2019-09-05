@@ -24,21 +24,37 @@ exports.index = (req, res, next) => {
             "username",
             "dni"
         ],
-        "include": {
-            "model": models.turno,
-            "as": "turnosAgregados",
-            "duplicating": false,
-            "required": true,
-            "attributes": [
-                "id",
-                "date"
-            ],
-            "where": {
-                "escapeRoomId": escapeRoom.id
+        "include": [
+            {
+                "model": models.turno,
+                "as": "turnosAgregados",
+                "duplicating": false,
+                "required": true,
+                "attributes": [
+                    "id",
+                    "date"
+                ],
+                "where": {
+                    "escapeRoomId": escapeRoom.id
+                },
+                "through": {"model": models.participants,
+                    "attributes": ["attendance"]}
             },
-            "through": {"model": models.participants,
-                "attributes": ["attendance"]}
-        }
+            {
+                "model": models.team,
+                "as": "teamsAgregados",
+                "duplicating": false,
+                "required": true,
+                "attributes": ["id"],
+                "include": {
+                    "model": models.turno,
+                    "where": {
+                        "escapeRoomId": escapeRoom.id
+                    }
+                }
+
+            }
+        ]
     };
 
     if (turnId) {
@@ -61,6 +77,7 @@ exports.index = (req, res, next) => {
                 gender,
                 username,
                 dni,
+                "teamId": user.teamsAgregados[0].id,
                 "turnId": user.turnosAgregados[0].id,
                 "turnDate": user.turnosAgregados[0].date,
                 "attendance": user.turnosAgregados[0].participants.attendance});
@@ -129,22 +146,22 @@ exports.studentLeave = (req, res) => {
 };
 
 // DELETE /escapeRooms/:escapeRoomId/turno/:turnId/team/:teamId/user/:userId
-exports.studentDelete = (req, res) => {
-    models.user.findByPk(req.user.id).then((user) => {
-        req.team.removeTeamMember(user).then(() => {
-            models.participants.findOne({"where": {"turnId": req.turn.id,
-                    "userId": req.user.id}}).
-            then((participant) => {
-                participant.destroy().then(() => {
-                    if (req.team.teamMembers.length <= 1) {
-                        req.team.destroy().then(() => {
-                            res.redirect("/");
-                        });
-                    } else {
-                        res.redirect("/");
-                    }
-                });
+exports.studentDelete = async (req, res) => {
+    await req.team.removeTeamMember(req.user);
+    let participant = await models.participants.findOne({
+        "where": {
+            "turnId": req.turn.id,
+            "userId": req.user.id
+        }
+    });
+    participant.destroy().then(() => {
+        console.log(req.team, "****************")
+        if (req.team.teamMembers.length <= 1) {
+            req.team.destroy().then(() => {
+                res.redirect("/");
             });
-        });
+        } else {
+            res.redirect("/");
+        }
     });
 };
