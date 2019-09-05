@@ -127,19 +127,19 @@ exports.confirmAttendance = (req, res) => {
 // DELETE /escapeRooms/:escapeRoomId/turno/:turnId/team/:teamId
 // DELETE /escapeRooms/:escapeRoomId/turno/:turnId/team/:teamId/user/:userId
 exports.studentLeave = async (req, res, next) => {
-    let {user} = req;
+    let {user, turn} = req;
     let redirectUrl = `/escapeRooms/${req.escapeRoom.id}/participants`;
 
-    if (req.user && req.user.id !== req.session.user.id) {
-        res.redirect("/");
+    // TODO También echar si el turno no está con status pending
+    if (req.user && req.user.id !== req.session.user.id ) {
+        res.redirect('back');
         return;
     } else if (!req.user) {
         user = await models.user.findByPk(req.session.user.id);
-
         redirectUrl = "/";
     }
     const userId = user.id;
-    const turnId = req.turn.id;
+    const turnId = turn.id;
 
     try {
         await req.team.removeTeamMember(user);
