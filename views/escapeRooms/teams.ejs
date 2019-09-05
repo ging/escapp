@@ -37,8 +37,8 @@
                     <div class="flex-cell flex-name"><%= team.name %></div>
                     <div class="flex-cell flex-turno"><%= getFullDate(team.turno.date) %></div>
                     <div class="flex-cell flex-participants"><%=team.teamMembers.map(m=>m.name + " " + m.surname).join(", ") %></div>
-
                 </div>
+                <%console.log(team)%>
                 <% } %>
                 <% if (!teams || teams.length === 0) { %>
                 <div class="flex-row-retos">
