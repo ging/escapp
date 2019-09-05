@@ -129,7 +129,7 @@ router.post("/escapeRooms/:escapeRoomId(\\d+)/confirm", sessionController.loginR
 router.post("/escapeRooms/:escapeRoomId(\\d+)/users/:userId(\\d+)/selectTurno", sessionController.loginRequired, sessionController.studentOrAdminRequired, participantController.selectTurno);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/participants", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, participantController.index);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/teams", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, teamController.index);
-router.delete("/escapeRooms/:escapeRoomId(\\d+)/turno/:turnoId(\\d+)/team/:teamId(\\d+)/user/:userId(\\d+)", sessionController.loginRequired, participantController.studentDelete);
+router.delete("/escapeRooms/:escapeRoomId(\\d+)/turno/:turnoId(\\d+)/team/:teamId(\\d+)/user/:userId(\\d+)", sessionController.loginRequired, sessionController.adminOrMyselfRequired, participantController.studentLeave);
 router.delete("/escapeRooms/:escapeRoomId(\\d+)/turno/:turnoId(\\d+)/team/:teamId(\\d+)", sessionController.loginRequired, participantController.studentLeave);
 
 // Routes for the resource members of a team

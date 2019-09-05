@@ -58,7 +58,7 @@ exports.index = (req, res, next) => {
     };
 
     if (turnId) {
-        options.include.where.id = turnId;
+        options.include[0].where.id = turnId;
     }
     if (orderBy) {
         const isPg = process.env.DATABASE_URL;
@@ -125,43 +125,38 @@ exports.confirmAttendance = (req, res) => {
 };
 
 // DELETE /escapeRooms/:escapeRoomId/turno/:turnId/team/:teamId
-exports.studentLeave = (req, res) => {
-    models.user.findByPk(req.session.user.id).then((user) => {
-        req.team.removeTeamMember(user).then(() => {
-            models.participants.findOne({"where": {"turnId": req.turn.id,
-                "userId": req.session.user.id}}).
-                then((participant) => {
-                    participant.destroy().then(() => {
-                        if (req.team.teamMembers.length <= 1) {
-                            req.team.destroy().then(() => {
-                                res.redirect("/");
-                            });
-                        } else {
-                            res.redirect("/");
-                        }
-                    });
-                });
-        });
-    });
-};
-
 // DELETE /escapeRooms/:escapeRoomId/turno/:turnId/team/:teamId/user/:userId
-exports.studentDelete = async (req, res) => {
-    await req.team.removeTeamMember(req.user);
-    let participant = await models.participants.findOne({
-        "where": {
-            "turnId": req.turn.id,
-            "userId": req.user.id
-        }
-    });
-    participant.destroy().then(() => {
-        console.log(req.team, "****************")
+exports.studentLeave = async (req, res, next) => {
+    let {user} = req;
+    let redirectUrl = `/escapeRooms/${req.escapeRoom.id}/participants`;
+
+    if (req.user && req.user.id !== req.session.user.id) {
+        res.redirect("/");
+        return;
+    } else if (!req.user) {
+        user = await models.user.findByPk(req.session.user.id);
+
+        redirectUrl = "/";
+    }
+    const userId = user.id;
+    const turnId = req.turn.id;
+
+    try {
+        await req.team.removeTeamMember(user);
+        const participant = await models.participants.findOne({"where": {turnId,
+            userId}});
+
+        await participant.destroy();
+
         if (req.team.teamMembers.length <= 1) {
             req.team.destroy().then(() => {
-                res.redirect("/");
+                res.redirect(redirectUrl);
             });
         } else {
-            res.redirect("/");
+            res.redirect(redirectUrl);
         }
-    });
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
 };
