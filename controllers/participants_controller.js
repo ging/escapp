@@ -24,25 +24,41 @@ exports.index = (req, res, next) => {
             "username",
             "dni"
         ],
-        "include": {
-            "model": models.turno,
-            "as": "turnosAgregados",
-            "duplicating": false,
-            "required": true,
-            "attributes": [
-                "id",
-                "date"
-            ],
-            "where": {
-                "escapeRoomId": escapeRoom.id
+        "include": [
+            {
+                "model": models.turno,
+                "as": "turnosAgregados",
+                "duplicating": false,
+                "required": true,
+                "attributes": [
+                    "id",
+                    "date"
+                ],
+                "where": {
+                    "escapeRoomId": escapeRoom.id
+                },
+                "through": {"model": models.participants,
+                    "attributes": ["attendance"]}
             },
-            "through": {"model": models.participants,
-                "attributes": ["attendance"]}
-        }
+            {
+                "model": models.team,
+                "as": "teamsAgregados",
+                "duplicating": false,
+                "required": true,
+                "attributes": ["id"],
+                "include": {
+                    "model": models.turno,
+                    "where": {
+                        "escapeRoomId": escapeRoom.id
+                    }
+                }
+
+            }
+        ]
     };
 
     if (turnId) {
-        options.include.where.id = turnId;
+        options.include[0].where.id = turnId;
     }
     if (orderBy) {
         const isPg = process.env.DATABASE_URL;
@@ -61,6 +77,7 @@ exports.index = (req, res, next) => {
                 gender,
                 username,
                 dni,
+                "teamId": user.teamsAgregados[0].id,
                 "turnId": user.turnosAgregados[0].id,
                 "turnDate": user.turnosAgregados[0].date,
                 "attendance": user.turnosAgregados[0].participants.attendance});
@@ -108,22 +125,38 @@ exports.confirmAttendance = (req, res) => {
 };
 
 // DELETE /escapeRooms/:escapeRoomId/turno/:turnId/team/:teamId
-exports.studentLeave = (req, res) => {
-    models.user.findByPk(req.session.user.id).then((user) => {
-        req.team.removeTeamMember(user).then(() => {
-            models.participants.findOne({"where": {"turnId": req.turn.id,
-                "userId": req.session.user.id}}).
-                then((participant) => {
-                    participant.destroy().then(() => {
-                        if (req.team.teamMembers.length <= 1) {
-                            req.team.destroy().then(() => {
-                                res.redirect("/");
-                            });
-                        } else {
-                            res.redirect("/");
-                        }
-                    });
-                });
-        });
-    });
+// DELETE /escapeRooms/:escapeRoomId/turno/:turnId/team/:teamId/user/:userId
+exports.studentLeave = async (req, res, next) => {
+    let {user, turn} = req;
+    let redirectUrl = `/escapeRooms/${req.escapeRoom.id}/participants`;
+
+    // TODO También echar si el turno no está con status pending
+    if (req.user && req.user.id !== req.session.user.id ) {
+        res.redirect('back');
+        return;
+    } else if (!req.user) {
+        user = await models.user.findByPk(req.session.user.id);
+        redirectUrl = "/";
+    }
+    const userId = user.id;
+    const turnId = turn.id;
+
+    try {
+        await req.team.removeTeamMember(user);
+        const participant = await models.participants.findOne({"where": {turnId,
+            userId}});
+
+        await participant.destroy();
+
+        if (req.team.teamMembers.length <= 1) {
+            req.team.destroy().then(() => {
+                res.redirect(redirectUrl);
+            });
+        } else {
+            res.redirect(redirectUrl);
+        }
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
 };
