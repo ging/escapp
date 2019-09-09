@@ -531,7 +531,7 @@ exports.download = async (req, res) => {
         const results = users.map((user) => {
             const {name, surname, dni, username} = user;
 
-            const turno = user.turnosAgregados[0].date;
+            const turno = user.turnosAgregados[0].startTime;
             const team = user.teamsAgregados[0].name;
 
             const retosSuperados = retosSuperadosByWho(user.teamsAgregados[0], puzzles, true);
@@ -555,7 +555,7 @@ exports.download = async (req, res) => {
             };
         });
 
-        createCsvFile(res, results);
+        await createCsvFile(res, results);
     } catch (e) {
         console.error(e);
         res.send("Error");

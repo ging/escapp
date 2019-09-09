@@ -12,7 +12,7 @@ exports.retosSuperadosByWho = (who, puzzles, showDate = false) => {
     return retosSuperados;
 };
 
-exports.flattenObjet = (obj, labels) => {
+exports.flattenObject = (obj, labels) => {
     const rs = {};
 
     for (const r in obj) {
