@@ -133,11 +133,16 @@ exports.studentLeave = async (req, res, next) => {
 
     // TODO También echar si el turno no está con status pending
     if (req.user && req.user.id !== req.session.user.id && req.session.user.isStudent && req.turn.status !== "pending") {
-        res.redirect('back');
+        res.redirect("back");
         return;
-    } else if (!req.user && req.turn.status === "pending") {
-        user = await models.user.findByPk(req.session.user.id);
-        redirectUrl = "/";
+    } else if (!req.user) {
+        if (req.turn.status !== "pending") {
+            req.flash("error", `${req.app.locals.i18n.common.flash.errorStudentLeave}`);
+            res.redirect("/");
+            return;
+        }
+        user
+            = await models.user.findByPk(req.session.user.id);
     }
     const userId = user.id;
     const turnId = turn.id;
@@ -148,6 +153,9 @@ exports.studentLeave = async (req, res, next) => {
             userId}});
 
         await participant.destroy();
+        if (req.session.user.isStudent) {
+            redirectUrl = `/users/${req.session.user.id}/escapeRooms`;
+        }
 
         if (req.team.teamMembers.length <= 1) {
             req.team.destroy().then(() => {

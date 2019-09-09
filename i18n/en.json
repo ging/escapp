@@ -107,6 +107,7 @@
             "errorDeletingTeam": "An error occurred while deleting the team",
             "errorDeletingTurno": "An error occurred while deleting the shift",
             "errorDeletingUser": "An error occurred while deleting the user",
+            "errorStudentLeave": "An error occurred while leaving. Your shift is closed.",
             "errorEditingER": "An error occurred while editing the Escape Room",
             "errorEditingHint": "An error occurred while editing the hint",
             "errorEditingPuzzle": "An error occurred while editing the puzzle",
