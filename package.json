@@ -25,6 +25,7 @@
     "cloudinary": "^1.14.0",
     "connect-session-sequelize": "^6.0.0",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^7.0.0",
     "ejs": "^2.6.1",

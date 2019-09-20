@@ -1,5 +1,7 @@
 const express = require("express"),
     router = express.Router();
+const cors = require('cors');
+
 const apiController = require("../controllers/api_controller");
 const escapeRoomController = require("../controllers/escapeRoom_controller");
 const turnController = require("../controllers/turnos_controller");
@@ -16,6 +18,6 @@ router.param("userId", userController.load);
 router.param("teamId", teamController.load);
 
 
-router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles/:puzzleId(\\d+)/check", apiController.check);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles/:puzzleId(\\d+)/check", cors(), apiController.check);
 
 module.exports = router;
