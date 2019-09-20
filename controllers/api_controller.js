@@ -34,7 +34,7 @@ exports.check = async (req, res) => {
 
     });
 
-    if (answer.toLowerCase().trim() === puzzleSol.toLowerCase().trim()) {
+    if (answer.toString().toLowerCase().trim() === puzzleSol.toString().toLowerCase().trim()) {
         console.log("in")
         if (team && team.length > 0) {
             if (team[0].turno.status !== "active") {
