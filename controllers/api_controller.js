@@ -6,11 +6,11 @@ exports.check = async (req, res) => {
     const {puzzle, body} = req;
     const {solution, token} = body;
     const where = {};
-
+    
     if (token) {
         where.username = token;
     } else {
-        return res.status(401).end();
+        return res.status(401).json({"msg": "Not authorized"});
     }
     // eslint-disable-next-line no-undefined
     const answer = solution === undefined || solution === null ? "" : solution;
@@ -20,7 +20,7 @@ exports.check = async (req, res) => {
     const users = await models.user.findAll({where});
 
     if (!users || users.length === 0) {
-        res.status(404).end();
+        res.status(404).json({"msg":"Not found"});
         return;
     }
     const team = await users[0].getTeamsAgregados({
@@ -35,19 +35,23 @@ exports.check = async (req, res) => {
     });
 
     if (answer.toLowerCase().trim() === puzzleSol.toLowerCase().trim()) {
+        console.log("in")
         if (team && team.length > 0) {
             if (team[0].turno.status !== "active") {
-                res.status(304).send("The answer is correct but you are not being tracked");
+                res.status(202).json({"msg": "The answer is correct but you are not being tracked because your turn is not active"});
                 return;
             }
             req.puzzle.addSuperados(team[0].id).then(function () {
-                res.send("Correct answer!");
+                res.json({"msg": "Correct answer!"});
             }).
-                catch((e) => res.status(500).send(e));
+                catch((e) => res.status(500).json({"msg":e}));
         } else {
-            res.status(304).send("The answer is correct but you are not being tracked");
+             res.status(202).json({"msg":"The answer is correct but you are not being tracked"});
+            return;
         }
     } else {
-        res.status(401).send("Wrong");
+        res.status(401).json({"msg": "Wrong"});
     }
+
+
 };

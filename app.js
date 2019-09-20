@@ -11,7 +11,7 @@ const flash = require("express-flash");
 const methodOverride = require("method-override");
 const dotenv = require("dotenv");
 const i18n = require("i18n-express");
-
+const cors = require("cors")
 dotenv.config();
 
 const api = require("./routes/api");
@@ -36,9 +36,12 @@ if (app.get("env") === "production") {
  * Uncomment after placing your favicon in /public
  * app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
  */
+app.use(cors())
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({"extended": false}));
+app.use(bodyParser.urlencoded({
+    "extended": false
+}));
 app.use(cookieParser());
 app.use("/api", api);
 

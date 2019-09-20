@@ -131,8 +131,8 @@ exports.studentLeave = async (req, res, next) => {
     let redirectUrl = `/escapeRooms/${req.escapeRoom.id}/participants`;
 
     // TODO También echar si el turno no está con status pending
-    if (req.user && req.user.id !== req.session.user.id ) {
-        res.redirect('back');
+    if (req.user && req.user.id !== req.session.user.id) {
+        res.redirect("back");
         return;
     } else if (!req.user) {
         user = await models.user.findByPk(req.session.user.id);
