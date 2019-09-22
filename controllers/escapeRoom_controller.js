@@ -178,9 +178,8 @@ exports.create = (req, res, next) => {
         "invitation"
     ]}).
         then((er) => {
-            req.flash("success", "Escape Room creada con éxito");
+            req.flash("success", req.app.locals.i18n.common.flash.successCreatingER);
             if (!req.file) {
-                req.flash("info", "Escape Room without attachment.");
                 res.redirect(`/escapeRooms/${escapeRoom.id}/turnos`);
 
                 return;
@@ -205,7 +204,6 @@ exports.create = (req, res, next) => {
                     req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
                 }).
                 then(() => {
-                    fs.unlink(req.file.path); // Delete the file uploaded at./uploads
                     res.redirect(`/escapeRooms/${er.id}/turnos`);
                 });
         }).
@@ -279,7 +277,6 @@ exports.update = (req, res, next) => {
                                 return attachment.save();
                             }).
                             then(() => {
-                                req.flash("success", req.app.locals.i18n.common.flash.successImage);
                                 if (old_public_id) {
                                     attHelper.deleteResource(old_public_id);
                                 }
@@ -287,15 +284,14 @@ exports.update = (req, res, next) => {
                             catch((error) => { // Ignoring image validation errors
                                 req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
                                 attHelper.deleteResource(uploadResult.public_id);
+                            })
+                            .then(() => {
+                                 res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || "turnos"}`);
                             });
                     }).
                     catch((error) => {
                         req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
-                    }).
-                    then(() => {
-                        fs.unlink(req.file.path); // Delete the file uploaded at./uploads
-                        res.redirect(`/escapeRooms/${escapeRoom.id}/${progressBar || "turnos"}`);
-                    });
+                    })
             }
         }).
         then(() => {
@@ -417,7 +413,6 @@ exports.pistasUpdate = (req, res, next) => {
             if (body.keepAttachment === "0") {
                 // There is no attachment: Delete old attachment.
                 if (!req.file) {
-                    // Req.flash("info", "This Escape Room has no attachment.");
                     if (escapeRoom.hintApp) {
                         attHelper.deleteResource(escapeRoom.hintApp.public_id);
                         escapeRoom.hintApp.destroy();
@@ -459,11 +454,7 @@ exports.pistasUpdate = (req, res, next) => {
                     }).
                     catch((error) => {
                         req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
-                    }).
-                    then(() => {
-                        fs.unlink(req.file.path); // Delete the file uploaded at./uploads
-                        res.redirect(back);
-                    });
+                    })
             }
         }).
         then(() => {

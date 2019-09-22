@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
-
+const http = require('https');
 
 // Autoload the hint with id equals to :hintId
 exports.load = (req, res, next, hintId) => {
@@ -202,3 +202,20 @@ exports.requestHint = (req, res) => {
             res.send({msg});
         });
 };
+
+// GET /escapeRooms/:escapeRoomId/xml
+exports.downloadMoodleXML = async (req, res) => {
+
+    try {
+        if (req.escapeRoom.hintApp.url) {
+            http.get(req.escapeRoom.hintApp.url, function (resp) {
+                res.setHeader('content-disposition', 'attachment; filename="quiz.xml"');
+                resp.pipe(res);
+            });
+        }
+    } catch(e) {
+        console.error(e)
+        res.status(404).end()
+    }
+
+}

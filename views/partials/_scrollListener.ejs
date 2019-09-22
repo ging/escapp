@@ -6,29 +6,29 @@
         var container = $this.find(".basicConfig");
 
         $(document).ready(function() {
-            $(container).find(".erFormField").first().click();
+            $(container).find(".erFormField:not(.disallow)").first().click();
         });
 
         $(container)
-            .find(".erFormField")
+            .find(".erFormField:not(.disallow)")
             .not(".erFormField input")
             .on("click", function() {
                 rescroll(this);
             });
 
-        $(container).find(".erFormField input").keypress(function(e) {
+        $(container).find(".erFormField:not(.disallow) input").keypress(function(e) {
             if (e.which == 13) {
                 if ($(this).hasClass("required") && $(this).val() == "") {
                 } else moveNext(this);
             }
         });
 
-        $(container).find('.erFormField input[type="radio"]').change(function(e) {
+        $(container).find('.erFormField:not(.disallow) input[type="radio"]').change(function(e) {
             moveNext(this);
         });
 
         $(window).on("scroll", function() {
-            $(container).find(".erFormField").each(function() {
+            $(container).find(".erFormField:not(.disallow)").each(function() {
                 var etop = $(this).offset().top;
                 var diff = etop - $(window).scrollTop();
 
@@ -39,9 +39,9 @@
         });
 
         function reinitState(e) {
-            $(container).find(".erFormField").removeClass("active");
+            $(container).find(".erFormField:not(.disallow)").removeClass("active");
 
-            $(container).find(".erFormField input").each(function() {
+            $(container).find(".erFormField:not(.disallow) input").each(function() {
                 $(this).blur();
             });
             $(e).addClass("active");
@@ -75,30 +75,30 @@
         var container = $this.find(".basicConfig");
 
         $(document).ready(function() {
-            $(container).find(".erFormField").first().click()
+            $(container).find(".erFormField:not(.disallow)").first().click()
         });
 
 
         $(container)
-            .find(".erFormField")
-            .not(".erFormField input")
+            .find(".erFormField:not(.disallow)")
+            .not(".erFormField:not(.disallow) input")
             .on("click", function() {
                 rescroll(this);
             });
 
-        $(container).find(".erFormField input").keypress(function(e) {
+        $(container).find(".erFormField:not(.disallow) input").keypress(function(e) {
             if (e.which === 13) {
                 if ($(this).hasClass("required") && $(this).val() == "") {
                 } else moveNext(this);
             }
         });
 
-        $(container).find('.erFormField input[type="radio"]').change(function(e) {
+        $(container).find('.erFormField:not(.disallow) input[type="radio"]').change(function(e) {
             moveNext(this);
         });
 
         $(window).on("scroll", function() {
-            $(container).find(".erFormField").each(function() {
+            $(container).find(".erFormField:not(.disallow)").each(function() {
                 var etop = $(this).offset().top;
                 var diff = etop - $(window).scrollTop();
 
@@ -109,9 +109,9 @@
         });
 
         function reinitState(e) {
-            $(container).find(".erFormField").removeClass("active");
+            $(container).find(".erFormField:not(.disallow)").removeClass("active");
 
-            $(container).find(".erFormField input").each(function() {
+            $(container).find(".erFormField:not(.disallow) input").each(function() {
                 $(this).blur();
             });
             $(e).find("input").focus();

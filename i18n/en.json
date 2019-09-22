@@ -133,6 +133,7 @@
             "successDeletingUser": "User successfully deleted",
             "successEditingER": "Escape Room successfully edited",
             "successEditingHint": "Hint successfully edited",
+            "successEditingHintApproach": "Hint configuration successfully edited",
             "successEditingPuzzle": "Puzzle successfully edited",
             "successEditingTeam": "Team successfully edited",
             "successEditingTurno": "Shift successfully edited",
