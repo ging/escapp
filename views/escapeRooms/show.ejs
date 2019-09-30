@@ -196,7 +196,7 @@
             <div class="flexShowRight">
                 <% if (escapeRoom.hintApp) { %>
 
-                    <a class="show_link" download="quiz.xml" href="<%= escapeRoom.hintApp.url%>"><%=escapeRoom.hintApp.filename%></a>
+                    <a class="show_link"  download="quiz" href="/escapeRooms/<%= escapeRoom.id%>/xml"><%=escapeRoom.hintApp.filename%></a>
                     <button class="copy" onclick="previewHintApp()"><i class="material-icons">remove_red_eye</i></button>
                 <% } else { %>
                    <%=i18n.showTeacher.messages.noHintControl%>

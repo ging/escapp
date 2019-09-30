@@ -129,6 +129,7 @@
             "successDeletingUser": "Usuario borrado con éxito",
             "successEditingER": "Escape room editada con éxito",
             "successEditingHint": "Pista editada con éxito",
+            "successEditingHintApproach": "Configuración de pistas editada con éxito",
             "successEditingPuzzle": "Reto editado con éxito",
             "successEditingTeam": "Equipo editado con éxito",
             "successEditingTurno": "Turno editado con éxito",
