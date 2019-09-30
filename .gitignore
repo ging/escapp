@@ -5,3 +5,4 @@ escaperoom.sqlite
 uploads
 migrate.sh
 seed.sh
+*.pem
