@@ -2,7 +2,6 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
 const cloudinary = require("cloudinary");
-const fs = require("fs");
 const {parseURL} = require("../helpers/video");
 const query = require("../queries");
 const attHelper = require("../helpers/attachments");
@@ -284,14 +283,14 @@ exports.update = (req, res, next) => {
                             catch((error) => { // Ignoring image validation errors
                                 req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
                                 attHelper.deleteResource(uploadResult.public_id);
-                            })
-                            .then(() => {
-                                 res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || "turnos"}`);
+                            }).
+                            then(() => {
+                                res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || "turnos"}`);
                             });
                     }).
                     catch((error) => {
                         req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
-                    })
+                    });
             }
         }).
         then(() => {
@@ -454,7 +453,7 @@ exports.pistasUpdate = (req, res, next) => {
                     }).
                     catch((error) => {
                         req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
-                    })
+                    });
             }
         }).
         then(() => {

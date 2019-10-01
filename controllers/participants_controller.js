@@ -127,7 +127,8 @@ exports.confirmAttendance = (req, res) => {
 // DELETE /escapeRooms/:escapeRoomId/turno/:turnId/team/:teamId
 // DELETE /escapeRooms/:escapeRoomId/turno/:turnId/team/:teamId/user/:userId
 exports.studentLeave = async (req, res, next) => {
-    let {user, turn} = req;
+    let {user} = req;
+    const {turn} = req;
     let redirectUrl = `/escapeRooms/${req.escapeRoom.id}/participants`;
 
     // TODO También echar si el turno no está con status pending

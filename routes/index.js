@@ -36,8 +36,6 @@ const saveBack = (req, res, next) => {
 
 router.get([
     "/",
-    "/users",
-    "/users/:id(\\d+)/escapeRooms",
     "/escapeRooms"
 ], saveBack);
 
