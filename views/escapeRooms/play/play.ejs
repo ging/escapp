@@ -4,10 +4,13 @@
     <title><%=escapeRoom.title%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="/js/vendor/easy-alert.js"></script>
     <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom.appearance%>.bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
     <link rel="stylesheet" href="/stylesheets/play.css">
     <link rel="stylesheet" href="/stylesheets/vendor/animate.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/easy-alert.css">
+
 
 </head>
 <body>
@@ -63,7 +66,7 @@
                         } %>
                         </ul>
                         <br/>
-                        <button onclick="previewHintApp()" class="btn btn-primary">
+                        <button onclick="previewHintApp()" id="btn-hints" class="btn btn-primary">
                             <%=i18n.hint.need%>
                         </button>
                     </div>

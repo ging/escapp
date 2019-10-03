@@ -108,8 +108,8 @@
         headers:{
           'Content-Type': 'application/json'
         }
-      }).then(res => alert("<%=i18n.participant.attendanceSaved%>"))
-        .catch(error => alert("<%=i18n.participant.errorSaving%>"))
+      }).then(res => $.easyAlert({message: "<%=i18n.participant.attendanceSaved%>", alertType: 'info', position: 'b l', time: 3000, autoHide: true}))
+        .catch(error => $.easyAlert({message: "<%=i18n.participant.errorSaving%>", alertType: 'error', position: 'b l', time: 3000, autoHide: true}))
     });
     var selected = true;
     $('#attendance-all-button').on('click', ()=>{

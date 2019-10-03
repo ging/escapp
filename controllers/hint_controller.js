@@ -86,19 +86,25 @@ exports.hintAppWrapper = (req, res) => {
         "escapeRoom": req.escapeRoom});
 };
 
-// GET /escapeRooms/:escapeRoomId/requestHintt
+// GET /escapeRooms/:escapeRoomId/requestHint
 exports.requestHint = (req, res) => {
     const {escapeRoom, body} = req;
     const {score, status} = body;
     const success = status === "completed" || status === "passed";
 
+    if (req.session && req.session.user && !req.session.user.isStudent) {
+        res.send({"teacher": true,
+            "ok": false});
+        return;
+    }
     models.user.findByPk(req.session.user.id).then((user) => {
         user.getTeamsAgregados({
             "include": [
                 {
                     "model": models.turno,
                     "required": true,
-                    "where": {"escapeRoomId": escapeRoom.id} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
+                    "where": {"escapeRoomId": escapeRoom.id,
+                        "status": "active"} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
                 }
             ]
 
@@ -131,7 +137,7 @@ exports.requestHint = (req, res) => {
                                 "where": {
                                     "teamId": team.id,
                                     "success": true
-                                }
+                                } // Order by reto and then hintId
                             }).then((hints) => {
                                 const requestedHints = hints.filter((h) => h.id !== null);
                                 let currentHint = -1;
@@ -199,7 +205,8 @@ exports.requestHint = (req, res) => {
         catch((msg) => {
             console.error(msg);
             res.status(500);
-            res.send({msg});
+            res.send({msg,
+                "ok": false});
         });
 };
 

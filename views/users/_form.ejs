@@ -64,13 +64,13 @@
         var pw1 = document.getElementById('user_password').value;
         var pw2 = document.getElementById('user_confirm_password').value;
         if (!pw1 || !pw2) {
-            alert('<%=i18n.user.messages.fillIn %>.');
+            $.easyAlert({message: "<%=i18n.user.messages.fillIn %>", alertType: 'danger', position: 'b l', time: 3000, autoHide: true})
             return false;
         }
         if (pw1 === pw2) {
             return true;
         } else {
-            alert('<%=i18n.user.messages.doNotMatch %>.');
+            $.easyAlert({message: "<%=i18n.user.messages.doNotMatch %>", alertType: 'danger', position: 'b l', time: 3000, autoHide: true})
             return false;
         }
     }
@@ -100,7 +100,7 @@
         var dni = document.getElementById('dni').value;
 
         if(!validateDNI(dni)){
-            alert('<%=i18n.user.messages.invalidDNI %>');
+            $.easyAlert({message: "<%=i18n.user.messages.invalidDNI %>", alertType: 'error', position: 'b l', time: 3000, autoHide: true});
             return false;
         } else {
           return true;

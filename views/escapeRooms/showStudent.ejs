@@ -75,10 +75,12 @@
 		<%}%>
 	</div>
 	<br/><br/><br/><br/>
-	<form id="unjoin" method="post" 
-	action="/escapeRooms/<%=escapeRoom.id%>/turno/<%=participant.teamsAgregados[0].turno.id%>/team/<%=participant.teamsAgregados[0].id%>?_method=delete">
-		<input type="submit" class="rounded inverse" onclick="return confirm('<%=i18n.showStudent.sureUnjoin%>');" value="<%=i18n.showStudent.unjoin%>"></input>
-	</form>
+	<% if(participant.teamsAgregados[0].turno.status === "pending"){%>
+		<form id="unjoin" method="post" 
+		action="/escapeRooms/<%=escapeRoom.id%>/turno/<%=participant.teamsAgregados[0].turno.id%>/team/<%=participant.teamsAgregados[0].id%>?_method=delete">
+			<input type="submit" class="rounded inverse" onclick="return confirm('<%=i18n.showStudent.sureUnjoin%>');" value="<%=i18n.showStudent.unjoin%>"></input>
+		</form>
+	<%}%>
 	<br/><br/><br/>
 </div>
 
