@@ -35,7 +35,7 @@
                                 <%=i18n.common.back%>
                             </button>
                         </a>
-                        <button disabled id="continue" class="rounded acceptButton" type="submit">
+                        <button disabled id="continue" style="display: none;" class="rounded acceptButton" type="submit">
                             <%=i18n.common.continue%>
                         </button>
                     </div>
@@ -58,6 +58,7 @@
             currentClicked.addClass('selected');
             selectedId = teamId;
             $('#continue').prop("disabled", false);
+            $('#continue').css("display", "inline-block");
         });
         $('#form').on('submit', function(e){
             console.log($('#form').attr('action'))

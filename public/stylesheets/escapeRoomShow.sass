@@ -28,13 +28,37 @@
               transition: 0.1s all ease-in
               &:hover
                 transform: scale(0.9)
-    #dialog-preview-video
+    #dialog-preview-video, #dialog-preview-api
       padding: 0
       background-color: white
       outline: none
       border: none
       #previewVideoContent
         padding: 10px
+    #dialog-preview-api
+      padding: 15px
+      h4
+        color: $brightgreen
+        font-size: 20px
+        margin-bottom: -4px
+      .api-table
+        td, th
+          font-size: 10px
+          font-family: 'Lato', sans-serif
+          color: $textpurple
+          code
+            font-family: monospace
+            color: $lightred
+        th
+          color: $lightred
+          font-weight: 600
+          text-align: left
+      pre#sample-fetch
+        color: white
+        padding: 5px
+        font-size: 10px
+        font-family: monospace
+        background-color: $textpurple
     .ui-dialog
       outline: none !important
     .ui-dialog-title
@@ -49,10 +73,12 @@
       &:after
         content: '\e5cd'
         font-family: 'Material Icons'
-    .ui-dialog .ui-dialog-titlebar
+    .ui-dialog .ui-dialog-titlebar, h3
       background: white !important
       border-color: white !important
       color: $lightred
+
+
 @media (max-width: 768px)
   #mainSection
     .main.escapeRoomShow

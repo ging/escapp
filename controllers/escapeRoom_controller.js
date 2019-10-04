@@ -120,6 +120,7 @@ exports.show = (req, res) => {
         res.render("escapeRooms/show", {escapeRoom,
             cloudinary,
             hostName,
+            email: req.session.user.username,
             parseURL});
     }
 };

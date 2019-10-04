@@ -130,6 +130,9 @@
         <div class="flexRow animated bounceIn" id="pistas">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.puzzles%>:
+                <%if (escapeRoom.puzzles && escapeRoom.puzzles.length > 0 && escapeRoom.automatic) {%>
+                    <br/><button class="copy" id="api-button"><i class="material-icons">info</i></button>
+                <%}%>
             </div>
             <div class="flexShowRight previewPuzzles">
                 <%if (escapeRoom.puzzles && escapeRoom.puzzles.length > 0) {%>
@@ -262,20 +265,37 @@
       appendTo: '.main'
     });
 
-
+    $("#dialog-preview-api").dialog({
+      autoOpen: false,
+      resizable: false,
+      width: screen.width > 600 ? 560 : screen.width*0.9,
+      height: "auto",
+      show: {
+        effect: "blind",
+        duration: 100
+      },
+      hide: {
+        effect: "explode",
+        duration: 400
+      },
+      appendTo: '.main'
+    });
 
     $( "#previewVideo" ).on( "click", function() {
       $( "#dialog-preview-video" ).dialog( "open" );
     });
 
 
+    $( "#api-button" ).on( "click", function() {
+      $( "#dialog-preview-api" ).dialog( "open" );
+    }); 
   });
 
 
 </script>
 
 <% if (escapeRoom.video) { %>
-<div id="dialog-preview-video" title="Previsualizar video">
+<div id="dialog-preview-video" title="Video">
     <% if (parseURL(escapeRoom.video)) { %>
         <iframe id="previewVideoContent" width="560" height="315" style="max-width: 100%;" src="<%=parseURL(escapeRoom.video)%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <% } else { %>
@@ -284,6 +304,38 @@
 
 </div>
 <% } %>
+
+<% if (escapeRoom.automatic) { %>
+<div id="dialog-preview-api" title="API">
+    <table class="api-table">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Endpoint</th>
+            <th>Solution</th>
+        </tr>
+    <% for (var p in escapeRoom.puzzles) { let puzzle = escapeRoom.puzzles[p]; %>
+        <tr>
+            <td><%= puzzle.id %></td>
+            <td><%= puzzle.title %></td>
+            <td> <code><%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/check </code></td>
+            <td><%= puzzle.sol %></td>
+        </tr>
+    <% } %>
+    </table>
+    <h4>Sample remote request</h4>
+    <pre id="sample-fetch">
+fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/check", {
+    method: 'POST',
+    body: JSON.stringify({token: "<%= email %>", solution: "<%=puzzle.sol%>"}),
+    headers: {"Content-type": "application/json"}
+})
+.then(res => res.json())
+.then(res => console.log(res));</pre>
+
+</div>
+<% } %>
+
 <% include ../partials/_footer %>
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";

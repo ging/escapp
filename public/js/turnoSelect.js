@@ -6,6 +6,7 @@ $(function(){
         currentClicked.addClass('selected');
         $('#turnSelected').val(turnId);
         $('#continue').prop("disabled", false);
+        $('#continue').css("display", "inline-block");
         
     });
     var car = $(".owl-carousel").owlCarousel(

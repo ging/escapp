@@ -77,7 +77,7 @@ const formatDate = function (currentDate) {
     </form>
     <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/selectTurno'>
         <input type="hidden" id="turnSelected" name="turnSelected" value="0">
-        <button disabled id="continue" class="rounded acceptButton" type="submit" style="display:inline-block;"><%=i18n.common.continue%></button>
+        <button disabled id="continue" class="rounded acceptButton" type="submit" style="display:none;"><%=i18n.common.continue%></button>
     </form>
 </div>
 </div>

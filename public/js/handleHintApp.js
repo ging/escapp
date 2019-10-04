@@ -50,7 +50,8 @@ $(function(){
                     } else {
                         $.easyAlert({ 
                             message: res.alert || res.msg, 
-                            alertType: res.ok ? "info" : "warning", 
+                            time: 3000, autoHide: true,
+                            alertType: "warning", 
                             position: "t 1" });
                     }
 

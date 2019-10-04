@@ -188,7 +188,7 @@ exports.create = (req, res, next) => {
                 if (req.body.redir) {
                     res.redirect(req.body.redir);
                 } else {
-                    res.redirect(`users/${user.id}/escapeRooms`);
+                    res.redirect(`/escapeRooms`);
                 }
             } else {
                 req.flash("error", req.app.locals.i18n.user.wrongCredentials);

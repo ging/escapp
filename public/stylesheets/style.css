@@ -364,12 +364,12 @@ button, input[type="submit"] {
         width: 10px;
         padding: 2px;
         margin: 0px; }
-      #mainSection .main .flexShow .flexRow .flexShowRight .copy {
-        background: transparent;
-        border: none;
-        font-size: 16px;
-        color: white;
-        vertical-align: middle; }
+    #mainSection .main .flexShow .flexRow .copy {
+      background: transparent;
+      border: none;
+      font-size: 16px;
+      color: white;
+      vertical-align: middle; }
 
 #mainSection .main .progress-buttons {
   border-radius: 25px;
@@ -509,13 +509,36 @@ button, input[type="submit"] {
             transition: 0.1s all ease-in; }
             #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList li .showMenuButton:hover {
               transform: scale(0.9); }
-  #mainSection .main.escapeRoomShow #dialog-preview-video {
+  #mainSection .main.escapeRoomShow #dialog-preview-video, #mainSection .main.escapeRoomShow #dialog-preview-api {
     padding: 0;
     background-color: white;
     outline: none;
     border: none; }
-    #mainSection .main.escapeRoomShow #dialog-preview-video #previewVideoContent {
+    #mainSection .main.escapeRoomShow #dialog-preview-video #previewVideoContent, #mainSection .main.escapeRoomShow #dialog-preview-api #previewVideoContent {
       padding: 10px; }
+  #mainSection .main.escapeRoomShow #dialog-preview-api {
+    padding: 15px; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api h4 {
+      color: #48C18E;
+      font-size: 20px;
+      margin-bottom: -4px; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th {
+      font-size: 10px;
+      font-family: 'Lato', sans-serif;
+      color: #656683; }
+      #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td code, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th code {
+        font-family: monospace;
+        color: #F47E84; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th {
+      color: #F47E84;
+      font-weight: 600;
+      text-align: left; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api pre#sample-fetch {
+      color: white;
+      padding: 5px;
+      font-size: 10px;
+      font-family: monospace;
+      background-color: #656683; }
   #mainSection .main.escapeRoomShow .ui-dialog {
     outline: none !important; }
   #mainSection .main.escapeRoomShow .ui-dialog-title {
@@ -530,7 +553,7 @@ button, input[type="submit"] {
     #mainSection .main.escapeRoomShow .ui-button-icon-space:after {
       content: '\e5cd';
       font-family: 'Material Icons'; }
-  #mainSection .main.escapeRoomShow .ui-dialog .ui-dialog-titlebar {
+  #mainSection .main.escapeRoomShow .ui-dialog .ui-dialog-titlebar, #mainSection .main.escapeRoomShow h3 {
     background: white !important;
     border-color: white !important;
     color: #F47E84; }
