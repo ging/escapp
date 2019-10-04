@@ -919,6 +919,11 @@ button, input[type="submit"] {
           overflow: hidden;
           text-overflow: ellipsis;
           color: #FAC855; }
+  #mainSection .main.student .teamName {
+    overflow: hidden;
+    width: 200px;
+    max-width: 100%;
+    min-width: 50%; }
 
 @media (max-width: 992px) {
   #mainSection .main.student .dialog {
@@ -1432,12 +1437,15 @@ button, input[type="submit"] {
   text-align: right; }
 
 .showStudent .pulseButton {
-  margin: 100px;
+  margin-top: 100px;
   cursor: pointer;
   box-shadow: 0 0 2px 0px rgba(204, 169, 44, 0.2);
   animation: pulseButton 2s infinite; }
   .showStudent .pulseButton:hover {
     animation: none; }
+
+.finish .content {
+  width: 100%; }
 
 .finish .finish-button {
   background-color: white;
@@ -1464,6 +1472,12 @@ button, input[type="submit"] {
   100% {
     -moz-box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0);
     box-shadow: 0 0 2px 0 rgba(204, 169, 44, 0); } }
+
+@media (max-width: 700px) {
+  .finish .ranking-table * {
+    font-size: 12px; }
+  .finish .ranking-table .ranking-members {
+    display: none; } }
 
 .timeline {
   overflow: hidden; }

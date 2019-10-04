@@ -26,14 +26,13 @@
 				</a>
 			</div>
 		<% } %>
-		<br/><br/>
 		<% if (teams.length > 0) { %>
-		    <table>
+		    <table class="ranking-table">
 			    <tr>
-			    	<th><%=i18n.analytics.ranking.team%></th>
-			    	<th><%=i18n.analytics.ranking.members%></th>
-			    	<th><%=i18n.analytics.ranking.res%></th>
-			    	<th><%=i18n.analytics.ranking.time%></th>
+			    	<th class="ranking-team"><%=i18n.analytics.ranking.team%></th>
+			    	<th class="ranking-members"><%=i18n.analytics.ranking.members%></th>
+			    	<th class="ranking-res"><%=i18n.analytics.ranking.res%></th>
+			    	<th class="ranking-time"><%=i18n.analytics.ranking.time%></th>
 
 			    </tr>
 			    
@@ -52,12 +51,12 @@
 						return member.name + " " + member.surname}).join(", ");
 			    	%>
 				    <tr class="<%=myTeam ? "myTeam":""%>">
-				    	<td><b><%=team.name%></b></td>
-				    	<td>
+				    	<td class="ranking-team"><b><%=team.name%></b></td>
+				    	<td class="ranking-members">
 				    		<%=participants%>
 				    	</td>
-				    	<td><%=res%></td>
-				    	<td>
+				    	<td class="ranking-res"><%=res%></td>
+				    	<td class="ranking-time">
 				    		<% if(escapeRoom.puzzles.length === parseInt(count) && startTime) { %>
 				    			<%= secondsToDhms((new Date(latestRetoSuperado) - new Date(startTime))/1000)  %>
 				    		<% } else { %>
@@ -69,6 +68,8 @@
 			    <% } %>
 			</table>
 		<% } %>
+		<br/>
 	</div>
 </div>
+<br/>
 <% include ../../partials/_footer %>

@@ -21,7 +21,7 @@
 	#unjoin
 		text-align: right
 	.pulseButton
-		margin: 100px
+		margin-top: 100px
 		cursor: pointer
 		box-shadow: 0 0 2px 0px rgba(204, 169, 44, 0.2)
 		animation: pulseButton 2s infinite
@@ -29,6 +29,8 @@
 			animation: none
 
 .finish
+	.content
+		width: 100%
 	.finish-button
 		background-color: white
 		color: rgb(22, 25, 56)
@@ -54,3 +56,10 @@
 			-moz-box-shadow: 0 0 2px 0 rgba(204,169,44, 0)
 			box-shadow: 0 0 2px 0 rgba(204,169,44, 0)
 
+@media (max-width: 700px)
+	.finish
+		.ranking-table
+			*
+				font-size: 12px
+			.ranking-members
+				display: none
