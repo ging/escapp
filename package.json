@@ -37,6 +37,7 @@
     "express-flash": "^0.0.2",
     "express-partials": "^0.3.0",
     "express-session": "^1.16.1",
+    "forever-monitor": "^1.7.1",
     "fs": "^0.0.1-security",
     "global": "^4.3.2",
     "http-errors": "~1.6.2",
