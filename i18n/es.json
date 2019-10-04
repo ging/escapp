@@ -103,6 +103,7 @@
             "errorDeletingTeam": "Error al borrar el equipo",
             "errorDeletingTurno": "Error al borrar el turno",
             "errorDeletingUser": "Error al borrar el usuario",
+            "errorStudentLeave": "Error al desapuntarte. El turno está cerrado.",
             "errorEditingER": "Error al editar la Escape Room",
             "errorEditingHint": "Error al editar la pista",
             "errorEditingPuzzle": "Error al editar el reto",

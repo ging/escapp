@@ -21,7 +21,7 @@
 	    	                <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
 	    	                <% for (t in escapeRoom.turnos) { 
 	    	                	var turno = escapeRoom.turnos[t] ;
-	    	                // if (turno.status !== "pending" ) {
+	    	                // if (turno.<status !== "pending" ) {
 							%>
 	    	                <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
 	    	                    <%= getFullDate(turno.date)%>
