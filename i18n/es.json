@@ -115,6 +115,11 @@
             "errorImage": "Error al subir la imagen",
             "errorMandatoryPass": "Es obligatorio introducir una contraseña",
             "mustBeUPMAccount": "Debes registrarte con tu cuenta de correo de la UPM",
+            "passwordChangedSuccessfully": "Contraseña cambiada correctamente",
+            "passwordsDoNotMatch": "Las contraseñas no coinciden",
+            "problemSendingEmail": "Ha habido un problema con su petición",
+            "resetPasswordSent": "Te hemos enviado un correo para recuperar tu contraseña",
+            "resetPasswordUserNotFound": "Lo siento, no estás registrado en escapp",
             "successActivatingTurno": "Turno activado/desactivado con éxito",
             "successCreatingER": "Escape room creada con éxito",
             "successCreatingHint": "Pista creada con éxito",
@@ -508,9 +513,12 @@
     "user": {
         "actions": {
             "alreadyRegistered": "¿Ya tienes cuenta?",
+            "iForgotMyPassword": "He olvidado mi contraseña",
+            "Login": "Iniciar sesión",
             "login": "entrar",
             "notRegistered": "¿No tienes cuenta?",
             "register": "regístrate",
+            "resetPassword" : "Recuperar contraseña",
             "save": "guardar"
         },
         "dni": "DNI",
@@ -532,7 +540,9 @@
             "welcome": "Bienvenido a la plataforma de gestión de escape rooms ;)",
             "wrongLetterDNI": "DNI erroneo, la letra del NIF no se corresponde",
             "notFound": "Usuario no encontrado",
-            "ensureRegistered": "Ha ocurrido un error. Asegúrate de que te has registrado correctamente en la Escape Room."
+            "ensureRegistered": "Ha ocurrido un error. Asegúrate de que te has registrado correctamente en la Escape Room.",
+            "emailResetPassword1":" Si recibes este mensaje es porque has solicitado recuperar tu contraseña en escapp.",
+            "emailResetPassword2":"Haz click en el siguiente link:"
         },
         "name": "Nombre",
         "password": "Contraseña",

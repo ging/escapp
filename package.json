@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "start_heroku": "heroku local:start",
-    "start_dit":"sudo NODE_ENV=production node ./bin/www",
+    "start_dit": "sudo NODE_ENV=production node ./bin/www",
     "start_dit_forever":"forever start -c 'npm run start_dit' ./",
     "dev": "DEBUG=TFG  nodemon bin/www -e sass,js,json --exec \"npm run css && npm run lint && node\" && xdg-open http://localhost:3000 ",
     "dev-windows": "nodemon bin/www -e sass,js,json --exec \"npm run css && npm run lint && node\" && start http://localhost:3000",
@@ -25,6 +25,7 @@
     "dump": "heroku pg:backups:download -o escape-room-upm.dump --app escape-room-upm"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.14.0",
     "connect-session-sequelize": "^6.0.0",
@@ -50,6 +51,7 @@
     "node-fetch": "^2.6.0",
     "node-sass": "^4.11.0",
     "node-sass-middleware": "0.11.0",
+    "nodemailer": "^6.3.1",
     "nodemon": "^1.18.11",
     "pg": "7.10.0",
     "sass": "^1.19.0",

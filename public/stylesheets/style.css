@@ -1969,8 +1969,10 @@ html {
       box-shadow: none !important; }
       html body input:-webkit-autofill, html body select:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 30px #232951 inset !important;
-        -webkit-text-fill-color: #656683 !important; }
+        -webkit-text-fill-color: #656683 !important;
+        font-family: Gugi; }
       html body input:focus, html body input:active, html body input:-webkit-autofill:focus, html body input:-webkit-autofill:active, html body select:focus, html body select:active, html body select:-webkit-autofill:focus, html body select:-webkit-autofill:active {
+        font-family: Gugi !important;
         background-color: #232951;
         color: white;
         -webkit-text-fill-color: white !important;

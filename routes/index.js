@@ -58,6 +58,10 @@ router.delete("/", sessionController.destroy); // Close sesion
 // Routes for the resource /users
 router.get("/users/:userId(\\d+)", sessionController.loginRequired, sessionController.adminOrMyselfRequired, userController.show);
 router.get("/users/new", userController.new);
+router.get("/users/password-reset", userController.resetPassword);
+router.get("/users/password-reset/:userId(\\d+)", userController.resetPasswordHash);
+router.post("/users/password-reset", userController.newResetPassword);
+router.post("/users/password-reset/:userId(\\d+)", userController.newResetPasswordHash);
 router.post("/users", userController.create);
 router.get("/users/index", userController.index);
 router.get("/users/:userId(\\d+)/edit", sessionController.loginRequired, sessionController.adminOrMyselfRequired, userController.edit);

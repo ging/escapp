@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");// Autoload the user with id equals to :userId
-
+const mailer = require("../helpers/mailer");
+var ejs = require('ejs');
 exports.load = (req, res, next, userId) => {
     models.user.findByPk(userId).
         then((user) => {
@@ -15,14 +16,12 @@ exports.load = (req, res, next, userId) => {
         catch((error) => next(error));
 };
 
-
 // GET /users/:userId
 exports.show = (req, res) => {
     const {user} = req;
 
     res.render("users/show", {user});
 };
-
 
 // GET /users/new
 exports.new = (req, res) => {
@@ -37,7 +36,6 @@ exports.new = (req, res) => {
         "register": true,
         "redir": req.query.redir});
 };
-
 
 // POST /users
 exports.create = (req, res, next) => {
@@ -94,14 +92,12 @@ exports.create = (req, res, next) => {
         catch((error) => next(error));
 };
 
-
 // GET /users/:userId/edit
 exports.edit = (req, res) => {
     const {user} = req;
 
     res.render("users/edit", {user});
 };
-
 
 // PUT /users/:userId
 exports.update = (req, res, next) => {
@@ -138,7 +134,6 @@ exports.update = (req, res, next) => {
         catch((error) => next(error));
 };
 
-
 // DELETE /users/:userId
 exports.destroy = (req, res, next) => {
     req.user.destroy().
@@ -166,4 +161,71 @@ exports.index = (req, res, next) => {
             res.render("users/index", {users});
         }).
         catch((error) => next(error));
+};
+
+// GET /users/password-reset
+exports.newResetPassword = (req, res, next) => {
+    if (!req.body.login) {
+        req.flash("error", req.app.locals.i18n.common.flash.resetPasswordUserNotFound);
+        res.redirect("/users/password-reset");
+        return;
+    }
+    models.user.findOne({ where: { username: req.body.login }}).then(user => {
+        if (user) {
+            ejs.renderFile("views/emails/resetPassword.ejs", { i18n: req.app.locals.i18n, link: "http://" + process.env.APP_NAME + "/users/password-reset/" + user.id + "?code=" + user.password +"&email=" + user.username }, {}, function(err, str){
+                if (err) {
+                    console.error(err)
+                    req.flash("error", req.app.locals.i18n.common.flash.problemSendingEmail);
+                    res.redirect("/users/password-reset"); 
+                    return;
+                }
+                mailer.resetPasswordEmail(user.username, "Reset password", str, str)
+                    .then(()=>req.flash("success", req.app.locals.i18n.common.flash.resetPasswordSent))
+                    .catch(()=>req.flash("error", req.app.locals.i18n.common.flash.problemSendingEmail))
+                    .then(()=>res.redirect("/users/password-reset"))
+            });
+        } else {
+            req.flash("error", req.app.locals.i18n.common.flash.resetPasswordUserNotFound);
+            res.redirect("/users/password-reset");
+        }
+    });
+
+};
+
+// POST /users/password-reset
+exports.resetPassword = (req, res, next) => {
+   res.render("index", { resetPassword: true });
+};
+
+// GET /users/password-reset/:hash
+exports.resetPasswordHash = (req, res, next) => {
+   let {user, query} = req;
+   let {code, email} = query;
+   if (user && user.password === code && user.username === email) {
+       res.render("index", { resetPasswordHash: true, user });
+   } else {
+       next();
+   }
+};
+
+// POST /users/password-reset/:hash
+exports.newResetPasswordHash = (req, res, next) => {
+   let {code, email} = req.query;
+   if (req.user && req.user.password === code && req.user.username === email) {
+       if (req.body.password && (req.body.password === req.body.confirm_password)) {
+           req.user.password = req.body.password.toString() ;
+           req.user.save({"fields": ["password","salt"]}).
+               then((user_saved) => {
+                   req.flash("error", req.app.locals.i18n.common.flash.passwordChangedSuccessfully);
+                   res.redirect("/");
+               });
+       } else {
+           req.flash("error", req.app.locals.i18n.common.flash.passwordsDoNotMatch);
+           res.redirect("back");
+       }
+
+   } else {
+       next();
+   }
+
 };

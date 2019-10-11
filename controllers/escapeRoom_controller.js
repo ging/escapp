@@ -109,7 +109,7 @@ exports.indexBreakDown = (req, res) => res.redirect("/");
 exports.show = (req, res) => {
     const {escapeRoom} = req;
     const participant = req.isParticipant;
-    const hostName = process.env.APP_NAME || "http://localhost:3000";
+    const hostName = process.env.APP_NAME ? ("http://"+ process.env.APP_NAME) : "http://localhost:3000";
 
     if (participant) {
         res.render("escapeRooms/showStudent", {escapeRoom,

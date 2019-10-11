@@ -119,6 +119,11 @@
             "errorImage": "An error occurred while uploading the picture",
             "errorMandatoryPass": "Sorry, password is required for login",
             "mustBeUPMAccount": "You need to register with your UPM E-mail address",
+            "passwordChangedSuccessfully": "Password changed successfully",
+            "passwordsDoNotMatch": "Passwords do not match",
+            "problemSendingEmail": "There was a problem with your request",
+            "resetPasswordSent": "We have sent you an email with a link to reset your password",
+            "resetPasswordUserNotFound": "Sorry, you are not registered in escapp",
             "successActivatingTurno": "Shift successfully activated/deactivated",
             "successCreatingER": "Escape Room successfully set up",
             "successCreatingHint": "Hint successfully created",
@@ -515,12 +520,15 @@
     "user": {
         "actions": {
             "alreadyRegistered": "Already registered?",
+            "iForgotMyPassword": "I forgot my password",
             "login": "login",
+            "Login": "Login",
             "notRegistered": "Don't have an account?",
             "register": "register",
+            "resetPassword" : "Reset password",
             "save": "save"
         },
-        "dni": "ID number",
+        "dni": "ID number (DNI/NIE...)",
         "gender": "Gender",
         "inputs": {
             "dniPlaceHolder": "Please enter your ID number",
@@ -539,7 +547,10 @@
             "welcome": "Welcome to the Escape Room management platform ;)",
             "wrongLetterDNI": "Ups! Invalid ID number, letter must match the number combination",
             "notFound": "User not found",
-            "ensureRegistered": "An error occurred. Please make sure you've correctly registered in the Escape Room"
+            "ensureRegistered": "An error occurred. Please make sure you've correctly registered in the Escape Room",
+            "emailResetPassword1":"If you are receiving this e-mail is because you reset your password in escapp.",
+            "emailResetPassword2":"This is the link to reset your password:"
+
         },
         "name": "Name",
         "password": "Password",

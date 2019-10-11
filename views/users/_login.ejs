@@ -1,7 +1,7 @@
 <h1 class="loginWelcomeMessage"></h1>
 
 <%=i18n.user.messages.welcome%>
-<h1>Login</h1>
+<h1><%=i18n.user.actions.Login%></h1>
 
 <form method='POST' action='/'>
 
@@ -25,4 +25,5 @@
     </div>
 </form>
 <br />
-<a class="login" href="/users/new?redir=<%=redir%>%>"><%=i18n.user.actions.notRegistered%></a>
+<a class="login" href="/users/new?redir=<%=redir%>%>"><%=i18n.user.actions.notRegistered%></a><br/><br/>
+<a class="login" href="/users/password-reset%>"><%=i18n.user.actions.iForgotMyPassword%></a>
