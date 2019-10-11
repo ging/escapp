@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");// Autoload the user with id equals to :userId
-
+const mailer = require("../helpers/mailer");
 exports.load = (req, res, next, userId) => {
     models.user.findByPk(userId).
         then((user) => {
@@ -166,4 +166,17 @@ exports.index = (req, res, next) => {
             res.render("users/index", {users});
         }).
         catch((error) => next(error));
+};
+
+
+exports.newResetPassword = (req, res, next) => {
+    let id = req.session.user.id;
+    models.user.findByPk(id).then(user=>{
+        if (user) {
+            mailer.resetPasswordEmail(user.username, "kjsfkjsf");
+            req.flash("success", "We have sent you an email with a link to reset your password"/*req.app.locals.i18n.common.flash.successDeletingUser*/);
+            res.redirect("/");
+        }
+    })
+
 };
