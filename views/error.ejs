@@ -1,7 +1,59 @@
 <% include partials/_header.ejs %>
 <div class="main errorPage">
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
-</div>
+	<% if (message) { %>
+		<h1><%= message %></h1>
+		<h2><%= error.status %></h2>
+		<pre><%= error.stack %></pre>
+		</div>
+	<%} else if (error.status === 404) {%>
+		<div class="box__error">
+		  <div class="box__ghost">
+		  <% for (let i = 0; i < 6; i++) { %>
+		  	<div class="symbol"></div>
+		  <% } %>
+		    <div class="box__ghost-container">
+		      <div class="box__ghost-eyes">
+		        <div class="box__eye-left"></div>
+		        <div class="box__eye-right"></div>
+		      </div>
+		      <div class="box__ghost-bottom">
+		      <% for (let i = 0; i < 6; i++) { %>
+		        <div></div>
+		      <% } %>
+		      </div>
+		    </div>
+		    <div class="box__ghost-shadow"></div>
+		  </div>
+		  
+		  <div class="box__description">
+		    <div class="box__description-container">
+		      <div class="box__description-title"><%=i18n.common.error.whoops%></div>
+		      <div class="box__description-text"><%=i18n.common.error.notFound%></div>
+		    </div>
+		    
+		  </div>
+		  
+		</div>
+		<script>
+		var pageX = $(document).width();
+		var pageY = $(document).height();
+		var mouseY=0;
+		var mouseX=0;
+
+		$(document).mousemove(function( event ) {
+		  //verticalAxis
+		  mouseY = event.pageY;
+		  yAxis = (pageY/2-mouseY)/pageY*300; 
+		  //horizontalAxis
+		  mouseX = event.pageX / -pageX;
+		  xAxis = -mouseX * 100 - 100;
+
+		  $('.box__ghost-eyes').css({ 'transform': 'translate('+ xAxis +'%,-'+ yAxis +'%)' }); 
+
+		  //console.log('X: ' + xAxis);
+
+		});
+		</script>
+	<% } %>
+
 <% include partials/_footer %>

@@ -39,18 +39,20 @@
 			<script>
 			</script><%
 			const lessThanHalfAnHour = ((date - now) / 1000 / 60) < 30;
+			console.log(date - now, lessThanHalfAnHour)
 			if (lessThanHalfAnHour) {%>
-				<div class="desc centered animated slideInLeft">
-					<% if (escapeRoom.pretest) { %>
-					<%=i18n.showStudent.beforeStart%>
-					<br/><br/>
-					<a target="_blank" href="<%=escapeRoom.pretest%>">
-						<button class="rounded"><%=i18n.showStudent.access%></button>
-					</a>
-					<% } %>
-				</div>
+				<% if (escapeRoom.pretest) { %>
+					<div class="desc centered animated slideInLeft">
+						<%=i18n.showStudent.beforeStart%>
+						<br/><br/>
+						<a target="_blank" href="<%=escapeRoom.pretest%>">
+							<button class="rounded"><%=i18n.showStudent.access%></button>
+						</a>
+					</div>
+				<% } %>
+				
 			<% } %>
-		<% } else if(participant.teamsAgregados[0].turno.status === "active") { %>
+		<% } else if(turno.status === "active") { %>
 			<a href="/escapeRooms/<%=escapeRoom.id%>/play"><button class="rounded editButton pulseButton"><%=i18n.showStudent.play%>%></button>
 			</a>
 		<% } else {%>
@@ -58,7 +60,7 @@
 				<div class="desc centered animated slideInLeft">
 					<%=i18n.showStudent.beforeLeave%>
 					 <br/><br/>
-					<a target="_blank" href="<%=escapeRoom.pretest%>">
+					<a target="_blank" href="<%=escapeRoom.posttest%>">
 						<button class="rounded"><%=i18n.showStudent.access%></button>
 					</a> 
 				</div>

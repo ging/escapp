@@ -14,7 +14,6 @@ const i18n = require("i18n-express");
 const cors = require("cors");
 
 dotenv.config();
-
 const api = require("./routes/api");
 const index = require("./routes/index"),
 
@@ -33,10 +32,6 @@ If (app.get("env") === "production") {
     });
 }
 */
-/*
- * Uncomment after placing your favicon in /public
- * app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
- */
 app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -50,8 +45,8 @@ app.use("/api", api);
 const sequelize = require("./models");
 const sessionStore = new SequelizeStore({"db": sequelize,
     "table": "session",
-    "checkExpirationInterval": 15 * 60 * 1000, // The interval at which to cleanup expired sessions in milliseconds. (15 minutes)
-    "expiration": 3 * 60 * 60 * 1000});// The maximum age (in milliseconds) of a valid session. (4 hours)
+    "checkExpirationInterval": 15 * 60 * 1000,
+    "expiration": 3 * 60 * 60 * 1000});
 
 app.use(session({"secret": "Escape Room",
     "store": sessionStore,
@@ -65,7 +60,7 @@ app.use(methodOverride("_method", {"methods": [
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(i18n({
-    "translationsPath": path.join(__dirname, "i18n"), // <--- use here. Specify translations files path.
+    "translationsPath": path.join(__dirname, "i18n"),
     "siteLangs": ["es"],
     "defaultLang": "es",
     "textsVarName": "i18n"
@@ -88,13 +83,14 @@ app.use((req, res, next) => {
 app.use("/", index);
 
 // Catch 404 and forward to error handler
-app.use((req, res, next) => {
+app.use((req, res) => {
     const err = new Error("Not Found");
 
     err.status = 404;
     res.locals.message = "Not found";
-    res.locals.error = req.app.get("env") === "development" ? err : {};
-    next(err);
+    res.locals.error = req.app.get("env") === "development" ? err : {"status": 404};
+    res.status(404);
+    res.render("error");
 });
 
 // Error handler

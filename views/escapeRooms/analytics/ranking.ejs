@@ -60,7 +60,7 @@
 						startTime,
 						latestRetoSuperado,
 						finishTime,
-						res } = team;
+						result } = team;
 			    	var stringified = JSON.parse(JSON.stringify(team));
 			    	%>
 				    <tr>
@@ -72,7 +72,7 @@
 							%>
 				    	</td>
 				    	<td><%=getFullDate(team.turno.date)%></td>
-				    	<td><%=res%></td>
+				    	<td><%=result%></td>
 				    	<td><%=finishTime ? secondsToDhms(finishTime) : "--" %></td>
 
 				    </tr>

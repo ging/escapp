@@ -61,7 +61,8 @@ exports.adminOrAuthorOrParticipantRequired = (req, res, next) => {
 
 // GET /escapeRooms
 exports.index = (req, res, next) => {
-    let user = req.user || req.session.user;
+    const user = req.user || req.session.user;
+
     if (user && !user.isStudent) {
         models.escapeRoom.findAll({"attributes": [
             "id",
@@ -73,10 +74,9 @@ exports.index = (req, res, next) => {
             {"model": models.user,
                 "as": "author",
                 "where": {"id": user.id}}
-        ]}).then((escapeRooms) => res.render("escapeRooms/index.ejs", {
-            escapeRooms,
+        ]}).then((escapeRooms) => res.render("escapeRooms/index.ejs", {escapeRooms,
             cloudinary,
-            "user": user})).
+            user})).
             catch((error) => next(error));
     } else {
         models.escapeRoom.findAll(query.escapeRoom.all()).

@@ -8,7 +8,7 @@
     "start_dit": "sudo NODE_ENV=production node ./bin/www",
     "start_dit_forever":"forever start -c 'npm run start_dit' ./",
     "dev": "DEBUG=TFG  nodemon bin/www -e sass,js,json --exec \"npm run css && npm run lint && node\" && xdg-open http://localhost:3000 ",
-    "dev-windows": "nodemon bin/www -e sass,js,json --exec \"npm run css && npm run lint && node\" && start http://localhost:3000",
+    "dev-windows": "nodemon bin/www -e sass,scss,js,json --exec \"npm run css && npm run lint && node\" && start http://localhost:3000",
     "test": "jest",
     "migrate_local": "sequelize db:migrate --url sqlite://$(pwd)/escaperoom.sqlite",
     "migrate_heroku": "heroku run ./node_modules/.bin/sequelize db:migrate --url $DATABASE_URL",

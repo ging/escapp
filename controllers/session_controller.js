@@ -158,7 +158,7 @@ exports.new = (req, res) => {
     const {redir} = req.query;
 
     if (req.session && req.session.user) {
-        res.redirect(redir ? redir : `/escapeRooms`);
+        res.redirect(redir ? redir : "/escapeRooms");
         return;
     }
     res.render("index", {redir});

@@ -163,13 +163,15 @@ exports.puzzlesByTeams = async (req, res, next) => {
 
     try {
         const teams = await models.team.findAll(queries.team.puzzlesByTeam(escapeRoom.id, turnId));
-        const results = teams.map((u) => {
-            const {id, name} = u;
-            const retosSuperados = retosSuperadosByWho(u, puzzles);
+        const results = teams.map((team) => {
+            const {id, name} = team;
+            const retosSuperados = retosSuperadosByWho(team, puzzles);
             const total = pctgRetosSuperados(retosSuperados);
+            const members = team.teamMembers.map((member) => `${member.name} ${member.surname}`);
 
             return {id,
                 name,
+                members,
                 retosSuperados,
                 turnId,
                 total};
@@ -210,28 +212,34 @@ exports.ranking = async (req, res, next) => {
     const {turnId} = query;
 
     try {
-        const result = await models.team.findAll(queries.team.ranking(escapeRoom.id, turnId));
-        const teams = getRetosSuperados(result).map(team => {
+        const teamsRanked = await models.team.findAll(queries.team.ranking(escapeRoom.id, turnId));
+        const teams = getRetosSuperados(teamsRanked).map((team) => {
             const count = team.countretos;
-            const startTime = team.turno.startTime;
+            const {startTime} = team.turno;
             const latestRetoSuperado = team.latestretosuperado;
-            const res = count + "/" + escapeRoom.puzzles.length;
-            const finishTime = ((escapeRoom.puzzles.length === parseInt(count)) && startTime)  ? ((new Date(latestRetoSuperado) - new Date(startTime))/1000) : null;
-            return {...team, count, startTime, latestRetoSuperado, res, finishTime};
-        })
-        .sort((a, b)=>{
-            if (a.count > b.count) { return -1;
-            } else if (a.count < b.count) { return 1;
-            } else {
-                if (a.finishTime < b.finishTime) {
+            const result = `${count}/${escapeRoom.puzzles.length}`;
+            const finishTime = escapeRoom.puzzles.length === parseInt(count, 10) && startTime ? (new Date(latestRetoSuperado) - new Date(startTime)) / 1000 : null;
+
+            return {...team,
+                count,
+                startTime,
+                latestRetoSuperado,
+                result,
+                finishTime};
+        }).
+            sort((a, b) => {
+                if (a.count > b.count) {
                     return -1;
-                } else {
+                } else if (a.count < b.count) {
                     return 1;
                 }
-            }
-        });
+                if (a.finishTime < b.finishTime) {
+                    return -1;
+                }
+                return 1;
+            });
 
-        
+
         res.render("escapeRooms/analytics/ranking", {teams,
             escapeRoom,
             turnId});
@@ -273,12 +281,14 @@ exports.hintsByParticipants = async (req, res, next) => {
                 const user = users[u];
                 const {id, name, surname, dni, username} = user;
                 const [{requestedHints, turno}] = user.teamsAgregados;
-                const { startTime } = turno;
+                const {startTime} = turno;
+
                 for (const h in requestedHints) {
                     const hint = requestedHints[h];
                     const {success, score, createdAt} = hint;
-                    const hintContent = (hint.hint && hint.hint.content) ? hint.hint.content : "";
+                    const hintContent = hint.hint && hint.hint.content ? hint.hint.content : "";
                     const minute = Math.floor((createdAt - startTime) / 60000);
+
                     resultsCsv.push({
                         id,
                         name,
@@ -342,17 +352,19 @@ exports.hintsByTeams = async (req, res, next) => {
             for (const t in teams) {
                 const team = teams[t];
                 const {id, name, requestedHints, turno} = team;
-                const { startTime } = turno;
+                const {startTime} = turno;
+
                 for (const h in requestedHints) {
                     const hint = requestedHints[h];
-                    const {success, score, createdAt, content} = hint;
+                    const {success, score, createdAt} = hint;
                     const minute = Math.floor((hint.createdAt - startTime) / 60000);
-                    const hintContent = (hint.hint && hint.hint.content) ? hint.hint.content : "";
+                    const hintContent = hint.hint && hint.hint.content ? hint.hint.content : "";
+
                     resultsCsv.push({
                         id,
                         "team": name,
                         score,
-                        hint: hintContent,
+                        "hint": hintContent,
                         success,
                         minute,
                         "createdAt": new Date(createdAt)

@@ -40,7 +40,7 @@
                 "sucessRate": "Tasa de salida",
                 "bestTime": "Mejor tiempo",
                 "avgTeamSize": "Tamaño medio equipos",
-                "avgReqHints": "Pistas pedidas en media",
+                "avgReqHints": "Pistas conseguidas en media",
                 "retosSuperadosTeam": "Nº de equipos que superó el reto"
             }
         },
@@ -62,12 +62,13 @@
             "title": "Resumen"
         },
         "timeline": {
+            "customHint": "Pista personalizada",
             "title": "Cronograma",
             "nTeamsPuzzle": "Nº de equipos que han superado cada reto",
             "nTeamsPuzzleButton": "ver por equipo",
             "nPuzzlesTeam": "Nº de retos que ha superado cada equipo",
             "nPuzzlesTeamButton": "ver por reto",
-            "failed": "Pista fallida",
+            "failed": "Intento fallido",
             "hint": "Pista",
             "score": "Puntuación",
             "solved": "Resuelto",
@@ -82,6 +83,10 @@
         "delete": "borrar",
         "download": "descargar",
         "edit": "editar",
+        "error": {
+            "whoops": "Ups!",
+            "notFound": "No hemos encontrado la página que buscas"
+        },
         "exit": "salir",
         "filter": "filtrar",
         "finish": "finalizar",
@@ -463,6 +468,7 @@
         "emptyER": "No hay equipos en esta escape room",
         "emptyTurno": "No hay equipos en este turno",
         "fullTeam": "Equipo completo. Por favor, elige otro equipo.",
+        "Members": "Integrantes",
         "noTeamYet": "No hay equipos todavía...",
         "seeByTeam": "ver por equipo",
         "Team": "Equipo",

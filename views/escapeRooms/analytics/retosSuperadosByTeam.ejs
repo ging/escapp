@@ -38,23 +38,24 @@
     </form>
     <br/>
     <table>
-        <tr class="animated fadeInRight">
+        <tr>
             <th><%=i18n.team.Team%></th>
-            <%for (var p in escapeRoom.puzzles) {
-                var puzzle = escapeRoom.puzzles[p];
-            %>
-        <th>
-            <%=puzzle.title%>
-        </th>
-        <%} %>
+            <th><%=i18n.team.Members%></th>
+            <%for (var p in escapeRoom.puzzles) { 
+                var puzzle = escapeRoom.puzzles[p]; %>
+            <th>
+                <%=puzzle.title%>
+            </th>
+            <%} %>
             <th><%=i18n.common.Total%></th>
         </tr>
         <% var totalRetosSuperados = escapeRoom.puzzles.map(p=>0)%>
         <%for (var p in results) {
             var result = results[p];
         %>
-        <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(p)+(0.3)%>s;">
-            <td class="align-left"><%=result.name%></td>
+        <tr>
+            <td class=" "><b><%=result.name%></b></td>
+            <td class=" "><%=result.members.join(", ")%></td>
             <% for (var r in result.retosSuperados) {
                 var superado = result.retosSuperados[r];
                 if (superado) {
@@ -68,8 +69,9 @@
             <td><%=Math.round(result.retosSuperados.filter(r=>r==1).length*10000/result.retosSuperados.length)/100%>%</td>
         </tr>
         <%} %>
-        <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(results.length)+0.3%>s;">
+        <tr>
             <td class="align-left"><b>Total:</b> <%=results.length%></td>
+            <td/>
             <% for (var s in totalRetosSuperados) { %>
                 <td>
                     <b><%=totalRetosSuperados[s]%></b>

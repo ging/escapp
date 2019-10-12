@@ -13,7 +13,7 @@ const membersController = require("../controllers/members_controller");
 const analyticsController = require("../controllers/analytics_controller");
 
 const multer = require("multer"),
-    upload = multer({"dest": "./uploads/"});// Autologout
+    upload = multer({"dest": "./uploads/"});
 
 router.all("*", sessionController.deleteExpiredUserSession);
 

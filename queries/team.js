@@ -10,7 +10,7 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
                 "attributes": ["startTime"],
                 "where": {
                     escapeRoomId
-                },
+                }
 
             },
             {
@@ -82,6 +82,16 @@ exports.puzzlesByTeam = (escapeRoomId, turnId) => {
                 "model": models.puzzle,
                 "as": "retos",
                 "through": {"model": models.retosSuperados}
+            },
+            {
+                "model": models.user,
+                "as": "teamMembers",
+                "through": {
+                    "attributes": [
+                        "name",
+                        "surname"
+                    ]
+                }
             }
         ],
         "order": Sequelize.literal("lower(team.name) ASC")
@@ -94,8 +104,8 @@ exports.puzzlesByTeam = (escapeRoomId, turnId) => {
 };
 
 exports.ranking = (escapeRoomId, turnId) => {
-    // const isPg = process.env.DATABASE_URL;
-    // const retoTime = isPg ? "\"retos->retosSuperados\".\"createdAt\"" : "`retos->retosSuperados`.`createdAt`";
+    // Const isPg = process.env.DATABASE_URL;
+    // Const retoTime = isPg ? "\"retos->retosSuperados\".\"createdAt\"" : "`retos->retosSuperados`.`createdAt`";
     const options = {
         // "includeIgnoreAttributes": false,
         "attributes": ["name"],
@@ -118,7 +128,7 @@ exports.ranking = (escapeRoomId, turnId) => {
                     "through": {
                         "model": models.participants,
                         "required": true,
-                        "attributes":["attendance"],
+                        "attributes": ["attendance"],
                         "where": {
                             "attendance": true
                         }
@@ -135,7 +145,7 @@ exports.ranking = (escapeRoomId, turnId) => {
                 ],
                 "where": {
                     // "status": {[Sequelize.Op.not]: "pending"},
-                    escapeRoomId,
+                    escapeRoomId
                 }
             },
             {
@@ -150,7 +160,7 @@ exports.ranking = (escapeRoomId, turnId) => {
                     "required": true
                 }
             }
-        ]/*,
+        ]/* ,
         order: [Sequelize.literal(
             '('+retoTime+' - turno.startTime) DESC')]*/
     };

@@ -43,7 +43,7 @@
                 "sucessRate": "Success Rate",
                 "bestTime": "Best time",
                 "avgTeamSize": "Avg. team size",
-                "avgReqHints": "Avg. requested hints",
+                "avgReqHints": "Avg. hints obtained",
                 "retosSuperadosTeam": "# of teams that completed the puzzle"
 
             }
@@ -66,11 +66,12 @@
             "title": "Summary"
         },
         "timeline": {
+            "customHint": "Custom hint",
             "nTeamsPuzzle": "Number of teams that completed each puzzle",
             "nTeamsPuzzleButton": "see by team",
             "nPuzzlesTeam": "Number of puzzles completed by each team",
             "nPuzzlesTeamButton": "see by puzzle",
-            "failed": "Failed request",
+            "failed": "Failed hint request",
             "hint": "Hint",
             "score": "Score",
             "solved": "Solved",
@@ -86,6 +87,10 @@
         "delete": "delete",
         "download": "download",
         "edit": "edit",
+        "error": {
+            "whoops": "Whoops!",
+            "notFound": "It seems like we couldn't find the page you were looking for"
+        },
         "exit": "exit",
         "filter": "filter",
         "finish": "finish",
@@ -255,8 +260,8 @@
         }
     },
     "hint": {
-        "failed": "Ups! Please try again",
-        "failMessage": "Ups! Please keep trying",
+        "failed": "Oops! Please try again",
+        "failMessage": "Oops! Please keep trying",
         "dontClose": "There aren't any hints left. You may ask your teacher now, he or she will help you. Don't close this message until they come",
         "empty": "Custom hint",
         "Hints": "Hints",
@@ -470,6 +475,7 @@
         "emptyER": "There aren't any teams yet",
         "emptyTurno": "There aren't any teams in this shift yet",
         "fullTeam": "Complete team. Please choose another team.",
+        "Members": "Members",
         "noTeamYet": "There aren't any teams yet",
         "seeByTeam": "See by team",
         "Team": "Team",

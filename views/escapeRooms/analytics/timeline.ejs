@@ -112,7 +112,9 @@
                 <div class="tooltip-info">
                   <b><%=i18n.analytics.timeline.hint%>: </b><%= hint.hint.content %>
                 </div>
-              <%} else { %>
+              <%} else if (hint.success) { %>
+                <div class="tooltip-info"><%=i18n.analytics.timeline.customHint%></div>
+              <% } else {%>
                 <div class="tooltip-info"><%=i18n.analytics.timeline.failed%></div>
               <% } %>
             </div>

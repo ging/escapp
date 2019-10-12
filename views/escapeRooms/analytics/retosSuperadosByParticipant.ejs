@@ -37,8 +37,8 @@
         </div>
     </form>
     <br/>
-    <table>
-        <tr class="animated fadeInRight">
+    <table class="animated jello">
+        <tr>
             <th><%=i18n.user.name%></th>
             <%for (let p in escapeRoom.puzzles) {
                 var puzzle = escapeRoom.puzzles[p];
@@ -53,7 +53,7 @@
         <%for (let p in results) {
             var result = results[p];
         %>
-        <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(p)+(0.3)%>s;">
+        <tr>
             <td class="align-left"><%=result.name%> <%= result.surname%></td>
             <% for (let r in result.retosSuperados) {
                 let superado = result.retosSuperados[r];
@@ -68,7 +68,7 @@
             <td><%=result.total%>%</td>
         </tr>
         <%} %>
-        <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(results.length)+0.3%>s;">
+        <tr>
             <td class="align-left"><b><%=i18n.common.Total%>:</b> <%=results.length%></td>
             <% for (let s in totalRetosSuperados) { %>
                 <td>
