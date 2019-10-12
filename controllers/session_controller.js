@@ -158,8 +158,7 @@ exports.new = (req, res) => {
     const {redir} = req.query;
 
     if (req.session && req.session.user) {
-        res.redirect(redir ? redir : `/users/${req.session.user.id}/escapeRooms/`);
-
+        res.redirect(redir ? redir : `/escapeRooms`);
         return;
     }
     res.render("index", {redir});
@@ -175,11 +174,6 @@ exports.create = (req, res, next) => {
     authenticate((login || "").toLowerCase(), password).
         then((user) => {
             if (user) {
-                /*
-                 * Create req.session.user and save id and username fields.
-                 * The existence of req.session.user indicates that the session exists.
-                 * I also save the moment when the session will expire due to inactivity.
-                 */
                 req.session.user = {"id": user.id,
                     "username": user.username,
                     "isAdmin": user.isAdmin,
@@ -188,7 +182,7 @@ exports.create = (req, res, next) => {
                 if (req.body.redir) {
                     res.redirect(req.body.redir);
                 } else {
-                    res.redirect(`/escapeRooms`);
+                    res.redirect("/escapeRooms");
                 }
             } else {
                 req.flash("error", req.app.locals.i18n.user.wrongCredentials);

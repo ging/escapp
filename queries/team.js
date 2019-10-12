@@ -10,7 +10,8 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
                 "attributes": ["startTime"],
                 "where": {
                     escapeRoomId
-                }
+                },
+
             },
             {
                 "model": models.user,
@@ -93,6 +94,8 @@ exports.puzzlesByTeam = (escapeRoomId, turnId) => {
 };
 
 exports.ranking = (escapeRoomId, turnId) => {
+    // const isPg = process.env.DATABASE_URL;
+    // const retoTime = isPg ? "\"retos->retosSuperados\".\"createdAt\"" : "`retos->retosSuperados`.`createdAt`";
     const options = {
         // "includeIgnoreAttributes": false,
         "attributes": ["name"],
@@ -108,6 +111,18 @@ exports.ranking = (escapeRoomId, turnId) => {
                     "model": models.members,
                     "duplicating": true,
                     "attributes": []
+                },
+                "include": {
+                    "model": models.turno,
+                    "as": "turnosAgregados",
+                    "through": {
+                        "model": models.participants,
+                        "required": true,
+                        "attributes":["attendance"],
+                        "where": {
+                            "attendance": true
+                        }
+                    }
                 }
             },
             {
@@ -120,7 +135,7 @@ exports.ranking = (escapeRoomId, turnId) => {
                 ],
                 "where": {
                     // "status": {[Sequelize.Op.not]: "pending"},
-                    escapeRoomId
+                    escapeRoomId,
                 }
             },
             {
@@ -135,7 +150,9 @@ exports.ranking = (escapeRoomId, turnId) => {
                     "required": true
                 }
             }
-        ]
+        ]/*,
+        order: [Sequelize.literal(
+            '('+retoTime+' - turno.startTime) DESC')]*/
     };
 
 

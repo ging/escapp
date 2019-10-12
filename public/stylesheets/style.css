@@ -1051,12 +1051,19 @@ button, input[type="submit"] {
         width: 20px; }
     #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos:not(.flex-row-retos-title) .flex-cell {
       font-family: 'Lato', sans-serif;
-      padding: 5px; }
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos:not(.flex-row-retos-title) .flex-cell span {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        font-family: 'Lato', sans-serif; }
     #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant {
       position: absolute;
       left: 0;
       margin-left: -65px;
-      margin-top: 8px;
+      margin-top: 15px;
       width: 62px;
       text-align: right;
       color: white; }

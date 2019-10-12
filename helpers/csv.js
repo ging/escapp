@@ -7,7 +7,7 @@ exports.createCsvFile = (res, content, title = `results-${Date.now()}`, field = 
             if (err) {
                 throw new Error("Error");
             }
-            res.setHeader("Content-Type", "text/csv");
+            res.setHeader("Content-Type", "text/csv; charset=utf-8");
             res.setHeader("Content-Disposition", `attachment; filename=${title}.csv`);
             res.write(csvText);
             res.end();

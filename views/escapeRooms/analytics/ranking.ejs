@@ -56,11 +56,12 @@
 			    <% } %>
 			    <% for (var t in teams) { 
 			    	var team = teams[t];
+			    	let { count,
+						startTime,
+						latestRetoSuperado,
+						finishTime,
+						res } = team;
 			    	var stringified = JSON.parse(JSON.stringify(team));
-			    	var count = stringified.countretos;
-			    	var startTime = stringified.turno.startTime;
-			    	var latestRetoSuperado = stringified.latestretosuperado;
-			    	var res = count + "/" + escapeRoom.puzzles.length;
 			    	%>
 				    <tr>
 				    	<td><b><%=team.name%></b></td>
@@ -72,16 +73,7 @@
 				    	</td>
 				    	<td><%=getFullDate(team.turno.date)%></td>
 				    	<td><%=res%></td>
-				    	<td>
-				    		<% if(escapeRoom.puzzles.length === parseInt(count) 
-				    			&& startTime) {
-				    			%>
-				    			<%console.log( new Date(latestRetoSuperado) - new Date(startTime))%>
-				    			<%= secondsToDhms((new Date(latestRetoSuperado) - new Date(startTime))/1000)  %>
-				    		<% } else { %>
-				    			n/a
-				    		<%}
-				    	%></td>
+				    	<td><%=finishTime ? secondsToDhms(finishTime) : "--" %></td>
 
 				    </tr>
 			    <% } %>

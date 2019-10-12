@@ -35,28 +35,31 @@
                 <button type="submit" id="csv-button" class="participants-button download-button" name="csv" value="csv"><%=i18n.participant.download%></button>
             <button type="button" id="attendance-all-button" class="participants-button attendance-all-button"  ><%=i18n.participant.select%></button>
             <button type="button" id="attendance-button" class="participants-button attendance-button" name="attendance"><%=i18n.participant.confirm%></button>
+            <a href="teams?turnId=<%=turnId%>"> 
+                <button type="button" id="teams-button" class="participants-button " name="see-as-team"><%=i18n.participant.seeByTeam%></button>
+            </a>
             </div>
         </form>
         <div class="flex-table-retos-wrapper">
             <div class="flex-table-retos animated jello">
                 <div class="flex-row-retos flex-row-retos-title">
-                    <div class="flex-cell flex-name"><%=i18n.user.name%></div>
-                    <div class="flex-cell flex-surname"><%=i18n.user.surname%></div>
-                    <div class="flex-cell flex-dni"><%=i18n.user.dni%></div>
-                    <div class="flex-cell flex-username"><%=i18n.user.username%></div>
-                    <div class="flex-cell flex-gender"><%=i18n.user.gender%></div>
-                    <div class="flex-cell flex-turno"><%=i18n.user.turno%></div>
+                    <div class="flex-cell flex-name"><span><%=i18n.user.name%></span></div>
+                    <div class="flex-cell flex-surname"><span><%=i18n.user.surname%></span></div>
+                    <div class="flex-cell flex-dni"><span><%=i18n.user.dni%></span></div>
+                    <div class="flex-cell flex-username"><span><%=i18n.user.username%></span></div>
+                    <div class="flex-cell flex-gender"><span><%=i18n.user.gender%></span></div>
+                    <div class="flex-cell flex-turno"><span><%=i18n.user.turno%></span></div>
                     <div class="flex-cell flex-attendance"><%=i18n.participant.present%></div>
                 </div>
                 <% for (var p in participants) {
                     var participant = participants[p]; %>
                 <div class="flex-row-retos">
-                    <div class="flex-cell flex-name"><%= participant.name %></div>
-                    <div class="flex-cell flex-surname"><%= participant.surname %></div>
-                    <div class="flex-cell flex-dni"><%= participant.dni %></div>
-                    <div class="flex-cell flex-username"><%= participant.username %></div>
-                    <div class="flex-cell flex-gender"><%= participant.gender %></div>
-                    <div class="flex-cell flex-turno"><%= getFullDate(participant.turnDate) %></div>
+                    <div class="flex-cell flex-name"><span><%= participant.name %></span></div>
+                    <div class="flex-cell flex-surname"><span><%= participant.surname %></span></div>
+                    <div class="flex-cell flex-dni"><span><%= participant.dni %></span></div>
+                    <div class="flex-cell flex-username"><span><%= participant.username %></span></div>
+                    <div class="flex-cell flex-gender"><span><%= participant.gender %></span></div>
+                    <div class="flex-cell flex-turno"><span><%= getFullDate(participant.turnDate) %></span></div>
                     <div class="flex-cell flex-attendance">
                         <input type="checkbox" class="attendance-checkbox"
                                data-id="<%=participant.id%>"

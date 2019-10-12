@@ -398,6 +398,7 @@
         "participantS": "attendants",
         "present": "present",
         "seeByParticipant": "see by participant",
+        "seeByTeam": "see by team",
         "select": "select/deselect all ",
         "title": "participants"
     },

@@ -142,8 +142,8 @@ exports.studentLeave = async (req, res, next) => {
             res.redirect("/");
             return;
         }
-        user
-            = await models.user.findByPk(req.session.user.id);
+        user =
+            await models.user.findByPk(req.session.user.id);
     }
     const userId = user.id;
     const turnId = turn.id;

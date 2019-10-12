@@ -71,7 +71,9 @@ exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints) 
                 "required": true,
                 "attributes": [
                     "id",
-                    "date"
+                    "date",
+                    "startTime"
+
                 ],
                 "where": {
                     escapeRoomId

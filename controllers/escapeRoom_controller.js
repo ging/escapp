@@ -61,7 +61,8 @@ exports.adminOrAuthorOrParticipantRequired = (req, res, next) => {
 
 // GET /escapeRooms
 exports.index = (req, res, next) => {
-    if (req.user && !req.user.isStudent) {
+    let user = req.user || req.session.user;
+    if (user && !user.isStudent) {
         models.escapeRoom.findAll({"attributes": [
             "id",
             "title",
@@ -71,19 +72,17 @@ exports.index = (req, res, next) => {
             models.attachment,
             {"model": models.user,
                 "as": "author",
-                "where": {"id": req.user.id}}
-        ]}).then((escapeRooms) => res.render("escapeRooms/index.ejs", {escapeRooms,
+                "where": {"id": user.id}}
+        ]}).then((escapeRooms) => res.render("escapeRooms/index.ejs", {
+            escapeRooms,
             cloudinary,
-            "user": req.user})).
+            "user": user})).
             catch((error) => next(error));
     } else {
         models.escapeRoom.findAll(query.escapeRoom.all()).
             then((erAll) => {
-                console.log(erAll);
-                models.escapeRoom.findAll(query.escapeRoom.all(req.user.id)).
+                models.escapeRoom.findAll(query.escapeRoom.all(user.id)).
                     then((erFiltered) => {
-                        console.log(erFiltered);
-
                         const ids = erFiltered.map((e) => e.id);
                         const escapeRooms = erAll.map((er) => ({
                             "id": er.id,
@@ -95,7 +94,7 @@ exports.index = (req, res, next) => {
 
                         res.render("escapeRooms/index.ejs", {escapeRooms,
                             cloudinary,
-                            "user": req.user});
+                            user});
                     });
             }).
             catch((error) => next(error));
@@ -109,7 +108,7 @@ exports.indexBreakDown = (req, res) => res.redirect("/");
 exports.show = (req, res) => {
     const {escapeRoom} = req;
     const participant = req.isParticipant;
-    const hostName = process.env.APP_NAME ? ("http://"+ process.env.APP_NAME) : "http://localhost:3000";
+    const hostName = process.env.APP_NAME ? `http://${process.env.APP_NAME}` : "http://localhost:3000";
 
     if (participant) {
         res.render("escapeRooms/showStudent", {escapeRoom,
@@ -120,7 +119,7 @@ exports.show = (req, res) => {
         res.render("escapeRooms/show", {escapeRoom,
             cloudinary,
             hostName,
-            email: req.session.user.username,
+            "email": req.session.user.username,
             parseURL});
     }
 };
