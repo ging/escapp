@@ -83,22 +83,21 @@ app.use((req, res, next) => {
 app.use("/", index);
 
 // Catch 404 and forward to error handler
-app.use((req, res) => {
+app.use((req, res, next) => {
     const err = new Error("Not Found");
 
     err.status = 404;
     res.locals.message = "Not found";
-    res.locals.error = req.app.get("env") === "development" ? err : {"status": 404};
-    res.status(404);
-    res.render("error");
+    res.locals.error = process.env.NODE_ENV === "development" ? err : {"status": 404};
+    next(err);
 });
 
-// Error handler
-app.use((err, req, res) => {
+// Error handler. It needs to have all 4 arguments, or else express will not recognize it as an erorr handler
+// eslint-disable-next-line  no-unused-vars
+app.use((err, req, res, next) => {
     // Set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
-
+    res.locals.error = process.env.NODE_ENV === "development" ? err : {"status": err.status};
     // Render the error page
     res.status(err.status || 500);
     res.render("error");
