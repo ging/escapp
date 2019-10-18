@@ -66,19 +66,19 @@ exports.update = (req, res, next) => {
 // DELETE /escapeRooms/:escapeRoomId/hints/:hintId
 exports.destroy = async (req, res, next) => {
     const transaction = await sequelize.transaction();
+
     try {
-        await req.hint.destroy({},{transaction});
+        await req.hint.destroy({}, {transaction});
         const back = `/escapeRooms/${req.escapeRoom.id}/puzzles`;
 
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingHint);
-        await models.requestedHint.destroy({where: {hintId: req.hint.id}},{transaction});
+        await models.requestedHint.destroy({"where": {"hintId": req.hint.id}}, {transaction});
         await transaction.commit();
         res.redirect(back);
     } catch (error) {
         await transaction.rollback();
         next(error);
     }
-
 };
 
 // GET /escapeRooms/:escapeRoomId/hints/hintapp

@@ -101,8 +101,7 @@ user.belongsToMany(team, {"as": "teamsAgregados",
     "through": "members",
     "foreignKey": "userId",
     "onDelete": "CASCADE",
-    "otherKey": "teamId",
-});
+    "otherKey": "teamId"});
 
 
 // Relation 1-to-N between Turno and Team:
@@ -126,8 +125,7 @@ team.belongsToMany(puzzle, {"as": "retos",
 puzzle.belongsToMany(team, {"as": "superados",
     "through": "retosSuperados",
     "foreignKey": "puzzleId",
-    "otherKey": "teamId",
-});
+    "otherKey": "teamId"});
 
 // Relation N-to-M between Team and Hint:
 requestedHint.belongsTo(hint, {"onDelete": "CASCADE",

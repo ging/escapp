@@ -12,6 +12,7 @@ const attHelper = require("../helpers/attachments");
 exports.load = async (req, res, next, escapeRoomId) => {
     try {
         const escapeRoom = await models.escapeRoom.findByPk(escapeRoomId, query.escapeRoom.load);
+
         if (escapeRoom) {
             req.escapeRoom = escapeRoom;
             next();
@@ -19,7 +20,7 @@ exports.load = async (req, res, next, escapeRoomId) => {
             res.status(404);
             throw new Error(404);
         }
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
 };
@@ -42,6 +43,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
 exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
     const isAdmin = Boolean(req.session.user.isAdmin),
         isAuthor = req.escapeRoom.authorId === req.session.user.id;
+
     try {
         if (isAdmin || isAuthor) {
             next();
@@ -56,17 +58,17 @@ exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
         } else {
             throw new Error(403);
         }
-    } catch(error){
+    } catch (error) {
         next(error);
     }
 };
 
 // GET /escapeRooms
-exports.index = async(req, res, next) => {
+exports.index = async (req, res, next) => {
     const user = req.user || req.session.user;
+
     try {
         if (user && !user.isStudent) {
-
             const escapeRooms = await models.escapeRoom.findAll({"attributes": [
                 "id",
                 "title",
@@ -78,13 +80,13 @@ exports.index = async(req, res, next) => {
                     "as": "author",
                     "where": {"id": user.id}}
             ]});
+
             res.render("escapeRooms/index.ejs", {escapeRooms,
                 cloudinary,
                 user});
-
         } else {
-           const erAll =  await models.escapeRoom.findAll(query.escapeRoom.all());
-           const erFiltered = await models.escapeRoom.findAll(query.escapeRoom.all(user.id));
+            const erAll = await models.escapeRoom.findAll(query.escapeRoom.all());
+            const erFiltered = await models.escapeRoom.findAll(query.escapeRoom.all(user.id));
             const ids = erFiltered.map((e) => e.id);
             const escapeRooms = erAll.map((er) => ({
                 "id": er.id,
@@ -98,7 +100,7 @@ exports.index = async(req, res, next) => {
                 cloudinary,
                 user});
         }
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
 };
@@ -558,27 +560,31 @@ exports.instructionsUpdate = (req, res, next) => {
 // DELETE /escapeRooms/:escapeRoomId
 exports.destroy = async (req, res, next) => {
     const transaction = await sequelize.transaction();
-    try {
 
-        await req.escapeRoom.destroy({},{transaction});
-        if (req.escapeRoom.attachment) {     // Delete the attachment at Cloudinary (result is ignored)
-            await attHelper.checksCloudinaryEnv()
+    try {
+        await req.escapeRoom.destroy({}, {transaction});
+        if (req.escapeRoom.attachment) { // Delete the attachment at Cloudinary (result is ignored)
+            await attHelper.checksCloudinaryEnv();
             await attHelper.deleteResource(req.escapeRoom.attachment.public_id);
         }
 
         let teamIds = [];
-        let turnos = req.escapeRoom.turnos.map(turno => {
-            teamIds = [...teamIds, ...turno.teams.map(team=>team.id)];
+        const turnos = req.escapeRoom.turnos.map((turno) => {
+            teamIds = [
+                ...teamIds,
+                ...turno.teams.map((team) => team.id)
+            ];
             return turno.id;
         });
-        await models.participants.destroy({where: {turnId: {[Sequelize.Op.in]: turnos}}},{transaction});
-        await models.retosSuperados.destroy({where: {teamId: {[Sequelize.Op.in]: teamIds}}},{transaction});
-        await models.members.destroy({where: {teamId: {[Sequelize.Op.in]: teamIds}}},{transaction});
-        await models.requestedHint.destroy({where: {teamId: {[Sequelize.Op.in]: teamIds}}},{transaction});
+
+        await models.participants.destroy({"where": {"turnId": {[Sequelize.Op.in]: turnos}}}, {transaction});
+        await models.retosSuperados.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
+        await models.members.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
+        await models.requestedHint.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
         await transaction.commit();
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingER);
         res.redirect("/escapeRooms");
-    } catch(error) {
+    } catch (error) {
         await transaction.rollback();
         req.flash("error", `${req.app.locals.i18n.common.flash.errorDeletingER}: ${error.message}`);
         next(error);

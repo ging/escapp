@@ -130,8 +130,9 @@ exports.studentLeave = async (req, res, next) => {
     let {user} = req;
     const {turn} = req;
     let redirectUrl = `/escapeRooms/${req.escapeRoom.id}/participants`;
+
     try {
-         // TODO También echar si el turno no está con status pending
+        // TODO También echar si el turno no está con status pending
         if (req.user && req.user.id !== req.session.user.id && req.session.user.isStudent) {
             // If it's not myself and I am not a teacher
             res.redirect("back");

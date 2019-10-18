@@ -140,15 +140,15 @@ exports.update = (req, res, next) => {
 // DELETE /users/:userId
 exports.destroy = async (req, res, next) => {
     const transaction = await sequelize.transaction();
-    try {
 
-        await req.user.destroy({},{transaction});// Deleting logged user.
+    try {
+        await req.user.destroy({}, {transaction});// Deleting logged user.
         if (req.session.user && req.session.user.id === req.user.id) {
             // Close the user session
             delete req.session.user;
         }
-        await models.participants.destroy({where: {userId: req.user.id}},{transaction});
-        await models.teamMembers.destroy({where: {userId: req.user.id}},{transaction});
+        await models.participants.destroy({"where": {"userId": req.user.id}}, {transaction});
+        await models.teamMembers.destroy({"where": {"userId": req.user.id}}, {transaction});
         transaction.commit();
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingUser);
         res.redirect("/goback");
@@ -156,7 +156,7 @@ exports.destroy = async (req, res, next) => {
         transaction.rollback();
         next(error);
     }
-}
+};
 exports.index = (req, res, next) => {
     models.user.count().
         then(() => {

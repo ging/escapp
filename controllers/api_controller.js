@@ -6,6 +6,7 @@ exports.check = async (req, res) => {
     const {puzzle, body} = req;
     const {solution, token} = body;
     const where = {};
+
     if (token) {
         where.username = token;
     } else {

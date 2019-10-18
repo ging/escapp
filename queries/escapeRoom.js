@@ -3,11 +3,10 @@ const {models} = require("../models");
 exports.load = {
     "include": [
         {"model": models.turno,
-            include: {
-                model: models.team,
-                attributes: ["id"]
-            }
-        },
+            "include": {
+                "model": models.team,
+                "attributes": ["id"]
+            }},
         {
             "model": models.puzzle,
             "include": [{"model": models.hint}]
