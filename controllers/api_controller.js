@@ -37,7 +37,6 @@ exports.check = async (req, res) => {
     if (answer.toString().toLowerCase().
         trim() === puzzleSol.toString().toLowerCase().
         trim()) {
-        console.log("in");
         if (team && team.length > 0) {
             if (team[0].turno.status !== "active") {
                 res.status(202).json({"msg": "The answer is correct but you are not being tracked because your turn is not active"});

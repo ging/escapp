@@ -554,24 +554,30 @@ exports.instructionsUpdate = (req, res, next) => {
 };
 
 // DELETE /escapeRooms/:escapeRoomId
-exports.destroy = (req, res, next) => {
-    // Delete the attachment at Cloudinary (result is ignored)
-    if (req.escapeRoom.attachment) {
-        attHelper.checksCloudinaryEnv().
-            then(() => {
-                attHelper.deleteResource(req.escapeRoom.attachment.public_id);
-            });
-    }
+exports.destroy = async (req, res, next) => {
+    try {
+        await req.escapeRoom.destroy();
+        if (req.escapeRoom.attachment) {     // Delete the attachment at Cloudinary (result is ignored)
 
-    req.escapeRoom.destroy().
-        then(() => {
-            req.flash("success", req.app.locals.i18n.common.flash.successDeletingER);
-            res.redirect("/escapeRooms");
-        }).
-        catch((error) => {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorDeletingER}: ${error.message}`);
-            next(error);
+            await attHelper.checksCloudinaryEnv()
+            await attHelper.deleteResource(req.escapeRoom.attachment.public_id);
+        }
+
+        let teamIds = [];
+        let turnos = req.escapeRoom.turnos.map(turno => {
+            teamIds = [...teamIds, ...turno.teams.map(team=>team.id)];
+            return turno.id;
         });
+        await models.participants.destroy({where: {turnId: {[Sequelize.Op.in]: turnos}}});
+        await models.retosSuperados.destroy({where: {teamId: {[Sequelize.Op.in]: teamIds}}});
+        await models.members.destroy({where: {teamId: {[Sequelize.Op.in]: teamIds}}});
+        await models.requestedHint.destroy({where: {teamId: {[Sequelize.Op.in]: teamIds}}});
+        req.flash("success", req.app.locals.i18n.common.flash.successDeletingER);
+        res.redirect("/escapeRooms");
+    } catch(error) {
+        req.flash("error", `${req.app.locals.i18n.common.flash.errorDeletingER}: ${error.message}`);
+        next(error);
+    }
 };
 
 

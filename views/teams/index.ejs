@@ -61,13 +61,11 @@
             $('#continue').css("display", "inline-block");
         });
         $('#form').on('submit', function(e){
-            console.log($('#form').attr('action'))
             if (!repl) {
                 e.preventDefault();
                 repl= true;
                 let action = document.getElementById('form').getAttribute('action');
                 action = action.replace("xxxx",selectedId);
-                console.log(action)
                 $('#form').attr('action', action);
                 $('#form').submit();
             }
@@ -83,6 +81,5 @@
                 checkVisible: false
             }
         );
-        console.log($(".owl-carousel").data('owlCarousel'))
     });
 </script>

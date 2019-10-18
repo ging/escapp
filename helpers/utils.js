@@ -22,7 +22,6 @@ exports.flattenObject = (obj, labels) => {
 };
 
 exports.getRetosSuperados = (teams) => teams.map((teamRes) => {
-    console.log(teamRes.teamMembers.map((a) => a.turnosAgregados));
     return {...teamRes.dataValues,
         "teamMembers": teamRes.teamMembers, /* .filter(m=>)    .map(m=>({turnosAgregados: m.turnosAgregados
         .filter(t=>t.participants.attendance)}))*/

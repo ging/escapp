@@ -63,15 +63,18 @@ exports.update = (req, res, next) => {
 };
 
 // DELETE /escapeRooms/:escapeRoomId/hints/:hintId
-exports.destroy = (req, res, next) => {
-    req.hint.destroy().
-        then(() => {
-            const back = `/escapeRooms/${req.escapeRoom.id}/puzzles`;
+exports.destroy = async (req, res, next) => {
+    try {
+        await req.hint.destroy();
+        const back = `/escapeRooms/${req.escapeRoom.id}/puzzles`;
 
-            req.flash("success", req.app.locals.i18n.common.flash.successDeletingHint);
-            res.redirect(back);
-        }).
-        catch((error) => next(error));
+        req.flash("success", req.app.locals.i18n.common.flash.successDeletingHint);
+        await models.requestedHint.destroy({where: {hintId: req.hint.id}});
+        res.redirect(back);
+    } catch (error) {
+        next(error);
+    }
+
 };
 
 // GET /escapeRooms/:escapeRoomId/hints/hintapp

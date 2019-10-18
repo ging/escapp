@@ -104,6 +104,5 @@ exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints) 
             }
         });
     }
-    console.log(options);
     return options;
 };

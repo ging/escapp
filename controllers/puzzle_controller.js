@@ -3,7 +3,7 @@ const {models} = require("../models");
 
 // Autoload the puzzle with id equals to :puzzleId
 exports.load = (req, res, next, puzzleId) => {
-    models.puzzle.findByPk(puzzleId).
+    models.puzzle.findByPk(puzzleId, {include: [{model: models.hint, attributes: ["id"]}]}).
         then((puzzle) => {
             if (puzzle) {
                 req.puzzle = puzzle;
@@ -49,7 +49,6 @@ exports.update = (req, res, next) => {
     const {reto} = body;
     const back = `/escapeRooms/${escapeRoom.id}/puzzles`;
 
-    console.log(body);
     const {title, sol, desc, hint} = JSON.parse(reto);
 
     req.puzzle.title = title;
@@ -77,15 +76,18 @@ exports.update = (req, res, next) => {
 };
 
 // DELETE /escapeRooms/:escapeRoomId/puzzles/:puzzleId
-exports.destroy = (req, res, next) => {
-    req.puzzle.destroy().
-        then(() => {
-            const back = `/escapeRooms/${req.escapeRoom.id}/puzzles`;
-
-            req.flash("success", req.app.locals.i18n.common.flash.errorDeletingPuzzle);
-            res.redirect(back);
-        }).
-        catch((error) => next(error));
+exports.destroy = async (req, res, next) => {
+    try {
+        await req.puzzle.destroy();
+        const back = `/escapeRooms/${req.escapeRoom.id}/puzzles`;
+        const hintIds = req.puzzle.hints.map(h=>h.id);
+        await models.requestedHint.destroy({where: {hintId: {[Sequelize.Op.in]:hintIds}}})
+        await models.retosSuperados.destroy({where: {puzzleId: req.puzzle.id}});
+        req.flash("success", req.app.locals.i18n.common.flash.errorDeletingPuzzle);
+        res.redirect(back);
+    } catch(error) {
+        next(error);
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/puzzles/:puzzleId/check

@@ -138,7 +138,6 @@ exports.create = (req, res, next) => {
     const {date, indications} = req.body;
     const modDate = new Date(date);
 
-    console.log(modDate);
     const turn = models.turno.build({"date": modDate,
         indications,
         "escapeRoomId": req.escapeRoom.id});
@@ -161,23 +160,21 @@ exports.create = (req, res, next) => {
 };
 
 // DELETE /escapeRooms/:escapeRoomId/turnos/:turnoId
-exports.destroy = (req, res, next) => {
+exports.destroy =  async (req, res, next) => {
     const modDate = new Date(req.turn.date);
     const teams = req.turn.teams.map((i) => i.id);
+    try {
+        await req.turn.destroy();
+        const back = `/escapeRooms/${req.params.escapeRoomId}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
 
-    req.turn.destroy().
-        then(() => {
-            const back = `/escapeRooms/${req.params.escapeRoomId}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
+        await models.team.destroy({"where": {"id": teams}});
+        await models.participants.destroy({"where": {"turnId": req.turn.id}});
+        await models.members.destroy({"where": {"teamId": teams}});
+        req.flash("success", req.app.locals.i18n.common.flash.successDeletingTurno);
+        res.redirect(back);
+    } catch (error) {
 
-            models.team.destroy({"where": {"id": teams}}).then(() => {
-                models.participants.destroy({"where": {"turnId": req.turn.id}}).then(() => {
-                    models.members.destroy({"where": {"teamId": teams}}).then(() => {
-                        req.flash("success", req.app.locals.i18n.common.flash.successDeletingTurno);
-                        res.redirect(back);
-                    });
-                });
-            });
-        }).
-        catch((error) => next(error));
+    }
+
 };
 

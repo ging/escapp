@@ -130,25 +130,25 @@ exports.studentLeave = async (req, res, next) => {
     let {user} = req;
     const {turn} = req;
     let redirectUrl = `/escapeRooms/${req.escapeRoom.id}/participants`;
-
-    // TODO También echar si el turno no está con status pending
-    if (req.user && req.user.id !== req.session.user.id && req.session.user.isStudent) {
-        // If it's not myself and I am not a teacher
-        res.redirect("back");
-        return;
-    } else if (!req.user && req.session.user.isStudent) {
-        if (req.turn.status !== "pending") {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorStudentLeave}`);
-            res.redirect("/");
-            return;
-        }
-        user =
-            await models.user.findByPk(req.session.user.id);
-    }
-    const userId = user.id;
-    const turnId = turn.id;
-
     try {
+         // TODO También echar si el turno no está con status pending
+        if (req.user && req.user.id !== req.session.user.id && req.session.user.isStudent) {
+            // If it's not myself and I am not a teacher
+            res.redirect("back");
+            return;
+        } else if (!req.user && req.session.user.isStudent) {
+            if (req.turn.status !== "pending") {
+                req.flash("error", `${req.app.locals.i18n.common.flash.errorStudentLeave}`);
+                res.redirect("/");
+                return;
+            }
+            user =
+                await models.user.findByPk(req.session.user.id);
+        }
+        const userId = user.id;
+        const turnId = turn.id;
+
+
         await req.team.removeTeamMember(user);
         const participant = await models.participants.findOne({"where": {turnId,
             userId}});
@@ -159,14 +159,12 @@ exports.studentLeave = async (req, res, next) => {
         }
 
         if (req.team.teamMembers.length <= 1) {
-            req.team.destroy().then(() => {
-                res.redirect(redirectUrl);
-            });
+            await req.team.destroy();
+            res.redirect(redirectUrl);
         } else {
             res.redirect(redirectUrl);
         }
     } catch (e) {
-        console.error(e);
         next(e);
     }
 };
