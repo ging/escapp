@@ -6,7 +6,6 @@ exports.check = async (req, res) => {
     const {puzzle, body} = req;
     const {solution, token} = body;
     const where = {};
-
     if (token) {
         where.username = token;
     } else {
@@ -42,10 +41,12 @@ exports.check = async (req, res) => {
                 res.status(202).json({"msg": "The answer is correct but you are not being tracked because your turn is not active"});
                 return;
             }
-            req.puzzle.addSuperados(team[0].id).then(function () {
+            try {
+                await req.puzzle.addSuperados(team[0].id);
                 res.json({"msg": "Correct answer!"});
-            }).
-                catch((e) => res.status(500).json({"msg": e}));
+            } catch (e) {
+                res.status(500).json({"msg": e});
+            }
         } else {
             res.status(202).json({"msg": "The answer is correct but you are not being tracked"});
         }

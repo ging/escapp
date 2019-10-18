@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
-const {models} = require("../models");
-
+const sequelize = require("../models");
+const {models} = sequelize;
 // Autoload the puzzle with id equals to :puzzleId
 exports.load = (req, res, next, puzzleId) => {
     models.puzzle.findByPk(puzzleId, {include: [{model: models.hint, attributes: ["id"]}]}).
@@ -77,15 +77,20 @@ exports.update = (req, res, next) => {
 
 // DELETE /escapeRooms/:escapeRoomId/puzzles/:puzzleId
 exports.destroy = async (req, res, next) => {
+    const transaction = await sequelize.transaction();
     try {
-        await req.puzzle.destroy();
+
+        await req.puzzle.destroy({},{transaction});
+
         const back = `/escapeRooms/${req.escapeRoom.id}/puzzles`;
         const hintIds = req.puzzle.hints.map(h=>h.id);
-        await models.requestedHint.destroy({where: {hintId: {[Sequelize.Op.in]:hintIds}}})
-        await models.retosSuperados.destroy({where: {puzzleId: req.puzzle.id}});
+        await models.requestedHint.destroy({where: {hintId: {[Sequelize.Op.in]:hintIds}}},{transaction})
+        await models.retosSuperados.destroy({where: {puzzleId: req.puzzle.id}},{transaction});
+        await transaction.commit();
         req.flash("success", req.app.locals.i18n.common.flash.errorDeletingPuzzle);
         res.redirect(back);
     } catch(error) {
+        await transaction.rollback();
         next(error);
     }
 };

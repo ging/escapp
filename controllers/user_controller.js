@@ -1,8 +1,10 @@
 const Sequelize = require("sequelize");
-const {models} = require("../models");// Autoload the user with id equals to :userId
+const sequelize = require("../models");
+const {models} = sequelize;
 const mailer = require("../helpers/mailer");
 const ejs = require("ejs");
 
+// Autoload the user with id equals to :userId
 exports.load = (req, res, next, userId) => {
     models.user.findByPk(userId).
         then((user) => {
@@ -137,17 +139,21 @@ exports.update = (req, res, next) => {
 
 // DELETE /users/:userId
 exports.destroy = async (req, res, next) => {
+    const transaction = await sequelize.transaction();
     try {
-        await req.user.destroy();// Deleting logged user.
+
+        await req.user.destroy({},{transaction});// Deleting logged user.
         if (req.session.user && req.session.user.id === req.user.id) {
             // Close the user session
             delete req.session.user;
         }
-        await models.participants.destroy({where: {userId: req.user.id}});
-        await models.teamMembers.destroy({where: {userId: req.user.id}});
+        await models.participants.destroy({where: {userId: req.user.id}},{transaction});
+        await models.teamMembers.destroy({where: {userId: req.user.id}},{transaction});
+        transaction.commit();
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingUser);
         res.redirect("/goback");
     } catch (error) {
+        transaction.rollback();
         next(error);
     }
 }
