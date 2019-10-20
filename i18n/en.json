@@ -242,6 +242,7 @@
             	"automatic": "automatic",
                 "clueName": "Clue name",
                 "description": "Description",
+                "failMsg": "Message on fail",
                 "hints": "Hints",
                 "manual": "Manual",
                 "noCluesYet": "You haven't defined any puzzles yet",
@@ -250,6 +251,8 @@
                 "placeholder": "Select tracking mode",
                 "puzzleTitle": "Puzzle title",
                 "solution": "Answer",
+                "subpuzzles": "Subpuzzles",
+                "successMsg": "Message on success",
                 "title": "Puzzles",
                 "tracking": "Tracking"
             },

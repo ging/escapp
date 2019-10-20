@@ -236,6 +236,7 @@
             	"automatic": "Automática",
                 "clueName": "Nombre de la pista",
                 "description": "Descripción",
+                "failMsg": "Mensaje al fallar",
                 "hints": "Pistas",
                 "manual": "Manual",
                 "noCluesYet": "No has definido ninguna pista todavía",
@@ -244,6 +245,8 @@
                 "placeholder": "Selecciona la monitorización",
                 "puzzleTitle": "Título",
                 "solution": "Solución",
+                "subpuzzles": "Subretos",
+                "successMsg": "Mensaje al acertar",
                 "title": "Retos",
                 "tracking": "Monitorización"
             },

@@ -1,5 +1,71 @@
+$card-background: $textpurple
 #mainSection
   .main
+    .puzzle-card
+      background-color: white
+      border-radius: 10px
+      color: $card-background
+      padding: 30px
+      max-width: 800px
+      margin: auto
+      margin-bottom: 20px
+
+      .flex-puzzle-card
+        display: flex
+        flex-direction: row
+        flex-wrap: nowrap
+        justify-content: flex-start
+        div 
+          margin-right: 20px
+      .material-icons
+        color: $brightgreen
+      h3
+        font-size: 22px
+        font-weight: bold
+        margin-top: 0px
+        i.material-icons
+          line-height: 40px
+          position: absolute
+        input
+          font-size: 22px
+          height: 45px
+          padding-left: 30px
+          font-weight: bold
+      h4
+        font-size: 18px
+        font-weight: light
+        margin-bottom: 3px
+
+      p
+        font-size: 16px
+        font-family: Lato, sans-serif
+      label
+        span
+          font-weight: bold
+        font-size: 18px
+      input
+        width: 100%
+      select, input
+        height: 32px
+        box-sizing: border-box
+        font-size: 16px
+        padding: 1px
+        font-weight: normal
+        font-family: Lato, sans-serif
+        background-color: white
+        border-radius: 0px
+        border-width: 0px
+        border-bottom-width: 2px
+        text-align: left
+        padding-left: 30px
+        &:focus, &:active
+          font-family: Lato !important
+          background-color: white
+          color: $lightred 
+          -webkit-text-fill-color: $lightred !important
+          border-color: $lightred
+        option
+          font-family: Lato !important
     .flex-table-retos-wrapper
       position: relative
       overflow: visible
@@ -52,7 +118,7 @@
               outline: none
               display: inline-block
               &.retoEditable, &[contenteditable]
-                background-color:  $textpurple
+                background-color:  $card-background
                 color: $purpleedit
               .no-pistas
                 cursor: not-allowed
@@ -67,7 +133,7 @@
                 &.hints-cell-preview
                   background-color:  inherit
                 padding: 0
-                background-color:  $textpurple
+                background-color:  $card-background
                 *:not(.material-icons)
                   font-family: inherit
                 .hint-text-preview
@@ -85,7 +151,7 @@
                     border-bottom: 3px solid white
                     display: flex
                     &.editable
-                      background-color:  $textpurple
+                      background-color:  $card-background
                       color: $purpleedit
                     &.no-pistas
                       font-style: italic
@@ -122,7 +188,7 @@
                         color: white
                         -webkit-text-fill-color: white !important
                 .add-new-hint
-                  background-color:  $textpurple
+                  background-color:  $card-background
                   color: $darkerpurple
                   form
                     display: flex
@@ -133,13 +199,13 @@
                       font-size: inherit
                       margin-left: 25px
                       border: none
-                      background-color:  $textpurple
+                      background-color:  $card-background
                       color: $darkerpurple
                       height: 36px
                       min-width: 0px
                       -webkit-text-fill-color: $purpleedit !important
                       &:-webkit-autofill
-                        -webkit-box-shadow: 0 0 0 30px  $textpurple inset !important
+                        -webkit-box-shadow: 0 0 0 30px  $card-background inset !important
                         -webkit-text-fill-color: $purpleedit !important
                         color: $purpleedit
                       &:focus, &:active
