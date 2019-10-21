@@ -46,7 +46,6 @@ const filterTurnos = (date) => {
 };
 
 const updateDate = (date) => {
-    console.log("update", date)
     date.setHours(0,0,0,0)
     $("#date").val(date);
     $("#currentDate").html(formatDate(date));

@@ -29,7 +29,6 @@ sequelize.import(path.join(__dirname, "hint"));
 
 // Import the definition of the Team Table from team.js
 sequelize.import(path.join(__dirname, "team"));
-// Relation between models
 
 // Import the definition of the Attachment Table from attachment.js
 sequelize.import(path.join(__dirname, "hintApp"));
@@ -95,11 +94,13 @@ user.belongsToMany(turno, {"as": "turnosAgregados",
 team.belongsToMany(user, {"as": "teamMembers",
     "through": "members",
     "foreignKey": "teamId",
+    "onDelete": "CASCADE",
     "otherKey": "userId"});
 
 user.belongsToMany(team, {"as": "teamsAgregados",
     "through": "members",
     "foreignKey": "userId",
+    "onDelete": "CASCADE",
     "otherKey": "teamId"});
 
 
@@ -124,13 +125,17 @@ team.belongsToMany(puzzle, {"as": "retos",
 puzzle.belongsToMany(team, {"as": "superados",
     "through": "retosSuperados",
     "foreignKey": "puzzleId",
-    "otherKey": "teamId",
-    "onDelete": "CASCADE"});
+    "otherKey": "teamId"});
 
 // Relation N-to-M between Team and Hint:
 requestedHint.belongsTo(hint, {"onDelete": "CASCADE",
     "hooks ": true});
-requestedHint.belongsTo(team);
-team.hasMany(requestedHint);
+
+requestedHint.belongsTo(team, {"onDelete": "CASCADE",
+    "hooks ": true});
+
+team.hasMany(requestedHint, {"onDelete": "CASCADE",
+    "hooks ": true});
+
 
 module.exports = sequelize;

@@ -1,6 +1,6 @@
-
 const Sequelize = require("sequelize");
-const {models} = require("../models");
+const sequelize = require("../models");
+const {models} = sequelize;
 const cloudinary = require("cloudinary");
 const {parseURL} = require("../helpers/video");
 const query = require("../queries");
@@ -9,18 +9,20 @@ const attHelper = require("../helpers/attachments");
 
 
 // Autoload the escape room with id equals to :escapeRoomId
-exports.load = (req, res, next, escapeRoomId) => {
-    models.escapeRoom.findByPk(escapeRoomId, query.escapeRoom.load).
-        then((escapeRoom) => {
-            if (escapeRoom) {
-                req.escapeRoom = escapeRoom;
-                next();
-            } else {
-                res.status(404);
-                throw new Error(404);
-            }
-        }).
-        catch((error) => next(error));
+exports.load = async (req, res, next, escapeRoomId) => {
+    try {
+        const escapeRoom = await models.escapeRoom.findByPk(escapeRoomId, query.escapeRoom.load);
+
+        if (escapeRoom) {
+            req.escapeRoom = escapeRoom;
+            next();
+        } else {
+            res.status(404);
+            throw new Error(404);
+        }
+    } catch (error) {
+        next(error);
+    }
 };
 
 
@@ -38,15 +40,16 @@ exports.adminOrAuthorRequired = (req, res, next) => {
 };
 
 // MW that allows actions only if the user logged in is admin, the author, or a participant of the escape room.
-exports.adminOrAuthorOrParticipantRequired = (req, res, next) => {
+exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
     const isAdmin = Boolean(req.session.user.isAdmin),
         isAuthor = req.escapeRoom.authorId === req.session.user.id;
 
-    if (isAdmin || isAuthor) {
-        next();
-        return;
-    }
-    models.user.findAll(query.user.escapeRoomsForUser(req.escapeRoom.id, req.session.user.id)).then((participants) => {
+    try {
+        if (isAdmin || isAuthor) {
+            next();
+            return;
+        }
+        const participants = await models.user.findAll(query.user.escapeRoomsForUser(req.escapeRoom.id, req.session.user.id));
         const isParticipant = participants && participants.length > 0;
 
         req.isParticipant = isParticipant ? participants[0] : null;
@@ -55,49 +58,50 @@ exports.adminOrAuthorOrParticipantRequired = (req, res, next) => {
         } else {
             throw new Error(403);
         }
-    }).
-        catch((e) => next(e));
+    } catch (error) {
+        next(error);
+    }
 };
 
 // GET /escapeRooms
-exports.index = (req, res, next) => {
+exports.index = async (req, res, next) => {
     const user = req.user || req.session.user;
 
-    if (user && !user.isStudent) {
-        models.escapeRoom.findAll({"attributes": [
-            "id",
-            "title",
-            "invitation"
-        ],
-        "include": [
-            models.attachment,
-            {"model": models.user,
-                "as": "author",
-                "where": {"id": user.id}}
-        ]}).then((escapeRooms) => res.render("escapeRooms/index.ejs", {escapeRooms,
-            cloudinary,
-            user})).
-            catch((error) => next(error));
-    } else {
-        models.escapeRoom.findAll(query.escapeRoom.all()).
-            then((erAll) => {
-                models.escapeRoom.findAll(query.escapeRoom.all(user.id)).
-                    then((erFiltered) => {
-                        const ids = erFiltered.map((e) => e.id);
-                        const escapeRooms = erAll.map((er) => ({
-                            "id": er.id,
-                            "title": er.title,
-                            "invitation": er.invitation,
-                            "attachment": er.attachment,
-                            "isSignedUp": ids.indexOf(er.id) !== -1
-                        }));
+    try {
+        if (user && !user.isStudent) {
+            const escapeRooms = await models.escapeRoom.findAll({"attributes": [
+                "id",
+                "title",
+                "invitation"
+            ],
+            "include": [
+                models.attachment,
+                {"model": models.user,
+                    "as": "author",
+                    "where": {"id": user.id}}
+            ]});
 
-                        res.render("escapeRooms/index.ejs", {escapeRooms,
-                            cloudinary,
-                            user});
-                    });
-            }).
-            catch((error) => next(error));
+            res.render("escapeRooms/index.ejs", {escapeRooms,
+                cloudinary,
+                user});
+        } else {
+            const erAll = await models.escapeRoom.findAll(query.escapeRoom.all());
+            const erFiltered = await models.escapeRoom.findAll(query.escapeRoom.all(user.id));
+            const ids = erFiltered.map((e) => e.id);
+            const escapeRooms = erAll.map((er) => ({
+                "id": er.id,
+                "title": er.title,
+                "invitation": er.invitation,
+                "attachment": er.attachment,
+                "isSignedUp": ids.indexOf(er.id) !== -1
+            }));
+
+            res.render("escapeRooms/index.ejs", {escapeRooms,
+                cloudinary,
+                user});
+        }
+    } catch (error) {
+        next(error);
     }
 };
 
@@ -554,24 +558,37 @@ exports.instructionsUpdate = (req, res, next) => {
 };
 
 // DELETE /escapeRooms/:escapeRoomId
-exports.destroy = (req, res, next) => {
-    // Delete the attachment at Cloudinary (result is ignored)
-    if (req.escapeRoom.attachment) {
-        attHelper.checksCloudinaryEnv().
-            then(() => {
-                attHelper.deleteResource(req.escapeRoom.attachment.public_id);
-            });
-    }
+exports.destroy = async (req, res, next) => {
+    const transaction = await sequelize.transaction();
 
-    req.escapeRoom.destroy().
-        then(() => {
-            req.flash("success", req.app.locals.i18n.common.flash.successDeletingER);
-            res.redirect("/escapeRooms");
-        }).
-        catch((error) => {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorDeletingER}: ${error.message}`);
-            next(error);
+    try {
+        await req.escapeRoom.destroy({}, {transaction});
+        if (req.escapeRoom.attachment) { // Delete the attachment at Cloudinary (result is ignored)
+            await attHelper.checksCloudinaryEnv();
+            await attHelper.deleteResource(req.escapeRoom.attachment.public_id);
+        }
+
+        let teamIds = [];
+        const turnos = req.escapeRoom.turnos.map((turno) => {
+            teamIds = [
+                ...teamIds,
+                ...turno.teams.map((team) => team.id)
+            ];
+            return turno.id;
         });
+
+        await models.participants.destroy({"where": {"turnId": {[Sequelize.Op.in]: turnos}}}, {transaction});
+        await models.retosSuperados.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
+        await models.members.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
+        await models.requestedHint.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
+        await transaction.commit();
+        req.flash("success", req.app.locals.i18n.common.flash.successDeletingER);
+        res.redirect("/escapeRooms");
+    } catch (error) {
+        await transaction.rollback();
+        req.flash("error", `${req.app.locals.i18n.common.flash.errorDeletingER}: ${error.message}`);
+        next(error);
+    }
 };
 
 

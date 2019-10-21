@@ -21,14 +21,11 @@ exports.flattenObject = (obj, labels) => {
     return rs;
 };
 
-exports.getRetosSuperados = (teams) => teams.map((teamRes) => {
-    console.log(teamRes.teamMembers.map((a) => a.turnosAgregados));
-    return {...teamRes.dataValues,
-        "teamMembers": teamRes.teamMembers, /* .filter(m=>)    .map(m=>({turnosAgregados: m.turnosAgregados
+exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({...teamRes.dataValues,
+    "teamMembers": teamRes.teamMembers, /* .filter(m=>)    .map(m=>({turnosAgregados: m.turnosAgregados
         .filter(t=>t.participants.attendance)}))*/
-        "countretos": teamRes.dataValues.retos.length,
-        "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => r.retosSuperados.createdAt).sort((a, b) => a < b)[0] : null};
-}).sort((t1, t2) => {
+    "countretos": teamRes.dataValues.retos.length,
+    "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => r.retosSuperados.createdAt).sort((a, b) => a < b)[0] : null})).sort((t1, t2) => {
     if (t1.countretos === t2.countretos) {
         if (t1.latestretosuperado === t2.latestretosuperado) {
             return 0;

@@ -21,7 +21,6 @@ button, input[type="submit"] {
     padding: 8px 25px !important; }
   button.white, input[type="submit"].white {
     background-color: white !important;
-    border: #161938 !important;
     color: #161938 !important; }
   button.login, input[type="submit"].login {
     background-color: #48C18E;

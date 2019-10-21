@@ -66,7 +66,6 @@
                                data-turnId="<%=participant.turnId%>"
                                 <%= participant.attendance ? "checked":"" %> />
                     </div>
-                    <%console.log(participant)%>
                     <div class="operations-participant">
                         <form method='POST' action='/escapeRooms/<%= escapeRoom.id %>/turno/<%=participant.turnId %>/team/<%=participant.teamId %>/user/<%= participant.id %>?_method=DELETE'>
                             <button class="delete-participant"><i class="material-icons"> delete </i></button>

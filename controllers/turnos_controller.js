@@ -1,7 +1,8 @@
 const Sequelize = require("sequelize");
-const {models} = require("../models");
-
+const sequelize = require("../models");
+const {models} = sequelize;
 // Autoload the turn with id equals to :turnId
+
 exports.load = (req, res, next, turnId) => {
     const options = {"include": [
         {"model": models.team,
@@ -138,7 +139,6 @@ exports.create = (req, res, next) => {
     const {date, indications} = req.body;
     const modDate = new Date(date);
 
-    console.log(modDate);
     const turn = models.turno.build({"date": modDate,
         indications,
         "escapeRoomId": req.escapeRoom.id});
@@ -161,23 +161,24 @@ exports.create = (req, res, next) => {
 };
 
 // DELETE /escapeRooms/:escapeRoomId/turnos/:turnoId
-exports.destroy = (req, res, next) => {
+exports.destroy = async (req, res, next) => {
     const modDate = new Date(req.turn.date);
     const teams = req.turn.teams.map((i) => i.id);
+    const transaction = await sequelize.transaction();
 
-    req.turn.destroy().
-        then(() => {
-            const back = `/escapeRooms/${req.params.escapeRoomId}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
+    try {
+        await req.turn.destroy({}, {transaction});
+        const back = `/escapeRooms/${req.params.escapeRoomId}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
 
-            models.team.destroy({"where": {"id": teams}}).then(() => {
-                models.participants.destroy({"where": {"turnId": req.turn.id}}).then(() => {
-                    models.members.destroy({"where": {"teamId": teams}}).then(() => {
-                        req.flash("success", req.app.locals.i18n.common.flash.successDeletingTurno);
-                        res.redirect(back);
-                    });
-                });
-            });
-        }).
-        catch((error) => next(error));
+        await models.team.destroy({"where": {"id": teams}}, {transaction});
+        await models.participants.destroy({"where": {"turnId": req.turn.id}}, {transaction});
+        await models.members.destroy({"where": {"teamId": teams}}, {transaction});
+        await transaction.commit();
+        req.flash("success", req.app.locals.i18n.common.flash.successDeletingTurno);
+        res.redirect(back);
+    } catch (error) {
+        await transaction.rollback();
+        next(error);
+    }
 };
 
