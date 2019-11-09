@@ -6,40 +6,15 @@
 
 var app = require('../app');
 var debug = require('debug')('web:server');
-var fs = require('fs');
 var http = require('http');
-
-
-var express = require('express');
-var app = express();
-
-// your express configuration here
-
-
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
-// app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
-
 
 if (app.get("env") === "production") {
+  app.set('port', 443);
   var https = require('https');
   var privateKey  = fs.readFileSync('/etc/ssl/private/escapp.dit.upm.es.llave.pem', 'utf8');
   var certificate = fs.readFileSync('/etc/ssl/certs/escapp.dit.upm.es.certificado.pem', 'utf8');
@@ -49,9 +24,24 @@ if (app.get("env") === "production") {
   httpsServer.listen(443);
   httpsServer.on('error', onError);
   httpsServer.on('listening', onListening);
+} else {
+  var port = normalizePort(process.env.PORT || '3000');
+  app.set('port', port);
+
+  /**
+   * Create HTTP server.
+   */
+
+  var server = http.createServer(app);
+
+  /**ho
+   * Listen on provided port, on all network interfaces.
+   */
+
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
 }
-
-
 /**
  * Normalize a port into a number, string, or false.
  */
