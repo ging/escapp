@@ -21,8 +21,8 @@ const index = require("./routes/index"),
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-/*
-If (app.get("env") === "production") {
+
+if (app.get("env") === "production") {
     app.use((req, res, next) => {
         if (req.headers["x-forwarded-proto"] !== "https") {
             res.redirect(`https://${req.get("Host")}${req.url}`);
@@ -31,7 +31,7 @@ If (app.get("env") === "production") {
         }
     });
 }
-*/
+
 app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());

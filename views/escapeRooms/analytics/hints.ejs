@@ -48,7 +48,7 @@
 
 		var options = {
             chart: {
-                height: <%=results.length*50%>,
+                height: <%=Math.max(results.length*50,300)%>,
                 type: 'bar',
                 stacked: true,
                 locales: [{

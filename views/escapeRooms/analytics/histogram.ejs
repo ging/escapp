@@ -28,7 +28,7 @@
       return puzzles.map( puz => {
       	let size = duration/5 + 1;
       	let data = new Array(size).fill(0);
-      	for (let i = 0; i < retosSuperados[puz.id].length; i++) {
+      	for (let i = 0; i < (retosSuperados[puz.id] ? retosSuperados[puz.id]:0).length; i++) {
       		let idx = Math.round((size*retosSuperados[puz.id][i])/(duration*60));
       		if (idx >= 0 && idx < data.length) {
       			data[idx] += 1
