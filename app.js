@@ -24,10 +24,10 @@ app.set("view engine", "ejs");
 
 if (app.get("env") === "production") {
     app.use((req, res, next) => {
-        if (req.headers["x-forwarded-proto"] !== "https") {
-            res.redirect(`https://${req.get("Host")}${req.url}`);
-        } else {
+        if (req.secure) {
             next();
+        } else {
+            res.redirect(`https://${req.get("Host")}${req.url}`);
         }
     });
 }
