@@ -5,6 +5,7 @@
  */
 
 var app = require('../app');
+var httpApp = require('../app');
 var debug = require('debug')('web:server');
 var http = require('http');
 
@@ -14,13 +15,13 @@ var http = require('http');
 
 
 if (app.get("env") === "production") {
-  app.set('port', 443);
+  httpApp('port', 443);
   var https = require('https');
   var privateKey  = fs.readFileSync('/etc/ssl/private/escapp.dit.upm.es.llave.pem', 'utf8');
   var certificate = fs.readFileSync('/etc/ssl/certs/escapp.dit.upm.es.certificado.pem', 'utf8');
 
   var credentials = {key: privateKey, cert: certificate};
-  var httpsServer = https.createServer(credentials, app);
+  var httpsServer = https.createServer(credentials, httpApp);
   httpsServer.listen(443);
   httpsServer.on('error', onError);
   httpsServer.on('listening', onListening);
