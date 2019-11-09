@@ -12,8 +12,8 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var server;
 if (app.get("env") === "production") {
+  var httpServer;
   var port = normalizePort('443');
   var fs = require('fs');
   var https = require('https');
@@ -23,11 +23,11 @@ if (app.get("env") === "production") {
   var ca = fs.readFileSync('/etc/ssl/certs/cadDigiCertCA.pem', 'utf8');
 
   var credentials = {key: privateKey, cert: certificate, ca};
-  server = https.createServer(credentials, httpApp);
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
-} else {
+  httpServer = https.createServer(credentials, httpApp);
+  httpServer.listen(port);
+  httpServer.on('error', onError);
+  httpServer.on('listening', onListening);
+}  
   var port = normalizePort(process.env.PORT || '3000');
   app.set('port', port);
 
@@ -35,7 +35,7 @@ if (app.get("env") === "production") {
    * Create HTTP server.
    */
 
-  server = http.createServer(app);
+  var server = http.createServer(app);
 
   /**ho
    * Listen on provided port, on all network interfaces.
@@ -44,7 +44,7 @@ if (app.get("env") === "production") {
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
-}
+
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -98,7 +98,7 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
+  var addr = this.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
