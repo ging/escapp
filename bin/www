@@ -15,7 +15,7 @@ var http = require('http');
 
 
 if (app.get("env") === "production") {
-  httpApp('port', 443);
+  httpApp('port', "443");
   var https = require('https');
   var privateKey  = fs.readFileSync('/etc/ssl/private/escapp.dit.upm.es.llave.pem', 'utf8');
   var certificate = fs.readFileSync('/etc/ssl/certs/escapp.dit.upm.es.certificado.pem', 'utf8');
@@ -23,7 +23,7 @@ if (app.get("env") === "production") {
 
   var credentials = {key: privateKey, cert: certificate, ca};
   var httpsServer = https.createServer(credentials, httpApp);
-  httpsServer.listen(443);
+  httpsServer.listen("443");
   httpsServer.on('error', onError);
   httpsServer.on('listening', onListening);
 } else {
