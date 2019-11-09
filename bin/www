@@ -8,7 +8,6 @@ var app = require('../app');
 var httpApp = require('../app');
 var debug = require('debug')('web:server');
 var http = require('http');
-
 /**
  * Get port from environment and store in Express.
  */
@@ -16,8 +15,9 @@ var http = require('http');
 
 if (app.get("env") === "production") {
   var port = normalizePort('443');
-  httpApp.set('port', port);
+  var fs = require('fs');
   var https = require('https');
+  httpApp.set('port', port);
   var privateKey  = fs.readFileSync('/etc/ssl/private/escapp.dit.upm.es.llave.pem', 'utf8');
   var certificate = fs.readFileSync('/etc/ssl/certs/escapp.dit.upm.es.certificado.pem', 'utf8');
   var ca = fs.readFileSync('/etc/ssl/certs/cadDigiCertCA.pem', 'utf8');
