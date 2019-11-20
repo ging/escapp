@@ -215,13 +215,13 @@
                 "questionNumber": "Número de preguntas",
                 "questionNumberExplanation": "Se seleccionarán aleatoriamente del fichero MoodleXML",
                 "questionNumberPlaceHolder": "¿Cuántas preguntas va a haber en cada intento?",
-                "title": "Pistas",
+                "title": "Gestión de pistas",
                 "uploadFile": "Sube un fichero MoodleXML"
             },
             "instructions": {
                 "explanation": "Escribe las instrucciones que se proporcionarán a los alumnos cuando entren a jugar a la escape room.\nPuedes incluir enlaces a otras páginas si es necesario.",
                 "placeholder": "Bienvenido a la Escape Room",
-                "title": "Instrucciones"
+                "title": "Información para los alumnos"
             },
             "list": {
             	"edit":"Configuración básica",
