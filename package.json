@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "start_heroku": "heroku local:start",
     "start_production": "sudo NODE_ENV=production node ./bin/www",
-    "start_production_forever":"forever start -c 'npm run start_production' ./",
+    "start_production_forever":"sudo forever start -c 'sudo npm run start_production' ./",
     "dev": "DEBUG=escapp  nodemon bin/www -e sass,js,json --exec \"npm run css && npm run lint && node\" && xdg-open http://localhost:3000 ",
     "dev-windows": "nodemon bin/www -e sass,scss,js,json --exec \"npm run css && npm run lint && node\" && start http://localhost:3000",
     "test": "jest",

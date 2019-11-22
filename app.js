@@ -21,17 +21,17 @@ const index = require("./routes/index"),
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-/*
-If (app.get("env") === "production") {
+
+if (app.get("env") === "production") {
     app.use((req, res, next) => {
-        if (req.headers["x-forwarded-proto"] !== "https") {
-            res.redirect(`https://${req.get("Host")}${req.url}`);
-        } else {
+        if (req.secure) {
             next();
+        } else {
+            res.redirect(`https://${req.get("Host")}${req.url}`);
         }
     });
 }
-*/
+
 app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -95,12 +95,16 @@ app.use((req, res, next) => {
 // Error handler. It needs to have all 4 arguments, or else express will not recognize it as an erorr handler
 // eslint-disable-next-line  no-unused-vars
 app.use((err, req, res, next) => {
-    // Set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = process.env.NODE_ENV === "development" ? err : {"status": err.status};
-    // Render the error page
     res.status(err.status || 500);
-    res.render("error");
+    if (req.session && req.session.flash) {
+        // Set locals, only providing error in development
+        res.locals.message = err.message;
+        res.locals.error = process.env.NODE_ENV === "development" ? err : {"status": err.status};
+        // Render the error page
+        res.render("error");
+    } else {
+        res.send(err);
+    }
 });
 
 

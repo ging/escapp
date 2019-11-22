@@ -220,13 +220,13 @@
                 "questionNumber": "Number of questions",
                 "questionNumberExplanation": "Questions will be randomly picked from the MoodleXML file",
                 "questionNumberPlaceHolder": "How many questions per attempt doy you want?",
-                "title": "Hints",
+                "title": "Hint management",
                 "uploadFile": "Please upload a MoodleXML file"
             },
             "instructions": {
                 "explanation": "Please write here the instructions that will be given to students when the activity starts.\nYou can add any links if it's necessary.",
                 "placeholder": "Welcome to the Escape Room",
-                "title": "Instructions"
+                "title": "Information for students"
             },
             "list": {
                 "appearance": "Appearance",
