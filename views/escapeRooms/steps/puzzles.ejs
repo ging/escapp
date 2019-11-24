@@ -36,6 +36,7 @@
 </div>
 <% include ../../partials/_footer %>
 <script src="/js/vendor/jquery.ui.sortable.min.js"></script>
+<script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>
 <script>
   $( function() {
     // Puzzle sortable
@@ -81,8 +82,6 @@
         }
     });
     // $('.handle').disableSelection();
-    // $('.handle-hint').disableSelection();
-
 
     $('#add-new-puzzle').on('click', ()=>{
         let newCard = $('.hidden-card .puzzle-card').clone();
@@ -103,7 +102,8 @@
         const currentHintList = $(e.target.parentNode.parentNode).find('.hint-list');
 
         
-        const order = $( ".hint-list" ).index(currentHintList);
+        const order = currentHintList.data('number')
+        console.log(order)
         const hintOrder = currentHintList.children().length;
         const template = `
             <li>
@@ -112,7 +112,7 @@
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][id]" value=""/>
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][order]" class="hint-order" value="${hintOrder}"/>
                 <input type="text" name="puzzles[${order}][hints][${hintOrder}][content]" placeholder="" required value=""/>
-                <button type="button" class="delete-puzzle delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>" >
+                <button type="button" class="delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>" >
                   <i class="material-icons">clear</i> 
                 </button>
                 </div>

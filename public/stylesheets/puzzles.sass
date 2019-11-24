@@ -24,6 +24,11 @@ $card-background: $textpurple
         -ms-touch-action: none
         touch-action: none 
         cursor: grab
+        -ms-user-select: none
+        -moz-user-select: -moz-none
+        -khtml-user-select: none
+        -webkit-user-select: none
+        user-select: none
       .handle
         position: absolute
         top: 5px
@@ -93,12 +98,20 @@ $card-background: $textpurple
         border-bottom-width: 2px
         text-align: left
         padding-left: 30px
+        &:-webkit-autofill
+          -webkit-box-shadow: 0 0 0 30px white inset !important
+          -webkit-text-fill-color: $textpurple !important
+          font-family: Lato !important
         &:focus, &:active
           font-family: Lato !important
           background-color: white
           color: $lightred 
           -webkit-text-fill-color: $lightred !important
           border-color: $lightred
+          &:-webkit-autofill
+            -webkit-box-shadow: 0 0 0 30px white inset !important
+            -webkit-text-fill-color: $lightred !important
+            font-family: Lato !important
         option
           font-family: Lato !important
       .hint-list

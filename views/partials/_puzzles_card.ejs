@@ -4,20 +4,20 @@
     <input type="hidden" name="puzzles[<%=reto%>][id]" value="<%=puzzle.id%>"/>
     <h3 class="showAlways">
         <i class="material-icons">extension</i>
-        <input type="text" name="puzzles[<%=reto%>][title]" required value="<%=puzzle.title%>"/>
+        <input type="text" name="puzzles[<%=reto%>][title]" autocomplete="off" required value="<%=puzzle.title%>"/>
     </h3>
     <h4>
         <i class="material-icons">description</i>
         <%=i18n.escapeRoom.steps.puzzles.description%>
     </h4>
-    <input type="text" name="puzzles[<%=reto%>][desc]" required value="<%=puzzle.desc%>"/>
+    <input type="text" name="puzzles[<%=reto%>][desc]" autocomplete="off" required value="<%=puzzle.desc%>"/>
     <div class="flex-puzzle-card">
         <div>
             <h4>
                 <i class="material-icons">search</i>
                 <%=i18n.escapeRoom.steps.puzzles.solution%>
             </h4>
-            <input type="text" name="puzzles[<%=reto%>][sol]" required value="<%=puzzle.sol%>"/>
+            <input type="text" name="puzzles[<%=reto%>][sol]" autocomplete="off" required value="<%=puzzle.sol%>"/>
         </div>
         <div>
             <h4>
@@ -51,7 +51,7 @@
     <h4>
         <i class="material-icons">search</i>
         <%=i18n.escapeRoom.steps.puzzles.hints%>
-        <ul class="hint-list">
+        <ul class="hint-list" data-number="<%=reto%>">
             <% for (let h in puzzle.hints) {
                 let hint = puzzle.hints[h];
              %>
