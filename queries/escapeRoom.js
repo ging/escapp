@@ -24,13 +24,13 @@ exports.load = {
         ],
         [
             {"model": models.puzzle},
-            "createdAt",
+            "order",
             "asc"
         ],
         [
             {"model": models.puzzle},
             {"model": models.hint},
-            "id",
+            "order",
             "asc"
         ]
     ]

@@ -239,6 +239,8 @@
                 "turnos": "Shifts"
             },
             "puzzles": {
+                "addNewHint": "add hint",
+                "addNewPuzzles": "add puzzle",
             	"automatic": "automatic",
                 "clueName": "Clue name",
                 "description": "Description",
@@ -250,6 +252,7 @@
                 "notYet": "Please create a new puzzle before assigning it any hints",
                 "placeholder": "Select tracking mode",
                 "puzzleTitle": "Puzzle title",
+                "reorder": "Drag to reorder the puzzles",
                 "solution": "Answer",
                 "subpuzzles": "Subpuzzles",
                 "successMsg": "Message on success",

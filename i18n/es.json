@@ -233,6 +233,8 @@
             	"evaluation": "Evaluación"
             },
             "puzzles": {
+                "addNewHint": "añadir pista",
+                "addNewPuzzles": "añadir reto",
             	"automatic": "Automática",
                 "clueName": "Nombre de la pista",
                 "description": "Descripción",
@@ -244,6 +246,7 @@
                 "notYet": "Hasta que crees el reto no puedes asignarle pistas",
                 "placeholder": "Selecciona la monitorización",
                 "puzzleTitle": "Título",
+                "reorder": "Arrastra para reordenar los retos",
                 "solution": "Solución",
                 "subpuzzles": "Subretos",
                 "successMsg": "Mensaje al acertar",

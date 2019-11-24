@@ -182,3 +182,22 @@ exports.destroy = async (req, res, next) => {
     }
 };
 
+// GET /escapeRooms/:escapeRoomId/turnos
+exports.turnos = (req, res) => {
+    const {escapeRoom} = req;
+    const {turnos} = escapeRoom;
+
+    res.render("escapeRooms/steps/turnos", {escapeRoom,
+        turnos,
+        "progress": "turnos"});
+};
+
+// POST /escapeRooms/:escapeRoomId/turnos
+exports.turnosUpdate = (req, res /* , next*/) => {
+    const {escapeRoom, body} = req;
+
+    const isPrevious = Boolean(body.previous);
+    const progressBar = body.progress;
+
+    res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? "edit" : progressBar || "puzzles"}`);
+};

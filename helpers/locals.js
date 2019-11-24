@@ -60,4 +60,14 @@ module.exports = function (app) {
             return "var(--brightgreen)";
         }
     };
+
+    app.locals.steps = () => [
+        "edit",
+        "turnos",
+        "puzzles",
+        "hints",
+        "instructions",
+        "appearance",
+        "evaluation"
+    ];
 };

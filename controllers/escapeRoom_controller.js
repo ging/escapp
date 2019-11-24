@@ -5,8 +5,6 @@ const cloudinary = require("cloudinary");
 const {parseURL} = require("../helpers/video");
 const query = require("../queries");
 const attHelper = require("../helpers/attachments");
-// Options for the files uploaded to Cloudinary
-
 
 // Autoload the escape room with id equals to :escapeRoomId
 exports.load = async (req, res, next, escapeRoomId) => {
@@ -24,7 +22,6 @@ exports.load = async (req, res, next, escapeRoomId) => {
         next(error);
     }
 };
-
 
 // MW that allows actions only if the user logged in is admin or is the author of the escape room.
 exports.adminOrAuthorRequired = (req, res, next) => {
@@ -150,7 +147,8 @@ exports.new = (req, res) => {
         "nmax": "",
         "teamSize": ""};
 
-    res.render("escapeRooms/new", {escapeRoom});
+    res.render("escapeRooms/new", {escapeRoom,
+        "progress": "edit"});
 };
 
 // POST /escapeRooms/create
@@ -221,7 +219,10 @@ exports.create = (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/edit
-exports.edit = (req, res) => res.render("escapeRooms/edit", {"escapeRoom": req.escapeRoom});
+exports.edit = (req, res) => {
+    res.render("escapeRooms/edit", {"escapeRoom": req.escapeRoom,
+        "progress": "edit"});
+};
 
 // PUT /escapeRooms/:escapeRoomId
 exports.update = (req, res, next) => {
@@ -311,14 +312,15 @@ exports.update = (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/appearance
-exports.temas = (req, res) => {
+exports.appearance = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/appearance", {escapeRoom});
+    res.render("escapeRooms/steps/appearance", {escapeRoom,
+        "progress": "appearance"});
 };
 
 // POST /escapeRooms/:escapeRoomId/appearance
-exports.temasUpdate = (req, res, next) => {
+exports.appearanceUpdate = (req, res, next) => {
     const {escapeRoom, body} = req;
 
     escapeRoom.appearance = body.appearance;
@@ -338,146 +340,12 @@ exports.temasUpdate = (req, res, next) => {
         });
 };
 
-// GET /escapeRooms/:escapeRoomId/turnos
-exports.turnos = (req, res) => {
-    const {escapeRoom} = req;
-    const {turnos} = escapeRoom;
-
-    res.render("escapeRooms/steps/turnos", {escapeRoom,
-        turnos});
-};
-
-// POST /escapeRooms/:escapeRoomId/turnos
-exports.turnosUpdate = (req, res /* , next*/) => {
-    const {escapeRoom, body} = req;
-
-    const isPrevious = Boolean(body.previous);
-    const progressBar = body.progress;
-
-    res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? "edit" : progressBar || "puzzles"}`);
-};
-
-// GET /escapeRooms/:escapeRoomId/puzzles
-exports.retos = (req, res) => {
-    const {escapeRoom} = req;
-
-    res.render("escapeRooms/steps/puzzles", {escapeRoom});
-};
-
-// POST /escapeRooms/:escapeRoomId/puzzles
-exports.retosUpdate = (req, res, next) => {
-    const {escapeRoom, body} = req;
-    const {automatic} = body;
-    const isPrevious = Boolean(body.previous);
-    const progressBar = body.progress;
-
-    escapeRoom.automatic = automatic === "1";
-    escapeRoom.save({"fields": ["automatic"]}).then(() => {
-        res.redirect(`/escapeRooms/${req.escapeRoom.id}/${isPrevious ? "turnos" : progressBar || "hints"}`);
-    }).
-        catch(Sequelize.ValidationError, (error) => {
-            error.errors.forEach(({message}) => req.flash("error", message));
-            res.redirect(`/escapeRooms/${req.escapeRoom.id}/puzzles`);
-        }).
-        catch((error) => {
-            req.flash("error", `${error.message}`);
-            next(error);
-        });
-};
-
-// GET /escapeRooms/:escapeRoomId/hints
-exports.pistas = (req, res) => {
-    const {escapeRoom} = req;
-
-    res.render("escapeRooms/steps/hints", {escapeRoom});
-};
-
-// POST /escapeRooms/:escapeRoomId/hints
-exports.pistasUpdate = (req, res, next) => {
-    const {escapeRoom, body} = req;
-    const isPrevious = Boolean(body.previous);
-    const progressBar = body.progress;
-    const {numQuestions, numRight, feedback} = body;
-    let pctgRight = numRight || 0;
-
-    pctgRight = (numRight >= 0 && numRight <= numQuestions ? numRight : numQuestions) * 100 / (numQuestions || 1);
-    escapeRoom.numQuestions = numQuestions || 0;
-    escapeRoom.numRight = pctgRight || 0;
-    escapeRoom.feedback = Boolean(feedback);
-
-    const back = `/escapeRooms/${escapeRoom.id}/${isPrevious ? "puzzles" : progressBar || "instructions"}`;
-
-    escapeRoom.save({"fields": [
-        "numQuestions",
-        "numRight",
-        "feedback"
-    ]}).
-        then(() => {
-            if (body.keepAttachment === "0") {
-                // There is no attachment: Delete old attachment.
-                if (!req.file) {
-                    if (escapeRoom.hintApp) {
-                        attHelper.deleteResource(escapeRoom.hintApp.public_id);
-                        escapeRoom.hintApp.destroy();
-                    }
-                    return;
-                }
-
-                return attHelper.checksCloudinaryEnv().
-                    // Save the new attachment into Cloudinary:
-                    then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options_zip)).
-                    then((uploadResult) => {
-                        // Remenber the public_id of the old image.
-                        const old_public_id = escapeRoom.hintApp ? escapeRoom.hintApp.public_id : null; // Update the attachment into the data base.
-
-                        return escapeRoom.getHintApp().
-                            then((att) => {
-                                let hintApp = att;
-
-                                if (!hintApp) {
-                                    hintApp = models.hintApp.build({"escapeRoomId": escapeRoom.id});
-                                }
-                                hintApp.public_id = uploadResult.public_id;
-                                hintApp.url = uploadResult.url;
-                                hintApp.filename = req.file.originalname;
-                                hintApp.mime = req.file.mimetype;
-
-                                return hintApp.save();
-                            }).
-                            then(() => {
-                                req.flash("success", "Fichero guardado con éxito.");
-                                if (old_public_id) {
-                                    attHelper.deleteResource(old_public_id);
-                                }
-                            }).
-                            catch((error) => { // Ignoring image validation errors
-                                req.flash("error", `Error al guardar el fichero: ${error.message}`);
-                                attHelper.deleteResource(uploadResult.public_id);
-                            });
-                    }).
-                    catch((error) => {
-                        req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
-                    });
-            }
-        }).
-        then(() => {
-            res.redirect(back);
-        }).
-        catch(Sequelize.ValidationError, (error) => {
-            error.errors.forEach(({message}) => req.flash("error", message));
-            res.render("escapeRooms/hints", {escapeRoom});
-        }).
-        catch((error) => {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
-            next(error);
-        });
-};
-
 // GET /escapeRooms/:escapeRoomId/evaluation
-exports.encuestas = (req, res) => {
+exports.evaluation = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/evaluation", {escapeRoom});
+    res.render("escapeRooms/steps/evaluation", {escapeRoom,
+        "progress": "evaluation"});
 };
 
 // POST /escapeRooms/:escapeRoomId/evaluation
@@ -532,9 +400,9 @@ exports.evaluationUpdate = (req, res, next) => {
 exports.instructions = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/instructions", {escapeRoom});
+    res.render("escapeRooms/steps/instructions", {escapeRoom,
+        "progress": "instructions"});
 };
-
 
 // GET /escapeRooms/:escapeRoomId/instructions
 exports.instructionsUpdate = (req, res, next) => {
@@ -590,7 +458,6 @@ exports.destroy = async (req, res, next) => {
         next(error);
     }
 };
-
 
 // GET /escapeRooms/:escapeRoomId/join
 exports.studentToken = async (req, res) => {

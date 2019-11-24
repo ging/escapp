@@ -2,78 +2,145 @@
 <div class="main step-puzzles">
   <h2><%=i18n.escapeRoom.steps.puzzles.title%>
   </h2>
- <% for(var reto in escapeRoom.puzzles) { %>
+    <div class="align-right">
+        <button class="rounded editButton" type="button" id="add-new-puzzle">
+            <!-- <i class="material-icons">control_point</i> -->
+            <%=i18n.escapeRoom.steps.puzzles.addNewPuzzles%>
+        </button>
+    </div>
+  <br/>
+  <br/>
+  <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/puzzles'>
+  <div id="sortable">
+
+    <% for(var reto in escapeRoom.puzzles) { %>
         <% var puzzle = escapeRoom.puzzles[reto] %>
-        	<div class="puzzle-card animated zoomIn">
-	        	<h3 >
-                    <i  class="material-icons">extension</i>
-                    <input type="text" value="<%=puzzle.title%>"/>
-                </h3>
-	        	<h4>
-                    <i class="material-icons">description</i>
-                    <%=i18n.escapeRoom.steps.puzzles.description%>
-                </h4>
-	        	<input type="text" value="<%=puzzle.desc%>"/>
-	        	<div class="flex-puzzle-card">
-                    <div>
-                        <h4>
-                            <i class="material-icons">search</i>
-                            <%=i18n.escapeRoom.steps.puzzles.solution%>
-                        </h4>
-        	        	<input type="text" value="<%=puzzle.sol%>"/>
-                    </div>
-                    <div>
-                        <h4>
-                            <label for="at">
-                                <span>
-                                    <i class="material-icons">track_changes</i>
-                                    <%=i18n.escapeRoom.steps.puzzles.tracking%>
-                                </span>
-                            </label>
-                        </h4>
-                        <select  required  id="at" name="automatic" value="<%= escapeRoom.automatic %>" placeholder="<%i18n.escapeRoom.steps.puzzles.placeholder%>" autocomplete="off">
-                            <option value="0" <%= !escapeRoom.automatic ? "selected" : ""%>><%=i18n.escapeRoom.steps.puzzles.manual%></option>
-                            <option value="1" <%= escapeRoom.automatic ? "selected" : ""%>><%=i18n.escapeRoom.steps.puzzles.automatic%></option>
-                        </select>
-                        
-                    </div>
+        <%- include('../../partials/_puzzles_card', {reto, puzzle}) %>
+    	
+    <%}%>
+    </div>
+    <br/>
+    <div class="align-right flex-buttons" style="margin-bottom: 60px;">
+    <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
+    <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
+    <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
+    </div>
+  <%- include('../../partials/_progress', {progress}) %>
+</form>
+<br/>
+<br/>
 
-                </div>
-
-                <h4>
-                    <i class="material-icons">check</i>
-                    <%=i18n.escapeRoom.steps.puzzles.successMsg%>
-                <input type="text" placeholder="<%=i18n.puzzle.correctAnswer%>" value="<%=puzzle.successMsg%>"/>
-                <h4>
-                    <i class="material-icons">close</i>
-                    <%=i18n.escapeRoom.steps.puzzles.failMsg%>
-                </h4>
-                <input type="text" placeholder="<%=i18n.puzzle.wrongAnswer%>" value="<%=puzzle.failMsg%>"/>
-	        	<br/>
-                    
-	        	<h4>
-                    <i class="material-icons">view_module</i>
-                    <%=i18n.escapeRoom.steps.puzzles.subpuzzles%>
-                </h4>
-                <h4>
-                    <i class="material-icons">search</i>
-                    <%=i18n.escapeRoom.steps.puzzles.hints%>
-                </h4>
-        	</div>
-        <%}%>
-    <br/>
-    <input type="hidden" name="retos" id="retos" value="">
-    <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/puzzles'  >
-        <div class="align-right flex-buttons" style="margin-bottom: 60px;">
-        <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
-        <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
-        <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
-        </div>
-      <%- include('../../partials/_progress', {progress: 2}) %>
-    </form>
-    <br/>
-    <br/>
-  
-  
+<div class="hidden-card">
+    <%- include('../../partials/_puzzles_card', {reto: 'new', puzzle: {id: 'new', hints: []}}) %>
+</div>  
 </div>
 <% include ../../partials/_footer %>
+<script src="/js/vendor/jquery.ui.sortable.min.js"></script>
+<script>
+  $( function() {
+    // Puzzle sortable
+
+
+    $(document).on('mousedown touchdown', '.handle', () => {
+        $('.puzzle-card > *:not(.showAlways)').slideToggle();
+        $('.puzzle-card').toggleClass('collapsed')
+    });
+    $(document).on('mouseup touchend', '.handle', () => {
+        $('.puzzle-card > *:not(.showAlways)').slideToggle();
+        $('.puzzle-card').toggleClass('collapsed')
+        $('.puzzle-card > *:not(.showAlways)').show();
+    });
+
+    $( "#sortable" ).sortable({
+        handle: '.handle',
+        forcePlaceholderSize:true,
+        start: (event, ui) => {
+         $(ui.placeholder).height('105px');
+        },
+        stop: () => {
+            $('.puzzle-card > *:not(.showAlways)').slideToggle();
+            $('.puzzle-card').toggleClass('collapsed')
+            $('.puzzle-card > *:not(.showAlways)').show();
+        },
+        update: (a,b)=>{
+            
+            $('.order').each((i,e)=> {
+                $(e).val(i);
+            })
+        }
+    });
+
+    // Hint sortable
+
+    $( ".hint-list" ).sortable({
+        handle: '.handle-hint',
+        update: (event,b)=>{
+            $(event.target).find('.hint-order').each((i,e)=> {
+                $(e).val(i);
+            })
+        }
+    });
+    // $('.handle').disableSelection();
+    // $('.handle-hint').disableSelection();
+
+
+    $('#add-new-puzzle').on('click', ()=>{
+        let newCard = $('.hidden-card .puzzle-card').clone();
+        const order = $('.puzzle-card').length - 1;
+        newCard.find('.order').val(order);
+        newCard.find( "input[name^='puzzles[new]'],select[name^='puzzles[new]']" ).each((i,e)=>{
+            e.name = e.name.replace('puzzles[new]','puzzles['+order+']');
+        });
+        newCard.appendTo('#sortable');
+        $('html, body').animate({
+            scrollTop: $(newCard).offset().top
+        }, 300);
+
+        newCard.find('input[type=text]').first().focus();
+    })
+
+    $(document).on('click', '.addHint', (e) => {
+        const currentHintList = $(e.target.parentNode.parentNode).find('.hint-list');
+
+        
+        const order = $( ".hint-list" ).index(currentHintList);
+        const hintOrder = currentHintList.children().length;
+        const template = `
+            <li>
+               <div class="hint-li">
+                <i title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle-hint">swap_vert</i>
+                <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][id]" value=""/>
+                <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][order]" class="hint-order" value="${hintOrder}"/>
+                <input type="text" name="puzzles[${order}][hints][${hintOrder}][content]" placeholder="" required value=""/>
+                <button type="button" class="delete-puzzle delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>" >
+                  <i class="material-icons">clear</i> 
+                </button>
+                </div>
+            </li>
+        `;
+        $(template).appendTo(currentHintList);
+        currentHintList.last().find('input[type=text]').focus();
+
+    });
+
+    $(document).on('click', '.delete-hint', (e) => {
+        const actualHint = e.target.parentNode.parentNode.parentNode;
+        const parent = actualHint.parentNode;
+        actualHint.remove();
+        $(parent).find('.hint-order').each((i,e)=> {
+            $(e).val(i);
+        });
+    });
+
+    $(document).on('click', '.delete-puzzle', (e) => {
+        const actualPuzzle = e.target.parentNode.parentNode;
+        const parent = actualPuzzle.parentNode;
+        actualPuzzle.remove();
+        $(parent).find('.order').each((i,e)=> {
+            $(e).val(i);
+        });
+    })
+});
+</script>
+
+

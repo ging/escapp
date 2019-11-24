@@ -29,8 +29,6 @@ module.exports = function (sequelize, DataTypes) {
         "numRight": {"type": DataTypes.INTEGER},
         "feedback": {"type": DataTypes.BOOLEAN},
         "instructions": {"type": DataTypes.STRING},
-        "automatic": {"type": DataTypes.BOOLEAN,
-            "defaultValue": false},
         "scoreParticipation": {"type": DataTypes.FLOAT,
             "defaultValue": 0.0},
         "hintSuccess": {"type": DataTypes.FLOAT,
