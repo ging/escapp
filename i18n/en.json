@@ -176,6 +176,19 @@
             "appearance": {
                 "title": "Appearance"
             },
+            "assets": {
+                "title": "Asset upload",
+                "dictDefaultMessage": "Drop the files that you need to conduct the escape room",
+                "dictFallbackMessage": "Try to use Google Chrome",
+                "dictFileTooBig": "The file is too big",
+                "dictInvalidFileTypedictResponseError": "Invalid file type",
+                "dictCancelUpload": "Cancel upload",
+                "dictUploadCanceled": "The upload was canceled",
+                "dictCancelUploadConfirmation": "Are you sure you want to cancel the upload?",
+                "dictRemoveFile": "Delete file",
+                "dictRemoveFileConfirmation": "Are you sure you want to delete this file",
+                "dictMaxFilesExceeded": "Too many files"
+            },
             "edit": {
                 "descriptionPlaceHolder": "Write the Escape Room's description here. This information will be given to your students",
                 "durationPlaceHolder": "¿What time do students have to complete de Escape Room?",
@@ -215,6 +228,9 @@
                 "feedback": "Feedback",
                 "feedbackExplanation": "Do you want to show students the correct answers once the quiz is completed?",
                 "hintFile": "Battery of questions file",
+                "hintLimit": "Hint limit",
+                "hintLimitExplanation": "What is the maximum number of hints students can get?",
+                "hintLimitPlaceholder": "No limit",
                 "MoodleXML": "MoodleXML",
                 "noFile": "You haven't uploaded any files yet",
                 "questionNumber": "Number of questions",

@@ -624,7 +624,8 @@ button, input[type="submit"] {
           width: 100%;
           text-overflow: ellipsis;
           overflow: hidden;
-          padding-top: 5px; }
+          padding-top: 5px;
+          font-size: 16px; }
       .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom {
         background-color: #9196A9;
         color: #D2D4DC;

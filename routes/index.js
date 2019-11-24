@@ -7,6 +7,7 @@ const hintController = require("../controllers/hint_controller");
 const userController = require("../controllers/user_controller");
 const sessionController = require("../controllers/session_controller");
 const teamController = require("../controllers/team_controller");
+const assetsController = require("../controllers/assets_controller");
 const participantController = require("../controllers/participants_controller");
 const playController = require("../controllers/play_controller");
 const membersController = require("../controllers/members_controller");
@@ -89,6 +90,9 @@ router.get("/escapeRooms/:escapeRoomId(\\d+)/puzzles", sessionController.loginRe
 router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, puzzleController.retosUpdate);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/hints", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, hintController.pistas);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/hints", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, upload.single("hints"), hintController.pistasUpdate);
+router.get("/escapeRooms/:escapeRoomId(\\d+)/assets", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, assetsController.assets);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/assets", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, upload.single("assets"), assetsController.assetsUpdate);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/uploadAssets", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, upload.single("assets"), assetsController.uploadAssets);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/evaluation", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.evaluation);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/evaluation", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.evaluationUpdate);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/instructions", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.instructions);

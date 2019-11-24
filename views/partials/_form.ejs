@@ -79,10 +79,15 @@
         class="fileUploadButton">
           <i class="material-icons">delete</i>
         </span>
-      <input type="hidden" name="keepAttachment" id="keepAttachment" value="<%= (escapeRoom.id && escapeRoom.attachment) ? "1" : "0" %>" >
+        <input type="text" class="inputFormField erFormField" style="opacity:0;"/>
+
+        <input type="hidden" name="keepAttachment" id="keepAttachment" value="<%= (escapeRoom.id && escapeRoom.attachment) ? "1" : "0" %>" >
     </label>
 </div>
 
+<br/>
+<br/>
+<br/>
 <br/>
 
 <div class="align-right">

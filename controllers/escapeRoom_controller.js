@@ -5,7 +5,7 @@ const cloudinary = require("cloudinary");
 const {parseURL} = require("../helpers/video");
 const query = require("../queries");
 const attHelper = require("../helpers/attachments");
-
+const {nextStep, prevStep} = require("../helpers/progress");
 // Autoload the escape room with id equals to :escapeRoomId
 exports.load = async (req, res, next, escapeRoomId) => {
     try {
@@ -205,7 +205,7 @@ exports.create = (req, res, next) => {
                     req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
                 }).
                 then(() => {
-                    res.redirect(`/escapeRooms/${er.id}/turnos`);
+                    res.redirect(`/escapeRooms/${er.id}/${nextStep("edit")}`);
                 });
         }).
         catch(Sequelize.ValidationError, (error) => {
@@ -247,7 +247,6 @@ exports.update = (req, res, next) => {
         "teamSize"
     ]}).
         then((er) => {
-            req.flash("success", req.app.locals.i18n.common.flash.successCreatingER);
             if (body.keepAttachment === "0") {
                 // There is no attachment: Delete old attachment.
                 if (!req.file) {
@@ -264,7 +263,8 @@ exports.update = (req, res, next) => {
                     then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options)).
                     then((uploadResult) => {
                         // Remenber the public_id of the old image.
-                        const old_public_id = er.attachment ? er.attachment.public_id : null; // Update the attachment into the data base.
+                        const old_public_id = er.attachment ? er.attachment.public_id : null;
+                        // Update the attachment into the data base.
 
                         return er.getAttachment().
                             then((att) => {
@@ -290,7 +290,7 @@ exports.update = (req, res, next) => {
                                 attHelper.deleteResource(uploadResult.public_id);
                             }).
                             then(() => {
-                                res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || "turnos"}`);
+                                res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
                             });
                     }).
                     catch((error) => {
@@ -299,7 +299,7 @@ exports.update = (req, res, next) => {
             }
         }).
         then(() => {
-            res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || "turnos"}`);
+            res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
         }).
         catch(Sequelize.ValidationError, (error) => {
             error.errors.forEach(({message}) => req.flash("error", message));
@@ -328,7 +328,7 @@ exports.appearanceUpdate = (req, res, next) => {
     const progressBar = body.progress;
 
     escapeRoom.save({"fields": ["appearance"]}).then(() => {
-        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? "instructions" : progressBar || "evaluation"}`);
+        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("appearance") : progressBar || nextStep("appearance")}`);
     }).
         catch(Sequelize.ValidationError, (error) => {
             error.errors.forEach(({message}) => req.flash("error", message));
@@ -384,7 +384,7 @@ exports.evaluationUpdate = (req, res, next) => {
         return Promise.all(promises);
     }).
         then(() => {
-            res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? "appearance" : progressBar || ""}`);
+            res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("evaluation") : progressBar || nextStep("evaluation")}`);
         }).
         catch(Sequelize.ValidationError, (error) => {
             error.errors.forEach(({message}) => req.flash("error", message));
@@ -413,7 +413,7 @@ exports.instructionsUpdate = (req, res, next) => {
     const progressBar = body.progress;
 
     escapeRoom.save({"fields": ["instructions"]}).then(() => {
-        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? "hints" : progressBar || "appearance"}`);
+        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("instructions") : progressBar || nextStep("instructions")}`);
     }).
         catch(Sequelize.ValidationError, (error) => {
             error.errors.forEach(({message}) => req.flash("error", message));

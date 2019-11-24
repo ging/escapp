@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
 const {sanitizePuzzles} = require("../helpers/sanitize");
+const {nextStep, prevStep} = require("../helpers/progress");
 
 
 // Autoload the puzzle with id equals to :puzzleId
@@ -232,7 +233,7 @@ exports.retosUpdate = async (req, res, next) => {
         const isPrevious = Boolean(body.previous);
         const progressBar = body.progress;
 
-        res.redirect(`/escapeRooms/${req.escapeRoom.id}/${isPrevious ? "turnos" : progressBar || "hints"}`);
+        res.redirect(`/escapeRooms/${req.escapeRoom.id}/${isPrevious ? prevStep("puzzles") : progressBar || nextStep("puzzles")}`);
     } catch (error) {
         await transaction.rollback();
         if (error instanceof Sequelize.ValidationError) {

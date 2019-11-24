@@ -1,3 +1,5 @@
+const {steps} = require("./progress");
+
 module.exports = function (app) {
     const zeroPadding = (d) => {
         if (d < 10) {
@@ -61,13 +63,5 @@ module.exports = function (app) {
         }
     };
 
-    app.locals.steps = () => [
-        "edit",
-        "turnos",
-        "puzzles",
-        "hints",
-        "instructions",
-        "appearance",
-        "evaluation"
-    ];
+    app.locals.steps = steps;
 };

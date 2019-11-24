@@ -3,6 +3,7 @@ const sequelize = require("../models");
 const {models} = sequelize;
 const http = require("https");
 const attHelper = require("../helpers/attachments");
+const {nextStep, prevStep} = require("../helpers/progress");
 
 // Autoload the hint with id equals to :hintId
 exports.load = (req, res, next, hintId) => {
@@ -247,18 +248,20 @@ exports.pistasUpdate = (req, res, next) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
-    const {numQuestions, numRight, feedback} = body;
+    const {numQuestions, numRight, feedback, hintLimit} = body;
     let pctgRight = numRight || 0;
 
     pctgRight = (numRight >= 0 && numRight <= numQuestions ? numRight : numQuestions) * 100 / (numQuestions || 1);
+    escapeRoom.hintLimit = (!hintLimit && hintLimit != 0) ? null : hintLimit
     escapeRoom.numQuestions = numQuestions || 0;
     escapeRoom.numRight = pctgRight || 0;
     escapeRoom.feedback = Boolean(feedback);
 
-    const back = `/escapeRooms/${escapeRoom.id}/${isPrevious ? "puzzles" : progressBar || "instructions"}`;
+    const back = `/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("hints") : progressBar || nextStep("hints")}`;
 
     escapeRoom.save({"fields": [
         "numQuestions",
+        "hintLimit",
         "numRight",
         "feedback"
     ]}).

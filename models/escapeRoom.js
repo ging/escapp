@@ -31,6 +31,7 @@ module.exports = function (sequelize, DataTypes) {
         "instructions": {"type": DataTypes.STRING},
         "scoreParticipation": {"type": DataTypes.FLOAT,
             "defaultValue": 0.0},
+        "hintLimit": {"type": DataTypes.INTEGER},
         "hintSuccess": {"type": DataTypes.FLOAT,
             "defaultValue": 0.0},
         "hintFailed": {"type": DataTypes.FLOAT,
