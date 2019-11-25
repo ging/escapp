@@ -18,7 +18,6 @@ module.exports = {
 
         for (const er of (escapeRooms || [])) {
             const {automatic} = er;
-
             (er.puzzles || []).map(async ({id}) => await models.puzzle.update({automatic}, {"where": {id}}));
         }
         await queryInterface.removeColumn("escapeRooms", "automatic", Sequelize.BOOLEAN);

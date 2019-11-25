@@ -40,14 +40,18 @@
 <script>
   $( function() {
     // Puzzle sortable
-
+    $.easing.custom = function (x, t, b, c, d) {
+        var s = 0.70158; 
+        if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
+        return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
+    }
 
     $(document).on('mousedown touchdown', '.handle', () => {
         $('.puzzle-card > *:not(.showAlways)').slideToggle();
         $('.puzzle-card').toggleClass('collapsed')
     });
     $(document).on('mouseup touchend', '.handle', () => {
-        $('.puzzle-card > *:not(.showAlways)').slideToggle();
+        $('.puzzle-card > *:not(.showAlways)').slideToggle({easing: "custom", duration: 200});
         $('.puzzle-card').toggleClass('collapsed')
         $('.puzzle-card > *:not(.showAlways)').show();
     });
@@ -59,7 +63,7 @@
          $(ui.placeholder).height('105px');
         },
         stop: () => {
-            $('.puzzle-card > *:not(.showAlways)').slideToggle();
+            $('.puzzle-card > *:not(.showAlways)').slideToggle({easing: "custom", duration: 200});
             $('.puzzle-card').toggleClass('collapsed')
             $('.puzzle-card > *:not(.showAlways)').show();
         },

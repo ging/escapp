@@ -13,8 +13,9 @@ module.exports = {
             ]
         });
 
-        for (const er of escapeRooms) {
-            er.puzzles.map(async ({id}, order) => await models.puzzle.update({order}, {"where": {id}}));
+        for (let er of escapeRooms) {
+            await (er.puzzles || []).map(async ({id}, order) => await models
+                .puzzle.update({order}, {"where": {id}}));
         }
     }
 

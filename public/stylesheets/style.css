@@ -1506,7 +1506,7 @@ button, input[type="submit"] {
     background-color: white;
     border-radius: 0px;
     border-width: 0px;
-    border-bottom-width: 2px;
+    border-bottom-width: 1px;
     text-align: left;
     padding-left: 30px; }
     #mainSection .main .puzzle-card select:-webkit-autofill, #mainSection .main .puzzle-card input:-webkit-autofill {

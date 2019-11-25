@@ -12,11 +12,12 @@ module.exports = {
                 }
             ]
         });
-
-        for (const puzzle of puzzles) {
-            puzzle.hints.map(async ({id}, order) => await models.hint.update({order}, {"where": {id}}));
+        for (let puzzle of (puzzles || [])) {
+            for (let order in (puzzle.hints || [])){
+                let {id} = puzzle.hints[order];
+                await models.hint.update({order}, {"where": {id}});
+            }
         }
     }
 
 };
-
