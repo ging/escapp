@@ -2,6 +2,8 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
 const http = require("https");
+const attHelper = require("../helpers/attachments");
+const {nextStep, prevStep} = require("../helpers/progress");
 
 // Autoload the hint with id equals to :hintId
 exports.load = (req, res, next, hintId) => {
@@ -230,4 +232,96 @@ exports.downloadMoodleXML = (req, res) => {
         console.error(e);
         res.status(404).end();
     }
+};
+
+
+// GET /escapeRooms/:escapeRoomId/hints
+exports.pistas = (req, res) => {
+    const {escapeRoom} = req;
+
+    res.render("escapeRooms/steps/hints", {escapeRoom,
+        "progress": "hints"});
+};
+
+// POST /escapeRooms/:escapeRoomId/hints
+exports.pistasUpdate = (req, res, next) => {
+    const {escapeRoom, body} = req;
+    const isPrevious = Boolean(body.previous);
+    const progressBar = body.progress;
+    const {numQuestions, numRight, feedback, hintLimit} = body;
+    let pctgRight = numRight || 0;
+
+    pctgRight = (numRight >= 0 && numRight <= numQuestions ? numRight : numQuestions) * 100 / (numQuestions || 1);
+    escapeRoom.hintLimit = (!hintLimit && hintLimit != 0) ? null : hintLimit
+    escapeRoom.numQuestions = numQuestions || 0;
+    escapeRoom.numRight = pctgRight || 0;
+    escapeRoom.feedback = Boolean(feedback);
+
+    const back = `/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("hints") : progressBar || nextStep("hints")}`;
+
+    escapeRoom.save({"fields": [
+        "numQuestions",
+        "hintLimit",
+        "numRight",
+        "feedback"
+    ]}).
+        then(() => {
+            if (body.keepAttachment === "0") {
+                // There is no attachment: Delete old attachment.
+                if (!req.file) {
+                    if (escapeRoom.hintApp) {
+                        attHelper.deleteResource(escapeRoom.hintApp.public_id);
+                        escapeRoom.hintApp.destroy();
+                    }
+                    return;
+                }
+
+                return attHelper.checksCloudinaryEnv().
+                    // Save the new attachment into Cloudinary:
+                    then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options_zip)).
+                    then((uploadResult) => {
+                        // Remenber the public_id of the old image.
+                        const old_public_id = escapeRoom.hintApp ? escapeRoom.hintApp.public_id : null; // Update the attachment into the data base.
+
+                        return escapeRoom.getHintApp().
+                            then((att) => {
+                                let hintApp = att;
+
+                                if (!hintApp) {
+                                    hintApp = models.hintApp.build({"escapeRoomId": escapeRoom.id});
+                                }
+                                hintApp.public_id = uploadResult.public_id;
+                                hintApp.url = uploadResult.url;
+                                hintApp.filename = req.file.originalname;
+                                hintApp.mime = req.file.mimetype;
+
+                                return hintApp.save();
+                            }).
+                            then(() => {
+                                req.flash("success", "Fichero guardado con éxito.");
+                                if (old_public_id) {
+                                    attHelper.deleteResource(old_public_id);
+                                }
+                            }).
+                            catch((error) => { // Ignoring image validation errors
+                                req.flash("error", `Error al guardar el fichero: ${error.message}`);
+                                attHelper.deleteResource(uploadResult.public_id);
+                            });
+                    }).
+                    catch((error) => {
+                        req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
+                    });
+            }
+        }).
+        then(() => {
+            res.redirect(back);
+        }).
+        catch(Sequelize.ValidationError, (error) => {
+            error.errors.forEach(({message}) => req.flash("error", message));
+            res.render("escapeRooms/hints", {escapeRoom});
+        }).
+        catch((error) => {
+            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
+            next(error);
+        });
 };

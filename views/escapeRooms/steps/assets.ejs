@@ -1,0 +1,55 @@
+
+<link rel="stylesheet" href="/stylesheets/vendor/dropzone.css">
+<!-- Theme included stylesheets -->
+<% include ../../partials/_header.ejs %>
+<div class="main step-assets">
+    <h2><%=i18n.escapeRoom.steps.assets.title%></h2>
+    <p class="intro-paragraph">
+        <%=i18n.escapeRoom.steps.assets.explanation%>
+    </p>
+
+    <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone animated zoomIn" >
+        <input type="file" name="file" style="display:none;"/>
+    </form>
+    <br/>
+    <br/>
+    <br/>
+    <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/assets' >
+        <div class="align-right flex-buttons">
+            <input id="assets" name="assets" type="hidden" value=""/>
+            <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
+            <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
+            <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
+        </div>
+        <%- include('../../partials/_progress', {progress}) %>
+
+    </form>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+</div>
+
+<% include ../../partials/_footer %>
+<script src="/js/vendor/dropzone.js"></script>
+<script>
+    Dropzone.options.assetsForm = {
+        "paramName": "assets", // The name that will be used to transfer the file
+        "maxFilesize": 10, // MB
+        "accept": function(file, done) {
+            done();
+        },
+        "dictDefaultMessage": "<%=i18n.escapeRoom.steps.assets.dictDefaultMessage%>",
+        "dictFallbackMessage": "<%=i18n.escapeRoom.steps.assets.dictFallbackMessage%>",
+        "dictFileTooBig": "<%=i18n.escapeRoom.steps.assets.dictFileTooBig%>",
+        "dictInvalidFileTypedictResponseError": "<%=i18n.escapeRoom.steps.assets.dictInvalidFileTypedictResponseError%>",
+        "dictCancelUpload": "<%=i18n.escapeRoom.steps.assets.dictCancelUpload%>",
+        "dictUploadCanceled": "<%=i18n.escapeRoom.steps.assets.dictUploadCanceled%>",
+        "dictCancelUploadConfirmation": "<%=i18n.escapeRoom.steps.assets.dictCancelUploadConfirmation%>",
+        "dictRemoveFile": "<%=i18n.escapeRoom.steps.assets.dictRemoveFile%>",
+        "dictRemoveFileConfirmation": "<%=i18n.escapeRoom.steps.assets.dictRemoveFileConfirmation%>",
+        "dictMaxFilesExceeded": "<%=i18n.escapeRoom.steps.assets.dictMaxFilesExceeded%>"
+    };
+</script>
+
+

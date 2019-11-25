@@ -1,3 +1,5 @@
+const {steps} = require("./progress");
+
 module.exports = function (app) {
     const zeroPadding = (d) => {
         if (d < 10) {
@@ -60,4 +62,6 @@ module.exports = function (app) {
             return "var(--brightgreen)";
         }
     };
+
+    app.locals.steps = steps;
 };

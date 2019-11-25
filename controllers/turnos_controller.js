@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
+const {nextStep, prevStep} = require("../helpers/progress");
+
 // Autoload the turn with id equals to :turnId
 
 exports.load = (req, res, next, turnId) => {
@@ -182,3 +184,22 @@ exports.destroy = async (req, res, next) => {
     }
 };
 
+// GET /escapeRooms/:escapeRoomId/turnos
+exports.turnos = (req, res) => {
+    const {escapeRoom} = req;
+    const {turnos} = escapeRoom;
+
+    res.render("escapeRooms/steps/turnos", {escapeRoom,
+        turnos,
+        "progress": "turnos"});
+};
+
+// POST /escapeRooms/:escapeRoomId/turnos
+exports.turnosUpdate = (req, res /* , next*/) => {
+    const {escapeRoom, body} = req;
+
+    const isPrevious = Boolean(body.previous);
+    const progressBar = body.progress;
+    console.log(prevStep("turnos"), nextStep("turnos"))
+    res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("turnos") : progressBar || nextStep("turnos")}`);
+};

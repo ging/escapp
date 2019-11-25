@@ -172,6 +172,19 @@
             "appearance": {
                 "title": "Apariencia"
             },
+            "assets": {
+                "title": "Galería de ficheros",
+                "dictDefaultMessage": "Arrastra los ficheros que necesitas para la escape room",
+                "dictFallbackMessage": "Intenta usar Google Chrome",
+                "dictFileTooBig": "El fichero es demasiado grande",
+                "dictInvalidFileTypedictResponseError": "Tipo de fichero no soportado",
+                "dictCancelUpload": "Cancelar subida",
+                "dictUploadCanceled": "La subida ha sido cancelada",
+                "dictCancelUploadConfirmation": "¿Seguro que deseas cancelar la subida?",
+                "dictRemoveFile": "Borrar fichero",
+                "dictRemoveFileConfirmation": "¿Seguro que deseas borrar este fichero?",
+                "dictMaxFilesExceeded": "Demasiados ficheros"
+            },
             "edit": {
                 "descriptionPlaceHolder": "Escribe la descripción de tu Escape Room. Esta será la información que se les presentará a los alumnos",
                 "durationPlaceHolder": "¿Cual es el tiempo máximo del que disponen los alumnos?",
@@ -210,6 +223,9 @@
                 "feedback": "Retroalimentación",
                 "feedbackExplanation": "¿Deseas que se muestre a los alumnos la solución de las preguntas una vez respondidas?",
                 "hintFile": "Fichero de preguntas",
+                "hintLimit": "Límite de pistas",
+                "hintLimitExplanation": "¿Cuántas pistas pueden obtener los alumnos como máximo?",
+                "hintLimitPlaceholder": "No hay límite",
                 "MoodleXML": "MoodleXML",
                 "noFile": "No has subido ningún fichero",
                 "questionNumber": "Número de preguntas",
@@ -233,6 +249,8 @@
             	"evaluation": "Evaluación"
             },
             "puzzles": {
+                "addNewHint": "añadir pista",
+                "addNewPuzzles": "añadir reto",
             	"automatic": "Automática",
                 "clueName": "Nombre de la pista",
                 "description": "Descripción",
@@ -244,6 +262,7 @@
                 "notYet": "Hasta que crees el reto no puedes asignarle pistas",
                 "placeholder": "Selecciona la monitorización",
                 "puzzleTitle": "Título",
+                "reorder": "Arrastra para reordenar los retos",
                 "solution": "Solución",
                 "subpuzzles": "Subretos",
                 "successMsg": "Mensaje al acertar",

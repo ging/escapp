@@ -41,13 +41,13 @@
 			const lessThanHalfAnHour = ((date - now) / 1000 / 60) < 30;
 			if (lessThanHalfAnHour) {%>
 				<% if (escapeRoom.pretest) { %>
-					<div class="desc centered animated slideInLeft">
+					<!--<div class="desc centered animated slideInLeft">
 						<%=i18n.showStudent.beforeStart%>
 						<br/><br/>
 						<a target="_blank" href="<%=escapeRoom.pretest%>">
 							<button class="rounded"><%=i18n.showStudent.access%></button>
 						</a>
-					</div>
+					</div>-->
 				<% } %>
 				
 			<% } %>
@@ -56,22 +56,22 @@
 			</a>
 		<% } else {%>
 			<% if (escapeRoom.posttest) { %>
-				<div class="desc centered animated slideInLeft">
+				<!--<div class="desc centered animated slideInLeft">
 					<%=i18n.showStudent.beforeLeave%>
 					 <br/><br/>
 					<a target="_blank" href="<%=escapeRoom.posttest%>">
 						<button class="rounded"><%=i18n.showStudent.access%></button>
 					</a> 
 				</div>
-				<br/><br/><br/>
+				<br/><br/><br/>-->
 			<% } %>
 			<% if (escapeRoom.survey) { %>
-				<div class="desc centered animated slideInRight">
+				<!--<div class="desc centered animated slideInRight">
 					<%=i18n.showStudent.opinion%> <br/><br/>
 					<a  target="_blank" href="<%=escapeRoom.survey%>">
 						<button class="rounded"><%=i18n.showStudent.access%></button>
 					</a>
-				</div>
+				</div>-->
 			<% } %>
 		<%}%>
 	</div>

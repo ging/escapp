@@ -12,7 +12,6 @@ module.exports = {up (queryInterface) {
             "teamSize": 2,
             "invitation": "assfdtWeQv",
             "appearance": "litera",
-            "automatic": false,
             "authorId": 1,
             "scoreParticipation": 40,
             "createdAt": new Date(),

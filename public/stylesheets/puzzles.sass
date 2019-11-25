@@ -1,6 +1,8 @@
 $card-background: $textpurple
 #mainSection
   .main
+    .hidden-card
+      display: none
     .puzzle-card
       background-color: white
       border-radius: 10px
@@ -9,7 +11,34 @@ $card-background: $textpurple
       max-width: 800px
       margin: auto
       margin-bottom: 20px
-
+      position: relative
+      &.ui-sortable-helper
+        height: 105px !important
+      &.collapsed
+        h3
+          input
+            border: none
+      h3.showAlways
+        margin-block-end: 0px
+      .ui-sortable-handle
+        -ms-touch-action: none
+        touch-action: none 
+        cursor: grab
+        -ms-user-select: none
+        -moz-user-select: -moz-none
+        -khtml-user-select: none
+        -webkit-user-select: none
+        user-select: none
+      .handle
+        position: absolute
+        top: 5px
+        left: 5px
+        border-radius: 50%
+        padding: 10px
+        margin: -16px
+        background: $brightyellow
+        &.material-icons
+          color: $darkerpurple
       .flex-puzzle-card
         display: flex
         flex-direction: row
@@ -17,6 +46,12 @@ $card-background: $textpurple
         justify-content: flex-start
         div 
           margin-right: 20px
+      .delete-puzzle
+        position: absolute
+        right: 0
+        padding: 0
+        .material-icons
+          color: $lightred
       .material-icons
         color: $brightgreen
       h3
@@ -31,11 +66,15 @@ $card-background: $textpurple
           height: 45px
           padding-left: 30px
           font-weight: bold
+          
       h4
         font-size: 18px
         font-weight: light
         margin-bottom: 3px
-
+        ::placeholder
+            opacity: 0.5
+        .material-icons
+          vertical-align: text-bottom
       p
         font-size: 16px
         font-family: Lato, sans-serif
@@ -45,6 +84,7 @@ $card-background: $textpurple
         font-size: 18px
       input
         width: 100%
+        caret-color: $textpurple !important
       select, input
         height: 32px
         box-sizing: border-box
@@ -58,14 +98,46 @@ $card-background: $textpurple
         border-bottom-width: 2px
         text-align: left
         padding-left: 30px
+        &:-webkit-autofill
+          -webkit-box-shadow: 0 0 0 30px white inset !important
+          -webkit-text-fill-color: $textpurple !important
+          font-family: Lato !important
         &:focus, &:active
           font-family: Lato !important
           background-color: white
           color: $lightred 
           -webkit-text-fill-color: $lightred !important
           border-color: $lightred
+          &:-webkit-autofill
+            -webkit-box-shadow: 0 0 0 30px white inset !important
+            -webkit-text-fill-color: $lightred !important
+            font-family: Lato !important
         option
           font-family: Lato !important
+      .hint-list
+        list-style: none
+        padding-left: 5px
+        .hint-li
+          display: flex
+          margin-bottom: 10px
+          input 
+            flex: 1
+            padding-right: 25px
+          .handle-hint
+            position: absolute
+          .delete-hint
+            position: absolute
+            right: 25px
+            padding: 0
+            .material-icons
+              color: $lightred
+      .add-hint
+        text-align: center
+        .material-icons
+          color: $brightyellow
+
+    #add-puzzle-form
+      text-align: right
     .flex-table-retos-wrapper
       position: relative
       overflow: visible
