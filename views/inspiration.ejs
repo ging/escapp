@@ -1,74 +1,39 @@
 <% include partials/_header.ejs %>
-<%
-var options = {
-	pdf: '../public/pdf/escapp.pdf', // you should use this property or pageCallback and pages to specify your book
-	pages: 51, // amount of pages
-	controlsProps: { // set of optional properties that allow to customize 3D FlipBook control
-		downloadURL: '../public/pdf/escapp.pdf'
-	},
-	propertiesCallback: function(props) { // optional function - it lets to customize 3D FlipBook
-		props.page.depth /= 2;
-		props.cover.binderTexture = 'exampleTexture.jpg';
-		props.cssLayersLoader = function(n, clb) {// n - page number
-			clb([{
-				css: '.heading {margin-top: 200px;background-color: red;}',
-				html: '<h1 class="heading">Hello</h1>',
-				js: function (jContainer) { // jContainer - jQuery element that contains HTML Layer content
-					console.log('init');
-					return { // set of callbacks
-						hide: function() {console.log('hide');},
-						hidden: function() {console.log('hidden');},
-						show: function() {console.log('show');},
-						shown: function() {console.log('shown');},
-						dispose: function() {console.log('dispose');}
-					};
-				}
-			}]);
-		};
-		return props;
-	},
-	template: { // by means this property you can choose appropriate skin
-		html: 'templates/default-book-view.html',
-		styles: [
-			'css/black-book-view.css'// or one of white-book-view.css, short-white-book-view.css, shart-black-book-view.css
-		],
-		links: [{
-			rel: 'stylesheet',
-			href: 'css/font-awesome.min.css'
-		}],
-		script: 'js/default-book-view.js',
-		printStyle: undefined, // or you can set your stylesheet for printing ('print-style.css')
-		sounds: {
-			startFlip: 'sounds/start-flip.mp3',
-			endFlip: 'sounds/end-flip.mp3'
-		},
-		pdfLinks: {
-			handler: function(type, destination) { // type: 'internal' (destination - page number), 'external' (destination - url)
-				return true; // true - prevent default handler, false - call default handler
-			}
-		},
-		autoNavigation: {
-			urlParam: 'fb3d-page', // query param for deep linking
-			navigates: 1 // number of instances that will be navigated automatically
-		}
-	},
-	ready: function() { // optional function - this function executes when loading is complete
+<meta charset="utf-8">
+<title>Source code</title>
+<link rel="stylesheet" href="/pdf/css/style.css">
+<link rel="stylesheet" href="/pdf/css/fontawesome.min.css">
+<link rel="stylesheet" href="/pdf/css/font-awesome.solid.min.css">
+<meta name="viewport" content="width=device-width">
+<script src="/pdf/js/jquery.min.js"></script>
 
-	}
-};
-var book = $('container-selector').FlipBook(options);
-%>
-
-<link rel="stylesheet" href="../public/pdf/css/style.css">
-<script src="../public/pdf/js/jquery.min.js"></script>
-
-<div class="flip-book-container" src="../public/pdf/escapp.pdf">
+<div class="source-link">
+	<a id="show-source" href="#" data="pdf-links-bookmarks">Show source code</a>
 </div>
 
+<div class="sample-container">
+	<div>
 
-<script src="../public/pdf/js/html2canvas.min.js"></script>
-<script src="../public/pdf/js/three.min.js"></script>
-<script src="../public/pdf/js/pdf.min.js"></script>
-<script src="../public/pdf/js/3dflipbook.min.js"></script>
+	</div>
+</div>
+<script src="/pdf/js/html2canvas.min.js"></script>
+<script src="/pdf/js/three.min.js"></script>
+<script src="/pdf/js/pdf.min.js"></script>
+
+<script src="/pdf/js/3dflipbook.min.js"></script>
+
+<script type="text/javascript">
+	$('.sample-container div').FlipBook({
+		pdf: '/escapp.pdf',
+		propertiesCallback: function(props) {
+			props.page.depth *= 0.7;
+			props.cover.padding = 0.002;
+			return props;
+		},
+		controlsProps: {
+			downloadURL: 'guia.pdf'
+		}
+	});
+</script>
 
 <% include partials/_footer.ejs %>
