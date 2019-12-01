@@ -93,6 +93,7 @@ router.post("/escapeRooms/:escapeRoomId(\\d+)/hints", sessionController.loginReq
 router.get("/escapeRooms/:escapeRoomId(\\d+)/assets", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, assetsController.assets);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/assets", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, upload.single("assets"), assetsController.assetsUpdate);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/uploadAssets", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, upload.single("assets"), assetsController.uploadAssets);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/deleteAssets/:assetId(\\d+)", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, assetsController.deleteAssets);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/evaluation", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.evaluation);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/evaluation", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.evaluationUpdate);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/instructions", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.instructions);

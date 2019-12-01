@@ -236,9 +236,37 @@
     text-align: center;
     display: block;
     cursor: pointer;
-    border: none; }
+    color: var(--lightred);
+    border: none; 
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    webkit-transition: opacity 0.2s linear;
+    -moz-transition: opacity 0.2s linear;
+    -ms-transition: opacity 0.2s linear;
+    -o-transition: opacity 0.2s linear;
+    transition: opacity 0.2s linear;
+    position: absolute;
+    bottom: -9px;
+    right: -7px;
+    z-index: 100;
+    background: white;
+    padding: 3px;
+    border-radius: 8px;
+}
 .dropzone .dz-preview .dz-remove:hover {
-    text-decoration: underline; }
+    transform: scale(1.1);
+}
 .dropzone .dz-preview:hover .dz-details {
     opacity: 1; }
 .dropzone .dz-preview .dz-details {
@@ -246,7 +274,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0;
+    opacity: 1;
     font-size: 13px;
     min-width: 100%;
     max-width: 100%;
@@ -288,6 +316,7 @@
     display: block;
     z-index: 10; }
 .dropzone .dz-preview .dz-image img {
+    width: 100%;
     display: block; }
 .dropzone .dz-preview.dz-success .dz-success-mark {
     -webkit-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
@@ -439,3 +468,6 @@
     height: 58px;
     left: 50%;
     margin-left: -27px; }
+.dz-size {
+    display: none;
+}

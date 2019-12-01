@@ -12,6 +12,7 @@ exports.load = {
             "include": [{"model": models.hint}]
         },
         models.attachment,
+        models.asset,
         models.hintApp,
         {"model": models.user,
             "as": "author"}

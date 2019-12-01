@@ -243,7 +243,8 @@
             	"edit":"Configuración básica",
             	"turnos": "Turnos",
             	"puzzles": "Retos",
-            	"hints": "Pistas",
+                "hints": "Pistas",
+            	"assets": "Galería de ficheros",
             	"instructions": "Instrucciones",
             	"appearance": "Apariencia",
             	"evaluation": "Evaluación"
