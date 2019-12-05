@@ -201,7 +201,9 @@
 .dropzone.dz-started .dz-message {
     display: none; }
 .dropzone.dz-drag-hover {
-    border-style: solid; }
+    outline: 4px dashed var(--lightred);
+    outline-offset: -12px;
+}
 .dropzone.dz-drag-hover .dz-message {
     opacity: 0.5; }
 .dropzone .dz-message {
@@ -471,3 +473,5 @@
 .dz-size {
     display: none;
 }
+
+
