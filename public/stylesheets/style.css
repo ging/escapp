@@ -33,35 +33,41 @@ button, input[type="submit"] {
     height: 42px;
     outline: 0; }
   button.registro, input[type="submit"].registro {
-    background-color: #FAC855;
-    color: #161938;
-    border: #FAC855;
     border-radius: 20px;
     text-align: center;
     font-size: medium;
     width: 100%;
     height: 42px;
-    outline: 0; }
-  button.editButton, input[type="submit"].editButton {
+    outline: 0;
     background-color: #FAC855;
     color: #161938;
+    border: #FAC855; }
+  button.editButton, input[type="submit"].editButton {
+    margin: 0;
+    padding: 0;
+    list-style: none;
     font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
     border-radius: 5px;
-    border-color: #FAC855;
     border-style: solid;
     padding: 10px;
     text-align: center;
-    outline: 0; }
+    outline: 0;
+    background-color: #FAC855;
+    border-color: #FAC855;
+    color: #161938; }
   button.deleteButton, input[type="submit"].deleteButton {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    outline: 0;
     background-color: #F47E84;
     color: #161938;
-    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
-    border-radius: 5px;
-    border-color: #F47E84;
-    border-style: solid;
-    padding: 10px;
-    text-align: center;
-    outline: 0; }
+    border-color: #F47E84; }
   button.playButton, input[type="submit"].playButton {
     background-color: #FF6347;
     color: #161938;
@@ -1086,6 +1092,61 @@ button, input[type="submit"] {
       color: #F47E84; }
       #mainSection .main.step-instructions .editor-wrapper #editor .ql-active *, #mainSection .main.step-instructions .editor-wrapper #editor .ql-snow.ql-toolbar button:hover * {
         stroke: #F47E84; }
+
+#mainSection .main.step-instructions #dialog-gallery {
+  padding: 0;
+  background-color: white;
+  outline: none;
+  border: none; }
+
+#mainSection .main.step-instructions .ui-dialog {
+  outline: none !important;
+  box-shadow: 2px 2px 10px #cecece;
+  background: white; }
+
+#mainSection .main.step-instructions .ui-dialog-title {
+  line-height: 50px;
+  padding-left: 10px; }
+
+#mainSection .main.step-instructions .ui-dialog-titlebar-close {
+  visibility: hidden;
+  float: right;
+  width: 50px; }
+
+#mainSection .main.step-instructions .ui-button-icon-space {
+  visibility: visible; }
+  #mainSection .main.step-instructions .ui-button-icon-space:after {
+    content: '\e5cd';
+    font-family: 'Material Icons'; }
+
+#mainSection .main.step-instructions .ui-dialog .ui-dialog-titlebar, #mainSection .main.step-instructions h3 {
+  background: white !important;
+  border-color: white !important;
+  color: #F47E84; }
+
+#mainSection .main.step-instructions #assetsForm .dz-preview.file-selected .dz-image {
+  border: 2px solid #48C18E; }
+
+#mainSection .main.step-instructions .ui-dialog-buttonset {
+  text-align: right;
+  padding: 5px; }
+  #mainSection .main.step-instructions .ui-dialog-buttonset .ui-button {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    outline: 0;
+    border-radius: 25px !important;
+    padding: 8px 25px !important;
+    font-size: 18px; }
+    #mainSection .main.step-instructions .ui-dialog-buttonset .ui-button:first-child {
+      background-color: #48C18E; }
+    #mainSection .main.step-instructions .ui-dialog-buttonset .ui-button:last-child {
+      background-color: #F47E84; }
 
 #mainSection .main.student {
   background-image: url("../images/puzzle_bg.png");

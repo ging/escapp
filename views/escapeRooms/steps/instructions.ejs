@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="/stylesheets/vendor/dropzone.css">
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
 <script src="/js/vendor/quill.min.js"></script>
 <script src="/js/vendor/image-resize.min.js"></script>
@@ -26,16 +26,40 @@
           <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
           <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
           <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
-    </div>
-        <%- include('../../partials/_progress', {progress}) %>
+      </div>
+      <%- include('../../partials/_progress', {progress}) %>
 
     </form>
     <br/>
     <br/>
     <br/>
     <br/>
+    <!-- BEGIN Gallery files -->
+    <div id="dialog-gallery" title="Gallery">
+      <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone" >
+          <input type="file" name="file" style="display:none;"/>
+      </form>
+    </div>
+    <script src="/js/vendor/dropzone.js"></script>
+    <script>
+      <%
+        const assets = escapeRoom.assets.map(a => {
+          const { id, public_id, url, mime, filename } = a;
+          return { id, public_id, url, mime, name: filename };
+        });
+      %>
+      var assets  = <%- JSON.stringify(assets) %>;
+      var escapeRoomId = <%=escapeRoom.id%>;
+      var i18nMsg = <%- JSON.stringify(i18n.escapeRoom.steps.assets)%>;
+
+    </script>
+    <script src="/js/assets.js"></script>
+    <!-- END Gallery files -->
+
 </div>
 
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <% include ../../partials/_footer %>
 <script src="/js/instructions.js">
 

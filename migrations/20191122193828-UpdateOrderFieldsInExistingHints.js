@@ -12,9 +12,11 @@ module.exports = {
                 }
             ]
         });
-        for (let puzzle of (puzzles || [])) {
-            for (let order in (puzzle.hints || [])){
-                let {id} = puzzle.hints[order];
+
+        for (const puzzle of puzzles || []) {
+            for (const order in puzzle.hints || []) {
+                const {id} = puzzle.hints[order];
+
                 await models.hint.update({order}, {"where": {id}});
             }
         }

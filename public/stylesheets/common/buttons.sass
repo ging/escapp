@@ -1,3 +1,16 @@
+@mixin common-button
+  margin: 0
+  padding: 0
+  list-style: none
+  font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
+  border-radius: 5px
+  border-style: solid
+  padding: 10px
+  text-align: center
+  outline: 0
+
+
+
 button, input[type="submit"]
   background-color: white
   color: $darkerpurple
@@ -29,37 +42,27 @@ button, input[type="submit"]
     outline: 0
 
   &.registro
-    background-color: $brightyellow
-    color: $darkerpurple
-    border: $brightyellow
     border-radius: 20px
     text-align: center
     font-size: medium
     width: 100%
     height: 42px
     outline: 0
-
-  &.editButton
     background-color: $brightyellow
     color: $darkerpurple
-    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
-    border-radius: 5px
+    border: $brightyellow
+
+  &.editButton
+    @include common-button
+    background-color: $brightyellow
     border-color: $brightyellow
-    border-style: solid
-    padding: 10px
-    text-align: center
-    outline: 0
+    color: $darkerpurple
 
   &.deleteButton
+    @include common-button
     background-color: $lightred
     color: $darkerpurple
-    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
-    border-radius: 5px
     border-color: $lightred
-    border-style: solid
-    padding: 10px
-    text-align: center
-    outline: 0
 
   &.playButton
     background-color: #FF6347

@@ -7,12 +7,18 @@ const {nextStep, prevStep} = require("../helpers/progress");
 // GET /escapeRooms/:escapeRoomId/assets
 exports.assets = (req, res) => {
     const {escapeRoom} = req;
-    const assets = escapeRoom.assets.map(a => {
-        const { id, public_id, url, mime, filename } = a;
-        return { id, public_id, url, mime, name: filename };
+    const assets = escapeRoom.assets.map((a) => {
+        const {id, public_id, url, mime, filename} = a;
+
+        return {id,
+            public_id,
+            url,
+            mime,
+            "name": filename};
     });
-    console.log(assets)
-    res.render("escapeRooms/steps/assets", {escapeRoom, assets,
+
+    res.render("escapeRooms/steps/assets", {escapeRoom,
+        assets,
         "progress": "assets"});
 };
 
@@ -22,60 +28,61 @@ exports.assetsUpdate = (req, res /* , next*/) => {
 
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
+
     res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("assets") : progressBar || nextStep("assets")}`);
 };
 
 // POST /escapeRooms/:escapeRoomId/uploadAssets
 exports.uploadAssets = (req, res) => {
-    const {escapeRoom, body, assets} = req;
+    const {escapeRoom, body} = req;
+
     console.log(req.file);
-    attHelper.checksCloudinaryEnv()
+    attHelper.checksCloudinaryEnv().
         // Save the new asset into Cloudinary:
-        .then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options_zip))
-        .then((uploadResult) => {
+        then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options_zip)).
+        then((uploadResult) =>
             // Remenber the public_id of the old asset.
-            return models.asset.build({
+            models.asset.build({
                 "escapeRoomId": escapeRoom.id,
                 "public_id": uploadResult.public_id,
                 "url": uploadResult.url,
                 "filename": req.file.originalname,
                 "mime": req.file.mimetype
-            })
-            .save()
-            .then((saved) => {
-                res.json({id:saved.id});
             }).
-            catch(Sequelize.ValidationError, (error) => {
-                res.status(500);
-                res.send(req.app.locals.i18n.common.flash.errorFile);
-                console.error(error);
-                attHelper.deleteResource(uploadResult.public_id);
-            })
-        })
-        .catch((error) => {
+                save().
+                then((saved) => {
+                    res.json({"id": saved.id});
+                }).
+                catch(Sequelize.ValidationError, (error) => {
+                    res.status(500);
+                    res.send(req.app.locals.i18n.common.flash.errorFile);
+                    console.error(error);
+                    attHelper.deleteResource(uploadResult.public_id);
+                })).
+        catch((error) => {
             res.status(500);
             res.send(req.app.locals.i18n.common.flash.errorFile);
             console.error(error);
         });
-}
+};
 
 exports.deleteAssets = (req, res) => {
-    let { assetId } = req.params;
-    let asset = req.escapeRoom.assets.find(a=> a.id == assetId);
+    const {assetId} = req.params;
+    const asset = req.escapeRoom.assets.find((a) => a.id == assetId);
+
     if (asset) {
         attHelper.deleteResource(asset.public_id);
-        asset.destroy().then(()=>{
-            res.json({msg: "ok"})
-        })
-        .catch(err => {
-            res.status(500);
-            console.log(err)
-            res.json({msg: "Error"});
-        });
+        asset.destroy().then(() => {
+            res.json({"msg": "ok"});
+        }).
+            catch((err) => {
+                res.status(500);
+                console.log(err);
+                res.json({"msg": "Error"});
+            });
     } else {
         res.status(404);
-        console.log("asdads")
-        res.json({msg: "Not found"});
+        console.log("asdads");
+        res.json({"msg": "Not found"});
     }
-
-}
+};

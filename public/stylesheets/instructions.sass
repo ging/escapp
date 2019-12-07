@@ -17,3 +17,46 @@
             color: $lightred
             *
               stroke: $lightred
+      #dialog-gallery
+        padding: 0
+        background-color: white
+        outline: none
+        border: none
+        borderb-o
+      .ui-dialog
+        outline: none !important
+        box-shadow: 2px 2px 10px #cecece
+        background: white
+      .ui-dialog-title
+        line-height: 50px
+        padding-left: 10px
+      .ui-dialog-titlebar-close
+        visibility: hidden
+        float: right
+        width: 50px
+      .ui-button-icon-space
+        visibility: visible
+        &:after
+          content: '\e5cd'
+          font-family: 'Material Icons'
+      .ui-dialog .ui-dialog-titlebar, h3
+        background: white !important
+        border-color: white !important
+        color: $lightred
+      #assetsForm
+        .dz-preview
+          &.file-selected
+            .dz-image
+              border: 2px solid $brightgreen
+      .ui-dialog-buttonset
+        text-align: right
+        padding: 5px
+        .ui-button
+          @include common-button
+          border-radius: 25px !important
+          padding: 8px 25px !important
+          font-size: 18px
+          &:first-child
+            background-color: $brightgreen
+          &:last-child
+            background-color: $lightred

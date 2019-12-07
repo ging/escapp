@@ -33,64 +33,10 @@
 <% include ../../partials/_footer %>
 <script src="/js/vendor/dropzone.js"></script>
 <script>
-    Dropzone.options.assetsForm = {
-        "paramName": "assets", // The name that will be used to transfer the file
-        "maxFilesize": 10, // MB
-        "addRemoveLinks": true,
-        "accept": function(file, done) {
-            done();
-        },
-        "success": function(file, {id}) {
-           file.id = id;
-           console.log(file)
-        },
-        "removedfile": function(file) {
-            if (file.id) {
-                fetch("/escapeRooms/<%=escapeRoom.id%>/deleteAssets/" + file.id + "?method=DELETE",
-                 {method: "POST"})
-                .then(res=> {
-                    if (res.status === 200) {
-                        res.json()
-                         .then(msg => file.previewElement.remove())
-                    } else {
-                        res.json()
-                         .then(msg => {throw new Error(msg.msg)})
-                    }
-                })
-                .catch(err=> alert(err))
-            } else {
-                file.previewElement.remove();
-            }
-           
-        },
-        "dictDefaultMessage": "<%=i18n.escapeRoom.steps.assets.dictDefaultMessage%>",
-        "dictFallbackMessage": "<%=i18n.escapeRoom.steps.assets.dictFallbackMessage%>",
-        "dictFileTooBig": "<%=i18n.escapeRoom.steps.assets.dictFileTooBig%>",
-        "dictInvalidFileTypedictResponseError": "<%=i18n.escapeRoom.steps.assets.dictInvalidFileTypedictResponseError%>",
-        "dictCancelUpload": "clear",
-        "dictUploadCanceled": "<%=i18n.escapeRoom.steps.assets.dictUploadCanceled%>",
-        "dictCancelUploadConfirmation": "<%=i18n.escapeRoom.steps.assets.dictCancelUploadConfirmation%>",
-        "dictRemoveFile": "delete",
-        "dictRemoveFileConfirmation": "<%=i18n.escapeRoom.steps.assets.dictRemoveFileConfirmation%>",
-        "dictMaxFilesExceeded": "<%=i18n.escapeRoom.steps.assets.dictMaxFilesExceeded%>"
-    };
-
-
-    $(function(){
-        var assets = <%- JSON.stringify(assets) %>;
-        var dropzone = $("#assetsForm").get(0).dropzone;
-        for (let a of assets) {
-            let mockFile = { name: a.name, id: a.id };
-            dropzone.files.push(mockFile)
-            dropzone.options.addedfile.call(dropzone, mockFile);
-            if (a.mime.match("image")) {
-                dropzone.options.thumbnail.call(dropzone, mockFile, a.url);           
-            }
-        }
-
-
-
-    });
+    var assets = <%- JSON.stringify(assets) %>;
+    var escapeRoomId = <%=escapeRoom.id%>;
+    var i18nMsg = <%- JSON.stringify(i18n.escapeRoom.steps.assets)%>
 </script>
+<script src="/js/assets.js"></script>
 
 
