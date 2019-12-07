@@ -84,7 +84,7 @@ $(function(){
                     quill.insertEmbed(range.index, 'video', value.url, Quill.sources.USER);
                 } else if (value.mime.match("audio")) {
                     quill.insertEmbed(range.index, 'audio', value.url, Quill.sources.USER);
-                } else if (value.mime.match("pdf")) {
+                } else {
                     quill.insertText(0, "");
                     var delta = {
                       ops: [
@@ -93,9 +93,7 @@ $(function(){
                       ]
                     };
                     quill.updateContents(delta);
-
                 }
-
             } 
             $(".file-selected").removeClass("file-selected");
             value = null;
