@@ -1,4 +1,11 @@
 $(function(){
+    const icons = Quill.import('ui/icons');
+    icons.image = `<svg height="24px" id="Layer_1" version="1.1" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g>
+            <path class="ql-even ql-stroke"  d="M23,4V2.1C23,1.5,22.5,1,21.9,1H9.8L9,0H1.1C0.5,0,0,0.5,0,1.1v21.8C0,23.5,0.5,24,1.1,24h21.8c0.6,0,1.1-0.5,1.1-1.1V5.1   C24,4.5,23.6,4.1,23,4z M22,22H2V2h6l3,4h11V22z M22,4H12l-1.5-2H22V4z"/>
+            <polygon class="ql-even ql-stroke"  points="11,9 11,13 7,13 7,15 11,15 11,19 13,19 13,15 17,15 17,13 13,13 13,9  "/>
+        </g>
+    </svg>`;
 
     var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -15,13 +22,13 @@ $(function(){
 
         //  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
         [{ 'align': [] }],
-        ['image'],
-        ['clean']                                         // remove formatting button
+        ['clean'],                                         // remove formatting button
+        ['image']
     ];
-    var range, value, quill;
+    var range, fileSelected, quill;
     function imageHandler() {
-        range = this.quill.getSelection();
         quill = this.quill;
+        range = quill.getSelection();
         $( "#dialog-gallery" ).dialog( "open" );
         return false;
     }
@@ -77,26 +84,38 @@ $(function(){
       appendTo: '.main',
       buttons: {
         "accept": function () {
-            if(value && value.mime){
-                if (value.mime.match("image")) {
-                    quill.insertEmbed(range.index, 'image', value.url, Quill.sources.USER);
-                } else if (value.mime.match("video")) {
-                    quill.insertEmbed(range.index, 'video', value.url, Quill.sources.USER);
-                } else if (value.mime.match("audio")) {
-                    quill.insertEmbed(range.index, 'audio', value.url, Quill.sources.USER);
-                } else {
-                    quill.insertText(0, "");
-                    var delta = {
-                      ops: [
-                        {retain: 1},
-                        {insert: value.name, attributes: {link: value.url}}
-                      ]
-                    };
-                    quill.updateContents(delta);
+            const selected = $('input[name=file-gallery-source]:checked').attr('id');
+            if (selected === 'sourceFile') {
+                if(fileSelected && fileSelected.mime){
+                    if (fileSelected.mime.match("image")) {
+                        quill.insertEmbed(range.index, 'image', fileSelected.url, Quill.sources.USER);
+                    } else if (fileSelected.mime.match("video")) {
+                        quill.insertEmbed(range.index, 'video', fileSelected.url, Quill.sources.USER);
+                    } else if (fileSelected.mime.match("audio")) {
+                        quill.insertEmbed(range.index, 'audio', fileSelected.url, Quill.sources.USER);
+                    } else {
+                        quill.insertText(0, "");
+                        var delta = {
+                          ops: [
+                            {retain: 1},
+                            {insert: fileSelected.name, attributes: {link: fileSelected.url}}
+                          ]
+                        };
+                        quill.updateContents(delta);
+                    }
+                } 
+            } else if (selected === "sourceUrl") {
+                const url = $('#urlInput').val();
+                if (url) {
+                    const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
+                    if (youtube && youtube[5]) {
+                        quill.insertEmbed(range.index, 'video', url, Quill.sources.USER);
+                    }
                 }
-            } 
+            }
+            
             $(".file-selected").removeClass("file-selected");
-            value = null;
+            fileSelected = null;
             $( "#dialog-gallery" ).dialog( "close" );
         },
         "cancel": function () {
@@ -110,8 +129,15 @@ $(function(){
         $(".file-selected").removeClass("file-selected");
         let parent = $(this).parent('.dz-preview');
         const idx = $('.dz-preview').index(parent);
-        value = Dropzone.instances[0].files[idx];
+        fileSelected = Dropzone.instances[0].files[idx];
         parent.addClass("file-selected");
+        $('#sourceUrl').prop('checked', false);
+        $('#sourceFile').prop('checked', true);
+    });
+
+    $(document).on('click','#urlInput', function(){
+        $('#sourceUrl').prop('checked', true);
+        $('#sourceFile').prop('checked', false);
     });
 
 });

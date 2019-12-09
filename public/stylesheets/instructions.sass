@@ -17,6 +17,12 @@
             color: $lightred
             *
               stroke: $lightred
+        .ql-image
+          fill: #444
+          &:hover
+            fill: #F47E84
+          svg
+            stroke-width: 0.5
       #dialog-gallery
         padding: 0
         background-color: white
@@ -30,6 +36,8 @@
       .ui-dialog-title
         line-height: 50px
         padding-left: 10px
+        color: $textpurple
+        font-size: 16px
       .ui-dialog-titlebar-close
         visibility: hidden
         float: right
@@ -43,6 +51,36 @@
         background: white !important
         border-color: white !important
         color: $lightred
+      .gallery-msg
+        color: $textpurple
+        font-family: Lato, sans-serif !important
+        font-size: 0.8em
+        padding: 25px
+        padding-top: 0px
+        padding-bottom: 0px
+        label
+          font-family: inherit !important
+        input[type=radio]
+          height: 14px
+        .fileUrlInput
+          background: none
+          border: none
+          color: $textpurple !important
+          font-family: Lato, sans-serif !important
+          font-size: 0.8em
+          -webkit-text-fill-color: $textpurple !important
+          padding-left: 0px
+          text-align: left
+          width: 70%
+          border-bottom: 2px solid $lightred
+          border-radius: 0px
+          padding-bottom: 0px
+          height: 2em
+          margin-bottom: 1em
+          caret-color: $textpurple
+          &:hover, &:active, &:focus
+            color: $lightred !important
+            -webkit-text-fill-color: $lightred !important
       #assetsForm
         .dz-preview
           &.file-selected

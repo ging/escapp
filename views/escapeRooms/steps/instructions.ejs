@@ -36,6 +36,14 @@
     <br/>
     <!-- BEGIN Gallery files -->
     <div id="dialog-gallery" title="Gallery">
+      <p class="gallery-msg">
+
+      <label><input type="radio" id="sourceUrl" name="file-gallery-source" checked="checked" value="url"/>Introduce la URL</label>
+      <br/>
+      <input type="url" id="urlInput" class="fileUrlInput" placeholder="http://" />
+      <br/>
+      <label><input type="radio" id="sourceFile" name="file-gallery-source" value="url"/>Selecciona el fichero de la lista</label>
+      </p>
       <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone" >
           <input type="file" name="file" style="display:none;"/>
       </form>

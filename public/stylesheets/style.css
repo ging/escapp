@@ -1092,6 +1092,12 @@ button, input[type="submit"] {
       color: #F47E84; }
       #mainSection .main.step-instructions .editor-wrapper #editor .ql-active *, #mainSection .main.step-instructions .editor-wrapper #editor .ql-snow.ql-toolbar button:hover * {
         stroke: #F47E84; }
+  #mainSection .main.step-instructions .editor-wrapper .ql-image {
+    fill: #444; }
+    #mainSection .main.step-instructions .editor-wrapper .ql-image:hover {
+      fill: #F47E84; }
+    #mainSection .main.step-instructions .editor-wrapper .ql-image svg {
+      stroke-width: 0.5; }
 
 #mainSection .main.step-instructions #dialog-gallery {
   padding: 0;
@@ -1106,7 +1112,9 @@ button, input[type="submit"] {
 
 #mainSection .main.step-instructions .ui-dialog-title {
   line-height: 50px;
-  padding-left: 10px; }
+  padding-left: 10px;
+  color: #656683;
+  font-size: 16px; }
 
 #mainSection .main.step-instructions .ui-dialog-titlebar-close {
   visibility: hidden;
@@ -1123,6 +1131,37 @@ button, input[type="submit"] {
   background: white !important;
   border-color: white !important;
   color: #F47E84; }
+
+#mainSection .main.step-instructions .gallery-msg {
+  color: #656683;
+  font-family: Lato, sans-serif !important;
+  font-size: 0.8em;
+  padding: 25px;
+  padding-top: 0px;
+  padding-bottom: 0px; }
+  #mainSection .main.step-instructions .gallery-msg label {
+    font-family: inherit !important; }
+  #mainSection .main.step-instructions .gallery-msg input[type=radio] {
+    height: 14px; }
+  #mainSection .main.step-instructions .gallery-msg .fileUrlInput {
+    background: none;
+    border: none;
+    color: #656683 !important;
+    font-family: Lato, sans-serif !important;
+    font-size: 0.8em;
+    -webkit-text-fill-color: #656683 !important;
+    padding-left: 0px;
+    text-align: left;
+    width: 70%;
+    border-bottom: 2px solid #F47E84;
+    border-radius: 0px;
+    padding-bottom: 0px;
+    height: 2em;
+    margin-bottom: 1em;
+    caret-color: #656683; }
+    #mainSection .main.step-instructions .gallery-msg .fileUrlInput:hover, #mainSection .main.step-instructions .gallery-msg .fileUrlInput:active, #mainSection .main.step-instructions .gallery-msg .fileUrlInput:focus {
+      color: #F47E84 !important;
+      -webkit-text-fill-color: #F47E84 !important; }
 
 #mainSection .main.step-instructions #assetsForm .dz-preview.file-selected .dz-image {
   border: 2px solid #48C18E; }
