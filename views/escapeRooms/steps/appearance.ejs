@@ -13,7 +13,8 @@
     </div>
     <div class="right-half-flex">
       <div class="preview">
-        <iframe id="previewIframe" class="animated slideInDown" src='/escapeRooms/<%= escapeRoom.id %>/preview?appearance=<%=escapeRoom.appearance%>'></iframe>
+        <iframe id="previewIframe" allowfullscreen="allowfullscreen" class="animated slideInDown" src='/escapeRooms/<%= escapeRoom.id %>/preview?appearance=<%=escapeRoom.appearance%>'></iframe>
+        <!-- <button id="previewFullScreen"> [ ] </button> -->
       </div>
     </div>
   </div>
@@ -43,6 +44,11 @@
             }
             $('#previewIframe').attr('src', url + this.id);
             this.classList.add('selected')
+        });
+
+        $('#previewFullScreen').on('click', function(){
+
+            document.querySelector("#previewIframe").requestFullscreen();
         })
 
     })

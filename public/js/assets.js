@@ -6,8 +6,10 @@
         "accept": function(file, done) {
             done();
         },
-        "success": function(file, {id}) {
+        "success": function(file, {id, url}) {
            file.id = id;
+           file.mime = file.type;
+           file.url = url;
         },
         "removedfile": function(file) {
             if (file.id) {

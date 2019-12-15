@@ -48,7 +48,7 @@ exports.uploadAssets = (req, res) => {
         }).
             save().
             then((saved) => {
-                res.json({"id": saved.id});
+                res.json({"id": saved.id, "url": uploadResult.url});
             }).
             catch(Sequelize.ValidationError, (error) => {
                 res.status(500);

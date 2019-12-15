@@ -1,5 +1,23 @@
 $(function(){
     const icons = Quill.import('ui/icons');
+
+    const BlockEmbed = Quill.import('blots/block/embed');
+    class AudioBlot extends BlockEmbed {
+      static create(url) {
+        let node = super.create();
+        node.setAttribute('src', url);
+        node.setAttribute('controls', '');
+        return node;
+      }
+      
+      static value(node) {
+        return node.getAttribute('src');
+      }
+    }
+    AudioBlot.blotName = 'audio';
+    AudioBlot.tagName = 'audio';
+    Quill.register(AudioBlot);
+    
     icons.image = `<svg height="24px" id="Layer_1" version="1.1" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g>
             <path class="ql-even ql-stroke"  d="M23,4V2.1C23,1.5,22.5,1,21.9,1H9.8L9,0H1.1C0.5,0,0,0.5,0,1.1v21.8C0,23.5,0.5,24,1.1,24h21.8c0.6,0,1.1-0.5,1.1-1.1V5.1   C24,4.5,23.6,4.1,23,4z M22,22H2V2h6l3,4h11V22z M22,4H12l-1.5-2H22V4z"/>
@@ -25,6 +43,7 @@ $(function(){
         ['clean'],                                         // remove formatting button
         ['image']
     ];
+
     var range, fileSelected, quill;
     function imageHandler() {
         quill = this.quill;
@@ -50,6 +69,7 @@ $(function(){
         $('#instructions').val( (content));
         return true;
     });
+
     editor.clipboard.addMatcher (Node.ELEMENT_NODE, function (node, delta) {
         const attributes = {
             'font': false,
@@ -109,14 +129,14 @@ $(function(){
                 if (url) {
                     const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
                     if (youtube && youtube[5]) {
-                        quill.insertEmbed(range.index, 'video', url, Quill.sources.USER);
+                        quill.insertEmbed(range.index, 'video', "https://www.youtube.com/embed/" + youtube[5] , Quill.sources.USER);
                     }
                 }
             }
             
             $(".file-selected").removeClass("file-selected");
             fileSelected = null;
-            $( "#dialog-gallery" ).dialog( "close" );
+            $( "#dialog-gallery" ).dialog("close");
         },
         "cancel": function () {
             $(".file-selected").removeClass("file-selected");
