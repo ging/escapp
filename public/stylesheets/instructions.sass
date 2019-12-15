@@ -83,6 +83,16 @@
             -webkit-text-fill-color: $lightred !important
       #assetsForm
         .dz-preview
+          * 
+            cursor: pointer
+          .dz-image
+              border: 2px solid #fff
+              img
+                object-fit: cover
+                height: 100%
+                opacity: 0
+              img[src]
+                opacity: 1
           &.file-selected
             .dz-image
               border: 2px solid $brightgreen

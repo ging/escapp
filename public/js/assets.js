@@ -44,11 +44,12 @@
 $(function(){
     var dropzone = $("#assetsForm").get(0).dropzone;
     for (let a of assets) {
-        let mockFile = { name: a.name, id: a.id, url: a.url, mime: a.mime};
+        let mockFile = { name: a.name, id: a.id, url: a.url, mime: a.mime, status: "success"};
         dropzone.files.push(mockFile)
         dropzone.options.addedfile.call(dropzone, mockFile);
         if (a.mime.match("image")) {
             dropzone.options.thumbnail.call(dropzone, mockFile, a.url);           
         }
+        mockFile.previewElement.classList.add('dz-complete');
     }
 });

@@ -17,7 +17,7 @@ $(function(){
     AudioBlot.blotName = 'audio';
     AudioBlot.tagName = 'audio';
     Quill.register(AudioBlot);
-    
+
     icons.image = `<svg height="24px" id="Layer_1" version="1.1" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g>
             <path class="ql-even ql-stroke"  d="M23,4V2.1C23,1.5,22.5,1,21.9,1H9.8L9,0H1.1C0.5,0,0,0.5,0,1.1v21.8C0,23.5,0.5,24,1.1,24h21.8c0.6,0,1.1-0.5,1.1-1.1V5.1   C24,4.5,23.6,4.1,23,4z M22,22H2V2h6l3,4h11V22z M22,4H12l-1.5-2H22V4z"/>
@@ -88,6 +88,25 @@ $(function(){
         return delta;
     });
 
+    const insertContent = (index, url = "", mime = "", name = "") => {
+        if (mime.match("image")) {
+            quill.insertEmbed(index, 'image', url, Quill.sources.USER);
+            quill.formatText(index, 1, 'width', '30%');
+        } else if (mime.match("video")) {
+            quill.insertEmbed(index, 'video', url, Quill.sources.USER);
+        } else if (mime.match("audio")) {
+            quill.insertEmbed(index, 'audio', url, Quill.sources.USER);
+        } else {
+            quill.insertText(0, "");
+            var delta = {
+              ops: [
+                {retain: 1},
+                {insert: name, attributes: {link: url}}
+              ]
+            };
+            quill.updateContents(delta);
+        }
+    }
     $("#dialog-gallery").dialog({
       autoOpen: false,
       resizable: false,
@@ -107,29 +126,26 @@ $(function(){
             const selected = $('input[name=file-gallery-source]:checked').attr('id');
             if (selected === 'sourceFile') {
                 if(fileSelected && fileSelected.mime){
-                    if (fileSelected.mime.match("image")) {
-                        quill.insertEmbed(range.index, 'image', fileSelected.url, Quill.sources.USER);
-                    } else if (fileSelected.mime.match("video")) {
-                        quill.insertEmbed(range.index, 'video', fileSelected.url, Quill.sources.USER);
-                    } else if (fileSelected.mime.match("audio")) {
-                        quill.insertEmbed(range.index, 'audio', fileSelected.url, Quill.sources.USER);
-                    } else {
-                        quill.insertText(0, "");
-                        var delta = {
-                          ops: [
-                            {retain: 1},
-                            {insert: fileSelected.name, attributes: {link: fileSelected.url}}
-                          ]
-                        };
-                        quill.updateContents(delta);
-                    }
+                    const mime = fileSelected.mime;
+                    insertContent(range.index, fileSelected.url, fileSelected.mime, fileSelected.name);
                 } 
             } else if (selected === "sourceUrl") {
-                const url = $('#urlInput').val();
+                let url = $('#urlInput').val();
                 if (url) {
                     const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
                     if (youtube && youtube[5]) {
                         quill.insertEmbed(range.index, 'video', "https://www.youtube.com/embed/" + youtube[5] , Quill.sources.USER);
+                    } else {
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.open('HEAD', url);
+                        xhttp.onreadystatechange = function () {
+                            if (this.readyState == this.DONE) {
+                                const mime = this.getResponseHeader("Content-Type");
+                                insertContent(range.index, url, mime, url);
+
+                            }
+                        };
+                        xhttp.send();
                     }
                 }
             }

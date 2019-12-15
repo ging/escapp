@@ -1163,6 +1163,18 @@ button, input[type="submit"] {
       color: #F47E84 !important;
       -webkit-text-fill-color: #F47E84 !important; }
 
+#mainSection .main.step-instructions #assetsForm .dz-preview * {
+  cursor: pointer; }
+
+#mainSection .main.step-instructions #assetsForm .dz-preview .dz-image {
+  border: 2px solid #fff; }
+  #mainSection .main.step-instructions #assetsForm .dz-preview .dz-image img {
+    object-fit: cover;
+    height: 100%;
+    opacity: 0; }
+  #mainSection .main.step-instructions #assetsForm .dz-preview .dz-image img[src] {
+    opacity: 1; }
+
 #mainSection .main.step-instructions #assetsForm .dz-preview.file-selected .dz-image {
   border: 2px solid #48C18E; }
 
