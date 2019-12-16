@@ -1199,6 +1199,42 @@ button, input[type="submit"] {
     #mainSection .main.step-instructions .ui-dialog-buttonset .ui-button:last-child {
       background-color: #F47E84; }
 
+.ql-picker.ql-appearance .ql-picker-label {
+  padding-right: 18px; }
+
+.ql-picker.ql-appearance .ql-picker-label:before {
+  content: "Theme"; }
+
+.ql-picker.ql-appearance .ql-picker-item {
+  width: 140px;
+  height: 84px;
+  margin: 3px;
+  background-position: center;
+  background-size: contain;
+  display: inline-block !important; }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="litera"] {
+  background-image: url(/images/litera.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="cerulean"] {
+  background-image: url(/images/cerulean.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="journal"] {
+  background-image: url(/images/journal.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="sketchy"] {
+  background-image: url(/images/sketchy.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="darkly"] {
+  background-image: url(/images/darkly.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="cyborg"] {
+  background-image: url(/images/cyborg.png); }
+
+.ql-picker.ql-appearance .ql-picker-options {
+  width: 310px;
+  white-space: normal; }
+
 #mainSection .main.student {
   background-image: url("../images/puzzle_bg.png");
   font-size: xx-large;

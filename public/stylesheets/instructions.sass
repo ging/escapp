@@ -108,3 +108,33 @@
             background-color: $brightgreen
           &:last-child
             background-color: $lightred
+
+.ql-picker
+  &.ql-appearance
+    .ql-picker-label
+      padding-right: 18px
+    .ql-picker-label:before
+      content: "Theme"
+    .ql-picker-item
+      width: 140px
+      height: 84px
+      margin: 3px
+      background-position: center
+      background-size: contain
+      display: inline-block !important
+    .ql-picker-item[data-value="litera"]
+      background-image: url(/images/litera.png)
+    .ql-picker-item[data-value="cerulean"]
+      background-image: url(/images/cerulean.png)
+    .ql-picker-item[data-value="journal"]
+      background-image: url(/images/journal.png)
+    .ql-picker-item[data-value="sketchy"]
+      background-image: url(/images/sketchy.png)
+    .ql-picker-item[data-value="darkly"]
+      background-image: url(/images/darkly.png)
+    .ql-picker-item[data-value="cyborg"]
+      background-image: url(/images/cyborg.png)
+    .ql-picker-options
+      width: 310px
+      white-space: normal
+

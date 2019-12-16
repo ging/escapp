@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
 <script src="/js/vendor/quill.min.js"></script>
 <script src="/js/vendor/image-resize.min.js"></script>
+<script src="/js/vendor/video-resize.min.js"></script>
 <!-- Theme included stylesheets -->
  <% include ../../partials/_header.ejs %>
 <div class="main step-instructions">
@@ -11,8 +12,9 @@
     </p>
 
     <form method='POST' id="instructionsForm" action='/escapeRooms/<%= escapeRoom.id %>/instructions'  >
-  	<div class="editor-wrapper animated zoomInUp">
+  	<div class="editor-wrapper  ">
         <div id="editor" class="" style="background-color: white;">
+            
             <%if (escapeRoom.instructions) {%>
                 <%- escapeRoom.instructions %>
             <%} else {%>
@@ -69,6 +71,4 @@
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <% include ../../partials/_footer %>
-<script src="/js/instructions.js">
-
-</script>
+<script src="/js/instructions.js"></script>

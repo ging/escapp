@@ -1,5 +1,5 @@
 $(function(){
-    const icons = Quill.import('ui/icons');
+    
 
     const BlockEmbed = Quill.import('blots/block/embed');
     class AudioBlot extends BlockEmbed {
@@ -17,13 +17,10 @@ $(function(){
     AudioBlot.blotName = 'audio';
     AudioBlot.tagName = 'audio';
     Quill.register(AudioBlot);
+    Quill.register('modules/VideoResize', VideoResize);
 
-    icons.image = `<svg height="24px" id="Layer_1" version="1.1" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <g>
-            <path class="ql-even ql-stroke"  d="M23,4V2.1C23,1.5,22.5,1,21.9,1H9.8L9,0H1.1C0.5,0,0,0.5,0,1.1v21.8C0,23.5,0.5,24,1.1,24h21.8c0.6,0,1.1-0.5,1.1-1.1V5.1   C24,4.5,23.6,4.1,23,4z M22,22H2V2h6l3,4h11V22z M22,4H12l-1.5-2H22V4z"/>
-            <polygon class="ql-even ql-stroke"  points="11,9 11,13 7,13 7,15 11,15 11,19 13,19 13,15 17,15 17,13 13,13 13,9  "/>
-        </g>
-    </svg>`;
+    const icons = Quill.import('ui/icons');
+    icons.preview = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 511.999 511.999"  xml:space="preserve"><g><g><path d="M508.745,246.041c-4.574-6.257-113.557-153.206-252.748-153.206S7.818,239.784,3.249,246.035    c-4.332,5.936-4.332,13.987,0,19.923c4.569,6.257,113.557,153.206,252.748,153.206s248.174-146.95,252.748-153.201    C513.083,260.028,513.083,251.971,508.745,246.041z M255.997,385.406c-102.529,0-191.33-97.533-217.617-129.418    c26.253-31.913,114.868-129.395,217.617-129.395c102.524,0,191.319,97.516,217.617,129.418    C447.361,287.923,358.746,385.406,255.997,385.406z"/></g></g><g><g><path d="M255.997,154.725c-55.842,0-101.275,45.433-101.275,101.275s45.433,101.275,101.275,101.275    s101.275-45.433,101.275-101.275S311.839,154.725,255.997,154.725z M255.997,323.516c-37.23,0-67.516-30.287-67.516-67.516    s30.287-67.516,67.516-67.516s67.516,30.287,67.516,67.516S293.227,323.516,255.997,323.516z"/></g></g></svg>`;
 
     var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -37,11 +34,12 @@ $(function(){
 
         [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
+        [{ 'appearance': [ 'litera', 'cerulean', 'journal', 'sketchy', 'darkly', 'cyborg' ] }],
         //  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
         [{ 'align': [] }],
         ['clean'],                                         // remove formatting button
-        ['image']
+        ['image'],
+        ['preview']
     ];
 
     var range, fileSelected, quill;
@@ -52,10 +50,19 @@ $(function(){
         return false;
     }
 
+    function appearanceHandler(lang) {
+        console.log(lang)
+    }
+
+    function previewHandler(lang) {
+        console.log(lang)
+    }
+
     var options = {
         modules: {
-            toolbar: { container: toolbarOptions, handlers: {image: imageHandler}},
+            toolbar: { container: toolbarOptions, handlers: {image: imageHandler, appearance: appearanceHandler, preview: previewHandler}},
             imageResize: {},
+            videoResize: {},
             clipboard: {}
         },
         placeholder: 'Write here your escape room instructions',
@@ -97,28 +104,32 @@ $(function(){
         } else if (mime.match("audio")) {
             quill.insertEmbed(index, 'audio', url, Quill.sources.USER);
         } else {
-            quill.insertText(0, "");
+            quill.insertText(index, "");
             var delta = {
               ops: [
-                {retain: 1},
+                {retain: index-1},
                 {insert: name, attributes: {link: url}}
               ]
             };
             quill.updateContents(delta);
         }
     }
+    const imageExt = ["bmp","jpg","gif","jpeg","png","svg"];
+    const videoExt = ["3gp","avi","mp4","flv","webm","wmv","mp4","mpeg"];
+    const audioExt = ["mp3","aac","wav","aif","wma","mid","mpg","mp4a","weba"];
+
     $("#dialog-gallery").dialog({
       autoOpen: false,
       resizable: false,
       width: screen.width > 1000 ? 900 : screen.width*0.9,
       height: "auto",
       show: {
-        effect: "blind",
-        duration: 100
+        effect: "fade",
+        duration: 300
       },
       hide: {
-        effect: "explode",
-        duration: 400
+        effect: "fade",
+        duration: 300
       },
       appendTo: '.main',
       buttons: {
@@ -138,13 +149,31 @@ $(function(){
                     } else {
                         var xhttp = new XMLHttpRequest();
                         xhttp.open('HEAD', url);
+
+                        var onerror = function () {
+                            let parts = url.toString().toLowerCase().split('.');
+                            if (parts && parts.length > 0) {
+                                const ext = parts[parts.length - 1];
+                                if (imageExt.indexOf(ext) > -1) {
+                                    insertContent(range.index, url, "image/"+ext, "immge");
+                                } else if (videoExt.indexOf(ext) > -1) {
+                                    insertContent(range.index, url, "video/"+ext, "video");
+                                } else if (audioExt.indexOf(ext) > -1) {
+                                    insertContent(range.index, url, "audio/"+ext, "audio");
+                                } else {
+                                    insertContent(range.index, url);
+                                }
+                            }
+                        };
                         xhttp.onreadystatechange = function () {
-                            if (this.readyState == this.DONE) {
+                            if (this.readyState == this.DONE && this.status < 400) {
                                 const mime = this.getResponseHeader("Content-Type");
                                 insertContent(range.index, url, mime, url);
 
-                            }
+                            } 
                         };
+                        xhttp.onerror = onerror;
+
                         xhttp.send();
                     }
                 }

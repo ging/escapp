@@ -1040,3 +1040,8 @@
   margin: auto;
   display: block;
 }
+
+.ql-editor iframe {
+  pointer-events: none;
+  max-width: 100%;
+}
