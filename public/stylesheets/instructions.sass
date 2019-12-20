@@ -7,12 +7,11 @@
         color: black
         #editor
           min-height: 300px
+          font-family: inherit
           &.ql-container
             font-size: 18px
             .ql-blank
               text-align: center
-          *
-            font-family: 'Lato', sans-serif
           .ql-active, .ql-snow.ql-toolbar button:hover
             color: $lightred
             *
@@ -47,7 +46,7 @@
         &:after
           content: '\e5cd'
           font-family: 'Material Icons'
-      .ui-dialog .ui-dialog-titlebar, h3
+      .ui-dialog .ui-dialog-titlebar
         background: white !important
         border-color: white !important
         color: $lightred
@@ -114,7 +113,8 @@
     .ql-picker-label
       padding-right: 18px
     .ql-picker-label:before
-      content: "Theme"
+      text-transform: capitalize
+      content: "Theme: "  attr(data-value)
     .ql-picker-item
       width: 140px
       height: 84px

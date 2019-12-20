@@ -1081,13 +1081,12 @@ button, input[type="submit"] {
   margin-bottom: 20px;
   color: black; }
   #mainSection .main.step-instructions .editor-wrapper #editor {
-    min-height: 300px; }
+    min-height: 300px;
+    font-family: inherit; }
     #mainSection .main.step-instructions .editor-wrapper #editor.ql-container {
       font-size: 18px; }
       #mainSection .main.step-instructions .editor-wrapper #editor.ql-container .ql-blank {
         text-align: center; }
-    #mainSection .main.step-instructions .editor-wrapper #editor * {
-      font-family: 'Lato', sans-serif; }
     #mainSection .main.step-instructions .editor-wrapper #editor .ql-active, #mainSection .main.step-instructions .editor-wrapper #editor .ql-snow.ql-toolbar button:hover {
       color: #F47E84; }
       #mainSection .main.step-instructions .editor-wrapper #editor .ql-active *, #mainSection .main.step-instructions .editor-wrapper #editor .ql-snow.ql-toolbar button:hover * {
@@ -1127,7 +1126,7 @@ button, input[type="submit"] {
     content: '\e5cd';
     font-family: 'Material Icons'; }
 
-#mainSection .main.step-instructions .ui-dialog .ui-dialog-titlebar, #mainSection .main.step-instructions h3 {
+#mainSection .main.step-instructions .ui-dialog .ui-dialog-titlebar {
   background: white !important;
   border-color: white !important;
   color: #F47E84; }
@@ -1203,7 +1202,8 @@ button, input[type="submit"] {
   padding-right: 18px; }
 
 .ql-picker.ql-appearance .ql-picker-label:before {
-  content: "Theme"; }
+  text-transform: capitalize;
+  content: "Theme: " attr(data-value); }
 
 .ql-picker.ql-appearance .ql-picker-item {
   width: 140px;

@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="/stylesheets/vendor/dropzone.css">
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
+<link rel="stylesheet" href="/stylesheets/vendor/bootswatch/<%=escapeRoom.appearance || "litera"%>.editor.bootstrap.min.css">
 <script src="/js/vendor/quill.min.js"></script>
 <script src="/js/vendor/image-resize.min.js"></script>
 <script src="/js/vendor/video-resize.min.js"></script>
@@ -12,16 +13,17 @@
     </p>
 
     <form method='POST' id="instructionsForm" action='/escapeRooms/<%= escapeRoom.id %>/instructions'  >
-  	<div class="editor-wrapper  ">
-        <div id="editor" class="" style="background-color: white;">
-            
-            <%if (escapeRoom.instructions) {%>
-                <%- escapeRoom.instructions %>
-            <%} else {%>
-                <h1 class="ql-align-center"><%=i18n.escapeRoom.steps.instructions.placeholder%></h1>
-            <%}%>
-  		</div>
-  	</div>
+      <input type="hidden" id="appearance" name="appearance" value="<%=escapeRoom.appearance%>" />
+    	<div class="editor-wrapper  ">
+          <div id="editor" class="" >
+              
+              <%if (escapeRoom.instructions) {%>
+                  <%- escapeRoom.instructions %>
+              <%} else {%>
+                  <h1 class="ql-align-center"><%=i18n.escapeRoom.steps.instructions.placeholder%></h1>
+              <%}%>
+    		</div>
+    	</div>
 
       <div class="align-right flex-buttons">
           <input id="instructions" name="instructions" type="hidden" value=""/>
@@ -59,6 +61,7 @@
         });
       %>
       var assets  = <%- JSON.stringify(assets) %>;
+      var appearance = "<%=escapeRoom.appearance || "litera"%>";
       var escapeRoomId = <%=escapeRoom.id%>;
       var i18nMsg = <%- JSON.stringify(i18n.escapeRoom.steps.assets)%>;
 

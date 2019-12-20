@@ -411,9 +411,10 @@ exports.instructionsUpdate = (req, res, next) => {
     const isPrevious = Boolean(body.previous);
 
     escapeRoom.instructions = body.instructions;
+    escapeRoom.appearance = body.appearance;
     const progressBar = body.progress;
 
-    escapeRoom.save({"fields": ["instructions"]}).then(() => {
+    escapeRoom.save({"fields": ["instructions", "appearance"]}).then(() => {
         res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("instructions") : progressBar || nextStep("instructions")}`);
     }).
         catch(Sequelize.ValidationError, (error) => {

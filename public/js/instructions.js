@@ -38,8 +38,7 @@ $(function(){
         //  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
         [{ 'align': [] }],
         ['clean'],                                         // remove formatting button
-        ['image'],
-        ['preview']
+        ['image']
     ];
 
     var range, fileSelected, quill;
@@ -50,17 +49,15 @@ $(function(){
         return false;
     }
 
-    function appearanceHandler(lang) {
-        console.log(lang)
-    }
-
-    function previewHandler(lang) {
-        console.log(lang)
+    function appearanceHandler(lang, node) {
+        $('body link')[2].href = `http://localhost:3000/stylesheets/vendor/bootswatch/${lang || "cerulean"}.editor.bootstrap.min.css`;
+        $('#appearance').val(lang);
+        return lang;
     }
 
     var options = {
         modules: {
-            toolbar: { container: toolbarOptions, handlers: {image: imageHandler, appearance: appearanceHandler, preview: previewHandler}},
+            toolbar: { container: toolbarOptions, handlers: {image: imageHandler, appearance: appearanceHandler}},
             imageResize: {},
             videoResize: {},
             clipboard: {}
@@ -205,4 +202,5 @@ $(function(){
         $('#sourceFile').prop('checked', false);
     });
 
+    $($('.ql-appearance .ql-picker-label')[0]).data("value", appearance)
 });
