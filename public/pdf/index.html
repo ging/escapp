@@ -10,31 +10,27 @@
 <script src="js/jquery.min.js"></script>
 </head>
 <body>
-<div class="source-link">
-  <a id="show-source" href="#" data="pdf-links-bookmarks">Show source code</a>
-</div>
-
 <div class="sample-container">
   <div>
 
   </div>
 </div>
-<script src="js/html2canvas.min.js"></script>
-<script src="js/three.min.js"></script>
-<script src="js/pdf.min.js"></script>
+<script src="/pdf/js/html2canvas.min.js"></script>
+<script src="/pdf/js/three.min.js"></script>
+<script src="/pdf/js/pdf.min.js"></script>
 
-<script src="js/3dflipbook.min.js"></script>
+<script src="/pdf/js/3dflipbook.min.js"></script>
 
 <script type="text/javascript">
   $('.sample-container div').FlipBook({
-    pdf: '/escapp.pdf',
+    pdf: '/pdf/escapp.pdf',
     propertiesCallback: function(props) {
       props.page.depth *= 0.7;
       props.cover.padding = 0.002;
       return props;
     },
     controlsProps: {
-      downloadURL: 'guia.pdf'
+      downloadURL: '/pdf/escapp.pdf'
     }
   });
 </script>
