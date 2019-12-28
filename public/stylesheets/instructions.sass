@@ -16,6 +16,8 @@
             color: $lightred
             *
               stroke: $lightred
+        .ql-video
+          margin: auto
         .ql-image
           fill: #444
           &:hover
@@ -112,9 +114,11 @@
   &.ql-appearance
     .ql-picker-label
       padding-right: 18px
+      color: var(--primary)
     .ql-picker-label:before
       text-transform: capitalize
       content: "Theme: "  attr(data-value)
+      color: var(--primary)
     .ql-picker-item
       width: 140px
       height: 84px
@@ -122,19 +126,22 @@
       background-position: center
       background-size: contain
       display: inline-block !important
-    .ql-picker-item[data-value="litera"]
-      background-image: url(/images/litera.png)
-    .ql-picker-item[data-value="cerulean"]
-      background-image: url(/images/cerulean.png)
-    .ql-picker-item[data-value="journal"]
-      background-image: url(/images/journal.png)
-    .ql-picker-item[data-value="sketchy"]
-      background-image: url(/images/sketchy.png)
-    .ql-picker-item[data-value="darkly"]
-      background-image: url(/images/darkly.png)
-    .ql-picker-item[data-value="cyborg"]
-      background-image: url(/images/cyborg.png)
-    .ql-picker-options
-      width: 310px
-      white-space: normal
 
+    $theme-list:  "cerulean" "journal" "sketchy" "darkly" "cyborg" "cosmo" "flatly" "lumen" "litera" "lux" "materia" "minty" "pulse" "sandstone" "simplex" "slate" "solar" "spacelab" "superhero" "united" "yeti"
+
+    @each $current-theme in $theme-list
+      .ql-picker-item[data-value="#{$current-theme}"]
+       background-image: url(/images/bootswatch/#{$current-theme}.png)
+    .ql-picker-options
+      width: 456px
+      white-space: normal
+  &.ql-color-picker.ql-color
+
+    $theme-color-list: "primary" "secondary" "success" "info" "warning" "danger" "light" "dark"
+
+    @each $current-theme-color in $theme-color-list
+      .ql-picker-item[data-value="#{$current-theme-color}"]
+        content: ''
+        background-color: var(--#{$current-theme-color})
+      .ql-picker-options
+        width: 92px

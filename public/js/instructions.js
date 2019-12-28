@@ -34,8 +34,12 @@ $(function(){
 
         [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        [{ 'appearance': [ 'litera', 'cerulean', 'journal', 'sketchy', 'darkly', 'cyborg' ] }],
-        //  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'appearance': [ 
+            "litera", "cerulean", "journal", "sketchy", "darkly", "cyborg", "cosmo", "flatly", "lumen", "lux", "materia", "minty", "pulse", "sandstone", "simplex", "slate", "solar", "spacelab", "united", "yeti", "superhero"
+        ] }],
+        [{ 'color': [ 
+            "var(--primary)", "var(--secondary)", "var(--success)", "var(--info)", "var(--warning)", "var(--danger)", "var(--light)", "var(--dark)"
+        ] }],        
         [{ 'align': [] }],
         ['clean'],                                         // remove formatting button
         ['image']
@@ -202,5 +206,5 @@ $(function(){
         $('#sourceFile').prop('checked', false);
     });
 
-    $($('.ql-appearance .ql-picker-label')[0]).data("value", appearance)
+    $($('.ql-appearance .ql-picker-label')[0]).attr('data-value', appearance);
 });

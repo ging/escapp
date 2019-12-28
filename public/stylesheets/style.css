@@ -1091,6 +1091,8 @@ button, input[type="submit"] {
       color: #F47E84; }
       #mainSection .main.step-instructions .editor-wrapper #editor .ql-active *, #mainSection .main.step-instructions .editor-wrapper #editor .ql-snow.ql-toolbar button:hover * {
         stroke: #F47E84; }
+  #mainSection .main.step-instructions .editor-wrapper .ql-video {
+    margin: auto; }
   #mainSection .main.step-instructions .editor-wrapper .ql-image {
     fill: #444; }
     #mainSection .main.step-instructions .editor-wrapper .ql-image:hover {
@@ -1199,11 +1201,13 @@ button, input[type="submit"] {
       background-color: #F47E84; }
 
 .ql-picker.ql-appearance .ql-picker-label {
-  padding-right: 18px; }
+  padding-right: 18px;
+  color: var(--primary); }
 
 .ql-picker.ql-appearance .ql-picker-label:before {
   text-transform: capitalize;
-  content: "Theme: " attr(data-value); }
+  content: "Theme: " attr(data-value);
+  color: var(--primary); }
 
 .ql-picker.ql-appearance .ql-picker-item {
   width: 140px;
@@ -1213,27 +1217,128 @@ button, input[type="submit"] {
   background-size: contain;
   display: inline-block !important; }
 
-.ql-picker.ql-appearance .ql-picker-item[data-value="litera"] {
-  background-image: url(/images/litera.png); }
-
 .ql-picker.ql-appearance .ql-picker-item[data-value="cerulean"] {
-  background-image: url(/images/cerulean.png); }
+  background-image: url(/images/bootswatch/cerulean.png); }
 
 .ql-picker.ql-appearance .ql-picker-item[data-value="journal"] {
-  background-image: url(/images/journal.png); }
+  background-image: url(/images/bootswatch/journal.png); }
 
 .ql-picker.ql-appearance .ql-picker-item[data-value="sketchy"] {
-  background-image: url(/images/sketchy.png); }
+  background-image: url(/images/bootswatch/sketchy.png); }
 
 .ql-picker.ql-appearance .ql-picker-item[data-value="darkly"] {
-  background-image: url(/images/darkly.png); }
+  background-image: url(/images/bootswatch/darkly.png); }
 
 .ql-picker.ql-appearance .ql-picker-item[data-value="cyborg"] {
-  background-image: url(/images/cyborg.png); }
+  background-image: url(/images/bootswatch/cyborg.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="cosmo"] {
+  background-image: url(/images/bootswatch/cosmo.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="flatly"] {
+  background-image: url(/images/bootswatch/flatly.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="lumen"] {
+  background-image: url(/images/bootswatch/lumen.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="litera"] {
+  background-image: url(/images/bootswatch/litera.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="lux"] {
+  background-image: url(/images/bootswatch/lux.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="materia"] {
+  background-image: url(/images/bootswatch/materia.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="minty"] {
+  background-image: url(/images/bootswatch/minty.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="pulse"] {
+  background-image: url(/images/bootswatch/pulse.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="sandstone"] {
+  background-image: url(/images/bootswatch/sandstone.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="simplex"] {
+  background-image: url(/images/bootswatch/simplex.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="slate"] {
+  background-image: url(/images/bootswatch/slate.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="solar"] {
+  background-image: url(/images/bootswatch/solar.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="spacelab"] {
+  background-image: url(/images/bootswatch/spacelab.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="superhero"] {
+  background-image: url(/images/bootswatch/superhero.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="united"] {
+  background-image: url(/images/bootswatch/united.png); }
+
+.ql-picker.ql-appearance .ql-picker-item[data-value="yeti"] {
+  background-image: url(/images/bootswatch/yeti.png); }
 
 .ql-picker.ql-appearance .ql-picker-options {
-  width: 310px;
+  width: 456px;
   white-space: normal; }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="primary"] {
+  content: '';
+  background-color: var(--primary); }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-options {
+  width: 92px; }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="secondary"] {
+  content: '';
+  background-color: var(--secondary); }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-options {
+  width: 92px; }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="success"] {
+  content: '';
+  background-color: var(--success); }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-options {
+  width: 92px; }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="info"] {
+  content: '';
+  background-color: var(--info); }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-options {
+  width: 92px; }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="warning"] {
+  content: '';
+  background-color: var(--warning); }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-options {
+  width: 92px; }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="danger"] {
+  content: '';
+  background-color: var(--danger); }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-options {
+  width: 92px; }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="light"] {
+  content: '';
+  background-color: var(--light); }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-options {
+  width: 92px; }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="dark"] {
+  content: '';
+  background-color: var(--dark); }
+
+.ql-picker.ql-color-picker.ql-color .ql-picker-options {
+  width: 92px; }
 
 #mainSection .main.student {
   background-image: url("../images/puzzle_bg.png");
