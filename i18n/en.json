@@ -282,6 +282,12 @@
             }
         }
     },
+    "gallery": {
+        "title": "Gallery",
+        "insertURL": "Insert URL",
+        "selectFileFromList": "Select file from the list",
+        "selectGamificationElements": "Insert gamification element"
+    },
     "hint": {
         "failed": "Oops! Please try again",
         "failMessage": "Oops! Please keep trying",

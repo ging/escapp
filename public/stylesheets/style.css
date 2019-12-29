@@ -1109,13 +1109,14 @@ button, input[type="submit"] {
 #mainSection .main.step-instructions .ui-dialog {
   outline: none !important;
   box-shadow: 2px 2px 10px #cecece;
-  background: white; }
+  background: white;
+  transform: translateY(65px); }
 
 #mainSection .main.step-instructions .ui-dialog-title {
   line-height: 50px;
   padding-left: 10px;
   color: #656683;
-  font-size: 16px; }
+  font-size: 22px; }
 
 #mainSection .main.step-instructions .ui-dialog-titlebar-close {
   visibility: hidden;
@@ -1199,6 +1200,45 @@ button, input[type="submit"] {
       background-color: #48C18E; }
     #mainSection .main.step-instructions .ui-dialog-buttonset .ui-button:last-child {
       background-color: #F47E84; }
+
+#mainSection .main.step-instructions .gamification-elements {
+  padding: 20px; }
+  #mainSection .main.step-instructions .gamification-elements .gamification-element {
+    width: 116px;
+    height: 116px;
+    margin: 10px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px;
+    border: 2px solid #eee;
+    overflow: hidden;
+    line-height: 50px; }
+    #mainSection .main.step-instructions .gamification-elements .gamification-element.gamification-element-selected {
+      border: 2px solid #48C18E; }
+    #mainSection .main.step-instructions .gamification-elements .gamification-element .gamification-element-title {
+      text-align: center;
+      font-family: 'Lato', sans-serif;
+      color: #656683;
+      height: 25%;
+      font-size: 14px;
+      margin: 0; }
+    #mainSection .main.step-instructions .gamification-elements .gamification-element img {
+      max-width: 100%;
+      max-height: 65%;
+      object-fit: contain;
+      vertical-align: middle;
+      text-align: center; }
+
+#mainSection .main.step-instructions countdown {
+  font-family: 'Digital', monospace;
+  font-size: 17vw;
+  display: block;
+  text-align: center;
+  user-select: none;
+  color: var(--danger); }
+  #mainSection .main.step-instructions countdown:after {
+    content: "00:00:00"; }
 
 .ql-picker.ql-appearance .ql-picker-label {
   padding-right: 18px;

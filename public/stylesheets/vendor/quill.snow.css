@@ -846,7 +846,7 @@
   background-color: #000;
 }
 .ql-toolbar.ql-snow {
-  border: 1px solid #ccc;
+  /*border: 1px solid #ccc;*/
   box-sizing: border-box;
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   padding: 8px;
@@ -941,7 +941,7 @@
   color: #F47E84;
 }
 .ql-container.ql-snow {
-  border: 1px solid #ccc;
+  border: 2px solid white;
 }
 .ql-editor .td-video {
   display: block;
@@ -1036,7 +1036,7 @@
   content: "\ \21E5"; 
 }
 
-.ql-editor  audio {
+.ql-editor audio {
   margin: auto;
   display: block;
 }
@@ -1044,4 +1044,8 @@
 .ql-editor iframe {
   pointer-events: none;
   max-width: 100%;
+}
+
+#editor-wrapper {
+  border: 2px solid white;
 }

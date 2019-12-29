@@ -17,6 +17,19 @@ $(function(){
     AudioBlot.blotName = 'audio';
     AudioBlot.tagName = 'audio';
     Quill.register(AudioBlot);
+
+    class CountdownBlot extends BlockEmbed {
+      static create(content) {
+        let node = super.create();
+        node.innerHTML = content;
+        return node;
+      }
+    }
+
+    CountdownBlot.blotName = 'countdown';
+    CountdownBlot.tagName = 'countdown';
+    Quill.register(CountdownBlot);
+
     Quill.register('modules/VideoResize', VideoResize);
 
     const icons = Quill.import('ui/icons');
@@ -45,7 +58,7 @@ $(function(){
         ['image']
     ];
 
-    var range, fileSelected, quill;
+    var range, fileSelected, gamificationElementSelected, quill;
     function imageHandler() {
         quill = this.quill;
         range = quill.getSelection();
@@ -79,13 +92,22 @@ $(function(){
     });
 
     editor.clipboard.addMatcher (Node.ELEMENT_NODE, function (node, delta) {
+        console.log(node, delta)
         const attributes = {
             'font': false,
             'strike': false,
             'direction': false,
             'color': false
         };
+        if (node && node.id) {
+            switch(node.id) {
+                case 'ranking':
+                case 'countdown':
+                    return delta;
+            }
+        }
         delta.ops = delta.ops.map(op=>{
+            console.log(op)
             return {
                 insert: op.insert,
                 attributes: {
@@ -136,52 +158,71 @@ $(function(){
       buttons: {
         "accept": function () {
             const selected = $('input[name=file-gallery-source]:checked').attr('id');
-            if (selected === 'sourceFile') {
-                if(fileSelected && fileSelected.mime){
-                    const mime = fileSelected.mime;
-                    insertContent(range.index, fileSelected.url, fileSelected.mime, fileSelected.name);
-                } 
-            } else if (selected === "sourceUrl") {
-                let url = $('#urlInput').val();
-                if (url) {
-                    const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
-                    if (youtube && youtube[5]) {
-                        quill.insertEmbed(range.index, 'video', "https://www.youtube.com/embed/" + youtube[5] , Quill.sources.USER);
-                    } else {
-                        var xhttp = new XMLHttpRequest();
-                        xhttp.open('HEAD', url);
+            switch (selected) {
+                case "sourceFile":
+                    if (fileSelected && fileSelected.mime) {
+                        const mime = fileSelected.mime;
+                        insertContent(range.index, fileSelected.url, fileSelected.mime, fileSelected.name);
+                    } 
+                    break;
+                case "sourceUrl":
+                    let url = $('#urlInput').val();
+                    if (url) {
+                        const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
+                        if (youtube && youtube[5]) {
+                            quill.insertEmbed(range.index, 'video', "https://www.youtube.com/embed/" + youtube[5] , Quill.sources.USER);
+                        } else {
+                            var xhttp = new XMLHttpRequest();
+                            xhttp.open('HEAD', url);
 
-                        var onerror = function () {
-                            let parts = url.toString().toLowerCase().split('.');
-                            if (parts && parts.length > 0) {
-                                const ext = parts[parts.length - 1];
-                                if (imageExt.indexOf(ext) > -1) {
-                                    insertContent(range.index, url, "image/"+ext, "immge");
-                                } else if (videoExt.indexOf(ext) > -1) {
-                                    insertContent(range.index, url, "video/"+ext, "video");
-                                } else if (audioExt.indexOf(ext) > -1) {
-                                    insertContent(range.index, url, "audio/"+ext, "audio");
-                                } else {
-                                    insertContent(range.index, url);
+                            var onerror = function () {
+                                let parts = url.toString().toLowerCase().split('.');
+                                if (parts && parts.length > 0) {
+                                    const ext = parts[parts.length - 1];
+                                    if (imageExt.indexOf(ext) > -1) {
+                                        insertContent(range.index, url, "image/"+ext, "immge");
+                                    } else if (videoExt.indexOf(ext) > -1) {
+                                        insertContent(range.index, url, "video/"+ext, "video");
+                                    } else if (audioExt.indexOf(ext) > -1) {
+                                        insertContent(range.index, url, "audio/"+ext, "audio");
+                                    } else {
+                                        insertContent(range.index, url);
+                                    }
                                 }
-                            }
-                        };
-                        xhttp.onreadystatechange = function () {
-                            if (this.readyState == this.DONE && this.status < 400) {
-                                const mime = this.getResponseHeader("Content-Type");
-                                insertContent(range.index, url, mime, url);
+                            };
+                            xhttp.onreadystatechange = function () {
+                                if (this.readyState == this.DONE && this.status < 400) {
+                                    const mime = this.getResponseHeader("Content-Type");
+                                    insertContent(range.index, url, mime, url);
 
-                            } 
-                        };
-                        xhttp.onerror = onerror;
-
-                        xhttp.send();
+                                } 
+                            };
+                            xhttp.onerror = onerror;
+                            xhttp.send();
+                        }
                     }
-                }
+                    break;
+                case "sourceGamificationElement":
+                    if (gamificationElementSelected) {
+                        const gamificationElement = `<countdown class="clockContainer" id="countdown" >
+                            <p class="countdown text-danger clock text-center" id="time">
+                                <span id="hours" data-text="00">00</span>
+                                <span class="colon" data-text=":">:</span>
+                                <span id="mins" data-text="00">00</span>
+                                <span class="colon" data-text=":">:</span>
+                                <span id="secs" data-text="00">00</span>
+                            </p>
+                        </countdown>`;
+                        quill.insertEmbed(range.index, 'countdown', "", Quill.sources.USER);
+                        // quill.clipboard.dangerouslyPasteHTML(range.index,  gamificationElement, 'api');
+                    }
+                    break;
             }
             
             $(".file-selected").removeClass("file-selected");
+            $(".gamification-element-selected").removeClass("gamification-element-selected");
             fileSelected = null;
+            gamificationElementSelected = null;
             $( "#dialog-gallery" ).dialog("close");
         },
         "cancel": function () {
@@ -191,18 +232,37 @@ $(function(){
       }
     });
 
+    /* Insert element by providing URL */
+    $(document).on('click','#urlInput', function(){
+        $(".file-selected").removeClass("file-selected");
+        $(".gamification-element-selected").removeClass("gamification-element-selected");
+        $('#sourceUrl').prop('checked', true);
+        $('#sourceFile').prop('checked', false);
+        $('#sourceGamificationElement').prop('checked', false);
+
+    });
+
+    /* Click on file from gallery */
     $(document).on('click','.dz-preview *', function(){
         $(".file-selected").removeClass("file-selected");
+        $(".gamification-element-selected").removeClass("gamification-element-selected");
         let parent = $(this).parent('.dz-preview');
         const idx = $('.dz-preview').index(parent);
         fileSelected = Dropzone.instances[0].files[idx];
         parent.addClass("file-selected");
         $('#sourceUrl').prop('checked', false);
+        $('#sourceGamificationElement').prop('checked', false);
         $('#sourceFile').prop('checked', true);
     });
 
-    $(document).on('click','#urlInput', function(){
-        $('#sourceUrl').prop('checked', true);
+    /* Insert gamification element */
+    $(document).on('click','.gamification-element', function(){
+        $(".file-selected").removeClass("file-selected");
+        $(".gamification-element-selected").removeClass("gamification-element-selected");
+        $(this).addClass("gamification-element-selected");
+        gamificationElementSelected = this.id;
+        $('#sourceGamificationElement').prop('checked', true);
+        $('#sourceUrl').prop('checked', false);
         $('#sourceFile').prop('checked', false);
     });
 

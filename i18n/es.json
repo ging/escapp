@@ -285,6 +285,12 @@
         "need": "¿Necesitas una pista?",
         "successMessage": "Enhorabuena! Has conseguido una nueva pista."
     },
+    "gallery": {
+        "title": "Galería",
+        "insertURL": "Introduce la URL",
+        "selectFileFromList": "Selecciona un fichero de la lista",
+        "selectGamificationElements": "Selecciona un elemento de gamificación"
+    },
     "inspiration": {
         "downloadText": "descargar guía",
         "intro": "¿No sabes por donde empezar a crear tu <em>escape room</em>? <br/> Sigue los siguientes pasos",

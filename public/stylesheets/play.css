@@ -5,6 +5,12 @@
     font-style: normal;
 }
 
+.countdown, #explosion {
+    font-family: 'Digital', monospace;
+    font-size: 17vw;
+}
+
+
 h1 {
     font-size: 4em;
 }
@@ -15,10 +21,6 @@ h1 {
 }
 p {
     text-align: left;
-}
-.countdown, #explosion {
-    font-family: 'Digital', monospace;
-    font-size: 17vw;
 }
 
 .previewImage img {
@@ -80,4 +82,17 @@ p {
     -o-transform: translateX(-50%) translateY(-50%);
     -moz-transform: translateX(-50%) translateY(-50%);
     font-size: 2rem; 
+}
+
+.ql-video {
+     margin: auto;
+}
+ 
+#editor p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.ql-editor iframe {
+    pointer-events: all;
 }

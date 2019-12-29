@@ -1,9 +1,10 @@
-<link rel="stylesheet" href="/stylesheets/vendor/dropzone.css">
+<head><link rel="stylesheet" href="/stylesheets/vendor/dropzone.css">
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
 <link rel="stylesheet" href="/stylesheets/vendor/bootswatch/<%=escapeRoom.appearance || "litera"%>.editor.bootstrap.min.css">
 <script src="/js/vendor/quill.min.js"></script>
 <script src="/js/vendor/image-resize.min.js"></script>
 <script src="/js/vendor/video-resize.min.js"></script>
+</head>
 <!-- Theme included stylesheets -->
  <% include ../../partials/_header.ejs %>
 <div class="main step-instructions">
@@ -11,25 +12,30 @@
     <p class="intro-paragraph">
        <%=i18n.escapeRoom.steps.instructions.explanation%>
     </p>
-
     <form method='POST' id="instructionsForm" action='/escapeRooms/<%= escapeRoom.id %>/instructions'  >
       <input type="hidden" id="appearance" name="appearance" value="<%=escapeRoom.appearance%>" />
     	<div class="editor-wrapper  ">
           <div id="editor" class="" >
-              
-              <%if (escapeRoom.instructions) {%>
-                  <%- escapeRoom.instructions %>
-              <%} else {%>
-                  <h1 class="ql-align-center"><%=i18n.escapeRoom.steps.instructions.placeholder%></h1>
-              <%}%>
+            <%if (escapeRoom.instructions) {%>
+                <%- escapeRoom.instructions %>
+            <%} else {%>
+                <h1 class="ql-align-center"><%=i18n.escapeRoom.steps.instructions.placeholder%></h1>
+            <%}%>
     		</div>
     	</div>
-
       <div class="align-right flex-buttons">
           <input id="instructions" name="instructions" type="hidden" value=""/>
-          <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
-          <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
-          <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
+          <a href="/escapeRooms/<%= escapeRoom.id %>">
+            <button class="progress-buttons" type="button" value="exit" id="exit" name="exit">
+              <%=i18n.common.exit%>
+            </button>
+          </a>
+          <button class="progress-buttons" type="submit" value="next" id="next" name="next">
+            <%=i18n.common.next%>
+          </button>
+          <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous">
+            <%=i18n.common.previous%>
+          </button>
       </div>
       <%- include('../../partials/_progress', {progress}) %>
 
@@ -38,40 +44,18 @@
     <br/>
     <br/>
     <br/>
-    <!-- BEGIN Gallery files -->
-    <div id="dialog-gallery" title="Gallery">
-      <p class="gallery-msg">
 
-      <label><input type="radio" id="sourceUrl" name="file-gallery-source" checked="checked" value="url"/>Introduce la URL</label>
-      <br/>
-      <input type="url" id="urlInput" class="fileUrlInput" placeholder="http://" />
-      <br/>
-      <label><input type="radio" id="sourceFile" name="file-gallery-source" value="url"/>Selecciona un fichero de la lista</label>
-      </p>
-      <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone" >
-          <input type="file" name="file" style="display:none;"/>
-      </form>
-    </div>
-    <script src="/js/vendor/dropzone.js"></script>
-    <script>
-      <%
-        const assets = escapeRoom.assets.map(a => {
-          const { id, public_id, url, mime, filename } = a;
-          return { id, public_id, url, mime, name: filename };
-        });
-      %>
-      var assets  = <%- JSON.stringify(assets) %>;
-      var appearance = "<%=escapeRoom.appearance || "litera"%>";
-      var escapeRoomId = <%=escapeRoom.id%>;
-      var i18nMsg = <%- JSON.stringify(i18n.escapeRoom.steps.assets)%>;
-
-    </script>
-    <script src="/js/assets.js"></script>
-    <!-- END Gallery files -->
-
-</div>
-
-
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<% include ../../partials/_gallery %>
+    <br/>
+    <br/>
+    <br/>
 <% include ../../partials/_footer %>
 <script src="/js/instructions.js"></script>
+<style>
+  @font-face {
+      font-family: 'Digital';
+      src: url('/fonts/ds-digib.ttf') format('truetype');
+      font-weight: bold;
+      font-style: normal;
+  }
+</style>

@@ -1,0 +1,55 @@
+    <!-- BEGIN Gallery files -->
+    <div id="dialog-gallery" title="<%=i18n.gallery.title%>" style="display: none;">
+      <p class="gallery-msg">
+
+      <label><input type="radio" id="sourceUrl" name="file-gallery-source" checked="checked" value="url"/><%=i18n.gallery.insertURL%></label>
+      <br/>
+      <input type="url" id="urlInput" class="fileUrlInput" placeholder="http://" />
+      <br/>
+      <label><input type="radio" id="sourceFile" name="file-gallery-source" value="url"/><%=i18n.gallery.selectFileFromList%></label>
+      </p>
+      <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone" >
+          <input type="file" name="file" style="display:none;"/>
+      </form>
+      <p class="gallery-msg">
+      <label><input type="radio" id="sourceGamificationElement" name="file-gallery-source" value="url"/><%=i18n.gallery.selectGamificationElements%></label>
+        <div class="gamification-elements">
+          <div class="gamification-element" id="countdown">
+            <img src="/images/countdown.png"/>
+            <p class="gamification-element-title">Countdown</p>
+          </div>
+          <div class="gamification-element" id="ranking">
+            <img src="/images/ranking.png"/>
+            <p class="gamification-element-title">Ranking</p>
+          </div>
+          <div class="gamification-element" id="hints">
+            <img src="/images/hints.png"/>
+            <p class="gamification-element-title">Hints</p>
+          </div>
+          <div class="gamification-element" id="puzzles">
+            <img src="/images/puzzles.png"/>
+            <p class="gamification-element-title">Puzzles</p>
+          </div>
+        </div>
+      </p>
+    </div>
+    <script src="/js/vendor/dropzone.js"></script>
+    <script>
+      <%
+        const assets = escapeRoom.assets.map(a => {
+          const { id, public_id, url, mime, filename } = a;
+          return { id, public_id, url, mime, name: filename };
+        });
+      %>
+      var assets  = <%- JSON.stringify(assets) %>;
+      var appearance = "<%=escapeRoom.appearance || "litera"%>";
+      var escapeRoomId = <%=escapeRoom.id%>;
+      var i18nMsg = <%- JSON.stringify(i18n.escapeRoom.steps.assets)%>;
+
+    </script>
+    <script src="/js/assets.js"></script>
+    <!-- END Gallery files -->
+
+</div>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
