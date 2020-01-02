@@ -1,25 +1,27 @@
 <head><link rel="stylesheet" href="/stylesheets/vendor/dropzone.css">
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
-<link rel="stylesheet" href="/stylesheets/vendor/bootswatch/<%=escapeRoom.appearance || "litera"%>.editor.bootstrap.min.css">
+<link rel="stylesheet" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"] || "litera"%>.editor.bootstrap.min.css">
 <script src="/js/vendor/quill.min.js"></script>
+<script src="/js/vendor/jquery.ui.draggable.min.js"></script>
 <script src="/js/vendor/image-resize.min.js"></script>
 <script src="/js/vendor/video-resize.min.js"></script>
 </head>
 <!-- Theme included stylesheets -->
  <% include ../../partials/_header.ejs %>
 <div class="main step-instructions">
-  <h2><%=i18n.escapeRoom.steps.instructions.title%></h2>
+  <h2><%=i18n.escapeRoom.steps[endPoint].title%></h2>
     <p class="intro-paragraph">
-       <%=i18n.escapeRoom.steps.instructions.explanation%>
+       <%=i18n.escapeRoom.steps[endPoint].explanation%>
     </p>
-    <form method='POST' id="instructionsForm" action='/escapeRooms/<%= escapeRoom.id %>/instructions'  >
-      <input type="hidden" id="appearance" name="appearance" value="<%=escapeRoom.appearance%>" />
+    <form method='POST' id="instructionsForm" action='/escapeRooms/<%= escapeRoom.id %>/<%=endPoint%>'  >
+      <input type="hidden" id="appearance" name="appearance" 
+      value="<%=escapeRoom[endPoint + "Appearance"] || "litera" %>" />
     	<div class="editor-wrapper  ">
           <div id="editor" class="" >
-            <%if (escapeRoom.instructions) {%>
-                <%- escapeRoom.instructions %>
+            <%if (escapeRoom[endPoint + "Instructions"]) {%>
+                <%- escapeRoom[endPoint + "Instructions"] %>
             <%} else {%>
-                <h1 class="ql-align-center"><%=i18n.escapeRoom.steps.instructions.placeholder%></h1>
+                <h1 class="ql-align-center"><%=i18n.escapeRoom.steps[endPoint].placeholder%></h1>
             <%}%>
     		</div>
     	</div>

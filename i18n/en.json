@@ -239,18 +239,23 @@
                 "title": "Hint management",
                 "uploadFile": "Please upload a MoodleXML file"
             },
-            "instructions": {
-                "explanation": "Please write here the instructions that will be given to students when the activity starts.\nYou can add any links if it's necessary.",
-                "placeholder": "Welcome to the Escape Room",
-                "title": "Information for students"
+            "team": {
+                "explanation": "Here you can customize the interface that students will see on their computers when they are playing. You can add any information they need in order to participate: links, images, messages, the first clue, etc.",
+                "placeholder": "You can add a custom message, images, links...",
+                "title": "Team interface"
+            },
+            "class": {
+                "explanation": "Here you can customize the interface that you'll be able to sreen in the classroom for all students to see. It can include the introductory video, the countdown, the ranking, etc.",
+                "placeholder": "You can choose to project the countdown, an introductory video, etc.",
+                "title": "Classroom interface"
             },
             "list": {
-                "appearance": "Appearance",
                 "edit":"Basic configuration",
                 "evaluation": "Evaluation",
                 "hints": "Hints",
                 "assets": "Asset upload",
-                "instructions": "Instructions",
+                "team": "Team Interface",
+                "class": "Classroom Interface",
                 "participants": "Participants",
                 "puzzles": "Puzzles",
                 "turnos": "Shifts"

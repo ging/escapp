@@ -6,7 +6,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="/js/vendor/easy-alert.js"></script>
     <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom.appearance%>.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"]%>.bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/play.css">
     <link rel="stylesheet" href="/stylesheets/vendor/animate.css">
     <link rel="stylesheet" href="/stylesheets/vendor/easy-alert.css">
@@ -36,14 +36,12 @@
         </div>
         <div class=" row-centered">
             <div class="col-xs-12 text-left ql-editor instructionsShow" id="editor">
-                <%if (escapeRoom.instructions) {%>
-                    <%-escapeRoom.instructions %>
-                <%} else {%>
-                    <p><%=escapeRoom.description%></p>
-                <%}%>
+                <% if (escapeRoom[endPoint + "Instructions"]) {%>
+                    <%-escapeRoom[endPoint + "Instructions"] %>
+                <% } %>
             </div>
         </div>
-        <% if (escapeRoom.hintApp) {%>
+        <% if (endPoint === "team" && escapeRoom.hintApp) {%>
             <div class=" row-centered">
                 <div class="col-xs-12">
                     <div >
@@ -142,6 +140,11 @@
                     <% } else {%>
                         var countdown = false;
                         var duration = 0;
+                        /**prueba**/
+                        var countdown = true;
+                        var startTime = new Date();
+                        var duration = 0.5;
+                        /**prueba**/
                     <% } %>
                 </script>
             <% include ../../partials/_countdown.ejs %>

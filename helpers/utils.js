@@ -1,3 +1,10 @@
+const Sequelize = require("sequelize");
+const sequelize = require("../models");
+const {models} = sequelize;
+const {nextStep, prevStep} = require("../helpers/progress");
+const cloudinary = require("cloudinary");
+const {parseURL} = require("../helpers/video");
+
 exports.retosSuperadosByWho = (who, puzzles, showDate = false) => {
     const retosSuperados = new Array(puzzles.length).fill(0);
 
@@ -53,3 +60,106 @@ exports.countHints = (requestedHints) => {
     return {hintsFailed,
         hintsSucceeded};
 };
+
+exports.saveInterface = (name, req, res, next) => {
+    const {escapeRoom, body} = req;
+    const isPrevious = Boolean(body.previous);
+
+    escapeRoom[name] = body.instructions;
+    escapeRoom[`${name}Appearance`] = body.appearance;
+    const progressBar = body.progress;
+
+    escapeRoom.save({"fields": [
+        name,
+        `${name}Appearance`
+    ]}).then(() => {
+        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep(name) : progressBar || nextStep(name)}`);
+    }).
+        catch(Sequelize.ValidationError, (error) => {
+            error.errors.forEach(({message}) => req.flash("error", message));
+            res.redirect(`/escapeRooms/${escapeRoom.id}/${name}`);
+        }).
+        catch((error) => {
+            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
+            next(error);
+        });
+};
+
+
+exports.playInterface = (name, req, res) => {
+    const isAdmin = Boolean(req.session.user.isAdmin),
+        isAuthor = req.escapeRoom.authorId === req.session.user.id;
+
+    if (isAdmin || isAuthor) {
+        res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
+            cloudinary,
+            "team": {"turno": req.turn,
+                "retos": []},
+            "hints": [],
+            "isStudent": false,
+            parseURL,
+            "endPoint": name,
+            "layout": false});
+        return;
+    }
+    models.team.findAll({
+        "include": [
+            {
+                "model": models.turno,
+                "include": {
+                    "model": models.escapeRoom,
+                    "where": {
+                        "id": req.escapeRoom.id
+                    }
+                },
+                "required": true
+
+            },
+            {
+                "model": models.user,
+                "as": "teamMembers",
+                "attributes": [],
+                "where": {
+                    "id": req.session.user.id
+                },
+                "required": true
+            },
+            {
+                "model": models.puzzle,
+                "as": "retos",
+                "through": {
+                    "model": models.retosSuperados,
+                    "required": false,
+                    "attributes": ["createdAt"]
+
+                }
+            }
+
+        ],
+        "required": true
+    }).then((teams) => {
+        const team = teams && teams[0] ? teams[0] : [];
+
+        if (team.turno.status !== "active") {
+            res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
+        }
+        models.requestedHint.findAll({
+            "where": {
+                "teamId": team.id,
+                "success": true
+            },
+            "include": models.hint
+
+        }).then((hints) => {
+            res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
+                cloudinary,
+                team,
+                "isStudent": true,
+                "hints": hints || [],
+                parseURL,
+                "endPoint": name,
+                "layout": false});
+        });
+    });
+};
+

@@ -123,6 +123,7 @@
           border: 2px solid #eee
           overflow: hidden
           line-height: 50px
+          cursor: pointer
           &.gamification-element-selected
             border: 2px solid $brightgreen
           .gamification-element-title
@@ -143,10 +144,19 @@
           font-size: 17vw
           display: block
           text-align: center
-          user-select: none
+          cursor: move
           color: var(--danger)
           &:after
             content: "00:00:00"
+      [dpraggable] 
+        -moz-user-select: none
+        -khtml-user-select: none
+        -webkit-user-select: none
+        user-select: none
+        /* Required to make elements draggable in old WebKit */
+        -khtml-user-drag: element
+        -webkit-user-drag: element
+      
 .ql-picker
   &.ql-appearance
     .ql-picker-label

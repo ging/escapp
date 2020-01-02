@@ -3,9 +3,8 @@ const steps = [
     "turnos",
     "puzzles",
     "hints",
-    "assets",
-    "instructions",
-    "appearance",
+    "team",
+    "class",
     "evaluation"
 ];
 

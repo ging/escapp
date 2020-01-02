@@ -234,10 +234,15 @@
                 "title": "Gestión de pistas",
                 "uploadFile": "Sube un fichero MoodleXML"
             },
-            "instructions": {
-                "explanation": "Escribe las instrucciones que se proporcionarán a los alumnos cuando entren a jugar a la escape room.\nPuedes incluir enlaces a otras páginas si es necesario.",
-                "placeholder": "Bienvenido a la Escape Room",
-                "title": "Información para los alumnos"
+            "team": {
+                "explanation": "En este apartado puedes personalizar la interfaz que los estudiantes verán en sus pantallas mientras jueguen a la escape room. Puedes añadir una pista inicial, enlaces, imágenes, etc.",
+                "placeholder": "Añade un mensaje personalizado, imágenes, links...",
+                "title": "Interfaz de equipo"
+            },
+            "class": {
+                "explanation": "En este apartado puedes personalizar la interfaz que proyectarás en el aula. Puedes añadir elementos como la cuenta atrás, el video introductorio o el ranking.",
+                "placeholder": "Añade la cuenta atrás, un ranking, el vídeo de presentación, etc.",
+                "title": "Interfaz de clase"
             },
             "list": {
             	"edit":"Configuración básica",

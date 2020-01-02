@@ -6,8 +6,9 @@ const {parseURL} = require("../helpers/video");
 const query = require("../queries");
 const attHelper = require("../helpers/attachments");
 const {nextStep, prevStep} = require("../helpers/progress");
-// Autoload the escape room with id equals to :escapeRoomId
+const {saveInterface} = require("../helpers/utils");
 
+// Autoload the escape room with id equals to :escapeRoomId
 exports.load = async (req, res, next, escapeRoomId) => {
     try {
         const escapeRoom = await models.escapeRoom.findByPk(escapeRoomId, query.escapeRoom.load);
@@ -397,37 +398,33 @@ exports.evaluationUpdate = (req, res, next) => {
         });
 };
 
-// GET /escapeRooms/:escapeRoomId/instructions
-exports.instructions = (req, res) => {
+// GET /escapeRooms/:escapeRoomId/team
+exports.teamInterface = (req, res) => {
     const {escapeRoom} = req;
 
     res.render("escapeRooms/steps/instructions", {escapeRoom,
-        "progress": "instructions"});
+        "progress": "team",
+        "endPoint": "team"});
 };
 
-// GET /escapeRooms/:escapeRoomId/instructions
-exports.instructionsUpdate = (req, res, next) => {
-    const {escapeRoom, body} = req;
-    const isPrevious = Boolean(body.previous);
+// GET /escapeRooms/:escapeRoomId/class
+exports.classInterface = (req, res) => {
+    const {escapeRoom} = req;
 
-    escapeRoom.instructions = body.instructions;
-    escapeRoom.appearance = body.appearance;
-    const progressBar = body.progress;
+    res.render("escapeRooms/steps/instructions", {escapeRoom,
+        "progress": "class",
+        "endPoint": "class"});
+};
 
-    escapeRoom.save({"fields": [
-        "instructions",
-        "appearance"
-    ]}).then(() => {
-        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("instructions") : progressBar || nextStep("instructions")}`);
-    }).
-        catch(Sequelize.ValidationError, (error) => {
-            error.errors.forEach(({message}) => req.flash("error", message));
-            res.redirect(`/escapeRooms/${escapeRoom.id}/instructions`);
-        }).
-        catch((error) => {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
-            next(error);
-        });
+
+// GET /escapeRooms/:escapeRoomId/team
+exports.teamInterfaceUpdate = (req, res, next) => {
+    saveInterface("team", req, res, next);
+};
+
+// GET /escapeRooms/:escapeRoomId/class
+exports.classInterfaceUpdate = (req, res, next) => {
+    saveInterface("class", req, res, next);
 };
 
 // DELETE /escapeRooms/:escapeRoomId

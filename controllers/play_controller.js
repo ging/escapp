@@ -1,85 +1,17 @@
 const Sequelize = require("sequelize");
-const cloudinary = require("cloudinary");
-const {parseURL} = require("../helpers/video");
+const {playInterface} = require("../helpers/utils");
 const {models} = require("../models");
 
 
 // GET /escapeRooms/:escapeRoomId/play
 exports.play = (req, res) => {
-    const isAdmin = Boolean(req.session.user.isAdmin),
-        isAuthor = req.escapeRoom.authorId === req.session.user.id;
-
-    if (isAdmin || isAuthor) {
-        res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
-            cloudinary,
-            "team": {"turno": req.turn,
-                "retos": []},
-            "hints": [],
-            "isStudent": false,
-            parseURL,
-            "layout": false});
-        return;
-    }
-    models.team.findAll({
-        "include": [
-            {
-                "model": models.turno,
-                "include": {
-                    "model": models.escapeRoom,
-                    "where": {
-                        "id": req.escapeRoom.id
-                    }
-                },
-                "required": true
-
-            },
-            {
-                "model": models.user,
-                "as": "teamMembers",
-                "attributes": [],
-                "where": {
-                    "id": req.session.user.id
-                },
-                "required": true
-            },
-            {
-                "model": models.puzzle,
-                "as": "retos",
-                "through": {
-                    "model": models.retosSuperados,
-                    "required": false,
-                    "attributes": ["createdAt"]
-
-                }
-            }
-
-        ],
-        "required": true
-    }).then((teams) => {
-        const team = teams && teams[0] ? teams[0] : [];
-
-        if (team.turno.status !== "active") {
-            res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
-        }
-        models.requestedHint.findAll({
-            "where": {
-                "teamId": team.id,
-                "success": true
-            },
-            "include": models.hint
-
-        }).then((hints) => {
-            res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
-                cloudinary,
-                team,
-                "isStudent": true,
-                "hints": hints || [],
-                parseURL,
-                "layout": false});
-        });
-    });
+    playInterface("team", req, res);
 };
 
+// GET /escapeRooms/:escapeRoomId/project
+exports.classInterface = (req, res) => {
+    playInterface("class", req, res);
+};
 
 exports.finish = (req, res) => {
     const isPg = process.env.DATABASE_URL;

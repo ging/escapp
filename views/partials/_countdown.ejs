@@ -1,10 +1,11 @@
-<div class="clockContainer" id="clockContainer" >
-    <p class="clock text-danger text-center" id="explosion" style="display:none"><span id="boom" data-text="BOOOOOM!">BOOOOOM!</span></p>
-    <p class="countdown text-danger clock text-center" id="time">
-    <span id="minus" style="display:none;" data-text="-">-</span><span id="hours" data-text="00">00</span><span class="colon" data-text=":">:</span><span id="mins" data-text="00">00</span><span class="colon" data-text=":">:</span><span id="secs" data-text="00">00</span>
-    </p>
-</div>
+
 <script>
+    $("countdown").html(`<div class="clockContainer" >
+        <p class="clock text-danger text-center explosion" style="display:none"><span class="boom" data-text="BOOOOOM!">BOOOOOM!</span></p>
+        <p class="countdown text-danger clock text-center time" >
+        <span class="minus" style="display:none;" data-text="-">-</span><span class="hours" data-text="00">00</span><span class="colon" data-text=":">:</span><span class="mins" data-text="00">00</span><span class="colon" data-text=":">:</span><span class="secs" data-text="00">00</span>
+        </p>
+    </div>`);
     var stopped = window.stopped;
     var rem_time = window.duration || 60;
     if (window.startTime && window.duration) {
@@ -19,35 +20,33 @@
         function pad(num) {
             return (num < 10 ? "0" + num : num);
         }
-        document.getElementById('hours').innerHTML = pad(hours);
-        document.getElementById('hours').setAttribute('data-text', pad(hours));
-        document.getElementById('mins').innerHTML = pad(mins);
-        document.getElementById('mins').setAttribute('data-text', pad(mins));
-        document.getElementById('secs').innerHTML = pad(secs);
-        document.getElementById('secs').setAttribute('data-text', pad(secs));
+        $('.hours').html(pad(hours));
+        $('.hours').attr('data-text', pad(hours));
+        $('.mins').html(pad(mins));
+        $('.mins').attr('data-text', pad(mins));
+        $('.secs').html(pad(secs));
+        $('.secs').attr('data-text', pad(secs));
         if (rem_time > 0 && rem_time < 11) {
-          document.getElementById("clockContainer").classList.add("animated");
-          document.getElementById("clockContainer").classList.add("infinite");
-          document.getElementById("clockContainer").classList.add("pulse");
+          $(".clockContainer").addClass("animated");
+          $(".clockContainer").addClass("infinite");
+          $(".clockContainer").addClass("pulse");
         }
         if (rem_time === 0 || rem_time < 0) {
-            [...document.getElementsByClassName("clock")].forEach((e) => {
-                e.classList.add('red');
-            });
-            document.getElementById("clockContainer").classList.remove("animated");
-            document.getElementById("clockContainer").classList.remove("infinite");
-            document.getElementById("clockContainer").classList.remove("pulse");
+            $(".clock").addClass("red");
+            $(".clockContainer").removeClass("animated");
+            $(".clockContainer").removeClass("infinite");
+            $(".clockContainer").removeClass("pulse");
         }
         if (rem_time === 0) {
             //clearInterval(countdownChrono);
-            document.getElementById('explosion').style.display = "inline-block";
-            document.getElementById('time').style.display = "none";
-            //document.getElementById('boom').innerHTML = "BOOOOOM!";
-            //document.getElementById('boom').setAttribute('data-text', "BOOOOOM!");
+            $('.explosion').css("display", "inline-block");
+            $('.time').css("display", "none");
+            //$('.boom').html("BOOOOOM!");
+            //$('.boom').attr('data-text', "BOOOOOM!");
         } else if (rem_time < 0) {
-            document.getElementById('explosion').style.display = "none";
-            document.getElementById('time').style.display = "inline-block";
-            document.getElementById('minus').style.display = "inline-block";
+            $('.explosion').css("display","none");
+            $('.time').css("display", "inline-block");
+            $('.minus').css("display","inline-block");
         }
 
         rem_time--;

@@ -19,9 +19,12 @@ $(function(){
     Quill.register(AudioBlot);
 
     class CountdownBlot extends BlockEmbed {
-      static create(content) {
+      static create() {
         let node = super.create();
-        node.innerHTML = content;
+        // node.innerHTML = "00:00:00";
+        // node.setAttribute('draggable', 'draggable');
+        node.setAttribute('contenteditable', 'false');
+        node.classList.add('draggable-element');
         return node;
       }
     }
@@ -92,13 +95,6 @@ $(function(){
     });
 
     editor.clipboard.addMatcher (Node.ELEMENT_NODE, function (node, delta) {
-        console.log(node, delta)
-        const attributes = {
-            'font': false,
-            'strike': false,
-            'direction': false,
-            'color': false
-        };
         if (node && node.id) {
             switch(node.id) {
                 case 'ranking':
@@ -106,8 +102,13 @@ $(function(){
                     return delta;
             }
         }
+        const attributes = {
+            'font': false,
+            'strike': false,
+            'direction': false,
+            'color': false
+        };
         delta.ops = delta.ops.map(op=>{
-            console.log(op)
             return {
                 insert: op.insert,
                 attributes: {
@@ -266,5 +267,8 @@ $(function(){
         $('#sourceFile').prop('checked', false);
     });
 
-    $($('.ql-appearance .ql-picker-label')[0]).attr('data-value', appearance);
+    $($('.ql-appearance .ql-picker-label')[0]).attr('data-value', $('#appearance').val());
+
+    $( function() {
+    });
 });

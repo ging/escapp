@@ -1213,7 +1213,8 @@ button, input[type="submit"] {
     padding: 10px;
     border: 2px solid #eee;
     overflow: hidden;
-    line-height: 50px; }
+    line-height: 50px;
+    cursor: pointer; }
     #mainSection .main.step-instructions .gamification-elements .gamification-element.gamification-element-selected {
       border: 2px solid #48C18E; }
     #mainSection .main.step-instructions .gamification-elements .gamification-element .gamification-element-title {
@@ -1235,10 +1236,19 @@ button, input[type="submit"] {
   font-size: 17vw;
   display: block;
   text-align: center;
-  user-select: none;
+  cursor: move;
   color: var(--danger); }
   #mainSection .main.step-instructions countdown:after {
     content: "00:00:00"; }
+
+#mainSection .main.step-instructions [dpraggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element; }
 
 .ql-picker.ql-appearance .ql-picker-label {
   padding-right: 18px;

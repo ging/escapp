@@ -11,7 +11,6 @@
     <div class="menuERShowRight">
        <ul class="menuERactionList">
            <li><a href="#basic"><%=i18n.showTeacher.actionList.basic%></a></li>
-           <li><a href="#appearance"><%=i18n.showTeacher.actionList.appearance%></a></li>
            <li><a href="#turnos"><%=i18n.showTeacher.actionList.turnos%></a></li>
            <li><a href="#join"><%=i18n.showTeacher.actionList.join%></a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/participants"><%=i18n.showTeacher.actionList.participants%> <i class="material-icons">keyboard_arrow_right</i></a></li>
@@ -50,14 +49,6 @@
             </div>
             <div class="flexShowRight">
                 <%= escapeRoom.duration %>
-            </div>
-        </div>
-        <div class="flexRow animated bounceIn">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.instructions%>:
-            </div>
-            <div class="flexShowRight instructionsPreview">
-                <%- escapeRoom.instructions %>
             </div>
         </div>
         <div class="flexRow animated bounceIn">
@@ -109,14 +100,6 @@
                 <input id="joinUrl" value="<%= invitationLink %>"/>
                 <button class="copy" id="copyButton"><i class="material-icons">file_copy</i></button>
                  <a class="show_link" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/<%= invitationLink %>"> <button class="copy" id="copyButton"><i class="material-icons">camera_enhance</i></button></a>
-            </div>
-        </div>
-        <div class="flexRow animated bounceIn" id="appearance">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.appearance%>:
-            </div>
-            <div class="flexShowRight">
-                <img src="/images/bootswatch/<%=escapeRoom.appearance%>.png"/>
             </div>
         </div>
         <div class="flexRow animated bounceIn" id="turnos">

@@ -5,9 +5,11 @@
     font-style: normal;
 }
 
-.countdown, #explosion {
+.countdown, .explosion {
     font-family: 'Digital', monospace;
     font-size: 17vw;
+    margin: auto;
+    text-align: center;
 }
 
 
