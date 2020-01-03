@@ -119,7 +119,7 @@ exports.activar = (req, res, next) => {
             ]}).then(() => {
                 req.flash("success", turno.status === "active" ? "Turno activo." : "Turno desactivado");
                 if (turno.status === "active") {
-                    res.redirect(back);
+                    res.redirect(`/escapeRooms/${escapeRoom.id}/project`);
                 } else {
                     res.redirect(back);
                 }

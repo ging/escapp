@@ -65,12 +65,7 @@
 			    	%>
 				    <tr>
 				    	<td><b><%=team.name%></b></td>
-				    	<td>
-				    		<%=
-								team.teamMembers.map(member=> 
-								member.name + " " + member.surname).join(", ")
-							%>
-				    	</td>
+				    	<td><%= team.teamMembers.map(member=> member.name + " " + member.surname).join(", ") %></td>
 				    	<td><%=getFullDate(team.turno.date)%></td>
 				    	<td><%=result%></td>
 				    	<td><%=finishTime ? secondsToDhms(finishTime) : "--" %></td>

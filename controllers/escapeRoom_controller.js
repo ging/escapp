@@ -127,16 +127,6 @@ exports.show = (req, res) => {
     }
 };
 
-// /escapeRooms/:escapeRoomId/preview
-exports.preview = (req, res) => {
-    const {escapeRoom} = req;
-
-    res.render("escapeRooms/preview", {escapeRoom,
-        "layout": false,
-        cloudinary,
-        parseURL,
-        "appearance": req.query.appearance});
-};
 
 // GET /escapeRooms/new
 exports.new = (req, res) => {
@@ -313,34 +303,6 @@ exports.update = (req, res, next) => {
         });
 };
 
-// GET /escapeRooms/:escapeRoomId/appearance
-exports.appearance = (req, res) => {
-    const {escapeRoom} = req;
-
-    res.render("escapeRooms/steps/appearance", {escapeRoom,
-        "progress": "appearance"});
-};
-
-// POST /escapeRooms/:escapeRoomId/appearance
-exports.appearanceUpdate = (req, res, next) => {
-    const {escapeRoom, body} = req;
-
-    escapeRoom.appearance = body.appearance;
-    const isPrevious = Boolean(body.previous);
-    const progressBar = body.progress;
-
-    escapeRoom.save({"fields": ["appearance"]}).then(() => {
-        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("appearance") : progressBar || nextStep("appearance")}`);
-    }).
-        catch(Sequelize.ValidationError, (error) => {
-            error.errors.forEach(({message}) => req.flash("error", message));
-            res.redirect(`/escapeRooms/${escapeRoom.id}/appearance`);
-        }).
-        catch((error) => {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
-            next(error);
-        });
-};
 
 // GET /escapeRooms/:escapeRoomId/evaluation
 exports.evaluation = (req, res) => {

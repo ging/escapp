@@ -1,5 +1,17 @@
-
 <script>
+    <%if (team && team.turno && team.turno.status === "active") { %>
+            var countdown = true;
+            var startTime = new Date("<%=team.turno.startTime%>");
+            var duration = <%=escapeRoom.duration || 0%>;
+        <% if (finish) { %>
+            var stopped = true;
+            var now = new Date("<%=team.retos[team.retos.length - 1].retosSuperados.createdAt%>");
+       <% } %>
+    <% } else {%>
+        var countdown = false;
+        var duration = 0;
+        /**prueba**/ /*  var countdown = true; var startTime = new Date(); var duration = 0.5; *//**prueba**/
+    <% } %>
     $("countdown").html(`<div class="clockContainer" >
         <p class="clock text-danger text-center explosion" style="display:none"><span class="boom" data-text="BOOOOOM!">BOOOOOM!</span></p>
         <p class="countdown text-danger clock text-center time" >

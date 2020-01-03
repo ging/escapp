@@ -74,7 +74,6 @@ router.get("/users/:userId(\\d+)/escapeRooms", sessionController.loginRequired, 
 router.get("/escapeRooms", sessionController.loginRequired, escapeRoomController.index);
 router.get("/escapeRoomsAdmin", sessionController.loginRequired, sessionController.adminRequired, escapeRoomController.index);
 router.get("/escapeRooms/:escapeRoomId(\\d+)", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, escapeRoomController.show);
-router.get("/escapeRooms/:escapeRoomId(\\d+)/preview", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.preview);
 
 router.get("/escapeRooms/new", sessionController.loginRequired, sessionController.notStudentRequired, escapeRoomController.new);
 router.post("/escapeRooms", sessionController.loginRequired, upload.single("image"), escapeRoomController.create);
@@ -95,8 +94,8 @@ router.post("/escapeRooms/:escapeRoomId(\\d+)/deleteAssets/:assetId(\\d+)", sess
 router.get("/escapeRooms/:escapeRoomId(\\d+)/evaluation", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.evaluation);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/evaluation", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.evaluationUpdate);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/team", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.teamInterface);
-router.get("/escapeRooms/:escapeRoomId(\\d+)/class", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.classInterface);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/team", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.teamInterfaceUpdate);
+router.get("/escapeRooms/:escapeRoomId(\\d+)/class", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.classInterface);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/class", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.classInterfaceUpdate);
 
 

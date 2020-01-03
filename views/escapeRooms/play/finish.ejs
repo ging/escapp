@@ -7,66 +7,28 @@
 			<%-include("../../partials/_podium")%>
 		<% } %>
 		<br/><br/>
-
-		<% if (escapeRoom.posttest) { %>
-			<!--<div class="desc animated slideInUp" style="text-align: center;">
-				<%=i18n.showStudent.beforeLeave%>
-				 <br/><br/>
-				<a target="_blank" href="<%=escapeRoom.pretest%>">
-					<button class="rounded finish-button"><%=i18n.showStudent.access%></button>
-				</a>
-			</div>
-			<br/><br/><br/>-->
-		<% } %>
-		<% if (escapeRoom.survey) { %>
-			<!--<div class="desc  animated slideInUp" style="text-align: center;">
-				<%=i18n.showStudent.opinion%> <br/><br/>
-				<a  target="_blank" href="<%=escapeRoom.survey%>">
-					<button class="rounded finish-button"><%=i18n.showStudent.access%></button>
-				</a>
-			</div>-->
-		<% } %>
+		<!--
+			<% if (escapeRoom.posttest) { %>
+				<div class="desc animated slideInUp" style="text-align: center;">
+					<%=i18n.showStudent.beforeLeave%>
+					 <br/><br/>
+					<a target="_blank" href="<%=escapeRoom.pretest%>">
+						<button class="rounded finish-button"><%=i18n.showStudent.access%></button>
+					</a>
+				</div>
+				<br/><br/><br/>
+			<% } %>
+			<% if (escapeRoom.survey) { %>
+				<div class="desc  animated slideInUp" style="text-align: center;">
+					<%=i18n.showStudent.opinion%> <br/><br/>
+					<a  target="_blank" href="<%=escapeRoom.survey%>">
+						<button class="rounded finish-button"><%=i18n.showStudent.access%></button>
+					</a>
+				</div>
+			<% } %>
+		-->
 		<% if (teams.length > 0) { %>
-		    <table class="ranking-table">
-			    <tr>
-			    	<th class="ranking-team"><%=i18n.analytics.ranking.team%></th>
-			    	<th class="ranking-members"><%=i18n.analytics.ranking.members%></th>
-			    	<th class="ranking-res"><%=i18n.analytics.ranking.res%></th>
-			    	<th class="ranking-time"><%=i18n.analytics.ranking.time%></th>
-
-			    </tr>
-			    
-			    <% for (var t in teams) { 
-			    	var team = teams[t];
-			    	var stringified = JSON.parse(JSON.stringify(team));
-			    	var count = stringified.countretos;
-			    	var startTime = stringified.turno.startTime;
-			    	var latestRetoSuperado = stringified.latestretosuperado;
-			    	var res = count + "/" + escapeRoom.puzzles.length;
-			    	var myTeam = false;
-			    	var participants = team.teamMembers.map(member=> {
-						if (member.id === userId) {
-							myTeam = true;
-						}
-						return member.name + " " + member.surname}).join(", ");
-			    	%>
-				    <tr class="<%=myTeam ? "myTeam":""%>">
-				    	<td class="ranking-team"><b><%=team.name%></b></td>
-				    	<td class="ranking-members">
-				    		<%=participants%>
-				    	</td>
-				    	<td class="ranking-res"><%=res%></td>
-				    	<td class="ranking-time">
-				    		<% if(escapeRoom.puzzles.length === parseInt(count) && startTime) { %>
-				    			<%= secondsToDhms((new Date(latestRetoSuperado) - new Date(startTime))/1000)  %>
-				    		<% } else { %>
-				    			n/a
-				    		<%}
-				    	%></td>
-
-				    </tr>
-			    <% } %>
-			</table>
+			<% include ../../partials/_ranking %>
 		<% } %>
 		<br/>
 	</div>

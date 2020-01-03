@@ -65,12 +65,12 @@ exports.saveInterface = (name, req, res, next) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
 
-    escapeRoom[name] = body.instructions;
+    escapeRoom[`${name}Instructions`] = body.instructions;
     escapeRoom[`${name}Appearance`] = body.appearance;
     const progressBar = body.progress;
 
     escapeRoom.save({"fields": [
-        name,
+        `${name}Instructions`,
         `${name}Appearance`
     ]}).then(() => {
         res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep(name) : progressBar || nextStep(name)}`);
