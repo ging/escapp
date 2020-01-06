@@ -37,7 +37,7 @@ if (app.get("env") === "production") {
 
   var server = http.createServer(app);
 
-  /**ho
+  /**
    * Listen on provided port, on all network interfaces.
    */
 

@@ -1,6 +1,4 @@
 $(function(){
-    
-
     const BlockEmbed = Quill.import('blots/block/embed');
     class AudioBlot extends BlockEmbed {
       static create(url) {

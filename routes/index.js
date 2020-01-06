@@ -127,7 +127,7 @@ router.get("/escapeRooms/:escapeRoomId(\\d+)/xml", sessionController.loginRequir
 router.get("/escapeRooms/:escapeRoomId(\\d+)/play", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, playController.play);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/project", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, playController.classInterface);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/finish", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, playController.finish);
-router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/play", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, playController.play);
+router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/play", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, playController.classInterface);
 
 router.get("/inspiration", sessionController.loginRequired, (req, res) => res.render("inspiration"));
 router.get("/resources", sessionController.loginRequired, (req, res) => res.render("resources"));
