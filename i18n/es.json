@@ -293,7 +293,8 @@
     "gallery": {
         "title": "Galería",
         "insertURL": "Introduce la URL",
-        "selectFileFromList": "Selecciona un fichero de la lista",
+        "selectFileFromList": "Selecciona un fichero de la lista o ",
+        "uploadNew": "sube un fichero nuevo",
         "selectGamificationElements": "Selecciona un elemento de gamificación"
     },
     "inspiration": {

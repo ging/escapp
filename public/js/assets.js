@@ -2,6 +2,7 @@
     Dropzone.options.assetsForm = {
         "paramName": "assets", // The name that will be used to transfer the file
         "maxFilesize": 10, // MB
+        clickable: "#uploadNew, .dropzone",
         "addRemoveLinks": true,
         "accept": function(file, done) {
             done();
