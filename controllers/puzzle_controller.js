@@ -124,14 +124,14 @@ exports.check = (req, res, next) => {
                             return;
                         }
                         req.puzzle.addSuperados(team[0].id).then(function () {
-                            req.flash("success", req.app.locals.i18n.puzzle.correctAnswer);
+                            req.flash("success", req.puzzle.correct || req.app.locals.i18n.puzzle.correctAnswer);
                             res.redirect(`/escapeRooms/${req.escapeRoom.id}/play#puzzles`);
                         }).
                             catch(function (e) {
                                 next(e);
                             });
                     } else {
-                        req.flash("error", req.app.locals.i18n.puzzle.wrongAnswer);
+                        req.flash("error", req.puzzle.fail || req.app.locals.i18n.puzzle.wrongAnswer);
                         res.redirect(`/escapeRooms/${req.escapeRoom.id}/play#puzzles`);
                     }
                 } else {

@@ -39,19 +39,19 @@ exports.check = async (req, res) => {
         trim()) {
         if (team && team.length > 0) {
             if (team[0].turno.status !== "active") {
-                res.status(202).json({"msg": "The answer is correct but you are not being tracked because your turn is not active"});
+                res.status(202).json({"msg": "The answer is correct but you are not being tracked because your turn is not active" + (req.puzzle.correct ? ("Message: " + req.puzzle.correct ) : "")});
                 return;
             }
             try {
                 await req.puzzle.addSuperados(team[0].id);
-                res.json({"msg": "Correct answer!"});
+                res.json({"msg": req.puzzle.correct || "Correct answer!"});
             } catch (e) {
                 res.status(500).json({"msg": e});
             }
         } else {
-            res.status(202).json({"msg": "The answer is correct but you are not being tracked"});
+            res.status(202).json({"msg": "The answer is correct but you are not being tracked." + (req.puzzle.correct ? ("Message: " + req.puzzle.correct ) : "")});
         }
     } else {
-        res.status(401).json({"msg": "Wrong"});
+        res.status(401).json({"msg": req.puzzle.fail || "Wrong"});
     }
 };
