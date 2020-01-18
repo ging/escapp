@@ -1165,6 +1165,21 @@ button, input[type="submit"] {
       color: #F47E84 !important;
       -webkit-text-fill-color: #F47E84 !important; }
 
+#mainSection .main.step-instructions #uploadNew {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+  border-radius: 5px;
+  border-style: solid;
+  padding: 10px;
+  text-align: center;
+  outline: 0;
+  border-radius: 25px !important;
+  padding: 8px 20px !important;
+  font-size: 15px;
+  background-color: #FAC855; }
+
 #mainSection .main.step-instructions #assetsForm .dz-preview * {
   cursor: pointer; }
 

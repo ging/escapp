@@ -10,7 +10,7 @@
     "dev": "DEBUG=escapp  nodemon bin/www -e sass,js,json --exec \"npm run css && npm run lint && node\" && xdg-open http://localhost:3000 ",
     "dev-windows": "nodemon bin/www -e sass,scss,js,json --exec \"npm run css && npm run lint && node\" && start http://localhost:3000",
     "test": "jest",
-    "migrate_local": "sh migrate.sh",
+    "migrate_local": "node migrate.js",
     "migrate_local_sqlite": "sequelize db:migrate --url sqlite://$(pwd)/escaperoom.sqlite",
     "migrate_local_sqlite_windows": "sh migrate.sh",
     "migrate_heroku": "heroku run ./node_modules/.bin/sequelize db:migrate --url $DATABASE_URL",

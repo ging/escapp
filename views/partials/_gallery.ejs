@@ -7,12 +7,15 @@
       <input type="url" id="urlInput" class="fileUrlInput" placeholder="http://" />
       <br/>
       <label><input type="radio" id="sourceFile" name="file-gallery-source" value="url"/><%=i18n.gallery.selectFileFromList%></label>
+          <button class="" id="uploadNew"><%=i18n.gallery.uploadNew%></button>
       </p>
       <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone" >
           <input type="file" name="file" style="display:none;"/>
       </form>
       <p class="gallery-msg">
-      <label><input type="radio" id="sourceGamificationElement" name="file-gallery-source" value="url"/><%=i18n.gallery.selectGamificationElements%></label>
+      <label><input type="radio" id="sourceGamificationElement" name="file-gallery-source" value="url"/>
+          <%=i18n.gallery.selectGamificationElements%>
+      </label>
         <div class="gamification-elements">
           <div class="gamification-element" id="countdown">
             <img src="/images/countdown.png"/>
