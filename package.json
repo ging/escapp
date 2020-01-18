@@ -57,7 +57,7 @@
     "nodemon": "^1.18.11",
     "pg": "7.10.0",
     "sass": "^1.19.0",
-    "sequelize": "5.8.2",
+    "sequelize": "^5.15.1",
     "sequelize-cli": "^5.4.0"
   },
   "devDependencies": {
