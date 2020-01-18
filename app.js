@@ -4,8 +4,8 @@ const path = require("path");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const session = require("express-session"),
-    SequelizeStore = require("connect-session-sequelize")(session.Store);
+const session = require("express-session");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const partials = require("express-partials");
 const flash = require("express-flash");
 const methodOverride = require("method-override");
@@ -48,10 +48,13 @@ const sessionStore = new SequelizeStore({"db": sequelize,
     "checkExpirationInterval": 15 * 60 * 1000,
     "expiration": 3 * 60 * 60 * 1000});
 
-app.use(session({"secret": "Escape Room",
+const sessionMiddleware = session({"secret": "Escape Room",
     "store": sessionStore,
     "resave": false,
-    "saveUninitialized": true}));
+    "saveUninitialized": true});
+
+app.sessionMiddleware = sessionMiddleware;
+app.use(sessionMiddleware);
 
 app.use(methodOverride("_method", {"methods": [
     "POST",

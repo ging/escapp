@@ -4,39 +4,44 @@
  * Module dependencies.
  */
 
-var app = require('../app');
 var httpApp = require('../app');
+var httpsApp = require('../app');
+var io = require('../io');
 var debug = require('debug')('web:server');
 var http = require('http');
+
 /**
  * Get port from environment and store in Express.
  */
 
-if (app.get("env") === "production") {
+if (httpApp.get("env") === "production") {
   var httpServer;
   var port = normalizePort('443');
   var fs = require('fs');
   var https = require('https');
-  httpApp.set('port', port);
+  httpsApp.set('port', port);
   var privateKey  = fs.readFileSync('/etc/ssl/private/escapp.dit.upm.es.llave.pem', 'utf8');
   var certificate = fs.readFileSync('/etc/ssl/certs/escapp.dit.upm.es.certificado.pem', 'utf8');
   var ca = fs.readFileSync('/etc/ssl/certs/cadDigiCertCA.pem', 'utf8');
 
   var credentials = {key: privateKey, cert: certificate, ca};
-  httpServer = https.createServer(credentials, httpApp);
+  httpServer = https.createServer(credentials, httpsApp);
+  global.io = io.createServer(httpServer, httpsApp.sessionMiddleware);
   httpServer.listen(port);
   httpServer.on('error', onError);
   httpServer.on('listening', onListening);
 }  
   var port = normalizePort(process.env.PORT || '3000');
-  app.set('port', port);
+  httpApp.set('port', port);
 
   /**
    * Create HTTP server.
    */
 
-  var server = http.createServer(app);
-
+  var server = http.createServer(httpApp);
+  if (httpApp.get("env") !== "production") {
+    global.io = io.createServer(server, httpApp.sessionMiddleware);
+  }
   /**
    * Listen on provided port, on all network interfaces.
    */

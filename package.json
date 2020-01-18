@@ -58,7 +58,8 @@
     "pg": "7.10.0",
     "sass": "^1.19.0",
     "sequelize": "^5.15.1",
-    "sequelize-cli": "^5.4.0"
+    "sequelize-cli": "^5.4.0",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "jest": "^24.7.1",

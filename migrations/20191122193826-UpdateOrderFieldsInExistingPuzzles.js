@@ -12,11 +12,12 @@ module.exports = {
                 }
             ]
         });
+        const promises = [];
 
         for (const er of escapeRooms) {
-            await (er.puzzles || []).map(async ({id}, order) => await models.
-                puzzle.update({order}, {"where": {id}}));
+            (er.puzzles || []).map(({id}, order) => promises.push(models.puzzle.update({order}, {"where": {id}})));
         }
+        await Promise.all(promises);
     }
 
 };

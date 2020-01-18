@@ -1,5 +1,5 @@
 const {models} = require("../models");
-
+const {sendTeamMessage} = require("../helpers/sockets");
 
 // POST /api/escapeRooms/:escapeRoomId/puzzles/:puzzleId/check
 exports.check = async (req, res) => {
@@ -43,8 +43,11 @@ exports.check = async (req, res) => {
                 return;
             }
             try {
+                const msg = req.puzzle.correct || "Correct answer!";
+
                 await req.puzzle.addSuperados(team[0].id);
-                res.json({"msg": req.puzzle.correct || "Correct answer!"});
+                await sendTeamMessage(msg, team[0].id);
+                res.json({msg});
             } catch (e) {
                 res.status(500).json({"msg": e});
             }
