@@ -106,3 +106,12 @@ p {
 .ql-editor iframe {
     pointer-events: all;
 }
+
+.hintAppIframe {
+    width: 100%;
+    height: 70vh;
+    border: none;
+}
+#hintAppModal .modal-body {
+    padding: 0px;
+}

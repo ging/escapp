@@ -13,58 +13,45 @@ const START = "START";
 const STOP = "STOP";
 
 const checkAccess = async (userId, teamId, escapeRoomId, turnId) => {
-	const escapeRoom = await models.escapeRoom.findAll({ 
-	    where: {
-	        id: escapeRoomId,
-	    },
-	    include: [{
-	        model: models.turno,
-	        include: [{
-	            model: models.team, 
-	            where: {id: teamId},
-	            include: [{
-	                model: models.user, 
-	                as: "teamMembers",
-	                where: {
-	                    id: userId
-	                }
-	            }]
-	        }]
-	    }]
-	});
-	if (escapeRoom && escapeRoom.length > 0) {
-		if (escapeRoom.authorId === userId) {
-			return "AUTHOR"
-		} else if (escapeRoom[0].turnos && escapeRoom[0].turnos.length > 0) {
-			if (escapeRoom[0].turnos[0].teams && escapeRoom[0].turnos[0].teams.length > 0) {
-				if (escapeRoom[0].turnos[0].teams[0].teamMembers && escapeRoom[0].turnos[0].teams[0].teamMembers.length > 0) {
-					return "PARTICIPANT"
-				}
-			}
-		}
-	}
-	return false;
-	/*const isAdmin = Boolean(req.session.user.isAdmin),
-	    isAuthor = escapeRoom.authorId === userId;
+    const escapeRoom = await models.escapeRoom.findAll({
+        "where": {
+            "id": escapeRoomId
+        },
+        "include": [
+            {
+                "model": models.turno,
+                "include": [
+                    {
+                        "model": models.team,
+                        "where": {"id": teamId},
+                        "include": [
+                            {
+                                "model": models.user,
+                                "as": "teamMembers",
+                                "where": {
+                                    "id": userId
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    });
 
-	try {
-	    if (isAdmin || isAuthor) {
-	        next();
-	        return;
-	    }
-	    const participants = await models.user.findAll(query.user.escapeRoomsForUser(escapeRoom.id, userId));
-	    const isParticipant = participants && participants.length > 0;
-
-	    req.isParticipant = isParticipant ? participants[0] : null;
-	    if (isParticipant) {
-	        next();
-	    } else {
-	        throw new Error(403);
-	    }
-	} catch (error) {
-	    next(error);
-	}*/
-}
+    if (escapeRoom && escapeRoom.length > 0) {
+        if (escapeRoom.authorId === userId) {
+            return "AUTHOR";
+        } else if (escapeRoom[0].turnos && escapeRoom[0].turnos.length > 0) {
+            if (escapeRoom[0].turnos[0].teams && escapeRoom[0].turnos[0].teams.length > 0) {
+                if (escapeRoom[0].turnos[0].teams[0].teamMembers && escapeRoom[0].turnos[0].teams[0].teamMembers.length > 0) {
+                    return "PARTICIPANT";
+                }
+            }
+        }
+    }
+    return false;
+};
 
 /** Send message to every team member connected*/
 const sendTeamMessage = async (msg, teamId) => {
@@ -85,8 +72,8 @@ const sendTeamMessage = async (msg, teamId) => {
 };
 
 const sendIndividualMessage = async (msg, socketId) => {
-	global.io.to(socketId).emit(msg.type, msg.payload);
-}
+    global.io.to(socketId).emit(msg.type, msg.payload);
+};
 
 /** Action creators */
 const error = (msg, teamId) => sendTeamMessage({"type": ERROR,
@@ -103,7 +90,8 @@ const puzzleResponse = (success, puzzleId, msg, auto, teamId) => sendTeamMessage
 const startResponse = (msg, teamId) => sendTeamMessage({"type": START,
     "payload": {msg}}, teamId);
 const stopResponse = (teamId) => sendTeamMessage({"type": STOP}, teamId);
-const revokeAccess = (socketId) => sendIndividualMessage({type: "ERROR", payload:{msg: "You are not allowed to access this page"}}, socketId);
+const revokeAccess = (socketId) => sendIndividualMessage({"type": "ERROR",
+    "payload": {"msg": "You are not allowed to access this page"}}, socketId);
 /** Client-server**/
 
 const disconnect = async (socketid) => {

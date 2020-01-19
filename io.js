@@ -20,8 +20,8 @@ exports.createServer = (server, sessionMiddleware) => {
             const isAdmin = Boolean(socket.request.session.user.isAdmin);
 
             const access = isAdmin ? "ADMIN" : await checkAccess(userId, teamId, escapeRoomId, turnId);
-            const isAuthor = access === 'AUTHOR',
-                isStudent = access === 'PARTICIPANT';
+            const isAuthor = access === "AUTHOR",
+                isStudent = access === "PARTICIPANT";
 
             if (access) {
                 await start(socket.id, teamId, userId);
@@ -31,8 +31,6 @@ exports.createServer = (server, sessionMiddleware) => {
             } else {
                 await revokeAccess(socket.id);
             }
-            
-            
         }
     });
 
