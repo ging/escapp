@@ -3,6 +3,7 @@ const sequelize = require("../models");
 const {models} = sequelize;
 const http = require("https");
 const attHelper = require("../helpers/attachments");
+const {calculateNextHint} = require("../helpers/hint");
 const {nextStep, prevStep} = require("../helpers/progress");
 
 // Autoload the hint with id equals to :hintId
@@ -96,18 +97,18 @@ exports.hintAppWrapper = (req, res) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/requestHint
-exports.requestHint = (req, res) => {
+exports.requestHint = async (req, res) => {
     const {escapeRoom, body} = req;
     const {score, status} = body;
-    const success = status === "completed" || status === "passed";
 
-    if (req.session && req.session.user && !req.session.user.isStudent) {
-        res.send({"teacher": true,
-            "ok": false});
-        return;
-    }
-    models.user.findByPk(req.session.user.id).then((user) => {
-        user.getTeamsAgregados({
+    try {
+        if (req.session && req.session.user && !req.session.user.isStudent) {
+            res.send({"teacher": true,
+                "ok": false});
+            return;
+        }
+        const user = await models.user.findByPk(req.session.user.id);
+        const teams = await user.getTeamsAgregados({
             "include": [
                 {
                     "model": models.turno,
@@ -116,107 +117,29 @@ exports.requestHint = (req, res) => {
                         "status": "active"} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
                 }
             ]
-
-        }).
-            then((teams) => {
-                if (teams && teams.length > 0) {
-                    const [team] = teams;
-
-                    if (success) {
-                        team.getRetos().then((retosSuperados) => {
-                            let currentReto = -1;
-                            const puzzleIndexes = escapeRoom.puzzles.map((p) => p.id);
-
-                            for (const p in retosSuperados) {
-                                const reto = retosSuperados[p];
-                                const idx = puzzleIndexes.indexOf(reto.id);
-
-                                if (idx > currentReto) {
-                                    currentReto = idx;
-                                }
-                            }
-                            currentReto++;
-
-                            if (currentReto >= puzzleIndexes.length) {
-                                currentReto = -1;
-                            } else {
-                                currentReto = escapeRoom.puzzles[currentReto].id;
-                            }
-                            models.requestedHint.findAll({
-                                "where": {
-                                    "teamId": team.id,
-                                    "success": true
-                                } // Order by reto and then hintId
-                            }).then((hints) => {
-                                const requestedHints = hints.filter((h) => h.id !== null);
-                                let currentHint = -1;
-                                const allHints = [];
-                                const allHintsIndexes = [];
-                                const currentRetos = escapeRoom.puzzles.filter((p) => p.id === currentReto);
-
-                                for (const h in currentRetos) {
-                                    for (const i in currentRetos[h].hints) {
-                                        allHints.push(currentRetos[h].hints[i]);
-                                        allHintsIndexes.push(currentRetos[h].hints[i].id);
-                                    }
-                                }
-
-                                for (const h in requestedHints) {
-                                    const hint = requestedHints[h];
-
-                                    const hIndex = allHintsIndexes.indexOf(hint.hintId);
-
-                                    if (hIndex > currentHint) {
-                                        currentHint = hIndex;
-                                    }
-                                }
-                                currentHint++;
-                                let pista = req.app.locals.i18n.hint.empty;
-                                let hintId = null;
-
-                                if (currentHint < allHintsIndexes.length) {
-                                    pista = allHints[currentHint].content;
-                                    hintId = allHints[currentHint].id;
-                                }
-
-                                models.requestedHint.build({
-                                    hintId,
-                                    "teamId": team.id,
-                                    success,
-                                    score
-                                }).save().
-                                    then(() => {
-                                        res.json({"msg": pista,
-                                            "ok": true,
-                                            "alert": hintId ? false : req.app.locals.i18n.hint.dontClose});
-                                    });
-                            });
-                        });
-                    } else {
-                        models.requestedHint.build({
-                            "hintId": null,
-                            "teamId": team.id,
-                            success,
-                            score
-                        }).save().
-                            then(() => {
-                                res.json({"msg": req.app.locals.i18n.hint.failed,
-                                    "ok": false});
-                            });
-                    }
-                } else {
-                    res.status(500);
-                    res.send({"msg": req.app.locals.i18n.user.messages.ensureRegistered,
-                        "ok": false});
-                }
-            });
-    }).
-        catch((msg) => {
-            console.error(msg);
-            res.status(500);
-            res.send({msg,
-                "ok": false});
         });
+
+        if (teams && teams.length > 0) {
+            const [team] = teams;
+            const {empty, dontClose, failed} = req.app.locals.i18n.hint;
+            const result = await calculateNextHint(escapeRoom, team, status, score, {empty,
+                dontClose,
+                failed});
+
+            if (result) {
+                res.json(result);
+            }
+        } else {
+            res.status(500);
+            res.send({"msg": req.app.locals.i18n.user.messages.ensureRegistered,
+                "ok": false});
+        }
+    } catch (msg) {
+        console.error(msg);
+        res.status(500);
+        res.send({msg,
+            "ok": false});
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/xml

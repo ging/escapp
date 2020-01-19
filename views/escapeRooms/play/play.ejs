@@ -93,7 +93,12 @@
 </div>
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
-    initSocketServer(<%= team.id %>)
+    initSocketServer(<%= escapeRoom.id%>, <%= team.id || "undefined"%>, <%= team.turno ? team.turno.id : "undefined" %>)
+    var i18n = {
+        empty: "<%=  i18n.hint.empty %>", 
+        dontClose:  "<%= i18n.hint.dontClose %>", 
+        failed: "<%= i18n.hint.failed %>"
+    };
 </script>
 <script src="/js/handleHintApp.js"></script>
 <%- include("../../partials/_flash",{bs:true}) %>
