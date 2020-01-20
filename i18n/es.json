@@ -285,6 +285,7 @@
         "failed": "Lo siento, sigue intentándolo",
         "failMessage": "Lo siento, tendrás que seguir intentándolo",
         "dontClose": "No quedan más pistas automáticas para tu situación. Puedes llamar al profesor para que te dé una personalizada. No cierres este mensaje hasta que venga",
+        "instructionsHints": "Responde las preguntas para obtener una pista",
         "empty": "Pista personalizada",
         "Hints": "Pistas",
         "need": "¿Necesitas una pista?",

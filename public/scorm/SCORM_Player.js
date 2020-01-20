@@ -12,7 +12,7 @@ function SCORM_Player (options) {
 
     const defaults = {
         "version": "1.2",
-        "debug": true,
+        "debug": false,
         "SCORM_VERSION": undefined,
         "SCORM_PACKAGE_URL": undefined,
         "SCORM_RESOURCE_URLS": undefined,

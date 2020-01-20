@@ -299,6 +299,7 @@
         "failMessage": "Oops! Please keep trying",
         "dontClose": "There aren't any hints left. You may ask your teacher now, he or she will help you. Don't close this message until they come",
         "empty": "Custom hint",
+        "instructionsHints": "Answer the questions in order to get a hint",
         "Hints": "Hints",
         "need": "Need a hint?",
         "successMessage": "Congratulations! You've achieved a new hint"

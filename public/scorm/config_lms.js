@@ -1,6 +1,6 @@
 let LMS_CONFIG = {
-  debug:true,
-  debug_scorm_player:true,
+  debug:false,
+  debug_scorm_player:false,
   scorm2004:{
     learner_preference:{
       _children:"audio_level,language,delivery_speed,audio_captioning,difficulty",

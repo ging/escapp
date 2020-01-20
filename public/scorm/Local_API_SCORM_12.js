@@ -38,8 +38,8 @@ function Local_API_SCORM_12(options){
     diagnostic:  '',
     initialized: 0,
     terminated:  0,
-    debug: true,
-    listeners: {},
+    debug: false,
+    listeners: {"cmi.completion_status": function(v){window.parent.sendResults(v)}},
     CMI: {
       _version:                "3.4",
       comments:                "",

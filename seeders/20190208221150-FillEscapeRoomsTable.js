@@ -11,7 +11,6 @@ module.exports = {up (queryInterface) {
             "nmax": 20,
             "teamSize": 2,
             "invitation": "assfdtWeQv",
-            "appearance": "litera",
             "authorId": 1,
             "scoreParticipation": 40,
             "createdAt": new Date(),

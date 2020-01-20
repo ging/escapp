@@ -30,6 +30,12 @@
 				"successMessage": "<%=i18n.hint.successMessage%>",
 				"failMessage": "<%=i18n.hint.failMessage%>",
 				"moodleXMLPath": "<%=escapeRoom.hintApp.url %>",
+				"finishCallback": (completion, score, status) => {
+					console.log()
+					if (window.parent && window.parent.parent && window.parent.parent.requestHintFinish) {
+						window.parent.parent.requestHintFinish(completion, score, status)
+					}
+				},
 				"dev": false
 			}
 

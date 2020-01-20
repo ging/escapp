@@ -39,8 +39,8 @@ function Local_API_1484_11(options){
     diagnostic:  '',
     initialized: 0,
     terminated:  0,
-    debug: true,
-    listeners: {},
+    debug: false,
+    listeners: { },
     CMI:         {
       _version: "1.0",
       comments_from_learner: {
@@ -581,9 +581,9 @@ function Local_API_1484_11(options){
             return throwVocabError(key,v);
           }
           callListener(key,v);
-          /*if(v === "completed") {
-            setTimeout(function(){window.close()},2500)
-          }*/
+          if (window.parent && window.parent.updateCompletionStatus) {
+            window.parent.updateCompletionStatus(v);
+          }
           break;
         case "cmi.exit":
           if (exit.indexOf('|' + v + '|') === -1) {

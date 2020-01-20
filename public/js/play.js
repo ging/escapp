@@ -15,7 +15,7 @@ const solvePuzzle = (puzzleId, sol) => socket.emit("SOLVE_PUZZLE", {puzzleId, so
 
 const requestHint = (score) => socket.emit("REQUEST_HINT", {score});
 
-var initSocketServer = (escapeRoomId, teamId, turnId) => {
+const initSocketServer = (escapeRoomId, teamId, turnId) => {
   socket = io('/', {query: {escapeRoom: escapeRoomId || undefined, team: teamId || undefined, turn: turnId || undefined }});
   
   /*Connect*/
@@ -40,12 +40,54 @@ var initSocketServer = (escapeRoomId, teamId, turnId) => {
 
   /*Hint response*/
   socket.on(HINT_RESPONSE, function({success, hintId, msg}){
-    console.log(msg)
-    console.log(HINT_RESPONSE, {success, hintId, msg: ((success && !hintId) || !success) ? i18n[msg] : msg});
+    const message = ((success && !hintId) || !success) ? i18n[msg] : msg;
+    console.log(HINT_RESPONSE, {success, hintId, msg: message});
+    setTimeout(() => {
+       console.log(msg);
+       $('#hintAppModal').addClass('zoomOut');
+        setTimeout(() => {
+         $('#hintAppModal').modal('hide');
+          }, 300);
+    }, 2000);
+   
   });
 
   /*Disconnect*/
   socket.on(DISCONNECT, function(){
   	console.error("Disconnected from socket server")
   });
-}
+};
+
+const previewHintApp = () => {
+    const modal = `<div class="modal animated zoomIn" tabindex="-1" role="dialog" id="hintAppModal" aria-labelledby="hintApp" aria-hidden="true">
+      <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">${i18n.instructionsHints}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <iframe class="hintAppIframe" src="/escapeRooms/${escapeRoomId}/hintAppWrapper"/>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+    $( "body" ).append(modal);
+    $('#hintAppModal').modal('show');
+
+    $('#hintAppModal').on('hide.bs.modal', function (e) {
+      
+    })    
+
+    $('#hintAppModal').on('hidden.bs.modal', function (e) {
+      setTimeout(()=>{ $('#hintAppModal').remove(); },200);
+    })
+};
+
+window.requestHintFinish = (completion, score, status) => {
+  console.log(completion, score, status)
+  socket.emit("REQUEST_HINT",{score, status: status ? "completed" : "passed"});
+};
