@@ -1,40 +1,151 @@
-<table class="ranking-table">
-    <tr>
-    	<th class="ranking-team"><%=i18n.analytics.ranking.team%></th>
-    	<th class="ranking-members"><%=i18n.analytics.ranking.members%></th>
-    	<th class="ranking-res"><%=i18n.analytics.ranking.res%></th>
-    	<th class="ranking-time"><%=i18n.analytics.ranking.time%></th>
+<script src="/js/vendor/socket.io.js"></script>
+<style>
 
-    </tr>
-    
+	table, tbody {
+	    position: relative;
+	    width: 100%;
+	}
+
+	tbody tr {
+	    position: absolute;
+	    padding: 10px;
+		width: 100%;
+		height: 50px;
+
+	}
+	thead tr{
+		width: 100%;
+		height: 50px;
+	}
+	td, th {
+		height: 50px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+</style>
+<table class="ranking-table" style="height: <%=teams.length*50 + 50%>px;">
+	<thead>
+	    <tr>
+	    	<th class="ranking-team"><%=i18n.analytics.ranking.team%></th>
+	    	<th class="ranking-members"><%=i18n.analytics.ranking.members%></th>
+	    	<th class="ranking-res"><%=i18n.analytics.ranking.res%></th>
+	    	<th class="ranking-time"><%=i18n.analytics.ranking.time%></th>
+	    </tr>
+	</thead>
+	<tbody >
+    <% var teamsClean = [] %>
     <% for (var t in teams) { 
-    	var team = teams[t];
-    	var stringified = JSON.parse(JSON.stringify(team));
-    	var count = stringified.countretos;
-    	var startTime = stringified.turno.startTime;
-    	var latestRetoSuperado = stringified.latestretosuperado;
-    	var res = count + "/" + escapeRoom.puzzles.length;
-    	var myTeam = false;
-    	var participants = team.teamMembers.map(member=> {
+    	let team = teams[t];
+    	let stringified = JSON.parse(JSON.stringify(team));
+    	let count = stringified.countretos;
+    	let startTime = stringified.turno.startTime;
+    	let latestRetoSuperado = stringified.latestretosuperado;
+    	let result = count + "/" + escapeRoom.puzzles.length;
+    	let myTeam = false;
+    	let participants = team.teamMembers.map(member => {
 			if (member.id === userId) {
 				myTeam = true;
 			}
-			return member.name + " " + member.surname}).join(", ");
-    	%>
-	    <tr class="<%=myTeam ? "myTeam":""%>">
-	    	<td class="ranking-team"><b><%=team.name%></b></td>
-	    	<td class="ranking-members">
-	    		<%=participants%>
-	    	</td>
-	    	<td class="ranking-res"><%=res%></td>
-	    	<td class="ranking-time">
-	    		<% if(escapeRoom.puzzles.length === parseInt(count) && startTime) { %>
-	    			<%= secondsToDhms((new Date(latestRetoSuperado) - new Date(startTime))/1000)  %>
-	    		<% } else { %>
-	    			n/a
-	    		<%}
-	    	%></td>
+			return member.name + " " + member.surname
+		}).join(", ");
 
+    	let currentTeam = {
+    		id: team.id,
+    		name: team.name,
+    		result: result,
+    		retos: team.retos,
+    		participants: participants,
+    		latestRetoSuperado: latestRetoSuperado,
+    		finishTime:(escapeRoom.puzzles.length === parseInt(count) && startTime) ?  (secondsToDhms((new Date(latestRetoSuperado) - new Date(startTime))/1000)) : "n/a"
+    	};
+    	teamsClean.push(currentTeam);
+    	console.log(t)
+    	var top = (50*(parseInt(t, 10)+1))
+    	console.log(top)
+	%>
+	    <tr class="<%=myTeam ? "myTeam":""%>" id="team-<%=currentTeam.id%>" style="top: <%=top%>px">
+	    	<td class="ranking-team"><b><%=currentTeam.name%></b></td>
+	    	<td class="ranking-members"><%=currentTeam.participants%></td>
+	    	<td class="ranking-res"><%=currentTeam.result%></td>
+	    	<td class="ranking-time"><%=currentTeam.finishTime%></td>
 	    </tr>
     <% } %>
+	</tbody>
 </table>
+<script>
+	const CONNECT = "connect";
+	const DISCONNECT = "disconnect";
+	const ERROR = "ERROR";
+	const RANKING = "RANKING";
+	var teams = JSON.parse('<%-JSON.stringify(teamsClean)%>');
+	console.log(teams)
+    var escapeRoomId = "<%= escapeRoom.id%>";
+    var nPuzzles = "<%= escapeRoom.puzzles.length%>";
+	// TODO "room" : ranking?escapeRoom=1
+	/*http://jsfiddle.net/hans/6qVf5/3/*/
+	const sort = (order_arr) => {
+	    var top = 50;
+	    console.log(order_arr)
+	    $.each(order_arr, function(idx, id) {
+	    	console.log(idx,id)
+	        var el = $('tbody tr#team-' + id);
+	        el.animate({
+	            position: 'absolute',
+	            top: top + 'px'
+	        }, 400);
+	        top += el.outerHeight();
+	    });
+	}
+
+	const initSocketServer = (escapeRoomId, teamId, turnId) => {
+	  socket = io('/', {query: {escapeRoom: escapeRoomId || undefined, team: teamId || undefined, turn: turnId || undefined }});
+	  
+	  /*Connect*/
+	  socket.on(CONNECT, function(){
+	  	console.log("Connected to socket server");
+	  });
+
+	  /*Error*/
+	  socket.on(ERROR, function({msg}){
+	    console.error(msg);
+	  });
+
+	  socket.on(RANKING, function({teamId, puzzleId, time}){
+		const team = teams.find(team => team.id == teamId);
+		if (team) {
+			const reto = team.retos.find(reto => reto.id === puzzleId)
+			if (!reto) {
+				team.retos.push({id: puzzleId, createdAt: time});
+				team.result = team.retos.length + "/" + nPuzzles;
+				team.latestRetoSuperado = time;
+				$('#team-' + teamId +" .ranking-res").html(team.result);
+				console.log(team, {teamId, puzzleId, time} )
+				if (team.retos.length === nPuzzles) {
+					team.finishTime = time;
+					$('#team-' + teamId +" .ranking-time").html(time);
+				}
+				teams = teams.sort((a,b)=>{
+					if (a.retos.length > b.retos.length) {
+						return -1;
+					} else if (a.retos.length < b.retos.length) {
+						return 1;
+					} else {
+						if (a.latestRetoSuperado > b.latestRetoSuperado) {
+							return 1;
+						} else {
+							return -1;
+						}
+					}
+				});
+				sort(teams.map(team=>team.id));
+			}
+		}
+		
+	    console.log({teamId, puzzleId, time});
+	  });
+
+	};
+
+    initSocketServer(<%= escapeRoom.id%>, <%= teamId || "undefined"%>, <%=turnoId%>)
+</script>

@@ -1,25 +1,36 @@
 <% var puzzles = escapeRoom.puzzles; %>
+<% if (escapeRoom.puzzles.some(p=>!p.automatic)) { %> 
+    <h4 id="puzzles"><%=i18n.puzzle.Puzzles%></h4> 
+<% } %>
+<% var found = false; %>
 <% for (var reto in puzzles){ %>
     <% var puzzle = puzzles[reto] %>
     <% var noSuperado = retosSuperados.indexOf(puzzle.id) === -1; %>
-    <h4 id="puzzles"><%=i18n.puzzle.Puzzles%></h4>
-    <div class="flex-cell flex-cell-retos">
-        <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="title">
-            <%= puzzle.title%>
-        </div>
-    </div>
-    <div class="flex-cell flex-cell-sol">
-        <form method="get" action="/escapeRooms/<%= escapeRoom.id %>/puzzles/<%= puzzle.id %>/check">
-            <% if (noSuperado) { %>
-                <div class="input-group mb-3 sol-input">
-                  <input type="text" class="form-control" name="answer" placeholder="<%=i18n.puzzle.writeSol%>" aria-label="Answer" aria-describedby="basic-addon2" autocomplete="off">
-                  <div class="input-group-append">
-                    <button class="btn btn-warning" type="submit"><%=i18n.puzzle.check%></button>
-                  </div>
-                </div>
-            <% } else { %>
-                <b><%= i18n.puzzle.correctAnswer%></b>
-            <% } %>
-        </form>
-    </div>
+    <% if (!found && !puzzle.automatic) { %>
+      <div class="flex-cell flex-cell-retos">
+          <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="title">
+              <%= puzzle.title%>
+          </div>
+      </div>
+      <div class="flex-cell flex-cell-sol puzzle-sol" data-reto="<%=puzzle.id%>" >
+        <% if (noSuperado) { %>
+            <div class="input-group mb-3 sol-input">
+              <input type="text" class="form-control puzzle-input" name="answer" data-puzzle-id="<%= puzzle.id %>" placeholder="<%=i18n.puzzle.writeSol%>" aria-label="Answer" aria-describedby="basic-addon2" autocomplete="off">
+              <div class="input-group-append">
+                <button class="btn btn-warning puzzle-check-btn" type="button" data-puzzle-id="<%= puzzle.id %>"><%=i18n.puzzle.check%></button>
+              </div>
+              <div class="puzzle-feedback invalid-feedback" data-puzzle-id="<%= puzzle.id %>">
+              </div>
+            </div>
+        <% 
+          
+        } else { %>
+            <b><%= i18n.puzzle.correctAnswer%></b>
+        <% } %>
+      </div>
+    <% } 
+    if (noSuperado) {
+      found = true;
+    } %>
 <%}%>
+ 

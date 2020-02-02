@@ -7,11 +7,30 @@ const DISCONNECT = "disconnect";
 const ERROR = "ERROR";
 const HINT_RESPONSE = "HINT_RESPONSE";
 const PUZZLE_RESPONSE = "PUZZLE_RESPONSE";
+const RANKING = "RANKING";
 const REQUEST_HINT = "REQUEST_HINT";
 const SOLVE_PUZZLE = "SOLVE_PUZZLE";
 const START = "START";
 const STOP = "STOP";
+const JOIN = "JOIN";
 
+const getInfoFromSocket = (socket) => {
+    const userId = socket.request.session.user.id;
+    const teamId = socket.handshake.query.team;
+    const escapeRoomId = socket.handshake.query.escapeRoom;
+    const turnId = socket.handshake.query.turn;
+    const {username} = socket.request.session.user;
+    const isAdmin = Boolean(socket.request.session.user.isAdmin);
+
+    return {userId,
+        teamId,
+        escapeRoomId,
+        turnId,
+        username,
+        isAdmin};
+};
+
+/** Check if user has the rights to access a resource **/
 const checkAccess = async (userId, teamId, escapeRoomId, turnId) => {
     const escapeRoom = await models.escapeRoom.findAll({
         "where": {
@@ -40,7 +59,8 @@ const checkAccess = async (userId, teamId, escapeRoomId, turnId) => {
     });
 
     if (escapeRoom && escapeRoom.length > 0) {
-        if (escapeRoom.authorId === userId) {
+        // eslint-disable-next-line eqeqeq
+        if (escapeRoom.authorId == userId) {
             return "AUTHOR";
         } else if (escapeRoom[0].turnos && escapeRoom[0].turnos.length > 0) {
             if (escapeRoom[0].turnos[0].teams && escapeRoom[0].turnos[0].teams.length > 0) {
@@ -54,25 +74,16 @@ const checkAccess = async (userId, teamId, escapeRoomId, turnId) => {
 };
 
 /** Send message to every team member connected*/
-const sendTeamMessage = async (msg, teamId) => {
-    console.log(msg, teamId);
-    try {
-        const sockets = await models.socket.findAll({"where": {teamId}});
-
-        for (const socket of sockets) {
-            try {
-                global.io.to(socket.socketid).emit(msg.type, msg.payload);
-            } catch (err) {
-                console.error(err);
-            }
-        }
-    } catch (err) {
-        console.error(err);
-    }
+const sendTeamMessage = (msg, teamId) => {
+    global.io.to(`teamId_${teamId}`).emit(msg.type, msg.payload);
 };
 
-const sendIndividualMessage = async (msg, socketId) => {
+const sendIndividualMessage = (msg, socketId) => {
     global.io.to(socketId).emit(msg.type, msg.payload);
+};
+
+const sendTurnMessage = (msg, turnId) => {
+    global.io.to(`turnId_${turnId}`).emit(msg.type, msg.payload);
 };
 
 /** Action creators */
@@ -87,26 +98,27 @@ const puzzleResponse = (success, puzzleId, msg, auto, teamId) => sendTeamMessage
         puzzleId,
         msg,
         auto}}, teamId);
-const startResponse = (msg, teamId) => sendTeamMessage({"type": START,
-    "payload": {msg}}, teamId);
-const stopResponse = (teamId) => sendTeamMessage({"type": STOP}, teamId);
+const startResponse = (turnId) => sendTurnMessage({"type": START,
+    "payload": {}}, turnId);
+const stopResponse = (turnId) => sendTurnMessage({"type": STOP}, turnId);
 const revokeAccess = (socketId) => sendIndividualMessage({"type": "ERROR",
     "payload": {"msg": "You are not allowed to access this page"}}, socketId);
+const broadcastRanking = (teamId, puzzleId, time, turnId) => sendTurnMessage({"type": RANKING,
+    "payload": {teamId,
+        puzzleId,
+        time}}, turnId);
+const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN,
+    "payload": {username}}, teamId);
+
 /** Client-server**/
 
-const disconnect = async (socketid) => {
-    const socketDeleted = await models.socket.findByPk(socketid);
-
-    await socketDeleted.destroy();
+const join = async (teamId, username) => {
+    await joinResponse(teamId, username);
 };
 
-const start = async (socketid, teamId, userId) => {
-    await models.socket.create({socketid,
-        teamId,
-        userId});
-    await startResponse("ER started", teamId);
+const startTurno = async (turnId) => {
+    await startResponse(turnId);
 };
-
 
 const solvePuzzle = async (teamId, puzzleId, solution) => {
     // TODO check puzzle
@@ -128,6 +140,7 @@ const solvePuzzle = async (teamId, puzzleId, solution) => {
                 }
                 await puzzle.addSuperados(team.id, {transaction});
                 await puzzleResponse(true, puzzleId, puzzle.correct || "OK", false, teamId);
+                await broadcastRanking(team.id, puzzleId, new Date(), team.turno.id);
             } else {
                 await puzzleResponse(false, puzzleId, puzzle.fail || "WRONG", false, teamId);
             }
@@ -179,19 +192,21 @@ const requestHint = async (teamId, status, score) => {
     }
 };
 
-const stop = async (teamId) => {
-    await stopResponse(teamId);
+const stopTurno = async (turnId) => {
+    await stopResponse(turnId);
 };
 
 
-module.exports = {start,
-    disconnect,
+module.exports = {join,
     checkAccess,
     revokeAccess,
+    broadcastRanking,
     solvePuzzle,
     puzzleResponse,
     requestHint,
-    stop,
+    startTurno,
+    stopTurno,
+    getInfoFromSocket,
     START,
     DISCONNECT,
     SOLVE_PUZZLE,

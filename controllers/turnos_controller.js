@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
 const {nextStep, prevStep} = require("../helpers/progress");
-
+const {startTurno, stopTurno} = require("../helpers/sockets");
 // Autoload the turn with id equals to :turnId
 
 exports.load = (req, res, next, turnId) => {
@@ -86,54 +86,40 @@ exports.indexActivarTurno = (req, res, next) => {
 
 
 // PUT /escapeRooms/:escapeRoomId/activar
-exports.activar = (req, res, next) => {
+exports.activar = async (req, res, next) => {
     const {escapeRoom, body} = req;
+    const back = `/escapeRooms/${escapeRoom.id}`;
 
-    models.turno.findAll({"where": {"id": body.turnSelected}}).
-        each((turno) => {
-            const back = `/escapeRooms/${escapeRoom.id}`;
+    try {
+        const turno = await models.turno.findByPk(body.turnSelected);
 
-            turno.status = turno.status === "pending" ? "active" : "finished";
-            if (turno.status === "active") {
-                turno.startTime = new Date();
-                /* SetTimeout(function () {
-                    turno.status = "finished";
+        if (turno.status === "pending") {
+            turno.status = "active";
+            turno.startTime = new Date();
+        } else {
+            turno.status = "finished";
+        }
 
-                    turno.save({"fields": ["status"]}).then(() => {
-                        res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${turno.id}/play`);
-                    }).
-                        catch(Sequelize.ValidationError, (error) => {
-                            error.errors.forEach(({message}) => req.flash("error", message));
-                            res.redirect(back);
-                        }).
-                        catch((error) => {
-                            req.flash("error", `${req.app.locals.i18n.common.flash.errorActivatingTurno}: ${error.message}`);
-                            next(error);
-                        });
-                }, escapeRoom.duration * 60000);*/
-            }
-
-            turno.save({"fields": [
-                "startTime",
-                "status"
-            ]}).then(() => {
-                req.flash("success", turno.status === "active" ? "Turno activo." : "Turno desactivado");
-                if (turno.status === "active") {
-                    res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${turno.id}/play`);
-                } else {
-                    res.redirect(back);
-                }
-            }).
-                catch(Sequelize.ValidationError, (error) => {
-                    error.errors.forEach(({message}) => req.flash("error", message));
-                    res.redirect(back);
-                }).
-                catch((error) => {
-                    req.flash("error", `${req.app.locals.i18n.common.flash.errorActivatingTurno}: ${error.message}`);
-                    next(error);
-                });
-        }).
-        catch((error) => next(error));
+        await turno.save({"fields": [
+            "startTime",
+            "status"
+        ]});
+        req.flash("success", turno.status === "active" ? "Turno activo." : "Turno desactivado");
+        if (turno.status === "active") {
+            startTurno(turno.id);
+            res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${turno.id}/play`);
+        } else {
+            stopTurno(turno.id);
+            res.redirect(back);
+        }
+    } catch (error) {
+        if (error instanceof Sequelize.ValidationError) {
+            error.errors.forEach(({message}) => req.flash("error", message));
+            res.redirect(back);
+        } else {
+            next(error);
+        }
+    }
 };
 
 // POST /escapeRooms/:escapeRoomId/turnos

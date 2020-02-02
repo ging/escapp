@@ -42,11 +42,8 @@ sequelize.import(path.join(__dirname, "requestedHint"));
 // Import the definition of the Asset Table from attachment.js
 sequelize.import(path.join(__dirname, "asset"));
 
-// Import the definition of the Socket Table from socket.js
-sequelize.import(path.join(__dirname, "socket"));
-
 // Relation between models
-const {escapeRoom, turno, attachment, user, puzzle, hint, hintApp, team, requestedHint, asset, socket} = sequelize.models;// Relation 1-to-N between Escape Room and Turn:
+const {escapeRoom, turno, attachment, user, puzzle, hint, hintApp, team, requestedHint, asset} = sequelize.models;// Relation 1-to-N between Escape Room and Turn:
 
 // Relation 1-to-N between Escape Room and Turno:
 
@@ -146,11 +143,4 @@ team.hasMany(requestedHint, {"onDelete": "CASCADE",
 escapeRoom.hasMany(asset, {"onDelete": "CASCADE",
     "hooks": true});
 asset.belongsTo(escapeRoom);
-
-user.hasMany(socket, {"onDelete": "CASCADE",
-    "hooks": true});
-
-team.hasMany(socket, {"onDelete": "CASCADE",
-    "hooks": true});
-
 module.exports = sequelize;

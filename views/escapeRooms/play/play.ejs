@@ -16,9 +16,13 @@
  
 </head>
 <body>
-<a class="backToMain" href="/escapeRooms/<%=escapeRoom.id%>">&#11013;
-</a>
-<%if (isStudent) {%><span style="float: right;"><b>Equipo: </b><%=team.name%></span><%}%>
+<nav class="navbar navbar-light" style="padding: 0px 1em;">
+    <a class="backToMain"  href="/escapeRooms/<%=escapeRoom.id%>">&larr;</a>
+    <span class="erTitle"><%=escapeRoom.title%></span>
+    <%if (isStudent) {%>
+        <span class="teamName"><b>Equipo: </b><%=team.name%></span>
+    <%}%>
+</nav>  
 <div class="previewContainer">
     <div class="container-fluid">
         <div class=" row-centered">
@@ -29,30 +33,25 @@
             </div>
         </div>
         <% if (endPoint === "team" && escapeRoom.hintApp) {%>
-            <div class=" row-centered">
+            <div class="row-centered">
                 <div class="col-xs-12">
                     <div >
                         <h4><%=i18n.hint.Hints%></h4>
                         <ul id="hintList" >
-                        <% for (var h in hints) {
-                            let hint = hints[h];
+                        <% for (var hint of hints) {
                             if (hint) {%>
-                            <li>
-                                <div class="card border-info mb-3">
-                                    <div class="card-body">
-                                        <div class="card-text">
-                                            <%=hint.hint ? hint.hint.content : i18n.hint.empty%>
+                                <li>
+                                    <div class="card border-info mb-3">
+                                        <div class="card-body">
+                                            <div class="card-text"><%=hint.hint ? hint.hint.content : i18n.hint.empty%></div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                        <% }
+                                </li>
+                            <% }
                         } %>
                         </ul>
                         <br/>
-                        <button onclick="previewHintApp()" id="btn-hints" class="btn btn-primary">
-                            <%=i18n.hint.need%>
-                        </button>
+                        <button id="btn-hints" class="btn btn-primary"><%=i18n.hint.need%></button>
                     </div>
                 </div>
             </div>
@@ -60,23 +59,27 @@
         <br/><br/>
         <% 
         var finish = false;
-        %>
-        <%if (isStudent) { %>
-            <% 
+        if (isStudent) { 
             var retosSuperados = team.retos.map(a=>a.id);
+            var progress = Math.round(retosSuperados.length / escapeRoom.puzzles.length * 100);
             finish = retosSuperados.length === escapeRoom.puzzles.length;
             %>
+            <script>
+                var retosSuperados = <%=JSON.stringify(retosSuperados)%>;
+                var totalPuzzles = <%= escapeRoom.puzzles.length %>;
+                var puzzlesPassed = <%= retosSuperados.length %>;
+            </script>
             <div class="dialog" >
-                <div class="dialog-content">
+                <div class="dialog-content" id="finishPuzzles">
                     <% if (finish) {   %>
                         <h4 id="puzzles"><%=i18n.puzzle.finish%></h4>
                         <br/>
                         <a href="/escapeRooms/<%= escapeRoom.id %>/finish">
-                            <button class="btn btn-primary">
+                            <button class="btn btn-success">
                                 <%=i18n.common.finish%>
                             </button>
                         </a>
-                    <%} else if(!escapeRoom.automatic){ %>
+                    <%} else { %>
                         <% include ../../partials/_puzzleInterface.ejs %>
                     <%}%>
                 </div>
@@ -84,6 +87,7 @@
 
         <% } %>
 
+        <% include ../../partials/_progress_play.ejs %>
         <div class=" row-centered">
             <div class="col-xs-12">
             <% include ../../partials/_countdown.ejs %>
@@ -93,12 +97,19 @@
 </div>
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
+    var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(escapeRoom.puzzles)%>');
     initSocketServer(<%= escapeRoom.id%>, <%= team.id || "undefined"%>, <%= team.turno ? team.turno.id : "undefined" %>)
     var i18n = {
         empty: "<%=  i18n.hint.empty %>", 
+        correctAnswer: "<%=i18n.puzzle.correctAnswer%>",
+        check: "<%=i18n.puzzle.check%>",
+        wrongAnswer: "<%=i18n.puzzle.wrongAnswer%>",
         dontClose:  "<%= i18n.hint.dontClose %>", 
         failed: "<%= i18n.hint.failed %>",
-        instructionsHints: "<%= i18n.hint.instructionsHints %>"
+        instructionsHints: "<%= i18n.hint.instructionsHints %>",
+        finishMsg: "<%=i18n.puzzle.finish%>",
+        finishButton: "<%=i18n.common.finish%>",
+        writeSol: "<%=i18n.puzzle.writeSol%>"
     };
 </script>
 <%- include("../../partials/_flash",{bs:true}) %>

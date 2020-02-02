@@ -45,7 +45,11 @@ exports.finish = (req, res) => {
         ]
     }).then((turno) => {
         const turnoId = turno.id;
+        let teamId = null;
 
+        if (turno.teams && turno.teams.length) {
+            teamId = turno.teams[0].id;
+        }
         models.team.findAll({
             "attributes": [
                 "id",
@@ -72,7 +76,10 @@ exports.finish = (req, res) => {
                 },
                 {
                     "model": models.puzzle,
-                    "attributes": [],
+                    "attributes": [
+                        "id",
+                        "createdAt"
+                    ],
                     "as": "retos",
                     "duplicating": false,
                     "through": {
@@ -101,12 +108,16 @@ exports.finish = (req, res) => {
         }).then((teams) => {
             res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom,
                 teams,
+                turnoId,
+                teamId,
                 "userId": req.session.user.id});
         }).
             catch((e) => {
                 console.error(e);
                 res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom,
                     "teams": [],
+                    turnoId,
+                    teamId,
                     "userId": req.session.user.id});
             });
     }).

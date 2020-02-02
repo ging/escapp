@@ -51,6 +51,7 @@ p {
     padding: 15px;
     font-size: 25px;
     text-decoration: none;
+    color: var(--primary);
 }
 
 .backToMain:hover, .backToMain:active, .backToMain:focus {
@@ -114,4 +115,28 @@ p {
 }
 #hintAppModal .modal-body {
     padding: 0px;
+}
+
+#hintAppModal .customHint {
+    padding: 20px;
+    font-size: 1.3em;
+}
+
+.puzzle-progress {
+    transition-timing-function: ease-in-out;
+    transition: width 0.5s;
+}
+
+.erTitle {
+    float: right; 
+    flex: 1;  
+    text-align: right; 
+    padding-right: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.teamName {
+    float: right;
 }
