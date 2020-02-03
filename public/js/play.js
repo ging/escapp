@@ -22,9 +22,9 @@ const hintTemplate = (hint) => `
       </div>
   </li>`;
 
-const customHintTemplate = () => `
+const customHintTemplate = (msg = i18n.dontClose) => `
   <div class="customHint" >
-    ${i18n.dontClose}
+    ${msg}
   </div>
   `;
 
@@ -154,17 +154,24 @@ const onHintResponse = async ({success, hintId, msg}) => {
           $('ul#hintList').append(hintTemplate(message));
         });
         await forMs(3000);
-       $('#modalContent').append(customHintTemplate());
+        $('#modalContent').append(customHintTemplate());
       } else {
         $('ul#hintList').append(hintTemplate(message));
       }
     } else {
+      if (msg === "tooMany") {
+        $('#modalContent').append(customHintTemplate(i18n.tooMany));
+        await forMs(3000);
+      }
       await forMs(1000);
       $('#hintAppModal').addClass('zoomOut');
       await forMs(300);
       $('#hintAppModal').modal('hide');
     }
     waitingForHintReply = false;
+  }
+  if (escapeRoomHintLimit !== undefined && escapeRoomHintLimit <= $("#hintList").children().length){
+    $('#btn-hints').attr("disabled", true);
   }
 };
 
@@ -176,9 +183,9 @@ const onDisconnect = () => {
 /** HELPERS **/
 const updateProgress = (newProgress) =>  $('.puzzle-progress').attr('aria-valuenow', newProgress).css("width", newProgress + "%")
 const forMs = (delay) => {
-    return new Promise(function(resolve) {
-        setTimeout(resolve, delay);
-    });
+  return new Promise(function(resolve) {
+      setTimeout(resolve, delay);
+  });
 }
 
 /** BTN ACTIONS **/
@@ -189,18 +196,27 @@ $(document).on("click", ".puzzle-check-btn", function(){
 });
 
 $(document).on("click", "#btn-hints", function(){
-    $( "body" ).append(modalTemplate());
-    $('#hintAppModal').modal('show');
-    $('#hintAppModal').on('hidden.bs.modal', () => setTimeout(()=>$('#hintAppModal').remove(), 200));
+  $( "body" ).append(modalTemplate());
+  $('#hintAppModal').modal('show');
+  $('#hintAppModal').on('hidden.bs.modal', () => setTimeout(()=>$('#hintAppModal').remove(), 200));
 });
 let waitingForHintReply = false;
 window.requestHintFinish = (completion, score, status) => {
   waitingForHintReply = true;
   requestHint(score, status ? "completed" : "failed");
 };
+$(()=>{
+  if (escapeRoomHintLimit !== undefined && (escapeRoomHintLimit <= $("#hintList").children().length )){
+    $('#btn-hints').attr("disabled", true)
+  }
+});
 
 const initSocketServer = (escapeRoomId, teamId, turnId) => {
-  socket = io('/', {query: {escapeRoom: escapeRoomId || undefined, team: teamId || undefined, turn: turnId || undefined }});
+  socket = io('/', {query: {
+    escapeRoom: escapeRoomId || undefined, 
+    team: teamId || undefined, 
+    turn: turnId || undefined 
+  }});
   
   /*Connect*/
   socket.on(CONNECT, onConnect);
@@ -208,7 +224,7 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
   /*Error*/
   socket.on(ERROR, onError);
 
-  /*Start*/
+  /*Join*/
   socket.on(JOIN, onJoin); 
 
   /*Start*/

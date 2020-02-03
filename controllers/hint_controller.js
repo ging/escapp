@@ -121,10 +121,10 @@ exports.requestHint = async (req, res) => {
 
         if (teams && teams.length > 0) {
             const [team] = teams;
-            const {empty, dontClose, failed} = req.app.locals.i18n.hint;
+            const {empty, dontClose, failed, tooMany} = req.app.locals.i18n.hint;
             const result = await calculateNextHint(escapeRoom, team, status, score, {empty,
                 dontClose,
-                failed});
+                failed, tooMany});
 
             if (result) {
                 res.json(result);

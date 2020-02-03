@@ -97,6 +97,7 @@
 </div>
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
+    var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
     var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(escapeRoom.puzzles)%>');
     initSocketServer(<%= escapeRoom.id%>, <%= team.id || "undefined"%>, <%= team.turno ? team.turno.id : "undefined" %>)
     var i18n = {
@@ -109,8 +110,11 @@
         instructionsHints: "<%= i18n.hint.instructionsHints %>",
         finishMsg: "<%=i18n.puzzle.finish%>",
         finishButton: "<%=i18n.common.finish%>",
+        tooMany: "<%=i18n.hint.tooMany%>",
         writeSol: "<%=i18n.puzzle.writeSol%>"
     };
+
+
 </script>
 <%- include("../../partials/_flash",{bs:true}) %>
 

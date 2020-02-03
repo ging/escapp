@@ -302,7 +302,8 @@
         "instructionsHints": "Answer the questions in order to get a hint",
         "Hints": "Hints",
         "need": "Need a hint?",
-        "successMessage": "Congratulations! You've achieved a new hint"
+        "successMessage": "Congratulations! You've achieved a new hint",
+        "tooMany": "You've obtained the maximum number of hints allowed"
     },
     "inspiration": {
         "downloadText": "download",

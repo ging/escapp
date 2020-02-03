@@ -289,7 +289,8 @@
         "empty": "Pista personalizada",
         "Hints": "Pistas",
         "need": "¿Necesitas una pista?",
-        "successMessage": "Enhorabuena! Has conseguido una nueva pista."
+        "successMessage": "Enhorabuena! Has conseguido una nueva pista.",
+        "tooMany": "Ya has pedido el número máximo de pistas"
     },
     "gallery": {
         "title": "Galería",
