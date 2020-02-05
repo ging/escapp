@@ -15,12 +15,13 @@ exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
         if (idx > -1) {
             retosSuperados[idx] = showDate ? reto.retosSuperados.createdAt : 1;
             if (turno) {
-                retosSuperadosMin[idx] = showDate ? ((reto.retosSuperados.createdAt - turno)/1000/60) : 1;
+                retosSuperadosMin[idx] = showDate ? (reto.retosSuperados.createdAt - turno) / 1000 / 60 : 1;
             }
         }
         return showDate ? " " : 0;
     });
-    return { retosSuperados, retosSuperadosMin };
+    return {retosSuperados,
+        retosSuperadosMin};
 };
 
 exports.flattenObject = (obj, labels, min = false) => {

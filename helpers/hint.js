@@ -4,8 +4,7 @@ const {models} = sequelize;
 exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {"empty": "empty",
     "failed": "failed",
     "dontClose": "dontClose",
-    "tooMany": "tooMany"
-}) => {
+    "tooMany": "tooMany"}) => {
     const success = status === "completed" || status === "passed";
 
     if (success) {
@@ -34,9 +33,10 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
                 "success": true
             } // Order by reto and then hintId
         });
+
         if (escapeRoom.hintLimit !== undefined && escapeRoom.hintLimit !== null && hints.length >= escapeRoom.hintLimit) {
             return {"msg": messages.tooMany,
-                "ok": false };
+                "ok": false};
         }
         const requestedHints = hints.filter((h) => h.id !== null);
         let currentHint = -1;

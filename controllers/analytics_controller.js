@@ -185,6 +185,7 @@ exports.puzzlesByTeams = async (req, res, next) => {
             const resultsCsv = results.map((rslt) => {
                 const {id, name, retosSuperados, total} = rslt;
                 const rs = flattenObject(retosSuperados, puzzleNames);
+
                 return {
                     id,
                     name,
