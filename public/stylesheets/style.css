@@ -1217,7 +1217,10 @@ button, input[type="submit"] {
       background-color: #F47E84; }
 
 #mainSection .main.step-instructions .gamification-elements {
-  padding: 20px; }
+  padding: 20px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap; }
   #mainSection .main.step-instructions .gamification-elements .gamification-element {
     width: 116px;
     height: 116px;
@@ -1229,7 +1232,10 @@ button, input[type="submit"] {
     border: 2px solid #eee;
     overflow: hidden;
     line-height: 50px;
-    cursor: pointer; }
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; }
     #mainSection .main.step-instructions .gamification-elements .gamification-element.gamification-element-selected {
       border: 2px solid #48C18E; }
     #mainSection .main.step-instructions .gamification-elements .gamification-element .gamification-element-title {
@@ -1238,7 +1244,8 @@ button, input[type="submit"] {
       color: #656683;
       height: 25%;
       font-size: 14px;
-      margin: 0; }
+      margin: 0;
+      margin-bottom: 4px; }
     #mainSection .main.step-instructions .gamification-elements .gamification-element img {
       max-width: 100%;
       max-height: 65%;
@@ -1255,6 +1262,9 @@ button, input[type="submit"] {
   color: var(--danger); }
   #mainSection .main.step-instructions countdown:after {
     content: "00:00:00"; }
+
+#mainSection .main.step-instructions progressbar .puzzle-progress {
+  width: 60% !important; }
 
 #mainSection .main.step-instructions [dpraggable] {
   -moz-user-select: none;

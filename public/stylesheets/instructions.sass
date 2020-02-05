@@ -117,6 +117,10 @@
             background-color: $lightred
       .gamification-elements
         padding: 20px
+        display: flex
+        flex-direction-row
+        justify-content: flex-start
+        flex-wrap: wrap
         .gamification-element
           width: 116px
           height: 116px
@@ -129,6 +133,9 @@
           overflow: hidden
           line-height: 50px
           cursor: pointer
+          display: flex
+          flex-direction: column
+          justify-content: space-between
           &.gamification-element-selected
             border: 2px solid $brightgreen
           .gamification-element-title
@@ -138,6 +145,7 @@
             height: 25%
             font-size: 14px
             margin: 0
+            margin-bottom: 4px
           img
             max-width: 100%
             max-height: 65%
@@ -153,6 +161,10 @@
           color: var(--danger)
           &:after
             content: "00:00:00"
+      progressbar
+        .puzzle-progress
+            width: 60% !important
+
       [dpraggable] 
         -moz-user-select: none
         -khtml-user-select: none

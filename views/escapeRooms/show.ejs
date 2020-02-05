@@ -114,7 +114,8 @@
         <div class="flexRow animated bounceIn" id="pistas">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.puzzles%>:
-                <%if (escapeRoom.puzzles && escapeRoom.puzzles.length > 0 && escapeRoom.automatic) {%>
+                <% const someAutomatic = escapeRoom.puzzles && escapeRoom.puzzles.length > 0 && escapeRoom.puzzles.some(p=>p.automatic); %>
+                <%if (someAutomatic) {%>
                     <br/><button class="copy" id="api-button"><i class="material-icons">info</i></button>
                 <%}%>
             </div>
@@ -289,7 +290,7 @@
 </div>
 <% } %>
 
-<% if (escapeRoom.automatic) { %>
+<% if (someAutomatic) { %>
 <div id="dialog-preview-api" title="API">
     <table class="api-table">
         <tr>

@@ -209,6 +209,9 @@ $(()=>{
   if (escapeRoomHintLimit !== undefined && (escapeRoomHintLimit <= $("#hintList").children().length )){
     $('#btn-hints').attr("disabled", true)
   }
+  if (progress !== undefined) {
+    updateProgress(progress);
+  }
 });
 
 const initSocketServer = (escapeRoomId, teamId, turnId) => {

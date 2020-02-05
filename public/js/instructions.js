@@ -26,10 +26,29 @@ $(function(){
         return node;
       }
     }
-
     CountdownBlot.blotName = 'countdown';
     CountdownBlot.tagName = 'countdown';
     Quill.register(CountdownBlot);
+
+    class ProgressBlot extends BlockEmbed {
+        static create() {
+            let node = super.create();
+            node.setAttribute('contenteditable', 'false');
+            node.classList.add('draggable-element');
+            node.innerHTML = `<div class="row">
+                <div class="col-xs-12 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3" style="margin:auto;">
+                    <div class="progress">
+                      <div class="progress-bar puzzle-progress" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>`;
+            return node;   
+        }
+    }
+
+    ProgressBlot.blotName = 'progressbar';
+    ProgressBlot.tagName = 'progressbar';
+    Quill.register(ProgressBlot);
 
     Quill.register('modules/VideoResize', VideoResize);
 
@@ -203,16 +222,35 @@ $(function(){
                     break;
                 case "sourceGamificationElement":
                     if (gamificationElementSelected) {
-                        const gamificationElement = `<countdown class="clockContainer" id="countdown" >
-                            <p class="countdown text-danger clock text-center" id="time">
-                                <span id="hours" data-text="00">00</span>
-                                <span class="colon" data-text=":">:</span>
-                                <span id="mins" data-text="00">00</span>
-                                <span class="colon" data-text=":">:</span>
-                                <span id="secs" data-text="00">00</span>
-                            </p>
-                        </countdown>`;
-                        quill.insertEmbed(range.index, 'countdown', "", Quill.sources.USER);
+                        let gamificationElement = "";
+                        switch(gamificationElementSelected) {
+                            case "countdown":
+                                gamificationElement = `<countdown class="clockContainer" id="countdown" >
+                                    <p class="countdown text-danger clock text-center" id="time">
+                                        <span id="hours" data-text="00">00</span>
+                                        <span class="colon" data-text=":">:</span>
+                                        <span id="mins" data-text="00">00</span>
+                                        <span class="colon" data-text=":">:</span>
+                                        <span id="secs" data-text="00">00</span>
+                                    </p>
+                                </countdown>`;
+                                break;
+                            case "progressbar":
+                                gamificationElement = `<div class="row">
+                                    <div class="col-xs-12 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3" style="margin:auto;">
+                                        <div class="progress">
+                                          <div class="progress-bar puzzle-progress" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                                break;
+
+                            case "ranking":
+                                gamificationElement = ``;
+                                break;
+
+                        }
+                        quill.insertEmbed(range.index, gamificationElementSelected, '', Quill.sources.USER);
                         // quill.clipboard.dangerouslyPasteHTML(range.index,  gamificationElement, 'api');
                     }
                     break;

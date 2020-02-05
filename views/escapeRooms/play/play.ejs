@@ -68,6 +68,7 @@
                 var retosSuperados = <%=JSON.stringify(retosSuperados)%>;
                 var totalPuzzles = <%= escapeRoom.puzzles.length %>;
                 var puzzlesPassed = <%= retosSuperados.length %>;
+                var progress = <%= !isNaN(progress) ? progress : undefined %>;
             </script>
             <div class="dialog" >
                 <div class="dialog-content" id="finishPuzzles">
@@ -87,7 +88,6 @@
 
         <% } %>
 
-        <% include ../../partials/_progress_play.ejs %>
         <div class=" row-centered">
             <div class="col-xs-12">
             <% include ../../partials/_countdown.ejs %>
