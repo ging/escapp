@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
 <link rel="stylesheet" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"] || "litera"%>.editor.bootstrap.min.css">
 <script src="/js/vendor/quill.min.js"></script>
-<script src="/js/vendor/jquery.ui.draggable.min.js"></script>
+<script src="/js/vendor/jquery.ui.sortable.min.js"></script>
 <script src="/js/vendor/image-resize.min.js"></script>
 <script src="/js/vendor/video-resize.min.js"></script>
 </head>
@@ -17,7 +17,7 @@
       <input type="hidden" id="appearance" name="appearance" 
       value="<%=escapeRoom[endPoint + "Appearance"] || "litera" %>" />
     	<div class="editor-wrapper  ">
-          <div id="editor" class="" >
+          <div id="editor" class="" spellcheck="false">
             <%if (escapeRoom[endPoint + "Instructions"]) {%>
                 <%- escapeRoom[endPoint + "Instructions"] %>
             <%} else {%>

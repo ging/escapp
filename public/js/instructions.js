@@ -1,4 +1,5 @@
 $(function(){
+    const Delta = Quill.import("delta");
     const BlockEmbed = Quill.import('blots/block/embed');
     class AudioBlot extends BlockEmbed {
       static create(url) {
@@ -22,6 +23,7 @@ $(function(){
         // node.innerHTML = "00:00:00";
         // node.setAttribute('draggable', 'draggable');
         node.setAttribute('contenteditable', 'false');
+        node.setAttribute('draggable', 'true')
         node.classList.add('draggable-element');
         return node;
       }
@@ -34,14 +36,15 @@ $(function(){
         static create() {
             let node = super.create();
             node.setAttribute('contenteditable', 'false');
+            node.setAttribute('draggable', 'true');
             node.classList.add('draggable-element');
-            node.innerHTML = `<div class="row">
+            node.innerHTML = ` 
                 <div class="col-xs-12 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3" style="margin:auto;">
                     <div class="progress">
                       <div class="progress-bar puzzle-progress" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                </div>
-            </div>`;
+                </div>`;
+
             return node;   
         }
     }
@@ -155,9 +158,9 @@ $(function(){
             quill.updateContents(delta);
         }
     }
-    const imageExt = ["bmp","jpg","gif","jpeg","png","svg"];
-    const videoExt = ["3gp","avi","mp4","flv","webm","wmv","mp4","mpeg"];
-    const audioExt = ["mp3","aac","wav","aif","wma","mid","mpg","mp4a","weba"];
+    const imageExt = ["bmp", "jpg", "gif", "jpeg", "png", "svg"];
+    const videoExt = ["3gp", "avi", "mp4", "flv", "webm", "wmv", "mp4", "mpeg"];
+    const audioExt = ["mp3", "aac", "wav", "aif", "wma", "mid", "mpg", "mp4a", "weba"];
 
     $("#dialog-gallery").dialog({
       autoOpen: false,
@@ -222,36 +225,7 @@ $(function(){
                     break;
                 case "sourceGamificationElement":
                     if (gamificationElementSelected) {
-                        let gamificationElement = "";
-                        switch(gamificationElementSelected) {
-                            case "countdown":
-                                gamificationElement = `<countdown class="clockContainer" id="countdown" >
-                                    <p class="countdown text-danger clock text-center" id="time">
-                                        <span id="hours" data-text="00">00</span>
-                                        <span class="colon" data-text=":">:</span>
-                                        <span id="mins" data-text="00">00</span>
-                                        <span class="colon" data-text=":">:</span>
-                                        <span id="secs" data-text="00">00</span>
-                                    </p>
-                                </countdown>`;
-                                break;
-                            case "progressbar":
-                                gamificationElement = `<div class="row">
-                                    <div class="col-xs-12 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3" style="margin:auto;">
-                                        <div class="progress">
-                                          <div class="progress-bar puzzle-progress" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>`;
-                                break;
-
-                            case "ranking":
-                                gamificationElement = ``;
-                                break;
-
-                        }
-                        quill.insertEmbed(range.index, gamificationElementSelected, '', Quill.sources.USER);
-                        // quill.clipboard.dangerouslyPasteHTML(range.index,  gamificationElement, 'api');
+                        quill.insertEmbed(range.index, gamificationElementSelected, '', Quill.sources.API);
                     }
                     break;
             }
@@ -306,5 +280,13 @@ $(function(){
     $($('.ql-appearance .ql-picker-label')[0]).attr('data-value', $('#appearance').val());
 
     $( function() {
+        $( ".ql-editor" ).sortable({
+          cancel: "h1, h2, h3, h4, h5, h6, countdown *",
+          items: "br, iframe, countdown, progressbar, :not(div):empty, .ql-cursor",
+        });
     });
+
+
 });
+
+

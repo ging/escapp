@@ -1263,10 +1263,12 @@ button, input[type="submit"] {
   #mainSection .main.step-instructions countdown:after {
     content: "00:00:00"; }
 
-#mainSection .main.step-instructions progressbar .puzzle-progress {
-  width: 60% !important; }
+#mainSection .main.step-instructions progressbar {
+  width: 100% !important; }
+  #mainSection .main.step-instructions progressbar .puzzle-progress {
+    width: 60% !important; }
 
-#mainSection .main.step-instructions [dpraggable] {
+#mainSection .main.step-instructions [draggable] {
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
