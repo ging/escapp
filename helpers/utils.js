@@ -5,25 +5,30 @@ const {nextStep, prevStep} = require("../helpers/progress");
 const cloudinary = require("cloudinary");
 const {parseURL} = require("../helpers/video");
 
-exports.retosSuperadosByWho = (who, puzzles, showDate = false) => {
+exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
     const retosSuperados = new Array(puzzles.length).fill(0);
+    const retosSuperadosMin = new Array(puzzles.length).fill(0);
 
     who.retos.map((reto) => {
         const idx = puzzles.indexOf(reto.id);
 
         if (idx > -1) {
             retosSuperados[idx] = showDate ? reto.retosSuperados.createdAt : 1;
+            if (turno) {
+                retosSuperadosMin[idx] = showDate ? (reto.retosSuperados.createdAt - turno) / 1000 / 60 : 1;
+            }
         }
         return showDate ? " " : 0;
     });
-    return retosSuperados;
+    return {retosSuperados,
+        retosSuperadosMin};
 };
 
-exports.flattenObject = (obj, labels) => {
+exports.flattenObject = (obj, labels, min = false) => {
     const rs = {};
 
     for (const r in obj) {
-        rs[labels[r]] = obj[r];
+        rs[labels[r] + (min ? " Minute" : "")] = obj[r];
     }
     return rs;
 };

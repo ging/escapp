@@ -109,7 +109,7 @@ exports.puzzlesByParticipants = async (req, res, next) => {
         const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy));
         const results = users.map((u) => {
             const {id, name, surname, dni, username} = u;
-            const retosSuperados = retosSuperadosByWho(u.teamsAgregados[0], puzzles);
+            const {retosSuperados} = retosSuperadosByWho(u.teamsAgregados[0], puzzles);
             const total = pctgRetosSuperados(retosSuperados);
 
             return {id,
@@ -165,7 +165,7 @@ exports.puzzlesByTeams = async (req, res, next) => {
         const teams = await models.team.findAll(queries.team.puzzlesByTeam(escapeRoom.id, turnId));
         const results = teams.map((team) => {
             const {id, name} = team;
-            const retosSuperados = retosSuperadosByWho(team, puzzles);
+            const {retosSuperados} = retosSuperadosByWho(team, puzzles);
             const total = pctgRetosSuperados(retosSuperados);
             const members = team.teamMembers.map((member) => `${member.name} ${member.surname}`);
 
@@ -486,9 +486,9 @@ exports.grading = async (req, res, next) => {
         const results = users.map((user) => {
             const {name, surname, dni, username} = user;
             const turno = user.turnosAgregados[0].date;
+            const startDate = user.turnosAgregados[0].startTime;
 
-
-            const retosSuperados = retosSuperadosByWho(user.teamsAgregados[0], puzzles);
+            const {retosSuperados} = retosSuperadosByWho(user.teamsAgregados[0], puzzles, false, startDate);
             const [{requestedHints}] = user.teamsAgregados;
 
             let {hintsSucceeded, hintsFailed} = countHints(requestedHints);
@@ -570,8 +570,9 @@ exports.download = async (req, res) => {
             const turno = user.turnosAgregados[0].startTime;
             const team = user.teamsAgregados[0].name;
 
-            const retosSuperados = retosSuperadosByWho(user.teamsAgregados[0], puzzles, true);
+            const {retosSuperados, retosSuperadosMin} = retosSuperadosByWho(user.teamsAgregados[0], puzzles, true, turno);
             const rs = flattenObject(retosSuperados, puzzleNames);
+            const rsMin = flattenObject(retosSuperadosMin, puzzleNames, true);
             const [{requestedHints}] = user.teamsAgregados;
 
             const {hintsSucceeded, hintsFailed} = countHints(requestedHints);
@@ -585,6 +586,7 @@ exports.download = async (req, res) => {
                 team,
                 attendance,
                 ...rs,
+                ...rsMin,
                 turno,
                 hintsFailed,
                 hintsSucceeded
