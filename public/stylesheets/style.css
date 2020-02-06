@@ -2123,6 +2123,45 @@ button, input[type="submit"] {
         max-height: 23vh; }
     .ranking .content .filters {
       text-align: left; }
+    .ranking .content .ranking-table {
+      width: 100%;
+      position: relative;
+      border: 2px solid white;
+      border-radius: 22px 22px 0px 0px; }
+      .ranking .content .ranking-table .ranking-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        position: absolute;
+        width: 100%;
+        height: 75px;
+        background-color: #9091A6;
+        color: #161938;
+        border: 2px solid white; }
+        .ranking .content .ranking-table .ranking-row.ranking-header {
+          background-color: #161938;
+          color: white;
+          border-radius: 20px 20px 0px 0px; }
+        .ranking .content .ranking-table .ranking-row div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-family: 'Lato', sans-serif;
+          overflow: hidden;
+          padding: 10px; }
+          .ranking .content .ranking-table .ranking-row div b, .ranking .content .ranking-table .ranking-row div span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: 'Lato', sans-serif; }
+        .ranking .content .ranking-table .ranking-row .ranking-team {
+          width: 20%; }
+        .ranking .content .ranking-table .ranking-row .ranking-members {
+          flex: 1; }
+        .ranking .content .ranking-table .ranking-row .ranking-res {
+          width: 15%; }
+        .ranking .content .ranking-table .ranking-row .ranking-time {
+          width: 10%; }
 
 .showStudent .flex {
   display: flex; }

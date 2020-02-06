@@ -1,44 +1,18 @@
 <script src="/js/vendor/socket.io.js"></script>
-<style>
-
-	table, tbody {
-	    position: relative;
-	    width: 100%;
-	}
-
-	tbody tr {
-	    position: absolute;
-	    padding: 10px;
-		width: 100%;
-		height: 50px;
-
-	}
-	thead tr{
-		width: 100%;
-		height: 50px;
-	}
-	td, th {
-		height: 50px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-</style>
-<table class="ranking-table" style="height: <%=teams.length*50 + 50%>px;">
-	<thead>
-	    <tr>
-	    	<th class="ranking-team"><%=i18n.analytics.ranking.team%></th>
-	    	<th class="ranking-members"><%=i18n.analytics.ranking.members%></th>
-	    	<th class="ranking-res"><%=i18n.analytics.ranking.res%></th>
-	    	<th class="ranking-time"><%=i18n.analytics.ranking.time%></th>
-	    </tr>
-	</thead>
-	<tbody >
+<div class="ranking-table" style="height: <%=teams.length*75 + 79%>px;">
+	    <div class="ranking-row ranking-header" >
+	    	<div class="ranking-pos">#</div>
+	    	<div class="ranking-team"><%=i18n.analytics.ranking.team%></div>
+	    	<div class="ranking-members"><%=i18n.analytics.ranking.members%></div>
+	    	<div class="ranking-res"><%=i18n.analytics.ranking.res%></div>
+	    	<div class="ranking-time"><%=i18n.analytics.ranking.time%></div>
+	    </div>
     <% var teamsClean = [] %>
     <% for (var t in teams) { 
     	let team = teams[t];
     	let stringified = JSON.parse(JSON.stringify(team));
-    	let count = stringified.countretos;
+    	console.log(team.retos)
+    	let count = (stringified.retos && stringified.retos.length) ? stringified.retos[0].countretos : 0
     	let startTime = stringified.turno.startTime;
     	let latestRetoSuperado = stringified.latestretosuperado;
     	let result = count + "/" + escapeRoom.puzzles.length;
@@ -60,41 +34,40 @@
     		finishTime:(escapeRoom.puzzles.length === parseInt(count) && startTime) ?  (secondsToDhms((new Date(latestRetoSuperado) - new Date(startTime))/1000)) : "n/a"
     	};
     	teamsClean.push(currentTeam);
-    	console.log(t)
-    	var top = (50*(parseInt(t, 10)+1))
-    	console.log(top)
+    	var idx = parseInt(t, 10);
+    	var top = (75*(idx+1))
 	%>
-	    <tr class="<%=myTeam ? "myTeam":""%>" id="team-<%=currentTeam.id%>" style="top: <%=top%>px">
-	    	<td class="ranking-team"><b><%=currentTeam.name%></b></td>
-	    	<td class="ranking-members"><%=currentTeam.participants%></td>
-	    	<td class="ranking-res"><%=currentTeam.result%></td>
-	    	<td class="ranking-time"><%=currentTeam.finishTime%></td>
-	    </tr>
+	    <div class="ranking-row <%=myTeam ? "myTeam":""%>" id="team-<%=currentTeam.id%>" style="top: <%=top%>px">
+	    	<div class="ranking-pos"><span><%=idx + 1 %></span></div>
+	    	<div class="ranking-team"><b><%=currentTeam.name%></b></div>
+	    	<div class="ranking-members"><span><%=currentTeam.participants%></span></div>
+	    	<div class="ranking-res"><span><%=currentTeam.result%></span></div>
+	    	<div class="ranking-time"><span><%=currentTeam.finishTime%></span></div>
+	    </div>
     <% } %>
-	</tbody>
-</table>
+</div>
 <script>
 	const CONNECT = "connect";
 	const DISCONNECT = "disconnect";
 	const ERROR = "ERROR";
 	const RANKING = "RANKING";
 	var teams = JSON.parse('<%-JSON.stringify(teamsClean)%>');
-	console.log(teams)
     var escapeRoomId = "<%= escapeRoom.id%>";
     var nPuzzles = "<%= escapeRoom.puzzles.length%>";
 	// TODO "room" : ranking?escapeRoom=1
 	/*http://jsfiddle.net/hans/6qVf5/3/*/
 	const sort = (order_arr) => {
-	    var top = 50;
-	    console.log(order_arr)
+	    var top = 75;
 	    $.each(order_arr, function(idx, id) {
-	    	console.log(idx,id)
-	        var el = $('tbody tr#team-' + id);
+	        var el = $('.ranking-row#team-' + id);
+	        $('.ranking-row#team-' + id + " .ranking-pos").html(idx + 1);
 	        el.animate({
 	            position: 'absolute',
 	            top: top + 'px'
-	        }, 400);
-	        top += el.outerHeight();
+	        }, {
+	        	duration: 1000
+	        });
+	        top += el.outerHeight() ;
 	    });
 	}
 
@@ -116,11 +89,10 @@
 		if (team) {
 			const reto = team.retos.find(reto => reto.id === puzzleId)
 			if (!reto) {
-				team.retos.push({id: puzzleId, createdAt: time});
+				team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
 				team.result = team.retos.length + "/" + nPuzzles;
 				team.latestRetoSuperado = time;
 				$('#team-' + teamId +" .ranking-res").html(team.result);
-				console.log(team, {teamId, puzzleId, time} )
 				if (team.retos.length === nPuzzles) {
 					team.finishTime = time;
 					$('#team-' + teamId +" .ranking-time").html(time);
@@ -138,11 +110,11 @@
 						}
 					}
 				});
+				console.log(teams)
 				sort(teams.map(team=>team.id));
 			}
 		}
 		
-	    console.log({teamId, puzzleId, time});
 	  });
 
 	};
