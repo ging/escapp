@@ -3,20 +3,20 @@
   <h2><%=i18n.escapeRoom.steps.evaluation.title%></h2>  
   <form method='POST' class="basicConfig" action='/escapeRooms/<%= escapeRoom.id %>/evaluation'  >
 		<!-- 	  <p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.youCanUse%> <a target="_blank" href="https://docs.google.com/forms/u/0/">Google Forms</a> o <a target="_blank" href="https://www.typeform.com/es/">TypeForm</a> <%=i18n.escapeRoom.steps.evaluation.forSurveys%></p>
-	  <div class="inputFormField erFormField animated flipInX">
+	  <div class="inputFormField erFormField animated slideInUp"> 
   	      <label for="tit"  class="itemNarrow">1. <%=i18n.escapeRoom.steps.evaluation.pretestField%>:</label>
   	      <input autofocus type="text" class="customInput itemWide" id="pretest" name="pretest" value="<%= escapeRoom.pretest %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.pretestPlaceHolder%>" autocomplete="off"/>
 	  </div>
-	  <div class="inputFormField erFormField animated flipInX">
+	  <div class="inputFormField erFormField animated slideInUp" style="animation-delay:200ms;">
 		  <label for="subj"  class="itemNarrow">2. <%=i18n.escapeRoom.steps.evaluation.posttestField%>:</label>
 		  <input type="text" class="customInput itemWide" id="posttest" name="posttest" value="<%= escapeRoom.posttest %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.posttestPlaceHolder%>" autocomplete="off"/>
 	  </div>
-	  <div class="inputFormField erFormField animated flipInX">
+	  <div class="inputFormField erFormField animated slideInUp" style="animation-delay:400ms;">
 		  <label for="subj"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.surveyField%>:</label>
 		  <input type="text" class="customInput itemWide" id="survey" name="survey" value="<%= escapeRoom.survey %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.surveyPlaceHolder%>" autocomplete="off"/>
 	  </div> -->
 	  <p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.gradingIntro%> </p>
-	  <div class=" erFormField disallow animated flipInX">
+	  <div class=" erFormField disallow animated slideInUp" style="animation-delay:600ms;">
 		  <label for="tit"  class="itemNarrow"><%=i18n.escapeRoom.steps.evaluation.eachPuzzle%>:</label>
 		  <table class="scorePuzzles">
 			  <tr><td><label>Puzzle</label></td><td><label>Weight(%)</label></td></tr>
@@ -42,7 +42,7 @@
 			  </tr>
 		  </table>
 	  </div>
-	  <div class=" erFormField disallow animated flipInX">
+	  <div class=" erFormField disallow animated slideInUp" style="animation-delay:800ms;">
 		  <label for="tit"  class="itemNarrow"><%=i18n.escapeRoom.steps.evaluation.eachHint%>:</label>
 		  <table class="scorePuzzles">
 			  <tr>

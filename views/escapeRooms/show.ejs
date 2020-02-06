@@ -27,7 +27,7 @@
     <br/>
     <br/>
     <div class="flexShow">
-        <div class="flexRow animated bounceIn" id="basic">
+        <div class="flexRow animated slideInUp" id="basic">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.title%>:
             </div>
@@ -35,7 +35,7 @@
                 <%= escapeRoom.title %>
             </div>
         </div>
-        <div class="flexRow animated bounceIn">
+        <div class="flexRow animated slideInUp">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.subject%>:
             </div>
@@ -43,7 +43,7 @@
                 <%= escapeRoom.subject %>
             </div>
         </div>
-        <div class="flexRow animated bounceIn">
+        <div class="flexRow animated slideInUp">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.duration%>:
             </div>
@@ -51,7 +51,7 @@
                 <%= escapeRoom.duration %>
             </div>
         </div>
-        <div class="flexRow animated bounceIn">
+        <div class="flexRow animated slideInUp">
              <div class="flexShowLeft">
                  <%=i18n.showTeacher.titles.description%>:
              </div>
@@ -59,20 +59,7 @@
                  <%= escapeRoom.description %>
              </div>
         </div>
-        <div class="flexRow animated bounceIn">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.video%>:
-            </div>
-            <div class="flexShowRight">
-                <% if (escapeRoom.video) { %>
-                <a class="show_link" href="<%= escapeRoom.video %>"><%= escapeRoom.video %></a> 
-                    <button class="copy" id="previewVideo"><i class="material-icons">remove_red_eye</i></button>
-                <%  } else { %>
-                    <em><%=i18n.showTeacher.messages.noVideo%>:</em>
-                <%  } %>
-            </div>
-        </div>
-        <div class="flexRow animated bounceIn">
+        <div class="flexRow animated slideInUp">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.nmax%>:
             </div>
@@ -80,7 +67,7 @@
                 <%= escapeRoom.nmax %>
             </div>
         </div>
-        <div class="flexRow animated bounceIn">
+        <div class="flexRow animated slideInUp">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.teamSize%>:
             </div>
@@ -88,7 +75,7 @@
                 <%= escapeRoom.teamSize %>
             </div>
         </div>
-        <div class="flexRow animated bounceIn" id="join">
+        <div class="flexRow animated slideInUp" id="join">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.invitation%>:
             </div>
@@ -102,7 +89,7 @@
                  <a class="show_link" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/<%= invitationLink %>"> <button class="copy" id="copyButton"><i class="material-icons">camera_enhance</i></button></a>
             </div>
         </div>
-        <div class="flexRow animated bounceIn" id="turnos">
+        <div class="flexRow animated slideInUp" id="turnos">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.turnos%>:
             </div>
@@ -111,7 +98,7 @@
                 <%  include ../turnos/_indexShow  %>
             </div>
         </div>
-        <div class="flexRow animated bounceIn" id="pistas">
+        <div class="flexRow animated slideInUp" id="pistas">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.puzzles%>:
                 <% const someAutomatic = escapeRoom.puzzles && escapeRoom.puzzles.length > 0 && escapeRoom.puzzles.some(p=>p.automatic); %>
@@ -177,44 +164,20 @@
                 <%}%>
             </div>
         </div>
-        <div class="flexRow animated bounceIn" id="pistas">
+        <div class="flexRow animated slideInUp" id="pistas">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.hints%>:
             </div>
             <div class="flexShowRight">
                 <% if (escapeRoom.hintApp) { %>
 
-                    <a class="show_link"  download="quiz" href="/escapeRooms/<%= escapeRoom.id%>/xml"><%=escapeRoom.hintApp.filename%></a>
-                   <!-- <button class="copy" onclick="previewHintApp()"><i class="material-icons">remove_red_eye</i></button>-->
+                   <a class="show_link"  download="quiz" href="/escapeRooms/<%= escapeRoom.id%>/xml"><%=escapeRoom.hintApp.filename%></a>
+                   <button class="copy" onclick="previewHintApp()"><i class="material-icons">remove_red_eye</i></button> 
                 <% } else { %>
                    <%=i18n.showTeacher.messages.noHintControl%>
                 <% } %>
             </div>
         </div>
-        <!--<div class="flexRow animated bounceIn" id="pretest">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.pretest%>:
-            </div>
-            <div class="flexShowRight">
-                 <a class="show_link" href="<%= escapeRoom.pretest %>"><%= escapeRoom.pretest %></a>
-            </div>
-        </div>
-        <div class="flexRow animated bounceIn" id="posttest">
-            <div class="flexShowLeft">
-               <%=i18n.showTeacher.titles.posttest%>:
-            </div>
-            <div class="flexShowRight">
-                 <a class="show_link" href="<%= escapeRoom.posttest %>"><%= escapeRoom.posttest %></a>
-            </div>
-        </div>
-        <div class="flexRow animated bounceIn" id="survey">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.survey%>:
-            </div>
-            <div class="flexShowRight">
-                 <a class="show_link" href="<%= escapeRoom.survey %>"><%= escapeRoom.survey %></a>
-            </div>
-        </div>-->
     </div>
 </div>
 <br/>
@@ -234,21 +197,6 @@
       copyText.select();
       document.execCommand("copy");
     });
-    $("#dialog-preview-video").dialog({
-      autoOpen: false,
-      resizable: false,
-      width: screen.width > 600 ? 560 : screen.width*0.9,
-      height: "auto",
-      show: {
-        effect: "blind",
-        duration: 100
-      },
-      hide: {
-        effect: "explode",
-        duration: 400
-      },
-      appendTo: '.main'
-    });
 
     $("#dialog-preview-api").dialog({
       autoOpen: false,
@@ -266,11 +214,6 @@
       appendTo: '.main'
     });
 
-    $( "#previewVideo" ).on( "click", function() {
-      $( "#dialog-preview-video" ).dialog( "open" );
-    });
-
-
     $( "#api-button" ).on( "click", function() {
       $( "#dialog-preview-api" ).dialog( "open" );
     }); 
@@ -279,16 +222,6 @@
 
 </script>
 
-<% if (escapeRoom.video) { %>
-<div id="dialog-preview-video" title="Video">
-    <% if (parseURL(escapeRoom.video)) { %>
-        <iframe id="previewVideoContent" width="560" height="315" style="max-width: 100%;" src="<%=parseURL(escapeRoom.video)%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <% } else { %>
-        <video id="previewVideoContent" width="560" height="315" style="max-width: 100%;" src="<%= escapeRoom.video %>">"></video>
-    <% } %>
-
-</div>
-<% } %>
 
 <% if (someAutomatic) { %>
 <div id="dialog-preview-api" title="API">
@@ -310,13 +243,14 @@
     </table>
     <h4>Sample remote request</h4>
     <pre id="sample-fetch">
-fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/check", {
-    method: 'POST',
-    body: JSON.stringify({token: "<%= email %>", solution: "<%=puzzle.sol%>"}),
-    headers: {"Content-type": "application/json"}
-})
-.then(res => res.json())
-.then(res => console.log(res));</pre>
+        fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/check", {
+            method: 'POST',
+            body: JSON.stringify({token: "<%= email %>", solution: "<%=puzzle.sol%>"}),
+            headers: {"Content-type": "application/json"}
+        })
+        .then(res => res.json())
+        .then(res => console.log(res));
+    </pre>
 
 </div>
 <% } %>
@@ -324,4 +258,8 @@ fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/c
 <% include ../partials/_footer %>
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
+    const previewHintApp = () => {
+            var newwindow = window.open('/escapeRooms/'+escapeRoomId+'/hintAppWrapper','',
+                'width='+screen.width*0.7+',height='+screen.height*0.7);
+        };
 </script>

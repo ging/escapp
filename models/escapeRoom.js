@@ -8,7 +8,6 @@ module.exports = function (sequelize, DataTypes) {
         "duration": {"type": DataTypes.INTEGER,
             "validate": {"notEmpty": {"msg": "La duración no puede estar vacía."}}},
         "description": {"type": DataTypes.STRING},
-        "video": {"type": DataTypes.STRING},
         "nmax": {"type": DataTypes.INTEGER,
             "validate": {"notEmpty": {"msg": "El número de participantes no puede estar vacío."}}},
         "teamSize": {"type": DataTypes.INTEGER,

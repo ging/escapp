@@ -2,7 +2,6 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
 const cloudinary = require("cloudinary");
-const {parseURL} = require("../helpers/video");
 const query = require("../queries");
 const attHelper = require("../helpers/attachments");
 const {nextStep, prevStep} = require("../helpers/progress");
@@ -116,14 +115,12 @@ exports.show = (req, res) => {
     if (participant) {
         res.render("escapeRooms/showStudent", {escapeRoom,
             cloudinary,
-            participant,
-            parseURL});
+            participant});
     } else {
         res.render("escapeRooms/show", {escapeRoom,
             cloudinary,
             hostName,
-            "email": req.session.user.username,
-            parseURL});
+            "email": req.session.user.username});
     }
 };
 
@@ -135,7 +132,6 @@ exports.new = (req, res) => {
         "subject": "",
         "duration": "",
         "description": "",
-        "video": "",
         "nmax": "",
         "teamSize": ""};
 
@@ -145,7 +141,7 @@ exports.new = (req, res) => {
 
 // POST /escapeRooms/create
 exports.create = (req, res, next) => {
-    const {title, subject, duration, description, video, nmax, teamSize} = req.body,
+    const {title, subject, duration, description, nmax, teamSize} = req.body,
 
         authorId = req.session.user && req.session.user.id || 0,
 
@@ -153,7 +149,6 @@ exports.create = (req, res, next) => {
             subject,
             duration,
             description,
-            video,
             nmax,
             teamSize,
             authorId}); // Saves only the fields question and answer into the DDBB
@@ -164,7 +159,6 @@ exports.create = (req, res, next) => {
         "subject",
         "duration",
         "description",
-        "video",
         "nmax",
         "teamSize",
         "authorId",
@@ -224,7 +218,6 @@ exports.update = (req, res, next) => {
     escapeRoom.subject = body.subject;
     escapeRoom.duration = body.duration;
     escapeRoom.description = body.description;
-    escapeRoom.video = body.video;
     escapeRoom.nmax = body.nmax;
     escapeRoom.teamSize = body.teamSize;
     const progressBar = body.progress;
@@ -234,7 +227,6 @@ exports.update = (req, res, next) => {
         "subject",
         "duration",
         "description",
-        "video",
         "nmax",
         "teamSize"
     ]}).

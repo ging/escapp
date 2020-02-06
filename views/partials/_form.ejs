@@ -25,12 +25,6 @@
          value: escapeRoom.description
      },
      {
-         name: "video",
-         id: "vid",
-         i18n: "video",
-         value: escapeRoom.video
-     },
-     {
          name: "nmax",
          id: "nm",
          i18n: "nmax",
@@ -46,7 +40,7 @@
      }]; %>
 <% for (let f in formFields) {
   var field = formFields[f];%>
-    <div class="inputFormField erFormField animated flipInX">
+    <div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*f%>ms;">
         <label for="<%=field.id%>"  class="itemNarrow"><%=parseInt(f)+1%>. <%=i18n.showTeacher.titles[field.i18n]%>:</label>
         <input autofocus type="<%=field.number ? "number" : "text"%>" min="1" class="customInput itemWide" id="<%= field.id %>" name="<%= field.name %>" value="<%= field.value %>"
                placeholder="<%=i18n.escapeRoom.steps.edit[field.i18n + "PlaceHolder"]%>" autocomplete="off"/>
@@ -54,7 +48,7 @@
 <%}%>
 
 
-<div class="inputFormField erFormField animated flipInX">
+<div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*formFields.length%>ms;">
     <label class="itemNarrow">8. <%=i18n.showTeacher.titles.thumbnail%>:</label>
     <input class="attach" type="file" id="img" name="image"/>
     <label for="img" class="fileUpload customInput itemWide">

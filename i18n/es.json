@@ -248,8 +248,10 @@
             	"edit":"Configuración básica",
             	"turnos": "Turnos",
             	"puzzles": "Retos",
-                "hints": "Pistas",
-            	"assets": "Galería de ficheros",
+                "hints": "Gestión de pistas",
+                "assets": "Galería de ficheros",
+                "team": "Interfaz de equipo",
+            	"class": "Interfaz de clase",
             	"instructions": "Instrucciones",
             	"appearance": "Apariencia",
             	"evaluation": "Evaluación"

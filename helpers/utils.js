@@ -3,7 +3,6 @@ const sequelize = require("../models");
 const {models} = sequelize;
 const {nextStep, prevStep} = require("../helpers/progress");
 const cloudinary = require("cloudinary");
-const {parseURL} = require("../helpers/video");
 
 exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
     const retosSuperados = new Array(puzzles.length).fill(0);
@@ -102,7 +101,6 @@ exports.playInterface = (name, req, res) => {
                 "retos": []},
             "hints": [],
             "isStudent": false,
-            parseURL,
             "endPoint": name,
             "layout": false});
         return;
@@ -161,7 +159,6 @@ exports.playInterface = (name, req, res) => {
                 team,
                 "isStudent": true,
                 "hints": hints || [],
-                parseURL,
                 "endPoint": name,
                 "layout": false});
         });

@@ -252,7 +252,7 @@
             "list": {
                 "edit":"Basic configuration",
                 "evaluation": "Evaluation",
-                "hints": "Hints",
+                "hints": "Hint management",
                 "assets": "Asset upload",
                 "team": "Team Interface",
                 "class": "Classroom Interface",

@@ -82,6 +82,7 @@ $(function(){
     ];
 
     var range, fileSelected, gamificationElementSelected, quill;
+    
     function imageHandler() {
         quill = this.quill;
         range = quill.getSelection();
@@ -108,6 +109,8 @@ $(function(){
     };
 
     var editor = new Quill('#editor', options);
+             $('#editor').css("visibility", "visible");
+
     $('#instructionsForm').on("submit", e => {
         let content = document.getElementsByClassName('ql-editor')[0].innerHTML;
         $('#instructions').val( (content));
@@ -215,7 +218,6 @@ $(function(){
                                 if (this.readyState == this.DONE && this.status < 400) {
                                     const mime = this.getResponseHeader("Content-Type");
                                     insertContent(range.index, url, mime, url);
-
                                 } 
                             };
                             xhttp.onerror = onerror;

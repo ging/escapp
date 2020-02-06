@@ -17,7 +17,7 @@
       <input type="hidden" id="appearance" name="appearance" 
       value="<%=escapeRoom[endPoint + "Appearance"] || "litera" %>" />
     	<div class="editor-wrapper  ">
-          <div id="editor" class="" spellcheck="false">
+          <div id="editor" class="" spellcheck="false" style="visibility: hidden;">
             <%if (escapeRoom[endPoint + "Instructions"]) {%>
                 <%- escapeRoom[endPoint + "Instructions"] %>
             <%} else {%>

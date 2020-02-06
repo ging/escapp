@@ -2,12 +2,12 @@
 <div class="main step-hints">
   	<h2><%=i18n.escapeRoom.steps.hints.title%></h2>  
   	<form class="basicConfig" method='POST' action='/escapeRooms/<%= escapeRoom.id %>/hints' enctype="multipart/form-data" >
-		<div class="inputFormField erFormField animated flipInX">
+		<div class="inputFormField erFormField animated slideInUp">
 			<label for="vid"  class="itemNarrow">1. <%=i18n.escapeRoom.steps.hints.hintLimit%>:
 			<p class="explanation"><%=i18n.escapeRoom.steps.hints.hintLimitExplanation%></p>
 				<input type="number" class="customInput itemWide" id="hintLimit" name="hintLimit" placeholder="<%=i18n.escapeRoom.steps.hints.hintLimitPlaceholder%>" value="<%= escapeRoom.hintLimit%>" min="0" /></label>
 		</div>
-		<div class="inputFormField erFormField animated flipInX">
+		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:200ms;">
 		    <label class="itemNarrow">2. <%=i18n.escapeRoom.steps.hints.MoodleXML%>:</label>
 		    <p class="explanation"><%=i18n.escapeRoom.steps.hints.explanation%></p>
 		  	<input class="attach" style="display: none;" type="file" id="hints" name="hints" tabindex="0" accept="text/xml"/>
@@ -37,16 +37,16 @@
 		  	  <input type="hidden" name="keepAttachment" id="keepAttachment" value="<%= (escapeRoom.id && escapeRoom.hintApp) ? "1" : "0" %>" >
 		  	</label>
 	  </div>
-		<div class="inputFormField erFormField animated flipInX">
+		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:400ms;">
 		  <label for="vid"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.hints.questionNumber%>:</label>
 		  <p class="explanation"><%=i18n.escapeRoom.steps.hints.questionNumberExplanation%></p>
 		  <input type="number" min="0" class="customInput itemWide" id="numQuestions" name="numQuestions" value="<%= escapeRoom.numQuestions %>" placeholder="<%=i18n.escapeRoom.steps.hints.questionNumberPlaceHolder%>" autocomplete="off"/>
 		</div>
-		<div class="inputFormField erFormField animated flipInX">
+		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:600ms;">
 		    <label for="vid"  class="itemNarrow">4. <%=i18n.escapeRoom.steps.hints.correctNumber%>:</label>
 		    <input type="number" min="0" class="customInput itemWide" id="numRight" name="numRight" value="<%= Math.round(escapeRoom.numRight/100*escapeRoom.numQuestions)  %>" placeholder="<%=i18n.escapeRoom.steps.hints.correctNumberPlaceHolder%>" autocomplete="off"/>
 		</div>
-		<div class="inputFormField erFormField animated flipInX">
+		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:800ms;">
 		    <label for="vid"  class="itemNarrow">5. <%=i18n.escapeRoom.steps.hints.feedback%>:
 		    <input type="checkbox" class="customCheckbox" id="feedback" name="feedback" <%= escapeRoom.feedback ? "checked" : "" %> autocomplete="off"/></label>
 		    <p class="explanation"><%=i18n.escapeRoom.steps.hints.feedbackExplanation%></p>
