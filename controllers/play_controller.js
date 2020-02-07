@@ -56,13 +56,6 @@ exports.finish = (req, res) => {
                 "name",
                 [
                     Sequelize.fn(
-                        "COUNT",
-                        Sequelize.col(isPg ? "\"retos->retosSuperados\".\"puzzleId\"" : "`retos->retosSuperados`.`puzzleId`")
-                    ),
-                    "countretos"
-                ],
-                [
-                    Sequelize.fn(
                         "MAX",
                         Sequelize.col(isPg ? "\"retos->retosSuperados\".\"createdAt\"" : "`retos->retosSuperados`.`createdAt`")
                     ),
@@ -70,8 +63,10 @@ exports.finish = (req, res) => {
                 ]
             ],
             "include": [
+
                 {
                     "model": models.turno,
+                    "attributes": ["startTime", "id"],
                     "where": {"id": turnoId}
                 },
                 {
@@ -81,7 +76,6 @@ exports.finish = (req, res) => {
                         "createdAt"
                     ],
                     "as": "retos",
-                    "duplicating": false,
                     "through": {
                         "attributes": [],
                         "model": models.retosSuperados
@@ -99,11 +93,11 @@ exports.finish = (req, res) => {
             ],
             "group": [
                 "team.id",
-                "teamMembers.id"
+                "teamMembers.id",
+                "retos.id",
+                "turno.id"
             ],
             "order": [
-                Sequelize.literal("countretos DESC"),
-                Sequelize.literal("latestretosuperado ASC")
             ]
         }).then((teams) => {
             res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom,
@@ -111,20 +105,18 @@ exports.finish = (req, res) => {
                 turnoId,
                 teamId,
                 "userId": req.session.user.id});
-        }).
-            catch((e) => {
-                console.error(e);
-                res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom,
-                    "teams": [],
-                    turnoId,
-                    teamId,
-                    "userId": req.session.user.id});
-            });
-    }).
-        catch((e) => {
+        }).catch((e) => {
             console.error(e);
             res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom,
                 "teams": [],
+                turnoId,
+                teamId,
                 "userId": req.session.user.id});
         });
+    }).catch((e) => {
+        console.error(e);
+        res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom,
+            "teams": [],
+            "userId": req.session.user.id});
+    });
 };
