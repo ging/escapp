@@ -257,26 +257,12 @@ $(document).on("click", "#btn-hints", function(){
   $('#hintAppModal').modal('show');
   $('#hintAppModal').on('hidden.bs.modal', () => setTimeout(()=>$('#hintAppModal').remove(), 200));
 });
+
 let waitingForHintReply = false;
 window.requestHintFinish = (completion, score, status) => {
   waitingForHintReply = true;
   requestHint(score, status ? "completed" : "failed");
 };
-$(()=>{
-  if (escapeRoomHintLimit !== undefined && (escapeRoomHintLimit <= $("#hintList").children().length )){
-    $('#btn-hints').attr("disabled", true)
-  }
-
-  try {
-    if (progress !== undefined) {
-      updateProgress(progress);
-    }
-  } catch (err) {
-
-  }
-  $('meta').attr('content', rgb2hex($('body').css("background-color") || "#FFFFFF"));
-
-});
 
 const initSocketServer = (escapeRoomId, teamId, turnId) => {
   socket = io('/', {query: {
@@ -327,3 +313,19 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
     }
   }); 
 };
+
+$(()=>{
+  if (escapeRoomHintLimit !== undefined && (escapeRoomHintLimit <= $("#hintList").children().length )){
+    $('#btn-hints').attr("disabled", true)
+  }
+
+  try {
+    if (progress !== undefined) {
+      updateProgress(progress);
+    }
+  } catch (err) {
+
+  }
+  $('meta').attr('content', rgb2hex($('body').css("background-color") || "#FFFFFF"));
+
+});
