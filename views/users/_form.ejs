@@ -28,8 +28,21 @@
 </div>
 <br />
 <div class="userField">
-    <label for="username"><span><%=i18n.user.username%> (UPM)</span>
+    <label for="username"><span><%=i18n.user.username%></span>
     <input type="email" <%=user.id?"disabled":""%> class="customInput" id="username" name="username" value="<%= user.username %>" required placeholder="<%=i18n.user.inputs.usernamePlaceHolder %>" autocomplete="off"/></label>
+    <%if (!user.id) {%>
+        <div class="roleField">
+            
+            <label for="teacher" class="roleLabel">
+            <input class="chooseRole" type="radio" name="role" id="teacher" value="teacher"/>
+            <span><%=i18n.user.teacher%></span>
+            </label>
+            <label for="student" class="roleLabel">
+            <input class="chooseRole" type="radio" name="role" id="student" value="student" checked/>
+            <span><%=i18n.user.student%></span>
+            </label>
+        </div>
+    <%}%>
 </div>
 <br />
 <div class="userField">

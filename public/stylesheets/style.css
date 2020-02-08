@@ -1800,6 +1800,21 @@ button, input[type="submit"] {
         color: #656683;
         text-align: left;
         padding-top: 15px; }
+      .portada .contenedor .loginRight .roleField {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-evenly; }
+        .portada .contenedor .loginRight .roleField .roleLabel {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          align-items: center; }
+          .portada .contenedor .loginRight .roleField .roleLabel input {
+            width: auto; }
+          .portada .contenedor .loginRight .roleField .roleLabel span {
+            display: inline-block;
+            padding: 0px; }
     .portada .contenedor #imagenPortada {
       width: auto; }
 

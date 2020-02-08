@@ -42,20 +42,18 @@ exports.new = (req, res) => {
 
 // POST /users
 exports.create = (req, res, next) => {
-    const {name, surname, gender, username, password, dni} = req.body;
+    const {name, surname, gender, username, password, dni, role} = req.body;
     const {redir} = req.query;
-    const studentRegex = /(@alumnos\.upm\.es)/,
-        teacherRegex = /(@upm\.es)/,
-        user = models.user.build({name,
+    const user = models.user.build({name,
             surname,
             gender,
             "username": (username || "").toLowerCase(),
             "dni": (dni || "").toLowerCase(),
             password}),
-        isStudent = user.username.match(studentRegex),
-        isTeacher = user.username.match(teacherRegex);
+        isStudent = role === "student",
+        isTeacher = role === "teacher";
 
-    user.isStudent = Boolean(isStudent);
+
     if (!isStudent && !isTeacher) {
         req.flash("error", req.app.locals.i18n.common.flash.mustBeUPMAccount);
         res.render("index", {user,
@@ -63,6 +61,7 @@ exports.create = (req, res, next) => {
             redir});
         return;
     }
+    user.isStudent = Boolean(isStudent);
 
     // Save into the data base
     user.save({"fields": [

@@ -567,6 +567,9 @@
             "resetPassword" : "Recuperar contraseña",
             "save": "guardar"
         },
+        "role": "Rol",
+        "teacher": "Profesor",
+        "student": "Alumno",
         "dni": "DNI",
         "gender": "Género",
         "inputs": {
