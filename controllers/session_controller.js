@@ -198,8 +198,8 @@ exports.create = (req, res, next) => {
 
 // DELETE /  --  Close the session
 exports.destroy = (req, res) => {
-    req.session.destroy(()=>{
-        res.clearCookie('connect.sid', { path: '/' });
+    req.session.destroy(() => {
+        res.clearCookie("connect.sid", {"path": "/"});
         delete req.session;
         res.redirect("/"); // Redirect to login page
     });

@@ -4,10 +4,22 @@
 <div class="main student">
     <div class="dialog" >
         </br>
-        Seleccione un equipo <a id="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new">
+        Seleccione un equipo <a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new">
             <i class="material-icons">add_circle_outline</i></a>
         </br>
         </br>
+        <div class="findTeam">
+            <input type="text" id="findTeam" placeholder="Search for your team name or members"/>
+            <br/>
+            <br/>
+            <div class="no-results" style="display: none;">
+                <div class="no-results-msg"><%="No results" %></div>
+                <div class="create-new-team"><%= "Do you want to create your own team?" %></div>
+                <a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new">
+                     <i class="material-icons">add_circle_outline</i>
+                </a>
+            </div>
+        </div>
         <div class="">
 
             <% if (!turno.teams) { %>
@@ -27,7 +39,7 @@
             <% } %>
             <br/>
             <div>
-
+            <div id="teamCarouselItems-hidden" class="hide"></div>
                 <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/participants/turnos/<%= turno.id %>/members/xxxx?_method=put'>
                     <div class="join-button-flex-container">
                         <a href="javascript:history.back()">
@@ -51,7 +63,67 @@
     $(function(){
         let selectedId = "";
         let repl = false;
-        $('.teamCarouselItem').on('click', function(e) {
+        
+        var car = $(".owl-carousel").owlCarousel({  
+            center: false,
+            items: 3,
+            loop: false,
+            rewind: true,
+            margin: 10,
+            nav: true,
+            dots: true,
+            checkVisible: false
+        });
+
+
+
+
+        function showNav() {
+            const items = $('.owl-carousel .teamCarouselItem').length;
+
+            if (items <= 3) {
+                $('.owl-nav').css('visibility', 'hidden');
+                if (!items) {
+                    $('.no-results').css('display', 'block');
+                } else {
+                    $('.no-results').css('display', 'none');
+                }
+            } else {
+                $('.owl-nav').css('visibility', 'visible');
+                $('.no-results').css('display', 'none');
+            }
+        }
+        function filterTeams(str){
+            const regex = new RegExp(str,'im');
+            $('#teamCarouselItems-hidden .teamCarouselItem').each(function(i,e){
+               const match = $(e).text().match(regex);
+               if (match) {
+                   $('.owl-carousel').owlCarousel('add', $(this).parent().html()).owlCarousel('update');
+                   $(this).parent().remove(); 
+               }
+
+            });
+
+            $('.owl-carousel .teamCarouselItem').each(function(i,e){
+               const match = $(e).text().match(regex);
+               if (!match) {
+                    $( $(this).parent() ).clone().appendTo( $('#teamCarouselItems-hidden') );
+                    $('.owl-carousel').owlCarousel('remove',  $(this).parent().index()).owlCarousel('update');
+               }
+               
+            });
+            if ($('#teamCarouselItems-hidden .selected').length) {
+                $('.selected').removeClass('selected');
+                $('#continue').prop("disabled", true);
+                $('#continue').css("display", "none");
+            }
+            showNav();
+        }
+
+        $('#findTeam').on('keyup', function(){
+            filterTeams(this.value)
+        });
+        $(document).on("click", '.teamCarouselItem', function(e) {
             var currentClicked = $(this);
             var teamId = currentClicked.data('id');
             $('.selected').removeClass('selected');
@@ -65,21 +137,11 @@
                 e.preventDefault();
                 repl= true;
                 let action = document.getElementById('form').getAttribute('action');
-                action = action.replace("xxxx",selectedId);
+                action = action.replace("xxxx", selectedId);
                 $('#form').attr('action', action);
                 $('#form').submit();
             }
         });
-        var car = $(".owl-carousel").owlCarousel(
-            {  center: false,
-                items:3,
-                loop: false,
-                rewind: true,
-                margin: 10,
-                nav:true,
-                dots:true,
-                checkVisible: false
-            }
-        );
+        filterTeams();
     });
 </script>

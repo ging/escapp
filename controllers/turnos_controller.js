@@ -110,7 +110,7 @@ exports.activar = async (req, res, next) => {
             res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${turno.id}/play`);
         } else {
             stopTurno(turno.id);
-            res.redirect(back);
+            res.redirect(`/escapeRooms/${escapeRoom.id}/analytics/ranking?turnId=${turno.id}`);
         }
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {

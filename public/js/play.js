@@ -9,6 +9,7 @@ const SOLVE_PUZZLE = "SOLVE_PUZZLE";
 const START = "START";
 const STOP = "STOP";
 const JOIN = "JOIN";
+const RANKING = "RANKING";
 
 /** TEMPLATES **/
 const hintTemplate = (hint) => `
@@ -188,6 +189,62 @@ const forMs = (delay) => {
   });
 }
 
+const sort = () => {
+  teams = teams.sort((a,b)=>{
+    if (a.retos.length > b.retos.length) {
+      return -1;
+    } else if (a.retos.length < b.retos.length) {
+      return 1;
+    } else {
+      if (a.latestRetoSuperado > b.latestRetoSuperado) {
+        return 1;
+      } else {
+        return -1;
+      }
+    }
+  });
+    var top = 75;
+    $.each(teams.map(t=>t.id), function(idx, id) {
+        var el = $('.ranking-row#team-' + id);
+        $('.ranking-row#team-' + id + " .ranking-pos").html(idx + 1);
+        el.animate({
+            position: 'absolute',
+            top: top + 'px'
+        }, {
+          duration: 1000
+        });
+        top += el.outerHeight() ;
+    });
+}
+
+const secondsToDhms = (secs) => {
+    const seconds = Number(secs);
+    const d = Math.floor(seconds / (3600 * 24));
+    const h = Math.floor(seconds % (3600 * 24) / 3600);
+    const m = Math.floor(seconds % 3600 / 60);
+    const s = Math.floor(seconds % 60);
+
+    const dDisplay = d > 0 ? `${d}d` : "";
+    const hDisplay = h > 0 ? `${h}h` : "";
+    const mDisplay = m > 0 ? `${m}m` : "";
+    const sDisplay = s > 0 ? `${s}s` : "";
+
+    return [
+        dDisplay,
+        hDisplay,
+        mDisplay,
+        sDisplay
+    ].filter((a) => a !== "").join(", ");
+}
+
+const rgb2hex = orig => {
+ var rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
+ return (rgb && rgb.length === 4) ? "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
+}
+
 /** BTN ACTIONS **/
 $(document).on("click", ".puzzle-check-btn", function(){
   const puzzleId = $(this).data("puzzleId");
@@ -209,9 +266,16 @@ $(()=>{
   if (escapeRoomHintLimit !== undefined && (escapeRoomHintLimit <= $("#hintList").children().length )){
     $('#btn-hints').attr("disabled", true)
   }
-  if (progress !== undefined) {
-    updateProgress(progress);
+
+  try {
+    if (progress !== undefined) {
+      updateProgress(progress);
+    }
+  } catch (err) {
+
   }
+  $('meta').attr('content', rgb2hex($('body').css("background-color") || "#FFFFFF"));
+
 });
 
 const initSocketServer = (escapeRoomId, teamId, turnId) => {
@@ -244,4 +308,22 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
 
   /*Disconnect*/
   socket.on(DISCONNECT, onDisconnect);
+
+  socket.on(RANKING, function({teamId, puzzleId, time}){
+    const team = teams.find(team => team.id == teamId);
+    if (team) {
+      const reto = team.retos.find(reto => reto.id === puzzleId)
+      if (!reto) {
+        team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
+        team.result = team.retos.length + "/" + nPuzzles;
+        team.latestRetoSuperado = time;
+        $('#team-' + teamId +" .ranking-res").html(team.result);
+        if (team.retos.length == nPuzzles) {
+          team.finishTime = secondsToDhms((new Date(time) - new Date(team.startTime))/1000);
+          $('#team-' + teamId +" .ranking-time").html(team.finishTime);
+        }
+        sort();
+      }
+    }
+  }); 
 };

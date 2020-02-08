@@ -32,6 +32,46 @@ $(function(){
     CountdownBlot.tagName = 'countdown';
     Quill.register(CountdownBlot);
 
+
+    class RankingBlot extends BlockEmbed {
+      static create() {
+        let node = super.create();
+        node.setAttribute('contenteditable', 'false');
+        node.setAttribute('draggable', 'true');
+        node.classList.add('draggable-element');
+        node.innerHTML = ` 
+            <div class="ranking-table table" style="height: 230px; ">
+                <div class="ranking-row ranking-header table-primary" style="top: 0px;" >
+                    <div class="ranking-pos">#</div>
+                    <div class="ranking-team">Team</div>
+                    <div class="ranking-members">Members</div>
+                    <div class="ranking-res">Progress</div>
+                    <div class="ranking-time">Time</div>
+                </div>
+                <div class="ranking-row " style="top: 75px;">
+                    <div class="ranking-pos">1</div>
+                    <div class="ranking-team">Team 1</div>
+                    <div class="ranking-members">Student A, Student B</div>
+                    <div class="ranking-res">3/3</div>
+                    <div class="ranking-time">1h 2min</div>
+                </div>
+                <div class="ranking-row " style="top: 150px;">
+                    <div class="ranking-pos">2</div>
+                    <div class="ranking-team">Team 2</div>
+                    <div class="ranking-members">Student C, Student D</div>
+                    <div class="ranking-res">2/3</div>
+                    <div class="ranking-time">---</div>
+                </div>
+            </div>
+         `;
+        return node;
+      }
+    }
+    RankingBlot.blotName = 'ranking';
+    RankingBlot.tagName = 'ranking';
+    Quill.register(RankingBlot);
+
+
     class ProgressBlot extends BlockEmbed {
         static create() {
             let node = super.create();
@@ -121,6 +161,7 @@ $(function(){
         if (node && node.id) {
             switch(node.id) {
                 case 'ranking':
+                case 'progress':
                 case 'countdown':
                     return delta;
             }

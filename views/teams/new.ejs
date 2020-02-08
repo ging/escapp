@@ -7,18 +7,20 @@
         </br>
         </br>
         <div class="">
-                <div>
-                    <form method="POST" id="newForm" action="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams">
-                        <div>
-                            <input type="text" id="name" class="teamName" required name="name" placeholder="<%=i18n.team.addPlaceHolder%>" autocomplete="off"/>
-                            <p class="info"> <%=i18n.team.addMsg%>.</p>
-                        </div>
-                        <div class="join-button-flex-container">
-                        <a  href="javascript:history.back()"><button class="rounded deleteButton" type="button"><%=i18n.common.back%></button></a>
+            <div>
+                <form method="POST" id="newForm" action="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams">
+                    <div>
+                        <input type="text" id="name" class="teamName" required name="name" placeholder="<%=i18n.team.addPlaceHolder%>" autocomplete="off"/>
+                        <p class="info"> <%=i18n.team.addMsg%>.</p>
+                    </div>
+                    <div class="join-button-flex-container">
+                        <a  href="javascript:history.back()">
+                            <button class="rounded deleteButton" type="button"><%=i18n.common.back%></button>
+                        </a>
                         <button class="rounded acceptButton" type="submit"><%=i18n.common.finish%></button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

@@ -7,31 +7,20 @@
 			<%-include("../../partials/_podium")%>
 		<% } %>
 		<br/><br/>
-		<!--
-			<% if (escapeRoom.posttest) { %>
-				<div class="desc animated slideInUp" style="text-align: center;">
-					<%=i18n.showStudent.beforeLeave%>
-					 <br/><br/>
-					<a target="_blank" href="<%=escapeRoom.pretest%>">
-						<button class="rounded finish-button"><%=i18n.showStudent.access%></button>
-					</a>
-				</div>
-				<br/><br/><br/>
-			<% } %>
-			<% if (escapeRoom.survey) { %>
-				<div class="desc  animated slideInUp" style="text-align: center;">
-					<%=i18n.showStudent.opinion%> <br/><br/>
-					<a  target="_blank" href="<%=escapeRoom.survey%>">
-						<button class="rounded finish-button"><%=i18n.showStudent.access%></button>
-					</a>
-				</div>
-			<% } %>
-		-->
 		<% if (teams.length > 0) { %>
+			<ranking/>
 			<% include ../../partials/_ranking %>
 		<% } %>
-		<br/>
 	</div>
 </div>
+<br/>
+<br/>
+<script src="/js/vendor/socket.io.js"></script>
+<script src="/js/ranking.js"></script>
+<script>
+	var escapeRoomId = "<%= escapeRoom.id%>";
+	var nPuzzles = "<%= escapeRoom.puzzles.length%>";
+    initSocketServer(<%= escapeRoom.id%>, <%= teamId || "undefined"%>, <%=turnoId%>)
+</script>
 <br/>
 <% include ../../partials/_footer %>

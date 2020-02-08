@@ -172,3 +172,66 @@ exports.ranking = (escapeRoomId, turnId) => {
 
     return options;
 };
+
+
+exports.playRankingQuery = (turnoId) => {
+    const isPg = process.env.DATABASE_URL;
+
+    const query = {
+        "attributes": [
+            "id",
+            "name",
+            [
+                Sequelize.fn(
+                    "MAX",
+                    Sequelize.col(isPg ? "\"retos->retosSuperados\".\"createdAt\"" : "`retos->retosSuperados`.`createdAt`")
+                ),
+                "latestretosuperado"
+            ]
+        ],
+        "include": [
+
+            {
+                "model": models.turno,
+                "attributes": [
+                    "startTime",
+                    "id"
+                ]
+
+            },
+            {
+                "model": models.puzzle,
+                "attributes": [
+                    "id",
+                    "createdAt"
+                ],
+                "as": "retos",
+                "through": {
+                    "attributes": [],
+                    "model": models.retosSuperados
+                }
+            },
+            {
+                "model": models.user,
+                "as": "teamMembers",
+                "attributes": [
+                    "id",
+                    "name",
+                    "surname"
+                ]
+            }
+        ],
+        "group": [
+            "team.id",
+            "teamMembers.id",
+            "retos.id",
+            "turno.id"
+        ],
+        "order": []
+    };
+
+    if (turnoId) {
+        query.include[0].where = {"id": turnoId};
+    }
+    return query;
+};

@@ -47,6 +47,8 @@
 					padding: 10px
 					overflow: hidden
 					text-overflow: ellipsis
+					cursor: pointer
+					border: 2px solid white
 					&.disabled
 						opacity: 0.5
 					p
@@ -55,10 +57,11 @@
 						border: 2px solid $brightyellow
 					&:not(.disabled):hover
 						@extend %scale-animation-down
-
+				#teamCarouselItems-hidden
+					display: none	
 				h1
 					font-size: 26px
-				#add-team
+				.add-team
 					i
 						color: $textpurple
 						font-size: 28px
@@ -81,6 +84,30 @@
 				width: 200px
 				max-width: 100%
 				min-width: 50%
+			.findTeam
+				position: relative
+				#findTeam
+					width: 100%
+					&::placeholder
+						color: $textpurple
+						-webkit-text-fill-color: $textpurple !important;
+				.no-results
+					position: absolute
+					display: block
+					text-align: center
+					margin: auto
+					width: 100%
+					color: $textpurple
+					no-results-msg
+					create-new-team
+					.add-team
+						i
+							color: white
+					.no-results-msg, 
+						font-size: 0.5em
+						margin-bottom: 10px
+					.create-new-team
+						font-size: 0.75em
 @media (max-width: 992px)
 	#mainSection
 		.main

@@ -140,3 +140,52 @@ p {
 .teamName {
     float: right;
 }
+
+.ranking-table {
+  width: 100%;
+  position: relative;
+  border: 2px solid var(--primary);
+}
+.ranking-table .ranking-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  position: absolute;
+  width: 100%;
+  height: 75px;
+  border: 2px solid var(--primary);
+}
+.ranking-table .ranking-row.ranking-header {
+  /*background-color: var(--primary);*/
+  font-weight: bolder;
+}
+.ranking-table .ranking-row.myTeam {
+  background-color: var(--success);
+}
+.ranking-table .ranking-row div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 10px;
+}
+.ranking-table .ranking-row div b, .ranking-table .ranking-row div span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ranking-table .ranking-row .ranking-team {
+  width: 20%;
+}
+.ranking-table .ranking-row .ranking-members {
+  flex: 1;
+}
+.ranking-table .ranking-row .ranking-res {
+  width: 10%;
+}
+.ranking-table .ranking-row .ranking-time {
+  width: 15%;
+}
+.ranking-table .ranking-row .ranking-pos {
+  transform: scale(1.5);
+}

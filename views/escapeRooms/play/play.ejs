@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/stylesheets/play.css">
     <link rel="stylesheet" href="/stylesheets/vendor/animate.css">
     <link rel="stylesheet" href="/stylesheets/vendor/easy-alert.css">
- 
+    <% include ../../partials/_icons.ejs %>
 </head>
 <body>
 <nav class="navbar navbar-light" style="padding: 0px 1em;">
@@ -91,16 +91,19 @@
         <div class=" row-centered">
             <div class="col-xs-12">
             <% include ../../partials/_countdown.ejs %>
+            <% include ../../partials/_ranking %>
             </div>
         </div>
     </div>
 </div>
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
+    var nPuzzles = "<%= escapeRoom.puzzles.length%>";
     var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
     var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(escapeRoom.puzzles)%>');
     initSocketServer(<%= escapeRoom.id%>, <%= team.id || "undefined"%>, <%= team.turno ? team.turno.id : "undefined" %>)
     var i18n = {
+
         empty: "<%=  i18n.hint.empty %>", 
         correctAnswer: "<%=i18n.puzzle.correctAnswer%>",
         check: "<%=i18n.puzzle.check%>",

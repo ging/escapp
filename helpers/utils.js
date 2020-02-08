@@ -90,78 +90,89 @@ exports.saveInterface = (name, req, res, next) => {
 };
 
 
-exports.playInterface = (name, req, res) => {
+exports.playInterface = async (name, req, res, next) => {
     const isAdmin = Boolean(req.session.user.isAdmin),
         isAuthor = req.escapeRoom.authorId === req.session.user.id;
 
+    console.log(req.teams);
     if (isAdmin || isAuthor) {
         res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
             cloudinary,
             "team": {"turno": req.turn,
                 "retos": []},
+            "teams": req.teams,
             "hints": [],
+            "turnoId": req.params.turnoId,
             "isStudent": false,
             "endPoint": name,
             "layout": false});
-        return;
-    }
-    models.team.findAll({
-        "include": [
-            {
-                "model": models.turno,
-                "include": {
-                    "model": models.escapeRoom,
-                    "where": {
-                        "id": req.escapeRoom.id
+    } else {
+        try {
+            const teams = await models.team.findAll({
+                "include": [
+                    {
+                        "model": models.turno,
+                        "include": {
+                            "model": models.escapeRoom,
+                            "where": {
+                                "id": req.escapeRoom.id
+                            }
+                        },
+                        "required": true
+
+                    },
+                    {
+                        "model": models.user,
+                        "as": "teamMembers",
+                        "attributes": [],
+                        "where": {
+                            "id": req.session.user.id
+                        },
+                        "required": true
+                    },
+                    {
+                        "model": models.puzzle,
+                        "as": "retos",
+                        "through": {
+                            "model": models.retosSuperados,
+                            "required": false,
+                            "attributes": ["createdAt"]
+
+                        }
                     }
-                },
-                "required": true
 
-            },
-            {
-                "model": models.user,
-                "as": "teamMembers",
-                "attributes": [],
-                "where": {
-                    "id": req.session.user.id
-                },
+                ],
                 "required": true
-            },
-            {
-                "model": models.puzzle,
-                "as": "retos",
-                "through": {
-                    "model": models.retosSuperados,
-                    "required": false,
-                    "attributes": ["createdAt"]
+            });
 
-                }
+            const team = teams && teams[0] ? teams[0] : {};
+
+            if (team.turno.status !== "active") {
+                res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
             }
+            const hints = await models.requestedHint.findAll({
+                "where": {
+                    "teamId": team.id,
+                    "success": true
+                },
+                "include": models.hint
 
-        ],
-        "required": true
-    }).then((teams) => {
-        const team = teams && teams[0] ? teams[0] : [];
+            });
 
-        if (team.turno.status !== "active") {
-            res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
-        }
-        models.requestedHint.findAll({
-            "where": {
-                "teamId": team.id,
-                "success": true
-            },
-            "include": models.hint
-
-        }).then((hints) => {
             res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
                 cloudinary,
+                "teams": req.teams,
                 team,
+                "userId": req.session.user.id,
+                "turnoId": team.turno.id,
+                "teamId": team.id,
                 "isStudent": true,
                 "hints": hints || [],
                 "endPoint": name,
                 "layout": false});
-        });
-    });
+        } catch (err) {
+            next(err);
+        }
+    }
 };
 
