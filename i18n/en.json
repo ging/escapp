@@ -161,6 +161,13 @@
         "Total": "Total"
     },
     "escapeRoom": {
+        "api":{
+            "id": "ID",
+            "name": "Name",
+            "endpoint": "Endpoint",
+            "solution": "Solution",
+            "sample": "Sample remote request"
+        },
         "invitation": {
             "no": "no",
             "wannaJoin": "Would you like to join this Escape Room?",
@@ -218,6 +225,8 @@
                 "surveyPlaceHolder": "Write here your survey link",
                 "title": "Eval",
                 "total": "Total",
+                "puzzle": "Puzzle",
+                "weight": "Weight",
                 "youCanUse": "You can use"
 
             },
@@ -514,7 +523,10 @@
         "fullTeam": "Complete team. Please choose another team.",
         "Members": "Members",
         "noTeamYet": "There aren't any teams yet",
+        "noResults": "No results",
         "seeByTeam": "See by team",
+        "teamSearch": "Search for your team name or members",
+        "doYouWantToCreate": "Do you want to create your own team?",
         "Team": "Team",
         "team": "team",
         "teams": "teams",
@@ -573,6 +585,9 @@
             "save": "save"
         },
         "dni": "ID number (DNI/NIE...)",
+        "role": "Role",
+        "teacher": "Teacher",
+        "student": "Student",
         "gender": "Gender",
         "inputs": {
             "dniPlaceHolder": "Please enter your ID number",
@@ -585,11 +600,11 @@
             "usernamePlaceHolder": "Enter your E-mail"
         },
         "messages": {
-            "doNotMatch": "Ups! passwords must match",
+            "doNotMatch": "Oops! passwords must match",
             "fillIn": "Both fields password and password confirmation must be filled in",
             "invalidDNI": "Invalid ID number. Wrong format",
             "welcome": "Welcome to the Escape Room management platform ;)",
-            "wrongLetterDNI": "Ups! Invalid ID number, letter must match the number combination",
+            "wrongLetterDNI": "Oops! Invalid ID number, letter must match the number combination",
             "notFound": "User not found",
             "ensureRegistered": "An error occurred. Please make sure you've correctly registered in the Escape Room",
             "emailResetPassword1":"If you are receiving this e-mail is because you reset your password in escapp.",

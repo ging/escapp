@@ -227,10 +227,10 @@
 <div id="dialog-preview-api" title="API">
     <table class="api-table">
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Endpoint</th>
-            <th>Solution</th>
+            <th><%=i18n.escapeRoom.api.id%></th>
+            <th><%=i18n.escapeRoom.api.name%></th>
+            <th><%=i18n.escapeRoom.api.endpoint%></th>
+            <th><%=i18n.escapeRoom.api.solution%></th>
         </tr>
     <% for (var p in escapeRoom.puzzles) { let puzzle = escapeRoom.puzzles[p]; %>
         <tr>
@@ -241,7 +241,7 @@
         </tr>
     <% } %>
     </table>
-    <h4>Sample remote request</h4>
+    <h4><%=i18n.escapeRoom.api.sample%></h4>
     <pre id="sample-fetch">
         fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/check", {
             method: 'POST',

@@ -157,6 +157,13 @@
         "Total": "Total"
     },
     "escapeRoom": {
+        "api":{
+            "id": "ID",
+            "name": "Name",
+            "endpoint": "URL",
+            "solution": "Solución",
+            "sample": "Ejemplo de petición a la API"
+        },
         "invitation": {
             "no": "no",
             "wannaJoin": "¿Quieres unirte a la Escape Room de",
@@ -214,7 +221,9 @@
                 "surveyPlaceHolder": "Escribe el enlace a la encuesta",
                 "title": "Evaluación",
                 "total": "Total",
-                "youCanUse": "Puedes utilizar"
+                "youCanUse": "Puedes utilizar",
+                "puzzle": "Reto",
+                "weight": "Peso"
             },
             "hints": {
                 "correctNumber": "Nº de aciertos",
@@ -509,7 +518,10 @@
         "fullTeam": "Equipo completo. Por favor, elige otro equipo.",
         "Members": "Integrantes",
         "noTeamYet": "No hay equipos todavía...",
+        "doYouWantToCreate": "¿Quieres crear tu propio equipo?",
         "seeByTeam": "ver por equipo",
+        "teamSearch": "Busca tu equipo por nombre o miembros",
+        "noResults": "Sin resultados",
         "Team": "Equipo",
         "team": "equipo",
         "teams": "equipos",

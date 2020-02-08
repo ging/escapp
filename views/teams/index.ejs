@@ -9,12 +9,12 @@
         </br>
         </br>
         <div class="findTeam">
-            <input type="text" id="findTeam" placeholder="Search for your team name or members"/>
+            <input type="text" id="findTeam" placeholder="<%= i18n.team.teamSearch %>"/>
             <br/>
             <br/>
-            <div class="no-results" style="display: none;">
-                <div class="no-results-msg"><%="No results" %></div>
-                <div class="create-new-team"><%= "Do you want to create your own team?" %></div>
+            <div class="no-results" style="display: none;"> 
+                <div class="no-results-msg"><%= i18n.team.noResults%></div>
+                <div class="create-new-team"><%= i18n.team.doYouWantToCreate %></div>
                 <a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new">
                      <i class="material-icons">add_circle_outline</i>
                 </a>
