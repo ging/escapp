@@ -7,10 +7,7 @@ const {nextStep, prevStep} = require("../helpers/progress");
 
 // Autoload the puzzle with id equals to :puzzleId
 exports.load = (req, res, next, puzzleId) => {
-    models.puzzle.findByPk(puzzleId, {"include": [
-        {"model": models.hint,
-            "attributes": ["id"]}
-    ]}).
+    models.puzzle.findByPk(puzzleId, {"include": [{ "model": models.hint, "attributes": ["id"]}]}).
         then((puzzle) => {
             if (puzzle) {
                 req.puzzle = puzzle;
@@ -154,13 +151,13 @@ exports.retos = (req, res) => {
 exports.retosUpdate = async (req, res, next) => {
     const {escapeRoom, body} = req;
     const {puzzles} = body;
+    console.log(puzzles)
     const transaction = await sequelize.transaction();
 
     try {
         const promises = [];
         const retos = sanitizePuzzles(puzzles);
 
-        console.dir(retos, {"depth": 4});
         for (const reto of retos) {
             if (reto.id) {
                 const oldPuzzle = escapeRoom.puzzles.find((puzzle) => puzzle.id.toString() === reto.id.toString());
@@ -181,7 +178,7 @@ exports.retosUpdate = async (req, res, next) => {
                             const oldHint = oldHints.find((h) => h.id.toString() === hint.id.toString());
 
                             if (oldHint) {
-                                oldHint.content = hint.title;
+                                oldHint.content = hint.content;
                                 oldHint.order = hint.order;
                                 promises.push(oldHint.save({transaction}));
                             }
@@ -205,23 +202,18 @@ exports.retosUpdate = async (req, res, next) => {
         }
         for (const oldReto of escapeRoom.puzzles || []) {
             const foundReto = retos.find((p) => (p.id === undefined ? "" : p.id).toString() === oldReto.id.toString());
-            // Console.log("Reto " + oldReto.id )
 
             if (foundReto) {
                 for (const oldHint of oldReto.hints || []) {
                     const foundHint = (foundReto.hints || []).find((h) => (h.id === undefined ? "" : h.id).toString() === oldHint.id.toString());
-                    // Console.log(foundReto, foundHint)
 
                     if (!foundHint) {
-                        // Console.log("Pista borrada " + oldHint.id )
 
                         promises.push(oldHint.destroy({transaction}));
                         // Promises.push(models.requestedHint.destroy({"where": {"hintId": oldHint.id}},{transaction}));
                     }
                 }
             } else {
-                //
-                // Console.log("Reto borrado " + oldReto.id);
                 promises.push(oldReto.destroy({transaction}));
                 // Promises.push(models.requestedHint.destroy({"where": {"hintId": {[Sequelize.Op.in]: oldReto.hints.map(h=>h.id) }}}, {transaction}));
                 // Promises.push(models.retosSuperados.destroy({"where": {"puzzleId": oldReto.id}}, {transaction}));

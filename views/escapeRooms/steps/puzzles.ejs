@@ -91,9 +91,11 @@
         let newCard = $('.hidden-card .puzzle-card').clone();
         const order = $('.puzzle-card').length - 1;
         newCard.find('.order').val(order);
+        newCard.find('.hint-list').data("number", order);
         newCard.find( "input[name^='puzzles[new]'],select[name^='puzzles[new]']" ).each((i,e)=>{
             e.name = e.name.replace('puzzles[new]','puzzles['+order+']');
         });
+
         newCard.appendTo('#sortable');
         $('html, body').animate({
             scrollTop: $(newCard).offset().top
@@ -104,9 +106,7 @@
 
     $(document).on('click', '.addHint', (e) => {
         const currentHintList = $(e.target.parentNode.parentNode).find('.hint-list');
-
-        
-        const order = currentHintList.data('number')
+        const order = currentHintList.data('number');
         const hintOrder = currentHintList.children().length;
         const template = `
             <li>
@@ -122,6 +122,14 @@
             </li>
         `;
         $(template).appendTo(currentHintList);
+        currentHintList.sortable({
+            handle: '.handle-hint',
+            update: (event,b)=>{
+                $(event.target).find('.hint-order').each((i,e)=> {
+                    $(e).val(i);
+                })
+            }
+        });
         currentHintList.last().find('input[type=text]').focus();
 
     });
