@@ -3,6 +3,7 @@ const CONNECT = "connect";
 const DISCONNECT = "disconnect";
 const ERROR = "ERROR";
 const HINT_RESPONSE = "HINT_RESPONSE";
+const INITIAL_RANKING = "INITIAL_RANKING";
 const PUZZLE_RESPONSE = "PUZZLE_RESPONSE";
 const REQUEST_HINT = "REQUEST_HINT";
 const SOLVE_PUZZLE = "SOLVE_PUZZLE";
@@ -86,7 +87,7 @@ const requestHint = (score, status) => socket.emit("REQUEST_HINT", {score, statu
 
 /** INCOMING MESSAGES **/
 const onConnect = () => {
-  console.log("Connected to socket server");
+  console.info("Connected")
 }
 
 const onError = (msg) => {
@@ -107,7 +108,6 @@ const onJoin = () => {
 }
 
 const onPuzzleResponse = async ({success, puzzleId, msg, auto}) => {
-  console.log({success, puzzleId, msg, auto})
   if (success) {
     if (!retosSuperados.some(r => r == puzzleId)) {
       retosSuperados.push(puzzleId)
@@ -176,8 +176,54 @@ const onHintResponse = async ({success, hintId, msg}) => {
   }
 };
 
+const onRankingDiff = ({teamId, puzzleId, time}) => {
+  const team = teams.find(team => team.id == teamId);
+  if (team) {
+    const reto = team.retos.find(reto => reto.id === puzzleId)
+    if (!reto) {
+      team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
+      team.result = team.retos.length + "/" + nPuzzles;
+      team.latestRetoSuperado = time;
+      $('#team-' + teamId +" .ranking-res").html(team.result);
+      if (team.retos.length == nPuzzles) {
+        team.finishTime = secondsToDhms((new Date(time) - new Date(team.startTime))/1000);
+        $('#team-' + teamId +" .ranking-time").html(team.finishTime);
+      }
+
+      sort();
+    }
+  }
+};
+
+const onInitialRanking = ({teams:teamsNew}) => {
+  teams = teamsNew
+    .map(team => {
+      let count = (team.retos && team.retos.length) ? team.retos.length : 0
+      let result = count + "/" + nPuzzles;
+      let finishTime = (nPuzzles === parseInt(count) && team.startTime) ?  (secondsToDhms((new Date(team.latestRetoSuperado) - new Date(team.startTime))/1000)) : "---";
+      return {...team, result, finishTime}
+    })
+    .sort((a,b)=>{
+      if (a.retos.length > b.retos.length) {
+        return -1;
+      } else if (a.retos.length < b.retos.length) {
+        return 1;
+      } else {
+        if (a.latestRetoSuperado > b.latestRetoSuperado) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    });
+    console.log(teams)
+  $('ranking').html(rankingTemplate(teams));
+  sort();
+};
+
 const onDisconnect = () => {
   console.error("Disconnected from socket server");
+
 };
 
 
@@ -215,7 +261,7 @@ const sort = () => {
         });
         top += el.outerHeight() ;
     });
-}
+};
 
 const secondsToDhms = (secs) => {
     const seconds = Number(secs);
@@ -235,15 +281,15 @@ const secondsToDhms = (secs) => {
         mDisplay,
         sDisplay
     ].filter((a) => a !== "").join(", ");
-}
+};
 
 const rgb2hex = orig => {
- var rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
- return (rgb && rgb.length === 4) ? "#" +
-  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
-}
+  var rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
+  return (rgb && rgb.length === 4) ? "#" +
+    ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+    ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+    ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
+};
 
 /** BTN ACTIONS **/
 $(document).on("click", ".puzzle-check-btn", function(){
@@ -266,9 +312,9 @@ window.requestHintFinish = (completion, score, status) => {
 
 const initSocketServer = (escapeRoomId, teamId, turnId) => {
   socket = io('/', {query: {
-    escapeRoom: escapeRoomId || undefined, 
-    team: teamId || undefined, 
-    turn: turnId || undefined 
+    escapeRoom: escapeRoomId == "undefined" ? undefined : escapeRoomId, 
+    team: teamId == "undefined" ? undefined : teamId, 
+    turn: turnId == "undefined" ? undefined : turnId  
   }});
   
   /*Connect*/
@@ -292,26 +338,15 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
   /*Hint response*/
   socket.on(HINT_RESPONSE, onHintResponse);
 
+  /*New ranking event*/
+  socket.on(RANKING, onRankingDiff); 
+
+  /*Initial ranking*/
+  socket.on(INITIAL_RANKING, onInitialRanking);
+
   /*Disconnect*/
   socket.on(DISCONNECT, onDisconnect);
 
-  socket.on(RANKING, function({teamId, puzzleId, time}){
-    const team = teams.find(team => team.id == teamId);
-    if (team) {
-      const reto = team.retos.find(reto => reto.id === puzzleId)
-      if (!reto) {
-        team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
-        team.result = team.retos.length + "/" + nPuzzles;
-        team.latestRetoSuperado = time;
-        $('#team-' + teamId +" .ranking-res").html(team.result);
-        if (team.retos.length == nPuzzles) {
-          team.finishTime = secondsToDhms((new Date(time) - new Date(team.startTime))/1000);
-          $('#team-' + teamId +" .ranking-time").html(team.finishTime);
-        }
-        sort();
-      }
-    }
-  }); 
 };
 
 $(()=>{

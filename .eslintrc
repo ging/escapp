@@ -215,7 +215,7 @@
 		"nonblock-statement-body-position": 1,
 		"object-curly-newline": 1,
 		"object-curly-spacing": 1,
-		"object-property-newline": 1,
+		"object-property-newline": ["error", { "allowAllPropertiesOnSameLine": true }],
 		"object-shorthand": 1,
 		"one-var": 0,
 		"one-var-declaration-per-line": 1,

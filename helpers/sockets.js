@@ -1,4 +1,5 @@
 const sequelize = require("../models");
+const queries = require("../queries");
 const {models} = sequelize;
 const {calculateNextHint} = require("./hint");
 /** Server-client**/
@@ -8,6 +9,7 @@ const ERROR = "ERROR";
 const HINT_RESPONSE = "HINT_RESPONSE";
 const PUZZLE_RESPONSE = "PUZZLE_RESPONSE";
 const RANKING = "RANKING";
+const INITIAL_RANKING = "INITIAL_RANKING";
 const REQUEST_HINT = "REQUEST_HINT";
 const SOLVE_PUZZLE = "SOLVE_PUZZLE";
 const START = "START";
@@ -65,7 +67,10 @@ const checkAccess = async (userId, teamId, escapeRoomId, turnId) => {
         } else if (escapeRoom[0].turnos && escapeRoom[0].turnos.length > 0) {
             if (escapeRoom[0].turnos[0].teams && escapeRoom[0].turnos[0].teams.length > 0) {
                 if (escapeRoom[0].turnos[0].teams[0].teamMembers && escapeRoom[0].turnos[0].teams[0].teamMembers.length > 0) {
-                    return "PARTICIPANT";
+                    // eslint-disable-next-line eqeqeq
+                    if (escapeRoom[0].turnos[0].id == turnId) {
+                        return "PARTICIPANT";
+                    }
                 }
             }
         }
@@ -107,6 +112,7 @@ const broadcastRanking = (teamId, puzzleId, time, turnId) => sendTurnMessage({"t
     "payload": {teamId,
         puzzleId,
         time}}, turnId);
+const initialRanking = (socketId, teams) => sendIndividualMessage({"type": INITIAL_RANKING, "payload": {teams}}, socketId);
 const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN,
     "payload": {username}}, teamId);
 
@@ -154,8 +160,27 @@ const solvePuzzle = async (teamId, puzzleId, solution) => {
     }
 };
 
+const sendInitialRanking = async (socketId, userId, teamId, escapeRoomId, turnoId) => {
+    const teamsRaw = await models.team.findAll(queries.team.playRankingQuery(turnoId, escapeRoomId));
+    const teams = teamsRaw.map((team) => {
+        const {id, name, retos, turno, "latestretosuperado": latestRetoSuperado} = JSON.parse(JSON.stringify(team));
+        const {startTime} = turno;
+        const participants = team.teamMembers.map((member) => `${member.name} ${member.surname}`).join(", ");
+
+        return {
+            id,
+            name,
+            retos,
+            participants,
+            latestRetoSuperado,
+            startTime
+        };
+    });
+
+    initialRanking(socketId, teams);
+};
+
 const requestHint = async (teamId, status, score) => {
-    // TODO get corresponding hint
     const team = await models.team.findByPk(teamId, {
         "include": [
             {
@@ -198,15 +223,16 @@ const stopTurno = async (turnId) => {
 
 
 module.exports = {join,
-    checkAccess,
-    revokeAccess,
-    broadcastRanking,
-    solvePuzzle,
-    puzzleResponse,
-    requestHint,
-    startTurno,
     stopTurno,
+    startTurno,
+    checkAccess,
+    requestHint,
+    solvePuzzle,
+    revokeAccess,
+    puzzleResponse,
+    broadcastRanking,
     getInfoFromSocket,
+    sendInitialRanking,
     START,
     DISCONNECT,
     SOLVE_PUZZLE,

@@ -94,7 +94,6 @@ exports.playInterface = async (name, req, res, next) => {
     const isAdmin = Boolean(req.session.user.isAdmin),
         isAuthor = req.escapeRoom.authorId === req.session.user.id;
 
-    console.log(req.teams);
     if (isAdmin || isAuthor) {
         res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
             cloudinary,

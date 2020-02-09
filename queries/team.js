@@ -174,7 +174,7 @@ exports.ranking = (escapeRoomId, turnId) => {
 };
 
 
-exports.playRankingQuery = (turnoId) => {
+exports.playRankingQuery = (turnoId, escapeRoomId) => {
     const isPg = process.env.DATABASE_URL;
 
     const query = {
@@ -224,14 +224,17 @@ exports.playRankingQuery = (turnoId) => {
         "group": [
             "team.id",
             "teamMembers.id",
-            "retos.id",
-            "turno.id"
+            "retos.id"
         ],
         "order": []
     };
 
-    if (turnoId) {
+    if (turnoId && turnoId !== "undefined") {
         query.include[0].where = {"id": turnoId};
+
+        query.group.push("turno.id");
+    } else {
+        query.include[0].include = [{"model": models.escapeRoom, "id": escapeRoomId, "attributes": []}];
     }
     return query;
 };

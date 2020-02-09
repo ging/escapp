@@ -18,28 +18,7 @@ exports.ranking = async (req, res, next) => {
     let {turnoId} = req.params;
 
     try {
-        const turno = await models.turno.findOne({
-            "include": [
-                {
-                    "model": models.escapeRoom,
-                    "where": {
-                        "id": req.escapeRoom.id
-                    }
-                },
-                {
-                    "model": models.team,
-                    "include": [
-                        {
-                            "model": models.user,
-                            "as": "teamMembers",
-                            "where": {
-                                "id": req.session.user.id
-                            }
-                        }
-                    ]
-                }
-            ]
-        });
+        const turno = await models.turno.findOne(queries.turno.myTurno(req.escapeRoom.id, req.session.user.id));
 
         if (turno) {
             turnoId = turno.id;
@@ -48,7 +27,7 @@ exports.ranking = async (req, res, next) => {
             }
         }
 
-        req.teams = await models.team.findAll(queries.team.playRankingQuery(turnoId));
+        req.teams = await models.team.findAll(queries.team.playRankingQuery(turnoId, req.escapeRoom.id));
         next();
     } catch (e) {
         next();

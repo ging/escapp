@@ -57,7 +57,6 @@ exports.adminRequired = (req, res, next) => {
     if (isAdmin) {
         next();
     } else {
-        console.log("Prohibited route: the logged in user is not an administrator.");
         res.send(403);
     }
 };
@@ -70,7 +69,6 @@ exports.notStudentRequired = (req, res, next) => {
     if (isStudent) {
         next();
     } else {
-        console.log("Prohibited route: it is not the logged in user, is a student.");
         res.send(403);
     }
 };
@@ -84,7 +82,6 @@ exports.studentOrAdminRequired = (req, res, next) => {
     if (isStudent || isAdmin) {
         next();
     } else {
-        console.log("Prohibited route: it is not the logged in user, nor an administrator nor a student.");
         res.send(403);
     }
 };
@@ -99,7 +96,6 @@ exports.myselfRequired = (req, res, next) => {
     if (isMyself) {
         next();
     } else {
-        console.log("Forbidden route: is not the user logged.");
         res.send(403);
     }
 };
@@ -117,7 +113,6 @@ exports.adminOrMyselfRequired = (req, res, next) => {
     if (isAdmin || isMyself) {
         next();
     } else {
-        console.log("Prohibited route: it is not the logged in user, nor an administrator.");
         res.send(403);
     }
 };
@@ -134,7 +129,6 @@ exports.adminAndNotMyselfRequired = function (req, res, next) {
     if (isAdmin && isAnother) {
         next();
     } else {
-        console.log("Prohibited route: the user is logged or is not an administrator.");
         res.send(403);
     }
 };

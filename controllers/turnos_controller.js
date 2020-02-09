@@ -187,6 +187,5 @@ exports.turnosUpdate = (req, res /* , next*/) => {
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
 
-    console.log(prevStep("turnos"), nextStep("turnos"));
     res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("turnos") : progressBar || nextStep("turnos")}`);
 };

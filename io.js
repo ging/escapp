@@ -1,5 +1,5 @@
 const socketio = require("socket.io");
-const {SOLVE_PUZZLE, solvePuzzle, REQUEST_HINT, requestHint, join, checkAccess, revokeAccess, getInfoFromSocket} = require("./helpers/sockets");
+const {SOLVE_PUZZLE, solvePuzzle, REQUEST_HINT, requestHint, join, checkAccess, revokeAccess, sendInitialRanking, getInfoFromSocket} = require("./helpers/sockets");
 
 
 exports.createServer = (server, sessionMiddleware) => {
@@ -18,11 +18,12 @@ exports.createServer = (server, sessionMiddleware) => {
                 isStudent = access === "PARTICIPANT";
 
             if (access) {
-                await join(teamId, username);
                 socket.on(SOLVE_PUZZLE, ({puzzleId, sol}) => solvePuzzle(teamId, puzzleId, sol));
                 socket.on(REQUEST_HINT, ({status, score}) => requestHint(teamId, status, score));
+                await join(teamId, username);
                 socket.join(`teamId_${teamId}`);
                 socket.join(`turnId_${turnId}`);
+                await sendInitialRanking(socket.id, userId, teamId, escapeRoomId, turnId);
             } else {
                 await revokeAccess(socket.id);
             }

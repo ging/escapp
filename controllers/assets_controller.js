@@ -75,12 +75,10 @@ exports.deleteAssets = (req, res) => {
         }).
             catch((err) => {
                 res.status(500);
-                console.log(err);
                 res.json({"msg": "Error"});
             });
     } else {
         res.status(404);
-        console.log("asdads");
         res.json({"msg": "Not found"});
     }
 };

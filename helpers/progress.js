@@ -13,7 +13,6 @@ exports.steps = () => [...steps];
 exports.nextStep = (index) => {
     const currentStep = steps.indexOf(index);
 
-    console.log(index, steps, currentStep);
     if (currentStep >= steps.length - 1) {
         return "";
     }
