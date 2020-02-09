@@ -31,9 +31,21 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
             "where": {
                 "teamId": team.id,
                 "success": true
-            } // Order by reto and then hintId
+            },
+            "include": [
+                { 
+                    "model": models.hint,
+                    "attributes": ["id"],
+                    "include": [
+                        { 
+                            "model": models.puzzle,
+                            "attributes": ["id"]
+                        }
+                    ]
+                }
+            ]
         });
-
+        console.log(hints,retosSuperados,puzzleIndexes )
         if (escapeRoom.hintLimit !== undefined && escapeRoom.hintLimit !== null && hints.length >= escapeRoom.hintLimit) {
             return {"msg": messages.tooMany,
                 "ok": false};

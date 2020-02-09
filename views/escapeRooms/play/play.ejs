@@ -96,11 +96,13 @@
         </div>
     </div>
 </div>
+<% var puzzles = escapeRoom.puzzles.map(({ id, title, sol, desc, order, correct, fail, automatic, score, createdAt, updatedAt, escapeRoomId })=>({ id, title, sol, desc, order, correct, fail, automatic, score, createdAt, updatedAt, escapeRoomId, hints: []})) %>
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
     var nPuzzles = "<%= escapeRoom.puzzles.length%>";
     var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
-    var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(escapeRoom.puzzles)%>');
+
+    var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(puzzles)%>');
     initSocketServer(<%= escapeRoom.id%>, <%= team.id || "undefined"%>, <%= team.turno ? team.turno.id : "undefined" %>)
     var i18n = {
 
