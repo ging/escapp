@@ -33,11 +33,11 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
                 "success": true
             },
             "include": [
-                { 
+                {
                     "model": models.hint,
                     "attributes": ["id"],
                     "include": [
-                        { 
+                        {
                             "model": models.puzzle,
                             "attributes": ["id"]
                         }
@@ -45,7 +45,7 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
                 }
             ]
         });
-        console.log(hints,retosSuperados,puzzleIndexes )
+
         if (escapeRoom.hintLimit !== undefined && escapeRoom.hintLimit !== null && hints.length >= escapeRoom.hintLimit) {
             return {"msg": messages.tooMany,
                 "ok": false};

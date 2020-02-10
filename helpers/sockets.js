@@ -202,23 +202,23 @@ const requestHint = async (teamId, status, score) => {
                 ]
             }
         ],
-           "order": [
-               [
-                   {"model": models.turno},
-                   {"model": models.escapeRoom},
-                   {"model": models.puzzle},
-                   "order",
-                   "asc"
-               ],
-               [
-                   {"model": models.turno},
-                   {"model": models.escapeRoom},
-                   {"model": models.puzzle},
-                   {"model": models.hint},
-                   "order",
-                   "asc"
-               ]
-           ]
+        "order": [
+            [
+                {"model": models.turno},
+                {"model": models.escapeRoom},
+                {"model": models.puzzle},
+                "order",
+                "asc"
+            ],
+            [
+                {"model": models.turno},
+                {"model": models.escapeRoom},
+                {"model": models.puzzle},
+                {"model": models.hint},
+                "order",
+                "asc"
+            ]
+        ]
     });
 
     if (team && team.turno && team.turno.escapeRoom) {

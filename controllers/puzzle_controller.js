@@ -7,7 +7,7 @@ const {nextStep, prevStep} = require("../helpers/progress");
 
 // Autoload the puzzle with id equals to :puzzleId
 exports.load = (req, res, next, puzzleId) => {
-    models.puzzle.findByPk(puzzleId, {"include": [{ "model": models.hint, "attributes": ["id"]}]}).
+    models.puzzle.findByPk(puzzleId, {"include": [{"model": models.hint, "attributes": ["id"]}]}).
         then((puzzle) => {
             if (puzzle) {
                 req.puzzle = puzzle;
@@ -151,7 +151,8 @@ exports.retos = (req, res) => {
 exports.retosUpdate = async (req, res, next) => {
     const {escapeRoom, body} = req;
     const {puzzles} = body;
-    console.log(puzzles)
+
+    console.log(puzzles);
     const transaction = await sequelize.transaction();
 
     try {
@@ -208,7 +209,6 @@ exports.retosUpdate = async (req, res, next) => {
                     const foundHint = (foundReto.hints || []).find((h) => (h.id === undefined ? "" : h.id).toString() === oldHint.id.toString());
 
                     if (!foundHint) {
-
                         promises.push(oldHint.destroy({transaction}));
                         // Promises.push(models.requestedHint.destroy({"where": {"hintId": oldHint.id}},{transaction}));
                     }
