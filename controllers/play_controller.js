@@ -34,13 +34,14 @@ exports.ranking = async (req, res, next) => {
     }
 };
 
-exports.finish = (req, res) => {
+exports.finish = async (req, res) => {
     const {turnoId} = req.params;
     const {teamId} = req;
+    const turno = await models.turno.findOne(queries.turno.myTurno(req.escapeRoom.id, req.session.user.id));
 
     res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom,
         "teams": req.teams,
-        turnoId,
+        turnoId: turnoId || turno.id,
         teamId,
         "userId": req.session.user.id});
 };

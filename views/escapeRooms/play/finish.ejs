@@ -20,7 +20,7 @@
 <script>
 	var escapeRoomId = "<%= escapeRoom.id%>";
 	var nPuzzles = "<%= escapeRoom.puzzles.length%>";
-    initSocketServer(<%= escapeRoom.id%>, <%= teamId || "undefined"%>, <%=turnoId%>)
+    initSocketServer(<%= escapeRoom.id%>, <%= teamId || "undefined"%>, <%=turnoId || "undefined" %>)
 </script>
 <br/>
 <% include ../../partials/_footer %>

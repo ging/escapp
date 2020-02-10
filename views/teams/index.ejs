@@ -124,13 +124,16 @@
             filterTeams(this.value)
         });
         $(document).on("click", '.teamCarouselItem', function(e) {
-            var currentClicked = $(this);
-            var teamId = currentClicked.data('id');
-            $('.selected').removeClass('selected');
-            currentClicked.addClass('selected');
-            selectedId = teamId;
-            $('#continue').prop("disabled", false);
-            $('#continue').css("display", "inline-block");
+            if (!$(this).hasClass("disabled")){
+                var currentClicked = $(this);
+                var teamId = currentClicked.data('id');
+                $('.selected').removeClass('selected');
+                currentClicked.addClass('selected');
+                selectedId = teamId;
+                $('#continue').prop("disabled", false);
+                $('#continue').css("display", "inline-block");           
+            }
+
         });
         $('#form').on('submit', function(e){
             if (!repl) {
