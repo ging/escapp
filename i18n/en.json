@@ -292,7 +292,11 @@
             },
             "turnos": {
                 "title": "Shifts",
-                "indicacion": "Add a comment"
+                "indicacion": "Add a comment",
+                "addTitle": "Add new shift",
+                "alwaysTitle": "Shift always open",
+                "deleteTitle": "Delete shift",
+                "hourTitle": "Set time"
             }
         }
     },
@@ -536,6 +540,8 @@
     "turnos": {
         "all": "All shifts",
         "alreadyIn": "You're already assigned to a shift",
+        "always": "always",
+        "alwaysOpen": "Always open",
         "arrows": {
         	"closeText": "Close",
         	"currentText": "Today",

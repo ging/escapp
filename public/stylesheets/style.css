@@ -2722,7 +2722,7 @@ button, input[type="submit"] {
       #mainSection .main .flexBoxTurnos .turno .indications .no-indications {
         color: #ddd; }
     #mainSection .main .flexBoxTurnos .turno .always {
-      font-size: 20px;
+      font-size: 18px;
       color: #48C18E;
       line-height: 25px;
       vertical-align: top; }

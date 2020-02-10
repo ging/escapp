@@ -288,7 +288,11 @@
             },
             "turnos": {
                 "title": "Turnos",
-                "indicacion": "¿Alguna indicación?"
+                "indicacion": "¿Alguna indicación?",
+                "addTitle": "Añadir turno",
+                "alwaysTitle": "Turno siempre abierto",
+                "deleteTitle": "Borrar turno",
+                "hourTitle": "Fijar hora"
             }
         }
     },
@@ -431,7 +435,6 @@
         "labyrinth": "Generador de laberintos",
         "math": "Puzzles matemáticos",
         "hidden": "Juegos de objetos ocultos"
-
     },
     "participant": {
         "attendanceSaved": "Asistencia guardada correctamente",
@@ -531,6 +534,8 @@
     "turnos": {
         "all": "Todos los turnos",
         "alreadyIn": "Ya estas dentro de un turno.",
+        "always": "siempre",
+        "alwaysOpen": "Siempre abierto",
         "arrows": {
         	"closeText": "Cerrar",
         	"currentText": "Hoy",

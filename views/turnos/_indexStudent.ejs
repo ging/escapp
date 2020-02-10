@@ -45,24 +45,29 @@ const formatDate = function (currentDate) {
                         pastDates.push(dateNoTime.getTime());
                     if (firstDiv) {
                     %>
-            </div>
-    </div>
-    <% } else {
-        firstDiv = true;
-    }%>
+                            </div>
+                    </div>
+                    <% } else {
+                        firstDiv = true;
+                    }%>
     <div class="day-wrapper">
-        <p class="turno-date-title-show"><%=formatDate(dateNoTime)%></p>
+        <p class="turno-date-title-show">
+
+        <%= turn.date ? formatDate(dateNoTime) : i18n.turnos.alwaysOpen %>
+
         <div class="flexBoxTurnos">
             <%}%>
             <div class="turno turnoAlumno <%=turn.students.length >= escapeRoom.nmax ? "disabled":""%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
                 <div class="hora">
-                    <%= formatTime(date) %>
+                    <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %>
                 </div>
                 <div class="indications">
                     <% if (turn.indications) { %>
                         <%= turn.indications %> <br/>
                     <% } else { %>
-                        <em class="no-indications"> <%=i18n.turnos.noIndications%></em>
+                        <em class="no-indications">
+                            <%=i18n.turnos.noIndications%>
+                        </em>
                     <% } %>
                 </div>
             </div>
