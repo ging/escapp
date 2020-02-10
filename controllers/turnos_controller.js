@@ -3,8 +3,10 @@ const sequelize = require("../models");
 const {models} = sequelize;
 const {nextStep, prevStep} = require("../helpers/progress");
 const {startTurno, stopTurno} = require("../helpers/sockets");
-// Autoload the turn with id equals to :turnId
 
+
+
+// Autoload the turn with id equals to :turnId
 exports.load = (req, res, next, turnId) => {
     const options = {"include": [
         {"model": models.team,
@@ -40,7 +42,6 @@ exports.load = (req, res, next, turnId) => {
         catch((error) => next(error));
 };
 
-
 // POST /escapeRooms/:escapeRoomId/join
 exports.indexStudent = (req, res, next) => {
     const {escapeRoom} = req;
@@ -65,7 +66,6 @@ exports.indexStudent = (req, res, next) => {
         catch((error) => next(error));
 };
 
-
 // GET /escapeRooms/:escapeRoomId/activarTurno
 exports.indexActivarTurno = (req, res, next) => {
     const {escapeRoom} = req;
@@ -83,7 +83,6 @@ exports.indexActivarTurno = (req, res, next) => {
         }).
         catch((error) => next(error));
 };
-
 
 // PUT /escapeRooms/:escapeRoomId/activar
 exports.activar = async (req, res, next) => {
@@ -125,13 +124,17 @@ exports.activar = async (req, res, next) => {
 // POST /escapeRooms/:escapeRoomId/turnos
 exports.create = (req, res, next) => {
     const {date, indications} = req.body;
-    const modDate = new Date(date);
-
+    const modDate = date === "always" ? null : new Date(date);
     const turn = models.turno.build({"date": modDate,
         indications,
+        status: date === "always" ? "active" : "pending",
         "escapeRoomId": req.escapeRoom.id});
-
-    const back = `/escapeRooms/${req.escapeRoom.id}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
+    let back = "";
+    if (date === "always") {
+        back = `/escapeRooms/${req.escapeRoom.id}/turnos`;
+    } else {
+        back = `/escapeRooms/${req.escapeRoom.id}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
+    }
 
     turn.save().
         then(() => {

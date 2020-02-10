@@ -2662,14 +2662,24 @@ button, input[type="submit"] {
         vertical-align: text-bottom;
         margin-right: -15px;
         position: absolute;
-        bottom: 0;
-        right: 10px; }
+        bottom: -10px;
+        right: 5px; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button .material-icons {
           font-size: 16px; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.more {
           background: #FAC855; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.less {
           background: #F47E84; }
+        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.always {
+          background: #F3945E;
+          right: 28px; }
+  #mainSection .main.step-turnos .extraTurno {
+    text-align: right; }
+    #mainSection .main.step-turnos .extraTurno button {
+      border-radius: 25px;
+      padding: 10px 20px;
+      background-color: #48C18E;
+      border: 2px solid #48C18E; }
 
 #mainSection .main .flexBoxTurnos {
   display: flex;
@@ -2699,7 +2709,7 @@ button, input[type="submit"] {
         cursor: not-allowed; }
     #mainSection .main .flexBoxTurnos .turno.turnoProfe.active {
       color: #48C18E; }
-    #mainSection .main .flexBoxTurnos .turno.hidden {
+    #mainSection .main .flexBoxTurnos .turno.hidden:not(.always) {
       display: none; }
     #mainSection .main .flexBoxTurnos .turno .hora {
       font-size: 25px;
@@ -2711,6 +2721,11 @@ button, input[type="submit"] {
       line-height: 100%; }
       #mainSection .main .flexBoxTurnos .turno .indications .no-indications {
         color: #ddd; }
+    #mainSection .main .flexBoxTurnos .turno .always {
+      font-size: 20px;
+      color: #48C18E;
+      line-height: 25px;
+      vertical-align: top; }
 
 #mainSection .main .turno-date-title-show {
   color: white;

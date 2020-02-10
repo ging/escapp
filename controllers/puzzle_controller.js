@@ -152,7 +152,6 @@ exports.retosUpdate = async (req, res, next) => {
     const {escapeRoom, body} = req;
     const {puzzles} = body;
 
-    console.log(puzzles);
     const transaction = await sequelize.transaction();
 
     try {

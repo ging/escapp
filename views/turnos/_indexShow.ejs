@@ -29,13 +29,15 @@ var pastDates = [];
 <%	if (pastDates.indexOf(dateNoTime.getTime()) === -1) {
   		pastDates.push(dateNoTime.getTime()); %>
 		</div>
-		<p class="turno-date-title-show"><%=formatDate(dateNoTime)%></p>
+		<p class="turno-date-title-show">
+				<%= turn.date ? formatDate(dateNoTime) : "Siempre abierto" %>
+		</p>
 		<div class="flexBoxTurnos">
 	<%}%>
 		<a href="<%=turn.status === 'active' ? '/escapeRooms/'+escapeRoom.id+'/turnos/'+turn.id+'/play' : ''%>" >
 		<div class="turno turno-play turnoProfe <%=turn.status === "active" ? "active" : "finished" %>" data-date="<%=dateNoTime.getTime()%>">
 			<div class="hora">
-				<%= formatTime(date) %>
+				<%- turn.date ? formatTime(date) : '<span class="always">always</span>' %>
 			</div>
 			<div class="indications">
 				<% if (turn.indications) { %>

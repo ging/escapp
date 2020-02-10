@@ -56,15 +56,24 @@
                 vertical-align: text-bottom
                 margin-right: -15px
                 position: absolute
-                bottom: 0
-                right: 10px
+                bottom: -10px
+                right: 5px
                 .material-icons
                   font-size: 16px
                 &.more
                   background: $brightyellow
                 &.less
                   background: $lightred
-
+                &.always
+                  background: $brightorange
+                  right: 28px
+      .extraTurno
+        text-align: right
+        button
+          border-radius: 25px
+          padding: 10px 20px
+          background-color: $brightgreen
+          border: 2px solid $brightgreen
     .flexBoxTurnos
       display: flex
       flex-direction: row
@@ -96,7 +105,7 @@
         &.turnoProfe
           &.active
             color: $brightgreen
-        &.hidden
+        &.hidden:not(.always)
           display: none
         .hora
           font-size: 25px
@@ -108,6 +117,11 @@
           line-height: 100%
           .no-indications
             color: #ddd
+        .always
+          font-size: 20px
+          color: $brightgreen
+          line-height: 25px
+          vertical-align: top
     .turno-date-title-show
       color: white
       margin: 5px

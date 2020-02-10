@@ -31,7 +31,7 @@ const getDashDate = function(currentDate) {
 }
 const filterTurnos = (date) => {
 
-    const turnos = $(".turno:not(.add-turno");
+    const turnos = $(".turno:not(.add-turno):not(.always-turno)");
 
     turnos.addClass("hidden");
     turnos.each((index, turno) => {
@@ -74,9 +74,7 @@ $(function () {
         "prevText": "<%=i18n.turnos.arrows.prevText%>",
         "nextText": "<%=i18n.turnos.arrows.nextText%>",
         "currentText": "<%=i18n.turnos.arrows.currentText%>"
-
     });
-
 
     $.datepicker.setDefaults($.datepicker.regional.es);
     $("#datepicker").datepicker({
@@ -129,6 +127,23 @@ $(function () {
         $("#date").val(res);
 
         return true;
+
+    });
+
+    $('button.always').on('click', function(e) {
+        console.log(this)
+        const hora = $(this).parent().find('.hora');
+        if ($(this).hasClass("off")) {
+            $(hora).html('<input autofocus class="turnos-picker turnos-time-picker" type="time" id="start" required name="start" value="09:00" placeholder="00:00" autocomplete="off"/>');
+            $(this).removeClass('off');
+            $(this).html('<i class="material-icons">alarm_off</i>')
+            $('#date').val(new Date());
+        } else {
+            $(hora).html('<span class="always">always</span>');
+            $(this).addClass('off');
+            $(this).html('<i class="material-icons">alarm_on</i>')
+            $('#date').val("always");
+        }
 
     });
 

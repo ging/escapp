@@ -6,9 +6,9 @@
 	var dateNoTime = new Date(turn.date);
 	dateNoTime.setHours(0,0,0,0);
 	%> 
-		<div class="turno " data-date="<%=getDashDate(dateNoTime)%>">
+		<div class="turno <%= turn.date ? '' : 'always' %>" data-date="<%=getDashDate(dateNoTime)%>">
 			<div class="hora">
-				<%= formatTime(date) %>
+				<%- turn.date ? formatTime(date) : '<span class="always">always</span>' %>
 			</div>
 			<div class="indications">
 				<% if (turn.indications) { %>
@@ -17,11 +17,12 @@
 					<em class="no-indications"><%=i18n.turnos.noIndications%></em>
 				<% } %>
 			</div>
-			<form method="POST"  action="/escapeRooms/<%= escapeRoom.id %>/turnos/<%=turn.id%>?_method=DELETE">
-        		<button type="submit" class="little-button less"><i class="material-icons">delete</i></button>
+			<form method="POST" action="/escapeRooms/<%= escapeRoom.id %>/turnos/<%=turn.id%>?_method=DELETE">
+        		<button type="submit" class="little-button less">
+        			<i class="material-icons">delete</i>
+        		</button>
         	</form>
 		</div>
-       
 <%}%>
 <% include ./new %>
 </div>
