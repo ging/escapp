@@ -52,8 +52,9 @@
 				
 			<% } %>
 		<% } else if(turno.status === "active") { %>
-			<a href="/escapeRooms/<%=escapeRoom.id%>/play"><button class="rounded editButton pulseButton"><%=i18n.showStudent.play%>%></button>
-			</a>
+			<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play">
+				<button class="rounded editButton pulseButton"><%=i18n.showStudent.play%>%></button>
+			</form>
 		<% } else {%>
 			<% if (escapeRoom.posttest) { %>
 				<!--<div class="desc centered animated slideInLeft">

@@ -41,7 +41,42 @@ exports.finish = async (req, res) => {
 
     res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom,
         "teams": req.teams,
-        turnoId: turnoId || turno.id,
+        "turnoId": turnoId || turno.id,
         teamId,
         "userId": req.session.user.id});
+};
+
+
+// POST /escapeRooms/:escapeRoomId/play
+exports.startPlaying = async (req, res) => {
+    const {escapeRoom} = req;
+    const team = await models.team.findOne({
+        "attributes": [
+            "id",
+            "startTime"
+        ],
+        "include": [
+            {
+                "model": models.user,
+                "attributes": [],
+                "as": "teamMembers",
+                "where": {
+                    "id": req.session.user.id
+                }
+            },
+            {
+                "model": models.turno,
+                "attributes": ["id"],
+                "where": {
+                    "escapeRoomId": escapeRoom.id
+                }
+            }
+        ]
+    });
+
+    if (team && !team.startTime) {
+        team.startTime = new Date();
+        await team.save({"fields": ["startTime"]});
+    }
+    res.redirect(`/escapeRooms/${escapeRoom.id}/play`);
 };

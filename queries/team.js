@@ -11,7 +11,6 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
                 "where": {
                     escapeRoomId
                 }
-
             },
             {
                 "model": models.user,

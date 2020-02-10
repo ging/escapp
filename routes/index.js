@@ -127,6 +127,7 @@ router.post("/escapeRooms/:escapeRoomId(\\d+)/requestHint", sessionController.lo
 router.get("/escapeRooms/:escapeRoomId(\\d+)/xml", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, hintController.downloadMoodleXML);
 
 // Routes for playing
+router.post("/escapeRooms/:escapeRoomId(\\d+)/play", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, playController.startPlaying);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/play", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, playController.ranking, playController.play);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/project", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, playController.ranking, playController.classInterface);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/finish", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, playController.ranking, playController.finish);

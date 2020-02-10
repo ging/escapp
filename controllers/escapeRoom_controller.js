@@ -124,7 +124,6 @@ exports.show = (req, res) => {
     }
 };
 
-
 // GET /escapeRooms/new
 exports.new = (req, res) => {
     const escapeRoom = {"title": "",
@@ -369,7 +368,6 @@ exports.classInterface = (req, res) => {
         "progress": "class",
         "endPoint": "class"});
 };
-
 
 // GET /escapeRooms/:escapeRoomId/team
 exports.teamInterfaceUpdate = (req, res, next) => {

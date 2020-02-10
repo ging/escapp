@@ -5,7 +5,6 @@ const {nextStep, prevStep} = require("../helpers/progress");
 const {startTurno, stopTurno} = require("../helpers/sockets");
 
 
-
 // Autoload the turn with id equals to :turnId
 exports.load = (req, res, next, turnId) => {
     const options = {"include": [
@@ -127,9 +126,10 @@ exports.create = (req, res, next) => {
     const modDate = date === "always" ? null : new Date(date);
     const turn = models.turno.build({"date": modDate,
         indications,
-        status: date === "always" ? "active" : "pending",
+        "status": date === "always" ? "active" : "pending",
         "escapeRoomId": req.escapeRoom.id});
     let back = "";
+
     if (date === "always") {
         back = `/escapeRooms/${req.escapeRoom.id}/turnos`;
     } else {
