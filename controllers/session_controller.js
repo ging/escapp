@@ -160,33 +160,37 @@ exports.new = (req, res) => {
 
 
 // POST /   -- Create the session if the user authenticates successfully
-exports.create = (req, res, next) => {
+exports.create = async (req, res, next) => {
     const {redir} = req.body,
         {login} = req.body,
         {password} = req.body;
 
-    authenticate((login || "").toLowerCase(), password).
-        then((user) => {
-            if (user) {
-                req.session.user = {"id": user.id,
-                    "username": user.username,
-                    "isAdmin": user.isAdmin,
-                    "isStudent": user.isStudent,
-                    "expires": Date.now() + maxIdleTime};
+    try {
+        const user = await authenticate((login || "").toLowerCase(), password);
+        if (user) {
+            req.session.user = {"id": user.id,
+                "username": user.username,
+                "isAdmin": user.isAdmin,
+                "isStudent": user.isStudent,
+                "expires": Date.now() + maxIdleTime};
+            req.session.save(()=>{
                 if (req.body.redir) {
                     res.redirect(req.body.redir);
                 } else {
                     res.redirect("/escapeRooms");
                 }
-            } else {
-                req.flash("error", req.app.locals.i18n.user.wrongCredentials);
-                res.render("index", {redir});
-            }
-        }).
-        catch((error) => {
-            req.flash("error", `${error}`);
-            next(error);
-        });
+            });
+
+        } else {
+            req.flash("error", req.app.locals.i18n.user.wrongCredentials);
+            res.render("index", {redir});
+        }
+    }  catch (error)  {
+
+        console.error(error)
+        req.flash("error", `${error}`);
+        next(error);
+    } 
 };
 
 
@@ -194,7 +198,6 @@ exports.create = (req, res, next) => {
 exports.destroy = (req, res) => {
     req.session.destroy(() => {
         res.clearCookie("connect.sid", {"path": "/"});
-        delete req.session;
-        res.redirect("/"); // Redirect to login page
+        res.redirect("/"); 
     });
 };

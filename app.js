@@ -51,7 +51,8 @@ const sessionStore = new SequelizeStore({"db": sequelize,
 const sessionMiddleware = session({"secret": "Escape Room",
     "store": sessionStore,
     "resave": false,
-    "saveUninitialized": true});
+    "cookie": {"path": "/", "httpOnly": true, "secure": app.get("env") === "production", "maxAge": null},
+    "saveUninitialized": false});
 
 app.sessionMiddleware = sessionMiddleware;
 app.use(sessionMiddleware);
