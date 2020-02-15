@@ -2,6 +2,8 @@ const sequelize = require("../models");
 const queries = require("../queries");
 const {models} = sequelize;
 const {calculateNextHint} = require("./hint");
+const {getRetosSuperados} = require("../helpers/utils");
+
 /** Server-client**/
 
 const DISCONNECT = "disconnect";
@@ -161,15 +163,17 @@ const solvePuzzle = async (teamId, puzzleId, solution) => {
 };
 
 const sendInitialRanking = async (socketId, userId, teamId, escapeRoomId, turnoId) => {
-    const teamsRaw = await models.team.findAll(queries.team.playRankingQuery(turnoId, escapeRoomId));
-    const teams = teamsRaw.map((team) => {
-        const {id, name, retos, turno, "latestretosuperado": latestRetoSuperado} = JSON.parse(JSON.stringify(team));
+    const teamsRaw = await models.team.findAll(queries.team.ranking(escapeRoomId, turnoId));
+
+    const teams = getRetosSuperados(teamsRaw).map((team) => {
+        const {id, name, retos, turno, "latestretosuperado": latestRetoSuperado, "countretos": count} = JSON.parse(JSON.stringify(team));
         const {startTime} = turno;
         const participants = team.teamMembers.map((member) => `${member.name} ${member.surname}`).join(", ");
 
         return {
             id,
             name,
+            count,
             retos,
             participants,
             latestRetoSuperado,

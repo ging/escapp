@@ -198,9 +198,9 @@ const onRankingDiff = ({teamId, puzzleId, time}) => {
 const onInitialRanking = ({teams:teamsNew}) => {
   teams = teamsNew
     .map(team => {
-      let count = (team.retos && team.retos.length) ? team.retos.length : 0
-      let result = count + "/" + nPuzzles;
-      let finishTime = (nPuzzles === parseInt(count) && team.startTime) ?  (secondsToDhms((new Date(team.latestRetoSuperado) - new Date(team.startTime))/1000)) : "---";
+      let result = team.count + "/" + nPuzzles;
+      let finishTime = (nPuzzles == parseInt(team.count) && team.startTime) ?  
+        (secondsToDhms((new Date(team.latestRetoSuperado) - new Date(team.startTime))/1000)) : "---";
       return {...team, result, finishTime}
     })
     .sort((a,b)=>{
@@ -216,7 +216,6 @@ const onInitialRanking = ({teams:teamsNew}) => {
         }
       }
     });
-    console.log(teams)
   $('ranking').html(rankingTemplate(teams));
   sort();
 };

@@ -143,9 +143,9 @@ $(function(){
             videoResize: {},
             clipboard: {}
         },
-        placeholder: 'Write here your escape room instructions',
+        placeholder: window.placeholder || 'Write here your escape room instructions',
         readOnly: false,
-        theme: 'snow'
+        theme: 'snow' 
     };
 
     var editor = new Quill('#editor', options);
