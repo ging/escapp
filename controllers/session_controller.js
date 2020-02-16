@@ -173,11 +173,13 @@ exports.create = (req, res, next) => {
                     "isAdmin": user.isAdmin,
                     "isStudent": user.isStudent,
                     "expires": Date.now() + maxIdleTime};
-                if (req.body.redir) {
-                    res.redirect(req.body.redir);
-                } else {
-                    res.redirect("/escapeRooms");
-                }
+                req.session.save(()=>{
+                    if (req.body.redir) {
+                        res.redirect(req.body.redir);
+                    } else {
+                        res.redirect("/escapeRooms");
+                    }
+                });
             } else {
                 req.flash("error", req.app.locals.i18n.user.wrongCredentials);
                 res.render("index", {redir});
@@ -194,7 +196,6 @@ exports.create = (req, res, next) => {
 exports.destroy = (req, res) => {
     req.session.destroy(() => {
         res.clearCookie("connect.sid", {"path": "/"});
-        delete req.session;
         res.redirect("/"); // Redirect to login page
     });
 };
