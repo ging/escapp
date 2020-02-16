@@ -1537,7 +1537,8 @@ button, input[type="submit"] {
     max-width: 100%;
     min-width: 50%; }
   #mainSection .main.student .findTeam {
-    position: relative; }
+    position: relative;
+    min-height: 135px; }
     #mainSection .main.student .findTeam #findTeam {
       width: 100%; }
       #mainSection .main.student .findTeam #findTeam::placeholder {

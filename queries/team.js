@@ -108,7 +108,10 @@ exports.ranking = (escapeRoomId, turnId) => {
     // Const retoTime = isPg ? "\"retos->retosSuperados\".\"createdAt\"" : "`retos->retosSuperados`.`createdAt`";
     const options = {
         // "includeIgnoreAttributes": false,
-        "attributes": ["name"],
+        "attributes": [
+            "id",
+            "name"
+        ],
         "include": [
             {
                 "model": models.user,
@@ -229,10 +232,27 @@ exports.playRankingQuery = (turnoId, escapeRoomId) => {
         "order": []
     };
 
+    if (isPg) {
+        query.group = [
+            ...query.group,
+            "turno.startTime",
+            "turno.id",
+            "retos->retosSuperados.createdAt",
+            "retos->retosSuperados.updatedAt",
+            "retos->retosSuperados.teamId",
+            "retos->retosSuperados.puzzleId",
+            "teamMembers->members.createdAt",
+            "teamMembers->members.updatedAt",
+            "teamMembers->members.teamId",
+            "teamMembers->members.userId"
+        ];
+    }
+
     if (turnoId && turnoId !== "undefined") {
         query.include[0].where = {"id": turnoId};
-
-        query.group.push("turno.id");
+        if (!isPg) {
+            query.group.push("turno.id");
+        }
     } else {
         query.include[0].include = [{"model": models.escapeRoom, "id": escapeRoomId, "attributes": []}];
     }

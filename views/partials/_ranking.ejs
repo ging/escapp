@@ -1,55 +1,67 @@
+<% var teamsClean = [] %>
+<% for (var t in teams) { 
+    const team = teams[t];
+    const {id, name, retos, turno, latestretosuperado: latestRetoSuperado, countretos: count, result, startTime, teamMembers} = JSON.parse(JSON.stringify(team));
+    let myTeam = false;
+    const participants = teamMembers.map(member => {
+        if (locals.userId && member.id === userId) {
+            myTeam = true;
+        }
+        return member.name + " " + member.surname
+    }).join(", ");
+    const finishTime = (escapeRoom.puzzles.length === parseInt(count) && startTime) ?  (secondsToDhms((new Date(latestRetoSuperado) - new Date(startTime))/1000)) : "---";
+    const currentTeam = {
+        id,
+        name,
+        retos,
+        result,
+        myTeam,
+        participants,
+        latestRetoSuperado,
+        startTime,
+        finishTime
+    };
+    console.log(finishTime)
+    teamsClean.push(currentTeam);
+ } %>
 <script>
-var rankingTemplate = (teams) => `<div class="ranking-table table" style="height: <%=teams.length*75 + 79%>px;">
-	    <div class="ranking-row ranking-header table-primary" >
-	    	<div class="ranking-pos">#</div>
-	    	<div class="ranking-team"><%=i18n.analytics.ranking.team%></div>
-	    	<div class="ranking-members"><%=i18n.analytics.ranking.members%></div>
-	    	<div class="ranking-res"><%=i18n.analytics.ranking.res%></div>
-	    	<div class="ranking-time"><%=i18n.analytics.ranking.time%></div>
-	    </div>
-    <% var teamsClean = [] %>
-    <% for (var t in teams) { 
-    	const team = teams[t];
-        const {id, name, retos, turno, latestretosuperado: latestRetoSuperado} = JSON.parse(JSON.stringify(team));
-    	const count = (retos && retos.length) ? retos.length : 0
-    	const {startTime} = turno;
-    	const result = count + "/" + escapeRoom.puzzles.length;
-    	let myTeam = false;
-    	const participants = team.teamMembers.map(member => {
-			if (locals.userId && member.id === userId) {
-				myTeam = true;
-			}
-			return member.name + " " + member.surname
-		}).join(", ");
-        const finishTime = (escapeRoom.puzzles.length === parseInt(count) && startTime) ?  (secondsToDhms((new Date(latestRetoSuperado) - new Date(startTime))/1000)) : "---";
-    	const currentTeam = {
-    		id,
-    		name,
-            retos,
-    		result,
-    		participants,
-    		latestRetoSuperado,
-    		startTime,
-    		finishTime
-    	};
-    	teamsClean.push(currentTeam);
-    	const idx = parseInt(t, 10);
-    	const top = (75*(idx+1))
+    var rankingTemplate = (teams) => {
+        let teamViews = "";
+        for (var t in teams) {
+            const idx = parseInt(t, 10);
+            const top = (75*(idx+1));
+            const currentTeam = teams[t];
+            teamViews += `<div class="ranking-row ${currentTeam.myTeam ? "myTeam":""}" id="team-${currentTeam.id}" 
+                    style="top: ${top}px">
+                <div class="ranking-pos"><span>${idx + 1 }</span></div>
+                <div class="ranking-team"><b>${currentTeam.name}</b></div>
+                <div class="ranking-members"><span>${currentTeam.participants}</span></div>
+                <div class="ranking-res"><span>${currentTeam.result}</span></div>
+                <div class="ranking-time"><span>${currentTeam.finishTime}</span></div>
+            </div>`;
+        }
+        let view = `<div class="ranking-table table" style="height: ${teams.length*75 + 79}px;">
+            <div class="ranking-row ranking-header table-primary" >
+                <div class="ranking-pos">#</div>
+                <div class="ranking-team"><%=i18n.analytics.ranking.team%></div>
+                <div class="ranking-members"><%=i18n.analytics.ranking.members%></div>
+                <div class="ranking-res"><%=i18n.analytics.ranking.res%></div>
+                <div class="ranking-time"><%=i18n.analytics.ranking.time%></div>
+            </div>
+            ${teamViews}
+        </div>`;
+        return view;
+    }
 
-	%>
-	    <div class="ranking-row <%=myTeam ? "myTeam":""%>" id="team-<%=currentTeam.id%>" style="top: <%=top%>px">
-	    	<div class="ranking-pos"><span><%=idx + 1 %></span></div>
-	    	<div class="ranking-team"><b><%=currentTeam.name%></b></div>
-	    	<div class="ranking-members"><span><%=currentTeam.participants%></span></div>
-	    	<div class="ranking-res"><span><%=currentTeam.result%></span></div>
-	    	<div class="ranking-time"><span><%=currentTeam.finishTime%></span></div>
-	    </div>
-    <% } %>
-</div>`;
    var teams = JSON.parse('<%-JSON.stringify(teamsClean)%>');
+   console.log(teams)
    $(()=>{
        $('ranking').html(rankingTemplate(teams));
        sort();
+       if ($('#podium').length) {
+         $('#podium').html(podium(teams));
+         $("#podium .podium").addClass("started");
+       }
    });
 </script>
                     

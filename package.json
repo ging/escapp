@@ -1,7 +1,6 @@
 {
-  "name": "web",
-  "version": "0.0.0",
-  "private": true,
+  "name": "escapp",
+  "version": "1.0.0",
   "scripts": {
     "start": "node ./bin/www",
     "start_heroku": "heroku local:start",
