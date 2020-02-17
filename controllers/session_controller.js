@@ -173,7 +173,7 @@ exports.create = (req, res, next) => {
                     "isAdmin": user.isAdmin,
                     "isStudent": user.isStudent,
                     "expires": Date.now() + maxIdleTime};
-                req.session.save(()=>{
+                req.session.save(() => {
                     if (req.body.redir) {
                         res.redirect(req.body.redir);
                     } else {

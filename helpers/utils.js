@@ -158,7 +158,6 @@ exports.playInterface = async (name, req, res, next) => {
 
             });
 
-            console.log(req.teams);
             res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
                 cloudinary,
                 "teams": req.teams,

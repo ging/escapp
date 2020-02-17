@@ -131,7 +131,7 @@ $(function(){
     }
 
     function appearanceHandler(lang, node) {
-        $('body link')[2].href = `http://localhost:3000/stylesheets/vendor/bootswatch/${lang || "cerulean"}.editor.bootstrap.min.css`;
+        $('body link')[2].href = `/stylesheets/vendor/bootswatch/${lang || "cerulean"}.editor.bootstrap.min.css`;
         $('#appearance').val(lang);
         return lang;
     }

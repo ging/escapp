@@ -21,7 +21,6 @@
         startTime,
         finishTime
     };
-    console.log(finishTime)
     teamsClean.push(currentTeam);
  } %>
 <script>
@@ -54,7 +53,6 @@
     }
 
    var teams = JSON.parse('<%-JSON.stringify(teamsClean)%>');
-   console.log(teams)
    $(()=>{
        $('ranking').html(rankingTemplate(teams));
        sort();

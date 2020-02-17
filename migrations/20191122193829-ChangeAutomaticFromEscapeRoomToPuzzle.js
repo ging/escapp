@@ -18,7 +18,7 @@ module.exports = {
         const promises = [];
 
         for (const ert of escapeRooms || []) {
-            let er = JSON.parse(JSON.stringify(ert));
+            const er = JSON.parse(JSON.stringify(ert));
             const {automatic} = er;
 
             (er.puzzles || []).map(({id}) => promises.push(models.puzzle.update({automatic}, {"where": {id}})));
