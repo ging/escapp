@@ -124,7 +124,6 @@ exports.show = (req, res) => {
     }
 };
 
-
 // GET /escapeRooms/new
 exports.new = (req, res) => {
     const escapeRoom = {"title": "",
@@ -294,7 +293,6 @@ exports.update = (req, res, next) => {
             next(error);
         });
 };
-
 
 // GET /escapeRooms/:escapeRoomId/evaluation
 exports.evaluation = (req, res) => {

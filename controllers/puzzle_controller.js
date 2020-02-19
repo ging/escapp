@@ -97,46 +97,40 @@ exports.destroy = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/puzzles/:puzzleId/check
-exports.check = (req, res, next) => {
+exports.check = async (req, res, next) => {
     const {puzzle, query} = req;
     const answer = query.answer || "";
 
-    models.user.findByPk(req.session.user.id).then((user) => {
-        user.getTeamsAgregados({
-            "include": [
-                {
-                    "model": models.turno,
-                    "required": true,
-                    "where": {"escapeRoomId": req.escapeRoom.id} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
-                }
-            ]
+    try {
+        const user = await models.user.findByPk(req.session.user.id);
+        const [team] = user.getTeamsAgregados({"include": [
+            {
+                "model": models.turno,
+                "required": true,
+                "where": {"escapeRoomId": req.escapeRoom.id} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
+            }
+        ]});
 
-        }).
-            then((team) => {
-                if (team && team.length > 0) {
-                    if (answer.toLowerCase().trim() === puzzle.sol.toLowerCase().trim()) {
-                        if (team[0].turno.status !== "active") {
-                            req.flash("warning", req.app.locals.i18n.turnos.notActive);
-                            res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
-                            return;
-                        }
-                        req.puzzle.addSuperados(team[0].id).then(function () {
-                            req.flash("success", req.puzzle.correct || req.app.locals.i18n.puzzle.correctAnswer);
-                            res.redirect(`/escapeRooms/${req.escapeRoom.id}/play#puzzles`);
-                        }).
-                            catch(function (e) {
-                                next(e);
-                            });
-                    } else {
-                        req.flash("error", req.puzzle.fail || req.app.locals.i18n.puzzle.wrongAnswer);
-                        res.redirect(`/escapeRooms/${req.escapeRoom.id}/play#puzzles`);
-                    }
+        if (team) {
+            if (answer.toLowerCase().trim() === puzzle.sol.toLowerCase().trim()) {
+                if (team.turno.status !== "active") {
+                    req.flash("warning", req.app.locals.i18n.turnos.notActive);
+                    res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
                 } else {
-                    next(req.app.locals.i18n.user.messages.ensureRegistered);
+                    await req.puzzle.addSuperados(team.id);
+                    req.flash("success", req.puzzle.correct || req.app.locals.i18n.puzzle.correctAnswer);
+                    res.redirect(`/escapeRooms/${req.escapeRoom.id}/play#puzzles`);
                 }
-            });
-    }).
-        catch((e) => next(e));
+            } else {
+                req.flash("error", req.puzzle.fail || req.app.locals.i18n.puzzle.wrongAnswer);
+                res.redirect(`/escapeRooms/${req.escapeRoom.id}/play#puzzles`);
+            }
+        } else {
+            next(req.app.locals.i18n.user.messages.ensureRegistered);
+        }
+    } catch (e) {
+        next(e);
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/puzzles
@@ -152,7 +146,6 @@ exports.retosUpdate = async (req, res, next) => {
     const {escapeRoom, body} = req;
     const {puzzles} = body;
 
-    console.log(puzzles);
     const transaction = await sequelize.transaction();
 
     try {

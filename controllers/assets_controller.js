@@ -64,6 +64,7 @@ exports.uploadAssets = (req, res) => {
         });
 };
 
+// POST /escapeRooms/:escapeRoomId/deleteAssets/:assetId
 exports.deleteAssets = (req, res) => {
     const {assetId} = req.params;
     const asset = req.escapeRoom.assets.find((a) => a.id.toString() === assetId.toString());
