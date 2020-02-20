@@ -1,8 +1,9 @@
 <html>
 <head>
-    <meta charset="utf-8">
     <title><%=escapeRoom.title%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="/js/vendor/easy-alert.js"></script>
     <script src="/js/vendor/bootstrap.min.js"></script>
@@ -96,14 +97,14 @@
         </div>
     </div>
 </div>
-<% var puzzles = escapeRoom.puzzles.map(({ id, title, sol, desc, order, correct, fail, automatic, score, createdAt, updatedAt, escapeRoomId })=>({ id, title, sol, desc, order, correct, fail, automatic, score, createdAt, updatedAt, escapeRoomId, hints: []})) %>
+<% var puzzles = escapeRoom.puzzles.map(({ id, title, score, automatic })=>({ id, title, score, automatic })) %>
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
     var nPuzzles = "<%= escapeRoom.puzzles.length%>";
     var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
 
     var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(puzzles)%>');
-    initSocketServer(<%= escapeRoom.id%>, <%= team.id || "undefined"%>, <%= team.turno ? team.turno.id : "undefined" %>)
+    initSocketServer(<%= escapeRoom.id%>, <%= team.id || "undefined" %>, <%= team.turno ? team.turno.id : "undefined" %>)
     var i18n = {
 
         empty: "<%=  i18n.hint.empty %>", 

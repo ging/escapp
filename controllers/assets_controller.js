@@ -33,53 +33,56 @@ exports.assetsUpdate = (req, res /* , next*/) => {
 };
 
 // POST /escapeRooms/:escapeRoomId/uploadAssets
-exports.uploadAssets = (req, res) => {
+exports.uploadAssets = async (req, res) => {
     const {escapeRoom} = req;
-
-    attHelper.checksCloudinaryEnv().
+    let uploadResult = null;
+    try {
+        await attHelper.checksCloudinaryEnv();
         // Save the new asset into Cloudinary:
-        then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options_zip)).
-        then((uploadResult) => models.asset.build({ // Remenber the public_id of the old asset.
+        uploadResult = await attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options_zip);
+    } catch (err) {
+        res.status(500);
+        res.send(err);
+
+    }
+    try {
+        const saved = await models.asset.build({ // Remember the public_id of the old asset.
             "escapeRoomId": escapeRoom.id,
             "public_id": uploadResult.public_id,
             "url": uploadResult.url,
             "filename": req.file.originalname,
             "mime": req.file.mimetype
-        }).
-            save().
-            then((saved) => {
-                res.json({"id": saved.id,
-                    "url": uploadResult.url});
-            }).
-            catch(Sequelize.ValidationError, (error) => {
-                res.status(500);
-                res.send(req.app.locals.i18n.common.flash.errorFile);
-                console.error(error);
-                attHelper.deleteResource(uploadResult.public_id);
-            })).
-        catch((error) => {
+        }).save();
+        res.json({"id": saved.id, "url": uploadResult.url});
+    } catch (error) {
+        if (error instanceof Sequelize.ValidationError) {
             res.status(500);
             res.send(req.app.locals.i18n.common.flash.errorFile);
             console.error(error);
-        });
+            attHelper.deleteResource(uploadResult.public_id);
+        } else {
+            res.status(500);
+            res.send(req.app.locals.i18n.common.flash.errorFile);
+            console.error(error);
+        }
+    }
 };
 
 // POST /escapeRooms/:escapeRoomId/deleteAssets/:assetId
-exports.deleteAssets = (req, res) => {
+exports.deleteAssets = async (req, res) => {
     const {assetId} = req.params;
     const asset = req.escapeRoom.assets.find((a) => a.id.toString() === assetId.toString());
-
-    if (asset) {
-        attHelper.deleteResource(asset.public_id);
-        asset.destroy().then(() => {
-            res.json({"msg": "ok"});
-        }).
-            catch((err) => {
-                res.status(500);
-                res.json({"msg": "Error"});
-            });
-    } else {
-        res.status(404);
-        res.json({"msg": "Not found"});
+    try {
+        if (asset) {
+            attHelper.deleteResource(asset.public_id);
+            await asset.destroy()
+            res.json({"msg": "ok"}) 
+        } else {
+            res.status(404);
+            res.json({"msg": "Not found"});
+        }
+    } catch (err) {
+        res.status(500);
+        res.json({"msg": "Error"});
     }
 };

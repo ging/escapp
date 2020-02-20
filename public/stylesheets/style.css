@@ -529,7 +529,7 @@ button, input[type="submit"] {
       font-size: 20px;
       margin-bottom: -4px; }
     #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th {
-      font-size: 10px;
+      font-size: 14px;
       font-family: 'Lato', sans-serif;
       color: #656683; }
       #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td code, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th code {
@@ -542,7 +542,7 @@ button, input[type="submit"] {
     #mainSection .main.escapeRoomShow #dialog-preview-api pre#sample-fetch {
       color: white;
       padding: 5px;
-      font-size: 10px;
+      font-size: 14px;
       font-family: monospace;
       background-color: #656683; }
   #mainSection .main.escapeRoomShow .ui-dialog {

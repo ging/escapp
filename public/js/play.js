@@ -360,6 +360,6 @@ $(()=>{
   } catch (err) {
 
   }
-  $('meta').attr('content', rgb2hex($('body').css("background-color") || "#FFFFFF"));
+  $('meta:not(:first)').attr('content', rgb2hex($('body').css("background-color") || "#FFFFFF"));
 
 });

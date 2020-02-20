@@ -16,10 +16,10 @@ exports.load = async (req, res, next, escapeRoomId) => {
             req.escapeRoom = escapeRoom;
             next();
         } else {
-            res.status(404);
-            throw new Error(404);
+            next(new Error("Not found"));
         }
     } catch (error) {
+        res.status(500);
         next(error);
     }
 };
@@ -33,7 +33,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        next(new Error(403));
+        next(new Error( ));
     }
 };
 
@@ -54,7 +54,8 @@ exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
         if (isParticipant) {
             next();
         } else {
-            throw new Error(403);
+            res.status(403);
+            throw new Error( );
         }
     } catch (error) {
         next(error);
@@ -67,17 +68,21 @@ exports.index = async (req, res, next) => {
 
     try {
         if (user && !user.isStudent) {
-            const escapeRooms = await models.escapeRoom.findAll({"attributes": [
-                "id",
-                "title",
-                "invitation"
-            ],
-            "include": [
-                models.attachment,
-                {"model": models.user,
-                    "as": "author",
-                    "where": {"id": user.id}}
-            ]});
+            const escapeRooms = await models.escapeRoom.findAll({
+                "attributes": [
+                    "id",
+                    "title",
+                    "invitation"
+                ],
+                "include": [
+                    models.attachment,
+                    {
+                        "model": models.user,
+                        "as": "author",
+                        "where": {"id": user.id}
+                    }
+                ]
+            });
 
             res.render("escapeRooms/index.ejs", {escapeRooms,
                 cloudinary,
@@ -303,7 +308,7 @@ exports.evaluation = (req, res) => {
 };
 
 // POST /escapeRooms/:escapeRoomId/evaluation
-exports.evaluationUpdate = (req, res, next) => {
+exports.evaluationUpdate = async (req, res, next) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
@@ -314,14 +319,15 @@ exports.evaluationUpdate = (req, res, next) => {
     escapeRoom.scoreParticipation = body.scoreParticipation;
     escapeRoom.hintSuccess = body.hintSuccess;
     escapeRoom.hintFailed = body.hintFailed;
-    escapeRoom.save({"fields": [
-        "survey",
-        "pretest",
-        "posttest",
-        "scoreParticipation",
-        "hintSuccess",
-        "hintFailed"
-    ]}).then(() => {
+    try {
+        await escapeRoom.save({"fields": [
+            "survey",
+            "pretest",
+            "posttest",
+            "scoreParticipation",
+            "hintSuccess",
+            "hintFailed"
+        ]});
         if (!body.scores || body.scores.length !== escapeRoom.puzzles.length) {
             return;
         }
@@ -335,19 +341,17 @@ exports.evaluationUpdate = (req, res, next) => {
                 }));
             }
         }
-        return Promise.all(promises);
-    }).
-        then(() => {
-            res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("evaluation") : progressBar || nextStep("evaluation")}`);
-        }).
-        catch(Sequelize.ValidationError, (error) => {
+        await Promise.all(promises);
+        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("evaluation") : progressBar || nextStep("evaluation")}`);
+    } catch (error) {
+        if (error instanceof Sequelize.ValidationError) {
             error.errors.forEach(({message}) => req.flash("error", message));
             res.redirect(`/escapeRooms/${escapeRoom.id}/evaluation`);
-        }).
-        catch((error) => {
+        } else {
             req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
             next(error);
-        });
+        }
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/team

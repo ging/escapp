@@ -18,13 +18,13 @@ const START = "START";
 const STOP = "STOP";
 const JOIN = "JOIN";
 
-const getInfoFromSocket = (socket) => {
-    const userId = socket.request.session.user.id;
-    const teamId = socket.handshake.query.team;
-    const escapeRoomId = socket.handshake.query.escapeRoom;
-    const turnId = socket.handshake.query.turn;
-    const {username} = socket.request.session.user;
-    const isAdmin = Boolean(socket.request.session.user.isAdmin);
+const getInfoFromSocket = ({request, handshake}) => {
+    const userId = request.session.user.id;
+    const teamId = parseInt(handshake.query.team, 10) || undefined ;
+    const escapeRoomId = parseInt(handshake.query.escapeRoom, 10) || undefined ;
+    const turnId = parseInt(handshake.query.turn, 10) || undefined ;
+    const {username} = request.session.user;
+    const isAdmin = Boolean(request.session.user.isAdmin);
 
     return {userId,
         teamId,
