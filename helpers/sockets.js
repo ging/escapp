@@ -20,9 +20,9 @@ const JOIN = "JOIN";
 
 const getInfoFromSocket = ({request, handshake}) => {
     const userId = request.session.user.id;
-    const teamId = parseInt(handshake.query.team, 10) || undefined ;
-    const escapeRoomId = parseInt(handshake.query.escapeRoom, 10) || undefined ;
-    const turnId = parseInt(handshake.query.turn, 10) || undefined ;
+    const teamId = parseInt(handshake.query.team, 10) || undefined;
+    const escapeRoomId = parseInt(handshake.query.escapeRoom, 10) || undefined;
+    const turnId = parseInt(handshake.query.turn, 10) || undefined;
     const {username} = request.session.user;
     const isAdmin = Boolean(request.session.user.isAdmin);
 

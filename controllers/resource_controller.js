@@ -1,9 +1,9 @@
 
 
 exports.showGuide = (req, res) => {
-	res.render("inspiration/inspiration");
-}
+    res.render("inspiration/inspiration");
+};
 
 exports.showResources = (req, res) => {
-	res.render("inspiration/resources");
-}
+    res.render("inspiration/resources");
+};

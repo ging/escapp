@@ -30,7 +30,7 @@ exports.ranking = async (req, res, next) => {
         const teams = await models.team.findAll(queries.team.ranking(req.escapeRoom.id, turnoId));
 
         req.teams = getRetosSuperados(teams).map((team) => {
-            const {"countretos": count, turno: turn, "latestretosuperado": latestRetoSuperado} = team;
+            const {"countretos": count, "turno": turn, "latestretosuperado": latestRetoSuperado} = team;
             const {startTime} = turn;
             const result = `${count}/${req.escapeRoom.puzzles.length}`;
             const finishTime = req.escapeRoom.puzzles.length === parseInt(count, 10) && startTime ? (new Date(latestRetoSuperado) - new Date(startTime)) / 1000 : null;

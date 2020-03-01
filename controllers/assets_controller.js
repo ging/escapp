@@ -36,6 +36,7 @@ exports.assetsUpdate = (req, res /* , next*/) => {
 exports.uploadAssets = async (req, res) => {
     const {escapeRoom} = req;
     let uploadResult = null;
+
     try {
         await attHelper.checksCloudinaryEnv();
         // Save the new asset into Cloudinary:
@@ -43,7 +44,6 @@ exports.uploadAssets = async (req, res) => {
     } catch (err) {
         res.status(500);
         res.send(err);
-
     }
     try {
         const saved = await models.asset.build({ // Remember the public_id of the old asset.
@@ -53,6 +53,7 @@ exports.uploadAssets = async (req, res) => {
             "filename": req.file.originalname,
             "mime": req.file.mimetype
         }).save();
+
         res.json({"id": saved.id, "url": uploadResult.url});
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
@@ -72,11 +73,12 @@ exports.uploadAssets = async (req, res) => {
 exports.deleteAssets = async (req, res) => {
     const {assetId} = req.params;
     const asset = req.escapeRoom.assets.find((a) => a.id.toString() === assetId.toString());
+
     try {
         if (asset) {
             attHelper.deleteResource(asset.public_id);
-            await asset.destroy()
-            res.json({"msg": "ok"}) 
+            await asset.destroy();
+            res.json({"msg": "ok"});
         } else {
             res.status(404);
             res.json({"msg": "Not found"});

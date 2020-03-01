@@ -42,12 +42,14 @@ exports.create = async (req, res, next) => {
     const back = "/escapeRooms";
 
     const teamCreated = await team.save();
+
     try {
         await teamCreated.addTeamMembers(req.session.user.id);
         req.flash("success", "Equipo creado correctamente.");
 
-         try {
+        try {
             const turnos = await req.user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
+
             if (turnos.length === 0) {
                 await req.user.addTurnosAgregados(req.turn.id);
                 res.redirect(back);
@@ -62,12 +64,11 @@ exports.create = async (req, res, next) => {
         if (err instanceof Sequelize.ValidationError) {
             err.errors.forEach(({message}) => req.flash("error", message));
             res.redirect(back);
-
         } else {
             req.flash("error", `${req.app.locals.i18n.common.flash.errorCreatingTeam}: ${err.message}`);
             next(err);
         }
-    }    
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/teams

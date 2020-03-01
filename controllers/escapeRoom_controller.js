@@ -33,7 +33,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        next(new Error( ));
+        next(new Error());
     }
 };
 
@@ -55,7 +55,7 @@ exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
             next();
         } else {
             res.status(403);
-            throw new Error( );
+            throw new Error();
         }
     } catch (error) {
         next(error);
