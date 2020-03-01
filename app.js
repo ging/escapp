@@ -98,11 +98,11 @@ app.use((req, res, next) => {
 // Error handler. It needs to have all 4 arguments, or else express will not recognize it as an erorr handler
 // eslint-disable-next-line  no-unused-vars
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
+    res.status(err.status || res.statusCode);
     if (req.session && req.session.flash) {
         // Set locals, only providing error in development
         res.locals.message = err.message;
-        res.locals.error = process.env.NODE_ENV === "development" ? err : {"status": err.status};
+        res.locals.error = process.env.NODE_ENV === "developmesnt" ? err : {"status": err.status || 404};
         // Render the error page
         res.render("error");
     } else {

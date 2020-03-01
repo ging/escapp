@@ -63,11 +63,11 @@
                     <div class="flex-cell flex-attendance">
                         <input type="checkbox" class="attendance-checkbox"
                                data-id="<%=participant.id%>"
-                               data-turnId="<%=participant.turnId%>"
+                               data-turnId="<%=participant.turnoId%>"
                                 <%= participant.attendance ? "checked":"" %> />
                     </div>
                     <div class="operations-participant">
-                        <form method='POST' action='/escapeRooms/<%= escapeRoom.id %>/turno/<%=participant.turnId %>/team/<%=participant.teamId %>/user/<%= participant.id %>?_method=DELETE'>
+                        <form method='POST' action='/escapeRooms/<%= escapeRoom.id %>/turno/<%=participant.turnoId %>/team/<%=participant.teamId %>/user/<%= participant.id %>?_method=DELETE'>
                             <button class="delete-participant"><i class="material-icons"> delete </i></button>
                         </form>
                     </div>
