@@ -2453,7 +2453,7 @@ button, input[type="submit"] {
   .main.resources h3 {
     font-weight: bold; }
   .main.resources .icon {
-    width: 80px; }
+    width: 1.4em; }
   .main.resources .flex-screenshots {
     display: flex;
     flex-direction: row;
@@ -2464,11 +2464,17 @@ button, input[type="submit"] {
     padding: 10px; }
   .main.resources .container {
     position: relative;
-    width: 100%; }
+    width: 100%;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 5px; }
   .main.resources .image {
     display: block;
     height: 150px;
-    width: auto; }
+    width: auto;
+    transform: translate(-50px, -25px) scale(0.75); }
   .main.resources .overlay {
     position: absolute;
     top: 0;
@@ -2480,12 +2486,12 @@ button, input[type="submit"] {
     opacity: 0;
     transition: .5s ease;
     background-color: #F47E84;
-    border-radius: 35%; }
+    border-radius: 10px; }
   .main.resources .container:hover .overlay {
     opacity: 1; }
   .main.resources .text {
     color: white;
-    font-size: 20px;
+    font-size: 0.7em;
     font-weight: bold;
     position: absolute;
     top: 50%;

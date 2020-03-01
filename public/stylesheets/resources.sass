@@ -6,7 +6,7 @@
 		font-weight: bold
 
 	.icon
-		width: 80px
+		width: 1.4em
 
 	.flex-screenshots
 		display: flex
@@ -21,11 +21,16 @@
 	.container 
 		position: relative
 		width: 100%
+		width: 100px
+		height: 100px
+		overflow: hidden
+		border-radius: 10px
+		margin: 5px
 	.image 
 		display: block
 		height: 150px
 		width: auto
-		
+		transform: translate(-50px, -25px) scale(0.75)
 		
 	.overlay 
 		position: absolute
@@ -38,14 +43,14 @@
 		opacity: 0
 		transition: .5s ease
 		background-color: $lightred
-		border-radius : 35%
+		border-radius : 10px
 		
 	.container:hover .overlay 
 		opacity: 1
 
 	.text 
 		color: white
-		font-size: 20px
+		font-size: 0.7em
 		font-weight: bold
 		position: absolute
 		top: 50%
