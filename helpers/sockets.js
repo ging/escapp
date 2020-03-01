@@ -2,6 +2,8 @@ const sequelize = require("../models");
 const queries = require("../queries");
 const {models} = sequelize;
 const {calculateNextHint} = require("./hint");
+const {getRetosSuperados} = require("../helpers/utils");
+
 /** Server-client**/
 
 const DISCONNECT = "disconnect";
@@ -16,13 +18,13 @@ const START = "START";
 const STOP = "STOP";
 const JOIN = "JOIN";
 
-const getInfoFromSocket = (socket) => {
-    const userId = socket.request.session.user.id;
-    const teamId = socket.handshake.query.team;
-    const escapeRoomId = socket.handshake.query.escapeRoom;
-    const turnId = socket.handshake.query.turn;
-    const {username} = socket.request.session.user;
-    const isAdmin = Boolean(socket.request.session.user.isAdmin);
+const getInfoFromSocket = ({request, handshake}) => {
+    const userId = request.session.user.id;
+    const teamId = parseInt(handshake.query.team, 10) || undefined;
+    const escapeRoomId = parseInt(handshake.query.escapeRoom, 10) || undefined;
+    const turnId = parseInt(handshake.query.turn, 10) || undefined;
+    const {username} = request.session.user;
+    const isAdmin = Boolean(request.session.user.isAdmin);
 
     return {userId,
         teamId,
@@ -161,15 +163,17 @@ const solvePuzzle = async (teamId, puzzleId, solution) => {
 };
 
 const sendInitialRanking = async (socketId, userId, teamId, escapeRoomId, turnoId) => {
-    const teamsRaw = await models.team.findAll(queries.team.playRankingQuery(turnoId, escapeRoomId));
-    const teams = teamsRaw.map((team) => {
-        const {id, name, retos, turno, "latestretosuperado": latestRetoSuperado} = JSON.parse(JSON.stringify(team));
+    const teamsRaw = await models.team.findAll(queries.team.ranking(escapeRoomId, turnoId));
+
+    const teams = getRetosSuperados(teamsRaw).map((team) => {
+        const {id, name, retos, turno, "latestretosuperado": latestRetoSuperado, "countretos": count} = JSON.parse(JSON.stringify(team));
         const {startTime} = turno;
         const participants = team.teamMembers.map((member) => `${member.name} ${member.surname}`).join(", ");
 
         return {
             id,
             name,
+            count,
             retos,
             participants,
             latestRetoSuperado,

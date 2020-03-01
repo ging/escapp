@@ -215,10 +215,10 @@ exports.ranking = async (req, res, next) => {
         const teamsRanked = await models.team.findAll(queries.team.ranking(escapeRoom.id, turnId));
         const teams = getRetosSuperados(teamsRanked).map((team) => {
             const count = team.countretos;
-            const {startTime} = team.turno;
+            const startTime = team.turno.startTime || team.startTime;
             const latestRetoSuperado = team.latestretosuperado;
             const result = `${count}/${escapeRoom.puzzles.length}`;
-            const finishTime = escapeRoom.puzzles.length === parseInt(count, 10) && (startTime || team.startTime) ? (new Date(latestRetoSuperado) - new Date(startTime || team.startTime)) / 1000 : null;
+            const finishTime = escapeRoom.puzzles.length === parseInt(count, 10) && startTime ? (new Date(latestRetoSuperado) - new Date(startTime)) / 1000 : null;
 
             return {...team,
                 count,
@@ -280,8 +280,8 @@ exports.hintsByParticipants = async (req, res, next) => {
             for (const u in users) {
                 const user = users[u];
                 const {id, name, surname, dni, username} = user;
-                const [{requestedHints, turno}] = user.teamsAgregados;
-                const {startTime} = turno;
+                const [{requestedHints, turno, "startTime": turnoTeamStart}] = user.teamsAgregados;
+                const startTime = turno.startTime || turnoTeamStart;
 
                 for (const h in requestedHints) {
                     const hint = requestedHints[h];
@@ -352,7 +352,7 @@ exports.hintsByTeams = async (req, res, next) => {
             for (const t in teams) {
                 const team = teams[t];
                 const {id, name, requestedHints, turno} = team;
-                const {startTime} = turno;
+                const startTime = turno.startTime || team.startTime;
 
                 for (const h in requestedHints) {
                     const hint = requestedHints[h];
@@ -406,7 +406,7 @@ exports.progress = async (req, res, next) => {
             return {
                 id,
                 name,
-                "retosSuperados": turno.startTime || team.startTime ? retosSuperadosArr : []
+                "retosSuperados": startTime ? retosSuperadosArr : []
             };
         });
 

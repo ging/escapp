@@ -33,7 +33,7 @@ exports.new = (req, res) => {
 
 
 // POST /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnId/teams
-exports.create = (req, res, next) => {
+exports.create = async (req, res, next) => {
     const {escapeRoom} = req;
     const team = models.team.build({"name": req.body.name,
         "turnoId": req.turn.id,
@@ -41,36 +41,34 @@ exports.create = (req, res, next) => {
 
     const back = "/escapeRooms";
 
-    team.save().
-        then((teamCreated) => {
-            teamCreated.addTeamMembers(req.session.user.id).then(() => {
-                req.flash("success", "Equipo creado correctamente.");
+    const teamCreated = await team.save();
 
-                req.user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}}).then(function (turnos) {
-                    if (turnos.length === 0) {
-                        req.user.addTurnosAgregados(req.turn.id).
-                            then(function () {
-                                res.redirect(back);
-                            }).
-                            catch(function (error) {
-                                next(error);
-                            });
-                    } else {
-                        req.flash("error", req.app.locals.i18n.team.alreadyIn);
-                        res.redirect(`/users/${req.session.user.id}/escapeRooms`);
-                    }
-                }).
-                    catch((e) => next(e));
-            });
-        }).
-        catch(Sequelize.ValidationError, (error) => {
-            error.errors.forEach(({message}) => req.flash("error", message));
+    try {
+        await teamCreated.addTeamMembers(req.session.user.id);
+        req.flash("success", "Equipo creado correctamente.");
+
+        try {
+            const turnos = await req.user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
+
+            if (turnos.length === 0) {
+                await req.user.addTurnosAgregados(req.turn.id);
+                res.redirect(back);
+            } else {
+                req.flash("error", req.app.locals.i18n.team.alreadyIn);
+                res.redirect(`/users/${req.session.user.id}/escapeRooms`);
+            }
+        } catch (e) {
+            next(e);
+        }
+    } catch (err) {
+        if (err instanceof Sequelize.ValidationError) {
+            err.errors.forEach(({message}) => req.flash("error", message));
             res.redirect(back);
-        }).
-        catch((error) => {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorCreatingTeam}: ${error.message}`);
-            next(error);
-        });
+        } else {
+            req.flash("error", `${req.app.locals.i18n.common.flash.errorCreatingTeam}: ${err.message}`);
+            next(err);
+        }
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/teams

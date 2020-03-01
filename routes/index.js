@@ -12,6 +12,7 @@ const participantController = require("../controllers/participants_controller");
 const playController = require("../controllers/play_controller");
 const membersController = require("../controllers/members_controller");
 const analyticsController = require("../controllers/analytics_controller");
+const resourceController = require("../controllers/resource_controller");
 
 const multer = require("multer"),
     upload = multer({"dest": "./uploads/"});
@@ -134,9 +135,9 @@ router.get("/escapeRooms/:escapeRoomId(\\d+)/finish", sessionController.loginReq
 router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/play", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, playController.ranking, playController.classInterface);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/finish", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, playController.ranking, playController.finish);
 
-// Routes for guide/resources
-router.get("/inspiration", sessionController.loginRequired, (req, res) => res.render("inspiration"));
-router.get("/resources", sessionController.loginRequired, (req, res) => res.render("resources"));
+// Routes for guide/resources(req, res) => res.render("inspiration/inspiration")
+router.get("/inspiration", sessionController.loginRequired, resourceController.showGuide);
+router.get("/resources", sessionController.loginRequired, resourceController.showResources);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/confirm", sessionController.loginRequired, participantController.confirmAttendance);
 
 // Routes for the resource participants of a turn

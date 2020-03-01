@@ -6,7 +6,9 @@
             <a title="<%=i18n.common.mainPage%>" href="/escapeRooms"><i class="navBarIcon material-icons">home</i></a>
             <span style="display:inline-block;width:10px;"></span>
             <% if (!session.user.isStudent) { %>
-                <a title="<%=i18n.common.ideas%>" href="/inspiration"><i class="navBarIcon material-icons">widgets</i></a>
+                <a title="<%=i18n.common.guide%>" href="/inspiration"><i class="navBarIcon material-icons">help_outline</i></a>
+                <span style="display:inline-block;width:10px;"></span>
+                <a title="<%=i18n.common.ideas%>" href="/resources"><i class="navBarIcon material-icons">widgets</i></a>
             <% } %>
         <% } %>
     </div>
