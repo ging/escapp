@@ -2,6 +2,8 @@ const sequelize = require("../models");
 const queries = require("../queries");
 const {models} = sequelize;
 const {calculateNextHint} = require("./hint");
+const {getRetosSuperados} = require("../helpers/utils");
+
 /** Server-client**/
 
 const DISCONNECT = "disconnect";
@@ -16,20 +18,15 @@ const START = "START";
 const STOP = "STOP";
 const JOIN = "JOIN";
 
-const getInfoFromSocket = (socket) => {
-    const userId = socket.request.session.user.id;
-    const teamId = socket.handshake.query.team;
-    const escapeRoomId = socket.handshake.query.escapeRoom;
-    const turnId = socket.handshake.query.turn;
-    const {username} = socket.request.session.user;
-    const isAdmin = Boolean(socket.request.session.user.isAdmin);
+const getInfoFromSocket = ({request, handshake}) => {
+    const userId = request.session.user.id;
+    const teamId = parseInt(handshake.query.team, 10) || undefined;
+    const escapeRoomId = parseInt(handshake.query.escapeRoom, 10) || undefined;
+    const turnId = parseInt(handshake.query.turn, 10) || undefined;
+    const {username} = request.session.user;
+    const isAdmin = Boolean(request.session.user.isAdmin);
 
-    return {userId,
-        teamId,
-        escapeRoomId,
-        turnId,
-        username,
-        isAdmin};
+    return {userId, teamId, escapeRoomId, turnId, username, isAdmin};
 };
 
 /** Check if user has the rights to access a resource **/
@@ -92,29 +89,15 @@ const sendTurnMessage = (msg, turnId) => {
 };
 
 /** Action creators */
-const error = (msg, teamId) => sendTeamMessage({"type": ERROR,
-    "payload": {msg}}, teamId);
-const hintResponse = (success, hintId, msg, teamId) => sendTeamMessage({"type": HINT_RESPONSE,
-    "payload": {success,
-        hintId,
-        msg}}, teamId);
-const puzzleResponse = (success, puzzleId, msg, auto, teamId) => sendTeamMessage({"type": PUZZLE_RESPONSE,
-    "payload": {success,
-        puzzleId,
-        msg,
-        auto}}, teamId);
-const startResponse = (turnId) => sendTurnMessage({"type": START,
-    "payload": {}}, turnId);
+const error = (msg, teamId) => sendTeamMessage({"type": ERROR, "payload": {msg}}, teamId);
+const hintResponse = (success, hintId, msg, teamId) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {success, hintId, msg}}, teamId);
+const puzzleResponse = (success, puzzleId, msg, auto, teamId) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {success, puzzleId, msg, auto}}, teamId);
+const startResponse = (turnId) => sendTurnMessage({"type": START, "payload": {}}, turnId);
 const stopResponse = (turnId) => sendTurnMessage({"type": STOP}, turnId);
-const revokeAccess = (socketId) => sendIndividualMessage({"type": "ERROR",
-    "payload": {"msg": "You are not allowed to access this page"}}, socketId);
-const broadcastRanking = (teamId, puzzleId, time, turnId) => sendTurnMessage({"type": RANKING,
-    "payload": {teamId,
-        puzzleId,
-        time}}, turnId);
+const revokeAccess = (socketId) => sendIndividualMessage({"type": "ERROR", "payload": {"msg": "You are not allowed to access this page"}}, socketId);
+const broadcastRanking = (teamId, puzzleId, time, turnId) => sendTurnMessage({"type": RANKING, "payload": {teamId, puzzleId, time}}, turnId);
 const initialRanking = (socketId, teams) => sendIndividualMessage({"type": INITIAL_RANKING, "payload": {teams}}, socketId);
-const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN,
-    "payload": {username}}, teamId);
+const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN, "payload": {username}}, teamId);
 
 /** Client-server**/
 
@@ -161,20 +144,14 @@ const solvePuzzle = async (teamId, puzzleId, solution) => {
 };
 
 const sendInitialRanking = async (socketId, userId, teamId, escapeRoomId, turnoId) => {
-    const teamsRaw = await models.team.findAll(queries.team.playRankingQuery(turnoId, escapeRoomId));
-    const teams = teamsRaw.map((team) => {
-        const {id, name, retos, turno, "latestretosuperado": latestRetoSuperado} = JSON.parse(JSON.stringify(team));
+    const teamsRaw = await models.team.findAll(queries.team.ranking(escapeRoomId, turnoId));
+
+    const teams = getRetosSuperados(teamsRaw).map((team) => {
+        const {id, name, retos, turno, "latestretosuperado": latestRetoSuperado, "countretos": count} = JSON.parse(JSON.stringify(team));
         const {startTime} = turno;
         const participants = team.teamMembers.map((member) => `${member.name} ${member.surname}`).join(", ");
 
-        return {
-            id,
-            name,
-            retos,
-            participants,
-            latestRetoSuperado,
-            startTime
-        };
+        return {id, name, count, retos, participants, latestRetoSuperado, startTime};
     });
 
     initialRanking(socketId, teams);

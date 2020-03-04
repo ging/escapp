@@ -16,10 +16,10 @@ exports.load = async (req, res, next, escapeRoomId) => {
             req.escapeRoom = escapeRoom;
             next();
         } else {
-            res.status(404);
-            throw new Error(404);
+            next(new Error("Not found"));
         }
     } catch (error) {
+        res.status(500);
         next(error);
     }
 };
@@ -33,7 +33,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        next(new Error(403));
+        next(new Error());
     }
 };
 
@@ -54,7 +54,8 @@ exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
         if (isParticipant) {
             next();
         } else {
-            throw new Error(403);
+            res.status(403);
+            throw new Error();
         }
     } catch (error) {
         next(error);
@@ -67,17 +68,17 @@ exports.index = async (req, res, next) => {
 
     try {
         if (user && !user.isStudent) {
-            const escapeRooms = await models.escapeRoom.findAll({"attributes": [
-                "id",
-                "title",
-                "invitation"
-            ],
-            "include": [
-                models.attachment,
-                {"model": models.user,
-                    "as": "author",
-                    "where": {"id": user.id}}
-            ]});
+            const escapeRooms = await models.escapeRoom.findAll({
+                "attributes": ["id", "title", "invitation"],
+                "include": [
+                    models.attachment,
+                    {
+                        "model": models.user,
+                        "as": "author",
+                        "where": {"id": user.id}
+                    }
+                ]
+            });
 
             res.render("escapeRooms/index.ejs", {escapeRooms,
                 cloudinary,
@@ -126,13 +127,7 @@ exports.show = (req, res) => {
 
 // GET /escapeRooms/new
 exports.new = (req, res) => {
-    const escapeRoom = {"title": "",
-        "teacher": "",
-        "subject": "",
-        "duration": "",
-        "description": "",
-        "nmax": "",
-        "teamSize": ""};
+    const escapeRoom = {"title": "", "teacher": "", "subject": "", "duration": "", "description": "", "nmax": "", "teamSize": ""};
 
     res.render("escapeRooms/new", {escapeRoom,
         "progress": "edit"});
@@ -144,25 +139,9 @@ exports.create = (req, res, next) => {
 
         authorId = req.session.user && req.session.user.id || 0,
 
-        escapeRoom = models.escapeRoom.build({title,
-            subject,
-            duration,
-            description,
-            nmax,
-            teamSize,
-            authorId}); // Saves only the fields question and answer into the DDBB
+        escapeRoom = models.escapeRoom.build({title, subject, duration, description, nmax, teamSize, authorId}); // Saves only the fields question and answer into the DDBB
 
-    escapeRoom.save({"fields": [
-        "title",
-        "teacher",
-        "subject",
-        "duration",
-        "description",
-        "nmax",
-        "teamSize",
-        "authorId",
-        "invitation"
-    ]}).
+    escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "nmax", "teamSize", "authorId", "invitation"]}).
         then((er) => {
             req.flash("success", req.app.locals.i18n.common.flash.successCreatingER);
             if (!req.file) {
@@ -221,14 +200,7 @@ exports.update = (req, res, next) => {
     escapeRoom.teamSize = body.teamSize;
     const progressBar = body.progress;
 
-    escapeRoom.save({"fields": [
-        "title",
-        "subject",
-        "duration",
-        "description",
-        "nmax",
-        "teamSize"
-    ]}).
+    escapeRoom.save({"fields": ["title", "subject", "duration", "description", "nmax", "teamSize"]}).
         then((er) => {
             if (body.keepAttachment === "0") {
                 // There is no attachment: Delete old attachment.
@@ -294,7 +266,6 @@ exports.update = (req, res, next) => {
         });
 };
 
-
 // GET /escapeRooms/:escapeRoomId/evaluation
 exports.evaluation = (req, res) => {
     const {escapeRoom} = req;
@@ -304,7 +275,7 @@ exports.evaluation = (req, res) => {
 };
 
 // POST /escapeRooms/:escapeRoomId/evaluation
-exports.evaluationUpdate = (req, res, next) => {
+exports.evaluationUpdate = async (req, res, next) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
@@ -315,14 +286,8 @@ exports.evaluationUpdate = (req, res, next) => {
     escapeRoom.scoreParticipation = body.scoreParticipation;
     escapeRoom.hintSuccess = body.hintSuccess;
     escapeRoom.hintFailed = body.hintFailed;
-    escapeRoom.save({"fields": [
-        "survey",
-        "pretest",
-        "posttest",
-        "scoreParticipation",
-        "hintSuccess",
-        "hintFailed"
-    ]}).then(() => {
+    try {
+        await escapeRoom.save({"fields": ["survey", "pretest", "posttest", "scoreParticipation", "hintSuccess", "hintFailed"]});
         if (!body.scores || body.scores.length !== escapeRoom.puzzles.length) {
             return;
         }
@@ -336,48 +301,38 @@ exports.evaluationUpdate = (req, res, next) => {
                 }));
             }
         }
-        return Promise.all(promises);
-    }).
-        then(() => {
-            res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("evaluation") : progressBar || nextStep("evaluation")}`);
-        }).
-        catch(Sequelize.ValidationError, (error) => {
+        await Promise.all(promises);
+        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("evaluation") : progressBar || nextStep("evaluation")}`);
+    } catch (error) {
+        if (error instanceof Sequelize.ValidationError) {
             error.errors.forEach(({message}) => req.flash("error", message));
             res.redirect(`/escapeRooms/${escapeRoom.id}/evaluation`);
-        }).
-        catch((error) => {
+        } else {
             req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
             next(error);
-        });
+        }
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/team
 exports.teamInterface = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/instructions", {escapeRoom,
-        "progress": "team",
-        "endPoint": "team"});
+    res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "team", "endPoint": "team"});
 };
 
 // GET /escapeRooms/:escapeRoomId/class
 exports.classInterface = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/instructions", {escapeRoom,
-        "progress": "class",
-        "endPoint": "class"});
+    res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "class", "endPoint": "class"});
 };
 
 // GET /escapeRooms/:escapeRoomId/team
-exports.teamInterfaceUpdate = (req, res, next) => {
-    saveInterface("team", req, res, next);
-};
+exports.teamInterfaceUpdate = (req, res, next) => saveInterface("team", req, res, next);
 
 // GET /escapeRooms/:escapeRoomId/class
-exports.classInterfaceUpdate = (req, res, next) => {
-    saveInterface("class", req, res, next);
-};
+exports.classInterfaceUpdate = (req, res, next) => saveInterface("class", req, res, next);
 
 // DELETE /escapeRooms/:escapeRoomId
 exports.destroy = async (req, res, next) => {
@@ -392,10 +347,7 @@ exports.destroy = async (req, res, next) => {
 
         let teamIds = [];
         const turnos = req.escapeRoom.turnos.map((turno) => {
-            teamIds = [
-                ...teamIds,
-                ...turno.teams.map((team) => team.id)
-            ];
+            teamIds = [...teamIds, ...turno.teams.map((team) => team.id)];
             return turno.id;
         });
 

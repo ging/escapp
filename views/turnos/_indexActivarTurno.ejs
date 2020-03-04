@@ -51,12 +51,15 @@ const formatDate = function (currentDate) {
         firstDiv = true;
     }%>
     <div class="day-wrapper">
-        <p class="turno-date-title-show"><%=formatDate(dateNoTime)%></p>
+        <p class="turno-date-title-show">
+            <%= turn.date ? formatDate(dateNoTime) : i18n.turnos.alwaysOpen %>
+        </p>
         <div class="flexBoxTurnos">
             <%}%>
             <div class="turno turnoProfe <%=turn.status%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
+
                 <div class="hora">
-                    <%= formatTime(date) %>
+                    <%= formatTi                <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %>me(date) %>
                 </div>
                 <div class="indications">
                     <% if (turn.indications) { %>

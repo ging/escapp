@@ -8,7 +8,7 @@
 	%> 
 		<div class="turno <%= turn.date ? '' : 'always' %>" data-date="<%=getDashDate(dateNoTime)%>">
 			<div class="hora">
-				<%- turn.date ? formatTime(date) : '<span class="always">always</span>' %>
+				<%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %>
 			</div>
 			<div class="indications">
 				<% if (turn.indications) { %>
@@ -18,7 +18,7 @@
 				<% } %>
 			</div>
 			<form method="POST" action="/escapeRooms/<%= escapeRoom.id %>/turnos/<%=turn.id%>?_method=DELETE">
-        		<button type="submit" class="little-button less">
+        		<button type="submit" class="little-button less" title="<%=i18n.escapeRoom.steps.turnos.deleteTitle%>" >
         			<i class="material-icons">delete</i>
         		</button>
         	</form>
@@ -26,3 +26,4 @@
 <%}%>
 <% include ./new %>
 </div>
+

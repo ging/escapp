@@ -66,23 +66,29 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
   });
 
   socket.on(RANKING, function({teamId, puzzleId, time}){
-	const team = teams.find(team => team.id == teamId);
-	if (team) {
-		const reto = team.retos.find(reto => reto.id === puzzleId)
-		if (!reto) {
-			team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
-			team.result = team.retos.length + "/" + nPuzzles;
-			team.latestRetoSuperado = time;
-			$('#team-' + teamId +" .ranking-res").html(team.result);
-			if (team.retos.length == nPuzzles) {
-				team.finishTime = secondsToDhms((new Date(time) - new Date(team.startTime))/1000);
-				$('#team-' + teamId +" .ranking-time").html(team.finishTime);
-			}
-			sort();
-		}
-	}
-	
+  	const team = teams.find(team => team.id == teamId);
+    	if (team) {
+  		const reto = team.retos.find(reto => reto.id === puzzleId)
+  		if (!reto) {
+  			team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
+  			team.result = team.retos.length + "/" + nPuzzles;
+  			team.latestRetoSuperado = time;
+  			$('#team-' + teamId + " .ranking-res").html(team.result);
+  			if (team.retos.length == nPuzzles) {
+  				team.finishTime = secondsToDhms((new Date(time) - new Date(team.startTime))/1000);
+  				$('#team-' + teamId +" .ranking-time").html(team.finishTime);
+  			}
+  			sort();
+        
+        if ($('#podium').length) {
+          $('#podium').html(podium(teams));
+          $("#podium . podium").addClass("started");
+        }
+      }
+    }
+  
   });
+
 
 };
 

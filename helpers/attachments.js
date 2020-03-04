@@ -111,14 +111,8 @@ exports.checksCloudinaryEnv = () => new Promise((resolve, reject) => {
 
 exports.cloudinary_upload_options = {"folder": "/escapeRoom/attachments",
     "resource_type": "auto",
-    "tags": [
-        "tfg",
-        "escapeRoom"
-    ]};
+    "tags": ["escapeRoom"]};
 
 exports.cloudinary_upload_options_zip = {"folder": "/escapeRoom/attachments",
     "resource_type": "auto",
-    "tags": [
-        "tfg",
-        "escapeRoom"
-    ]};
+    "tags": ["escapeRoom"]};

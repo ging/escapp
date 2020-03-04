@@ -18,12 +18,18 @@ exports.createServer = (server, sessionMiddleware) => {
                 isStudent = access === "PARTICIPANT";
 
             if (access) {
-                socket.on(SOLVE_PUZZLE, ({puzzleId, sol}) => solvePuzzle(teamId, puzzleId, sol));
-                socket.on(REQUEST_HINT, ({status, score}) => requestHint(teamId, status, score));
-                await join(teamId, username);
-                socket.join(`teamId_${teamId}`);
-                socket.join(`turnId_${turnId}`);
-                await sendInitialRanking(socket.id, userId, teamId, escapeRoomId, turnId);
+                if (teamId) {
+                    socket.on(SOLVE_PUZZLE, ({puzzleId, sol}) => solvePuzzle(teamId, puzzleId, sol));
+                    socket.on(REQUEST_HINT, ({status, score}) => requestHint(teamId, status, score));
+                    await join(teamId, username);
+                    socket.join(`teamId_${teamId}`);
+                }
+                if (turnId) {
+                    socket.join(`turnId_${turnId}`);
+                    if (teamId) {
+                        await sendInitialRanking(socket.id, userId, teamId, escapeRoomId, turnId);
+                    }
+                }
             } else {
                 await revokeAccess(socket.id);
             }

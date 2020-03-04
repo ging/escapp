@@ -147,7 +147,8 @@
             "successEditingUser": "Usuario editado con éxito",
             "successImage": "Imagen subida con éxito"
         },
-        "ideas": "Ideas",
+        "guide": "Manual de usuario",
+        "ideas": "Ideas para retos",
         "mainPage": "Pág. principal",
         "next": "siguiente",
         "orderBy": "Ordenar por",
@@ -288,7 +289,11 @@
             },
             "turnos": {
                 "title": "Turnos",
-                "indicacion": "¿Alguna indicación?"
+                "indicacion": "¿Alguna indicación?",
+                "addTitle": "Añadir turno",
+                "alwaysTitle": "Turno siempre abierto",
+                "deleteTitle": "Borrar turno",
+                "hourTitle": "Fijar hora"
             }
         }
     },
@@ -420,18 +425,17 @@
         "url": "URL con contraseña",
         "postcard": "Postal con codigo",
         "puzzleGen": "Generador de puzzles",
-        "ticket": "ticket falso",
+        "ticket": "Ticket falso",
         "id": "Tarjetas ID falsas",
         "whatsapp": "Whatsapp falso",
         "vt": "Tour virtual falso",
-        "anonymus": "Mensajes anónimos",
+        "anonymous": "Mensajes anónimos",
         "rhyme": "Generador de rimas",
-        "soupe": "Generador de sopas de letras",
+        "soup": "Generador de sopas de letras",
         "crossword": "Generador de crucigramas",
         "labyrinth": "Generador de laberintos",
         "math": "Puzzles matemáticos",
         "hidden": "Juegos de objetos ocultos"
-
     },
     "participant": {
         "attendanceSaved": "Asistencia guardada correctamente",
@@ -531,6 +535,8 @@
     "turnos": {
         "all": "Todos los turnos",
         "alreadyIn": "Ya estas dentro de un turno.",
+        "always": "siempre",
+        "alwaysOpen": "Siempre abierto",
         "arrows": {
         	"closeText": "Cerrar",
         	"currentText": "Hoy",

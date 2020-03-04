@@ -1,3 +1,4 @@
+<% const turno = participant.teamsAgregados[0].turno%>
 <% include ../partials/_header.ejs %>
 
 <div class="main showStudent">
@@ -11,7 +12,7 @@
 				<%=escapeRoom.title%>
 			</h2>
 			<h3 class="animated slideInUp">
-				<b>Turno:</b> <%=getFullDate(participant.teamsAgregados[0].turno.date)%>
+				<b>Turno:</b> <%= turno.date ? getFullDate(turno.date) : "Siempre abierto"%>
 			</h3>
 			<h4 class="animated slideInUp">
 				<b>Equipo:</b> <%=participant.teamsAgregados[0].name%>
@@ -21,7 +22,6 @@
 			</h5>
 		</div>
 	</div>
-	<% const turno = participant.teamsAgregados[0].turno%>
 	<h3 class="animated slideInUp">Indicaciones</h3>
 	<p class="desc animated slideInUp">
 		<%= turno.indications || i18n.turnos.noIndications %>
@@ -77,9 +77,9 @@
 		<%}%>
 	</div>
 	<br/><br/><br/><br/>
-	<% if(participant.teamsAgregados[0].turno.status === "pending"){%>
+	<% if(turno.status === "pending"){%>
 		<form id="unjoin" method="post" 
-		action="/escapeRooms/<%=escapeRoom.id%>/turno/<%=participant.teamsAgregados[0].turno.id%>/team/<%=participant.teamsAgregados[0].id%>?_method=delete">
+		action="/escapeRooms/<%=escapeRoom.id%>/turno/<%=turno.id%>/team/<%=participant.teamsAgregados[0].id%>?_method=delete">
 			<input type="submit" class="rounded inverse" onclick="return confirm('<%=i18n.showStudent.sureUnjoin%>');" value="<%=i18n.showStudent.unjoin%>"></input>
 		</form>
 	<%}%>

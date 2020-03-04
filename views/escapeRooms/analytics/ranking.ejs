@@ -9,10 +9,8 @@
 			<span><%=i18n.analytics.ranking.title%></span>
 		</div>
 	</div>
-    <h2><%=i18n.analytics.ranking.title%></h2>
+    <h2 style="text-align:left;"><%=i18n.analytics.ranking.title%></h2>
     	<div class="content">
-    		<%-include("../../partials/_podium")%>
-	    	<br/>
 	    	<br/>
 	    	<form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/ranking">
 	    	    <div class="filters">
@@ -61,7 +59,6 @@
 						latestRetoSuperado,
 						finishTime,
 						result } = team;
-			    	var stringified = JSON.parse(JSON.stringify(team));
 			    	%>
 				    <tr>
 				    	<td><b><%=team.name%></b></td>

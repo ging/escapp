@@ -131,16 +131,17 @@ $(function () {
     });
 
     $('button.always').on('click', function(e) {
-        console.log(this)
         const hora = $(this).parent().find('.hora');
         if ($(this).hasClass("off")) {
             $(hora).html('<input autofocus class="turnos-picker turnos-time-picker" type="time" id="start" required name="start" value="09:00" placeholder="00:00" autocomplete="off"/>');
             $(this).removeClass('off');
+            $(this).attr('title', '<%=i18n.escapeRoom.steps.turnos.alwaysTitle%>');
             $(this).html('<i class="material-icons">alarm_off</i>')
             $('#date').val(new Date());
         } else {
-            $(hora).html('<span class="always">always</span>');
+            $(hora).html('<span class="always"><%=i18n.turnos.always%></span>');
             $(this).addClass('off');
+            $(this).attr('title', '<%=i18n.escapeRoom.steps.turnos.hourTitle%>');
             $(this).html('<i class="material-icons">alarm_on</i>')
             $('#date').val("always");
         }

@@ -131,7 +131,7 @@ $(function(){
     }
 
     function appearanceHandler(lang, node) {
-        $('body link')[2].href = `http://localhost:3000/stylesheets/vendor/bootswatch/${lang || "cerulean"}.editor.bootstrap.min.css`;
+        $('body link')[2].href = `/stylesheets/vendor/bootswatch/${lang || "cerulean"}.editor.bootstrap.min.css`;
         $('#appearance').val(lang);
         return lang;
     }
@@ -143,9 +143,9 @@ $(function(){
             videoResize: {},
             clipboard: {}
         },
-        placeholder: 'Write here your escape room instructions',
+        placeholder: window.placeholder || 'Write here your escape room instructions',
         readOnly: false,
-        theme: 'snow'
+        theme: 'snow' 
     };
 
     var editor = new Quill('#editor', options);

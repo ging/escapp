@@ -6,3 +6,4 @@ uploads
 migrate.sh
 seed.sh
 *.pem
+.vscode
