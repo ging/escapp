@@ -20,7 +20,7 @@
                     <% for (t in escapeRoom.turnos) { %>
                     <% var turno = escapeRoom.turnos[t] %>
                     <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
-                        <%= getFullDate(turno.date)%>
+                        <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
                     </option>
                     <% } %>
                 </select>

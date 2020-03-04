@@ -1,4 +1,4 @@
 module.exports = {
-    "up": (queryInterface, Sequelize) => queryInterface.addColumn("teams", "startTime", Sequelize.INTEGER),
+    "up": (queryInterface, Sequelize) => queryInterface.addColumn("teams", "startTime", Sequelize.DATE),
     "down": (queryInterface) => queryInterface.removeColumn("teams", "startTime")
 };

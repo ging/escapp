@@ -148,7 +148,7 @@ const sendInitialRanking = async (socketId, userId, teamId, escapeRoomId, turnoI
 
     const teams = getRetosSuperados(teamsRaw).map((team) => {
         const {id, name, retos, turno, "latestretosuperado": latestRetoSuperado, "countretos": count} = JSON.parse(JSON.stringify(team));
-        const {startTime} = turno;
+        const startTime = turno.startTime || team.startTime;
         const participants = team.teamMembers.map((member) => `${member.name} ${member.surname}`).join(", ");
 
         return {id, name, count, retos, participants, latestRetoSuperado, startTime};
@@ -204,9 +204,7 @@ const requestHint = async (teamId, status, score) => {
         if (result) {
             const {msg, ok, hintId} = result;
 
-            await hintResponse(ok, hintId, msg, teamId, {"empty": "empty",
-                "dontClose": "dontClose",
-                "failed": "failed"});
+            await hintResponse(ok, hintId, msg, teamId, {"empty": "empty", "dontClose": "dontClose", "failed": "failed"});
         }
     }
 };

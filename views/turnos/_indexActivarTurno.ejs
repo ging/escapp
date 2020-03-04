@@ -59,13 +59,15 @@ const formatDate = function (currentDate) {
             <div class="turno turnoProfe <%=turn.status%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
 
                 <div class="hora">
-                    <%= formatTi                <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %>me(date) %>
+                      <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %> 
                 </div>
                 <div class="indications">
                     <% if (turn.indications) { %>
                         <%= turn.indications %> <br/>
                     <% } else { %>
-                        <em class="no-indications"><%=i18n.turnos.noIndications%></em>
+                        <em class="no-indications">
+                            <%=i18n.turnos.noIndications%>
+                        </em>
                     <% } %>
                 </div>
             </div>

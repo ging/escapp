@@ -79,17 +79,12 @@ exports.index = (req, res, next) => {
         "include": [
             {
                 "model": models.turno,
-                "where": {
-                    "escapeRoomId": escapeRoom.id
-                }
+                "where": {"escapeRoomId": escapeRoom.id}
             },
             {
                 "model": models.user,
                 "as": "teamMembers",
-                "attributes": [
-                    "name",
-                    "surname"
-                ]
+                "attributes": ["name", "surname"]
 
             }
         ],
@@ -100,9 +95,7 @@ exports.index = (req, res, next) => {
         where.include[0].where.id = turnId;
     }
     models.team.findAll(where).then((teams) => {
-        res.render("escapeRooms/teams", {teams,
-            escapeRoom,
-            turnId});
+        res.render("escapeRooms/teams", {teams, escapeRoom, turnId});
     }).
         catch((e) => {
             console.error(e);
@@ -114,8 +107,7 @@ exports.index = (req, res, next) => {
 exports.indexTurnos = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("teams/index", {"turno": req.turn,
-        escapeRoom});
+    res.render("teams/index", {"turno": req.turn, escapeRoom});
 };
 
 

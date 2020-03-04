@@ -42,45 +42,41 @@ exports.load = (req, res, next, turnId) => {
 };
 
 // POST /escapeRooms/:escapeRoomId/join
-exports.indexStudent = (req, res, next) => {
-    const {escapeRoom} = req;
+exports.indexStudent = async (req, res, next) => {
+    try {
+        const {escapeRoom} = req;
 
-    models.turno.findAll({
-        "where": {"escapeRoomId": req.escapeRoom.id},
-        "include": {
-            "model": models.user,
-            "as": "students"
-        },
-        "order": [
-            [
-                "date",
-                "ASC"
+        const turnos = await models.turno.findAll({
+            "where": {"escapeRoomId": req.escapeRoom.id},
+            "include": {
+                "model": models.user,
+                "as": "students"
+            },
+            "order": [
+                [
+                    "date",
+                    "ASC"
+                ]
             ]
-        ]
-    }).
-        then((turnos) => {
-            res.render("turnos/_indexStudent.ejs", {turnos,
-                escapeRoom});
-        }).
-        catch((error) => next(error));
+        });
+
+        res.render("turnos/_indexStudent.ejs", {turnos, escapeRoom});
+    } catch (e) {
+        next(e);
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/activarTurno
 exports.indexActivarTurno = (req, res, next) => {
     const {escapeRoom} = req;
 
-    models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id},
-        "order": [
-            [
-                "date",
-                "ASC"
-            ]
-        ]}).
-        then((turnos) => {
-            res.render("turnos/_indexActivarTurno.ejs", {turnos,
-                escapeRoom});
-        }).
-        catch((error) => next(error));
+    try {
+        const turnos = models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "order": [["date", "ASC"]]});
+
+        res.render("turnos/_indexActivarTurno.ejs", {turnos, escapeRoom});
+    } catch (e) {
+        next(e);
+    }
 };
 
 // PUT /escapeRooms/:escapeRoomId/activar
@@ -178,9 +174,7 @@ exports.turnos = (req, res) => {
     const {escapeRoom} = req;
     const {turnos} = escapeRoom;
 
-    res.render("escapeRooms/steps/turnos", {escapeRoom,
-        turnos,
-        "progress": "turnos"});
+    res.render("escapeRooms/steps/turnos", {escapeRoom, turnos, "progress": "turnos"});
 };
 
 // POST /escapeRooms/:escapeRoomId/turnos

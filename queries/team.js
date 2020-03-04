@@ -184,6 +184,7 @@ exports.playRankingQuery = (turnoId, escapeRoomId) => {
         "attributes": [
             "id",
             "name",
+            "startTime",
             [
                 Sequelize.fn(
                     "MAX",

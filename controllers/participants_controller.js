@@ -32,10 +32,7 @@ exports.index = async (req, res, next) => {
         if (req.query.csv) {
             createCsvFile(res, participants, "participants");
         } else {
-            res.render("escapeRooms/participants", {escapeRoom,
-                participants,
-                turnId,
-                orderBy});
+            res.render("escapeRooms/participants", {escapeRoom, participants, turnId, orderBy});
         }
     } catch (e) {
         next(e);

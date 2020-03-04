@@ -58,10 +58,18 @@
     "sass": "^1.19.0",
     "sequelize": "^5.15.1",
     "sequelize-cli": "^5.4.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "supertest": "^4.0.2",
+    "zombie": "^6.1.4"
   },
   "devDependencies": {
     "jest": "^24.7.1",
     "sqlite3": "^4.0.6"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

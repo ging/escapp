@@ -36,15 +36,16 @@ exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({...teamRes.dataV
     "teamMembers": teamRes.teamMembers, /* .filter(m=>)    .map(m=>({turnosAgregados: m.turnosAgregados
         .filter(t=>t.participants.attendance)}))*/
     "countretos": teamRes.dataValues.retos.length,
-    "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => r.retosSuperados.createdAt).sort((a, b) => a < b)[0] : null})).sort((t1, t2) => {
-    if (t1.countretos === t2.countretos) {
-        if (t1.latestretosuperado === t2.latestretosuperado) {
-            return 0;
+    "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => new Date(r.retosSuperados.createdAt)).sort((a, b) => b - a)[0] : null})).
+    sort((t1, t2) => {
+        if (t1.countretos === t2.countretos) {
+            if (t1.latestretosuperado === t2.latestretosuperado) {
+                return 0;
+            }
+            return t1.latestretosuperado > t2.latestretosuperado ? 1 : -1;
         }
-        return t1.latestretosuperado > t2.latestretosuperado ? 1 : -1;
-    }
-    return t1.countretos > t2.countretos ? -1 : 1;
-});
+        return t1.countretos > t2.countretos ? -1 : 1;
+    });
 
 exports.pctgRetosSuperados = (retosSuperados) => Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
 
@@ -158,17 +159,7 @@ exports.playInterface = async (name, req, res, next) => {
 
             });
 
-            res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
-                cloudinary,
-                "teams": req.teams,
-                team,
-                "userId": req.session.user.id,
-                "turnoId": team.turno.id,
-                "teamId": team.id,
-                "isStudent": true,
-                "hints": hints || [],
-                "endPoint": name,
-                "layout": false});
+            res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom, cloudinary, "teams": req.teams, team, "userId": req.session.user.id, "turnoId": team.turno.id, "teamId": team.id, "isStudent": true, "hints": hints || [], "endPoint": name, "layout": false});
         } catch (err) {
             next(err);
         }

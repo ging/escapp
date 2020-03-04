@@ -12,7 +12,7 @@
 				<%=escapeRoom.title%>
 			</h2>
 			<h3 class="animated slideInUp">
-				<b>Turno:</b> <%= turno.date ? getFullDate(turno.date) : "Siempre abierto"%>
+				<b>Turno:</b> <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
 			</h3>
 			<h4 class="animated slideInUp">
 				<b>Equipo:</b> <%=participant.teamsAgregados[0].name%>
