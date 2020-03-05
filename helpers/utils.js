@@ -66,6 +66,37 @@ exports.countHints = (requestedHints) => {
         hintsSucceeded};
 };
 
+exports.countHintsByPuzzle = (requestedHints, retosSuperados, startTime) => {
+    const hintsSucceeded = new Array(retosSuperados.length).fill(0);
+    const hintsFailed = new Array(retosSuperados.length).fill(0);
+
+    for (const h in requestedHints) {
+        const hint = requestedHints[h];
+        const minute = Math.floor((hint.createdAt - startTime) / 60000); // TODO team.startTime
+
+        let retoPos = 0;
+
+        for (let r = retosSuperados.length - 1; r >= 0; r--) {
+            if (retosSuperados[r] !== 0)  {
+                if (minute > retosSuperados[r]) {
+                    break;
+                }
+                retoPos = r;
+            }
+        }
+
+        if (hint.success) {
+            hintsSucceeded[retoPos]++;
+        } else {
+            hintsFailed[retoPos]++;
+        }
+    }
+    const hintsSucceededTotal = hintsSucceeded.reduce((a, b) => a + b, 0);
+    const hintsFailedTotal = hintsFailed.reduce((a, b) => a + b, 0);
+
+    return {hintsFailed, hintsFailedTotal, hintsSucceeded, hintsSucceededTotal};
+};
+
 exports.saveInterface = (name, req, res, next) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);

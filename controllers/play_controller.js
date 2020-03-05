@@ -73,16 +73,12 @@ exports.startPlaying = async (req, res) => {
                 "model": models.user,
                 "attributes": [],
                 "as": "teamMembers",
-                "where": {
-                    "id": req.session.user.id
-                }
+                "where": {"id": req.session.user.id}
             },
             {
                 "model": models.turno,
                 "attributes": ["id"],
-                "where": {
-                    "escapeRoomId": escapeRoom.id
-                }
+                "where": {"escapeRoomId": escapeRoom.id}
             }
         ]
     });

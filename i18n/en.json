@@ -255,7 +255,7 @@
                 "title": "Team interface"
             },
             "class": {
-                "explanation": "Here you can customize the interface that you'll be able to sreen in the classroom for all students to see. It can include the introductory video, the countdown, the ranking, etc.",
+                "explanation": "Here you can customize the interface that you'll be able to sreen in the classroom for all students to see. It can include the introductory video, the countdown, the ranking, etc. If students are participating in the escape room remotely, they will never see the class interface, so you can skip this step.",
                 "placeholder": "You can choose to project the countdown, an introductory video, etc.",
                 "title": "Classroom interface"
             },

@@ -250,7 +250,7 @@
                 "title": "Interfaz de equipo"
             },
             "class": {
-                "explanation": "En este apartado puedes personalizar la interfaz que proyectarás en el aula. Puedes añadir elementos como la cuenta atrás, el video introductorio o el ranking.",
+                "explanation": "En este apartado puedes personalizar la interfaz que proyectarás en el aula. Puedes añadir elementos como la cuenta atrás, el video introductorio o el ranking. Si los alumnos van a participar en la escape room de forma remota nunca verán esta interfaz, por lo que puedes saltarte este paso.",
                 "placeholder": "Añade la cuenta atrás, un ranking, el vídeo de presentación, etc.",
                 "title": "Interfaz de clase"
             },
