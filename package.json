@@ -8,7 +8,8 @@
     "start_production_forever": "sudo forever start -c 'sudo npm run start_production' ./",
     "dev": "DEBUG=escapp  nodemon bin/www -e sass,js,json --ignore 'public/js' --exec \"npm run css && npm run lint && node\" && xdg-open http://localhost:3000 ",
     "dev-windows": "nodemon bin/www -e sass,scss,js,json --ignore 'public/js' --exec \"npm run css && npm run lint && node\" && start http://localhost:3000",
-    "test": "jest",
+    "test": "DATABASE_URL=sqlite:///home/slp/Proyectos/escapp/test.sqlite jest",
+    "test:watch": "DATABASE_URL=sqlite:///home/slp/Proyectos/escapp/test.sqlite jest --watchAll",
     "migrate_local": "node migrate.js",
     "migrate_local_sqlite": "sequelize db:migrate --url sqlite://$(pwd)/escaperoom.sqlite",
     "migrate_local_sqlite_windows": "sequelize db:migrate --url sqlite://%cd%/escaperoom.sqlite",
@@ -60,6 +61,7 @@
     "sequelize-cli": "^5.4.0",
     "socket.io": "^2.3.0",
     "supertest": "^4.0.2",
+    "supertest-session": "^4.0.0",
     "zombie": "^6.1.4"
   },
   "devDependencies": {

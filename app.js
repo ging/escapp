@@ -92,18 +92,21 @@ app.use((req, res, next) => {
 
     err.status = 404;
     res.locals.message = "Not found";
-    res.locals.error = app.get("env") === "development" ? err : {"status": 404};
+    res.locals.error = app.get("env") === "production" ? {"status": 404} : err;
     next(err);
 });
 
 // Error handler. It needs to have all 4 arguments, or else express will not recognize it as an erorr handler
 // eslint-disable-next-line  no-unused-vars
 app.use((err, req, res, next) => {
-    res.status(err.status || res.statusCode);
+    const status = err.status || (app.get("env") === "production" ? res.statusCode : res.statusCode == 200 ? 500 : res.statusCode);
+
+    res.status(status);
+
     if (req.session && req.session.flash) {
         // Set locals, only providing error in development
         res.locals.message = err.message;
-        res.locals.error = app.get("env") === "development" ? err : {"status": err.status || 404};
+        res.locals.error = app.get("env") === "production" ? {"status": err.status || 404} : err;
         // Render the error page
         res.render("error");
     } else {

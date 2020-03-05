@@ -33,7 +33,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        next(new Error());
+        next(new Error("Forbidden"));
     }
 };
 
@@ -55,7 +55,7 @@ exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
             next();
         } else {
             res.status(403);
-            throw new Error();
+            next(new Error("Forbidden"));
         }
     } catch (error) {
         next(error);
@@ -80,9 +80,7 @@ exports.index = async (req, res, next) => {
                 ]
             });
 
-            res.render("escapeRooms/index.ejs", {escapeRooms,
-                cloudinary,
-                user});
+            res.render("escapeRooms/index.ejs", {escapeRooms, cloudinary, user});
         } else {
             const erAll = await models.escapeRoom.findAll(query.escapeRoom.all());
             const erFiltered = await models.escapeRoom.findAll(query.escapeRoom.all(user.id));
@@ -95,9 +93,7 @@ exports.index = async (req, res, next) => {
                 "isSignedUp": ids.indexOf(er.id) !== -1
             }));
 
-            res.render("escapeRooms/index.ejs", {escapeRooms,
-                cloudinary,
-                user});
+            res.render("escapeRooms/index.ejs", {escapeRooms, cloudinary, user});
         }
     } catch (error) {
         next(error);
@@ -114,14 +110,9 @@ exports.show = (req, res) => {
     const hostName = process.env.APP_NAME ? `http://${process.env.APP_NAME}` : "http://localhost:3000";
 
     if (participant) {
-        res.render("escapeRooms/showStudent", {escapeRoom,
-            cloudinary,
-            participant});
+        res.render("escapeRooms/showStudent", {escapeRoom, cloudinary, participant});
     } else {
-        res.render("escapeRooms/show", {escapeRoom,
-            cloudinary,
-            hostName,
-            "email": req.session.user.username});
+        res.render("escapeRooms/show", {escapeRoom, cloudinary, hostName, "email": req.session.user.username});
     }
 };
 
@@ -129,8 +120,7 @@ exports.show = (req, res) => {
 exports.new = (req, res) => {
     const escapeRoom = {"title": "", "teacher": "", "subject": "", "duration": "", "description": "", "nmax": "", "teamSize": ""};
 
-    res.render("escapeRooms/new", {escapeRoom,
-        "progress": "edit"});
+    res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
 };
 
 // POST /escapeRooms/create
@@ -377,8 +367,7 @@ exports.studentToken = async (req, res) => {
     if (participant) {
         res.redirect(`/escapeRooms/${escapeRoom.id}`);
     } else if (escapeRoom.invitation === req.query.token) {
-        res.render("escapeRooms/indexInvitation", {escapeRoom,
-            cloudinary});
+        res.render("escapeRooms/indexInvitation", {escapeRoom, cloudinary});
     } else {
         res.redirect("/");
     }

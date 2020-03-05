@@ -2,7 +2,6 @@ const path = require("path");
 
 // Load ORM
 const Sequelize = require("sequelize");
-
 const url = process.env.DATABASE_URL || "sqlite:escapeRoom.sqlite";
 
 const sequelize = new Sequelize(url);// Import the definition of the Escape Room Table from escapeRoom.js
@@ -104,7 +103,6 @@ user.belongsToMany(team, {"as": "teamsAgregados",
     "foreignKey": "userId",
     "onDelete": "CASCADE",
     "otherKey": "teamId"});
-
 
 // Relation 1-to-N between Turno and Team:
 team.belongsTo(turno);

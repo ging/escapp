@@ -91,43 +91,6 @@ exports.destroy = async (req, res, next) => {
     }
 };
 
-// GET /escapeRooms/:escapeRoomId/puzzles/:puzzleId/check
-exports.check = async (req, res, next) => {
-    const {puzzle, query} = req;
-    const answer = query.answer || "";
-
-    try {
-        const user = await models.user.findByPk(req.session.user.id);
-        const [team] = user.getTeamsAgregados({"include": [
-            {
-                "model": models.turno,
-                "required": true,
-                "where": {"escapeRoomId": req.escapeRoom.id} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
-            }
-        ]});
-
-        if (team) {
-            if (answer.toLowerCase().trim() === puzzle.sol.toLowerCase().trim()) {
-                if (team.turno.status !== "active") {
-                    req.flash("warning", req.app.locals.i18n.turnos.notActive);
-                    res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
-                } else {
-                    await req.puzzle.addSuperados(team.id);
-                    req.flash("success", req.puzzle.correct || req.app.locals.i18n.puzzle.correctAnswer);
-                    res.redirect(`/escapeRooms/${req.escapeRoom.id}/play#puzzles`);
-                }
-            } else {
-                req.flash("error", req.puzzle.fail || req.app.locals.i18n.puzzle.wrongAnswer);
-                res.redirect(`/escapeRooms/${req.escapeRoom.id}/play#puzzles`);
-            }
-        } else {
-            next(req.app.locals.i18n.user.messages.ensureRegistered);
-        }
-    } catch (e) {
-        next(e);
-    }
-};
-
 // GET /escapeRooms/:escapeRoomId/puzzles
 exports.retos = (req, res) => {
     const {escapeRoom} = req;

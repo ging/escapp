@@ -57,7 +57,8 @@ exports.adminRequired = (req, res, next) => {
     if (isAdmin) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error("Forbidden");
     }
 };
 
@@ -69,7 +70,8 @@ exports.notStudentRequired = (req, res, next) => {
     if (isStudent) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error("Forbidden");
     }
 };
 
@@ -82,7 +84,8 @@ exports.studentOrAdminRequired = (req, res, next) => {
     if (isStudent || isAdmin) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error("Forbidden");
     }
 };
 
@@ -96,7 +99,8 @@ exports.myselfRequired = (req, res, next) => {
     if (isMyself) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error("Forbidden");
     }
 };
 
@@ -113,7 +117,8 @@ exports.adminOrMyselfRequired = (req, res, next) => {
     if (isAdmin || isMyself) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error("Forbidden");
     }
 };
 
@@ -129,7 +134,8 @@ exports.adminAndNotMyselfRequired = function (req, res, next) {
     if (isAdmin && isAnother) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error("Forbidden");
     }
 };
 
