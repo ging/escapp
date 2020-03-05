@@ -59,8 +59,19 @@ exports.indexStudent = async (req, res, next) => {
                 ]
             ]
         });
-
-        res.render("turnos/_indexStudent.ejs", {turnos, escapeRoom});
+        if (escapeRoom.turnos && escapeRoom.turnos.length === 1) {
+            if (escapeRoom.teamSize > 1) {
+                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams`);
+            } else {
+                req.params.turnoId = escapeRoom.turnos[0].id;
+                req.body.name = req.session.user.name;
+                req.user = await models.user.findByPk(req.session.user.id);
+                next();
+            }
+        } else {
+            res.render("turnos/_indexStudent.ejs", {turnos, escapeRoom});
+        }
+        
     } catch (e) {
         next(e);
     }

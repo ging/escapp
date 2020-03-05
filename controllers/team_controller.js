@@ -36,9 +36,8 @@ exports.new = (req, res) => {
 exports.create = async (req, res, next) => {
     const {escapeRoom} = req;
     const team = models.team.build({"name": req.body.name,
-        "turnoId": req.turn.id,
+        "turnoId": req.params.turnoId,
         "members": [req.session.user.id]});
-
     const back = "/escapeRooms";
 
     const teamCreated = await team.save();
@@ -51,7 +50,7 @@ exports.create = async (req, res, next) => {
             const turnos = await req.user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
 
             if (turnos.length === 0) {
-                await req.user.addTurnosAgregados(req.turn.id);
+                await req.user.addTurnosAgregados(req.params.turnoId);
                 res.redirect(back);
             } else {
                 req.flash("error", req.app.locals.i18n.team.alreadyIn);

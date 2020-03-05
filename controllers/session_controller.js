@@ -176,6 +176,7 @@ exports.create = async (req, res, next) => {
 
         if (user) {
             req.session.user = {"id": user.id,
+                "name": user.name + " " + user.surname,
                 "username": user.username,
                 "isAdmin": user.isAdmin,
                 "isStudent": user.isStudent,

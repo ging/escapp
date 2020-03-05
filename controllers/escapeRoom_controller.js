@@ -356,7 +356,7 @@ exports.destroy = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/join
-exports.studentToken = async (req, res) => {
+exports.studentToken = async (req, res, next) => {
     const {escapeRoom} = req;
 
     const participant = await models.participants.findOne({"where": {
