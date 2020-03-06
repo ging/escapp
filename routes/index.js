@@ -13,6 +13,7 @@ const playController = require("../controllers/play_controller");
 const membersController = require("../controllers/members_controller");
 const analyticsController = require("../controllers/analytics_controller");
 const resourceController = require("../controllers/resource_controller");
+const resourceAppController = require("../controllers/resource_app_controller");
 
 const multer = require("multer"),
     upload = multer({"dest": "./uploads/"});
@@ -50,6 +51,8 @@ router.param("puzzleId", puzzleController.load);
 router.param("hintId", hintController.load);
 router.param("userId", userController.load);
 router.param("teamId", teamController.load);
+router.param("resourceId", resourceController.load);
+router.param("appId", resourceAppController.load);
 
 
 // Routes for LOGIN page /
@@ -133,10 +136,6 @@ router.get("/escapeRooms/:escapeRoomId(\\d+)/project", sessionController.loginRe
 router.get("/escapeRooms/:escapeRoomId(\\d+)/finish", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, playController.ranking, playController.finish);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/play", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, playController.ranking, playController.classInterface);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/finish", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, playController.ranking, playController.finish);
-
-// Routes for guide/resources(req, res) => res.render("inspiration/inspiration")
-router.get("/inspiration", sessionController.loginRequired, resourceController.showGuide);
-router.get("/resources", sessionController.loginRequired, resourceController.showResources);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/confirm", sessionController.loginRequired, participantController.confirmAttendance);
 
 // Routes for the resource participants of a turn
@@ -170,5 +169,18 @@ router.get("/escapeRooms/:escapeRoomId/analytics/puzzles/participants", sessionC
 router.get("/escapeRooms/:escapeRoomId/analytics/puzzles/teams", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.puzzlesByTeams);
 router.get("/escapeRooms/:escapeRoomId/analytics/grading", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.grading);
 router.get("/escapeRooms/:escapeRoomId/analytics/download", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.download);
+
+// Routes for guid/apps/resources
+router.get("/inspiration", sessionController.loginRequired, resourceController.showGuide);
+router.get("/resources", sessionController.loginRequired, resourceController.showResources);
+router.get("/apps/new", sessionController.loginRequired, sessionController.adminRequired, resourceAppController.new);
+router.post("/apps/", sessionController.loginRequired, sessionController.adminRequired, resourceAppController.create);
+router.delete("/apps/:appId", sessionController.loginRequired, sessionController.adminRequired, resourceAppController.destroy);
+router.get("/resources/my", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.index);
+router.get("/resources/new", sessionController.loginRequired, sessionController.notStudentRequired, resourceAppController.index);
+router.get("/resources/:appId/new", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.new);
+router.get("/resources/:resourceId", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.show);
+router.get("/resources/:resourceId/edit", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.edit);
+router.delete("/resources/:resourceId", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.destroy);
 
 module.exports = router;

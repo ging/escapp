@@ -188,6 +188,7 @@
 		"no-throw-literal": 1,
 		"no-trailing-spaces": 1,
 		"no-undef-init": 1,
+		"no-undef": 1,
 		"no-underscore-dangle": 1,
 		"no-unexpected-multiline": 1,
 		"no-unmodified-loop-condition": 1,

@@ -1,0 +1,144 @@
+<script>
+const props =  JSON.parse(`<%- JSON.stringify(app.config || {
+	title: "DIGITAL LOCK",
+	showUsername:"true",
+	timeout:"",
+	answer:"01",
+	tip:"Select the top 3 points starting from the left",
+	CombinationLockImage:"./../assets/images/CajaFuerte.png",
+	modes:["Symbol", "AlphaNumeric", "Pattern", "CombinationLock"],
+	mode:"Pattern",
+	themes:["dark", "lux", "cerulean", "cyborg", "pulse", "sketchy", "superhero"],
+	theme:"sketchy",
+	good:"Enhorabuena, lo has logrado!!",
+	bad:"Lo siento, se acabó tu tiempo",
+	escapp: true,
+	puzzleId: 5,
+	escapeRoomId: 1,
+	puzzleLength: 4,
+	scormVersion: "1.2",
+})%>`);
+const onConfigChange = (key, value) => {props[key] = value; render();};
+const options = [
+	{ name: "title:", value: props.title, type: "text", callback: (e) => {onConfigChange("title", e.target.value)}},
+	{ name: "showUsername",  noBreak: true, value: props.showUsername, type: "checkbox", callback: (e) => {onConfigChange("showUsername", !props.showUsername,)}},
+	{ name: "timeout", friendlyName: "Timeout", value: props.timeout, type: "number", callback: (e) => {onConfigChange("timeout", parseInt(e.target.value))}},
+	{ name: "successMessage:", value: props.good, type: "text", callback: (e) => {onConfigChange("good", e.target.value)}},
+	{ name: "failMessage:", value: props.bad, type: "text", callback: (e) => {onConfigChange("bad", e.target.value)}},
+	{ name: "Using Escapp??", value: props.escapp, type: "checkbox", callback: (e) => {onConfigChange("escapp", !props.escapp,)}},
+];
+</script>
+
+let info;
+let escapp;
+const render = () => {
+	if(props.mode === "CombinationLock"){
+		info= `<div>
+				<label props for="CombinationLockImage"><b>CombinationLockImage:</b>
+				</label><p/>
+				<input name="CombinationLockImage:" type="file" onChange="readFile(this.files[0], res => onConfigChange('CombinationLockImage', res),true)}"/>
+				<p/><label for="answer"><b>CombinationLock Answer:</b></label><p/>
+				<input name="Answer:" type="text" value=${props.answer} onKeyUp="onConfigChange('answer', this.value)"/>
+			</div>`;
+	} else if (props.mode === "Pattern"){
+		info= `<div>
+			  <label for="tip"><b>Tip:</b></label><p/>
+				<input name="Tip:" type="text" value=${props.tip} onKeyUp="onConfigChange('tip, this.value)"/>
+			</div>`;
+	}
+
+	if(props.escapp){
+		escapp= `<div><br/>
+					<label for="puzzleId"><b>PuzzleId:</b></label>&nbsp;
+					<input name="puzzleId" type="number" value=${props.puzzleId} onChange="onConfigChange('puzzleId', .value)"/>&nbsp;
+					<label for="escapeRoomId"><b>EscapeRoomId:</b></label>&nbsp;
+					<input name="escapeRoomId" type="number" value=${props.escapeRoomId} onChange="onConfigChange('escapeRoomId', this.value)"/>
+					<p/><label for="puzzleLength"><b>PuzzleLength:</b></label>&nbsp;
+					<input name="puzzleLength" type="number" value=${props.puzzleLength} onChange="onConfigChange('puzzleLength', this.value)"/>
+					</div>`
+	}else{
+		if(props.mode === "Pattern" || "AlphaNumeric" || "Symbol"){
+			escapp= <div>
+			<p/><label for="answer"><b>Answer:</b></label><p/>
+			<input name="Answer:" type="text" value=${props.answer} onChange="onConfigChange('answer', this.value)"/></div>
+		}
+
+	}
+	const result = `
+	<div className="config">
+		{options.map(opt=>{
+			return [<div className="form-group" >
+			<label props
+for={opt.name}><b>{opt.friendlyName || this.humanize(opt.name)}</b></label>
+			<input name={opt.name} type={opt.type} value={opt.type === "file"? undefined: opt.value} min={opt.min} checked={opt.value} onChange={opt.callback}/>
+		</div>, opt.noBreak ? null: <br/>]
+		})}
+
+		<div className="form-group">
+			<label props
+for="mode"><b>Quest Type:</b></label><p/>
+			<label props
+for="mode">{"Symbol"}</label>
+			<input name="mode" type="radio" value={"Symbol"} checked={props.mode === "Symbol"} onChange={(e) => {onConfigChange("mode", "Symbol")}}/>
+			<label props
+for="mode">{"AlphaNumeric"}</label>
+			<input name="mode" type="radio" value={"AlphaNumeric"} checked={props.mode === "AlphaNumeric"} onChange={(e) => {onConfigChange("mode", "AlphaNumeric")}}/>
+			<p/><label props
+for="mode">{"Pattern"}</label>
+			<input name="mode" type="radio" value={"Pattern"} checked={props.mode === "Pattern"} onChange={(e) => {onConfigChange("mode", "Pattern")}}/>
+			<label props
+for="mode">{"CombinationLock"}</label>
+			<input name="mode" type="radio" value={"CombinationLock"} checked={props.mode === "CombinationLock"} onChange={(e) => {onConfigChange("mode", "CombinationLock")}}/>
+		</div>
+		<p/>
+		{info}
+		{escapp}
+
+
+
+		<div className="form-group">
+			<label props
+for="theme"><b>Theme:</b></label><p/>
+			<label props
+for="theme">{"Dark"}</label>
+			<input name="theme" type="radio" value={"dark"} checked={props.theme === "dark"} onChange={(e) => {onConfigChange("theme", "dark")}}/>
+			<label props
+for="theme">{"Lux"}</label>
+			<input name="theme" type="radio" value={"lux"} checked={props.theme === "lux"} onChange={(e) => {onConfigChange("theme", "lux")}}/>
+			<label props
+for="theme">{"Cerulean"}</label>
+			<input name="theme" type="radio" value={"cerulean"} checked={props.theme === "cerulean"} onChange={(e) => {onConfigChange("theme", "cerulean")}}/>
+			<label props
+for="theme">{"Cyborg"}</label>
+			<input name="theme" type="radio" value={"cyborg"} checked={props.theme === "cyborg"} onChange={(e) => {onConfigChange("theme", "cyborg")}}/>
+			<label props
+for="theme">{"Pulse"}</label>
+			<input name="theme" type="radio" value={"pulse"} checked={props.theme === "pulse"} onChange={(e) => {onConfigChange("theme", "pulse")}}/>
+			<label props
+for="theme">{"Sketchy"}</label>
+			<input name="theme" type="radio" value={"sketchy"} checked={props.theme === "sketchy"} onChange={(e) => {onConfigChange("theme", "sketchy")}}/>
+			<label props
+for="theme">{"Superhero"}</label>
+			<input name="theme" type="radio" value={"superhero"} checked={props.theme === "superhero"} onChange={(e) => {onConfigChange("theme", "superhero")}}/>
+
+		</div>
+		<div className="form-group"><br/>
+			<label props
+for="scormVersion"><b>SCORM Version:</b></label><p/>
+			<label props
+for="scormVersion">{"SCORM 1.2"}</label>
+			<input name="scormVersion" type="radio" value={"1.2"} checked={props.scormVersion === "1.2"} onChange={(e) => {onConfigChange("scormVersion", "1.2")}}/>
+			<label props
+for="scormVersion">{"SCORM 2004"}</label>
+			<input name="scormVersion" type="radio" value={"1.2"} checked={props.scormVersion === "2004"} onChange={(e) => {onConfigChange("scormVersion", "2004")}}/>
+
+		</div>
+
+
+	</div>
+}
+%>
+<div id="content">
+</content>
+
+

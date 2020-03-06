@@ -102,7 +102,8 @@ app.use((err, req, res, next) => {
     if (req.session && req.session.flash) {
         // Set locals, only providing error in development
         res.locals.message = err.message;
-        res.locals.error = process.env.NODE_ENV === "developmesnt" ? err : {"status": err.status || 404};
+        err.status = err.status || res.statusCode;
+        res.locals.error = process.env.NODE_ENV === "development" ? err : {"status": err.status || 404};
         // Render the error page
         res.render("error");
     } else {

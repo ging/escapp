@@ -42,49 +42,63 @@ sequelize.import(path.join(__dirname, "requestedHint"));
 // Import the definition of the Asset Table from attachment.js
 sequelize.import(path.join(__dirname, "asset"));
 
+// Import the definition of the App Table from app.js
+sequelize.import(path.join(__dirname, "app"));
+
+// Import the definition of the Resource Table from app.js
+sequelize.import(path.join(__dirname, "resource"));
+
 // Relation between models
-const {escapeRoom, turno, attachment, user, puzzle, hint, hintApp, team, requestedHint, asset} = sequelize.models;// Relation 1-to-N between Escape Room and Turn:
+const {escapeRoom, turno, attachment, user, puzzle, hint, hintApp, team, requestedHint, asset, app, resource} = sequelize.models;// Relation 1-to-N between Escape Room and Turn:
 
 // Relation 1-to-N between Escape Room and Turno:
 
 turno.belongsTo(escapeRoom);
-escapeRoom.hasMany(turno, {"onDelete": "CASCADE",
+escapeRoom.hasMany(turno, {
+    "onDelete": "CASCADE",
     "hooks": true});
 
 // Relation 1-to-1 between Escape Room and Attachment:
 attachment.belongsTo(escapeRoom);
-escapeRoom.hasOne(attachment, {"onDelete": "CASCADE",
+escapeRoom.hasOne(attachment, {
+    "onDelete": "CASCADE",
     "hooks": true});
 
 // Relation 1-to-N between Escape Room and Puzzle:
 puzzle.belongsTo(escapeRoom);
-escapeRoom.hasMany(puzzle, {"onDelete": "CASCADE",
+escapeRoom.hasMany(puzzle, {
+    "onDelete": "CASCADE",
     "hooks": true});
 
 // Relation 1-to-N between Puzzle and Hint:
 hint.belongsTo(puzzle);
-puzzle.hasMany(hint, {"onDelete": "CASCADE",
+puzzle.hasMany(hint, {
+    "onDelete": "CASCADE",
     "hooks": true});
 
 
 // Relation 1-to-N between User and Quiz:
-user.hasMany(escapeRoom, {"foreignKey": "authorId",
+user.hasMany(escapeRoom, {
+    "foreignKey": "authorId",
     "onDelete": "CASCADE",
     "hooks": true});
 
-escapeRoom.belongsTo(user, {"as": "author",
+escapeRoom.belongsTo(user, {
+    "as": "author",
     "foreignKey": "authorId"});
 
 
 // Relation N-to-M between Turno and User:
 //    A User participates in many turnos.
 //    A turn has many participants (the users who have added it as participant)
-turno.belongsToMany(user, {"as": "students",
+turno.belongsToMany(user, {
+    "as": "students",
     "through": "participants",
     "foreignKey": "turnId",
     "otherKey": "userId"});
 
-user.belongsToMany(turno, {"as": "turnosAgregados",
+user.belongsToMany(turno, {
+    "as": "turnosAgregados",
     "through": "participants",
     "foreignKey": "userId",
     "otherKey": "turnId"});
@@ -93,13 +107,15 @@ user.belongsToMany(turno, {"as": "turnosAgregados",
 // Relation N-to-M between Team and User:
 //    A User belongs to many teams.
 //    A team has many members (the users who have added it as member)
-team.belongsToMany(user, {"as": "teamMembers",
+team.belongsToMany(user, {
+    "as": "teamMembers",
     "through": "members",
     "foreignKey": "teamId",
     "onDelete": "CASCADE",
     "otherKey": "userId"});
 
-user.belongsToMany(team, {"as": "teamsAgregados",
+user.belongsToMany(team, {
+    "as": "teamsAgregados",
     "through": "members",
     "foreignKey": "userId",
     "onDelete": "CASCADE",
@@ -108,39 +124,59 @@ user.belongsToMany(team, {"as": "teamsAgregados",
 
 // Relation 1-to-N between Turno and Team:
 team.belongsTo(turno);
-turno.hasMany(team, {"onDelete": "CASCADE",
+turno.hasMany(team, {
+    "onDelete": "CASCADE",
     "hooks": true});
 
 // Relation 1-to-1 between Escape Room and HintApp:
 hintApp.belongsTo(escapeRoom);
-escapeRoom.hasOne(hintApp, {"onDelete": "CASCADE",
+escapeRoom.hasOne(hintApp, {
+    "onDelete": "CASCADE",
     "hooks": true});
 
 
 // Relation N-to-M between Team and Puzzle:
-team.belongsToMany(puzzle, {"as": "retos",
+team.belongsToMany(puzzle, {
+    "as": "retos",
     "through": "retosSuperados",
     "foreignKey": "teamId",
     "otherKey": "puzzleId"});
 
 
-puzzle.belongsToMany(team, {"as": "superados",
+puzzle.belongsToMany(team, {
+    "as": "superados",
     "through": "retosSuperados",
     "foreignKey": "puzzleId",
     "otherKey": "teamId"});
 
 // Relation N-to-M between Team and Hint:
-requestedHint.belongsTo(hint, {"onDelete": "CASCADE",
+requestedHint.belongsTo(hint, {
+    "onDelete": "CASCADE",
     "hooks": true});
 
-requestedHint.belongsTo(team, {"onDelete": "CASCADE",
+requestedHint.belongsTo(team, {
+    "onDelete": "CASCADE",
     "hooks": true});
 
-team.hasMany(requestedHint, {"onDelete": "CASCADE",
+team.hasMany(requestedHint, {
+    "onDelete": "CASCADE",
     "hooks": true});
 
-
-escapeRoom.hasMany(asset, {"onDelete": "CASCADE",
+escapeRoom.hasMany(asset, {
+    "onDelete": "CASCADE",
     "hooks": true});
+
 asset.belongsTo(escapeRoom);
+
+
+resource.belongsTo(app);
+resource.belongsTo(puzzle);
+app.hasMany(resource, {
+    "onDelete": "CASCADE",
+    "hooks": true});
+
+puzzle.hasMany(resource, {
+    "onDelete": "CASCADE",
+    "hooks": true});
+
 module.exports = sequelize;
