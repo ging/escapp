@@ -59,6 +59,7 @@ exports.indexStudent = async (req, res, next) => {
                 ]
             ]
         });
+
         if (escapeRoom.turnos && escapeRoom.turnos.length === 1) {
             if (escapeRoom.teamSize > 1) {
                 res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams`);
@@ -71,7 +72,6 @@ exports.indexStudent = async (req, res, next) => {
         } else {
             res.render("turnos/_indexStudent.ejs", {turnos, escapeRoom});
         }
-        
     } catch (e) {
         next(e);
     }

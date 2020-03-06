@@ -77,7 +77,7 @@ exports.countHintsByPuzzle = (requestedHints, retosSuperados, startTime) => {
         let retoPos = 0;
 
         for (let r = retosSuperados.length - 1; r >= 0; r--) {
-            if (retosSuperados[r] !== 0)  {
+            if (retosSuperados[r] !== 0) {
                 if (minute > retosSuperados[r]) {
                     break;
                 }
