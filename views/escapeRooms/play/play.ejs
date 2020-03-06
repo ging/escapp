@@ -20,7 +20,7 @@
 <nav class="navbar navbar-light" style="padding: 0px 1em;">
     <a class="backToMain"  href="/escapeRooms/<%=escapeRoom.id%>">&larr;</a>
     <span class="erTitle"><%=escapeRoom.title%></span>
-    <%if (isStudent) {%>
+    <%if (isStudent && escapeRoom.teamSize > 1) {%>
         <span class="teamName"><b><%=i18n.team.Team%>: </b><%=team.name%></span>
     <%}%>
 </nav>  

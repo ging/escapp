@@ -12,20 +12,24 @@
 				<%=escapeRoom.title%>
 			</h2>
 			<h3 class="animated slideInUp">
-				<b>Turno:</b> <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
+				<b><%=i18n.turnos.Turno%>:</b> <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
 			</h3>
-			<h4 class="animated slideInUp">
-				<b>Equipo:</b> <%=participant.teamsAgregados[0].name%>
-			</h4>
+			<% if (escapeRoom.teamSize > 1) { %>
+				<h4 class="animated slideInUp">
+					<b><%=i18n.turnos.Team%>:</b> <%=participant.teamsAgregados[0].name%>
+				</h4>
+			<% } %>
 			<h5 class="animated slideInUp">
 				<%=participant.teamsAgregados[0].teamMembers.map(m=>m.name + " " + m.surname).join(", ")%>
 			</h5>
 		</div>
 	</div>
-	<h3 class="animated slideInUp">Indicaciones</h3>
-	<p class="desc animated slideInUp">
-		<%= turno.indications || i18n.turnos.noIndications %>
-	</p>
+	<% if (turno.indications) { %> 
+		<h3 class="animated slideInUp">Indicaciones</h3>
+		<p class="desc animated slideInUp">
+			<%= turno.indications %>
+		</p>
+	<% } %>
 	<h3 class="animated slideInUp"><%=i18n.turnos.Description%></h3>
 	<p class="desc animated slideInUp"><%=escapeRoom.description%></p>
 

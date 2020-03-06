@@ -313,7 +313,13 @@
         "insertURL": "Introduce la URL",
         "selectFileFromList": "Selecciona un fichero de la lista o ",
         "uploadNew": "sube un fichero nuevo",
-        "selectGamificationElements": "Selecciona un elemento de gamificación"
+        "selectGamificationElements": "Selecciona un elemento de gamificación",
+        "countdown": "Cuenta atrás",
+        "countdownExplanation": "Muestra la cuenta atrás del tiempo que les queda a los alumnos",
+        "ranking": "Ranking",
+        "rankingExplanation": "Muestra una tabla con los equipos ordenados según su nivel de progreso",
+        "progress": "Barra de progreso",
+        "progressExplanation": "Muestra a cada equipo el porcentaje de retos que han completado"
     },
     "inspiration": {
         "downloadText": "descargar guía",
@@ -517,6 +523,7 @@
         "addMsg": "Tus compañeros podrán unirse a tu equipo cuando se registren en la escape room",
         "addPlaceHolder": "Escribe el nombre del equipo",
         "back": "volver",
+        "choose": "Seleccione un equipo ",
         "emptyER": "No hay equipos en esta escape room",
         "emptyTurno": "No hay equipos en este turno",
         "fullTeam": "Equipo completo. Por favor, elige otro equipo.",
@@ -608,6 +615,8 @@
             "wrongLetterDNI": "DNI erroneo, la letra del NIF no se corresponde",
             "notFound": "Usuario no encontrado",
             "ensureRegistered": "Ha ocurrido un error. Asegúrate de que te has registrado correctamente en la Escape Room.",
+            "emailConfirm":"Por favor, confirma tu correo electrónico haciendo click en el botón de confirmar",
+            "emailConfirmButton":"confirmar",
             "emailResetPassword1":" Si recibes este mensaje es porque has solicitado recuperar tu contraseña en escapp.",
             "emailResetPassword2":"Haz click en el siguiente link:"
         },

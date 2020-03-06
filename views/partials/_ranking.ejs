@@ -2,7 +2,6 @@
 <% for (var t in teams) { 
     const team = teams[t];
     const {id, name, retos, turno, latestretosuperado: latestRetoSuperado, countretos: count, result, startTime, teamMembers} = JSON.parse(JSON.stringify(team));
-    console.log("////////////////" + startTime)
     let myTeam = false;
     const participants = teamMembers.map(member => {
         if (locals.userId && member.id === userId) {
@@ -11,19 +10,7 @@
         return member.name + " " + member.surname
     }).join(", ");
     const finishTime = (escapeRoom.puzzles.length === parseInt(count) && startTime) ?  (secondsToDhms((new Date(latestRetoSuperado) - new Date(startTime))/1000)) : "---";
-    console.log("---------------" + finishTime)
-
-    const currentTeam = {
-        id,
-        name,
-        retos,
-        result,
-        myTeam,
-        participants,
-        latestRetoSuperado,
-        startTime,
-        finishTime
-    };
+    const currentTeam = {id, name, retos, result, myTeam, participants, latestRetoSuperado, startTime, finishTime};
     teamsClean.push(currentTeam);
  } %>
 <script>

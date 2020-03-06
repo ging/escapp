@@ -78,12 +78,11 @@ exports.indexStudent = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/activarTurno
-exports.indexActivarTurno = (req, res, next) => {
+exports.indexActivarTurno = async (req, res, next) => {
     const {escapeRoom} = req;
 
     try {
-        const turnos = models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "order": [["date", "ASC"]]});
-
+        const turnos = await models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "order": [["date", "ASC"]]});
         res.render("turnos/_indexActivarTurno.ejs", {turnos, escapeRoom});
     } catch (e) {
         next(e);

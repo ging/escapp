@@ -29,7 +29,7 @@
             "hints": "Hints",
             "histogram":"Histogram",
             "progress":"Progress",
-            "ranking": "Ranking",
+            "ranking": "Leaderboard",
             "retosSuperados": "Solved puzzles",
             "summary": "Summary",
             "timeline": "Timeline",
@@ -56,7 +56,7 @@
             "res": "Results",
             "team": "Team",
             "time": "Time",
-            "title": "Ranking",
+            "title": "Leaderboard",
             "turno": "Shift"
         },
         "retosSuperados": {
@@ -255,7 +255,7 @@
                 "title": "Team interface"
             },
             "class": {
-                "explanation": "Here you can customize the interface that you'll be able to sreen in the classroom for all students to see. It can include the introductory video, the countdown, the ranking, etc. If students are participating in the escape room remotely, they will never see the class interface, so you can skip this step.",
+                "explanation": "Here you can customize the interface that you'll be able to sreen in the classroom for all students to see. It can include the introductory video, the countdown, the leaderboard, etc. If students are participating in the escape room remotely, they will never see the class interface, so you can skip this step.",
                 "placeholder": "You can choose to project the countdown, an introductory video, etc.",
                 "title": "Classroom interface"
             },
@@ -306,7 +306,13 @@
         "insertURL": "Insert URL",
         "selectFileFromList": "Select file from the list or ",
         "uploadNew": "upload a new one",
-        "selectGamificationElements": "Insert gamification element"
+        "selectGamificationElements": "Insert gamification element",
+        "countdown": "Countdown",
+        "countdownExplanation": "It shows the countdown of the time students have left to complete the escape room",
+        "ranking": "Leaderboard",
+        "rankingExplanation": "It shows the teams ordered by their level of performance",
+        "progress": "Progress bar",
+        "progressExplanation": "It shows the percentage of puzzles a team has completed"
     },
     "hint": {
         "failed": "Oops! Please try again",
@@ -523,6 +529,7 @@
         "addMsg": "Your friends can add to this team when they join the Escape Room",
         "addPlaceHolder": "Write your team's name",
         "back": "back",
+        "choose": "Pick a team ",
         "emptyER": "There aren't any teams yet",
         "emptyTurno": "There aren't any teams in this shift yet",
         "fullTeam": "Complete team. Please choose another team.",
@@ -614,6 +621,8 @@
             "wrongLetterDNI": "Oops! Invalid ID number, letter must match the number combination",
             "notFound": "User not found",
             "ensureRegistered": "An error occurred. Please make sure you've correctly registered in the Escape Room",
+            "emailConfirm":"Please, confirm your e-mail address, by clicking the 'confirm' button below",
+            "emailConfirmButton":"confirmar",
             "emailResetPassword1":"If you are receiving this e-mail is because you reset your password in escapp.",
             "emailResetPassword2":"This is the link to reset your password:"
 
