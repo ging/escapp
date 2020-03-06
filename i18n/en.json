@@ -1,4 +1,5 @@
 {
+    "lang": "en",
     "analytics": {
         "charts": {
             "titles": {
@@ -79,6 +80,19 @@
             "time": "Time",
             "unsolved": "Not solved"
         }
+    },
+    "api": {
+        "unauthorized": "Not authorized",
+        "userNotFound": "User not found",
+        "correct": "Correct answer!",
+        "correctNotActive": "The answer is correct but you are not being tracked because your turn is not active",
+        "correctNotParticipant": "The answer is correct but you are not being tracked because you have not joined this escape room",
+        "message": "Message",
+        "ok": "ok",
+        "forbidden": "Forbidden",
+        "notFound": "Not found",
+        "error": "Error",
+        "wrong": "Wrong answer"
     },
     "common": {
         "back": "back",

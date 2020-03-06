@@ -44,7 +44,7 @@ exports.create = async (req, res, next) => {
 
     try {
         await teamCreated.addTeamMembers(req.session.user.id);
-        req.flash("success", "Equipo creado correctamente.");
+        req.flash("success", req.app.locals.i18n.common.flash.successCreatingTeam);
 
         try {
             const turnos = await req.user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});

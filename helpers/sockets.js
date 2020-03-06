@@ -123,7 +123,7 @@ const solvePuzzle = async (teamId, puzzleId, solution) => {
         if (team) {
             if (sol.toLowerCase().trim() === puzzle.sol.toLowerCase().trim()) {
                 if (team.turno.status !== "active") {
-                    await puzzleResponse(false, puzzleId, "Turno no activo", false, teamId);
+                    await puzzleResponse(false, puzzleId, "Shift not active", false, teamId);
                     await transaction.commit();
                     return;
                 }

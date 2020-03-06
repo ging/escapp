@@ -61,7 +61,7 @@ exports.create = (req, res, next) => {
     // Save into the data base
     user.save({"fields": ["name", "surname", "gender", "username", "dni", "password", "isStudent", "salt"]}).
         then(() => { // Render the users page
-            req.flash("success", "Usuario creado con éxito.");
+            req.flash("success", req.app.locals.i18n.common.flash.successCreatingUser);
             res.redirect(redir ? `/?redir=${redir}` : "/"); // Redirection
         }).
         catch(Sequelize.UniqueConstraintError, (error) => {

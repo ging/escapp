@@ -9,15 +9,14 @@ $(function(){
         $('#continue').css("display", "inline-block");
         
     });
-    var car = $(".owl-carousel").owlCarousel(
-        {  center: false,
-            items:1,
-            loop: false,
-            rewind: true,
-            margin: 10,
-            nav:true,
-            dots:true,
-            checkVisible: false
-        }
-    );
+    var car = $(".owl-carousel").owlCarousel({  
+        center: false,
+        items: 1,
+        loop: false,
+        rewind: true,
+        margin: 10,
+        nav: true,
+        dots: true,
+        checkVisible: false
+    });
 });

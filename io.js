@@ -14,9 +14,11 @@ exports.createServer = (server, sessionMiddleware) => {
         if (socket.request.session && socket.request.session.user) {
             const {userId, teamId, escapeRoomId, turnId, isAdmin, username} = getInfoFromSocket(socket);
             const access = isAdmin ? "ADMIN" : await checkAccess(userId, teamId, escapeRoomId, turnId);
-            const isAuthor = access === "AUTHOR",
-                isStudent = access === "PARTICIPANT";
-
+            
+            /** For future use 
+                const   isAuthor  = access === "AUTHOR",
+                        isStudent = access === "PARTICIPANT";
+            **/
             if (access) {
                 if (teamId) {
                     socket.on(SOLVE_PUZZLE, ({puzzleId, sol}) => solvePuzzle(teamId, puzzleId, sol));

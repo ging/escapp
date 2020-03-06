@@ -515,6 +515,9 @@ button, input[type="submit"] {
             transition: 0.1s all ease-in; }
             #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList li .showMenuButton:hover {
               transform: scale(0.9); }
+  #mainSection .main.escapeRoomShow .flexShow .flexRow .flexShowRight {
+    color: white;
+    font-weight: lighter; }
   #mainSection .main.escapeRoomShow #dialog-preview-video, #mainSection .main.escapeRoomShow #dialog-preview-api {
     padding: 0;
     background-color: white;
@@ -541,7 +544,7 @@ button, input[type="submit"] {
       text-align: left; }
     #mainSection .main.escapeRoomShow #dialog-preview-api pre#sample-fetch {
       color: white;
-      padding: 5px;
+      padding: 15px;
       font-size: 14px;
       font-family: monospace;
       background-color: #656683; }

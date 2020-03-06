@@ -87,7 +87,12 @@ exports.startPlaying = async (req, res) => {
         team.startTime = new Date();
         await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
         await models.participants.update({"attendance": true}, { // Register attendance for self-paced shifts
-            "where": {[Op.and]: [{"turnId": team.turno.id}, {"userId": req.session.user.id}]}
+            "where": {
+                [Op.and]: [
+                    {"turnId": team.turno.id},
+                    {"userId": req.session.user.id}
+                ]
+            }
         });
     }
     res.redirect(`/escapeRooms/${escapeRoom.id}/play`);

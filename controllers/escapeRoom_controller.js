@@ -16,7 +16,7 @@ exports.load = async (req, res, next, escapeRoomId) => {
             req.escapeRoom = escapeRoom;
             next();
         } else {
-            next(new Error("Not found"));
+            next(new Error(req.app.locals.api.notFound));
         }
     } catch (error) {
         res.status(500);
@@ -33,7 +33,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        next(new Error("Forbidden"));
+        next(new Error(req.app.locals.api.forbidden));
     }
 };
 
@@ -55,7 +55,7 @@ exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
             next();
         } else {
             res.status(403);
-            next(new Error("Forbidden"));
+            next(new Error(req.app.locals.api.forbidden));
         }
     } catch (error) {
         next(error);
@@ -356,7 +356,7 @@ exports.destroy = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/join
-exports.studentToken = async (req, res, next) => {
+exports.studentToken = async (req, res) => {
     const {escapeRoom} = req;
 
     const participant = await models.participants.findOne({"where": {

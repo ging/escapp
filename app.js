@@ -39,6 +39,13 @@ app.use(bodyParser.urlencoded({
     "extended": true
 }));
 app.use(cookieParser());
+app.use(i18n({
+    "translationsPath": path.join(__dirname, "i18n"),
+    "siteLangs": ["en", "es"],
+    "defaultLang": "en",
+    "textsVarName": "i18n"
+}));
+
 app.use("/api", api);
 
 // Configuracion de la session para almacenarla en BBDD usando Sequelize.
@@ -63,12 +70,7 @@ app.use(methodOverride("_method", {"methods": [
 ]}));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(i18n({
-    "translationsPath": path.join(__dirname, "i18n"),
-    "siteLangs": ["es"],
-    "defaultLang": "es",
-    "textsVarName": "i18n"
-}));
+
 app.use(partials());
 require("./helpers/locals")(app);
 app.use(flash());
@@ -99,7 +101,9 @@ app.use((req, res, next) => {
 // Error handler. It needs to have all 4 arguments, or else express will not recognize it as an erorr handler
 // eslint-disable-next-line  no-unused-vars
 app.use((err, req, res, next) => {
-    const status = err.status || (app.get("env") === "production" ? res.statusCode : res.statusCode == 200 ? 500 : res.statusCode);
+    // eslint-disable-next-line  eqeqeq
+    const devStatusCode =  res.statusCode == 200 ? 500 : res.statusCode;
+    const status = err.status || (app.get("env") === "production" ? res.statusCode : devStatusCode);
 
     res.status(status);
 

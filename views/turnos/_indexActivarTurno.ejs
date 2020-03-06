@@ -5,7 +5,23 @@
 const monthArray = Object.values(i18n.turnos.months);
 
 const formatDate = function (currentDate) {
-    return `${currentDate.getDate()} de ${monthArray[currentDate.getMonth()]} de ${currentDate.getFullYear()}`;
+    if (i18n.lang === "es") { 
+        return `${currentDate.getDate()} de ${monthArray[currentDate.getMonth()]} de ${currentDate.getFullYear()}`;
+    } else {
+        let ord = "th"
+        console.log()
+        switch(currentDate.getDate().toString()) {
+            case "1": case "21": case "31":
+                ord = "st"; break;
+            case "2": case "22":
+                ord = "nd"; break;
+            case "3": case "23":
+                ord = "rd"; break;
+            default: 
+                ord = "th";
+        }
+        return `${monthArray[currentDate.getMonth()]} ${currentDate.getDate()}${ord}, ${currentDate.getFullYear()}`;    
+    } 
 };
 %>
 <div class="main student" style="display: flex; justify-content: center; align-items: center;">

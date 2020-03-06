@@ -241,15 +241,19 @@
         </tr>
     <% } %>
     </table>
+
     <h4><%=i18n.escapeRoom.api.sample%></h4>
     <pre id="sample-fetch">
-        fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/check", {
-            method: 'POST',
-            body: JSON.stringify({token: "<%= email %>", solution: "<%=puzzle.sol%>"}),
-            headers: {"Content-type": "application/json"}
-        })
-        .then(res => res.json())
-        .then(res => console.log(res));
+fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/check", {
+    "method": "POST",
+    "body": JSON.stringify({token: "<%= email %>", solution: "<%=puzzle.sol%>"}),
+    "headers": {
+        "Content-type": "application/json"<% if (i18n.lang === "es"){%>,
+        "Accept-Language": "es-ES"<%}%>
+    }
+})
+.then(res => res.json())
+.then(res => console.log(res));
     </pre>
 
 </div>

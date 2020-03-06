@@ -55,7 +55,7 @@ exports.deleteResource = function (public_id) {
         const destination = path.join("public", "uploads", public_id); // Delete from local file system.
 
         fs.unlink(destination, function (error) {
-            console.error("Error al borrar el archivo del sistema de ficheros:", error);
+            console.error("Failed to delete file from filesystem", error);
         });
     }
 };
@@ -105,7 +105,7 @@ exports.checksCloudinaryEnv = () => new Promise((resolve, reject) => {
     if (process.env.CLOUDINARY_URL) {
         resolve();
     } else {
-        reject(new Error("La variable de entonrno CLOUDINARY_URL no está definida."));
+        reject(new Error("The CLOUDINARY_URL env variable is not defined."));
     }
 });
 

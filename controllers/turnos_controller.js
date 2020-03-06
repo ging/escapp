@@ -83,6 +83,7 @@ exports.indexActivarTurno = async (req, res, next) => {
 
     try {
         const turnos = await models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "order": [["date", "ASC"]]});
+
         res.render("turnos/_indexActivarTurno.ejs", {turnos, escapeRoom});
     } catch (e) {
         next(e);
@@ -144,7 +145,7 @@ exports.create = (req, res, next) => {
 
     turn.save().
         then(() => {
-            req.flash("success", "Turno creado correctamente.");
+            req.flash("success", req.app.locals.i18n.common.flash.successCreatingTurno);
             res.redirect(back);
         }).
         catch(Sequelize.ValidationError, (error) => {

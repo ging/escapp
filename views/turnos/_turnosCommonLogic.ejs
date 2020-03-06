@@ -5,6 +5,8 @@ const monthArray = JSON.parse('<%-JSON.stringify(Object.values(i18n.turnos.month
 const dayArray =  JSON.parse('<%-JSON.stringify(Object.values(i18n.turnos.days))%>');
 
 const formatDate = (currentDate) => `${currentDate.getDate()} ${monthArray[currentDate.getMonth()]}`; // + " de " + currentDate.getFullYear();
+
+
 const getDashDate = function(currentDate) {
     return currentDate.getDate() + "-" + currentDate.getMonth() + "-" + currentDate.getFullYear();
 }
