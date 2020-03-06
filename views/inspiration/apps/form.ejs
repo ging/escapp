@@ -1,33 +1,3 @@
-<script src="https://unpkg.com/react@16.13.0/umd/react.production.min.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js" crossorigin></script>
-<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-<script type="text/babel" src="/apps/common/authoring.js"></script>
-
 <% include ../../partials/_header.ejs %>
-<script src="/js/vendor/FileSaver.js"></script>
-<script src="/js/vendor/jszip.min.js"></script>
-<script src="/js/vendor/jszip-utils.min.js"></script>
-<!-- Nota: cuando se despliegue, reemplazar "development.js" con "production.min.js". -->
+<%- include(app.key + "/form") %>
 
-
-<!-- Cargamos nuestro componente de React. -->
-<script>
-	$(()=>{
-		const domContainer = document.querySelector('#root');
-		ReactDOM.render(App, root);
-	})
-</script>
-<% include(app.key + "/form") %>
-
-<div class="main appForm">
-	<div id="root">
-	</div>
-</div>
-<% include ../../partials/_footer %>
-<script>
-	$(()=>{
-		console.log(App)
-		const domContainer = document.querySelector('#root');
-		ReactDOM.render(App, root);
-	})
-</script>

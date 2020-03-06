@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest identifier="RescormBoilerplate" version="1.0" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+    <lom xmlns="http://ltsc.ieee.org/xsd/LOM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ltsc.ieee.org/xsd/LOM lom.xsd">
+      <general>
+        <title>
+          <string language="es">RescormBoilerplate</string>
+        </title>
+        <language>es</language>
+      </general>
+      <technical>
+        <format>text/html</format>
+        <requirement>
+          <orComposite>
+            <type>
+              <source>LOMv1.0</source>
+              <value>browser</value>
+            </type>
+            <name>
+              <source>LOMv1.0</source>
+              <value>any</value>
+            </name>
+          </orComposite>
+        </requirement>
+        <otherPlatformRequirements>
+          <string language="en">HTML5-compliant web browser</string>
+        </otherPlatformRequirements>
+      </technical>
+      <educational>
+        <interactivityType>
+          <source>LOMv1.0</source>
+          <value>active</value>
+        </interactivityType>
+        <interactivityLevel>
+          <source>LOMv1.0</source>
+          <value>very high</value>
+        </interactivityLevel>
+        <intendedEndUserRole>
+          <source>LOMv1.0</source>
+          <value>learner</value>
+        </intendedEndUserRole>
+        <context>
+          <source>LOMv1.0</source>
+          <value>school</value>
+        </context>
+        <language>es</language>
+      </educational>
+      <rights>
+        <cost>
+          <source>LOMv1.0</source>
+          <value>no</value>
+        </cost>
+        <copyrightAndOtherRestrictions>
+          <source>LOMv1.0</source>
+          <value>License: 'Creative Commons Attribution-Non commercial'</value>
+        </copyrightAndOtherRestrictions>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations default="defaultOrganization">
+    <organization identifier="defaultOrganization">
+      <title>RescormBoilerplate</title>
+      <item identifier="RescormBoilerplate" isvisible="true" identifierref="RescormBoilerplate_resource">
+        <title>RescormBoilerplate</title>
+        <adlcp:masteryscore>50</adlcp:masteryscore>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RescormBoilerplate_resource" type="webcontent" href="index.html" adlcp:scormtype="sco">
+      <file href="index.html" />
+    </resource>
+  </resources>
+</manifest>
