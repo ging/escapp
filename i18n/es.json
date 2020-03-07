@@ -83,6 +83,7 @@
         "correct": "Respuesta correcta!",
         "correctNotActive": "La respuesta es correcta pero no se ha registrado puesto que tu turno no está activo",
         "correctNotParticipant": "La respuesta es correcta pero no se ha registrado puesto que no te has registrado en esta escape room",
+        "correctTooLate": "La respuesta es correcta pero se ha acabado el tiempo",
         "message": "Mensaje",
         "ok": "ok",
         "notFound": "No encontrado",
@@ -210,6 +211,7 @@
             "edit": {
                 "descriptionPlaceHolder": "Escribe la descripción de tu Escape Room. Esta será la información que se les presentará a los alumnos",
                 "durationPlaceHolder": "¿Cual es el tiempo máximo del que disponen los alumnos?",
+                "forbiddenLateSubmissionsPlaceHolder": "No permitir resolver retos al acabarse la cuenta atrás",
                 "nmaxPlaceHolder": "¿Cuántos participantes puede haber en cada turno?",
                 "noFileUploaded": "No has subido ningún fichero",
                 "noImageUploaded": "No has subido ninguna imagen",

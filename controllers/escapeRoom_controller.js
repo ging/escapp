@@ -125,13 +125,13 @@ exports.new = (req, res) => {
 
 // POST /escapeRooms/create
 exports.create = (req, res, next) => {
-    const {title, subject, duration, description, nmax, teamSize} = req.body,
+    const {title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize} = req.body,
 
         authorId = req.session.user && req.session.user.id || 0,
 
-        escapeRoom = models.escapeRoom.build({title, subject, duration, description, nmax, teamSize, authorId}); // Saves only the fields question and answer into the DDBB
+        escapeRoom = models.escapeRoom.build({title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize, authorId}); // Saves only the fields question and answer into the DDBB
 
-    escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "nmax", "teamSize", "authorId", "invitation"]}).
+    escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "invitation"]}).
         then((er) => {
             req.flash("success", req.app.locals.i18n.common.flash.successCreatingER);
             if (!req.file) {
@@ -185,12 +185,13 @@ exports.update = (req, res, next) => {
     escapeRoom.title = body.title;
     escapeRoom.subject = body.subject;
     escapeRoom.duration = body.duration;
+    escapeRoom.forbiddenLateSubmissions = body.forbiddenLateSubmissions === "on";
     escapeRoom.description = body.description;
     escapeRoom.nmax = body.nmax;
     escapeRoom.teamSize = body.teamSize;
     const progressBar = body.progress;
 
-    escapeRoom.save({"fields": ["title", "subject", "duration", "description", "nmax", "teamSize"]}).
+    escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "nmax", "teamSize"]}).
         then((er) => {
             if (body.keepAttachment === "0") {
                 // There is no attachment: Delete old attachment.

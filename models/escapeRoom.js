@@ -29,6 +29,7 @@ module.exports = function (sequelize, DataTypes) {
         "numQuestions": {"type": DataTypes.INTEGER},
         "numRight": {"type": DataTypes.INTEGER},
         "feedback": {"type": DataTypes.BOOLEAN},
+        "forbiddenLateSubmissions": {"type": DataTypes.BOOLEAN, "defaultValue": true},
         "classInstructions": {"type": DataTypes.TEXT},
         "teamInstructions": {"type": DataTypes.TEXT},
         "scoreParticipation": {"type": DataTypes.FLOAT,
@@ -40,5 +41,3 @@ module.exports = function (sequelize, DataTypes) {
             "defaultValue": 0.0}}
     );
 };
-
-

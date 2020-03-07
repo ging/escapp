@@ -460,6 +460,8 @@ button, input[type="submit"] {
       font-family: Lato, sans-serif;
       font-weight: normal;
       padding-left: 5px; }
+      #mainSection .main .basicConfig .erFormField .customInput:active, #mainSection .main .basicConfig .erFormField .customInput:focus {
+        font-family: Lato, sans-serif !important; }
       #mainSection .main .basicConfig .erFormField .customInput .fileUploadButton {
         background-color: transparent;
         color: white;
@@ -2836,9 +2838,9 @@ html {
       html body input:-webkit-autofill, html body select:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 30px #232951 inset !important;
         -webkit-text-fill-color: #656683 !important;
-        font-family: Gugi; }
+        font-family: inherit !important; }
       html body input:focus, html body input:active, html body input:-webkit-autofill:focus, html body input:-webkit-autofill:active, html body select:focus, html body select:active, html body select:-webkit-autofill:focus, html body select:-webkit-autofill:active {
-        font-family: Gugi !important;
+        font-family: inherit !important;
         background-color: #232951;
         color: white;
         -webkit-text-fill-color: white !important;

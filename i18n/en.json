@@ -87,6 +87,7 @@
         "correct": "Correct answer!",
         "correctNotActive": "The answer is correct but you are not being tracked because your turn is not active",
         "correctNotParticipant": "The answer is correct but you are not being tracked because you have not joined this escape room",
+        "correctTooLate": "The answer is correct but the time is up",
         "message": "Message",
         "ok": "ok",
         "forbidden": "Forbidden",
@@ -214,6 +215,7 @@
             "edit": {
                 "descriptionPlaceHolder": "Write the Escape Room's description here. This information will be given to your students",
                 "durationPlaceHolder": "¿What time do students have to complete de Escape Room?",
+                "forbiddenLateSubmissionsPlaceHolder": "Do not allow to solve puzzles once the time is up",
                 "nmaxPlaceHolder": "How many participants will have each shift?",
                 "noFileUploaded": "Any files have been uploaded yet",
                 "noImageUploaded": "Any pictures have been uploaded yet",

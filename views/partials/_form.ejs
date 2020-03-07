@@ -44,6 +44,12 @@
         <label for="<%=field.id%>"  class="itemNarrow"><%=parseInt(f)+1%>. <%=i18n.showTeacher.titles[field.i18n]%>:</label>
         <input autofocus type="<%=field.number ? "number" : "text"%>" min="1" class="customInput itemWide" id="<%= field.id %>" name="<%= field.name %>" value="<%= field.value %>"
                placeholder="<%=i18n.escapeRoom.steps.edit[field.i18n + "PlaceHolder"]%>" autocomplete="off"/>
+              <% if (field.name === "duration") { %> 
+                <p class="explanation">
+                <input class="customCheckbox" type="checkbox" name="forbiddenLateSubmissions" <%= escapeRoom.forbiddenLateSubmissions ? "checked" : "" %> />
+                <%=i18n.escapeRoom.steps.edit.forbiddenLateSubmissionsPlaceHolder%>
+                </p>
+              <% } %>
     </div>
 <%}%>
 

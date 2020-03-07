@@ -29,31 +29,42 @@ exports.check = async (req, res) => {
             {
                 "model": models.turno,
                 "required": true,
-                "where": {"escapeRoomId": req.escapeRoom.id} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
+                "where": {"escapeRoomId": req.escapeRoom.id}, // Aquí habrá que añadir las condiciones de si el turno está activo, etc
+                "include": [{
+                    "model": models.escapeRoom,
+                    "attributes": ["duration", "forbiddenLateSubmissions"] // forbiddenLateSubmissions // Falta pasar a sockets.js
+                }]
             }
         ]
 
     });
 
-    if (answer.toString().toLowerCase().
-        trim() === puzzleSol.toString().toLowerCase().
-        trim()) {
+    if (answer.toString().toLowerCase().trim() === puzzleSol.toString().toLowerCase().trim()) {
         if (team && team.length > 0) {
             if (team[0].turno.status !== "active") {
                 res.status(202).json({"msg": `${i18n.api.correctNotActive}. ${req.puzzle.correct ? `${i18n.api.message}: ${req.puzzle.correct}` : ""}`});
                 return;
             }
-            try {
-                const msg = req.puzzle.correct || i18n.api.correct;
+            const duration = team[0].turno.escapeRoom.duration;
+            const startTime = team[0].turno.startTime || team[0].startTime;
+            const tooLate = team[0].turno.escapeRoom.forbiddenLateSubmissions && (new Date((startTime).getTime() + duration*60000) < new Date());
+            if (tooLate) {
+                res.status(202).json({"msg": `${i18n.api.correctTooLate}. ${req.puzzle.correct ? `${i18n.api.message}: ${req.puzzle.correct}` : ""}`});
 
-                await req.puzzle.addSuperados(team[0].id);
-                await puzzleResponse(true, req.puzzle.id, msg, true, team[0].id);
-                await broadcastRanking(team[0].id, req.puzzle.id, new Date(), team[0].turno.id);
+            } else {
+                try {
+                    const msg = req.puzzle.correct || i18n.api.correct;
 
-                res.json({msg});
-            } catch (e) {
-                res.status(500).json({"msg": e});
+                    await req.puzzle.addSuperados(team[0].id);
+                    await puzzleResponse(true, req.puzzle.id, msg, true, team[0].id);
+                    await broadcastRanking(team[0].id, req.puzzle.id, new Date(), team[0].turno.id);
+
+                    res.json({msg});
+                } catch (e) {
+                    res.status(500).json({"msg": e});
+                }
             }
+           
         } else {
             res.status(202).json({"msg": `${i18n.api.correctNotParticipant}. ${req.puzzle.correct ? `${i18n.api.message}: ${req.puzzle.correct}` : ""}`});
         }

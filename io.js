@@ -12,28 +12,28 @@ exports.createServer = (server, sessionMiddleware) => {
     // TODO Discover what happens when server disconnects. Reconnection same socket id?
     io.on("connection", async (socket) => {
         if (socket.request.session && socket.request.session.user) {
-            const {userId, teamId, escapeRoomId, turnId, isAdmin, username} = getInfoFromSocket(socket);
-            const access = isAdmin ? "ADMIN" : await checkAccess(userId, teamId, escapeRoomId, turnId);
-            
+            const {userId, teamId, escapeRoomId, turnId, isAdmin, username, lang} = getInfoFromSocket(socket);
+            const i18n = require("./i18n/"+lang);
+            const access = isAdmin ? "ADMIN" : await checkAccess(userId, teamId, escapeRoomId, turnId, i18n);
             /** For future use 
                 const   isAuthor  = access === "AUTHOR",
                         isStudent = access === "PARTICIPANT";
             **/
             if (access) {
                 if (teamId) {
-                    socket.on(SOLVE_PUZZLE, ({puzzleId, sol}) => solvePuzzle(teamId, puzzleId, sol));
-                    socket.on(REQUEST_HINT, ({status, score}) => requestHint(teamId, status, score));
+                    socket.on(SOLVE_PUZZLE, ({puzzleId, sol}) => solvePuzzle(escapeRoomId, teamId, puzzleId, sol, i18n));
+                    socket.on(REQUEST_HINT, ({status, score}) => requestHint(teamId, status, score, i18n));
                     await join(teamId, username);
                     socket.join(`teamId_${teamId}`);
                 }
                 if (turnId) {
                     socket.join(`turnId_${turnId}`);
                     if (teamId) {
-                        await sendInitialRanking(socket.id, userId, teamId, escapeRoomId, turnId);
+                        await sendInitialRanking(socket.id, userId, teamId, escapeRoomId, turnId, i18n);
                     }
                 }
             } else {
-                await revokeAccess(socket.id);
+                await revokeAccess(socket.id, i18n);
             }
         }
     });
