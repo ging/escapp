@@ -21,7 +21,7 @@ module.exports = {
             const er = JSON.parse(JSON.stringify(ert));
             const {automatic} = er;
 
-            console.log(automatic)(er.puzzles || []).map(({id}) => promises.push(models.puzzle.update({automatic}, {"where": {id}})));
+            (er.puzzles || []).map(({id}) => promises.push(models.puzzle.update({automatic}, {"where": {id}})));
         }
         await Promise.all(promises);
         await queryInterface.removeColumn("escapeRooms", "automatic", Sequelize.BOOLEAN);
