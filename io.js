@@ -13,12 +13,14 @@ exports.createServer = (server, sessionMiddleware) => {
     io.on("connection", async (socket) => {
         if (socket.request.session && socket.request.session.user) {
             const {userId, teamId, escapeRoomId, turnId, isAdmin, username, lang} = getInfoFromSocket(socket);
-            const i18n = require("./i18n/"+lang);
+            // eslint-disable-next-line global-require
+            const i18n = require(`./i18n/${lang}`);
             const access = isAdmin ? "ADMIN" : await checkAccess(userId, teamId, escapeRoomId, turnId, i18n);
-            /** For future use 
+            /** For future use
                 const   isAuthor  = access === "AUTHOR",
                         isStudent = access === "PARTICIPANT";
             **/
+
             if (access) {
                 if (teamId) {
                     socket.on(SOLVE_PUZZLE, ({puzzleId, sol}) => solvePuzzle(escapeRoomId, teamId, puzzleId, sol, i18n));

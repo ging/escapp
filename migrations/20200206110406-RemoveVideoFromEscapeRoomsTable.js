@@ -2,7 +2,7 @@ const {models} = require("../models");
 
 module.exports = {
 
-    "up": async (queryInterface) => { 
+    "up": async (queryInterface) => {
         const ers = await models.escapeRoom.findAll({"attributes": ["id", "classInstructions", "video"]});
         const promises = [];
 

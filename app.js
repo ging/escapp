@@ -102,7 +102,7 @@ app.use((req, res, next) => {
 // eslint-disable-next-line  no-unused-vars
 app.use((err, req, res, next) => {
     // eslint-disable-next-line  eqeqeq
-    const devStatusCode =  res.statusCode == 200 ? 500 : res.statusCode;
+    const devStatusCode = res.statusCode == 200 ? 500 : res.statusCode;
     const status = err.status || (app.get("env") === "production" ? res.statusCode : devStatusCode);
 
     res.status(status);

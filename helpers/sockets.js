@@ -2,7 +2,7 @@ const sequelize = require("../models");
 const queries = require("../queries");
 const {models} = sequelize;
 const {calculateNextHint} = require("./hint");
-const {getRetosSuperados} = require("../helpers/utils");
+const {getRetosSuperados, isTooLate} = require("../helpers/utils");
 
 /** Server-client**/
 
@@ -21,7 +21,7 @@ const JOIN = "JOIN";
 const getInfoFromSocket = ({request, handshake}) => {
     const userId = request.session.user.id;
     const teamId = parseInt(handshake.query.team, 10) || undefined;
-    const lang = (handshake.headers['accept-language'] && handshake.headers['accept-language'].substring(0, 2)) === "es" ? "es" : "en";
+    const lang = (handshake.headers["accept-language"] && handshake.headers["accept-language"].substring(0, 2)) === "es" ? "es" : "en";
     const escapeRoomId = parseInt(handshake.query.escapeRoom, 10) || undefined;
     const turnId = parseInt(handshake.query.turn, 10) || undefined;
     const {username} = request.session.user;
@@ -117,31 +117,34 @@ const solvePuzzle = async (escapeRoomId, teamId, puzzleId, solution, i18n) => {
 
     try {
         const puzzle = await models.puzzle.findByPk(puzzleId, {transaction});
-        const team = await models.team.findByPk(teamId, {
-            "include": [{
+        const team = await models.team.findByPk(teamId, {"include": [
+            {
                 "model": models.turno,
                 "required": true,
-                "where": {"escapeRoomId": escapeRoomId}, // Aquí habrá que añadir las condiciones de si el turno está activo, etc
-                "include": [{
-                    "model": models.escapeRoom,
-                    "attributes": ["duration", "forbiddenLateSubmissions"] // forbiddenLateSubmissions // Falta pasar a sockets.js
-                }]
-            }]}, {transaction});
+                "where": {escapeRoomId}, // Aquí habrá que añadir las condiciones de si el turno está activo, etc
+                "include": [
+                    {
+                        "model": models.escapeRoom,
+                        "attributes": ["duration", "forbiddenLateSubmissions"] // ForbiddenLateSubmissions // Falta pasar a sockets.js
+                    }
+                ]
+            }
+        ]}, {transaction});
 
-        
+
         if (sol.toLowerCase().trim() === puzzle.sol.toLowerCase().trim()) {
             if (team) {
                 if (team.turno.status !== "active") {
-                    const msg =  `${i18n.api.correctNotActive}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
+                    const msg = `${i18n.api.correctNotActive}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
+
                     await puzzleResponse(false, puzzleId, msg, false, teamId);
                     await transaction.commit();
                     return;
                 }
-                const duration = team.turno.escapeRoom.duration;
-                const startTime = team.turno.startTime || team.startTime;
-                const tooLate = team.turno.escapeRoom.forbiddenLateSubmissions && (new Date((startTime).getTime() + duration*60000) < new Date());
-                if (tooLate) {
+
+                if (isTooLate(team)) {
                     const msg = `${i18n.api.correctTooLate}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
+
                     await puzzleResponse(false, puzzleId, msg, false, teamId);
                 } else {
                     await puzzle.addSuperados(team.id, {transaction});
@@ -149,9 +152,9 @@ const solvePuzzle = async (escapeRoomId, teamId, puzzleId, solution, i18n) => {
                     await broadcastRanking(team.id, puzzleId, new Date(), team.turno.id);
                 }
             } else {
-                const msg =  `${i18n.api.correctNotParticipant}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
-                await puzzleResponse(false, puzzleId, msg, false, teamId);
+                const msg = `${i18n.api.correctNotParticipant}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
 
+                await puzzleResponse(false, puzzleId, msg, false, teamId);
             }
         } else {
             await puzzleResponse(false, puzzleId, puzzle.fail || i18n.api.wrong, false, teamId);
