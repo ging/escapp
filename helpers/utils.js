@@ -199,7 +199,7 @@ exports.playInterface = async (name, req, res, next) => {
 
 exports.isTooLate = (team) => {
     const {duration} = team.turno.escapeRoom;
-    const startTime = team.turno.startTime || team[0].startTime;
+    const startTime = team.turno.startTime || team.startTime;
 
     return team.turno.escapeRoom.forbiddenLateSubmissions && new Date(startTime.getTime() + duration * 60000) < new Date();
 };

@@ -32,7 +32,7 @@
 			  <tr>
 					<td><label for="score-puzzle-<%=puzzle.id%>"><%= puzzle.title %></label></td>
 				  	<td>
-						<input type="number" min="0" max="100" step="any" value="<%= puzzle.score || 0 %>" name="scores" class="customInput scoreInput" id="score-puzzle-<%=puzzle.id%>"/>
+						<input type="number" min="0" max="100" step="any" value="<%= puzzle.score || 0 %>" name="scores[]" class="customInput scoreInput" id="score-puzzle-<%=puzzle.id%>"/>
 						<% totalScore += puzzle.score || 0 %>
 					</td>
 			  </tr>

@@ -279,8 +279,9 @@ exports.evaluationUpdate = async (req, res, next) => {
     escapeRoom.hintFailed = body.hintFailed;
     try {
         await escapeRoom.save({"fields": ["survey", "pretest", "posttest", "scoreParticipation", "hintSuccess", "hintFailed"]});
+        console.log(body.scores)
         if (!body.scores || body.scores.length !== escapeRoom.puzzles.length) {
-            return;
+            throw new Error("");
         }
         const promises = [];
 

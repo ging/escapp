@@ -142,6 +142,7 @@ const solvePuzzle = async (escapeRoomId, teamId, puzzleId, solution, i18n) => {
                     return;
                 }
 
+                console.log(isTooLate(team))
                 if (isTooLate(team)) {
                     const msg = `${i18n.api.correctTooLate}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
 
