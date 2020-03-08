@@ -319,11 +319,12 @@ button, input[type="submit"] {
     border-radius: 50%;
     color: black; }
 
-#mainSection .main .align-right.flex-buttons #previous {
-  order: 1; }
-
-#mainSection .main .align-right.flex-buttons #next {
-  order: 2; }
+#mainSection .main .align-right.flex-buttons {
+  flex-wrap: wrap; }
+  #mainSection .main .align-right.flex-buttons #previous {
+    order: 1; }
+  #mainSection .main .align-right.flex-buttons #next {
+    order: 2; }
 
 #mainSection .main .intro-paragraph {
   font-family: 'Lato', sans-serif;
@@ -380,7 +381,8 @@ button, input[type="submit"] {
 #mainSection .main .progress-buttons {
   border-radius: 25px;
   padding: 10px 20px;
-  margin-right: 5px; }
+  margin-right: 5px;
+  margin-bottom: 5px; }
   #mainSection .main .progress-buttons#exit {
     border: 2px solid white;
     background-color: transparent;
@@ -582,6 +584,10 @@ button, input[type="submit"] {
       border-left: none; }
       #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList {
         padding: 0px; } }
+
+@media (max-width: 992px) {
+  .smallHidden {
+    display: none !important; } }
 
 .escapeRooms .flexBoxEscapeRooms {
   display: flex;
@@ -2318,7 +2324,13 @@ button, input[type="submit"] {
   .finish .ranking-table * {
     font-size: 12px; }
   .finish .ranking-table .ranking-members {
-    display: none; } }
+    display: none; }
+  .showStudent .flex {
+    flex-direction: column; }
+    .showStudent .flex .flex-thumb {
+      width: 100%; }
+    .showStudent .flex .flex-er-info {
+      padding: 0px; } }
 
 .timeline {
   overflow: hidden; }

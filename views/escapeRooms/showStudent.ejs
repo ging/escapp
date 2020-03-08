@@ -18,10 +18,11 @@
 				<h4 class="animated slideInUp">
 					<b><%=i18n.team.Team%>:</b> <%=participant.teamsAgregados[0].name%>
 				</h4>
+			
+				<h5 class="animated slideInUp">
+					<%=participant.teamsAgregados[0].teamMembers.map(m=>m.name + " " + m.surname).join(", ")%>
+				</h5>
 			<% } %>
-			<h5 class="animated slideInUp">
-				<%=participant.teamsAgregados[0].teamMembers.map(m=>m.name + " " + m.surname).join(", ")%>
-			</h5>
 		</div>
 	</div>
 	<% if (turno.indications) { %> 

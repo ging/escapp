@@ -41,13 +41,13 @@
                         <ul id="hintList" >
                         <% for (var hint of hints) {
                             if (hint) {%>
-                                <li>
-                                    <div class="card border-info mb-3">
-                                        <div class="card-body">
-                                            <div class="card-text"><%=hint.hint ? hint.hint.content : i18n.hint.empty%></div>
-                                        </div>
+                            <li>
+                                <div class="card border-info mb-3">
+                                    <div class="card-body">
+                                        <div class="card-text"><%=hint.hint ? hint.hint.content : i18n.hint.empty%></div>
                                     </div>
-                                </li>
+                                </div>
+                            </li>
                             <% }
                         } %>
                         </ul>
