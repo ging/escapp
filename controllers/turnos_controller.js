@@ -165,12 +165,14 @@ exports.destroy = async (req, res, next) => {
     const transaction = await sequelize.transaction();
 
     try {
-        await req.turn.destroy({}, {transaction});
         const back = `/escapeRooms/${req.params.escapeRoomId}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
 
-        await models.team.destroy({"where": {"id": teams}}, {transaction});
+        await req.turn.destroy({}, {transaction});
+
         await models.participants.destroy({"where": {"turnId": req.turn.id}}, {transaction});
-        await models.members.destroy({"where": {"teamId": teams}}, {transaction});
+        await models.retosSuperados.destroy({"where": {"teamId": {[Sequelize.Op.in]: teams}}}, {transaction});
+        await models.members.destroy({"where": {"teamId": {[Sequelize.Op.in]: teams}}}, {transaction});
+        await req.turn.removeTeams({}, {transaction});
         await transaction.commit();
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingTurno);
         res.redirect(back);

@@ -491,6 +491,16 @@ button, input[type="submit"] {
       padding-left: 30px;
       font-family: 'Lato', sans-serif; }
 
+#mainSection .main .note {
+  font-size: 16px;
+  color: #656683;
+  font-family: 'Lato', sans-serif;
+  padding-left: 68px;
+  text-align: left;
+  margin-top: -40px; }
+  #mainSection .main .note input {
+    vertical-align: middle; }
+
 #mainSection .main.escapeRoomShow {
   background: none; }
   #mainSection .main.escapeRoomShow .menuERShow {

@@ -177,7 +177,7 @@ exports.ranking = async (req, res, next) => {
             console.log("lrs", team.latestretosuperado);
 
             const count = team.countretos;
-            const startTime = team.turno.startTime || team.startTime;
+            const startTime = team.turno.FstartTime || team.startTime;
 
             const latestRetoSuperado = team.latestretosuperado;
             const result = `${count}/${escapeRoom.puzzles.length}`;

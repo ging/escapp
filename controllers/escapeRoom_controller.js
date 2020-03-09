@@ -164,11 +164,11 @@ exports.create = (req, res, next) => {
         }).
         catch(Sequelize.ValidationError, (error) => {
             error.errors.forEach(({message}) => req.flash("error", message));
-            res.render("escapeRooms/new", {escapeRoom});
+            res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
         }).
         catch((error) => {
             req.flash("error", `${req.app.locals.i18n.common.flash.errorCreatingER}: ${error.message}`);
-            next(error);
+            res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
         });
 };
 
@@ -279,7 +279,6 @@ exports.evaluationUpdate = async (req, res, next) => {
     escapeRoom.hintFailed = body.hintFailed;
     try {
         await escapeRoom.save({"fields": ["survey", "pretest", "posttest", "scoreParticipation", "hintSuccess", "hintFailed"]});
-        console.log(body.scores)
         if (!body.scores || body.scores.length !== escapeRoom.puzzles.length) {
             throw new Error("");
         }
@@ -346,7 +345,6 @@ exports.destroy = async (req, res, next) => {
         await models.participants.destroy({"where": {"turnId": {[Sequelize.Op.in]: turnos}}}, {transaction});
         await models.retosSuperados.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
         await models.members.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
-        await models.requestedHint.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
         await transaction.commit();
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingER);
         res.redirect("/escapeRooms");
