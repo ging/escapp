@@ -22,7 +22,7 @@
 	    	                // if (turno.<status !== "pending" ) {
 							%>
 	    	                <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
-	    	                    <%= getFullDate(turno.date)%>
+	    	                    <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
 	    	                </option>
 	    	                <% // }
 	    	            } %>
@@ -58,12 +58,13 @@
 						startTime,
 						latestRetoSuperado,
 						finishTime,
+						turno,
 						result } = team;
 			    	%>
 				    <tr>
 				    	<td><b><%=team.name%></b></td>
 				    	<td><%= team.teamMembers.map(member=> member.name + " " + member.surname).join(", ") %></td>
-				    	<td><%=getFullDate(team.turno.date)%></td>
+				    	<td><%=turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%></td>
 				    	<td><%=result%></td>
 				    	<td><%=finishTime ? secondsToDhms(finishTime) : "--" %></td>
 

@@ -20,14 +20,11 @@ exports.load = async (req, res, next, resourceId) => {
 };
 
 // GET /inspiration
-exports.showGuide = (req, res) => {
-    res.render("inspiration/inspiration");
-};
+exports.showGuide = (req, res) => res.render("inspiration/inspiration");
+
 
 // GET /resources
-exports.showResources = (req, res) => {
-    res.render("inspiration/resources");
-};
+exports.showResources = (req, res) => res.render("inspiration/resources");
 
 // GET /resources/my
 exports.index = async (req, res, next) => {
@@ -36,7 +33,6 @@ exports.index = async (req, res, next) => {
 
 // GET /resources/:appId/new
 exports.new = async (req, res, next) => {
-    console.log(req.resourceApp);
     res.render("inspiration/apps/form", {"app": req.resourceApp});
 };
 

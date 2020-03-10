@@ -2,7 +2,6 @@ const path = require("path");
 
 // Load ORM
 const Sequelize = require("sequelize");
-
 const url = process.env.DATABASE_URL || "sqlite:escapeRoom.sqlite";
 
 const sequelize = new Sequelize(url);// Import the definition of the Escape Room Table from escapeRoom.js
@@ -88,65 +87,85 @@ escapeRoom.belongsTo(user, {"as": "author",
 turno.belongsToMany(user, {"as": "students",
     "through": "participants",
     "foreignKey": "turnId",
+    "ondelete": "CASCADE",
     "otherKey": "userId"});
 
-user.belongsToMany(turno, {"as": "turnosAgregados",
+user.belongsToMany(turno, {
+    "as": "turnosAgregados",
     "through": "participants",
+    "ondelete": "CASCADE",
     "foreignKey": "userId",
-    "otherKey": "turnId"});
+    "otherKey": "turnId"
+});
 
 
 // Relation N-to-M between Team and User:
 //    A User belongs to many teams.
 //    A team has many members (the users who have added it as member)
-team.belongsToMany(user, {"as": "teamMembers",
+team.belongsToMany(user, {
+    "as": "teamMembers",
     "through": "members",
     "foreignKey": "teamId",
     "onDelete": "CASCADE",
-    "otherKey": "userId"});
+    "otherKey": "userId"
+});
 
-user.belongsToMany(team, {"as": "teamsAgregados",
+user.belongsToMany(team, {
+    "as": "teamsAgregados",
     "through": "members",
     "foreignKey": "userId",
     "onDelete": "CASCADE",
-    "otherKey": "teamId"});
-
+    "otherKey": "teamId"
+});
 
 // Relation 1-to-N between Turno and Team:
 team.belongsTo(turno);
-turno.hasMany(team, {"onDelete": "CASCADE",
-    "hooks": true});
+turno.hasMany(team, {
+    "onDelete": "CASCADE",
+    "hooks": true
+});
 
 // Relation 1-to-1 between Escape Room and HintApp:
 hintApp.belongsTo(escapeRoom);
-escapeRoom.hasOne(hintApp, {"onDelete": "CASCADE",
-    "hooks": true});
-
+escapeRoom.hasOne(hintApp, {
+    "onDelete": "CASCADE",
+    "hooks": true
+});
 
 // Relation N-to-M between Team and Puzzle:
-team.belongsToMany(puzzle, {"as": "retos",
+team.belongsToMany(puzzle, {
+    "as": "retos",
     "through": "retosSuperados",
     "foreignKey": "teamId",
-    "otherKey": "puzzleId"});
-
+    "onDelete": "CASCADE",
+    "otherKey": "puzzleId"
+});
 
 puzzle.belongsToMany(team, {"as": "superados",
     "through": "retosSuperados",
     "foreignKey": "puzzleId",
+    "onDelete": "CASCADE",
     "otherKey": "teamId"});
 
 // Relation N-to-M between Team and Hint:
-requestedHint.belongsTo(hint, {"onDelete": "CASCADE",
-    "hooks": true});
+requestedHint.belongsTo(hint, {});
 
-requestedHint.belongsTo(team, {"onDelete": "CASCADE",
-    "hooks": true});
+requestedHint.belongsTo(team, {});
 
-team.hasMany(requestedHint, {"onDelete": "CASCADE",
-    "hooks": true});
+team.hasMany(requestedHint, {
+    "onDelete": "CASCADE",
+    "hooks": true
+});
 
-escapeRoom.hasMany(asset, {"onDelete": "CASCADE",
-    "hooks": true});
+hint.hasMany(requestedHint, {
+    "onDelete": "CASCADE",
+    "hooks": true
+});
+
+escapeRoom.hasMany(asset, {
+    "onDelete": "CASCADE",
+    "hooks": true
+});
 
 asset.belongsTo(escapeRoom);
 

@@ -20,12 +20,12 @@
                     <% for (t in escapeRoom.turnos) { %>
                     <% var turno = escapeRoom.turnos[t] %>
                     <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
-                        <%= getFullDate(turno.date)%>
+                        <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
                     </option>
                     <% } %>
                 </select>
             </label>
-            <label for="orderBy">Ordenar por
+            <label for="orderBy"><%=i18n.common.orderBy%>
                 <select name="orderBy" id="orderBy">
                     <option value="" <%= !orderBy ? "selected": ""%>  disabled></option>
                     <option value="name" <%= orderBy === "name" ? "selected": ""%>><%=i18n.user.name%></option>

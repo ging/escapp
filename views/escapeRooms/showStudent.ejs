@@ -1,3 +1,4 @@
+<% const turno = participant.teamsAgregados[0].turno%>
 <% include ../partials/_header.ejs %>
 
 <div class="main showStudent">
@@ -11,21 +12,25 @@
 				<%=escapeRoom.title%>
 			</h2>
 			<h3 class="animated slideInUp">
-				<b>Turno:</b> <%=getFullDate(participant.teamsAgregados[0].turno.date)%>
+				<b><%=i18n.turnos.Turno%>:</b> <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
 			</h3>
-			<h4 class="animated slideInUp">
-				<b>Equipo:</b> <%=participant.teamsAgregados[0].name%>
-			</h4>
-			<h5 class="animated slideInUp">
-				<%=participant.teamsAgregados[0].teamMembers.map(m=>m.name + " " + m.surname).join(", ")%>
-			</h5>
+			<% if (escapeRoom.teamSize > 1) { %>
+				<h4 class="animated slideInUp">
+					<b><%=i18n.team.Team%>:</b> <%=participant.teamsAgregados[0].name%>
+				</h4>
+			
+				<h5 class="animated slideInUp">
+					<%=participant.teamsAgregados[0].teamMembers.map(m=>m.name + " " + m.surname).join(", ")%>
+				</h5>
+			<% } %>
 		</div>
 	</div>
-	<% const turno = participant.teamsAgregados[0].turno%>
-	<h3 class="animated slideInUp">Indicaciones</h3>
-	<p class="desc animated slideInUp">
-		<%= turno.indications || i18n.turnos.noIndications %>
-	</p>
+	<% if (turno.indications) { %> 
+		<h3 class="animated slideInUp">Indicaciones</h3>
+		<p class="desc animated slideInUp">
+			<%= turno.indications %>
+		</p>
+	<% } %>
 	<h3 class="animated slideInUp"><%=i18n.turnos.Description%></h3>
 	<p class="desc animated slideInUp"><%=escapeRoom.description%></p>
 
@@ -52,8 +57,9 @@
 				
 			<% } %>
 		<% } else if(turno.status === "active") { %>
-			<a href="/escapeRooms/<%=escapeRoom.id%>/play"><button class="rounded editButton pulseButton"><%=i18n.showStudent.play%>%></button>
-			</a>
+			<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play">
+				<button class="rounded editButton pulseButton"><%=i18n.showStudent.play%>%></button>
+			</form>
 		<% } else {%>
 			<% if (escapeRoom.posttest) { %>
 				<!--<div class="desc centered animated slideInLeft">
@@ -76,9 +82,9 @@
 		<%}%>
 	</div>
 	<br/><br/><br/><br/>
-	<% if(participant.teamsAgregados[0].turno.status === "pending"){%>
+	<% if(turno.status === "pending"){%>
 		<form id="unjoin" method="post" 
-		action="/escapeRooms/<%=escapeRoom.id%>/turno/<%=participant.teamsAgregados[0].turno.id%>/team/<%=participant.teamsAgregados[0].id%>?_method=delete">
+		action="/escapeRooms/<%=escapeRoom.id%>/turno/<%=turno.id%>/team/<%=participant.teamsAgregados[0].id%>?_method=delete">
 			<input type="submit" class="rounded inverse" onclick="return confirm('<%=i18n.showStudent.sureUnjoin%>');" value="<%=i18n.showStudent.unjoin%>"></input>
 		</form>
 	<%}%>

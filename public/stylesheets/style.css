@@ -319,11 +319,12 @@ button, input[type="submit"] {
     border-radius: 50%;
     color: black; }
 
-#mainSection .main .align-right.flex-buttons #previous {
-  order: 1; }
-
-#mainSection .main .align-right.flex-buttons #next {
-  order: 2; }
+#mainSection .main .align-right.flex-buttons {
+  flex-wrap: wrap; }
+  #mainSection .main .align-right.flex-buttons #previous {
+    order: 1; }
+  #mainSection .main .align-right.flex-buttons #next {
+    order: 2; }
 
 #mainSection .main .intro-paragraph {
   font-family: 'Lato', sans-serif;
@@ -380,7 +381,8 @@ button, input[type="submit"] {
 #mainSection .main .progress-buttons {
   border-radius: 25px;
   padding: 10px 20px;
-  margin-right: 5px; }
+  margin-right: 5px;
+  margin-bottom: 5px; }
   #mainSection .main .progress-buttons#exit {
     border: 2px solid white;
     background-color: transparent;
@@ -460,6 +462,8 @@ button, input[type="submit"] {
       font-family: Lato, sans-serif;
       font-weight: normal;
       padding-left: 5px; }
+      #mainSection .main .basicConfig .erFormField .customInput:active, #mainSection .main .basicConfig .erFormField .customInput:focus {
+        font-family: Lato, sans-serif !important; }
       #mainSection .main .basicConfig .erFormField .customInput .fileUploadButton {
         background-color: transparent;
         color: white;
@@ -486,6 +490,16 @@ button, input[type="submit"] {
       font-size: 0.6em;
       padding-left: 30px;
       font-family: 'Lato', sans-serif; }
+
+#mainSection .main .note {
+  font-size: 16px;
+  color: #656683;
+  font-family: 'Lato', sans-serif;
+  padding-left: 68px;
+  text-align: left;
+  margin-top: -40px; }
+  #mainSection .main .note input {
+    vertical-align: middle; }
 
 #mainSection .main.escapeRoomShow {
   background: none; }
@@ -515,6 +529,9 @@ button, input[type="submit"] {
             transition: 0.1s all ease-in; }
             #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList li .showMenuButton:hover {
               transform: scale(0.9); }
+  #mainSection .main.escapeRoomShow .flexShow .flexRow .flexShowRight {
+    color: white;
+    font-weight: lighter; }
   #mainSection .main.escapeRoomShow #dialog-preview-video, #mainSection .main.escapeRoomShow #dialog-preview-api {
     padding: 0;
     background-color: white;
@@ -541,7 +558,7 @@ button, input[type="submit"] {
       text-align: left; }
     #mainSection .main.escapeRoomShow #dialog-preview-api pre#sample-fetch {
       color: white;
-      padding: 5px;
+      padding: 15px;
       font-size: 14px;
       font-family: monospace;
       background-color: #656683; }
@@ -577,6 +594,10 @@ button, input[type="submit"] {
       border-left: none; }
       #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList {
         padding: 0px; } }
+
+@media (max-width: 992px) {
+  .smallHidden {
+    display: none !important; } }
 
 .escapeRooms .flexBoxEscapeRooms {
   display: flex;
@@ -2313,7 +2334,13 @@ button, input[type="submit"] {
   .finish .ranking-table * {
     font-size: 12px; }
   .finish .ranking-table .ranking-members {
-    display: none; } }
+    display: none; }
+  .showStudent .flex {
+    flex-direction: column; }
+    .showStudent .flex .flex-thumb {
+      width: 100%; }
+    .showStudent .flex .flex-er-info {
+      padding: 0px; } }
 
 .timeline {
   overflow: hidden; }
@@ -2670,14 +2697,24 @@ button, input[type="submit"] {
         vertical-align: text-bottom;
         margin-right: -15px;
         position: absolute;
-        bottom: 0;
-        right: 10px; }
+        bottom: -10px;
+        right: 5px; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button .material-icons {
           font-size: 16px; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.more {
           background: #FAC855; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.less {
           background: #F47E84; }
+        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.always {
+          background: #F3945E;
+          right: 28px; }
+  #mainSection .main.step-turnos .extraTurno {
+    text-align: right; }
+    #mainSection .main.step-turnos .extraTurno button {
+      border-radius: 25px;
+      padding: 10px 20px;
+      background-color: #48C18E;
+      border: 2px solid #48C18E; }
 
 #mainSection .main .flexBoxTurnos {
   display: flex;
@@ -2707,7 +2744,7 @@ button, input[type="submit"] {
         cursor: not-allowed; }
     #mainSection .main .flexBoxTurnos .turno.turnoProfe.active {
       color: #48C18E; }
-    #mainSection .main .flexBoxTurnos .turno.hidden {
+    #mainSection .main .flexBoxTurnos .turno.hidden:not(.always) {
       display: none; }
     #mainSection .main .flexBoxTurnos .turno .hora {
       font-size: 25px;
@@ -2716,9 +2753,20 @@ button, input[type="submit"] {
     #mainSection .main .flexBoxTurnos .turno .indications {
       color: #161938;
       font-size: 12px;
-      line-height: 100%; }
+      line-height: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: normal; }
       #mainSection .main .flexBoxTurnos .turno .indications .no-indications {
-        color: #ddd; }
+        color: #a1a3af;
+        font-size: 10px; }
+        #mainSection .main .flexBoxTurnos .turno .indications .no-indications em {
+          opacity: 0.8; }
+    #mainSection .main .flexBoxTurnos .turno .always {
+      font-size: 17px;
+      color: #48C18E;
+      line-height: 25px;
+      vertical-align: top; }
 
 #mainSection .main .turno-date-title-show {
   color: white;
@@ -2812,9 +2860,9 @@ html {
       html body input:-webkit-autofill, html body select:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 30px #232951 inset !important;
         -webkit-text-fill-color: #656683 !important;
-        font-family: Gugi; }
+        font-family: inherit !important; }
       html body input:focus, html body input:active, html body input:-webkit-autofill:focus, html body input:-webkit-autofill:active, html body select:focus, html body select:active, html body select:-webkit-autofill:focus, html body select:-webkit-autofill:active {
-        font-family: Gugi !important;
+        font-family: inherit !important;
         background-color: #232951;
         color: white;
         -webkit-text-fill-color: white !important;

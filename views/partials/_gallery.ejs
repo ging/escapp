@@ -18,17 +18,17 @@
       </label>
         <div class="gamification-elements">
           <div class="gamification-element" id="countdown">
-            <img src="/images/countdown.png" title="Muestra la cuenta atrás del tiempo que les queda a los alumnos" />
-            <p class="gamification-element-title">Countdown</p>
+            <img src="/images/countdown.png" title="<%=i18n.gallery.countdownExplanation%>" />
+            <p class="gamification-element-title"><%=i18n.gallery.countdown%></p>
           </div>
           <div class="gamification-element" id="ranking">
-            <img src="/images/ranking.png" title="Muestra una tabla con los equipos ordenados según su nivel de progreso" />
-            <p class="gamification-element-title">Ranking</p>
+            <img src="/images/ranking.png" title="<%=i18n.gallery.rankingExplanation%>" />
+            <p class="gamification-element-title"><%=i18n.gallery.ranking%></p>
           </div>
           <% if (endPoint === "team") { %>
             <div class="gamification-element" id="progressbar">
-              <img src="/images/progress.png" title="Muestra a cada equipo el porcentaje de retos que han completado" />
-              <p class="gamification-element-title">Progress</p>
+              <img src="/images/progress.png" title="<%=i18n.gallery.progressExplanation%>" />
+              <p class="gamification-element-title"><%=i18n.gallery.progress%></p>
             </div>
           <% } %>
         </div>

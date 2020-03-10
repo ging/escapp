@@ -184,12 +184,7 @@ exports.pistasUpdate = (req, res, next) => {
 
     const back = `/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("hints") : progressBar || nextStep("hints")}`;
 
-    escapeRoom.save({"fields": [
-        "numQuestions",
-        "hintLimit",
-        "numRight",
-        "feedback"
-    ]}).
+    escapeRoom.save({"fields": ["numQuestions", "hintLimit", "numRight", "feedback"]}).
         then(() => {
             if (body.keepAttachment === "0") {
                 // There is no attachment: Delete old attachment.

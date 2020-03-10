@@ -14,7 +14,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-if (httpApp.get("env") === "production") {
+if (httpApp.get("env") === "production" && !process.env.HEROKU) {
   var httpServer;
   var port = normalizePort('443');
   var fs = require('fs');
@@ -39,7 +39,7 @@ if (httpApp.get("env") === "production") {
    */
 
   var server = http.createServer(httpApp);
-  if (httpApp.get("env") !== "production") {
+  if (httpApp.get("env") !== "production" && !process.env.HEROKU) {
     global.io = io.createServer(server, httpApp.sessionMiddleware);
   }
   /**

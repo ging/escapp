@@ -5,11 +5,18 @@ const {Op} = Sequelize;
 const queries = require("../queries");
 
 // POST  /escapeRooms/:escapeRoomId/users/:userId/selectTurno
-exports.selectTurno = (req, res) => {
+exports.selectTurno = (req, res, next) => {
     const {escapeRoom} = req;
-    const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.body.turnSelected}/teams`;
 
-    res.redirect(direccion);
+    if (escapeRoom.teamSize === 1) {
+        req.body.name = req.session.user.name;
+        req.params.turnoId = req.body.turnSelected;
+        next();
+    } else {
+        const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.body.turnSelected}/teams`;
+
+        res.redirect(direccion);
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/participants
@@ -27,24 +34,12 @@ exports.index = async (req, res, next) => {
             const [{"id": teamId}] = teamsAgregados;
             const {attendance} = parts;
 
-            participants.push({id,
-                name,
-                surname,
-                gender,
-                username,
-                dni,
-                teamId,
-                turnoId,
-                turnDate,
-                attendance});
+            participants.push({id, name, surname, gender, username, dni, teamId, turnoId, turnDate, attendance});
         });
         if (req.query.csv) {
             createCsvFile(res, participants, "participants");
         } else {
-            res.render("escapeRooms/participants", {escapeRoom,
-                participants,
-                turnId,
-                orderBy});
+            res.render("escapeRooms/participants", {escapeRoom, participants, turnId, orderBy});
         }
     } catch (e) {
         next(e);

@@ -28,12 +28,7 @@ exports.show = (req, res) => {
 
 // GET /users/new
 exports.new = (req, res) => {
-    const user = {"name": "",
-        "surname": "",
-        "gender": "",
-        "dni": "",
-        "username": "",
-        "password": ""};
+    const user = {"name": "", "surname": "", "gender": "", "dni": "", "username": "", "password": ""};
 
     res.render("index", {user,
         "register": true,
@@ -64,18 +59,9 @@ exports.create = (req, res, next) => {
     user.isStudent = Boolean(isStudent);
 
     // Save into the data base
-    user.save({"fields": [
-        "name",
-        "surname",
-        "gender",
-        "username",
-        "dni",
-        "password",
-        "isStudent",
-        "salt"
-    ]}).
+    user.save({"fields": ["name", "surname", "gender", "username", "dni", "password", "isStudent", "salt"]}).
         then(() => { // Render the users page
-            req.flash("success", "Usuario creado con éxito.");
+            req.flash("success", req.app.locals.i18n.common.flash.successCreatingUser);
             res.redirect(redir ? `/?redir=${redir}` : "/"); // Redirection
         }).
         catch(Sequelize.UniqueConstraintError, (error) => {
@@ -118,13 +104,7 @@ exports.update = (req, res, next) => {
 
         return res.render("users/edit", {user});
     }
-    user.save({"fields": [
-        "password",
-        "salt",
-        "name",
-        "surname",
-        "gender"
-    ]}).
+    user.save({"fields": ["password", "salt", "name", "surname", "gender"]}).
         then((user_saved) => {
             req.flash("success", req.app.locals.i18n.common.flash.successEditingUser);
             res.redirect(`/users/${user_saved.id}/escapeRooms`);

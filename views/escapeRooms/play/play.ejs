@@ -10,7 +10,7 @@
     <script src="/js/vendor/socket.io.js"></script>
     <script src="/js/play.js"></script>
     <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"]%>.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"] || "litera" %>.bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/play.css">
     <link rel="stylesheet" href="/stylesheets/vendor/animate.css">
     <link rel="stylesheet" href="/stylesheets/vendor/easy-alert.css">
@@ -20,7 +20,7 @@
 <nav class="navbar navbar-light" style="padding: 0px 1em;">
     <a class="backToMain"  href="/escapeRooms/<%=escapeRoom.id%>">&larr;</a>
     <span class="erTitle"><%=escapeRoom.title%></span>
-    <%if (isStudent) {%>
+    <%if (isStudent && escapeRoom.teamSize > 1) {%>
         <span class="teamName"><b><%=i18n.team.Team%>: </b><%=team.name%></span>
     <%}%>
 </nav>  
@@ -41,13 +41,13 @@
                         <ul id="hintList" >
                         <% for (var hint of hints) {
                             if (hint) {%>
-                                <li>
-                                    <div class="card border-info mb-3">
-                                        <div class="card-body">
-                                            <div class="card-text"><%=hint.hint ? hint.hint.content : i18n.hint.empty%></div>
-                                        </div>
+                            <li>
+                                <div class="card border-info mb-3">
+                                    <div class="card-body">
+                                        <div class="card-text"><%=hint.hint ? hint.hint.content : i18n.hint.empty%></div>
                                     </div>
-                                </li>
+                                </div>
+                            </li>
                             <% }
                         } %>
                         </ul>

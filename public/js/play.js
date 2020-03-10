@@ -291,6 +291,19 @@ const rgb2hex = orig => {
 };
 
 /** BTN ACTIONS **/
+
+$(document).on("keyup", ".puzzle-input", function(ev){
+  const sol = $(this).val();
+  if (ev.keyCode === 13) {
+    const puzzleId = $(this).data("puzzleId");
+    solvePuzzle(puzzleId, sol);
+  } else {
+    if (sol === "") {
+      $(this).removeClass('is-invalid');
+    }
+  }
+});
+
 $(document).on("click", ".puzzle-check-btn", function(){
   const puzzleId = $(this).data("puzzleId");
   const sol = $(`.puzzle-input[data-puzzle-id="${puzzleId}"]`).val();

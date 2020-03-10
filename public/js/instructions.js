@@ -40,7 +40,7 @@ $(function(){
         node.setAttribute('draggable', 'true');
         node.classList.add('draggable-element');
         node.innerHTML = ` 
-            <div class="ranking-table table" style="height: 230px; ">
+            <div class="ranking-table table" style="height: 229px; ">
                 <div class="ranking-row ranking-header table-primary" style="top: 0px;" >
                     <div class="ranking-pos">#</div>
                     <div class="ranking-team">Team</div>

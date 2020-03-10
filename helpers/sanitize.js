@@ -2,17 +2,17 @@ const sanitizeId = (id) => id && id !== "" && id !== "new" ? id : undefined;
 
 
 exports.sanitizePuzzles = (puzzles = []) => puzzles.map((puzzle) => {
-    const {id, title, desc, sol, order, automatic, correct, fail, hints} = puzzle;
+    const {id, title, desc, sol, "order": orderUnparsed, automatic, correct, fail, hints} = puzzle;
 
-    let orderParsed = parseInt(order, 10);
+    let order = parseInt(orderUnparsed, 10);
 
-    orderParsed = isNaN(orderParsed) ? 0 : orderParsed;
+    order = isNaN(order) ? 0 : order;
 
     return {
         "id": sanitizeId(id),
         "automatic": automatic === "1",
         title,
-        "order": orderParsed,
+        order,
         desc,
         sol,
         correct,

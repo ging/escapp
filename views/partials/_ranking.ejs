@@ -10,17 +10,7 @@
         return member.name + " " + member.surname
     }).join(", ");
     const finishTime = (escapeRoom.puzzles.length === parseInt(count) && startTime) ?  (secondsToDhms((new Date(latestRetoSuperado) - new Date(startTime))/1000)) : "---";
-    const currentTeam = {
-        id,
-        name,
-        retos,
-        result,
-        myTeam,
-        participants,
-        latestRetoSuperado,
-        startTime,
-        finishTime
-    };
+    const currentTeam = {id, name, retos, result, myTeam, participants, latestRetoSuperado, startTime, finishTime};
     teamsClean.push(currentTeam);
  } %>
 <script>

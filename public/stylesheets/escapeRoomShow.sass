@@ -28,6 +28,11 @@
               transition: 0.1s all ease-in
               &:hover
                 transform: scale(0.9)
+    .flexShow
+      .flexRow
+        .flexShowRight
+          color: white
+          font-weight: lighter
     #dialog-preview-video, #dialog-preview-api
       padding: 0
       background-color: white
@@ -55,7 +60,7 @@
           text-align: left
       pre#sample-fetch
         color: white
-        padding: 5px
+        padding: 15px
         font-size: 14px
         font-family: monospace
         background-color: $textpurple
@@ -94,3 +99,6 @@
           border-left: none
           .menuERactionList
             padding: 0px
+@media (max-width: 992px)
+  .smallHidden
+    display: none !important

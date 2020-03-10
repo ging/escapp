@@ -1,4 +1,5 @@
 {
+    "lang": "es",
     "analytics": {
         "charts": {
             "titles": { "retosSuperadosTeam": "Retos superados", "hintsByTeam":"Pistas solicitadas"}
@@ -75,6 +76,20 @@
             "time": "Tiempo",
             "unsolved": "No resuelto"
         }
+    },
+    "api": {
+        "unauthorized": "No autorizado",
+        "userNotFound": "Usuario no encontrado",
+        "correct": "Respuesta correcta!",
+        "correctNotActive": "La respuesta es correcta pero no se ha registrado puesto que tu turno no está activo",
+        "correctNotParticipant": "La respuesta es correcta pero no se ha registrado puesto que no te has registrado en esta escape room",
+        "correctTooLate": "La respuesta es correcta pero se ha acabado el tiempo",
+        "message": "Mensaje",
+        "ok": "ok",
+        "notFound": "No encontrado",
+        "forbidden": "Prohibido",
+        "error": "Error",
+        "wrong": "Respuesta incorrecta"
     },
     "common": {
         "back": "volver",
@@ -196,6 +211,7 @@
             "edit": {
                 "descriptionPlaceHolder": "Escribe la descripción de tu Escape Room. Esta será la información que se les presentará a los alumnos",
                 "durationPlaceHolder": "¿Cual es el tiempo máximo del que disponen los alumnos?",
+                "forbiddenLateSubmissionsPlaceHolder": "No permitir resolver retos al acabarse la cuenta atrás",
                 "nmaxPlaceHolder": "¿Cuántos participantes puede haber en cada turno?",
                 "noFileUploaded": "No has subido ningún fichero",
                 "noImageUploaded": "No has subido ninguna imagen",
@@ -250,7 +266,7 @@
                 "title": "Interfaz de equipo"
             },
             "class": {
-                "explanation": "En este apartado puedes personalizar la interfaz que proyectarás en el aula. Puedes añadir elementos como la cuenta atrás, el video introductorio o el ranking.",
+                "explanation": "En este apartado puedes personalizar la interfaz que proyectarás en el aula. Puedes añadir elementos como la cuenta atrás, el video introductorio o el ranking. Si los alumnos van a participar en la escape room de forma remota nunca verán esta interfaz, por lo que puedes saltarte este paso.",
                 "placeholder": "Añade la cuenta atrás, un ranking, el vídeo de presentación, etc.",
                 "title": "Interfaz de clase"
             },
@@ -289,7 +305,11 @@
             },
             "turnos": {
                 "title": "Turnos",
-                "indicacion": "¿Alguna indicación?"
+                "indicacion": "¿Alguna indicación?",
+                "addTitle": "Añadir turno",
+                "alwaysTitle": "Turno siempre abierto",
+                "deleteTitle": "Borrar turno",
+                "hourTitle": "Fijar hora"
             }
         }
     },
@@ -309,7 +329,13 @@
         "insertURL": "Introduce la URL",
         "selectFileFromList": "Selecciona un fichero de la lista o ",
         "uploadNew": "sube un fichero nuevo",
-        "selectGamificationElements": "Selecciona un elemento de gamificación"
+        "selectGamificationElements": "Selecciona un elemento de gamificación",
+        "countdown": "Cuenta atrás",
+        "countdownExplanation": "Muestra la cuenta atrás del tiempo que les queda a los alumnos",
+        "ranking": "Ranking",
+        "rankingExplanation": "Muestra una tabla con los equipos ordenados según su nivel de progreso",
+        "progress": "Barra de progreso",
+        "progressExplanation": "Muestra a cada equipo el porcentaje de retos que han completado"
     },
     "inspiration": {
         "downloadText": "descargar guía",
@@ -432,7 +458,6 @@
         "labyrinth": "Generador de laberintos",
         "math": "Puzzles matemáticos",
         "hidden": "Juegos de objetos ocultos"
-
     },
     "participant": {
         "attendanceSaved": "Asistencia guardada correctamente",
@@ -514,6 +539,7 @@
         "addMsg": "Tus compañeros podrán unirse a tu equipo cuando se registren en la escape room",
         "addPlaceHolder": "Escribe el nombre del equipo",
         "back": "volver",
+        "choose": "Seleccione un equipo ",
         "emptyER": "No hay equipos en esta escape room",
         "emptyTurno": "No hay equipos en este turno",
         "fullTeam": "Equipo completo. Por favor, elige otro equipo.",
@@ -532,6 +558,8 @@
     "turnos": {
         "all": "Todos los turnos",
         "alreadyIn": "Ya estas dentro de un turno.",
+        "always": "siempre",
+        "alwaysOpen": "Siempre abierto",
         "arrows": {
         	"closeText": "Cerrar",
         	"currentText": "Hoy",
@@ -603,6 +631,8 @@
             "wrongLetterDNI": "DNI erroneo, la letra del NIF no se corresponde",
             "notFound": "Usuario no encontrado",
             "ensureRegistered": "Ha ocurrido un error. Asegúrate de que te has registrado correctamente en la Escape Room.",
+            "emailConfirm":"Por favor, confirma tu correo electrónico haciendo click en el botón de confirmar",
+            "emailConfirmButton":"confirmar",
             "emailResetPassword1":" Si recibes este mensaje es porque has solicitado recuperar tu contraseña en escapp.",
             "emailResetPassword2":"Haz click en el siguiente link:"
         },

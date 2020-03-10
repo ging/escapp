@@ -22,7 +22,7 @@ const index = require("./routes/index"),
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-if (app.get("env") === "production") {
+if (app.get("env") === "production" && !process.env.HEROKU) {
     app.use((req, res, next) => {
         if (req.secure) {
             next();
@@ -39,6 +39,13 @@ app.use(bodyParser.urlencoded({
     "extended": true
 }));
 app.use(cookieParser());
+app.use(i18n({
+    "translationsPath": path.join(__dirname, "i18n"),
+    "siteLangs": ["en", "es"],
+    "defaultLang": "en",
+    "textsVarName": "i18n"
+}));
+
 app.use("/api", api);
 
 // Configuracion de la session para almacenarla en BBDD usando Sequelize.
@@ -51,7 +58,8 @@ const sessionStore = new SequelizeStore({"db": sequelize,
 const sessionMiddleware = session({"secret": "Escape Room",
     "store": sessionStore,
     "resave": false,
-    "saveUninitialized": true});
+    "cookie": {"path": "/", "httpOnly": true, "secure": app.get("env") === "production" && !process.env.HEROKU, "maxAge": null},
+    "saveUninitialized": false});
 
 app.sessionMiddleware = sessionMiddleware;
 app.use(sessionMiddleware);
@@ -62,12 +70,7 @@ app.use(methodOverride("_method", {"methods": [
 ]}));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(i18n({
-    "translationsPath": path.join(__dirname, "i18n"),
-    "siteLangs": ["es"],
-    "defaultLang": "es",
-    "textsVarName": "i18n"
-}));
+
 app.use(partials());
 require("./helpers/locals")(app);
 app.use(flash());
@@ -91,19 +94,24 @@ app.use((req, res, next) => {
 
     err.status = 404;
     res.locals.message = "Not found";
-    res.locals.error = process.env.NODE_ENV === "development" ? err : {"status": 404};
+    res.locals.error = app.get("env") === "production" ? {"status": 404} : err;
     next(err);
 });
 
 // Error handler. It needs to have all 4 arguments, or else express will not recognize it as an erorr handler
 // eslint-disable-next-line  no-unused-vars
 app.use((err, req, res, next) => {
-    res.status(err.status || res.statusCode);
+    // eslint-disable-next-line  eqeqeq
+    const devStatusCode = res.statusCode == 200 ? 500 : res.statusCode;
+    const status = err.status || (app.get("env") === "production" ? res.statusCode : devStatusCode);
+
+    res.status(status);
+
     if (req.session && req.session.flash) {
         // Set locals, only providing error in development
         res.locals.message = err.message;
         err.status = err.status || res.statusCode;
-        res.locals.error = process.env.NODE_ENV === "development" ? err : {"status": err.status || 404};
+        res.locals.error = app.get("env") === "production" ? {"status": err.status || 404} : err;
         // Render the error page
         res.render("error");
     } else {

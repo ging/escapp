@@ -55,7 +55,7 @@
         <div class="progress">
           
           <%
-            let startTime = team.turno.startTime;
+            let startTime = team.turno.startTime || team.startTime;
             let prevPuzzleTime = startTime;
           %>
           <% for (let r in team.retos) { 

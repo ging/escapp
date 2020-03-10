@@ -18,7 +18,7 @@
                         <% for (t in escapeRoom.turnos) { %>
                         <% var turno = escapeRoom.turnos[t] %>
                         <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
-                            <%= getFullDate(turno.date)%>
+                            <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
                         </option>
                         <% } %>
                     </select>
@@ -59,7 +59,7 @@
                     <div class="flex-cell flex-dni"><span><%= participant.dni %></span></div>
                     <div class="flex-cell flex-username"><span><%= participant.username %></span></div>
                     <div class="flex-cell flex-gender"><span><%= participant.gender %></span></div>
-                    <div class="flex-cell flex-turno"><span><%= getFullDate(participant.turnDate) %></span></div>
+                    <div class="flex-cell flex-turno"><span><%= participant.turnDate ? getFullDate(participant.turnDate) : i18n.turnos.alwaysOpen  %></span></div>
                     <div class="flex-cell flex-attendance">
                         <input type="checkbox" class="attendance-checkbox"
                                data-id="<%=participant.id%>"

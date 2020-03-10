@@ -1,37 +1,18 @@
 <script>
 const {$} = window;
-const monthArray = [
-	"<%=i18n.turnos.months.jan%>",
-	"<%=i18n.turnos.months.feb%>",
-	"<%=i18n.turnos.months.mar%>",
-	"<%=i18n.turnos.months.apr%>",
-	"<%=i18n.turnos.months.may%>",
-	"<%=i18n.turnos.months.jun%>",
-	"<%=i18n.turnos.months.jul%>",
-	"<%=i18n.turnos.months.aug%>",
-	"<%=i18n.turnos.months.sep%>",
-	"<%=i18n.turnos.months.oct%>",
-	"<%=i18n.turnos.months.nov%>",
-	"<%=i18n.turnos.months.dec%>"
-];
+const monthArray = JSON.parse('<%-JSON.stringify(Object.values(i18n.turnos.months))%>');
 
-const dayArray = [
-	"<%=i18n.turnos.days.d%>",
-	"<%=i18n.turnos.days.l%>",
-	"<%=i18n.turnos.days.m%>",
-	"<%=i18n.turnos.days.x%>",
-	"<%=i18n.turnos.days.j%>",
-	"<%=i18n.turnos.days.v%>",
-	"<%=i18n.turnos.days.s%>"
-];
+const dayArray =  JSON.parse('<%-JSON.stringify(Object.values(i18n.turnos.days))%>');
 
 const formatDate = (currentDate) => `${currentDate.getDate()} ${monthArray[currentDate.getMonth()]}`; // + " de " + currentDate.getFullYear();
+
+
 const getDashDate = function(currentDate) {
     return currentDate.getDate() + "-" + currentDate.getMonth() + "-" + currentDate.getFullYear();
 }
 const filterTurnos = (date) => {
 
-    const turnos = $(".turno:not(.add-turno");
+    const turnos = $(".turno:not(.add-turno):not(.always-turno)");
 
     turnos.addClass("hidden");
     turnos.each((index, turno) => {
@@ -74,9 +55,7 @@ $(function () {
         "prevText": "<%=i18n.turnos.arrows.prevText%>",
         "nextText": "<%=i18n.turnos.arrows.nextText%>",
         "currentText": "<%=i18n.turnos.arrows.currentText%>"
-
     });
-
 
     $.datepicker.setDefaults($.datepicker.regional.es);
     $("#datepicker").datepicker({
@@ -129,6 +108,24 @@ $(function () {
         $("#date").val(res);
 
         return true;
+
+    });
+
+    $('button.always').on('click', function(e) {
+        const hora = $(this).parent().find('.hora');
+        if ($(this).hasClass("off")) {
+            $(hora).html('<input autofocus class="turnos-picker turnos-time-picker" type="time" id="start" required name="start" value="09:00" placeholder="00:00" autocomplete="off"/>');
+            $(this).removeClass('off');
+            $(this).attr('title', '<%=i18n.escapeRoom.steps.turnos.alwaysTitle%>');
+            $(this).html('<i class="material-icons">alarm_off</i>')
+            $('#date').val(new Date());
+        } else {
+            $(hora).html('<span class="always"><%=i18n.turnos.always%></span>');
+            $(this).addClass('off');
+            $(this).attr('title', '<%=i18n.escapeRoom.steps.turnos.hourTitle%>');
+            $(this).html('<i class="material-icons">alarm_on</i>')
+            $('#date').val("always");
+        }
 
     });
 

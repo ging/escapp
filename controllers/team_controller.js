@@ -36,22 +36,21 @@ exports.new = (req, res) => {
 exports.create = async (req, res, next) => {
     const {escapeRoom} = req;
     const team = models.team.build({"name": req.body.name,
-        "turnoId": req.turn.id,
+        "turnoId": req.params.turnoId,
         "members": [req.session.user.id]});
-
     const back = "/escapeRooms";
 
     const teamCreated = await team.save();
 
     try {
         await teamCreated.addTeamMembers(req.session.user.id);
-        req.flash("success", "Equipo creado correctamente.");
+        req.flash("success", req.app.locals.i18n.common.flash.successCreatingTeam);
 
         try {
             const turnos = await req.user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
 
             if (turnos.length === 0) {
-                await req.user.addTurnosAgregados(req.turn.id);
+                await req.user.addTurnosAgregados(req.params.turnoId);
                 res.redirect(back);
             } else {
                 req.flash("error", req.app.locals.i18n.team.alreadyIn);
@@ -79,17 +78,12 @@ exports.index = (req, res, next) => {
         "include": [
             {
                 "model": models.turno,
-                "where": {
-                    "escapeRoomId": escapeRoom.id
-                }
+                "where": {"escapeRoomId": escapeRoom.id}
             },
             {
                 "model": models.user,
                 "as": "teamMembers",
-                "attributes": [
-                    "name",
-                    "surname"
-                ]
+                "attributes": ["name", "surname"]
 
             }
         ],
@@ -100,9 +94,7 @@ exports.index = (req, res, next) => {
         where.include[0].where.id = turnId;
     }
     models.team.findAll(where).then((teams) => {
-        res.render("escapeRooms/teams", {teams,
-            escapeRoom,
-            turnId});
+        res.render("escapeRooms/teams", {teams, escapeRoom, turnId});
     }).
         catch((e) => {
             console.error(e);
@@ -114,8 +106,7 @@ exports.index = (req, res, next) => {
 exports.indexTurnos = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("teams/index", {"turno": req.turn,
-        escapeRoom});
+    res.render("teams/index", {"turno": req.turn, escapeRoom});
 };
 
 

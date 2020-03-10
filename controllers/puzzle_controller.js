@@ -55,12 +55,7 @@ exports.update = (req, res, next) => {
     req.puzzle.sol = sol;
     req.puzzle.desc = desc;
     req.puzzle.hint = hint;
-    req.puzzle.save({"fields": [
-        "title",
-        "sol",
-        "desc",
-        "hint"
-    ]}).
+    req.puzzle.save({"fields": ["title", "sol", "desc", "hint"]}).
         then(() => {
             req.flash("success", req.app.locals.i18n.common.flash.successEditingPuzzle);
             res.redirect(back);
@@ -93,43 +88,6 @@ exports.destroy = async (req, res, next) => {
     } catch (error) {
         await transaction.rollback();
         next(error);
-    }
-};
-
-// GET /escapeRooms/:escapeRoomId/puzzles/:puzzleId/check
-exports.check = async (req, res, next) => {
-    const {puzzle, query} = req;
-    const answer = query.answer || "";
-
-    try {
-        const user = await models.user.findByPk(req.session.user.id);
-        const [team] = user.getTeamsAgregados({"include": [
-            {
-                "model": models.turno,
-                "required": true,
-                "where": {"escapeRoomId": req.escapeRoom.id} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
-            }
-        ]});
-
-        if (team) {
-            if (answer.toLowerCase().trim() === puzzle.sol.toLowerCase().trim()) {
-                if (team.turno.status !== "active") {
-                    req.flash("warning", req.app.locals.i18n.turnos.notActive);
-                    res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
-                } else {
-                    await req.puzzle.addSuperados(team.id);
-                    req.flash("success", req.puzzle.correct || req.app.locals.i18n.puzzle.correctAnswer);
-                    res.redirect(`/escapeRooms/${req.escapeRoom.id}/play#puzzles`);
-                }
-            } else {
-                req.flash("error", req.puzzle.fail || req.app.locals.i18n.puzzle.wrongAnswer);
-                res.redirect(`/escapeRooms/${req.escapeRoom.id}/play#puzzles`);
-            }
-        } else {
-            next(req.app.locals.i18n.user.messages.ensureRegistered);
-        }
-    } catch (e) {
-        next(e);
     }
 };
 
@@ -203,13 +161,14 @@ exports.retosUpdate = async (req, res, next) => {
 
                     if (!foundHint) {
                         promises.push(oldHint.destroy({transaction}));
-                        // Promises.push(models.requestedHint.destroy({"where": {"hintId": oldHint.id}},{transaction}));
+                        // Promises.push(models.requestedHint.destroy({"where": {"hintId": oldHint.id}},  {transaction}));
                     }
                 }
             } else {
+                // Promises.push(models.retosSuperados.destroy({"where": {"puzzleId": oldReto.id}}, {transaction}));
+                // Promises.push(oldReto.removeSuperados({transaction}));
                 promises.push(oldReto.destroy({transaction}));
                 // Promises.push(models.requestedHint.destroy({"where": {"hintId": {[Sequelize.Op.in]: oldReto.hints.map(h=>h.id) }}}, {transaction}));
-                // Promises.push(models.retosSuperados.destroy({"where": {"puzzleId": oldReto.id}}, {transaction}));
             }
         }
         await Promise.all(promises);

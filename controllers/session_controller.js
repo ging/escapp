@@ -57,7 +57,8 @@ exports.adminRequired = (req, res, next) => {
     if (isAdmin) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error(req.app.locals.api.forbidden);
     }
 };
 
@@ -69,7 +70,8 @@ exports.notStudentRequired = (req, res, next) => {
     if (isStudent) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error(req.app.locals.api.forbidden);
     }
 };
 
@@ -82,7 +84,8 @@ exports.studentOrAdminRequired = (req, res, next) => {
     if (isStudent || isAdmin) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error(req.app.locals.api.forbidden);
     }
 };
 
@@ -96,7 +99,8 @@ exports.myselfRequired = (req, res, next) => {
     if (isMyself) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error(req.app.locals.api.forbidden);
     }
 };
 
@@ -113,7 +117,8 @@ exports.adminOrMyselfRequired = (req, res, next) => {
     if (isAdmin || isMyself) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error(req.app.locals.api.forbidden);
     }
 };
 
@@ -129,7 +134,8 @@ exports.adminAndNotMyselfRequired = function (req, res, next) {
     if (isAdmin && isAnother) {
         next();
     } else {
-        res.send(403);
+        res.status(403);
+        throw new Error(req.app.locals.api.forbidden);
     }
 };
 
@@ -160,37 +166,38 @@ exports.new = (req, res) => {
 
 
 // POST /   -- Create the session if the user authenticates successfully
-exports.create = (req, res, next) => {
+exports.create = async (req, res, next) => {
     const {redir} = req.body,
         {login} = req.body,
         {password} = req.body;
 
-    authenticate((login || "").toLowerCase(), password).
-        then((user) => {
-            if (user) {
-                req.session.user = {"id": user.id,
-                    "username": user.username,
-                    "isAdmin": user.isAdmin,
-                    "isStudent": user.isStudent,
-                    "expires": Date.now() + maxIdleTime};
-                req.session.save(() => {
-                    if (req.body.redir) {
-                        res.redirect(req.body.redir);
-                    } else {
-                        res.redirect("/escapeRooms");
-                    }
-                });
-            } else {
-                req.flash("error", req.app.locals.i18n.user.wrongCredentials);
-                res.render("index", {redir});
-            }
-        }).
-        catch((error) => {
-            req.flash("error", `${error}`);
-            next(error);
-        });
-};
+    try {
+        const user = await authenticate((login || "").toLowerCase(), password);
 
+        if (user) {
+            req.session.user = {"id": user.id,
+                "name": `${user.name} ${user.surname}`,
+                "username": user.username,
+                "isAdmin": user.isAdmin,
+                "isStudent": user.isStudent,
+                "expires": Date.now() + maxIdleTime};
+            req.session.save(() => {
+                if (req.body.redir) {
+                    res.redirect(req.body.redir);
+                } else {
+                    res.redirect("/escapeRooms");
+                }
+            });
+        } else {
+            req.flash("error", req.app.locals.i18n.user.wrongCredentials);
+            res.render("index", {redir});
+        }
+    } catch (error) {
+        console.error(error);
+        req.flash("error", `${error}`);
+        next(error);
+    }
+};
 
 // DELETE /  --  Close the session
 exports.destroy = (req, res) => {

@@ -16,10 +16,23 @@
 	    </div>
 	</div>
 	<form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/turnos'  >
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+	
 		<div class="align-right flex-buttons">
-    		<a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
-    		<button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
-		    <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
+    		<a href="/escapeRooms/<%= escapeRoom.id %>">
+    			<button class="progress-buttons" type="button" value="exit" id="exit" name="exit">
+    				<%=i18n.common.exit%>
+    			</button>
+    		</a>
+    		<button class="progress-buttons" type="submit" value="next" id="next" name="next">
+    			<%=i18n.common.next%>
+    		</button>
+		    <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous">
+		    	<%=i18n.common.previous%>
+		    </button>
 		</div>
         <%- include('../../partials/_progress', {progress}) %>
 	</form>

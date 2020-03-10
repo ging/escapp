@@ -2,12 +2,8 @@ const {models} = require("../models");
 
 module.exports = {
 
-    "up": async (queryInterface, Sequelize) => {
-        const ers = await models.escapeRoom.findAll({"attributes": [
-            "id",
-            "classInstructions",
-            "video"
-        ]});
+    "up": async (queryInterface) => {
+        const ers = await models.escapeRoom.findAll({"attributes": ["id", "classInstructions", "video"]});
         const promises = [];
 
         for (const ert of ers || []) {

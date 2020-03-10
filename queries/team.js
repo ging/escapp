@@ -11,7 +11,6 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
                 "where": {
                     escapeRoomId
                 }
-
             },
             {
                 "model": models.user,
@@ -110,7 +109,8 @@ exports.ranking = (escapeRoomId, turnId) => {
         // "includeIgnoreAttributes": false,
         "attributes": [
             "id",
-            "name"
+            "name",
+            "startTime"
         ],
         "include": [
             {
@@ -184,6 +184,7 @@ exports.playRankingQuery = (turnoId, escapeRoomId) => {
         "attributes": [
             "id",
             "name",
+            "startTime",
             [
                 Sequelize.fn(
                     "MAX",
