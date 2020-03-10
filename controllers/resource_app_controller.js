@@ -6,6 +6,7 @@ const {models} = sequelize;
 exports.load = async (req, res, next, appId) => {
     try {
         const resourceApp = await models.app.findByPk(appId);
+
         if (resourceApp) {
         	req.resourceApp = resourceApp;
         	next();
@@ -20,20 +21,20 @@ exports.load = async (req, res, next, appId) => {
 
 // GET /apps/new
 exports.new = async (req, res, next) => {
-	res.render("inspiration/newApp");
+    res.render("inspiration/newApp");
 };
 
 // POST /apps
 exports.create = async (req, res, next) => {
-	res.send("Not yet implemented")
+    res.send("Not yet implemented");
 };
 
 // GET /resources/new
 exports.index = async (req, res, next) => {
-	res.render("inspiration/indexApp");
+    res.render("inspiration/indexApp");
 };
 
 // DELETE /apps/:appId
 exports.destroy = async (req, res, next) => {
-	res.send("Not yet implemented")
+    res.send("Not yet implemented");
 };

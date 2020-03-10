@@ -5,7 +5,8 @@ const {models} = sequelize;
 // Autoload the resource with id equals to :resourceId
 exports.load = async (req, res, next, resourceId) => {
     try {
-        const resource = await models.resource.findByPk(resourceId, {include:[{model: models.app}]});
+        const resource = await models.resource.findByPk(resourceId, {"include": [{"model": models.app}]});
+
         if (resource) {
         	req.resource = resource;
         	next();
@@ -30,13 +31,13 @@ exports.showResources = (req, res) => {
 
 // GET /resources/my
 exports.index = async (req, res, next) => {
-	res.send("Not yet implemented")
+    res.send("Not yet implemented");
 };
 
 // GET /resources/:appId/new
 exports.new = async (req, res, next) => {
-	console.log(req.resourceApp);
-	res.render("inspiration/apps/form", {app:req.resourceApp});
+    console.log(req.resourceApp);
+    res.render("inspiration/apps/form", {"app": req.resourceApp});
 };
 
 // GET /resources/:resourceId

@@ -11,11 +11,11 @@ module.exports = function (sequelize, DataTypes) {
             "description": DataTypes.STRING,
             "key": {
                 "type": DataTypes.STRING,
-                "allowNull" : false,
+                "allowNull": false,
                 "validate": {
-                    "isAlphanumeric": true,
+                    "isAlphanumeric": true
                 }
-            },
+            }
         }
     );
 };
