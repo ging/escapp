@@ -124,7 +124,7 @@ exports.new = (req, res) => {
 };
 
 // POST /escapeRooms/create
-exports.create = (req, res, next) => {
+exports.create = (req, res) => {
     const {title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize} = req.body,
 
         authorId = req.session.user && req.session.user.id || 0,
@@ -373,18 +373,36 @@ exports.studentToken = async (req, res) => {
     }
 };
 
-exports.clone = async (req, res) => {
-    const {title:oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles} = req.escapeRoom;
-    const authorId = req.session.user && req.session.user.id || 0;
-    const title = "Copy of " + oldTitle;
+exports.clone = async (req, res, next) => {
+    try {
+        const {"title": oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment} = req.escapeRoom;
+        const authorId = req.session.user && req.session.user.id || 0;
+        const newTitle = `Copy of ${oldTitle}`;
+        const include = [{"model": models.puzzle, "include": [models.hint]}];
+        if (hintApp) {
+            include.push(models.hintApp);
+        }
+        if (assets && assets.length) {
+            include.push(models.asset);
+        }
+        if (attachment) {
+            include.push(models.attachment);
+        }
+        const escapeRoom = models.escapeRoom.build({"title": newTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, authorId,
+            "puzzles": [...puzzles].map(({title, sol, desc, order, correct, fail, automatic, score, hints}) => ({title, sol, desc, order, correct, fail, automatic, score,
+                "hints": [...hints].map(({content, "order": hintOrder}) => ({content, "order": hintOrder}))})),
+            "hintApp": hintApp ? attHelper.getFields(hintApp) : undefined,
+            "assets": (assets && assets.length) ? [...assets].map(asset=>attHelper.getFields(asset)): undefined,
+            "attachment": attachment ? attHelper.getFields(attachment) : undefined
+            }, {
+            include
+        });
+        const saved = await escapeRoom.save();
+        // TODO Hintapp, assets, attachments delete only if they are not used anywhere else
 
-    const escapeRoom = models.escapeRoom.build({ title, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, authorId,
-        puzzles: [...puzzles].map(({title, sol, desc, order, correct, fail, automatic, score, hints})=>({title, sol, desc, order, correct, fail, automatic, score,
-        hints: [...hints].map(({content, order})=>({content, order}))
-    })) }, {
-        include: [{model: models.puzzle, include: [models.hint]}]
-    }); 
-    const saved = await escapeRoom.save();
-    // TODO Hintapp, assets, attachments
-    res.redirect("/escapeRooms/"+saved.id + "/edit")
-}
+        res.redirect(`/escapeRooms/${saved.id}/edit`);
+    } catch (err) {
+        next(err)
+    }
+
+};

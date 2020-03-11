@@ -116,3 +116,8 @@ exports.cloudinary_upload_options = {"folder": "/escapeRoom/attachments",
 exports.cloudinary_upload_options_zip = {"folder": "/escapeRoom/attachments",
     "resource_type": "auto",
     "tags": ["escapeRoom"]};
+
+exports.getFields = (el)=>{
+    console.log(el)
+    return {"public_id": el.public_id, "url": el.url, "filename": el.filename, "mime": el.mime};
+}
