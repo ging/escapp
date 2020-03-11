@@ -374,14 +374,17 @@ exports.studentToken = async (req, res) => {
 };
 
 exports.clone = async (req, res) => {
-    const {title:oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed} = req.escapeRoom;
+    const {title:oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles} = req.escapeRoom;
     const authorId = req.session.user && req.session.user.id || 0;
     const title = "Copy of " + oldTitle;
 
-    const escapeRoom = models.escapeRoom.build({ title, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, authorId }); 
+    const escapeRoom = models.escapeRoom.build({ title, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, authorId,
+        puzzles: [...puzzles].map(({title, sol, desc, order, correct, fail, automatic, score, hints})=>({title, sol, desc, order, correct, fail, automatic, score,
+        hints: [...hints].map(({content, order})=>({content, order}))
+    })) }, {
+        include: [{model: models.puzzle, include: [models.hint]}]
+    }); 
     const saved = await escapeRoom.save();
-    res.redirect("/escapeRooms/"+saved.id)
-
-    // Saves only the fields question and answer into the DDBB
-
+    // TODO Hintapp, assets, attachments
+    res.redirect("/escapeRooms/"+saved.id + "/edit")
 }
