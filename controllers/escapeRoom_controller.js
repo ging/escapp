@@ -372,3 +372,16 @@ exports.studentToken = async (req, res) => {
         res.redirect("/");
     }
 };
+
+exports.clone = async (req, res) => {
+    const {title:oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed} = req.escapeRoom;
+    const authorId = req.session.user && req.session.user.id || 0;
+    const title = "Copy of " + oldTitle;
+
+    const escapeRoom = models.escapeRoom.build({ title, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, authorId }); 
+    const saved = await escapeRoom.save();
+    res.redirect("/escapeRooms/"+saved.id)
+
+    // Saves only the fields question and answer into the DDBB
+
+}

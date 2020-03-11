@@ -18,6 +18,7 @@
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/activarTurno"><button class="showMenuButton acceptButton"><%=i18n.showTeacher.actionList.activateTurno%></button></a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/edit"><button class="showMenuButton editButton"><%=i18n.showTeacher.actionList.edit%></button></a></li>
+           <li><a href="/escapeRooms/<%= escapeRoom.id %>/clone?_method=PUT"><button class="showMenuButton cloneButton" ><%=i18n.showTeacher.actionList.clone%></button></a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>?_method=DELETE" onClick="return confirm('Delete: <%= escapeRoom.title %>');"><button class="showMenuButton deleteButton"><%=i18n.showTeacher.actionList.delete%></button></a></li>
            <li><a href="/users/<%= session.user.id %>/escapeRooms"><button class="showMenuButton"><%=i18n.showTeacher.actionList.volver%></button></a></li>
        </ul>

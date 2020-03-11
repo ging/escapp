@@ -56,6 +56,19 @@ button, input[type="submit"] {
     background-color: #FAC855;
     border-color: #FAC855;
     color: #161938; }
+  button.cloneButton, input[type="submit"].cloneButton {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    outline: 0;
+    background-color: #F3945E;
+    border-color: #F3945E;
+    color: #161938; }
   button.deleteButton, input[type="submit"].deleteButton {
     margin: 0;
     padding: 0;

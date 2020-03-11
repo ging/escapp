@@ -511,6 +511,7 @@
             "analytics": "Learning analytics",
             "appearance": "Appearance",
             "basic": "Basic configuration",
+            "clone": "clone",
             "delete": "delete",
             "edit": "edit",
             "join": "Join invitation",
