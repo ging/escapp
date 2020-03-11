@@ -190,7 +190,7 @@ exports.pistasUpdate = (req, res, next) => {
                 // There is no attachment: Delete old attachment.
                 if (!req.file) {
                     if (escapeRoom.hintApp) {
-                        attHelper.deleteResource(escapeRoom.hintApp.public_id);
+                        attHelper.deleteResource(escapeRoom.hintApp.public_id, models.hintApp);
                         escapeRoom.hintApp.destroy();
                     }
                     return;
@@ -220,12 +220,12 @@ exports.pistasUpdate = (req, res, next) => {
                             then(() => {
                                 req.flash("success", "Fichero guardado con éxito.");
                                 if (old_public_id) {
-                                    attHelper.deleteResource(old_public_id);
+                                    attHelper.deleteResource(old_public_id, models.hintApp);
                                 }
                             }).
                             catch((error) => { // Ignoring image validation errors
                                 req.flash("error", `Error al guardar el fichero: ${error.message}`);
-                                attHelper.deleteResource(uploadResult.public_id);
+                                attHelper.deleteResource(uploadResult.public_id, models.hintApp);
                             });
                     }).
                     catch((error) => {

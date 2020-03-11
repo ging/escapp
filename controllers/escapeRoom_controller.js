@@ -16,7 +16,7 @@ exports.load = async (req, res, next, escapeRoomId) => {
             req.escapeRoom = escapeRoom;
             next();
         } else {
-            next(new Error(req.app.locals.api.notFound));
+            next(new Error(req.app.locals.i18n.api.notFound));
         }
     } catch (error) {
         res.status(500);
@@ -151,7 +151,7 @@ exports.create = (req, res) => {
                     catch((error) => { // Ignoring validation errors
                         console.error(error);
                         req.flash("error", `${req.app.locals.i18n.common.flash.errorImage}: ${error.message}`);
-                        attHelper.deleteResource(uploadResult.public_id);
+                        attHelper.deleteResource(uploadResult.public_id, models.attachment);
                     })).
                 catch((error) => {
                     console.error(error);
@@ -197,7 +197,7 @@ exports.update = (req, res, next) => {
                 // There is no attachment: Delete old attachment.
                 if (!req.file) {
                     if (er.attachment) {
-                        attHelper.deleteResource(er.attachment.public_id);
+                        attHelper.deleteResource(er.attachment.public_id, models.attachment);
                         er.attachment.destroy();
                     }
 
@@ -228,12 +228,12 @@ exports.update = (req, res, next) => {
                             }).
                             then(() => {
                                 if (old_public_id) {
-                                    attHelper.deleteResource(old_public_id);
+                                    attHelper.deleteResource(old_public_id, models.attachment);
                                 }
                             }).
                             catch((error) => { // Ignoring image validation errors
                                 req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
-                                attHelper.deleteResource(uploadResult.public_id);
+                                attHelper.deleteResource(uploadResult.public_id, models.attachment);
                             }).
                             then(() => {
                                 res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
@@ -333,7 +333,7 @@ exports.destroy = async (req, res, next) => {
         await req.escapeRoom.destroy({}, {transaction});
         if (req.escapeRoom.attachment) { // Delete the attachment at Cloudinary (result is ignored)
             await attHelper.checksCloudinaryEnv();
-            await attHelper.deleteResource(req.escapeRoom.attachment.public_id);
+            await attHelper.deleteResource(req.escapeRoom.attachment.public_id, models.attachment);
         }
 
         let teamIds = [];

@@ -47,7 +47,10 @@ exports.uploadResource = function (src, options) {
     });
 };
 
-exports.deleteResource = function (public_id) {
+exports.deleteResource = async function (public_id, model) {
+    const inUse = await model.count({where:{public_id}})
+    console.log(inUse)
+    if (inUse && inUse.length >= 1) {return;}
     if (process.env.CLOUDINARY_URL) {
         // Delete from Cloudinary.
         cloudinary.api.delete_resources(public_id);
@@ -118,6 +121,5 @@ exports.cloudinary_upload_options_zip = {"folder": "/escapeRoom/attachments",
     "tags": ["escapeRoom"]};
 
 exports.getFields = (el)=>{
-    console.log(el)
     return {"public_id": el.public_id, "url": el.url, "filename": el.filename, "mime": el.mime};
 }

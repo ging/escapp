@@ -60,7 +60,7 @@ exports.uploadAssets = async (req, res) => {
             res.status(500);
             res.send(req.app.locals.i18n.common.flash.errorFile);
             console.error(error);
-            attHelper.deleteResource(uploadResult.public_id);
+            attHelper.deleteResource(uploadResult.public_id, models.asset);
         } else {
             res.status(500);
             res.send(req.app.locals.i18n.common.flash.errorFile);
@@ -76,7 +76,7 @@ exports.deleteAssets = async (req, res) => {
 
     try {
         if (asset) {
-            attHelper.deleteResource(asset.public_id);
+            attHelper.deleteResource(asset.public_id, models.asset);
             await asset.destroy();
             res.json({"msg": req.app.locals.api.ok});
         } else {
