@@ -5,7 +5,7 @@
     <div class="dialog" >
         </br>
         <%=i18n.team.choose%><a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new">
-            <i class="material-icons">add_circle_outline</i></a>
+            <span class="material-icons">add_circle_outline</span></a>
         </br>
         </br>
         <div class="findTeam">
@@ -16,7 +16,7 @@
                 <div class="no-results-msg"><%= i18n.team.noResults%></div>
                 <div class="create-new-team"><%= i18n.team.doYouWantToCreate %></div>
                 <a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new">
-                     <i class="material-icons">add_circle_outline</i>
+                     <span class="material-icons">add_circle_outline</span>
                 </a>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%=i18n.lang%>">
 <head>
     <meta charset="utf-8">
     <title>escapp</title>
@@ -14,10 +14,10 @@
     <% include partials/_icons.ejs %>
 </head>
 <body>
-<section  id="mainSection">
+<div  id="mainSection">
     <%- body %>
     <%- include("./partials/_flash",{bs:false}) %>
-</section>
+</div>
 
 
 </body>

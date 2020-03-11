@@ -1,10 +1,9 @@
 <% include ../../partials/_header.ejs %>
 <div class="main step-puzzles">
-  <h2><%=i18n.escapeRoom.steps.puzzles.title%>
-  </h2>
+  <h1><%=i18n.escapeRoom.steps.puzzles.title%></h1>
     <div class="align-right">
         <button class="rounded editButton" type="button" id="add-new-puzzle">
-            <!-- <i class="material-icons">control_point</i> -->
+            <!-- <span class="material-icons">control_point</span> -->
             <%=i18n.escapeRoom.steps.puzzles.addNewPuzzles%>
         </button>
     </div>
@@ -111,12 +110,12 @@
         const template = `
             <li>
                <div class="hint-li">
-                <i title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle-hint">swap_vert</i>
+                <span title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle-hint">swap_vert</i>
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][id]" value=""/>
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][order]" class="hint-order" value="${hintOrder}"/>
                 <input type="text" name="puzzles[${order}][hints][${hintOrder}][content]" placeholder="" required value=""/>
                 <button type="button" class="delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>" >
-                  <i class="material-icons">clear</i> 
+                  <span class="material-icons">clear</span> 
                 </button>
                 </div>
             </li>

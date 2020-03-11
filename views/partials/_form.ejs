@@ -46,10 +46,9 @@
                placeholder="<%=i18n.escapeRoom.steps.edit[field.i18n + "PlaceHolder"]%>" autocomplete="off"/>
     </div>
     <% if (field.name === "duration") { %> 
-      <p class="note animated slideInUp" style="animation-delay: <%=200*f%>ms;"> 
-      <input class="customCheckbox" type="checkbox" name="forbiddenLateSubmissions" <%= escapeRoom.forbiddenLateSubmissions ? "checked" : "" %> />
-      <%=i18n.escapeRoom.steps.edit.forbiddenLateSubmissionsPlaceHolder%>
-      </p>
+      <label class="note animated slideInUp" style="animation-delay: <%=200*f%>ms;" for="forbiddenLateSubmissions" ><%=i18n.escapeRoom.steps.edit.forbiddenLateSubmissionsPlaceHolder%>
+        <input class="customCheckbox" type="checkbox" name="forbiddenLateSubmissions" id="forbiddenLateSubmissions" <%= escapeRoom.forbiddenLateSubmissions ? "checked" : "" %> />
+      </label>
     <% } %>
     
 <%}%>
@@ -71,17 +70,16 @@
           style="display: none;"
         <% } %>
         class="fileUploadButton">
-          <i class="material-icons">file_upload</i>
+          <span class="material-icons">file_upload</span>
       </span>
       <span id="delete"
         <% if (!escapeRoom.id && !escapeRoom.attachment) { %>
           style="display: none;"
         <% } %>
         class="fileUploadButton">
-          <i class="material-icons">delete</i>
+          <span class="material-icons">delete</span>
         </span>
-        <input type="text" class="inputFormField erFormField" style="opacity:0;"/>
-
+				<input type="text" class="inputFormField erFormField" style="opacity:0;" aria-label="Force focus"/>
         <input type="hidden" name="keepAttachment" id="keepAttachment" value="<%= (escapeRoom.id && escapeRoom.attachment) ? "1" : "0" %>" >
     </label>
 </div>

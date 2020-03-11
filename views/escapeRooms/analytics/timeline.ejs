@@ -6,11 +6,11 @@
     <div class="breadcrumbs-container">
         <div class="breadcrumbs">
             <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
-            <i class="material-icons">chevron_right</i>
+            <span class="material-icons">chevron_right</span>
             <a href="/escapeRooms/<%=escapeRoom.id%>/analytics">
                 <%=i18n.analytics.main.title%>
             </a>
-            <i class="material-icons">chevron_right</i>
+            <span class="material-icons">chevron_right</span>
             <span><%=i18n.analytics.timeline.title%></span>
         </div>
     </div>
@@ -51,7 +51,7 @@
       <div id="team">
         <div class="team-name">
           <%=team.name%>
-        </div><img class="door" src="/images/doorclosed.png" alt=""/>
+        </div><img class="door" src="/images/doorclosed.png" alt="<%=i18n.analytics.timeline.closedDoor%>"/>
         <div class="progress">
           
           <%
@@ -77,7 +77,7 @@
               </div>
           <% } %>
           <% if (team.retos.length === puzzles.length) {%>
-            <img class="door" src="/images/dooropen.png" alt=""/>
+            <img class="door" src="/images/dooropen.png" alt="<%=i18n.analytics.timeline.openDoor%>"/>
           <%} else { %>
               <div class="step step-flex progress-puzzle-<%= team.retos.length % 5%>" style="">
                   <div class="tooltip">

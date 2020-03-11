@@ -319,6 +319,7 @@
         "dontClose": "No quedan más pistas automáticas para tu situación. Puedes llamar al profesor para que te dé una personalizada. No cierres este mensaje hasta que venga",
         "instructionsHints": "Responde las preguntas para obtener una pista",
         "empty": "Pista personalizada",
+        "Hint": "Pista",
         "Hints": "Pistas",
         "need": "¿Necesitas una pista?",
         "successMessage": "Enhorabuena! Has conseguido una nueva pista.",
@@ -511,6 +512,7 @@
             "volver": "volver"
         },
         "messages": {
+            "copyAria": "Input invisible para permitir copiar el link de invitación",
             "noHintControl": "Esta Escape Room no utiliza ningún mecanismo de control de pistas",
             "noVideo": "No hay vídeo"
         },

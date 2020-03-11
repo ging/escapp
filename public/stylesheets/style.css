@@ -319,6 +319,9 @@ button, input[type="submit"] {
     border-radius: 50%;
     color: black; }
 
+#mainSection .main.steps h1 {
+  font-size: 1.5em; }
+
 #mainSection .main .align-right.flex-buttons {
   flex-wrap: wrap; }
   #mainSection .main .align-right.flex-buttons #previous {
@@ -371,7 +374,7 @@ button, input[type="submit"] {
         width: 10px;
         padding: 2px;
         margin: 0px; }
-    #mainSection .main .flexShow .flexRow .copy {
+    #mainSection .main .flexShow .flexRow .copy, #mainSection .main .flexShow .flexRow .qr {
       background: transparent;
       border: none;
       font-size: 16px;
@@ -497,7 +500,8 @@ button, input[type="submit"] {
   font-family: 'Lato', sans-serif;
   padding-left: 68px;
   text-align: left;
-  margin-top: -40px; }
+  margin-top: -40px;
+  display: block; }
   #mainSection .main .note input {
     vertical-align: middle; }
 
@@ -1859,9 +1863,9 @@ button, input[type="submit"] {
   position: relative; }
   #mainSection .main .puzzle-card.ui-sortable-helper {
     height: 105px !important; }
-  #mainSection .main .puzzle-card.collapsed h3 input {
+  #mainSection .main .puzzle-card.collapsed h2 input {
     border: none; }
-  #mainSection .main .puzzle-card h3.showAlways {
+  #mainSection .main .puzzle-card h2.showAlways {
     margin-block-end: 0px; }
   #mainSection .main .puzzle-card .ui-sortable-handle {
     -ms-touch-action: none;
@@ -1897,25 +1901,25 @@ button, input[type="submit"] {
       color: #F47E84; }
   #mainSection .main .puzzle-card .material-icons {
     color: #48C18E; }
-  #mainSection .main .puzzle-card h3 {
+  #mainSection .main .puzzle-card h2 {
     font-size: 22px;
     font-weight: bold;
     margin-top: 0px; }
-    #mainSection .main .puzzle-card h3 i.material-icons {
+    #mainSection .main .puzzle-card h2 i.material-icons, #mainSection .main .puzzle-card h2 span.material-icons {
       line-height: 40px;
       position: absolute; }
-    #mainSection .main .puzzle-card h3 input {
+    #mainSection .main .puzzle-card h2 input {
       font-size: 22px;
       height: 45px;
       padding-left: 30px;
       font-weight: bold; }
-  #mainSection .main .puzzle-card h4 {
+  #mainSection .main .puzzle-card h3 {
     font-size: 18px;
     font-weight: light;
     margin-bottom: 3px; }
-    #mainSection .main .puzzle-card h4 ::placeholder {
+    #mainSection .main .puzzle-card h3 ::placeholder {
       opacity: 0.5; }
-    #mainSection .main .puzzle-card h4 .material-icons {
+    #mainSection .main .puzzle-card h3 .material-icons {
       vertical-align: text-bottom; }
   #mainSection .main .puzzle-card p {
     font-size: 16px;

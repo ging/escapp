@@ -76,7 +76,7 @@ exports.image = function (public_id, options) {
     const src = path.join("/uploads", public_id);
     const width = options.width || "";
 
-    return `<img src='${src}' width='${width}' >`;
+    return `<img alt="Upload" src='${src}' width='${width}' >`;
 };
 
 

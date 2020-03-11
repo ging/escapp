@@ -25,7 +25,7 @@
     <% var counter = 0;
       for (var k in summary) {%>
         <div class="card <%=k%> animated zoomIn  " style="animation-delay: <%=counter/5%>s;">
-            <div class="card-icon"><i class="material-icons"><%=summary[k].icon%></i></div>
+            <div class="card-icon"><span class="material-icons"><%=summary[k].icon%></span></div>
             <div class="card-title"><%=i18n.analytics.main.dashboard[k]%></div>
             <div class="card-content"><%=summary[k].value%></div>
         </div>

@@ -1,6 +1,6 @@
 <% include ../../partials/_header.ejs %>
-<div class="main step-evaluation">
-  <h2><%=i18n.escapeRoom.steps.evaluation.title%></h2>  
+<div class="main steps step-evaluation">
+  <h1><%=i18n.escapeRoom.steps.evaluation.title%></h1>  
   <form method='POST' class="basicConfig" action='/escapeRooms/<%= escapeRoom.id %>/evaluation'  >
 		<!-- 	  <p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.youCanUse%> <a target="_blank" href="https://docs.google.com/forms/u/0/">Google Forms</a> o <a target="_blank" href="https://www.typeform.com/es/">TypeForm</a> <%=i18n.escapeRoom.steps.evaluation.forSurveys%></p>
 	  <div class="inputFormField erFormField animated slideInUp"> 

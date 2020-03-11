@@ -13,9 +13,9 @@
            <li><a href="#basic"><%=i18n.showTeacher.actionList.basic%></a></li>
            <li><a href="#turnos"><%=i18n.showTeacher.actionList.turnos%></a></li>
            <li><a href="#join"><%=i18n.showTeacher.actionList.join%></a></li>
-           <li><a href="/escapeRooms/<%= escapeRoom.id %>/participants"><%=i18n.showTeacher.actionList.participants%> <i class="material-icons">keyboard_arrow_right</i></a></li>
-           <li><a href="/escapeRooms/<%= escapeRoom.id %>/teams"><%=i18n.showTeacher.actionList.teams%> <i class="material-icons">keyboard_arrow_right</i> </a></li>
-           <li><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <i class="material-icons">keyboard_arrow_right</i> </a></li>
+           <li><a href="/escapeRooms/<%= escapeRoom.id %>/participants"><%=i18n.showTeacher.actionList.participants%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+           <li><a href="/escapeRooms/<%= escapeRoom.id %>/teams"><%=i18n.showTeacher.actionList.teams%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
+           <li><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/activarTurno"><button class="showMenuButton acceptButton"><%=i18n.showTeacher.actionList.activateTurno%></button></a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/edit"><button class="showMenuButton editButton"><%=i18n.showTeacher.actionList.edit%></button></a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>?_method=DELETE" onClick="return confirm('Delete: <%= escapeRoom.title %>');"><button class="showMenuButton deleteButton"><%=i18n.showTeacher.actionList.delete%></button></a></li>
@@ -84,9 +84,14 @@
 
                 <a class="show_link" href="<%= invitationLink %>"><%= invitationLink %></a>
 
-                <input id="joinUrl" value="<%= invitationLink %>"/>
-                <button class="copy" id="copyButton"><i class="material-icons">file_copy</i></button>
-                 <a class="show_link" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/<%= invitationLink %>"> <button class="copy" id="copyButton"><i class="material-icons">camera_enhance</i></button></a>
+                <input id="joinUrl" value="<%= invitationLink %>" aria-label="<%=i18n.showTeacher.messages.copyAria%>"/>
+                <button class="copy" id="copyButton">
+                    <span class="material-icons">file_copy</span></button>
+                 <a class="show_link" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/<%= invitationLink %>"> 
+                    <button class="qr" id="qrButton">
+                     <span class="material-icons">camera_enhance</span>
+                    </button>
+                </a>
             </div>
         </div>
         <div class="flexRow animated slideInUp" id="turnos">
@@ -98,12 +103,12 @@
                 <%  include ../turnos/_indexShow  %>
             </div>
         </div>
-        <div class="flexRow animated slideInUp smallHidden" id="pistas">
+        <div class="flexRow animated slideInUp smallHidden" id="retos">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.puzzles%>:
                 <% const someAutomatic = escapeRoom.puzzles && escapeRoom.puzzles.length > 0 && escapeRoom.puzzles.some(p=>p.automatic); %>
                 <%if (someAutomatic) {%>
-                    <br/><button class="copy" id="api-button"><i class="material-icons">info</i></button>
+                    <br/><button class="copy" id="api-button"><span class="material-icons">info</span></button>
                 <%}%>
             </div>
             <div class="flexShowRight previewPuzzles">
@@ -172,7 +177,7 @@
                 <% if (escapeRoom.hintApp) { %>
 
                    <a class="show_link"  download="quiz" href="/escapeRooms/<%= escapeRoom.id%>/xml"><%=escapeRoom.hintApp.filename%></a>
-                   <button class="copy" onclick="previewHintApp()"><i class="material-icons">remove_red_eye</i></button> 
+                   <button class="copy" onclick="previewHintApp()"><span class="material-icons">remove_red_eye</span></button> 
                 <% } else { %>
                    <%=i18n.showTeacher.messages.noHintControl%>
                 <% } %>

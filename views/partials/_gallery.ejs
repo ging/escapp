@@ -2,32 +2,36 @@
     <div id="dialog-gallery" title="<%=i18n.gallery.title%>" style="display: none;">
       <p class="gallery-msg">
 
-      <label><input type="radio" id="sourceUrl" name="file-gallery-source" checked="checked" value="url"/><%=i18n.gallery.insertURL%></label>
+      <label for="sourceUrl">
+        <input type="radio" id="sourceUrl" name="file-gallery-source" checked="checked" value="url"/><%=i18n.gallery.insertURL%>
+      </label>
       <br/>
-      <input type="url" id="urlInput" class="fileUrlInput" placeholder="http://" />
+      <input type="url" id="urlInput" class="fileUrlInput" placeholder="http://"  aria-label="<%=i18n.gallery.insertURL%>"/>
       <br/>
-      <label><input type="radio" id="sourceFile" name="file-gallery-source" value="url"/><%=i18n.gallery.selectFileFromList%></label>
+      <label for="sourceFile">
+        <input type="radio" id="sourceFile" name="file-gallery-source" value="url"/><%=i18n.gallery.selectFileFromList%></label>
           <button class="" id="uploadNew"><%=i18n.gallery.uploadNew%></button>
       </p>
       <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone" >
           <input type="file" name="file" style="display:none;"/>
       </form>
       <p class="gallery-msg">
-      <label><input type="radio" id="sourceGamificationElement" name="file-gallery-source" value="url"/>
+      <label for="sourceGamificationElement">
+        <input type="radio" id="sourceGamificationElement" name="file-gallery-source" value="url"/>
           <%=i18n.gallery.selectGamificationElements%>
       </label>
         <div class="gamification-elements">
           <div class="gamification-element" id="countdown">
-            <img src="/images/countdown.png" title="<%=i18n.gallery.countdownExplanation%>" />
+            <img src="/images/countdown.png" title="<%=i18n.gallery.countdownExplanation%>" alt="<%=i18n.gallery.countdown%>"/>
             <p class="gamification-element-title"><%=i18n.gallery.countdown%></p>
           </div>
           <div class="gamification-element" id="ranking">
-            <img src="/images/ranking.png" title="<%=i18n.gallery.rankingExplanation%>" />
+            <img src="/images/ranking.png" title="<%=i18n.gallery.rankingExplanation%>" alt="<%=i18n.gallery.ranking%>"/>
             <p class="gamification-element-title"><%=i18n.gallery.ranking%></p>
           </div>
           <% if (endPoint === "team") { %>
             <div class="gamification-element" id="progressbar">
-              <img src="/images/progress.png" title="<%=i18n.gallery.progressExplanation%>" />
+              <img src="/images/progress.png" title="<%=i18n.gallery.progressExplanation%>" alt="<%=i18n.gallery.ranking%>"/>
               <p class="gamification-element-title"><%=i18n.gallery.progress%></p>
             </div>
           <% } %>

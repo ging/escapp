@@ -68,6 +68,8 @@
         },
         "timeline": {
             "customHint": "Custom hint",
+            "openDoor": "Open Door",
+            "closedDoor": "Closed Door",
             "nTeamsPuzzle": "Number of teams that completed each puzzle",
             "nTeamsPuzzleButton": "see by team",
             "nPuzzlesTeam": "Number of puzzles completed by each team",
@@ -336,6 +338,7 @@
         "dontClose": "There aren't any hints left. You may ask your teacher now, he or she will help you. Don't close this message until they come",
         "empty": "Custom hint",
         "instructionsHints": "Answer the questions in order to get a hint",
+        "Hint": "Hint",
         "Hints": "Hints",
         "need": "Need a hint?",
         "successMessage": "Congratulations! You've achieved a new hint",
@@ -518,7 +521,8 @@
         },
         "messages": {
             "noHintControl": "This Escape Room does not have any hint system yet",
-            "noVideo": "This Escape Room does not have any video yet"
+            "noVideo": "This Escape Room does not have any video yet",
+            "copyAria": "Invisible input to enable copying invitation link"
         },
         "titles": {
             "appearance": "Appearance",

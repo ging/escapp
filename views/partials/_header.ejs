@@ -1,14 +1,14 @@
 <header class="" id="mainHeader">
     <div class="left">
         <% if (session.user) { %>
-            <a title="<%=i18n.common.exit%>" href="/?_method=DELETE"><i class="navBarIcon material-icons">power_settings_new</i></a>
+            <a title="<%=i18n.common.exit%>" href="/?_method=DELETE"><span class="navBarIcon material-icons">power_settings_new</span></a>
             <span style="display:inline-block;width:10px;"></span>
-            <a title="<%=i18n.common.mainPage%>" href="/escapeRooms"><i class="navBarIcon material-icons">home</i></a>
+            <a title="<%=i18n.common.mainPage%>" href="/escapeRooms"><span class="navBarIcon material-icons">home</span></a>
             <span style="display:inline-block;width:10px;"></span>
             <% if (!session.user.isStudent) { %>
-                <a title="<%=i18n.common.guide%>" href="/inspiration"><i class="navBarIcon material-icons">help_outline</i></a>
+                <a title="<%=i18n.common.guide%>" href="/inspiration"><span class="navBarIcon material-icons">help_outline</span></a>
                 <span style="display:inline-block;width:10px;"></span>
-                <a title="<%=i18n.common.ideas%>" href="/resources"><i class="navBarIcon material-icons">widgets</i></a>
+                <a title="<%=i18n.common.ideas%>" href="/resources"><span class="navBarIcon material-icons">widgets</span></a>
             <% } %>
         <% } %>
     </div>
