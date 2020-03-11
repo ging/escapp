@@ -152,14 +152,14 @@ button, input[type="submit"] {
       margin-top: 0;
       margin-bottom: 5px;
       font-size: 18x; }
-      .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag span {
+      .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag span:not(.material-icons) {
         font-family: Lato, sans-serif;
         color: white; }
-      .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag i {
+      .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag i, .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag .material-icons {
         font-size: 21px;
         margin-right: 10px;
         transition: 0.3s ease-in all; }
-    .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag:hover i {
+    .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag:hover i, .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag:hover .material-icons {
       transform: scale(1.2); }
   .main.summary .flex-container.analytics-menu .flex-container-right {
     flex: 1; }
@@ -1661,7 +1661,7 @@ button, input[type="submit"] {
     #mainSection .main .breadcrumbs-container {
       text-align: left;
       align-self: left; }
-      #mainSection .main .breadcrumbs-container .breadcrumbs a, #mainSection .main .breadcrumbs-container .breadcrumbs span {
+      #mainSection .main .breadcrumbs-container .breadcrumbs a, #mainSection .main .breadcrumbs-container .breadcrumbs span:not(.material-icons) {
         font-family: Lato, sans-serif;
         display: inline-block;
         font-size: 18px; }
