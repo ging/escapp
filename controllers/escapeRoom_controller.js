@@ -379,6 +379,7 @@ exports.clone = async (req, res, next) => {
         const authorId = req.session.user && req.session.user.id || 0;
         const newTitle = `Copy of ${oldTitle}`;
         const include = [{"model": models.puzzle, "include": [models.hint]}];
+
         if (hintApp) {
             include.push(models.hintApp);
         }
@@ -392,17 +393,14 @@ exports.clone = async (req, res, next) => {
             "puzzles": [...puzzles].map(({title, sol, desc, order, correct, fail, automatic, score, hints}) => ({title, sol, desc, order, correct, fail, automatic, score,
                 "hints": [...hints].map(({content, "order": hintOrder}) => ({content, "order": hintOrder}))})),
             "hintApp": hintApp ? attHelper.getFields(hintApp) : undefined,
-            "assets": (assets && assets.length) ? [...assets].map(asset=>attHelper.getFields(asset)): undefined,
-            "attachment": attachment ? attHelper.getFields(attachment) : undefined
-            }, {
+            "assets": assets && assets.length ? [...assets].map((asset) => attHelper.getFields(asset)) : undefined,
+            "attachment": attachment ? attHelper.getFields(attachment) : undefined}, {
             include
         });
         const saved = await escapeRoom.save();
-        // TODO Hintapp, assets, attachments delete only if they are not used anywhere else
 
         res.redirect(`/escapeRooms/${saved.id}/edit`);
     } catch (err) {
-        next(err)
+        next(err);
     }
-
 };
