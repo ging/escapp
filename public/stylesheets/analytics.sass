@@ -68,21 +68,29 @@
         .la-chart-title
           font-size: 20px
           padding-left: 20px
-.apexcharts-canvas
-  *
+  .apexcharts-canvas
+    *
+      font-family: "Lato", sans-serif !important
+      color: $textpurple
+  .apexcharts-xaxis-label
+    fill: white !important
     font-family: "Lato", sans-serif !important
-    color: $textpurple
-.apexcharts-xaxis-label
-  fill: white !important
-  font-family: "Lato", sans-serif !important
+  .apexcharts-yaxis-label
+    fill: white !important
+    font-family: "Lato", sans-serif !important
 
-.apexcharts-yaxis-label
-  fill: white !important
-  font-family: "Lato", sans-serif !important
-
-.apexcharts-legend-text
-  color: white !important
-  font-family: "Lato", sans-serif !important
+  .apexcharts-legend-text
+    color: white !important
+    font-family: "Lato", sans-serif !important
+  .apexcharts-tooltip.light
+    background: white
+    border-color: white !important
+    border-radius: 0px  
+    .apexcharts-tooltip-title
+      background: white
+      max-width: 40vw
+      text-overflow: ellipsis
+      overflow: hidden
 #hints-chart
   *
     color: $textpurple
@@ -101,6 +109,7 @@
         border-radius: 0px
       .apexcharts-tooltip-title
         background: white
+        
     .apexcharts-menu
       background-color: white
       border-radius: 0px
