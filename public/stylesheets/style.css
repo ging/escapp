@@ -332,7 +332,7 @@ button, input[type="submit"] {
     border-radius: 50%;
     color: black; }
 
-#mainSection .main.steps h1 {
+#mainSection .main.steps > h1 {
   font-size: 1.5em; }
 
 #mainSection .main .align-right.flex-buttons {
@@ -626,7 +626,7 @@ button, input[type="submit"] {
     content: "";
     flex: 1; }
   .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper {
-    width: 19%;
+    width: 19.9%;
     padding: 10px;
     height: auto; }
     .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper:before {

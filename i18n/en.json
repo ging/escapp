@@ -320,6 +320,8 @@
         }
     },
     "gallery": {
+        "insert": "insert",
+        "cancel": "cancel",
         "title": "Gallery",
         "insertURL": "Insert URL",
         "selectFileFromList": "Select file from the list or ",

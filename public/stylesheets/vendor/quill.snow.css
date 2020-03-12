@@ -39,7 +39,7 @@
   tab-size: 4;
   -moz-tab-size: 4;
   text-align: left;
-  white-space: pre-wrap;
+  white-space: inherit;
   word-wrap: break-word;
 }
 .ql-editor > * {

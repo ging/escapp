@@ -326,6 +326,8 @@
         "tooMany": "Ya has pedido el número máximo de pistas"
     },
     "gallery": {
+        "insert": "insertar",
+        "cancel": "cancelar",
         "title": "Galería",
         "insertURL": "Introduce la URL",
         "selectFileFromList": "Selecciona un fichero de la lista o ",
