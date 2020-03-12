@@ -1,5 +1,7 @@
 {
     "lang": "es",
+    "locale": "es_ES",
+    "description": "Plataforma para gestionar escape rooms educativas",
     "analytics": {
         "charts": {
             "titles": { "retosSuperadosTeam": "Retos superados", "hintsByTeam":"Pistas solicitadas"}
@@ -610,6 +612,7 @@
             "login": "entrar",
             "notRegistered": "¿No tienes cuenta?",
             "register": "regístrate",
+            "Register": "Regístrate",
             "resetPassword" : "Recuperar contraseña",
             "save": "guardar"
         },

@@ -1824,7 +1824,7 @@ button, input[type="submit"] {
       width: 50%;
       flex: 3;
       padding: 3em; }
-      .portada .contenedor .loginRight h1 {
+      .portada .contenedor .loginRight h2 {
         text-align: left; }
       .portada .contenedor .loginRight input, .portada .contenedor .loginRight select {
         width: 100%;
@@ -1839,7 +1839,8 @@ button, input[type="submit"] {
       .portada .contenedor .loginRight .loginWelcomeMessage {
         color: #656683;
         text-align: left;
-        padding-top: 15px; }
+        padding-top: 15px;
+        font-size: 18px; }
       .portada .contenedor .loginRight .roleField {
         display: flex;
         flex-direction: row;
@@ -2886,6 +2887,8 @@ html {
         border-color: white; }
         html body input:focus + label, html body input:active + label, html body input:-webkit-autofill:focus + label, html body input:-webkit-autofill:active + label, html body select:focus + label, html body select:active + label, html body select:-webkit-autofill:focus + label, html body select:-webkit-autofill:active + label {
           color: white; }
+    html body select {
+      -webkit-appearance: none; }
     html body footer {
       display: flex;
       align-content: space-around;

@@ -1,5 +1,7 @@
 {
     "lang": "en",
+    "locale": "en_US",
+    "description": "Platform for managing educational escape rooms",
     "analytics": {
         "charts": {
             "titles": {
@@ -618,6 +620,7 @@
             "Login": "Login",
             "notRegistered": "Don't have an account?",
             "register": "register",
+            "Register": "Register",
             "resetPassword" : "Reset password",
             "save": "save"
         },
