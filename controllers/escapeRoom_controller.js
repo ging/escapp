@@ -277,8 +277,9 @@ exports.evaluationUpdate = async (req, res, next) => {
     escapeRoom.scoreParticipation = body.scoreParticipation;
     escapeRoom.hintSuccess = body.hintSuccess;
     escapeRoom.hintFailed = body.hintFailed;
+    escapeRoom.automaticAttendance = body.automaticAttendance;
     try {
-        await escapeRoom.save({"fields": ["survey", "pretest", "posttest", "scoreParticipation", "hintSuccess", "hintFailed"]});
+        await escapeRoom.save({"fields": ["survey", "pretest", "posttest", "scoreParticipation", "hintSuccess", "hintFailed", "automaticAttendance"]});
         if (!body.scores || body.scores.length !== escapeRoom.puzzles.length) {
             throw new Error("");
         }
@@ -389,8 +390,36 @@ exports.clone = async (req, res, next) => {
         if (attachment) {
             include.push(models.attachment);
         }
-        const escapeRoom = models.escapeRoom.build({"title": newTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, authorId,
-            "puzzles": [...puzzles].map(({title, sol, desc, order, correct, fail, automatic, score, hints}) => ({title, sol, desc, order, correct, fail, automatic, score,
+        const escapeRoom = models.escapeRoom.build({"title": newTitle,
+            subject,
+            duration,
+            description,
+            nmax,
+            teamSize,
+            teamAppearance,
+            classAppearance,
+            survey,
+            pretest,
+            posttest,
+            numQuestions,
+            numRight,
+            feedback,
+            forbiddenLateSubmissions,
+            classInstructions,
+            teamInstructions,
+            scoreParticipation,
+            hintLimit,
+            hintSuccess,
+            hintFailed,
+            authorId,
+            "puzzles": [...puzzles].map(({title, sol, desc, order, correct, fail, automatic, score, hints}) => ({title,
+                sol,
+                desc,
+                order,
+                correct,
+                fail,
+                automatic,
+                score,
                 "hints": [...hints].map(({content, "order": hintOrder}) => ({content, "order": hintOrder}))})),
             "hintApp": hintApp ? attHelper.getFields(hintApp) : undefined,
             "assets": assets && assets.length ? [...assets].map((asset) => attHelper.getFields(asset)) : undefined,

@@ -15,9 +15,10 @@
 		  <label for="subj"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.surveyField%>:</label>
 		  <input type="text" class="customInput itemWide" id="survey" name="survey" value="<%= escapeRoom.survey %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.surveyPlaceHolder%>" autocomplete="off"/>
 	  </div> -->
+
 	  <p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.gradingIntro%> </p>
-	  <div class=" erFormField disallow animated slideInUp" style="animation-delay:600ms;">
-		  <label for="tit"  class="itemNarrow"><%=i18n.escapeRoom.steps.evaluation.eachPuzzle%>:</label>
+	  <div class=" erFormField disallow animated slideInUp" style="animation-delay:0ms;">
+		  <label for="tit"  class="itemNarrow">1. <%=i18n.escapeRoom.steps.evaluation.eachPuzzle%>:</label>
 		  <table class="scorePuzzles">
 			  <tr><td><label><%=i18n.escapeRoom.steps.evaluation.puzzle%></label></td><td><label><%=i18n.escapeRoom.steps.evaluation.weight%> (%)</label></td></tr>
 			  <tr>
@@ -36,14 +37,19 @@
 						<% totalScore += puzzle.score || 0 %>
 					</td>
 			  </tr>
-
 		  <% } %>
-			  <tr>
-			  </tr>
 		  </table>
 	  </div>
-	  <div class=" erFormField disallow animated slideInUp" style="animation-delay:800ms;">
-		  <label for="tit"  class="itemNarrow"><%=i18n.escapeRoom.steps.evaluation.eachHint%>:</label>
+	  <div class="inputFormField erFormField animated slideInUp" style="animation-delay:200ms;">
+		<label for="automaticAttendance"  class="itemNarrow">2. <%=i18n.escapeRoom.steps.evaluation.automaticAttendance%>:</label>
+		<select class="customInput itemWide" id="automaticAttendance" name="automaticAttendance" >
+			<option value="none" <%= (!escapeRoom.automaticAttendance || escapeRoom.automaticAttendance === "none") ? "selected" : "" %> ><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceNone%></option> 
+			<option value="participant" <%= escapeRoom.automaticAttendance === "participant" ? "selected" : "" %>><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceParticipant%></option> 
+			<option value="team" <%= escapeRoom.automaticAttendance === "team" ? "selected" : "" %>><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceTeam%></option> 
+		</select>
+	</div>
+	  <div class=" erFormField disallow animated slideInUp" style="animation-delay:400ms;">
+		  <label for="tit"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.eachHint%>:</label>
 		  <table class="scorePuzzles">
 			  <tr>
 				  <td><label for="hintSuccess"><%=i18n.escapeRoom.steps.evaluation.hintSuccess%>(%)</label></td>

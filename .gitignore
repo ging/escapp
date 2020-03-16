@@ -1,9 +1,11 @@
 node_modules/
 .idea
-.env
+*.env
 escaperoom.sqlite
 uploads
 migrate.sh
 seed.sh
 *.pem
 .vscode
+.DS_Store
+*.code-workspace

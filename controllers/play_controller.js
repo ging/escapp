@@ -82,18 +82,32 @@ exports.startPlaying = async (req, res) => {
             }
         ]
     });
+    let inUser = [req.session.user.id];
 
-    if (team && !team.turno.startTime && !(team.startTime instanceof Date && isFinite(team.startTime))) {
-        team.startTime = new Date();
-        await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
-        await models.participants.update({"attendance": true}, { // Register attendance for self-paced shifts
+    switch (escapeRoom.automaticAttendance) {
+    case "team":
+        inUser = await team.getTeamMembers({"attributes": ["id"]}).map((t) => t.id);
+        // eslint-disable-next-line no-fallthrough
+    case "participant":
+        await models.participants.update({"attendance": true}, {
             "where": {
                 [Op.and]: [
                     {"turnId": team.turno.id},
-                    {"userId": req.session.user.id}
+                    {"userId": {
+                        [Op.in]: inUser
+                    }}
                 ]
             }
         });
+        break;
+    case "none":
+    default:
+        break;
+    }
+
+    if (team && !(team.startTime instanceof Date && isFinite(team.startTime))) {
+        team.startTime = new Date();
+        await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
     }
     res.redirect(`/escapeRooms/${escapeRoom.id}/play`);
 };

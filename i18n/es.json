@@ -242,7 +242,11 @@
                 "total": "Total",
                 "youCanUse": "Puedes utilizar",
                 "puzzle": "Reto",
-                "weight": "Peso"
+                "weight": "Peso",
+                "automaticAttendance": "Marcar asistencia automáticamente cuando un estudiante accede a la escape rom en su turno",
+                "automaticAttendanceNone": "No marcar asistencia automáticamente en ningún caso",
+                "automaticAttendanceParticipant": "Marcar asistencia sólo a ese estudiante",
+                "automaticAttendanceTeam": "Marcar asistencia a todo el equipo"
             },
             "hints": {
                 "correctNumber": "Nº de aciertos",

@@ -947,7 +947,7 @@ button, input[type="submit"] {
 
 #mainSection .main.step-evaluation .scorePuzzles {
   margin: 36px;
-  margin-bottom: 40px; }
+  margin-bottom: 0px; }
   #mainSection .main.step-evaluation .scorePuzzles * {
     font-family: Lato, sans-serif; }
   #mainSection .main.step-evaluation .scorePuzzles td {

@@ -248,8 +248,11 @@
                 "total": "Total",
                 "puzzle": "Puzzle",
                 "weight": "Weight",
-                "youCanUse": "You can use"
-
+                "youCanUse": "You can use",
+                "automaticAttendance": "Take attendance automatically when a student accesses an escape room during his/her shift",
+                "automaticAttendanceNone": "Do not take attendance automatically whatsoever",
+                "automaticAttendanceParticipant": "Take attendance automatically only for that student",
+                "automaticAttendanceTeam": "Take attendance automatically for the whole team"
             },
             "hints": {
                 "correctNumber": "Hit number",
