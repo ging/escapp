@@ -21,17 +21,23 @@ exports.load = async (req, res, next, appId) => {
 
 // GET /apps/new
 exports.new = async (req, res, next) => {
-    res.render("inspiration/newApp");
+    const app = {name: "", description: "", key: ""};
+
+    res.render("inspiration/newApp", {app});
 };
 
 // POST /apps
 exports.create = async (req, res, next) => {
-    res.send("Not yet implemented");
+    const {name, key, description} = req.body;
+
+    await models.app.create({name, key, description});
+    res.redirect("/apps/");
 };
 
 // GET /resources/new
-exports.index = async (req, res, next) => {
-    res.render("inspiration/indexApp");
+exports.index = async (req, res) => {
+    const apps = await models.app.findAll();
+    res.render("inspiration/indexApp", {apps, user: req.session.user});
 };
 
 // DELETE /apps/:appId

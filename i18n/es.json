@@ -91,6 +91,15 @@
         "error": "Error",
         "wrong": "Respuesta incorrecta"
     },
+    "apps": {
+        "newApp": "Nueva app",
+        "name": "Nombre",
+        "namePlaceHolder": "Nombre de la app",
+        "description": "Descripción",
+        "descriptionPlaceHolder": "Pequeña descripción para profesores",
+        "key": "Nombre de la carpeta",
+        "keyPlaceHolder": "Dónde se va a guardar la app"
+    },
     "common": {
         "back": "volver",
         "cancel": "cancelar",
@@ -457,7 +466,8 @@
         "crossword": "Generador de crucigramas",
         "labyrinth": "Generador de laberintos",
         "math": "Puzzles matemáticos",
-        "hidden": "Juegos de objetos ocultos"
+        "hidden": "Juegos de objetos ocultos",
+        "selectApp": "Selecciona un tipo de reto"
     },
     "participant": {
         "attendanceSaved": "Asistencia guardada correctamente",

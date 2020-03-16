@@ -1,1 +1,39 @@
-Not yet implemented
+<% include ../partials/_header.ejs %>
+<div class="main apps">
+    <h2><%=i18n.apps.newApp%></h2>
+    <form class="basicConfig" method="post" action="/apps">
+        <p class="intro-paragraph">
+            <% let formFields = [
+            {
+                name: "name",
+                id: "name",
+                i18n: "name",
+                value: app.name
+            },
+            {
+                name: "description",
+                id: "description",
+                i18n: "description",
+                value: app.description
+            },
+            {
+                name: "key",
+                id: "key",
+                i18n: "key",
+                value: app.key            
+            }]; %>
+       <% for (let f in formFields) {
+         var field = formFields[f];%>
+           <div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*f%>ms;">
+               <label for="<%=field.id%>"  class="itemNarrow"><%=parseInt(f)+1%>. <%=i18n.apps[field.i18n]%>:</label>
+               <input autofocus class="customInput itemWide" id="<%= field.id %>" name="<%= field.name %>" value="<%= field.value %>"
+                      placeholder="<%=i18n.apps[field.i18n + "PlaceHolder"]%>" autocomplete="off"/>
+           </div>
+       <%}%>
+       <div class="align-right">
+          <button class="progress-buttons" type ="submit"><%=i18n.common.save%></button>
+       </div>
+    </form>
+</div>
+<% include ../partials/_footer %>
+<% include ../partials/_scrollListener %>

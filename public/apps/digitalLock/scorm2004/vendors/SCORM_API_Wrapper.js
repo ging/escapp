@@ -57,11 +57,11 @@ export function updateProgressMeasure(progressMeasure,COMPLETION_THRESHOLD,COMPL
   if(typeof progressMeasure == "number"){
     progressMeasure = Math.max(0,Math.min(1,progressMeasure));
     scorm.setvalue('cmi.progress_measure',progressMeasure.toString());
-    this.updateCompletionStatus(progressMeasure,COMPLETION_THRESHOLD,COMPLETION_ATTEMPT_THRESHOLD);
+    updateCompletionStatus(progressMeasure,COMPLETION_THRESHOLD,COMPLETION_ATTEMPT_THRESHOLD);
   }
 }
 
-export function updateCompletionStatus(progressMeasure,COMPLETION_THRESHOLD=0,COMPLETION_ATTEMPT_THRESHOLD=0){
+ export function updateCompletionStatus(progressMeasure,COMPLETION_THRESHOLD=0,COMPLETION_ATTEMPT_THRESHOLD=0){
   if(typeof progressMeasure != "number"){
     progressMeasure = 0;
   }
@@ -84,7 +84,7 @@ export function updateScore(score,SCORE_THRESHOLD){
     score = Math.max(0,Math.min(1,score));
     scorm.setvalue('cmi.score.scaled',score.toString());
     scorm.setvalue('cmi.score.raw',(score*100).toString());
-    this.updateSuccessStatus(score,SCORE_THRESHOLD);
+    updateSuccessStatus(score,SCORE_THRESHOLD);
   }
 }
 

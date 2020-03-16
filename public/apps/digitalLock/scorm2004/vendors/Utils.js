@@ -1,4 +1,28 @@
+import {GLOBAL_CONFIG} from '../config/config';
+const {escapeRoomId, puzzleId, token, good, bad} = GLOBAL_CONFIG;
+const ESCAPP_HOST = "https://escapp.dit.upm.es"
+
 let next_objective_id = 1;
+
+export const checkEscapp = async(solution) => {
+
+  try {
+    const res = await fetch(`${ESCAPP_HOST}/api/escapeRooms/${escapeRoomId}/puzzles/${puzzleId}/check`, {
+      method: 'POST',
+      body: JSON.stringify({token, solution}),
+      headers: {"Content-type": "application/json"},
+    });
+    const {msg} = await res.json();
+    return {ok: res.ok, msg: msg || (res.ok ? good : bad) || ""};
+  } catch (err){
+    console.error(err);
+    return {ok: false, msg: "Connection error"};
+  }
+
+};
+
+export const timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 
 export function Objective(options){
   // Constructor

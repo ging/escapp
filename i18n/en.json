@@ -95,6 +95,15 @@
         "error": "Error",
         "wrong": "Wrong answer"
     },
+    "apps": {
+        "newApp": "New app",
+        "name": "Name",
+        "namePlaceHolder": "Name of the application",
+        "description": "Description",
+        "descriptionPlaceHolder": "Small description for teachers",
+        "key": "Folder name",
+        "keyPlaceHolder": "Name of the folder in which the app will be saved"
+    },
     "common": {
         "back": "back",
         "cancel": "cancel",
@@ -462,7 +471,8 @@
         "crossword": "Crossword generator",
         "labyrinth": "Labyrinth generator",
         "math": "Mathematical puzzles",
-        "hidden": "Hidden objects games"
+        "hidden": "Hidden objects games",
+        "selectApp": "Select a puzzle type"
 
     },
     "participant": {
