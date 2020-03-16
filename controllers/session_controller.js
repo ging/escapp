@@ -175,12 +175,14 @@ exports.create = async (req, res, next) => {
         const user = await authenticate((login || "").toLowerCase(), password);
 
         if (user) {
-            req.session.user = {"id": user.id,
+            req.session.user = {
+                "id": user.id,
                 "name": `${user.name} ${user.surname}`,
                 "username": user.username,
                 "isAdmin": user.isAdmin,
                 "isStudent": user.isStudent,
-                "expires": Date.now() + maxIdleTime};
+                "expires": Date.now() + maxIdleTime
+            };
             req.session.save(() => {
                 if (req.body.redir) {
                     res.redirect(req.body.redir);

@@ -7,25 +7,31 @@ const {startTurno, stopTurno} = require("../helpers/sockets");
 
 // Autoload the turn with id equals to :turnId
 exports.load = (req, res, next, turnId) => {
-    const options = {"include": [
-        {"model": models.team,
-            "include": {
-                "model": models.user,
-                "as": "teamMembers"
-            },
-            "order": [
-                [
-                    "date",
-                    "ASC"
+    const options = {
+        "include": [
+            {
+                "model": models.team,
+                "include": {
+                    "model": models.user,
+                    "as": "teamMembers"
+                },
+                "order": [
+                    [
+                        "date",
+                        "ASC"
+                    ]
                 ]
-            ]}
-    ]};
+            }
+        ]
+    };
 
     if (req.session.user) {
-        options.include.push({"model": models.user,
+        options.include.push({
+            "model": models.user,
             "as": "students",
             // "where": {"id": req.session.user.id}, // TODO Comprobar
-            "required": false});
+            "required": false
+        });
     }
 
     models.turno.findByPk(turnId, options).
@@ -105,10 +111,12 @@ exports.activar = async (req, res, next) => {
             turno.status = "finished";
         }
 
-        await turno.save({"fields": [
-            "startTime",
-            "status"
-        ]});
+        await turno.save({
+            "fields": [
+                "startTime",
+                "status"
+            ]
+        });
         req.flash("success", turno.status === "active" ? "Turno activo." : "Turno desactivado");
         if (turno.status === "active") {
             startTurno(turno.id);
@@ -131,10 +139,12 @@ exports.activar = async (req, res, next) => {
 exports.create = (req, res, next) => {
     const {date, indications} = req.body;
     const modDate = date === "always" ? null : new Date(date);
-    const turn = models.turno.build({"date": modDate,
+    const turn = models.turno.build({
+        "date": modDate,
         indications,
         "status": date === "always" ? "active" : "pending",
-        "escapeRoomId": req.escapeRoom.id});
+        "escapeRoomId": req.escapeRoom.id
+    });
     let back = "";
 
     if (date === "always") {

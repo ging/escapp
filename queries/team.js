@@ -8,9 +8,7 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
             {
                 "model": models.turno,
                 "attributes": ["startTime"],
-                "where": {
-                    escapeRoomId
-                }
+                "where": {escapeRoomId}
             },
             {
                 "model": models.user,
@@ -23,9 +21,7 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
             {
                 "model": models.puzzle,
                 "as": "retos",
-                "through": {
-                    "model": models.retosSuperados
-                }
+                "through": {"model": models.retosSuperados}
             },
             {
                 "model": models.requestedHint,
@@ -38,17 +34,15 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
                 ],
                 // "where": {"success": true},
                 "required": false,
-                "include": [
-                    {
-                        "model": models.hint
-                    }
-                ]
+                "include": [{"model": models.hint}]
             }
         ],
         "order": [
             [
-                {"model": models.puzzle,
-                    "as": "retos"},
+                {
+                    "model": models.puzzle,
+                    "as": "retos"
+                },
                 "id",
                 "ASC"
             ]
@@ -73,9 +67,7 @@ exports.puzzlesByTeam = (escapeRoomId, turnId) => {
         "include": [
             {
                 "model": models.turno,
-                "where": {
-                    escapeRoomId
-                }
+                "where": {escapeRoomId}
             },
             {
                 "model": models.puzzle,
@@ -132,9 +124,7 @@ exports.ranking = (escapeRoomId, turnId) => {
                         "model": models.participants,
                         "required": true,
                         "attributes": ["attendance"],
-                        "where": {
-                            "attendance": true
-                        }
+                        "where": {"attendance": true}
                     }
                 }
             },

@@ -100,8 +100,12 @@ exports.studentLeave = async (req, res, next) => {
 
 
         await req.team.removeTeamMember(user);
-        const participant = await models.participants.findOne({"where": {turnId,
-            userId}});
+        const participant = await models.participants.findOne({
+            "where": {
+                turnId,
+                userId
+            }
+        });
 
         await participant.destroy();
         if (req.session.user.isStudent) {

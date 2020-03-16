@@ -93,9 +93,7 @@ exports.startPlaying = async (req, res) => {
             "where": {
                 [Op.and]: [
                     {"turnId": team.turno.id},
-                    {"userId": {
-                        [Op.in]: inUser
-                    }}
+                    {"userId": {[Op.in]: inUser}}
                 ]
             }
         });

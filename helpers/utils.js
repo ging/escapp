@@ -19,8 +19,10 @@ exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
         }
         return showDate ? " " : 0;
     });
-    return {retosSuperados,
-        retosSuperadosMin};
+    return {
+        retosSuperados,
+        retosSuperadosMin
+    };
 };
 
 exports.flattenObject = (obj, labels, min = false) => {
@@ -32,11 +34,13 @@ exports.flattenObject = (obj, labels, min = false) => {
     return rs;
 };
 
-exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({...teamRes.dataValues,
+exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({
+    ...teamRes.dataValues,
     "teamMembers": teamRes.teamMembers, /* .filter(m=>)    .map(m=>({turnosAgregados: m.turnosAgregados
         .filter(t=>t.participants.attendance)}))*/
     "countretos": teamRes.dataValues.retos.length,
-    "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => new Date(r.retosSuperados.createdAt)).sort((a, b) => b - a)[0] : null})).
+    "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => new Date(r.retosSuperados.createdAt)).sort((a, b) => b - a)[0] : null
+})).
     sort((t1, t2) => {
         if (t1.countretos === t2.countretos) {
             if (t1.latestretosuperado === t2.latestretosuperado) {
@@ -62,8 +66,10 @@ exports.countHints = (requestedHints) => {
             hintsFailed++;
         }
     }
-    return {hintsFailed,
-        hintsSucceeded};
+    return {
+        hintsFailed,
+        hintsSucceeded
+    };
 };
 
 exports.countHintsByPuzzle = (requestedHints, retosSuperados, startTime) => {
@@ -105,10 +111,12 @@ exports.saveInterface = (name, req, res, next) => {
     escapeRoom[`${name}Appearance`] = body.appearance;
     const progressBar = body.progress;
 
-    escapeRoom.save({"fields": [
-        `${name}Instructions`,
-        `${name}Appearance`
-    ]}).then(() => {
+    escapeRoom.save({
+        "fields": [
+            `${name}Instructions`,
+            `${name}Appearance`
+        ]
+    }).then(() => {
         res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep(name) : progressBar || nextStep(name)}`);
     }).
         catch(Sequelize.ValidationError, (error) => {
@@ -127,16 +135,20 @@ exports.playInterface = async (name, req, res, next) => {
         isAuthor = req.escapeRoom.authorId === req.session.user.id;
 
     if (isAdmin || isAuthor) {
-        res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
+        res.render("escapeRooms/play/play", {
+            "escapeRoom": req.escapeRoom,
             cloudinary,
-            "team": {"turno": req.turn,
-                "retos": []},
+            "team": {
+                "turno": req.turn,
+                "retos": []
+            },
             "teams": req.teams,
             "hints": [],
             "turnoId": req.params.turnoId,
             "isStudent": false,
             "endPoint": name,
-            "layout": false});
+            "layout": false
+        });
     } else {
         try {
             const teams = await models.team.findAll({
@@ -145,9 +157,7 @@ exports.playInterface = async (name, req, res, next) => {
                         "model": models.turno,
                         "include": {
                             "model": models.escapeRoom,
-                            "where": {
-                                "id": req.escapeRoom.id
-                            }
+                            "where": {"id": req.escapeRoom.id}
                         },
                         "required": true
 
@@ -156,9 +166,7 @@ exports.playInterface = async (name, req, res, next) => {
                         "model": models.user,
                         "as": "teamMembers",
                         "attributes": [],
-                        "where": {
-                            "id": req.session.user.id
-                        },
+                        "where": {"id": req.session.user.id},
                         "required": true
                     },
                     {

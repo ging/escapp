@@ -9,8 +9,10 @@ const uploadResourceToCloudinary = (src, options) => new Promise((resolve, rejec
         options,
         (error, result) => {
             if (!error) {
-                resolve({"public_id": result.public_id,
-                    "url": result.secure_url});
+                resolve({
+                    "public_id": result.public_id,
+                    "url": result.secure_url
+                });
             } else {
                 reject(error);
             }
@@ -31,8 +33,10 @@ const uploadResourceToFileSystem = (src) => new Promise(function (resolve, rejec
         if (error) {
             reject(error);
         } else {
-            resolve({public_id,
-                url});
+            resolve({
+                public_id,
+                url
+            });
         }
     });
 });
@@ -115,12 +119,16 @@ exports.checksCloudinaryEnv = () => new Promise((resolve, reject) => {
     }
 });
 
-exports.cloudinary_upload_options = {"folder": "/escapeRoom/attachments",
+exports.cloudinary_upload_options = {
+    "folder": "/escapeRoom/attachments",
     "resource_type": "auto",
-    "tags": ["escapeRoom"]};
+    "tags": ["escapeRoom"]
+};
 
-exports.cloudinary_upload_options_zip = {"folder": "/escapeRoom/attachments",
+exports.cloudinary_upload_options_zip = {
+    "folder": "/escapeRoom/attachments",
     "resource_type": "auto",
-    "tags": ["escapeRoom"]};
+    "tags": ["escapeRoom"]
+};
 
 exports.getFields = (el) => ({"public_id": el.public_id, "url": el.url, "filename": el.filename, "mime": el.mime});

@@ -47,42 +47,56 @@ const {escapeRoom, turno, attachment, user, puzzle, hint, hintApp, team, request
 // Relation 1-to-N between Escape Room and Turno:
 
 turno.belongsTo(escapeRoom);
-escapeRoom.hasMany(turno, {"onDelete": "CASCADE",
-    "hooks": true});
+escapeRoom.hasMany(turno, {
+    "onDelete": "CASCADE",
+    "hooks": true
+});
 
 // Relation 1-to-1 between Escape Room and Attachment:
 attachment.belongsTo(escapeRoom);
-escapeRoom.hasOne(attachment, {"onDelete": "CASCADE",
-    "hooks": true});
+escapeRoom.hasOne(attachment, {
+    "onDelete": "CASCADE",
+    "hooks": true
+});
 
 // Relation 1-to-N between Escape Room and Puzzle:
 puzzle.belongsTo(escapeRoom);
-escapeRoom.hasMany(puzzle, {"onDelete": "CASCADE",
-    "hooks": true});
+escapeRoom.hasMany(puzzle, {
+    "onDelete": "CASCADE",
+    "hooks": true
+});
 
 // Relation 1-to-N between Puzzle and Hint:
 hint.belongsTo(puzzle);
-puzzle.hasMany(hint, {"onDelete": "CASCADE",
-    "hooks": true});
+puzzle.hasMany(hint, {
+    "onDelete": "CASCADE",
+    "hooks": true
+});
 
 
 // Relation 1-to-N between User and Quiz:
-user.hasMany(escapeRoom, {"foreignKey": "authorId",
+user.hasMany(escapeRoom, {
+    "foreignKey": "authorId",
     "onDelete": "CASCADE",
-    "hooks": true});
+    "hooks": true
+});
 
-escapeRoom.belongsTo(user, {"as": "author",
-    "foreignKey": "authorId"});
+escapeRoom.belongsTo(user, {
+    "as": "author",
+    "foreignKey": "authorId"
+});
 
 
 // Relation N-to-M between Turno and User:
 //    A User participates in many turnos.
 //    A turn has many participants (the users who have added it as participant)
-turno.belongsToMany(user, {"as": "students",
+turno.belongsToMany(user, {
+    "as": "students",
     "through": "participants",
     "foreignKey": "turnId",
     "ondelete": "CASCADE",
-    "otherKey": "userId"});
+    "otherKey": "userId"
+});
 
 user.belongsToMany(turno, {
     "as": "turnosAgregados",
@@ -135,11 +149,13 @@ team.belongsToMany(puzzle, {
     "otherKey": "puzzleId"
 });
 
-puzzle.belongsToMany(team, {"as": "superados",
+puzzle.belongsToMany(team, {
+    "as": "superados",
     "through": "retosSuperados",
     "foreignKey": "puzzleId",
     "onDelete": "CASCADE",
-    "otherKey": "teamId"});
+    "otherKey": "teamId"
+});
 
 // Relation N-to-M between Team and Hint:
 requestedHint.belongsTo(hint, {});

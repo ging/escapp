@@ -10,16 +10,20 @@ exports.assets = (req, res) => {
     const assets = escapeRoom.assets.map((a) => {
         const {id, public_id, url, mime, filename} = a;
 
-        return {id,
+        return {
+            id,
             public_id,
             url,
             mime,
-            "name": filename};
+            "name": filename
+        };
     });
 
-    res.render("escapeRooms/steps/assets", {escapeRoom,
+    res.render("escapeRooms/steps/assets", {
+        escapeRoom,
         assets,
-        "progress": "assets"});
+        "progress": "assets"
+    });
 };
 
 // POST /escapeRooms/:escapeRoomId/assets

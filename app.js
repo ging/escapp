@@ -35,9 +35,7 @@ if (app.get("env") === "production" && !process.env.HEROKU) {
 app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    "extended": true
-}));
+app.use(bodyParser.urlencoded({"extended": true}));
 app.use(cookieParser());
 app.use(i18n({
     "translationsPath": path.join(__dirname, "i18n"),
@@ -50,24 +48,30 @@ app.use("/api", api);
 
 // Configuracion de la session para almacenarla en BBDD usando Sequelize.
 const sequelize = require("./models");
-const sessionStore = new SequelizeStore({"db": sequelize,
+const sessionStore = new SequelizeStore({
+    "db": sequelize,
     "table": "session",
     "checkExpirationInterval": 15 * 60 * 1000,
-    "expiration": 3 * 60 * 60 * 1000});
+    "expiration": 3 * 60 * 60 * 1000
+});
 
-const sessionMiddleware = session({"secret": "Escape Room",
+const sessionMiddleware = session({
+    "secret": "Escape Room",
     "store": sessionStore,
     "resave": false,
     "cookie": {"path": "/", "httpOnly": true, "secure": app.get("env") === "production" && !process.env.HEROKU, "maxAge": null},
-    "saveUninitialized": false});
+    "saveUninitialized": false
+});
 
 app.sessionMiddleware = sessionMiddleware;
 app.use(sessionMiddleware);
 
-app.use(methodOverride("_method", {"methods": [
-    "POST",
-    "GET"
-]}));
+app.use(methodOverride("_method", {
+    "methods": [
+        "POST",
+        "GET"
+    ]
+}));
 app.use(express.static(path.join(__dirname, "public")));
 
 

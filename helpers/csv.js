@@ -12,10 +12,6 @@ exports.createCsvFile = (res, content, title = `results-${Date.now()}`, field = 
             res.write(csvText);
             res.end();
         },
-        {
-            "delimiter": {
-                field
-            }
-        }
+        {"delimiter": {field}}
     );
 };

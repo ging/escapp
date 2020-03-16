@@ -143,11 +143,13 @@ exports.create = (req, res) => {
 
             return attHelper.checksCloudinaryEnv().
                 then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options)).
-                then((uploadResult) => models.attachment.create({"public_id": uploadResult.public_id,
+                then((uploadResult) => models.attachment.create({
+                    "public_id": uploadResult.public_id,
                     "url": uploadResult.url,
                     "filename": req.file.originalname,
                     "mime": req.file.mimetype,
-                    "escapeRoomId": er.id}).
+                    "escapeRoomId": er.id
+                }).
                     catch((error) => { // Ignoring validation errors
                         console.error(error);
                         req.flash("error", `${req.app.locals.i18n.common.flash.errorImage}: ${error.message}`);
@@ -174,8 +176,10 @@ exports.create = (req, res) => {
 
 // GET /escapeRooms/:escapeRoomId/edit
 exports.edit = (req, res) => {
-    res.render("escapeRooms/edit", {"escapeRoom": req.escapeRoom,
-        "progress": "edit"});
+    res.render("escapeRooms/edit", {
+        "escapeRoom": req.escapeRoom,
+        "progress": "edit"
+    });
 };
 
 // PUT /escapeRooms/:escapeRoomId
@@ -261,8 +265,10 @@ exports.update = (req, res, next) => {
 exports.evaluation = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/evaluation", {escapeRoom,
-        "progress": "evaluation"});
+    res.render("escapeRooms/steps/evaluation", {
+        escapeRoom,
+        "progress": "evaluation"
+    });
 };
 
 // POST /escapeRooms/:escapeRoomId/evaluation
@@ -360,10 +366,12 @@ exports.destroy = async (req, res, next) => {
 exports.studentToken = async (req, res) => {
     const {escapeRoom} = req;
 
-    const participant = await models.participants.findOne({"where": {
-        "userId": req.session.user.id,
-        "turnId": {[Sequelize.Op.or]: [escapeRoom.turnos.map((t) => t.id)]}
-    }});
+    const participant = await models.participants.findOne({
+        "where": {
+            "userId": req.session.user.id,
+            "turnId": {[Sequelize.Op.or]: [escapeRoom.turnos.map((t) => t.id)]}
+        }
+    });
 
     if (participant) {
         res.redirect(`/escapeRooms/${escapeRoom.id}`);
@@ -390,7 +398,8 @@ exports.clone = async (req, res, next) => {
         if (attachment) {
             include.push(models.attachment);
         }
-        const escapeRoom = models.escapeRoom.build({"title": newTitle,
+        const escapeRoom = models.escapeRoom.build({
+            "title": newTitle,
             subject,
             duration,
             description,
@@ -412,7 +421,8 @@ exports.clone = async (req, res, next) => {
             hintSuccess,
             hintFailed,
             authorId,
-            "puzzles": [...puzzles].map(({title, sol, desc, order, correct, fail, automatic, score, hints}) => ({title,
+            "puzzles": [...puzzles].map(({title, sol, desc, order, correct, fail, automatic, score, hints}) => ({
+                title,
                 sol,
                 desc,
                 order,
@@ -420,12 +430,12 @@ exports.clone = async (req, res, next) => {
                 fail,
                 automatic,
                 score,
-                "hints": [...hints].map(({content, "order": hintOrder}) => ({content, "order": hintOrder}))})),
+                "hints": [...hints].map(({content, "order": hintOrder}) => ({content, "order": hintOrder}))
+            })),
             "hintApp": hintApp ? attHelper.getFields(hintApp) : undefined,
             "assets": assets && assets.length ? [...assets].map((asset) => attHelper.getFields(asset)) : undefined,
-            "attachment": attachment ? attHelper.getFields(attachment) : undefined}, {
-            include
-        });
+            "attachment": attachment ? attHelper.getFields(attachment) : undefined
+        }, {include});
         const saved = await escapeRoom.save();
 
         res.redirect(`/escapeRooms/${saved.id}/edit`);

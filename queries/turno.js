@@ -4,9 +4,7 @@ exports.myTurno = (escapeRoomId, userId) => ({
     "include": [
         {
             "model": models.escapeRoom,
-            "where": {
-                "id": escapeRoomId
-            }
+            "where": {"id": escapeRoomId}
         },
         {
             "model": models.team,
@@ -14,9 +12,7 @@ exports.myTurno = (escapeRoomId, userId) => ({
                 {
                     "model": models.user,
                     "as": "teamMembers",
-                    "where": {
-                        "id": userId
-                    }
+                    "where": {"id": userId}
                 }
             ]
         }

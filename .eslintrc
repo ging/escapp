@@ -213,7 +213,10 @@
 		"no-whitespace-before-property": 1,
 		"no-with": 1,
 		"nonblock-statement-body-position": 1,
-		"object-curly-newline": [1, "always"],
+		"object-curly-newline": [1, {
+			  "multiline": true,
+
+		}],
 		"object-property-newline": [1, { "allowAllPropertiesOnSameLine": true}],
 		"object-shorthand": 1,
 		"one-var": 0,

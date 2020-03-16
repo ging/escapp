@@ -30,30 +30,36 @@ exports.show = (req, res) => {
 exports.new = (req, res) => {
     const user = {"name": "", "surname": "", "gender": "", "dni": "", "username": "", "password": ""};
 
-    res.render("index", {user,
+    res.render("index", {
+        user,
         "register": true,
-        "redir": req.query.redir});
+        "redir": req.query.redir
+    });
 };
 
 // POST /users
 exports.create = (req, res, next) => {
     const {name, surname, gender, username, password, dni, role} = req.body;
     const {redir} = req.query;
-    const user = models.user.build({name,
+    const user = models.user.build({
+            name,
             surname,
             gender,
             "username": (username || "").toLowerCase(),
             "dni": (dni || "").toLowerCase(),
-            password}),
+            password
+        }),
         isStudent = role === "student",
         isTeacher = role === "teacher";
 
 
     if (!isStudent && !isTeacher) {
         req.flash("error", req.app.locals.i18n.common.flash.mustBeUPMAccount);
-        res.render("index", {user,
+        res.render("index", {
+            user,
             "register": true,
-            redir});
+            redir
+        });
         return;
     }
     user.isStudent = Boolean(isStudent);
@@ -67,15 +73,19 @@ exports.create = (req, res, next) => {
         catch(Sequelize.UniqueConstraintError, (error) => {
             console.error(error);
             req.flash("error", req.app.locals.i18n.common.flash.errorExistingUser);
-            res.render("index", {user,
+            res.render("index", {
+                user,
                 "register": true,
-                redir});
+                redir
+            });
         }).
         catch(Sequelize.ValidationError, (error) => {
             error.errors.forEach(({message}) => req.flash("error", message));
-            res.render("index", {user,
+            res.render("index", {
+                user,
                 "register": true,
-                redir});
+                redir
+            });
         }).
         catch((error) => next(error));
 };
@@ -158,8 +168,10 @@ exports.newResetPassword = (req, res) => {
     }
     models.user.findOne({"where": {"username": req.body.login}}).then((user) => {
         if (user) {
-            ejs.renderFile("views/emails/resetPassword.ejs", {"i18n": req.app.locals.i18n,
-                "link": `http://${process.env.APP_NAME}/users/password-reset/${user.id}?code=${user.password}&email=${user.username}`}, {}, function (err, str) {
+            ejs.renderFile("views/emails/resetPassword.ejs", {
+                "i18n": req.app.locals.i18n,
+                "link": `http://${process.env.APP_NAME}/users/password-reset/${user.id}?code=${user.password}&email=${user.username}`
+            }, {}, function (err, str) {
                 if (err) {
                     console.error(err);
                     req.flash("error", req.app.locals.i18n.common.flash.problemSendingEmail);
@@ -189,8 +201,10 @@ exports.resetPasswordHash = (req, res, next) => {
     const {code, email} = query;
 
     if (user && user.password === code && user.username === email) {
-        res.render("index", {"resetPasswordHash": true,
-            user});
+        res.render("index", {
+            "resetPasswordHash": true,
+            user
+        });
     } else {
         next();
     }
@@ -203,10 +217,12 @@ exports.newResetPasswordHash = (req, res, next) => {
     if (req.user && req.user.password === code && req.user.username === email) {
         if (req.body.password && req.body.password === req.body.confirm_password) {
             req.user.password = req.body.password.toString();
-            req.user.save({"fields": [
-                "password",
-                "salt"
-            ]}).
+            req.user.save({
+                "fields": [
+                    "password",
+                    "salt"
+                ]
+            }).
                 then(() => {
                     req.flash("error", req.app.locals.i18n.common.flash.passwordChangedSuccessfully);
                     res.redirect("/");
