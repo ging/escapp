@@ -186,7 +186,7 @@ exports.playInterface = async (name, req, res, next) => {
 
             const team = teams && teams[0] ? teams[0] : {};
 
-            if (team.turno.status !== "active") {
+            if (!team.startTime || team.turno.status !== "active") {
                 res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
             }
             const hints = await models.requestedHint.findAll({

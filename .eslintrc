@@ -238,7 +238,7 @@
 		"quote-props": 1,
 		"quotes": 1,
 		"radix": 1,
-		"require-atomic-updates": 1,
+		"require-atomic-updates": 0,
 		"require-await": 1,
 		"require-unicode-regexp": 0,
 		"require-yield": 1,

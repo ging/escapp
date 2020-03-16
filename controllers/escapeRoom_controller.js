@@ -33,7 +33,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        next(new Error(req.app.locals.api.forbidden));
+        next(new Error(req.app.locals.i18n.api.forbidden));
     }
 };
 
@@ -55,7 +55,7 @@ exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
             next();
         } else {
             res.status(403);
-            next(new Error(req.app.locals.api.forbidden));
+            next(new Error(req.app.locals.i18n.api.forbidden));
         }
     } catch (error) {
         next(error);

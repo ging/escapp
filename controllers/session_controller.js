@@ -58,7 +58,7 @@ exports.adminRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.api.forbidden);
+        throw new Error(req.app.locals.i18n.api.forbidden);
     }
 };
 
@@ -71,7 +71,7 @@ exports.notStudentRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.api.forbidden);
+        throw new Error(req.app.locals.i18n.api.forbidden);
     }
 };
 
@@ -85,7 +85,7 @@ exports.studentOrAdminRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.api.forbidden);
+        throw new Error(req.app.locals.i18n.api.forbidden);
     }
 };
 
@@ -100,7 +100,7 @@ exports.myselfRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.api.forbidden);
+        throw new Error(req.app.locals.i18n.api.forbidden);
     }
 };
 
@@ -118,7 +118,7 @@ exports.adminOrMyselfRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.api.forbidden);
+        throw new Error(req.app.locals.i18n.api.forbidden);
     }
 };
 
@@ -135,7 +135,7 @@ exports.adminAndNotMyselfRequired = function (req, res, next) {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.api.forbidden);
+        throw new Error(req.app.locals.i18n.api.forbidden);
     }
 };
 

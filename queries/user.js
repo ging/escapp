@@ -29,13 +29,14 @@ exports.escapeRoomsForUser = (escapeRoomId, userId) => ({
     "where": {"id": userId}
 });
 
-exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints) => {
+exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints, includeTeamsThatDidntAttend) => {
     const options = {
         "include": [
             {
                 "model": models.team,
                 "as": "teamsAgregados",
                 "required": true,
+                "where": includeTeamsThatDidntAttend ? {} : {"startTime": {[Sequelize.Op.ne]: null}},
                 "include": [
                     {
                         "model": models.turno,

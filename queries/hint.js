@@ -7,6 +7,7 @@ exports.hintsByParticipant = (escapeRoomId, turnId, orderBy) => {
             {
                 "model": models.team,
                 "as": "teamsAgregados",
+                "where": {"startTime": {[Sequelize.Op.ne]: null}},
                 "required": true,
                 "include": [
                     {
@@ -55,7 +56,8 @@ exports.hintsByTeam = (escapeRoomId, turnId, orderBy) => {
                 "model": models.requestedHint,
                 "include": {"model": models.hint}
             }
-        ]
+        ],
+        "where": {"startTime": {[Sequelize.Op.ne]: null}}
     };
 
     if (turnId) {

@@ -89,14 +89,17 @@ exports.startPlaying = async (req, res) => {
         inUser = await team.getTeamMembers({"attributes": ["id"]}).map((t) => t.id);
         // eslint-disable-next-line no-fallthrough
     case "participant":
-        await models.participants.update({"attendance": true}, {
-            "where": {
-                [Op.and]: [
-                    {"turnId": team.turno.id},
-                    {"userId": {[Op.in]: inUser}}
-                ]
+        await models.participants.update(
+            { "attendance": true },
+            {
+                "where": {
+                    [Op.and]: [
+                        {"turnId": team.turno.id},
+                        {"userId": {[Op.in]: inUser}}
+                    ]
+                }
             }
-        });
+        );
         break;
     case "none":
     default:

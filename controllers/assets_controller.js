@@ -82,13 +82,13 @@ exports.deleteAssets = async (req, res) => {
         if (asset) {
             attHelper.deleteResource(asset.public_id, models.asset);
             await asset.destroy();
-            res.json({"msg": req.app.locals.api.ok});
+            res.json({"msg": req.app.locals.i18n.api.ok});
         } else {
             res.status(404);
-            res.json({"msg": req.app.locals.api.notFound});
+            res.json({"msg": req.app.locals.i18n.api.notFound});
         }
     } catch (err) {
         res.status(500);
-        res.json({"msg": req.app.locals.api.error});
+        res.json({"msg": req.app.locals.i18n.api.error});
     }
 };

@@ -12,6 +12,7 @@ exports.analytics = async (req, res, next) => {
         const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId));
         const teamSizes = teams.map((t) => t.teamMembers.length);
 
+        console.log(teams);
         const nParticipants = {
             "value": teamSizes.reduce((acc, c) => acc + c, 0),
             "icon": "person"
@@ -140,8 +141,9 @@ exports.puzzlesByTeams = async (req, res, next) => {
             const {retosSuperados} = retosSuperadosByWho(team, puzzles);
             const total = pctgRetosSuperados(retosSuperados);
             const members = team.teamMembers.map((member) => `${member.name} ${member.surname}`);
+            const teamAttendance = Boolean(team.startTime);
 
-            return {id, name, members, retosSuperados, turnId, total};
+            return {id, name, members, teamAttendance, retosSuperados, turnId, total};
         });
 
         if (!csv) {
@@ -229,6 +231,7 @@ exports.hintsByParticipants = async (req, res, next) => {
                 const {id, name, surname, dni, username} = user;
                 const [{requestedHints, turno, "startTime": turnoTeamStart, "id": teamId, "name": teamName}] = user.teamsAgregados;
                 const startTime = turno.startTime || turnoTeamStart;
+                const teamAttendance = Boolean(turnoTeamStart);
 
                 for (const h in requestedHints) {
                     const reqHint = requestedHints[h];
@@ -236,7 +239,7 @@ exports.hintsByParticipants = async (req, res, next) => {
                     const hint = reqHint.hint && reqHint.hint.content ? reqHint.hint.content : "";
                     const minute = Math.floor((createdAt - startTime) / 60000); // TODO team.startTime
 
-                    resultsCsv.push({id, name, surname, dni, username, teamId, teamName, success, score, hint, minute, createdAt});
+                    resultsCsv.push({id, name, surname, dni, username, teamId, teamName, teamAttendance, success, score, hint, minute, createdAt});
                 }
             }
 
@@ -277,6 +280,7 @@ exports.hintsByTeams = async (req, res, next) => {
                 const team = teams[t];
                 const {"id": teamId, "name": teamName, requestedHints, turno} = team;
                 const startTime = turno.startTime || team.startTime;
+                const teamAttendance = Boolean(team.startTime);
 
                 for (const h in requestedHints) {
                     const hint = requestedHints[h];
@@ -284,7 +288,7 @@ exports.hintsByTeams = async (req, res, next) => {
                     const minute = Math.floor((hint.createdAt - startTime) / 60000); // TODO team.startTime
                     const hintContent = hint.hint && hint.hint.content ? hint.hint.content : "";
 
-                    resultsCsv.push({"id": teamId, teamName, score, "hint": hintContent, success, minute, "createdAt": new Date(createdAt)});
+                    resultsCsv.push({"id": teamId, teamName, score, teamAttendance, "hint": hintContent, success, minute, "createdAt": new Date(createdAt)});
                 }
             }
 
@@ -384,7 +388,7 @@ exports.grading = async (req, res, next) => {
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
 
     try {
-        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true));
+        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true, true));
 
         const results = users.map((user) => {
             const {name, surname, dni, username} = user;
@@ -440,11 +444,12 @@ exports.download = async (req, res) => {
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
 
     try {
-        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true));
+        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true, true));
 
         const results = users.map((user) => {
             const {name, surname, dni, username} = user;
             const turno = user.turnosAgregados[0].startTime || user.teamsAgregados[0].startTime;
+            const teamAttendance = Boolean(user.teamsAgregados[0].startTime);
             const [{"name": teamName, "id": teamId, requestedHints}] = user.teamsAgregados;
 
             const {retosSuperados, retosSuperadosMin} = retosSuperadosByWho(user.teamsAgregados[0], puzzles, true, turno);
@@ -456,7 +461,7 @@ exports.download = async (req, res) => {
             const hs = flattenObject(hintsSucceeded, puzzleNames.map((p) => `Hints succeeded for ${p}`));
             const attendance = Boolean(user.turnosAgregados[0].participants.attendance);
 
-            return {name, surname, dni, username, teamId, teamName, attendance, ...rs, ...rsMin, turno, hintsFailedTotal, ...hf, hintsSucceededTotal, ...hs};
+            return {name, surname, dni, username, teamId, teamName, attendance, teamAttendance, ...rs, ...rsMin, turno, hintsFailedTotal, ...hf, hintsSucceededTotal, ...hs};
         });
 
         createCsvFile(res, results);

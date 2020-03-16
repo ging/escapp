@@ -4,6 +4,7 @@ const {models} = require("../models");
 exports.teamComplete = (escapeRoomId, turnId, order) => {
     const where = {
         // "attributes": [],
+        "where": {"startTime": {[Sequelize.Op.ne]: null}},
         "include": [
             {
                 "model": models.turno,
@@ -64,6 +65,7 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
 
 exports.puzzlesByTeam = (escapeRoomId, turnId) => {
     const options = {
+        "where": {"startTime": {[Sequelize.Op.ne]: null}},
         "include": [
             {
                 "model": models.turno,
@@ -99,6 +101,7 @@ exports.ranking = (escapeRoomId, turnId) => {
     // Const retoTime = isPg ? "\"retos->retosSuperados\".\"createdAt\"" : "`retos->retosSuperados`.`createdAt`";
     const options = {
         // "includeIgnoreAttributes": false,
+        "where": {"startTime": {[Sequelize.Op.ne]: null}},
         "attributes": [
             "id",
             "name",
@@ -171,6 +174,7 @@ exports.playRankingQuery = (turnoId, escapeRoomId) => {
     const isPg = process.env.DATABASE_URL;
 
     const query = {
+        "where": {"startTime": {[Sequelize.Op.ne]: null}},
         "attributes": [
             "id",
             "name",
