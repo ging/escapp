@@ -182,6 +182,7 @@ router.get("/resources/new", sessionController.loginRequired, sessionController.
 router.get("/resources/:appId/new", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.new);
 router.get("/resources/:resourceId", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.show);
 router.get("/resources/:resourceId/edit", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.edit);
+router.put("/resources/:resourceId", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.update);
 router.delete("/resources/:resourceId", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.destroy);
 
 module.exports = router;

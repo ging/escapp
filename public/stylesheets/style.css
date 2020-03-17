@@ -323,12 +323,28 @@ button, input[type="submit"] {
     #root .App .buttons button i {
       vertical-align: middle; }
 
-iframe.embeddedResource {
-  width: 100%;
+.showApp {
   height: 100vh;
-  height: calc(100vh - 50px);
-  margin-top: 50px;
-  border: none; }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column; }
+  .showApp .breadcrumbs-container {
+    width: 100%;
+    margin-bottom: 20px; }
+  .showApp iframe.embeddedResource {
+    width: 104vh;
+    height: 78vh;
+    max-height: calc(100vh - 180px);
+    max-width: 100%;
+    border: none; }
+  .showApp .buttons {
+    padding-top: 18px;
+    text-align: right; }
+    @media (max-width: 720px) {
+      .showApp .buttons button {
+        font-size: 16px !important; } }
 
 .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker {
   width: 20em;

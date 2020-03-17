@@ -27,16 +27,25 @@ exports.showGuide = (req, res) => res.render("inspiration/inspiration");
 exports.showResources = (req, res) => res.render("inspiration/resources");
 
 // GET /resources/my
-exports.index = async (req, res, next) => {
-    res.send("Not yet implemented");
+exports.index = async (req, res) => {
+    try {
+        const resources = await models.resource.findAll({"include": [{"model": models.app}], "where": {"authorId": req.session.user.id}});
+
+        res.render("inspiration/indexResources", {resources, "user": req.session.user});
+    } catch (err) {
+        next(err);
+    }
 };
 
 // POST /apps/:appId
 exports.create = async (req, res, next) => {
     try {
-        console.log(req.params.appId, req.body);
-
-        const resource = await models.resource.create({"appId": req.params.appId, "puzzleId": req.body.puzzleId, "config": JSON.stringify(req.body)});
+        const resource = await models.resource.create({
+            "appId": req.params.appId,
+            "puzzleId": req.body.puzzleId,
+            "authorId": req.session.user ? req.session.user.id : null,
+            "config": JSON.stringify(req.body)
+        });
 
         res.redirect(`/resources/${resource.id}`);
     } catch (err) {
@@ -66,16 +75,49 @@ exports.new = async (req, res, next) => {
 
 // GET /resources/:resourceId
 exports.show = async (req, res) => {
-    if (req.query.full) {
-        res.render(`inspiration/apps/${req.resource.app.key}/show`, {"layout": false, "resource": req.resource});
-    } else {
-        res.render("inspiration/apps/show", {"resource": req.resource});
+    try {
+        if (req.query.full) {
+            res.render(`inspiration/apps/${req.resource.app.key}/show`, {"layout": false, "resource": req.resource});
+        } else {
+            res.render("inspiration/apps/show", {"resource": req.resource});
+        }
+    } catch (err) {
+        next(err);
     }
 };
 
 // GET /resources/:resourceId/edit
 exports.edit = async (req, res, next) => {
+    try {
+        const escapeRooms = await models.escapeRoom.findAll({
+            "where": {
+                "authorId": req.session.user.id
+            },
+            "attributes": ["id", "title"],
+            "include": {
+                "model": models.puzzle,
+                "attributes": ["id", "title", "sol"]
+            }
+        });
 
+        res.render("inspiration/apps/edit", {"app": req.resource.app, "resource": req.resource, escapeRooms});
+    } catch (err) {
+        next(err);
+    }
+};
+
+// PUT /resources/:resourceId/
+exports.update = async (req, res, next) => {
+    try {
+        const {resource, body} = req;
+
+        resource.config = JSON.stringify(body);
+        resource.puzzleId = body.puzzleId;
+        await resource.save();
+        res.redirect(`/resources/${resource.id}`);
+    } catch (err) {
+        next(err);
+    }
 };
 
 // DELETE /resources/:resourceId

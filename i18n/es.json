@@ -467,7 +467,11 @@
         "labyrinth": "Generador de laberintos",
         "math": "Puzzles matemáticos",
         "hidden": "Juegos de objetos ocultos",
-        "selectApp": "Selecciona un tipo de reto"
+        "selectApp": "Selecciona un tipo de reto",
+        "selectResource": "Selecciona un reto",
+        "my": "Mis retos",
+        "share": "compartir",
+        "edit": "editar"
     },
     "participant": {
         "attendanceSaved": "Asistencia guardada correctamente",

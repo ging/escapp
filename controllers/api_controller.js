@@ -43,9 +43,7 @@ exports.check = async (req, res) => {
     });
 
     try {
-        if (answer.toString().toLowerCase().
-            trim() === puzzleSol.toString().toLowerCase().
-            trim()) {
+        if (answer.toString().toLowerCase().trim() === puzzleSol.toString().toLowerCase().trim()) {
             if (teams && teams.length > 0) {
                 const [team] = teams;
 
@@ -64,8 +62,10 @@ exports.check = async (req, res) => {
 
                     res.json({msg});
                 }
-            } else {
+            } else if (users[0].isStudent) {
                 res.status(202).json({"msg": `${i18n.api.correctNotParticipant}. ${req.puzzle.correct ? `${i18n.api.message}: ${req.puzzle.correct}` : ""}`});
+            } else {
+                res.status(202).json({"msg": req.puzzle.correct ? i18n.api.message : req.puzzle.correct});
             }
         } else {
             res.status(401).json({"msg": req.puzzle.fail || i18n.api.wrong});

@@ -172,6 +172,13 @@ asset.belongsTo(escapeRoom);
 
 resource.belongsTo(app);
 resource.belongsTo(puzzle);
+
+user.hasMany(resource, {
+    "onDelete": "CASCADE",
+    "hooks": true,
+    "foreignKey": "authorId"
+});
+
 app.hasMany(resource, {"onDelete": "CASCADE",
     "hooks": true});
 

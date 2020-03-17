@@ -18,6 +18,9 @@ module.exports = {
             "puzzleId": {
                 "type": Sequelize.INTEGER
             },
+            "authorId": {
+                "type": Sequelize.INTEGER
+            },
             "config": {
                 "type": Sequelize.TEXT,
                 "allowNull": false

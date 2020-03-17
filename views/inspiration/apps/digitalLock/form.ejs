@@ -13,12 +13,18 @@
 	});
 %>
 <script>
-window.state = JSON.parse(`<%- JSON.stringify(app.config || {
-	action: "/apps/" + app.id,
-	embeddedInEscapp: true,
-	puzzleOptions,
-	erOptions
-})%>`);
+window.state = JSON.parse(`<%- JSON.stringify(
+	{
+		...(locals.resource ? JSON.parse(locals.resource.config) : {}),
+		...{
+			action: "/apps/" + app.id,
+			embeddedInEscapp: true,
+			puzzleOptions,
+			erOptions
+		}
+	})
+	%>`);
+window.state.action = window.action || window.state.action;
 </script>
 <div style="height:50px; width:1px;"></div>
 <div id="root"></div>

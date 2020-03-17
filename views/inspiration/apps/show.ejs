@@ -1,4 +1,23 @@
 <% include ../../partials/_header.ejs %>
-<iframe id="visor" class="embeddedResource" src="/resources/<%=resource.id%>?full=1"></iframe>
+<div class="main showApp">
+    <div class="breadcrumbs-container">
+		<div class="breadcrumbs">
+			<a href="/resources/my"><%=i18n.resources.my%></a>
+			<i class="material-icons">chevron_right</i>
+			<span><%=JSON.parse(resource.config).title || resource.app.name%></span>
+		</div>
+	</div>
+    <iframe id="visor" class="embeddedResource" src="/resources/<%=resource.id%>?full=1"></iframe>
+    <div class="buttons">
+        <a href="/resources/<%=resource.id%>/edit">
+            <button class="rounded editButton">
+                <%=i18n.resources.edit%>
+            </button>
+        </a>
+            <button class="rounded acceptButton">
+                <%=i18n.resources.share%>
+            </button>
+    </div>
+</div>
 
 

@@ -16,13 +16,14 @@
 	
 				</div>
 			</a>
-			<% if (user && user.isAdmin) { %>
-                <a href="/apps/new" class="escapeRoomItemWrapper animated bounceIn">
-                    <div class="escapeRoomItem addEscapeRoom">
-                        <span>+</span>
-                    </div>
-                </a>
-            <% } %>
+			
+		<% } %>
+		<% if (user && user.isAdmin) { %>
+			<a href="/apps/new" class="escapeRoomItemWrapper animated bounceIn">
+				<div class="escapeRoomItem addEscapeRoom">
+					<span>+</span>
+				</div>
+			</a>
 		<% } %>
 	</div>
 

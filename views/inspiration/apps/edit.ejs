@@ -1,0 +1,6 @@
+<% include ../../partials/_header.ejs %>
+<script>
+    window.action = "/resources/<%=resource.id%>?_method=PUT";
+</script>
+<%- include(resource.app.key + "/form") %>
+

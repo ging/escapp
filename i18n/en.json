@@ -472,7 +472,11 @@
         "labyrinth": "Labyrinth generator",
         "math": "Mathematical puzzles",
         "hidden": "Hidden objects games",
-        "selectApp": "Select a puzzle type"
+        "selectApp": "Select a puzzle type",
+        "selectResource": "Select a puzzle",
+        "my": "My puzzles",
+        "share": "share",
+        "edit": "edit"
 
     },
     "participant": {
