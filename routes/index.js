@@ -175,6 +175,7 @@ router.get("/inspiration", sessionController.loginRequired, resourceController.s
 router.get("/resources", sessionController.loginRequired, resourceController.showResources);
 router.get("/apps/new", sessionController.loginRequired, sessionController.adminRequired, resourceAppController.new);
 router.post("/apps/", sessionController.loginRequired, sessionController.adminRequired, resourceAppController.create);
+router.post("/apps/:appId", sessionController.loginRequired, sessionController.adminRequired, resourceController.create);
 router.delete("/apps/:appId", sessionController.loginRequired, sessionController.adminRequired, resourceAppController.destroy);
 router.get("/resources/my", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.index);
 router.get("/resources/new", sessionController.loginRequired, sessionController.notStudentRequired, resourceAppController.index);

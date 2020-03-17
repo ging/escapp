@@ -1,30 +1,23 @@
-<style>
-	.App header {
-		display: none;
-	}
-	.App  h1 {
-		color: white;
-	}
-</style>
+<%
+	const erOptions = []
+	const puzzleOptions = {};
+
+	escapeRooms.forEach(er=>{
+		if (er.puzzles) {
+			erOptions.push({id: er.id, name: er.title});
+			puzzleOptions[er.id] = [];
+			er.puzzles.forEach(p=> {
+				puzzleOptions[er.id].push({id: p.id, name: p.title, answer: p.sol})
+			})
+		}
+	});
+%>
 <script>
 window.state = JSON.parse(`<%- JSON.stringify(app.config || {
-	title: "DIGITAL LOCK",
-	showUsername:"true",
-	timeout:"",
-	answer:"01",
-	tip:"Select the top 3 points starting from the left",
-	CombinationLockImage:"./../assets/images/CajaFuerte.png",
-	modes:["Symbol", "AlphaNumeric", "Pattern", "CombinationLock"],
-	mode:"Pattern",
-	themes:["dark", "lux", "cerulean", "cyborg", "pulse", "sketchy", "superhero"],
-	theme:"sketchy",
-	good:"Enhorabuena, lo has logrado!!",
-	bad:"Lo siento, se acabó tu tiempo",
-	escapp: true,
-	puzzleId: 5,
-	escapeRoomId: 1,
-	puzzleLength: 4,
-	scormVersion: "1.2",
+	action: "/apps/" + app.id,
+	embeddedInEscapp: true,
+	puzzleOptions,
+	erOptions
 })%>`);
 </script>
 <div style="height:50px; width:1px;"></div>

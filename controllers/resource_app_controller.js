@@ -21,7 +21,7 @@ exports.load = async (req, res, next, appId) => {
 
 // GET /apps/new
 exports.new = async (req, res, next) => {
-    const app = {name: "", description: "", key: ""};
+    const app = {"name": "", "description": "", "key": ""};
 
     res.render("inspiration/newApp", {app});
 };
@@ -37,7 +37,8 @@ exports.create = async (req, res, next) => {
 // GET /resources/new
 exports.index = async (req, res) => {
     const apps = await models.app.findAll();
-    res.render("inspiration/indexApp", {apps, user: req.session.user});
+
+    res.render("inspiration/indexApp", {apps, "user": req.session.user});
 };
 
 // DELETE /apps/:appId
