@@ -461,7 +461,8 @@ button, input[type="submit"] {
 
 #mainSection .main .basicConfig {
   font-size: 26px;
-  text-align: center; }
+  text-align: center;
+  margin-top: 100px; }
   #mainSection .main .basicConfig .erFormField {
     padding: 40px;
     text-align: left; }
@@ -950,16 +951,33 @@ button, input[type="submit"] {
   margin-bottom: 0px; }
   #mainSection .main.step-evaluation .scorePuzzles * {
     font-family: Lato, sans-serif; }
-  #mainSection .main.step-evaluation .scorePuzzles td {
+  #mainSection .main.step-evaluation .scorePuzzles th {
+    color: inherit; }
+  #mainSection .main.step-evaluation .scorePuzzles td, #mainSection .main.step-evaluation .scorePuzzles th {
     padding: 10px;
     font-size: 0.8em; }
-    #mainSection .main.step-evaluation .scorePuzzles td .customInput {
+    #mainSection .main.step-evaluation .scorePuzzles td .customInput, #mainSection .main.step-evaluation .scorePuzzles th .customInput {
       margin: 0;
       padding-top: 0px; }
 
-#mainSection .main.step-evaluation .erFormField .customInput, #mainSection .main.step-evaluation label, #mainSection .main.step-evaluation input {
-  color: white;
-  -webkit-text-fill-color: white !important; }
+#mainSection .main.step-evaluation .erFormField {
+  color: #656683;
+  -webkit-text-fill-color: #656683 !important; }
+  #mainSection .main.step-evaluation .erFormField:focus-within {
+    color: white;
+    -webkit-text-fill-color: white !important; }
+    #mainSection .main.step-evaluation .erFormField:focus-within label {
+      color: white;
+      -webkit-text-fill-color: white !important; }
+    #mainSection .main.step-evaluation .erFormField:focus-within tr td label {
+      color: #656683;
+      -webkit-text-fill-color: #656683 !important; }
+    #mainSection .main.step-evaluation .erFormField:focus-within tr:focus-within td label {
+      color: white;
+      -webkit-text-fill-color: white !important; }
+  #mainSection .main.step-evaluation .erFormField tr:focus-within, #mainSection .main.step-evaluation .erFormField table:focus-within {
+    color: white;
+    -webkit-text-fill-color: white !important; }
 
 .filters * {
   font-size: 16px; }

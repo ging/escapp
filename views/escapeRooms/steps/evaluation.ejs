@@ -2,88 +2,121 @@
 <div class="main steps step-evaluation">
   <h1><%=i18n.escapeRoom.steps.evaluation.title%></h1>  
   <form method='POST' class="basicConfig" action='/escapeRooms/<%= escapeRoom.id %>/evaluation'  >
-		<!-- 	  <p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.youCanUse%> <a target="_blank" href="https://docs.google.com/forms/u/0/">Google Forms</a> o <a target="_blank" href="https://www.typeform.com/es/">TypeForm</a> <%=i18n.escapeRoom.steps.evaluation.forSurveys%></p>
-	  <div class="inputFormField erFormField animated slideInUp"> 
-  	      <label for="tit"  class="itemNarrow">1. <%=i18n.escapeRoom.steps.evaluation.pretestField%>:</label>
-  	      <input autofocus type="text" class="customInput itemWide" id="pretest" name="pretest" value="<%= escapeRoom.pretest %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.pretestPlaceHolder%>" autocomplete="off"/>
-	  </div>
-	  <div class="inputFormField erFormField animated slideInUp" style="animation-delay:200ms;">
-		  <label for="subj"  class="itemNarrow">2. <%=i18n.escapeRoom.steps.evaluation.posttestField%>:</label>
-		  <input type="text" class="customInput itemWide" id="posttest" name="posttest" value="<%= escapeRoom.posttest %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.posttestPlaceHolder%>" autocomplete="off"/>
-	  </div>
-	  <div class="inputFormField erFormField animated slideInUp" style="animation-delay:400ms;">
-		  <label for="subj"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.surveyField%>:</label>
-		  <input type="text" class="customInput itemWide" id="survey" name="survey" value="<%= escapeRoom.survey %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.surveyPlaceHolder%>" autocomplete="off"/>
-	  </div> -->
+		<!--
+		<p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.youCanUse%> <a target="_blank" href="https://docs.google.com/forms/u/0/">Google Forms</a> o <a target="_blank" href="https://www.typeform.com/es/">TypeForm</a> <%=i18n.escapeRoom.steps.evaluation.forSurveys%></p>
+		<div class="inputFormField erFormField animated slideInUp"> 
+			<label for="tit"  class="itemNarrow">1. <%=i18n.escapeRoom.steps.evaluation.pretestField%>:</label>
+			<input autofocus type="text" class="customInput itemWide" id="pretest" name="pretest" value="<%= escapeRoom.pretest %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.pretestPlaceHolder%>" autocomplete="off"/>
+		</div>
+		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:200ms;">
+			<label for="subj"  class="itemNarrow">2. <%=i18n.escapeRoom.steps.evaluation.posttestField%>:</label>
+			<input type="text" class="customInput itemWide" id="posttest" name="posttest" value="<%= escapeRoom.posttest %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.posttestPlaceHolder%>" autocomplete="off"/>
+		</div>
+		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:400ms;">
+			<label for="subj"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.surveyField%>:</label>
+			<input type="text" class="customInput itemWide" id="survey" name="survey" value="<%= escapeRoom.survey %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.surveyPlaceHolder%>" autocomplete="off"/>
+		</div> -->
 
-	  <p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.gradingIntro%> </p>
-	  <div class=" erFormField disallow animated slideInUp" style="animation-delay:0ms;">
-		  <label for="tit"  class="itemNarrow">1. <%=i18n.escapeRoom.steps.evaluation.eachPuzzle%>:</label>
-		  <table class="scorePuzzles">
-			  <tr><td><label><%=i18n.escapeRoom.steps.evaluation.puzzle%></label></td><td><label><%=i18n.escapeRoom.steps.evaluation.weight%> (%)</label></td></tr>
-			  <tr>
-				  <td><label for="score-participation"><%=i18n.escapeRoom.steps.evaluation.justParticipating%></label></td>
-				  <td>
-					  <input type="number" min="0" max="100" value="<%=escapeRoom.scoreParticipation || 0%>" name="scoreParticipation" class="customInput scoreInput"  id="score-participation"/>
-				  </td>
-			  </tr>
+	  	<p class="intro-paragraph">
+		  <%=i18n.escapeRoom.steps.evaluation.gradingIntro%> 
+		</p>
+	  	<div class=" erFormField disallow animated slideInUp" style="animation-delay:0ms;">
+		  	<label for="tit"  class="itemNarrow">
+			  1. <%=i18n.escapeRoom.steps.evaluation.eachPuzzle%>:
+			</label>
+			<table class="scorePuzzles">
+				<tr>
+					<th>
+						<label>
+							<%=i18n.escapeRoom.steps.evaluation.puzzle%>
+						</label>
+					</th>
+					<th>
+						<label>
+							<%=i18n.escapeRoom.steps.evaluation.weight%> (%)
+						</label>
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<label for="score-participation">
+							<%=i18n.escapeRoom.steps.evaluation.justParticipating%>
+						</label>
+					</td>
+					<td>
+						<input autofocus type="number" min="0" max="100" value="<%=escapeRoom.scoreParticipation || 0%>" name="scoreParticipation" class="customInput scoreInput"  id="score-participation"/>
+					</td>
+				</tr>
 
 			<% var totalScore = escapeRoom.scoreParticipation || 0;%>
-		  <% for (let p in escapeRoom.puzzles) { let puzzle = escapeRoom.puzzles[p] %>
-			  <tr>
+			<% for (let p in escapeRoom.puzzles) { let puzzle = escapeRoom.puzzles[p] %>
+				<tr>
 					<td><label for="score-puzzle-<%=puzzle.id%>"><%= puzzle.title %></label></td>
-				  	<td>
+					<td>
 						<input type="number" min="0" max="100" step="any" value="<%= puzzle.score || 0 %>" name="scores[]" class="customInput scoreInput" id="score-puzzle-<%=puzzle.id%>"/>
 						<% totalScore += puzzle.score || 0 %>
 					</td>
-			  </tr>
-		  <% } %>
-		  </table>
-	  </div>
-	  <div class="inputFormField erFormField animated slideInUp" style="animation-delay:200ms;">
+				</tr>
+			<% } %>
+			</table>
+	  	</div>
+	  	<div class="inputFormField erFormField disallow animated slideInUp" style="animation-delay:200ms;">
 		<label for="automaticAttendance"  class="itemNarrow">2. <%=i18n.escapeRoom.steps.evaluation.automaticAttendance%>:</label>
 		<select class="customInput itemWide" id="automaticAttendance" name="automaticAttendance" >
 			<option value="none" <%= (!escapeRoom.automaticAttendance || escapeRoom.automaticAttendance === "none") ? "selected" : "" %> ><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceNone%></option> 
 			<option value="participant" <%= escapeRoom.automaticAttendance === "participant" ? "selected" : "" %>><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceParticipant%></option> 
 			<option value="team" <%= escapeRoom.automaticAttendance === "team" ? "selected" : "" %>><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceTeam%></option> 
 		</select>
-	</div>
-	  <div class=" erFormField disallow animated slideInUp" style="animation-delay:400ms;">
-		  <label for="tit"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.eachHint%>:</label>
-		  <table class="scorePuzzles">
-			  <tr>
-				  <td><label for="hintSuccess"><%=i18n.escapeRoom.steps.evaluation.hintSuccess%>(%)</label></td>
-				  <td>
-					  <input type="number" min="-100" max="100" value="<%=escapeRoom.hintSuccess || 0%>" class="customInput" id="hintSuccess" name="hintSuccess"/>
-				  </td>
-			  </tr>
-			  <tr>
-				  <td><label for="hintFailed"><%=i18n.escapeRoom.steps.evaluation.hintFailed%>(%)</label></td>
-				  <td>
-					  <input type="number" min="-100" max="100" value="<%=escapeRoom.hintFailed || 0%>" class="customInput" id="hintFailed" name="hintFailed"/>
-				  </td>
-			  </tr>
-		  </table>
-	  </div>
-	  <div class="score-total">
-		  <span><%=i18n.escapeRoom.steps.evaluation.total%></span>
-		  <span id="totalScore"><%=totalScore%>%</span>
-	  </div>
-	  <br>
-	  <br>
-	  <div class="align-right flex-buttons" style="margin-bottom: 60px;">
-      <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
-      <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.finish%></button>
-      <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
-  	</div>
-      <%- include('../../partials/_progress', {progress}) %>
-  </form>
+		</div>
+	  	<div class="erFormField disallow animated slideInUp" style="animation-delay:400ms;">
+			<label for="tit"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.eachHint%>:</label>
+		  	<table class="scorePuzzles">
+				<tr>
+					<td>
+						<label for="hintSuccess"><%=i18n.escapeRoom.steps.evaluation.hintSuccess%>(%)</label></td>
+				  	<td>
+					  	<input type="number" min="-100" max="100" value="<%=escapeRoom.hintSuccess || 0%>" class="customInput" id="hintSuccess" name="hintSuccess"/>
+				  	</td>
+			  	</tr>
+			  	<tr>
+				  	<td>
+						<label for="hintFailed">
+							<%=i18n.escapeRoom.steps.evaluation.hintFailed%>(%)
+						</label>
+					</td>
+				  	<td>
+						<input type="number" min="-100" max="100" value="<%=escapeRoom.hintFailed || 0%>" class="customInput" id="hintFailed" name="hintFailed"/>
+				  	</td>
+			  	</tr>
+		  	</table>
+	  	</div>
+	  	<div class="disallow score-total">
+		  	<span><%=i18n.escapeRoom.steps.evaluation.total%></span>
+		  	<span id="totalScore"><%=totalScore%>%</span>
+	  	</div>
+	  	<br>
+	  	<br>
+	  	<div class="align-right flex-buttons" style="margin-bottom: 60px;">
+			<a href="/escapeRooms/<%= escapeRoom.id %>">
+				<button class="progress-buttons" type="button" value="exit" id="exit" name="exit">
+					<%=i18n.common.exit%>
+				</button>
+			</a>
+      		<button class="progress-buttons" type="submit" value="next" id="next" name="next">
+				<%=i18n.common.finish%>
+			</button>
+      		<button class="progress-buttons" type="submit" value="previous" id="previous" name="previous">
+				  <%=i18n.common.previous%>
+			</button>
+  		</div>
+      	<%- include('../../partials/_progress', {progress}) %>
+  	</form>
 	<br/>
 	<br/>
 </div>
 
 <% include ../../partials/_footer %>
-<% include ../../partials/_scrollListener %>
+<% /* include ../../partials/_scrollListener */%>
 
 <script>
 	$(function(){

@@ -8,12 +8,34 @@
           font-family: Lato, sans-serif
         margin: 36px
         margin-bottom: 0px
-        td
+        th
+          color: inherit
+        td, th
           padding: 10px
           font-size: 0.8em
           .customInput
             margin: 0
             padding-top: 0px
-      .erFormField .customInput, label, input
-        color: white
-        -webkit-text-fill-color: white !important
+      // .erFormField .customInput, label, input
+      .erFormField
+        color: $textpurple
+        -webkit-text-fill-color: $textpurple !important
+        &:focus-within
+          color: white
+          -webkit-text-fill-color: white !important
+          label
+            color: white
+            -webkit-text-fill-color: white !important
+          tr
+            td
+              label
+                color: $textpurple
+                -webkit-text-fill-color: $textpurple !important
+            &:focus-within
+              td
+                label
+                  color: white
+                  -webkit-text-fill-color: white !important
+        tr:focus-within, table:focus-within
+          color: white
+          -webkit-text-fill-color: white !important
