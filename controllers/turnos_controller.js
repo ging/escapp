@@ -51,6 +51,13 @@ exports.load = (req, res, next, turnId) => {
 exports.indexStudent = async (req, res, next) => {
     try {
         const {escapeRoom} = req;
+        const token = req.body.token || req.query.token;
+
+        if (token !== escapeRoom.invitation) {
+            req.flash("error", `Wrong password`);
+            res.redirect(`/escapeRooms/${escapeRoom.id}/join`);
+            return;
+        }
 
         const turnos = await models.turno.findAll({
             "where": {"escapeRoomId": req.escapeRoom.id},
@@ -68,7 +75,7 @@ exports.indexStudent = async (req, res, next) => {
 
         if (escapeRoom.turnos && escapeRoom.turnos.length === 1) {
             if (escapeRoom.teamSize > 1) {
-                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams`);
+                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}`);
             } else {
                 req.params.turnoId = escapeRoom.turnos[0].id;
                 req.body.name = req.session.user.name;
@@ -76,7 +83,7 @@ exports.indexStudent = async (req, res, next) => {
                 next();
             }
         } else {
-            res.render("turnos/_indexStudent.ejs", {turnos, escapeRoom});
+            res.render("turnos/_indexStudent.ejs", {turnos, escapeRoom, token});
         }
     } catch (e) {
         next(e);

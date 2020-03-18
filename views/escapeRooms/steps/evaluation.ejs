@@ -24,6 +24,7 @@
 		  	<label for="tit"  class="itemNarrow">
 			  1. <%=i18n.escapeRoom.steps.evaluation.eachPuzzle%>:
 			</label>
+			<input type="hidden"/>
 			<table class="scorePuzzles">
 				<tr>
 					<th>
@@ -116,7 +117,7 @@
 </div>
 
 <% include ../../partials/_footer %>
-<% /* include ../../partials/_scrollListener */%>
+<% include ../../partials/_scrollListener %>
 
 <script>
 	$(function(){

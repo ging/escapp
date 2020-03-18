@@ -70,6 +70,9 @@
                     span
                         display: inline-block
                         padding: 0px
+            input:-webkit-autofill::first-line // Fixes problem with small font in Chrome autofill
+                font-size: large
+                font-family: Gugi, sans-serif
         #imagenPortada
             width: auto
 @media (max-width: 768px)

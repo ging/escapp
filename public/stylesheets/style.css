@@ -102,6 +102,16 @@ button, input[type="submit"] {
     padding: 10px;
     text-align: center;
     outline: 0; }
+  button.shareButton, input[type="submit"].shareButton {
+    background-color: #36A2EB;
+    color: #161938;
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    border-color: #36A2EB;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    outline: 0; }
   button.inverse, input[type="submit"].inverse {
     background-color: transparent;
     color: white;
@@ -391,13 +401,7 @@ button, input[type="submit"] {
       #mainSection .main .flexShow .flexRow .flexShowRight img {
         width: 250px;
         border-radius: 5px; }
-      #mainSection .main .flexShow .flexRow .flexShowRight #joinUrl {
-        height: 10px;
-        opacity: 0.01;
-        width: 10px;
-        padding: 2px;
-        margin: 0px; }
-    #mainSection .main .flexShow .flexRow .copy, #mainSection .main .flexShow .flexRow .qr {
+    #mainSection .main .flexShow .flexRow .preview-icon {
       background: transparent;
       border: none;
       font-size: 16px;
@@ -560,36 +564,65 @@ button, input[type="submit"] {
   #mainSection .main.escapeRoomShow .flexShow .flexRow .flexShowRight {
     color: white;
     font-weight: lighter; }
-  #mainSection .main.escapeRoomShow #dialog-preview-video, #mainSection .main.escapeRoomShow #dialog-preview-api {
+  #mainSection .main.escapeRoomShow #dialog-preview-video, #mainSection .main.escapeRoomShow #dialog-preview-api, #mainSection .main.escapeRoomShow #dialog-share {
     padding: 0;
     background-color: white;
     outline: none;
     border: none; }
-    #mainSection .main.escapeRoomShow #dialog-preview-video #previewVideoContent, #mainSection .main.escapeRoomShow #dialog-preview-api #previewVideoContent {
+    #mainSection .main.escapeRoomShow #dialog-preview-video #previewVideoContent, #mainSection .main.escapeRoomShow #dialog-preview-api #previewVideoContent, #mainSection .main.escapeRoomShow #dialog-share #previewVideoContent {
       padding: 10px; }
-  #mainSection .main.escapeRoomShow #dialog-preview-api {
+  #mainSection .main.escapeRoomShow #dialog-preview-api, #mainSection .main.escapeRoomShow #dialog-share {
     padding: 15px; }
-    #mainSection .main.escapeRoomShow #dialog-preview-api h4 {
+    #mainSection .main.escapeRoomShow #dialog-preview-api h4, #mainSection .main.escapeRoomShow #dialog-share h4 {
       color: #48C18E;
       font-size: 20px;
       margin-bottom: -4px; }
-    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th {
+    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th, #mainSection .main.escapeRoomShow #dialog-share .api-table td, #mainSection .main.escapeRoomShow #dialog-share .api-table th {
       font-size: 14px;
       font-family: 'Lato', sans-serif;
       color: #656683; }
-      #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td code, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th code {
+      #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td code, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th code, #mainSection .main.escapeRoomShow #dialog-share .api-table td code, #mainSection .main.escapeRoomShow #dialog-share .api-table th code {
         font-family: monospace;
         color: #F47E84; }
-    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th {
+    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th, #mainSection .main.escapeRoomShow #dialog-share .api-table th {
       color: #F47E84;
       font-weight: 600;
       text-align: left; }
-    #mainSection .main.escapeRoomShow #dialog-preview-api pre#sample-fetch {
+    #mainSection .main.escapeRoomShow #dialog-preview-api pre#sample-fetch, #mainSection .main.escapeRoomShow #dialog-share pre#sample-fetch {
       color: white;
       padding: 15px;
       font-size: 14px;
       font-family: monospace;
       background-color: #656683; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .show_link, #mainSection .main.escapeRoomShow #dialog-share .show_link {
+      font-family: 'Lato', sans-serif;
+      color: #161938;
+      text-decoration: underline;
+      text-underline-position: under; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api #joinUrl, #mainSection .main.escapeRoomShow #dialog-share #joinUrl {
+      height: 10px;
+      opacity: 0.01;
+      width: 10px;
+      padding: 2px;
+      margin: 0px; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .copy, #mainSection .main.escapeRoomShow #dialog-preview-api .qr, #mainSection .main.escapeRoomShow #dialog-share .copy, #mainSection .main.escapeRoomShow #dialog-share .qr {
+      background: transparent;
+      border: none;
+      font-size: 1px;
+      color: #48C18E;
+      vertical-align: middle; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .qr, #mainSection .main.escapeRoomShow #dialog-share .qr {
+      color: #36A2EB; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .join-instructions, #mainSection .main.escapeRoomShow #dialog-share .join-instructions {
+      font-family: 'Lato', sans-serif;
+      font-size: 18px;
+      color: #161938; }
+      #mainSection .main.escapeRoomShow #dialog-preview-api .join-instructions a, #mainSection .main.escapeRoomShow #dialog-share .join-instructions a {
+        color: #F3945E;
+        font-family: inherit; }
+      #mainSection .main.escapeRoomShow #dialog-preview-api .join-instructions .hl, #mainSection .main.escapeRoomShow #dialog-share .join-instructions .hl {
+        color: #36A2EB;
+        font-family: inherit; }
   #mainSection .main.escapeRoomShow .ui-dialog {
     outline: none !important; }
   #mainSection .main.escapeRoomShow .ui-dialog-title {
@@ -1598,11 +1631,13 @@ button, input[type="submit"] {
           overflow: hidden;
           text-overflow: ellipsis;
           color: #FAC855; }
-  #mainSection .main.student .teamName {
+  #mainSection .main.student .teamName, #mainSection .main.student .tokenInput {
     overflow: hidden;
     width: 200px;
     max-width: 100%;
     min-width: 50%; }
+  #mainSection .main.student .typePasscode {
+    font-size: 18px; }
   #mainSection .main.student .findTeam {
     position: relative;
     min-height: 135px; }
@@ -1884,6 +1919,9 @@ button, input[type="submit"] {
           .portada .contenedor .loginRight .roleField .roleLabel span {
             display: inline-block;
             padding: 0px; }
+      .portada .contenedor .loginRight input:-webkit-autofill::first-line {
+        font-size: large;
+        font-family: Gugi, sans-serif; }
     .portada .contenedor #imagenPortada {
       width: auto; }
 

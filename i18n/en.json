@@ -191,6 +191,7 @@
         "invitation": {
             "no": "no",
             "wannaJoin": "Would you like to join this Escape Room?",
+            "typePasscode": "Type the access passcode",
             "yes": "yes"
         },
         "main": {
@@ -488,7 +489,9 @@
         "seeByParticipant": "see by participant",
         "seeByTeam": "see by team",
         "select": "select/deselect all ",
-        "title": "participants"
+        "title": "participants",
+        "wrongToken": "Wrong password to access the escape room"
+
     },
     "puzzle": {
         "check": "check",
@@ -524,13 +527,23 @@
             "join": "Join invitation",
             "participants": "Participants",
             "teams": "Teams",
+            "share": "share",
             "shifts": "Shifts",
+            "turnos": "Shifts",
             "volver": "back"
         },
         "messages": {
             "noHintControl": "This Escape Room does not have any hint system yet",
             "noVideo": "This Escape Room does not have any video yet",
-            "copyAria": "Invisible input to enable copying invitation link"
+            "copyAria": "Invisible input to enable copying invitation link",
+            "copyTitle": "Copy the link",
+            "qrTitle": "Generate a QR code to share",
+            "join": {
+                "intro": "Share the following link with yout students so they can access the escape room:",
+                "also": "They can also access ",
+                "register": " and, after signing up and login in, they can select the escape room entitled ",
+                "password": " and introduce the following password "
+            }
         },
         "titles": {
             "appearance": "Appearance",
@@ -549,7 +562,8 @@
             "thumbnail": "Thumbnail",
             "title": "Title",
             "turnos": "Shifts",
-            "video": "Video"
+            "video": "Video",
+            "share": "Share"
         }
     },
     "team": {

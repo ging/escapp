@@ -12,10 +12,10 @@
        <ul class="menuERactionList">
            <li><a href="#basic"><%=i18n.showTeacher.actionList.basic%></a></li>
            <li><a href="#turnos"><%=i18n.showTeacher.actionList.turnos%></a></li>
-           <li><a href="#join"><%=i18n.showTeacher.actionList.join%></a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/participants"><%=i18n.showTeacher.actionList.participants%> <span class="material-icons">keyboard_arrow_right</span></a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/teams"><%=i18n.showTeacher.actionList.teams%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
+           <li><button  id="share-button" class="showMenuButton shareButton"><%=i18n.showTeacher.actionList.share%></button></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/activarTurno"><button class="showMenuButton acceptButton"><%=i18n.showTeacher.actionList.activateTurno%></button></a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/edit"><button class="showMenuButton editButton"><%=i18n.showTeacher.actionList.edit%></button></a></li>
            <li><a href="/escapeRooms/<%= escapeRoom.id %>/clone?_method=PUT"><button class="showMenuButton cloneButton" ><%=i18n.showTeacher.actionList.clone%></button></a></li>
@@ -74,25 +74,6 @@
             </div>
             <div class="flexShowRight">
                 <%= escapeRoom.teamSize %>
-            </div>
-        </div>
-        <div class="flexRow animated slideInUp" id="join">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.invitation%>:
-            </div>
-            <div class="flexShowRight">
-                <% var invitationLink = hostName + "/escapeRooms/" + escapeRoom.id +"/join?token=" + escapeRoom.invitation; %>
-
-                <a class="show_link" href="<%= invitationLink %>"><%= invitationLink %></a>
-
-                <input id="joinUrl" value="<%= invitationLink %>" aria-label="<%=i18n.showTeacher.messages.copyAria%>"/>
-                <button class="copy" id="copyButton">
-                    <span class="material-icons">file_copy</span></button>
-                 <a class="show_link" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/<%= invitationLink %>"> 
-                    <button class="qr" id="qrButton">
-                     <span class="material-icons">camera_enhance</span>
-                    </button>
-                </a>
             </div>
         </div>
         <div class="flexRow animated slideInUp" id="turnos">
@@ -178,7 +159,7 @@
                 <% if (escapeRoom.hintApp) { %>
 
                    <a class="show_link"  download="quiz" href="/escapeRooms/<%= escapeRoom.id%>/xml"><%=escapeRoom.hintApp.filename%></a>
-                   <button class="copy" onclick="previewHintApp()"><span class="material-icons">remove_red_eye</span></button> 
+                   <button class="preview-icon" onclick="previewHintApp()"><span class="material-icons">remove_red_eye</span></button> 
                 <% } else { %>
                    <%=i18n.showTeacher.messages.noHintControl%>
                 <% } %>
@@ -196,40 +177,73 @@
 
 <script src="/js/vendor/jquery-ui.min.js"></script>
 <script type="text/javascript">
+    var dialogOptions = {
+        autoOpen: false,
+        resizable: false,
+        width: screen.width > 800 ? 860 : screen.width*0.9,
+        height: "auto",
+        show: {
+            effect: "blind",
+            duration: 100
+        },
+        hide: {
+            effect: "explode",
+            duration: 400
+        },
+        appendTo: '.main'
+    };
 
-  $( function() {
-    $('#copyButton').on('click', function() {
-      var copyText = $("#joinUrl");
-      copyText.select();
-      document.execCommand("copy");
+    $( function() {
+        $('#copyButton').on('click', function() {
+            var copyText = $("#joinUrl");
+            copyText.select();
+            document.execCommand("copy");
+        });
+
+        $("#dialog-preview-api").dialog(dialogOptions);
+
+        $( "#api-button" ).on( "click", function() {
+            $( "#dialog-preview-api" ).dialog( "open" );
+        }); 
     });
-
-    $("#dialog-preview-api").dialog({
-      autoOpen: false,
-      resizable: false,
-      width: screen.width > 800 ? 860 : screen.width*0.9,
-      height: "auto",
-      show: {
-        effect: "blind",
-        duration: 100
-      },
-      hide: {
-        effect: "explode",
-        duration: 400
-      },
-      appendTo: '.main'
-    });
-
-    $( "#api-button" ).on( "click", function() {
-      $( "#dialog-preview-api" ).dialog( "open" );
-    }); 
-  });
 
 
 </script>
 
 
-<% if (someAutomatic) { %>
+<div id="dialog-share" title="<%=i18n.showTeacher.titles.share%>">
+    <div>
+        <% var invitationLink = hostName + "/escapeRooms/" + escapeRoom.id +"/join?token=" + escapeRoom.invitation; %>
+        <h4><%=i18n.showTeacher.actionList.join%></h4>
+        <p class=join-instructions>
+            <%=i18n.showTeacher.messages.join.intro%>
+        </p>
+        <a class="show_link" href="<%= invitationLink %>"><%= invitationLink %></a>
+        <input id="joinUrl" value="<%= invitationLink %>" aria-label="<%=i18n.showTeacher.messages.copyAria%>"/>
+        <button title="<%=i18n.showTeacher.messages.copyTitle%>" class="copy" id="copyButton">
+        <span class="material-icons">file_copy</span></button>
+        <a class="show_link" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/<%= invitationLink %>"> 
+            <button class="qr" id="qrButton" title="<%=i18n.showTeacher.messages.qrTitle%>">
+                <span class="material-icons">camera_enhance</span>
+            </button>
+        </a>
+        <p class=join-instructions>
+            <%=i18n.showTeacher.messages.join.also%> <a><%=hostName%></a>
+            <%=i18n.showTeacher.messages.join.register%>
+            "<span class="hl"><%=escapeRoom.title%></span>" 
+            <%=i18n.showTeacher.messages.join.password%>
+            "<span class="hl"><%=escapeRoom.invitation%></span>"</p>
+    </div>
+</div>
+
+<% include ../partials/_footer %>
+<script>
+    var escapeRoomId = "<%= escapeRoom.id%>";
+    const previewHintApp = () => {
+            var newwindow = window.open('/escapeRooms/'+escapeRoomId+'/hintAppWrapper','',
+                'width='+screen.width*0.7+',height='+screen.height*0.7);
+        };
+</script>
 <div id="dialog-preview-api" title="API">
     <table class="api-table">
         <tr>
@@ -263,13 +277,12 @@ fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/c
     </pre>
 
 </div>
-<% } %>
-
-<% include ../partials/_footer %>
 <script>
-    var escapeRoomId = "<%= escapeRoom.id%>";
-    const previewHintApp = () => {
-            var newwindow = window.open('/escapeRooms/'+escapeRoomId+'/hintAppWrapper','',
-                'width='+screen.width*0.7+',height='+screen.height*0.7);
-        };
+    
+    $("#dialog-share").dialog(dialogOptions);
+
+    $( "#share-button" ).on( "click", function() {
+      $( "#dialog-share" ).dialog( "open" );
+    });
+
 </script>

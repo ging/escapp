@@ -107,7 +107,7 @@ exports.indexBreakDown = (req, res) => res.redirect("/");
 exports.show = (req, res) => {
     const {escapeRoom} = req;
     const participant = req.isParticipant;
-    const hostName = process.env.APP_NAME ? `http://${process.env.APP_NAME}` : "http://localhost:3000";
+    const hostName = process.env.APP_NAME ? `https://${process.env.APP_NAME}` : "http://localhost:3000";
 
     if (participant) {
         res.render("escapeRooms/showStudent", {escapeRoom, cloudinary, participant});
@@ -375,10 +375,8 @@ exports.studentToken = async (req, res) => {
 
     if (participant) {
         res.redirect(`/escapeRooms/${escapeRoom.id}`);
-    } else if (escapeRoom.invitation === req.query.token) {
-        res.render("escapeRooms/indexInvitation", {escapeRoom, cloudinary});
     } else {
-        res.redirect("/");
+        res.render("escapeRooms/indexInvitation", {escapeRoom, token: req.query.token});
     }
 };
 

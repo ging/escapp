@@ -185,6 +185,7 @@
         "invitation": {
             "no": "no",
             "wannaJoin": "¿Quieres unirte a la Escape Room de",
+            "typePasscode": "Introduce la contraseña de acceso",
             "yes": "sí"
         },
         "main": {
@@ -481,7 +482,8 @@
         "seeByParticipant": "ver por participante",
         "seeByTeam": "ver por equipo",
         "select": "marcar/desmarcar todos",
-        "title": "Participantes"
+        "title": "Participantes",
+        "wrongToken": "Contraseña de acceso a la escape room incorrecta"
     },
     "puzzle": {
         "check": "comprobar",
@@ -517,13 +519,24 @@
             "join": "Enlace de invitación",
             "participants": "Participantes",
             "teams": "Equipos",
+            "shifts": "Turnos",
             "turnos": "Turnos",
+            "share": "compartir",
             "volver": "volver"
+            
         },
         "messages": {
             "copyAria": "Input invisible para permitir copiar el link de invitación",
             "noHintControl": "Esta Escape Room no utiliza ningún mecanismo de control de pistas",
-            "noVideo": "No hay vídeo"
+            "noVideo": "No hay vídeo",
+            "copyTitle": "Copia el enlace",
+            "qrTitle": "Genera un código QR para compartir",
+            "join": {
+                "intro": "Para que tus alumnos puedan acceder a la escape room comparte con ellos el siguiente enlace:",
+                "also": "También pueden acceder a ",
+                "register": " y, tras registrarse e iniciar sesión, seleccionar la escape room ",
+                "password": " e introducir la contraseña "
+            }
         },
         "titles": {
             "appearance": "Apariencia",
@@ -542,7 +555,8 @@
             "thumbnail": "Miniatura",
             "title": "Título",
             "turnos": "Turnos",
-            "video": "Vídeo"
+            "video": "Vídeo",
+            "share": "Compartir"
         }
     },
     "team": {

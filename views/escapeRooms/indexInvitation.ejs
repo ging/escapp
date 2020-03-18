@@ -1,22 +1,33 @@
 <% include ../partials/_header.ejs %>
 <div class="main student">
     <div class="dialog" >
-        </br>
-        <%=i18n.escapeRoom.invitation.wannaJoin%> "<%= escapeRoom.title %>"?
-        </br>
-        </br>
-        <div class="join-button-flex-container">
-            <div class="delete-button-container">
-                <form method='GET' id="form" action='/users/<%= session.user.id %>/escapeRooms'>
-                    <button class="deleteButton" type="submit" style="display:inline-block;"><%=i18n.escapeRoom.invitation.no%></button>
-                </form>
+        <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/join'  >
+
+            </br>
+            <%=i18n.escapeRoom.invitation.wannaJoin%> "<%= escapeRoom.title %>"?
+            </br>
+            <% if (escapeRoom.invitation === token) {%>
+                <input type="hidden" name="token" value="<%=token%>"/>
+            <% } else { %>
+                 <p class="typePasscode"><%=i18n.escapeRoom.invitation.typePasscode%></p>
+
+                <input type="text" class="tokenInput" name="token" value=""/>
+            <% } %>
+            </br>
+            <div class="join-button-flex-container">
+                
+                <div class="delete-button-container">
+                    <a href='/users/<%= session.user.id %>/escapeRooms'>
+                        <button class="deleteButton" type="button" style="display:inline-block;"><%=i18n.escapeRoom.invitation.no%></button>
+                    </a>
+                </div>
+                <div class="accept-button-container">
+                    
+                    <button class="acceptButton" type="submit" style="display:inline-block;"><%=i18n.escapeRoom.invitation.yes%></button>
+                </div>
+
             </div>
-            <div class="accept-button-container">
-                <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/join'  >
-                <button class="acceptButton" type="submit" style="display:inline-block;"><%=i18n.escapeRoom.invitation.yes%></button>
-                </form>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 
