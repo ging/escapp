@@ -609,16 +609,16 @@ button, input[type="submit"] {
       background: transparent;
       border: none;
       font-size: 1px;
-      color: #48C18E;
+      color: #F3945E;
       vertical-align: middle; }
     #mainSection .main.escapeRoomShow #dialog-preview-api .qr, #mainSection .main.escapeRoomShow #dialog-share .qr {
-      color: #36A2EB; }
+      color: #F47E84; }
     #mainSection .main.escapeRoomShow #dialog-preview-api .join-instructions, #mainSection .main.escapeRoomShow #dialog-share .join-instructions {
       font-family: 'Lato', sans-serif;
       font-size: 18px;
       color: #161938; }
       #mainSection .main.escapeRoomShow #dialog-preview-api .join-instructions a, #mainSection .main.escapeRoomShow #dialog-share .join-instructions a {
-        color: #F3945E;
+        color: #48C18E;
         font-family: inherit; }
       #mainSection .main.escapeRoomShow #dialog-preview-api .join-instructions .hl, #mainSection .main.escapeRoomShow #dialog-share .join-instructions .hl {
         color: #36A2EB;

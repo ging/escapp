@@ -531,6 +531,7 @@
             "noVideo": "No hay vídeo",
             "copyTitle": "Copia el enlace",
             "qrTitle": "Genera un código QR para compartir",
+            "noShifts": "No puedes compartir la escape room hasta que hayas establecido al menos un turno",
             "join": {
                 "intro": "Para que tus alumnos puedan acceder a la escape room comparte con ellos el siguiente enlace:",
                 "also": "También pueden acceder a ",
