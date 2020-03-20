@@ -186,7 +186,7 @@ exports.pistas = (req, res) => {
 };
 
 // POST /escapeRooms/:escapeRoomId/hints
-exports.pistasUpdate = async (req, res, next) => {
+exports.pistasUpdate = (req, res, next) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;

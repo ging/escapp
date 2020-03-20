@@ -54,7 +54,7 @@ exports.indexStudent = async (req, res, next) => {
         const token = req.body.token || req.query.token;
 
         if (token !== escapeRoom.invitation) {
-            req.flash("error", `Wrong password`);
+            req.flash("error", "Wrong password");
             res.redirect(`/escapeRooms/${escapeRoom.id}/join`);
             return;
         }

@@ -89,9 +89,9 @@
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.puzzles%>:
                 <% const someAutomatic = escapeRoom.puzzles && escapeRoom.puzzles.length > 0 && escapeRoom.puzzles.some(p=>p.automatic); %>
-                <%if (someAutomatic) {%>
-                    <br/><button class="copy" id="api-button"><span class="material-icons">info</span></button>
-                <%}%>
+                <% if (someAutomatic) { %>
+                    <br/><button id="api-button"><span class="material-icons">info</span></button>
+                <% } %>
             </div>
             <div class="flexShowRight previewPuzzles">
                 <%if (escapeRoom.puzzles && escapeRoom.puzzles.length > 0) {%>
@@ -256,7 +256,7 @@
         <tr>
             <td><%= puzzle.id %></td>
             <td><%= puzzle.title %></td>
-            <td> <code><%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/check </code></td>
+            <td> <code><%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/submit </code></td>
             <td><%= puzzle.sol %></td>
         </tr>
     <% } %>
@@ -264,9 +264,13 @@
 
     <h4><%=i18n.escapeRoom.api.sample%></h4>
     <pre id="sample-fetch">
-fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/check", {
+fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/submit", {
     "method": "POST",
-    "body": JSON.stringify({token: "<%= email %>", solution: "<%=puzzle.sol%>"}),
+    "body": JSON.stringify({
+        "email": "<%= email %>",
+        "password" : "********",
+        "solution": "<%=puzzle.sol%>"
+    }),
     "headers": {
         "Content-type": "application/json"<% if (i18n.lang === "es"){%>,
         "Accept-Language": "es-ES"<%}%>

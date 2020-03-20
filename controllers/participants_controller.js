@@ -14,7 +14,7 @@ exports.checkJoinToken = (req, res, next) => {
         req.token = token;
         next();
     }
-}
+};
 
 // POST  /escapeRooms/:escapeRoomId/users/:userId/selectTurno
 exports.selectTurno = (req, res, next) => {

@@ -16,8 +16,8 @@ router.param("hintId", 			hintController.load);
 router.param("userId", 			userController.load);
 router.param("teamId", 			teamController.load);
 
-
 router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles/:puzzleId(\\d+)/check", apiController.checkParticipant, apiController.checkPuzzle);
-router.post("/escapeRooms/:escapeRoomId(\\d+)/auth", apiController.checkParticipant, apiController.auth);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles/:puzzleId(\\d+)/submit", apiController.checkParticipantSafe, apiController.checkPuzzle);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/auth", apiController.checkParticipantSafe, apiController.auth);
 
 module.exports = router;

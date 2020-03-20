@@ -202,24 +202,20 @@ exports.isTooLate = (team) => {
     return team.turno.escapeRoom.forbiddenLateSubmissions && new Date(startTime.getTime() + duration * 60000) < new Date();
 };
 
-exports.getBestTime = (finished) => {
-    return `${finished.map((t) => t.retos.
-        map((r) => Math.round((r.retosSuperados.createdAt - (t.turno.startTime || t.startTime)) / 10 / 60) / 100).
-        reduce((a, b) => a > b ? a : b, Math.Infinity)).
-        reduce((a, b) => a < b ? a : b, Math.Infinity) || 0} min.`;
-};
+exports.getBestTime = (finished) => `${finished.map((t) => t.retos.
+    map((r) => Math.round((r.retosSuperados.createdAt - (t.turno.startTime || t.startTime)) / 10 / 60) / 100).
+    reduce((a, b) => a > b ? a : b, Math.Infinity)).
+    reduce((a, b) => a < b ? a : b, Math.Infinity) || 0} min.`;
 
-exports.getAvgHints = (teams, reqHints) => {
-    return teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter((h) => {
-        if (h.hintId) {
-            reqHints[h.hintId]++;
-        } else {
-            reqHints[h.success ? 0 : -1]++;
-        }
+exports.getAvgHints = (teams, reqHints) => teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter((h) => {
+    if (h.hintId) {
+        reqHints[h.hintId]++;
+    } else {
+        reqHints[h.success ? 0 : -1]++;
+    }
 
-        return h.success;
-    }).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a";
-}
+    return h.success;
+}).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a";
 
 exports.byRanking = (a, b) => {
     if (a.count > b.count) {
@@ -232,3 +228,16 @@ exports.byRanking = (a, b) => {
     }
     return 1;
 };
+
+/*
+ * User authentication: Checks that the user is registered.
+ *
+ * Return a Promise that searches a user with the given login, and checks that
+ * the password is correct.
+ * If the authentication is correct, then the promise is satisfied and returns
+ * an object with the User.
+ * If the authentication fails, then the promise is also satisfied, but it
+ * returns null.
+ */
+exports.authenticate = (login, password) => models.user.findOne({"where": {"username": login}}).
+    then((user) => user && user.verifyPassword(password) ? user : null);// GET /   -- Login form

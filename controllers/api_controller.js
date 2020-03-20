@@ -1,6 +1,6 @@
 const {models} = require("../models");
 const {puzzleResponse, broadcastRanking} = require("../helpers/sockets");
-const {isTooLate} = require("../helpers/utils");
+const {isTooLate, authenticate} = require("../helpers/utils");
 
 
 exports.checkParticipant = async (req, res, next) => {
@@ -38,6 +38,47 @@ exports.checkParticipant = async (req, res, next) => {
 
     });
     next();
+};
+
+exports.checkParticipantSafe = async (req, res, next) => {
+    const {body} = req;
+    const {email, password} = body;
+    const where = {};
+    const {i18n} = req.app.locals;
+
+    if (email && password) {
+        where.username = email;
+    } else {
+        return res.status(401).json({"msg": i18n.api.unauthorized});
+    }
+
+    try {
+        const user = await authenticate((email || "").toString().toLowerCase(), (password || "").toString());
+
+        if (user) {
+            req.teams = await user.getTeamsAgregados({
+                "include": [
+                    {
+                        "model": models.turno,
+                        "required": true,
+                        "where": {"escapeRoomId": req.escapeRoom.id}, // Aquí habrá que añadir las condiciones de si el turno está activo, etc
+                        "include": [
+                            {
+                                "model": models.escapeRoom,
+                                "attributes": ["duration", "forbiddenLateSubmissions"] // ForbiddenLateSubmissions // Falta pasar a sockets.js
+                            }
+                        ]
+                    }
+                ]
+            });
+            next();
+        } else {
+            res.status(404).json({"msg": i18n.api.wrongCredentials});
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({"msg": i18n.api.error});
+    }
 };
 
 // POST /api/escapeRooms/:escapeRoomId/puzzles/:puzzleId/check

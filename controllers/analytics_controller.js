@@ -261,7 +261,7 @@ exports.hintsByTeams = async (req, res, next) => {
                 for (const h in requestedHints) {
                     const hint = requestedHints[h];
                     const {success, score, createdAt} = hint;
-                    const minute = Math.floor((hint.createdAt - startTime) / 60000)
+                    const minute = Math.floor((hint.createdAt - startTime) / 60000);
                     const hintContent = hint.hint && hint.hint.content ? hint.hint.content : "";
 
                     resultsCsv.push({"id": teamId, teamName, score, teamAttendance, "hint": hintContent, success, minute, "createdAt": new Date(createdAt)});

@@ -1,18 +1,14 @@
-// Const Sequelize = require('sequelize');
-const {models} = require("../models"),
-    // Const url = require('url');
+const {authenticate} = require("../helpers/utils");
 
-
-    /*
-     * This variable contains the maximum inactivity time allowed without
-     * Making requests.
-     * If the logged user does not make any new request during this time,
-     * Then the user's session will be closed.
-     * The value is in milliseconds.
-     * 5 minutes.
-     */
-
-    maxIdleTime = 3 * 60 * 60 * 1000; /* * * Middleware used to destroy the user's session if the inactivity time * has been exceeded. * */
+/*
+ * This variable contains the maximum inactivity time allowed without
+ * Making requests.
+ * If the logged user does not make any new request during this time,
+ * Then the user's session will be closed.
+ * The value is in milliseconds.
+ * 5 minutes.
+ */
+const maxIdleTime = 3 * 60 * 60 * 1000; /* * * Middleware used to destroy the user's session if the inactivity time * has been exceeded. * */
 
 exports.deleteExpiredUserSession = (req, res, next) => {
     if (req.session.user) { // There exists a user session
@@ -138,20 +134,6 @@ exports.adminAndNotMyselfRequired = function (req, res, next) {
         throw new Error(req.app.locals.i18n.api.forbidden);
     }
 };
-
-
-/*
- * User authentication: Checks that the user is registered.
- *
- * Return a Promise that searches a user with the given login, and checks that
- * the password is correct.
- * If the authentication is correct, then the promise is satisfied and returns
- * an object with the User.
- * If the authentication fails, then the promise is also satisfied, but it
- * returns null.
- */
-const authenticate = (login, password) => models.user.findOne({"where": {"username": login}}).
-    then((user) => user && user.verifyPassword(password) ? user : null);// GET /   -- Login form
 
 exports.new = (req, res) => {
     // Page to go/show after login:
