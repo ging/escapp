@@ -1,5 +1,5 @@
 const {Op} = require("sequelize");
-const {playInterface, getRetosSuperados} = require("../helpers/utils");
+const {playInterface, getRetosSuperados, byRanking} = require("../helpers/utils");
 const {models} = require("../models");
 const queries = require("../queries");
 const {sendJoinTeam} = require("../helpers/sockets");
@@ -34,17 +34,7 @@ exports.ranking = async (req, res, next) => {
 
             return {...team, count, startTime, result, finishTime};
         }).
-            sort((a, b) => {
-                if (a.count > b.count) {
-                    return -1;
-                } else if (a.count < b.count) {
-                    return 1;
-                }
-                if (a.finishTime < b.finishTime) {
-                    return -1;
-                }
-                return 1;
-            });
+            sort(byRanking);
         next();
     } catch (e) {
         console.error(e);
@@ -109,7 +99,6 @@ exports.startPlaying = async (req, res) => {
 
     if (team && !(team.startTime instanceof Date && isFinite(team.startTime))) {
         team.startTime = new Date();
-        console.log("iiii", team.turno.id, team);
         sendJoinTeam(team);
         await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
     }

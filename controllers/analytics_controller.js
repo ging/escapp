@@ -1,7 +1,7 @@
 const {models} = require("../models");
 const {createCsvFile} = require("../helpers/csv");
 const queries = require("../queries");
-const {retosSuperadosByWho, flattenObject, getRetosSuperados, countHints, countHintsByPuzzle, pctgRetosSuperados} = require("../helpers/utils");
+const {retosSuperadosByWho, flattenObject, getRetosSuperados, countHints, countHintsByPuzzle, pctgRetosSuperados, getBestTime, getAvgHints, byRanking} = require("../helpers/utils");
 
 // GET /escapeRooms/:escapeRoomId/analytics
 exports.analytics = async (req, res, next) => {
@@ -26,10 +26,7 @@ exports.analytics = async (req, res, next) => {
         const finished = teams.filter((t) => t.retos.length === escapeRoom.puzzles.length);
 
         const bestTime = {
-            "value": `${finished.map((t) => t.retos.
-                map((r) => Math.round((r.retosSuperados.createdAt - (t.turno.startTime || t.startTime)) / 10 / 60) / 100).
-                reduce((a, b) => a > b ? a : b, Math.Infinity)).
-                reduce((a, b) => a < b ? a : b, Math.Infinity) || 0} min.`,
+            "value": getBestTime(finished),
             "icon": "timer"
         };
         const sucessRate = {
@@ -46,15 +43,7 @@ exports.analytics = async (req, res, next) => {
             reqHints[e] = 0;
         });
         const avgReqHints = {
-            "value": teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter((h) => {
-                if (h.hintId) {
-                    reqHints[h.hintId]++;
-                } else {
-                    reqHints[h.success ? 0 : -1]++;
-                }
-
-                return h.success;
-            }).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a",
+            "value": getAvgHints(teams, reqHints),
             "icon": "search"
         };
         const hintCount = Object.values(reqHints);
@@ -176,8 +165,6 @@ exports.ranking = async (req, res, next) => {
     try {
         const teamsRanked = await models.team.findAll(queries.team.ranking(escapeRoom.id, turnId));
         const teams = getRetosSuperados(teamsRanked).map((team) => {
-            console.log("lrs", team.latestretosuperado);
-
             const count = team.countretos;
             const startTime = team.turno.startTime || team.startTime;
 
@@ -186,18 +173,7 @@ exports.ranking = async (req, res, next) => {
             const finishTime = escapeRoom.puzzles.length === parseInt(count, 10) && startTime ? (new Date(latestRetoSuperado) - new Date(startTime)) / 1000 : null;
 
             return {...team, count, startTime, latestRetoSuperado, result, finishTime};
-        }).
-            sort((a, b) => {
-                if (a.count > b.count) {
-                    return -1;
-                } else if (a.count < b.count) {
-                    return 1;
-                }
-                if (a.finishTime < b.finishTime) {
-                    return -1;
-                }
-                return 1;
-            });
+        }).sort(byRanking);
 
 
         res.render("escapeRooms/analytics/ranking", {teams, escapeRoom, turnId});
@@ -285,7 +261,7 @@ exports.hintsByTeams = async (req, res, next) => {
                 for (const h in requestedHints) {
                     const hint = requestedHints[h];
                     const {success, score, createdAt} = hint;
-                    const minute = Math.floor((hint.createdAt - startTime) / 60000); // TODO team.startTime
+                    const minute = Math.floor((hint.createdAt - startTime) / 60000)
                     const hintContent = hint.hint && hint.hint.content ? hint.hint.content : "";
 
                     resultsCsv.push({"id": teamId, teamName, score, teamAttendance, "hint": hintContent, success, minute, "createdAt": new Date(createdAt)});

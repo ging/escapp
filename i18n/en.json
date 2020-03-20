@@ -97,7 +97,11 @@
         "forbidden": "Forbidden",
         "notFound": "Not found",
         "error": "Error",
-        "wrong": "Wrong answer"
+        "wrong": "Wrong answer",
+        "notAParticipant": "You are not a participant of this escape room.",
+        "participant": "You are a participant of this escape room",
+        "notActive": "You are a participant of this escape room but your shift is not active",
+        "tooLate": "You are a participant of this escape room but your time is up"
     },
     "common": {
         "back": "back",

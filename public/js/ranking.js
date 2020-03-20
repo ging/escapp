@@ -69,7 +69,8 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
   socket.on(RANKING, function({teamId, puzzleId, time}){
   	const team = teams.find(team => team.id == teamId);
     	if (team) {
-  		const reto = team.retos.find(reto => reto.id === puzzleId)
+      const reto = team.retos.find(reto => reto.id === puzzleId);
+      
   		if (!reto) {
   			team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
   			team.result = team.retos.length + "/" + nPuzzles;

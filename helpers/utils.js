@@ -36,8 +36,7 @@ exports.flattenObject = (obj, labels, min = false) => {
 
 exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({
     ...teamRes.dataValues,
-    "teamMembers": teamRes.teamMembers, /* .filter(m=>)    .map(m=>({turnosAgregados: m.turnosAgregados
-        .filter(t=>t.participants.attendance)}))*/
+    "teamMembers": teamRes.teamMembers,
     "countretos": teamRes.dataValues.retos.length,
     "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => new Date(r.retosSuperados.createdAt)).sort((a, b) => b - a)[0] : null
 })).
@@ -54,18 +53,9 @@ exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({
 exports.pctgRetosSuperados = (retosSuperados) => Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
 
 exports.countHints = (requestedHints) => {
-    let hintsSucceeded = 0;
-    let hintsFailed = 0;
+    const hintsSucceeded = requestedHints.reduce((acc, el) => acc + (el.success ? 1 : 0), 0);
+    const hintsFailed = requestedHints.length - hintsSucceeded;
 
-    for (const h in requestedHints) {
-        const hint = requestedHints[h];
-
-        if (hint.success) {
-            hintsSucceeded++;
-        } else {
-            hintsFailed++;
-        }
-    }
     return {
         hintsFailed,
         hintsSucceeded
@@ -210,4 +200,35 @@ exports.isTooLate = (team) => {
     const startTime = team.turno.startTime || team.startTime;
 
     return team.turno.escapeRoom.forbiddenLateSubmissions && new Date(startTime.getTime() + duration * 60000) < new Date();
+};
+
+exports.getBestTime = (finished) => {
+    return `${finished.map((t) => t.retos.
+        map((r) => Math.round((r.retosSuperados.createdAt - (t.turno.startTime || t.startTime)) / 10 / 60) / 100).
+        reduce((a, b) => a > b ? a : b, Math.Infinity)).
+        reduce((a, b) => a < b ? a : b, Math.Infinity) || 0} min.`;
+};
+
+exports.getAvgHints = (teams, reqHints) => {
+    return teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter((h) => {
+        if (h.hintId) {
+            reqHints[h.hintId]++;
+        } else {
+            reqHints[h.success ? 0 : -1]++;
+        }
+
+        return h.success;
+    }).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a";
+}
+
+exports.byRanking = (a, b) => {
+    if (a.count > b.count) {
+        return -1;
+    } else if (a.count < b.count) {
+        return 1;
+    }
+    if (a.finishTime < b.finishTime) {
+        return -1;
+    }
+    return 1;
 };
