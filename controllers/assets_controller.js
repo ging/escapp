@@ -10,16 +10,20 @@ exports.assets = (req, res) => {
     const assets = escapeRoom.assets.map((a) => {
         const {id, public_id, url, mime, filename} = a;
 
-        return {id,
+        return {
+            id,
             public_id,
             url,
             mime,
-            "name": filename};
+            "name": filename
+        };
     });
 
-    res.render("escapeRooms/steps/assets", {escapeRoom,
+    res.render("escapeRooms/steps/assets", {
+        escapeRoom,
         assets,
-        "progress": "assets"});
+        "progress": "assets"
+    });
 };
 
 // POST /escapeRooms/:escapeRoomId/assets
@@ -60,7 +64,7 @@ exports.uploadAssets = async (req, res) => {
             res.status(500);
             res.send(req.app.locals.i18n.common.flash.errorFile);
             console.error(error);
-            attHelper.deleteResource(uploadResult.public_id);
+            attHelper.deleteResource(uploadResult.public_id, models.asset);
         } else {
             res.status(500);
             res.send(req.app.locals.i18n.common.flash.errorFile);
@@ -76,15 +80,15 @@ exports.deleteAssets = async (req, res) => {
 
     try {
         if (asset) {
-            attHelper.deleteResource(asset.public_id);
+            attHelper.deleteResource(asset.public_id, models.asset);
             await asset.destroy();
-            res.json({"msg": req.app.locals.api.ok});
+            res.json({"msg": req.app.locals.i18n.api.ok});
         } else {
             res.status(404);
-            res.json({"msg": req.app.locals.api.notFound});
+            res.json({"msg": req.app.locals.i18n.api.notFound});
         }
     } catch (err) {
         res.status(500);
-        res.json({"msg": req.app.locals.api.error});
+        res.json({"msg": req.app.locals.i18n.api.error});
     }
 };

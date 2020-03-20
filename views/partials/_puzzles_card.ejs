@@ -1,55 +1,55 @@
 <div class="puzzle-card" id="puzzle-<%=puzzle.id%>">
-    <i title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle showAlways">swap_vert</i>
+    <span title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle showAlways">swap_vert</span>
     <input type="hidden" name="puzzles[<%=reto%>][order]" class="order" value="<%=puzzle.order%>"/>
     <input type="hidden" name="puzzles[<%=reto%>][id]" value="<%=puzzle.id%>"/>
-    <h3 class="showAlways">
-        <i class="material-icons">extension</i>
-        <input type="text" name="puzzles[<%=reto%>][title]" autocomplete="off" required value="<%=puzzle.title%>"/>
+    <h2 class="showAlways">
+        <span class="material-icons">extension</span>
+        <input type="text" name="puzzles[<%=reto%>][title]" autocomplete="off" required value="<%=puzzle.title%>" aria-label="<%=i18n.puzzle.Puzzle%> <%=reto%>"/>
+    </h2>
+    <h3>
+        <span class="material-icons">description</span>
+        <label for="puzzles[<%=reto%>][desc]"><%=i18n.escapeRoom.steps.puzzles.description%></label>
     </h3>
-    <h4>
-        <i class="material-icons">description</i>
-        <%=i18n.escapeRoom.steps.puzzles.description%>
-    </h4>
-    <input type="text" name="puzzles[<%=reto%>][desc]" autocomplete="off" required value="<%=puzzle.desc%>"/>
+    <input type="text" name="puzzles[<%=reto%>][desc]" autocomplete="off" required value="<%=puzzle.desc%>" id="puzzles[<%=reto%>][desc]"/>
     <div class="flex-puzzle-card">
         <div>
-            <h4>
-                <i class="material-icons">search</i>
-                <%=i18n.escapeRoom.steps.puzzles.solution%>
-            </h4>
-            <input type="text" name="puzzles[<%=reto%>][sol]" autocomplete="off" required value="<%=puzzle.sol%>"/>
+            <h3>
+                <span class="material-icons">search</span>
+                <label for="puzzles[<%=reto%>][sol]"><%=i18n.escapeRoom.steps.puzzles.solution%></label>
+            </h3>
+            <input type="text" name="puzzles[<%=reto%>][sol]" autocomplete="off" required value="<%=puzzle.sol%>" id="puzzles[<%=reto%>][sol]"/>
         </div>
         <div>
-            <h4>
-                <label for="at">
+            <h3>
+                <label for="puzzles[<%=reto%>][automatic]">
                     <span>
-                        <i class="material-icons">track_changes</i>
-                        <%=i18n.escapeRoom.steps.puzzles.tracking%>
+                        <span class="material-icons">track_changes</span>
+                       <%=i18n.escapeRoom.steps.puzzles.tracking%>
                     </span>
                 </label>
-            </h4>
-            <select  required  id="at" name="puzzles[<%=reto%>][automatic]" value="<%= puzzle.automatic %>" placeholder="<%i18n.escapeRoom.steps.puzzles.placeholder%>" autocomplete="off">
+            </h3>
+            <select  required  id="puzzles[<%=reto%>][automatic]" name="puzzles[<%=reto%>][automatic]" value="<%= puzzle.automatic %>" placeholder="<%i18n.escapeRoom.steps.puzzles.placeholder%>" autocomplete="off">
                 <option value="0" <%= puzzle.automatic ? "" : "selected"%>><%=i18n.escapeRoom.steps.puzzles.manual%></option>
                 <option value="1" <%= puzzle.automatic ? "selected" : ""%>><%=i18n.escapeRoom.steps.puzzles.automatic%></option>
             </select>
         </div>
     </div>
-    <h4>
-        <i class="material-icons">check</i>
-        <%=i18n.escapeRoom.steps.puzzles.successMsg%>
-        <input type="text" name="puzzles[<%=reto%>][correct]" placeholder="<%=i18n.puzzle.correctAnswer%>" value="<%=puzzle.correct%>"/>
-    </h4>
-    <h4>
-        <i class="material-icons">close</i>
-        <%=i18n.escapeRoom.steps.puzzles.failMsg%>
-        <input type="text" name="puzzles[<%=reto%>][fail]" placeholder="<%=i18n.puzzle.wrongAnswer%>" value="<%=puzzle.fail%>"/>
-    </h4>
-    <!--<h4>
-        <i class="material-icons">view_module</i>
+    <h3>
+        <span class="material-icons">check</span>
+        <label for="puzzles[<%=reto%>][correct]"><%=i18n.escapeRoom.steps.puzzles.successMsg%></label>
+        <input type="text" name="puzzles[<%=reto%>][correct]" id="puzzles[<%=reto%>][correct]" placeholder="<%=i18n.puzzle.correctAnswer%>" value="<%=puzzle.correct%>"/>
+    </h3>
+    <h3>
+        <span class="material-icons">close</span>
+        <label for="puzzles[<%=reto%>][fail]"> <%=i18n.escapeRoom.steps.puzzles.failMsg%></label>
+        <input type="text" name="puzzles[<%=reto%>][fail]" id="puzzles[<%=reto%>][fail]" placeholder="<%=i18n.puzzle.wrongAnswer%>" value="<%=puzzle.fail%>"/>
+    </h3>
+    <!--<h3>
+        <span class="material-icons">view_module</span>
         <%=i18n.escapeRoom.steps.puzzles.subpuzzles%>
-    </h4> -->
-    <h4>
-        <i class="material-icons">search</i>
+    </h3> -->
+    <h3>
+        <span class="material-icons">search</span>
         <%=i18n.escapeRoom.steps.puzzles.hints%>
         <ul class="hint-list" data-number="<%=reto%>">
             <% for (let h in puzzle.hints) {
@@ -57,12 +57,12 @@
              %>
                 <li>
                    <div class="hint-li">
-                    <i title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle-hint">swap_vert</i>
+                    <span title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle-hint">swap_vert</span>
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][id]" value="<%=hint.id%>"/>
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][order]" class="hint-order" value="<%=hint.order%>"/>
-                    <input type="text" name="puzzles[<%=reto%>][hints][<%=h%>][content]" placeholder="..." required value="<%=hint.content%>"/>
+                    <input type="text" name="puzzles[<%=reto%>][hints][<%=h%>][content]" placeholder="..." required value="<%=hint.content%>" aria-label="<%=i18n.hint.Hint%> <%=hint.order%>"/>
                     <button type="button" class="delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>">
-                        <i class="material-icons">clear</i>
+                        <span class="material-icons">clear</span>
                     </button>
                     </div>
                 </li>
@@ -73,6 +73,6 @@
                 <%=i18n.escapeRoom.steps.puzzles.addNewHint%>
             </button>
         </div>
-    </h4>
-    <button type="button" class="delete-puzzle"><i class="material-icons">delete</i></button>
+    </h3>
+    <button type="button" class="delete-puzzle"><span class="material-icons">delete</span></button>
 </div>

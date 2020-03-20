@@ -59,6 +59,12 @@ button, input[type="submit"]
     border-color: $brightyellow
     color: $darkerpurple
 
+  &.cloneButton
+    @include common-button
+    background-color: $brightorange
+    border-color: $brightorange
+    color: $darkerpurple
+    
   &.deleteButton
     @include common-button
     background-color: $lightred
@@ -82,6 +88,17 @@ button, input[type="submit"]
     font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
     border-radius: 5px
     border-color: $brightgreen
+    border-style: solid
+    padding: 10px
+    text-align: center
+    outline: 0
+
+  &.shareButton 
+    background-color: $brightblue
+    color: $darkerpurple
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
+    border-radius: 5px
+    border-color: $brightblue
     border-style: solid
     padding: 10px
     text-align: center

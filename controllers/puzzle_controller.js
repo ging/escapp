@@ -23,8 +23,10 @@ exports.load = (req, res, next, puzzleId) => {
 exports.create = (req, res, next) => {
     const {escapeRoom, body} = req;
     const {order} = body;
-    const puzzle = models.puzzle.build({order,
-        "escapeRoomId": escapeRoom.id});
+    const puzzle = models.puzzle.build({
+        order,
+        "escapeRoomId": escapeRoom.id
+    });
 
     const back = `/escapeRooms/${req.escapeRoom.id}/puzzles`;
 
@@ -95,8 +97,10 @@ exports.destroy = async (req, res, next) => {
 exports.retos = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/puzzles", {escapeRoom,
-        "progress": "puzzles"});
+    res.render("escapeRooms/steps/puzzles", {
+        escapeRoom,
+        "progress": "puzzles"
+    });
 };
 
 // POST /escapeRooms/:escapeRoomId/puzzles
@@ -143,10 +147,14 @@ exports.retosUpdate = async (req, res, next) => {
             } else {
                 promises.push(models.puzzle.
                     build(
-                        {...reto,
+                        {
+                            ...reto,
                             "escapeRoomId": escapeRoom.id,
-                            "hints": reto.hints.map((hint) => ({"content": hint.content,
-                                "order": hint.order}))},
+                            "hints": reto.hints.map((hint) => ({
+                                "content": hint.content,
+                                "order": hint.order
+                            }))
+                        },
                         {"include": [models.hint]}
                     ).
                     save({transaction}));

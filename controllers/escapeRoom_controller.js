@@ -16,7 +16,7 @@ exports.load = async (req, res, next, escapeRoomId) => {
             req.escapeRoom = escapeRoom;
             next();
         } else {
-            next(new Error(req.app.locals.api.notFound));
+            next(new Error(req.app.locals.i18n.api.notFound));
         }
     } catch (error) {
         res.status(500);
@@ -33,7 +33,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        next(new Error(req.app.locals.api.forbidden));
+        next(new Error(req.app.locals.i18n.api.forbidden));
     }
 };
 
@@ -55,7 +55,7 @@ exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
             next();
         } else {
             res.status(403);
-            next(new Error(req.app.locals.api.forbidden));
+            next(new Error(req.app.locals.i18n.api.forbidden));
         }
     } catch (error) {
         next(error);
@@ -107,7 +107,7 @@ exports.indexBreakDown = (req, res) => res.redirect("/");
 exports.show = (req, res) => {
     const {escapeRoom} = req;
     const participant = req.isParticipant;
-    const hostName = process.env.APP_NAME ? `http://${process.env.APP_NAME}` : "http://localhost:3000";
+    const hostName = process.env.APP_NAME ? `https://${process.env.APP_NAME}` : "http://localhost:3000";
 
     if (participant) {
         res.render("escapeRooms/showStudent", {escapeRoom, cloudinary, participant});
@@ -124,7 +124,7 @@ exports.new = (req, res) => {
 };
 
 // POST /escapeRooms/create
-exports.create = (req, res, next) => {
+exports.create = (req, res) => {
     const {title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize} = req.body,
 
         authorId = req.session.user && req.session.user.id || 0,
@@ -143,15 +143,17 @@ exports.create = (req, res, next) => {
 
             return attHelper.checksCloudinaryEnv().
                 then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options)).
-                then((uploadResult) => models.attachment.create({"public_id": uploadResult.public_id,
+                then((uploadResult) => models.attachment.create({
+                    "public_id": uploadResult.public_id,
                     "url": uploadResult.url,
                     "filename": req.file.originalname,
                     "mime": req.file.mimetype,
-                    "escapeRoomId": er.id}).
+                    "escapeRoomId": er.id
+                }).
                     catch((error) => { // Ignoring validation errors
                         console.error(error);
                         req.flash("error", `${req.app.locals.i18n.common.flash.errorImage}: ${error.message}`);
-                        attHelper.deleteResource(uploadResult.public_id);
+                        attHelper.deleteResource(uploadResult.public_id, models.attachment);
                     })).
                 catch((error) => {
                     console.error(error);
@@ -174,8 +176,10 @@ exports.create = (req, res, next) => {
 
 // GET /escapeRooms/:escapeRoomId/edit
 exports.edit = (req, res) => {
-    res.render("escapeRooms/edit", {"escapeRoom": req.escapeRoom,
-        "progress": "edit"});
+    res.render("escapeRooms/edit", {
+        "escapeRoom": req.escapeRoom,
+        "progress": "edit"
+    });
 };
 
 // PUT /escapeRooms/:escapeRoomId
@@ -197,7 +201,7 @@ exports.update = (req, res, next) => {
                 // There is no attachment: Delete old attachment.
                 if (!req.file) {
                     if (er.attachment) {
-                        attHelper.deleteResource(er.attachment.public_id);
+                        attHelper.deleteResource(er.attachment.public_id, models.attachment);
                         er.attachment.destroy();
                     }
 
@@ -228,12 +232,12 @@ exports.update = (req, res, next) => {
                             }).
                             then(() => {
                                 if (old_public_id) {
-                                    attHelper.deleteResource(old_public_id);
+                                    attHelper.deleteResource(old_public_id, models.attachment);
                                 }
                             }).
                             catch((error) => { // Ignoring image validation errors
                                 req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
-                                attHelper.deleteResource(uploadResult.public_id);
+                                attHelper.deleteResource(uploadResult.public_id, models.attachment);
                             }).
                             then(() => {
                                 res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
@@ -261,8 +265,10 @@ exports.update = (req, res, next) => {
 exports.evaluation = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/evaluation", {escapeRoom,
-        "progress": "evaluation"});
+    res.render("escapeRooms/steps/evaluation", {
+        escapeRoom,
+        "progress": "evaluation"
+    });
 };
 
 // POST /escapeRooms/:escapeRoomId/evaluation
@@ -277,8 +283,9 @@ exports.evaluationUpdate = async (req, res, next) => {
     escapeRoom.scoreParticipation = body.scoreParticipation;
     escapeRoom.hintSuccess = body.hintSuccess;
     escapeRoom.hintFailed = body.hintFailed;
+    escapeRoom.automaticAttendance = body.automaticAttendance;
     try {
-        await escapeRoom.save({"fields": ["survey", "pretest", "posttest", "scoreParticipation", "hintSuccess", "hintFailed"]});
+        await escapeRoom.save({"fields": ["survey", "pretest", "posttest", "scoreParticipation", "hintSuccess", "hintFailed", "automaticAttendance"]});
         if (!body.scores || body.scores.length !== escapeRoom.puzzles.length) {
             throw new Error("");
         }
@@ -333,7 +340,7 @@ exports.destroy = async (req, res, next) => {
         await req.escapeRoom.destroy({}, {transaction});
         if (req.escapeRoom.attachment) { // Delete the attachment at Cloudinary (result is ignored)
             await attHelper.checksCloudinaryEnv();
-            await attHelper.deleteResource(req.escapeRoom.attachment.public_id);
+            await attHelper.deleteResource(req.escapeRoom.attachment.public_id, models.attachment);
         }
 
         let teamIds = [];
@@ -356,19 +363,84 @@ exports.destroy = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/join
-exports.studentToken = async (req, res) => {
+exports.studentToken = async (req, res, next) => {
     const {escapeRoom} = req;
 
-    const participant = await models.participants.findOne({"where": {
-        "userId": req.session.user.id,
-        "turnId": {[Sequelize.Op.or]: [escapeRoom.turnos.map((t) => t.id)]}
-    }});
+    const participant = await models.participants.findOne({
+        "where": {
+            "userId": req.session.user.id,
+            "turnId": {[Sequelize.Op.or]: [escapeRoom.turnos.map((t) => t.id)]}
+        }
+    });
 
     if (participant) {
         res.redirect(`/escapeRooms/${escapeRoom.id}`);
-    } else if (escapeRoom.invitation === req.query.token) {
-        res.render("escapeRooms/indexInvitation", {escapeRoom, cloudinary});
+    } else if (req.session.user.isStudent) {
+        res.render("escapeRooms/indexInvitation", {escapeRoom, "token": req.query.token});
     } else {
-        res.redirect("/");
+        res.status(403);
+        next(new Error(403));
+    }
+};
+
+exports.clone = async (req, res, next) => {
+    try {
+        const {"title": oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment} = req.escapeRoom;
+        const authorId = req.session.user && req.session.user.id || 0;
+        const newTitle = `Copy of ${oldTitle}`;
+        const include = [{"model": models.puzzle, "include": [models.hint]}];
+
+        if (hintApp) {
+            include.push(models.hintApp);
+        }
+        if (assets && assets.length) {
+            include.push(models.asset);
+        }
+        if (attachment) {
+            include.push(models.attachment);
+        }
+        const escapeRoom = models.escapeRoom.build({
+            "title": newTitle,
+            subject,
+            duration,
+            description,
+            nmax,
+            teamSize,
+            teamAppearance,
+            classAppearance,
+            survey,
+            pretest,
+            posttest,
+            numQuestions,
+            numRight,
+            feedback,
+            forbiddenLateSubmissions,
+            classInstructions,
+            teamInstructions,
+            scoreParticipation,
+            hintLimit,
+            hintSuccess,
+            hintFailed,
+            authorId,
+            "puzzles": [...puzzles].map(({title, sol, desc, order, correct, fail, automatic, score, hints}) => ({
+                title,
+                sol,
+                desc,
+                order,
+                correct,
+                fail,
+                automatic,
+                score,
+                "hints": [...hints].map(({content, "order": hintOrder}) => ({content, "order": hintOrder}))
+            })),
+            "hintApp": hintApp ? attHelper.getFields(hintApp) : undefined,
+            "assets": assets && assets.length ? [...assets].map((asset) => attHelper.getFields(asset)) : undefined,
+            "attachment": attachment ? attHelper.getFields(attachment) : undefined
+        }, {include});
+        const saved = await escapeRoom.save();
+
+        res.redirect(`/escapeRooms/${saved.id}/edit`);
+    } catch (err) {
+        next(err);
     }
 };

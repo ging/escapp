@@ -7,6 +7,7 @@ exports.hintsByParticipant = (escapeRoomId, turnId, orderBy) => {
             {
                 "model": models.team,
                 "as": "teamsAgregados",
+                "where": {"startTime": {[Sequelize.Op.ne]: null}},
                 "required": true,
                 "include": [
                     {
@@ -15,16 +16,12 @@ exports.hintsByParticipant = (escapeRoomId, turnId, orderBy) => {
                         "include": {
                             "model": models.escapeRoom,
                             "required": true,
-                            "where": {
-                                "id": escapeRoomId
-                            }
+                            "where": {"id": escapeRoomId}
                         }
                     },
                     {
                         "model": models.requestedHint,
-                        "include": {
-                            "model": models.hint
-                        }
+                        "include": {"model": models.hint}
                     }
                 ]
             }
@@ -52,18 +49,15 @@ exports.hintsByTeam = (escapeRoomId, turnId, orderBy) => {
                 "include": {
                     "model": models.escapeRoom,
                     "required": true,
-                    "where": {
-                        "id": escapeRoomId
-                    }
+                    "where": {"id": escapeRoomId}
                 }
             },
             {
                 "model": models.requestedHint,
-                "include": {
-                    "model": models.hint
-                }
+                "include": {"model": models.hint}
             }
-        ]
+        ],
+        "where": {"startTime": {[Sequelize.Op.ne]: null}}
     };
 
     if (turnId) {

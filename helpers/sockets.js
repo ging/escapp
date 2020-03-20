@@ -17,6 +17,7 @@ const SOLVE_PUZZLE = "SOLVE_PUZZLE";
 const START = "START";
 const STOP = "STOP";
 const JOIN = "JOIN";
+const JOIN_TEAM = "JOIN_TEAM";
 
 const getInfoFromSocket = ({request, handshake}) => {
     const userId = request.session.user.id;
@@ -33,9 +34,7 @@ const getInfoFromSocket = ({request, handshake}) => {
 /** Check if user has the rights to access a resource **/
 const checkAccess = async (userId, teamId, escapeRoomId, turnId) => {
     const escapeRoom = await models.escapeRoom.findAll({
-        "where": {
-            "id": escapeRoomId
-        },
+        "where": {"id": escapeRoomId},
         "include": [
             {
                 "model": models.turno,
@@ -47,9 +46,7 @@ const checkAccess = async (userId, teamId, escapeRoomId, turnId) => {
                             {
                                 "model": models.user,
                                 "as": "teamMembers",
-                                "where": {
-                                    "id": userId
-                                }
+                                "where": {"id": userId}
                             }
                         ]
                     }
@@ -99,7 +96,7 @@ const revokeAccess = (socketId) => sendIndividualMessage({"type": "ERROR", "payl
 const broadcastRanking = (teamId, puzzleId, time, turnId) => sendTurnMessage({"type": RANKING, "payload": {teamId, puzzleId, time}}, turnId);
 const initialRanking = (socketId, teams) => sendIndividualMessage({"type": INITIAL_RANKING, "payload": {teams}}, socketId);
 const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN, "payload": {username}}, teamId);
-
+const joinTeam = (turnId, team) => sendTurnMessage({"type": JOIN_TEAM, "payload": {team}}, turnId);
 /** Client-server**/
 
 const join = async (teamId, username) => {
@@ -117,19 +114,21 @@ const solvePuzzle = async (escapeRoomId, teamId, puzzleId, solution, i18n) => {
 
     try {
         const puzzle = await models.puzzle.findByPk(puzzleId, {transaction});
-        const team = await models.team.findByPk(teamId, {"include": [
-            {
-                "model": models.turno,
-                "required": true,
-                "where": {escapeRoomId}, // Aquí habrá que añadir las condiciones de si el turno está activo, etc
-                "include": [
-                    {
-                        "model": models.escapeRoom,
-                        "attributes": ["duration", "forbiddenLateSubmissions"] // ForbiddenLateSubmissions // Falta pasar a sockets.js
-                    }
-                ]
-            }
-        ]}, {transaction});
+        const team = await models.team.findByPk(teamId, {
+            "include": [
+                {
+                    "model": models.turno,
+                    "required": true,
+                    "where": {escapeRoomId}, // Aquí habrá que añadir las condiciones de si el turno está activo, etc
+                    "include": [
+                        {
+                            "model": models.escapeRoom,
+                            "attributes": ["duration", "forbiddenLateSubmissions"] // ForbiddenLateSubmissions // Falta pasar a sockets.js
+                        }
+                    ]
+                }
+            ]
+        }, {transaction});
 
 
         if (sol.toLowerCase().trim() === puzzle.sol.toLowerCase().trim()) {
@@ -181,6 +180,10 @@ const sendInitialRanking = async (socketId, userId, teamId, escapeRoomId, turnoI
     initialRanking(socketId, teams);
 };
 
+const sendJoinTeam = (team) => {
+    joinTeam(team.turno.id, team);
+};
+
 const requestHint = async (teamId, status, score) => {
     const team = await models.team.findByPk(teamId, {
         "include": [
@@ -192,11 +195,7 @@ const requestHint = async (teamId, status, score) => {
                         "include": [
                             {
                                 "model": models.puzzle,
-                                "include": [
-                                    {
-                                        "model": models.hint
-                                    }
-                                ]
+                                "include": [{"model": models.hint}]
                             }
                         ]
                     }
@@ -233,12 +232,12 @@ const requestHint = async (teamId, status, score) => {
     }
 };
 
-const stopTurno = async (turnId) => {
-    await stopResponse(turnId);
+const stopTurno = (turnId) => {
+    stopResponse(turnId);
 };
 
-
-module.exports = {join,
+module.exports = {
+    join,
     stopTurno,
     startTurno,
     checkAccess,
@@ -249,8 +248,10 @@ module.exports = {join,
     broadcastRanking,
     getInfoFromSocket,
     sendInitialRanking,
+    sendJoinTeam,
     START,
     DISCONNECT,
     SOLVE_PUZZLE,
-    REQUEST_HINT};
+    REQUEST_HINT
+};
 

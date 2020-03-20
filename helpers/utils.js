@@ -19,8 +19,10 @@ exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
         }
         return showDate ? " " : 0;
     });
-    return {retosSuperados,
-        retosSuperadosMin};
+    return {
+        retosSuperados,
+        retosSuperadosMin
+    };
 };
 
 exports.flattenObject = (obj, labels, min = false) => {
@@ -32,11 +34,12 @@ exports.flattenObject = (obj, labels, min = false) => {
     return rs;
 };
 
-exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({...teamRes.dataValues,
-    "teamMembers": teamRes.teamMembers, /* .filter(m=>)    .map(m=>({turnosAgregados: m.turnosAgregados
-        .filter(t=>t.participants.attendance)}))*/
+exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({
+    ...teamRes.dataValues,
+    "teamMembers": teamRes.teamMembers,
     "countretos": teamRes.dataValues.retos.length,
-    "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => new Date(r.retosSuperados.createdAt)).sort((a, b) => b - a)[0] : null})).
+    "latestretosuperado": teamRes.dataValues.retos && teamRes.dataValues.retos.length > 0 ? teamRes.dataValues.retos.map((r) => new Date(r.retosSuperados.createdAt)).sort((a, b) => b - a)[0] : null
+})).
     sort((t1, t2) => {
         if (t1.countretos === t2.countretos) {
             if (t1.latestretosuperado === t2.latestretosuperado) {
@@ -50,20 +53,13 @@ exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({...teamRes.dataV
 exports.pctgRetosSuperados = (retosSuperados) => Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
 
 exports.countHints = (requestedHints) => {
-    let hintsSucceeded = 0;
-    let hintsFailed = 0;
+    const hintsSucceeded = requestedHints.reduce((acc, el) => acc + (el.success ? 1 : 0), 0);
+    const hintsFailed = requestedHints.length - hintsSucceeded;
 
-    for (const h in requestedHints) {
-        const hint = requestedHints[h];
-
-        if (hint.success) {
-            hintsSucceeded++;
-        } else {
-            hintsFailed++;
-        }
-    }
-    return {hintsFailed,
-        hintsSucceeded};
+    return {
+        hintsFailed,
+        hintsSucceeded
+    };
 };
 
 exports.countHintsByPuzzle = (requestedHints, retosSuperados, startTime) => {
@@ -105,10 +101,12 @@ exports.saveInterface = (name, req, res, next) => {
     escapeRoom[`${name}Appearance`] = body.appearance;
     const progressBar = body.progress;
 
-    escapeRoom.save({"fields": [
-        `${name}Instructions`,
-        `${name}Appearance`
-    ]}).then(() => {
+    escapeRoom.save({
+        "fields": [
+            `${name}Instructions`,
+            `${name}Appearance`
+        ]
+    }).then(() => {
         res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep(name) : progressBar || nextStep(name)}`);
     }).
         catch(Sequelize.ValidationError, (error) => {
@@ -127,16 +125,20 @@ exports.playInterface = async (name, req, res, next) => {
         isAuthor = req.escapeRoom.authorId === req.session.user.id;
 
     if (isAdmin || isAuthor) {
-        res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom,
+        res.render("escapeRooms/play/play", {
+            "escapeRoom": req.escapeRoom,
             cloudinary,
-            "team": {"turno": req.turn,
-                "retos": []},
+            "team": {
+                "turno": req.turn,
+                "retos": []
+            },
             "teams": req.teams,
             "hints": [],
             "turnoId": req.params.turnoId,
             "isStudent": false,
             "endPoint": name,
-            "layout": false});
+            "layout": false
+        });
     } else {
         try {
             const teams = await models.team.findAll({
@@ -145,9 +147,7 @@ exports.playInterface = async (name, req, res, next) => {
                         "model": models.turno,
                         "include": {
                             "model": models.escapeRoom,
-                            "where": {
-                                "id": req.escapeRoom.id
-                            }
+                            "where": {"id": req.escapeRoom.id}
                         },
                         "required": true
 
@@ -156,9 +156,7 @@ exports.playInterface = async (name, req, res, next) => {
                         "model": models.user,
                         "as": "teamMembers",
                         "attributes": [],
-                        "where": {
-                            "id": req.session.user.id
-                        },
+                        "where": {"id": req.session.user.id},
                         "required": true
                     },
                     {
@@ -178,7 +176,7 @@ exports.playInterface = async (name, req, res, next) => {
 
             const team = teams && teams[0] ? teams[0] : {};
 
-            if (team.turno.status !== "active") {
+            if (!team.startTime || team.turno.status !== "active") {
                 res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
             }
             const hints = await models.requestedHint.findAll({
@@ -203,3 +201,43 @@ exports.isTooLate = (team) => {
 
     return team.turno.escapeRoom.forbiddenLateSubmissions && new Date(startTime.getTime() + duration * 60000) < new Date();
 };
+
+exports.getBestTime = (finished) => `${finished.map((t) => t.retos.
+    map((r) => Math.round((r.retosSuperados.createdAt - (t.turno.startTime || t.startTime)) / 10 / 60) / 100).
+    reduce((a, b) => a > b ? a : b, Math.Infinity)).
+    reduce((a, b) => a < b ? a : b, Math.Infinity) || 0} min.`;
+
+exports.getAvgHints = (teams, reqHints) => teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter((h) => {
+    if (h.hintId) {
+        reqHints[h.hintId]++;
+    } else {
+        reqHints[h.success ? 0 : -1]++;
+    }
+
+    return h.success;
+}).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a";
+
+exports.byRanking = (a, b) => {
+    if (a.count > b.count) {
+        return -1;
+    } else if (a.count < b.count) {
+        return 1;
+    }
+    if (a.finishTime < b.finishTime) {
+        return -1;
+    }
+    return 1;
+};
+
+/*
+ * User authentication: Checks that the user is registered.
+ *
+ * Return a Promise that searches a user with the given login, and checks that
+ * the password is correct.
+ * If the authentication is correct, then the promise is satisfied and returns
+ * an object with the User.
+ * If the authentication fails, then the promise is also satisfied, but it
+ * returns null.
+ */
+exports.authenticate = (login, password) => models.user.findOne({"where": {"username": login}}).
+    then((user) => user && user.verifyPassword(password) ? user : null);// GET /   -- Login form

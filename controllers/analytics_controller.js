@@ -1,7 +1,7 @@
 const {models} = require("../models");
 const {createCsvFile} = require("../helpers/csv");
 const queries = require("../queries");
-const {retosSuperadosByWho, flattenObject, getRetosSuperados, countHints, countHintsByPuzzle, pctgRetosSuperados} = require("../helpers/utils");
+const {retosSuperadosByWho, flattenObject, getRetosSuperados, countHints, countHintsByPuzzle, pctgRetosSuperados, getBestTime, getAvgHints, byRanking} = require("../helpers/utils");
 
 // GET /escapeRooms/:escapeRoomId/analytics
 exports.analytics = async (req, res, next) => {
@@ -12,6 +12,7 @@ exports.analytics = async (req, res, next) => {
         const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId));
         const teamSizes = teams.map((t) => t.teamMembers.length);
 
+        console.log(teams);
         const nParticipants = {
             "value": teamSizes.reduce((acc, c) => acc + c, 0),
             "icon": "person"
@@ -25,10 +26,7 @@ exports.analytics = async (req, res, next) => {
         const finished = teams.filter((t) => t.retos.length === escapeRoom.puzzles.length);
 
         const bestTime = {
-            "value": `${finished.map((t) => t.retos.
-                map((r) => Math.round((r.retosSuperados.createdAt - (t.turno.startTime || t.startTime)) / 10 / 60) / 100).
-                reduce((a, b) => a > b ? a : b, Math.Infinity)).
-                reduce((a, b) => a < b ? a : b, Math.Infinity) || 0} min.`,
+            "value": getBestTime(finished),
             "icon": "timer"
         };
         const sucessRate = {
@@ -45,15 +43,7 @@ exports.analytics = async (req, res, next) => {
             reqHints[e] = 0;
         });
         const avgReqHints = {
-            "value": teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter((h) => {
-                if (h.hintId) {
-                    reqHints[h.hintId]++;
-                } else {
-                    reqHints[h.success ? 0 : -1]++;
-                }
-
-                return h.success;
-            }).length).reduce((acc, c) => acc + c, 0) / teams.length * 100) / 100 : "n/a",
+            "value": getAvgHints(teams, reqHints),
             "icon": "search"
         };
         const hintCount = Object.values(reqHints);
@@ -140,8 +130,9 @@ exports.puzzlesByTeams = async (req, res, next) => {
             const {retosSuperados} = retosSuperadosByWho(team, puzzles);
             const total = pctgRetosSuperados(retosSuperados);
             const members = team.teamMembers.map((member) => `${member.name} ${member.surname}`);
+            const teamAttendance = Boolean(team.startTime);
 
-            return {id, name, members, retosSuperados, turnId, total};
+            return {id, name, members, teamAttendance, retosSuperados, turnId, total};
         });
 
         if (!csv) {
@@ -174,28 +165,15 @@ exports.ranking = async (req, res, next) => {
     try {
         const teamsRanked = await models.team.findAll(queries.team.ranking(escapeRoom.id, turnId));
         const teams = getRetosSuperados(teamsRanked).map((team) => {
-            console.log("lrs", team.latestretosuperado);
-
             const count = team.countretos;
-            const startTime = team.turno.FstartTime || team.startTime;
+            const startTime = team.turno.startTime || team.startTime;
 
             const latestRetoSuperado = team.latestretosuperado;
             const result = `${count}/${escapeRoom.puzzles.length}`;
             const finishTime = escapeRoom.puzzles.length === parseInt(count, 10) && startTime ? (new Date(latestRetoSuperado) - new Date(startTime)) / 1000 : null;
 
             return {...team, count, startTime, latestRetoSuperado, result, finishTime};
-        }).
-            sort((a, b) => {
-                if (a.count > b.count) {
-                    return -1;
-                } else if (a.count < b.count) {
-                    return 1;
-                }
-                if (a.finishTime < b.finishTime) {
-                    return -1;
-                }
-                return 1;
-            });
+        }).sort(byRanking);
 
 
         res.render("escapeRooms/analytics/ranking", {teams, escapeRoom, turnId});
@@ -229,6 +207,7 @@ exports.hintsByParticipants = async (req, res, next) => {
                 const {id, name, surname, dni, username} = user;
                 const [{requestedHints, turno, "startTime": turnoTeamStart, "id": teamId, "name": teamName}] = user.teamsAgregados;
                 const startTime = turno.startTime || turnoTeamStart;
+                const teamAttendance = Boolean(turnoTeamStart);
 
                 for (const h in requestedHints) {
                     const reqHint = requestedHints[h];
@@ -236,7 +215,7 @@ exports.hintsByParticipants = async (req, res, next) => {
                     const hint = reqHint.hint && reqHint.hint.content ? reqHint.hint.content : "";
                     const minute = Math.floor((createdAt - startTime) / 60000); // TODO team.startTime
 
-                    resultsCsv.push({id, name, surname, dni, username, teamId, teamName, success, score, hint, minute, createdAt});
+                    resultsCsv.push({id, name, surname, dni, username, teamId, teamName, teamAttendance, success, score, hint, minute, createdAt});
                 }
             }
 
@@ -277,14 +256,15 @@ exports.hintsByTeams = async (req, res, next) => {
                 const team = teams[t];
                 const {"id": teamId, "name": teamName, requestedHints, turno} = team;
                 const startTime = turno.startTime || team.startTime;
+                const teamAttendance = Boolean(team.startTime);
 
                 for (const h in requestedHints) {
                     const hint = requestedHints[h];
                     const {success, score, createdAt} = hint;
-                    const minute = Math.floor((hint.createdAt - startTime) / 60000); // TODO team.startTime
+                    const minute = Math.floor((hint.createdAt - startTime) / 60000);
                     const hintContent = hint.hint && hint.hint.content ? hint.hint.content : "";
 
-                    resultsCsv.push({"id": teamId, teamName, score, "hint": hintContent, success, minute, "createdAt": new Date(createdAt)});
+                    resultsCsv.push({"id": teamId, teamName, score, teamAttendance, "hint": hintContent, success, minute, "createdAt": new Date(createdAt)});
                 }
             }
 
@@ -384,7 +364,7 @@ exports.grading = async (req, res, next) => {
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
 
     try {
-        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true));
+        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true, true));
 
         const results = users.map((user) => {
             const {name, surname, dni, username} = user;
@@ -440,11 +420,12 @@ exports.download = async (req, res) => {
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
 
     try {
-        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true));
+        const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true, true));
 
         const results = users.map((user) => {
             const {name, surname, dni, username} = user;
             const turno = user.turnosAgregados[0].startTime || user.teamsAgregados[0].startTime;
+            const teamAttendance = Boolean(user.teamsAgregados[0].startTime);
             const [{"name": teamName, "id": teamId, requestedHints}] = user.teamsAgregados;
 
             const {retosSuperados, retosSuperadosMin} = retosSuperadosByWho(user.teamsAgregados[0], puzzles, true, turno);
@@ -456,7 +437,7 @@ exports.download = async (req, res) => {
             const hs = flattenObject(hintsSucceeded, puzzleNames.map((p) => `Hints succeeded for ${p}`));
             const attendance = Boolean(user.turnosAgregados[0].participants.attendance);
 
-            return {name, surname, dni, username, teamId, teamName, attendance, ...rs, ...rsMin, turno, hintsFailedTotal, ...hf, hintsSucceededTotal, ...hs};
+            return {name, surname, dni, username, teamId, teamName, attendance, teamAttendance, ...rs, ...rsMin, turno, hintsFailedTotal, ...hf, hintsSucceededTotal, ...hs};
         });
 
         createCsvFile(res, results);

@@ -7,25 +7,31 @@ const {startTurno, stopTurno} = require("../helpers/sockets");
 
 // Autoload the turn with id equals to :turnId
 exports.load = (req, res, next, turnId) => {
-    const options = {"include": [
-        {"model": models.team,
-            "include": {
-                "model": models.user,
-                "as": "teamMembers"
-            },
-            "order": [
-                [
-                    "date",
-                    "ASC"
+    const options = {
+        "include": [
+            {
+                "model": models.team,
+                "include": {
+                    "model": models.user,
+                    "as": "teamMembers"
+                },
+                "order": [
+                    [
+                        "date",
+                        "ASC"
+                    ]
                 ]
-            ]}
-    ]};
+            }
+        ]
+    };
 
     if (req.session.user) {
-        options.include.push({"model": models.user,
+        options.include.push({
+            "model": models.user,
             "as": "students",
             // "where": {"id": req.session.user.id}, // TODO Comprobar
-            "required": false});
+            "required": false
+        });
     }
 
     models.turno.findByPk(turnId, options).
@@ -45,6 +51,13 @@ exports.load = (req, res, next, turnId) => {
 exports.indexStudent = async (req, res, next) => {
     try {
         const {escapeRoom} = req;
+        const token = req.body.token || req.query.token;
+
+        if (token !== escapeRoom.invitation) {
+            req.flash("error", "Wrong password");
+            res.redirect(`/escapeRooms/${escapeRoom.id}/join`);
+            return;
+        }
 
         const turnos = await models.turno.findAll({
             "where": {"escapeRoomId": req.escapeRoom.id},
@@ -62,7 +75,7 @@ exports.indexStudent = async (req, res, next) => {
 
         if (escapeRoom.turnos && escapeRoom.turnos.length === 1) {
             if (escapeRoom.teamSize > 1) {
-                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams`);
+                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}`);
             } else {
                 req.params.turnoId = escapeRoom.turnos[0].id;
                 req.body.name = req.session.user.name;
@@ -70,7 +83,7 @@ exports.indexStudent = async (req, res, next) => {
                 next();
             }
         } else {
-            res.render("turnos/_indexStudent.ejs", {turnos, escapeRoom});
+            res.render("turnos/_indexStudent.ejs", {turnos, escapeRoom, token});
         }
     } catch (e) {
         next(e);
@@ -105,10 +118,12 @@ exports.activar = async (req, res, next) => {
             turno.status = "finished";
         }
 
-        await turno.save({"fields": [
-            "startTime",
-            "status"
-        ]});
+        await turno.save({
+            "fields": [
+                "startTime",
+                "status"
+            ]
+        });
         req.flash("success", turno.status === "active" ? "Turno activo." : "Turno desactivado");
         if (turno.status === "active") {
             startTurno(turno.id);
@@ -131,10 +146,12 @@ exports.activar = async (req, res, next) => {
 exports.create = (req, res, next) => {
     const {date, indications} = req.body;
     const modDate = date === "always" ? null : new Date(date);
-    const turn = models.turno.build({"date": modDate,
+    const turn = models.turno.build({
+        "date": modDate,
         indications,
         "status": date === "always" ? "active" : "pending",
-        "escapeRoomId": req.escapeRoom.id});
+        "escapeRoomId": req.escapeRoom.id
+    });
     let back = "";
 
     if (date === "always") {

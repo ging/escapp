@@ -2,6 +2,7 @@ const CONNECT = "connect";
 const DISCONNECT = "disconnect";
 const ERROR = "ERROR";
 const RANKING = "RANKING";
+const JOIN_TEAM = "JOIN_TEAM";
 
 const sort = () => {
 	teams = teams.sort((a,b)=>{
@@ -68,7 +69,8 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
   socket.on(RANKING, function({teamId, puzzleId, time}){
   	const team = teams.find(team => team.id == teamId);
     	if (team) {
-  		const reto = team.retos.find(reto => reto.id === puzzleId)
+      const reto = team.retos.find(reto => reto.id === puzzleId);
+      
   		if (!reto) {
   			team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
   			team.result = team.retos.length + "/" + nPuzzles;
@@ -86,9 +88,20 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
         }
       }
     }
-  
   });
 
+  socket.on(JOIN_TEAM, function({team}){
+    const exists = teams.find(t => t.id == team.id);
+    	if (!exists) {
+        let count = 0;
+        let retos = [];
+        let result = "0/" + nPuzzles;
+        let finishTime = "---";
+        teams.push({...team, result, finishTime, count, retos});
+        $('ranking').html(rankingTemplate(teams));
+        sort();
+      }
+  });
 
 };
 

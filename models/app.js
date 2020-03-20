@@ -4,17 +4,13 @@ module.exports = function (sequelize, DataTypes) {
         {
             "name": {
                 "type": DataTypes.STRING,
-                "validate": {
-                    "notEmpty": {"msg": "El título no puede estar vacío."}
-                }
+                "validate": {"notEmpty": {"msg": "El título no puede estar vacío."}}
             },
             "description": DataTypes.STRING,
             "key": {
                 "type": DataTypes.STRING,
                 "allowNull": false,
-                "validate": {
-                    "isAlphanumeric": true
-                }
+                "validate": {"isAlphanumeric": true}
             }
         }
     );

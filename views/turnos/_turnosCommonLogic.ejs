@@ -117,13 +117,13 @@ $(function () {
             $(hora).html('<input autofocus class="turnos-picker turnos-time-picker" type="time" id="start" required name="start" value="09:00" placeholder="00:00" autocomplete="off"/>');
             $(this).removeClass('off');
             $(this).attr('title', '<%=i18n.escapeRoom.steps.turnos.alwaysTitle%>');
-            $(this).html('<i class="material-icons">alarm_off</i>')
+            $(this).html('<span class="material-icons">alarm_off</span>')
             $('#date').val(new Date());
         } else {
             $(hora).html('<span class="always"><%=i18n.turnos.always%></span>');
             $(this).addClass('off');
             $(this).attr('title', '<%=i18n.escapeRoom.steps.turnos.hourTitle%>');
-            $(this).html('<i class="material-icons">alarm_on</i>')
+            $(this).html('<span class="material-icons">alarm_on</span>')
             $('#date').val("always");
         }
 

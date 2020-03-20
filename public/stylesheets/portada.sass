@@ -37,7 +37,7 @@
             width: 50%
             flex: 3
             padding: 3em
-            h1
+            h2
                 text-align: left
             input, select
                 width: 100%
@@ -54,6 +54,7 @@
                 color: #656683
                 text-align: left
                 padding-top: 15px
+                font-size: 18px
             .roleField
                 display: flex
                 flex-direction: row
@@ -69,6 +70,9 @@
                     span
                         display: inline-block
                         padding: 0px
+            input:-webkit-autofill::first-line // Fixes problem with small font in Chrome autofill
+                font-size: large
+                font-family: Gugi, sans-serif
         #imagenPortada
             width: auto
 @media (max-width: 768px)

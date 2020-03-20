@@ -1,10 +1,12 @@
 const sequelize = require("../models");
 const {models} = sequelize;
 
-exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {"empty": "empty",
+exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
+    "empty": "empty",
     "failed": "failed",
     "dontClose": "dontClose",
-    "tooMany": "tooMany"}) => {
+    "tooMany": "tooMany"
+}) => {
     const success = status === "completed" || status === "passed";
 
     if (success) {
@@ -47,8 +49,10 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
         });
 
         if (escapeRoom.hintLimit !== undefined && escapeRoom.hintLimit !== null && hints.length >= escapeRoom.hintLimit) {
-            return {"msg": messages.tooMany,
-                "ok": false};
+            return {
+                "msg": messages.tooMany,
+                "ok": false
+            };
         }
         const requestedHints = hints.filter((h) => h.id !== null);
         let currentHint = -1;
@@ -90,10 +94,12 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
 
         await reqHint.save();
 
-        return {"msg": pista,
+        return {
+            "msg": pista,
             "ok": true,
             hintId,
-            "alert": hintId ? false : messages.dontClose};
+            "alert": hintId ? false : messages.dontClose
+        };
     }
     const reqHint = models.requestedHint.build({
         "hintId": null,
@@ -103,7 +109,9 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
     });
 
     await reqHint.save();
-    return {"msg": messages.failed,
+    return {
+        "msg": messages.failed,
         "hintId": null,
-        "ok": false};
+        "ok": false
+    };
 };

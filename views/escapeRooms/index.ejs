@@ -32,7 +32,7 @@
             <% for (var i in escapeRooms) { %>
                 <% var escapeRoom = escapeRooms[i]; %>
                 <% var attachment = escapeRoom.attachment; %>
-                <a href="/escapeRooms/<%= escapeRoom.id %><%= (user && user.isStudent && !escapeRoom.isSignedUp) ? ("/join?token="+escapeRoom.invitation) : ""%>" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=100*i%>ms;">
+                <a href="/escapeRooms/<%= escapeRoom.id %><%= (user && user.isStudent && !escapeRoom.isSignedUp) ? ("/join") : ""%>" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=100*i%>ms;">
                     <div class="escapeRoomItem">
                         <div class="erFoto" style="text-align: center">
                             <div class="bckgFoto" style="background-image: url(<% if (attachment) {%><%=attachment.url%><%} else {%>/images/placeholder.jpg<%}%>)"></div>
@@ -40,17 +40,17 @@
                         </div>
                         <% if (user && user.isStudent) {%>
                             <% if (escapeRoom.isSignedUp){ %>
-                            <div class="sign"><i class="material-icons">check</i></div>
+                            <div class="sign"><span class="material-icons">check</span></div>
                             <%} else {%>
-                            <div class="sign add"><i class="material-icons">add</i></div>
+                            <div class="sign add"><span class="material-icons">add</span></div>
                             <%}%>
                         <%}%>
                     </div>
                 </a>
             <% } %>
             <% if (user && !user.isStudent) { %>
-            <a href="/escapeRooms/new" class="escapeRoomItemWrapper animated bounceIn">
-                <div class="escapeRoomItem addEscapeRoom" style="animation-delay: <%=escapeRooms ? (escapeRooms.length * 100 + 100): 0 %>ms;">
+            <a href="/escapeRooms/new" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=escapeRooms ? (escapeRooms.length * 100 + 100): 0 %>ms;">
+                <div class="escapeRoomItem addEscapeRoom" >
                         <span>+</span>
                 </div>
             </a>

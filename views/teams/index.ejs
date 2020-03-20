@@ -4,8 +4,8 @@
 <div class="main student">
     <div class="dialog" >
         </br>
-        <%=i18n.team.choose%><a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new">
-            <i class="material-icons">add_circle_outline</i></a>
+        <%=i18n.team.choose%><a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new?token=<%=token%>">
+            <span class="material-icons">add_circle_outline</span></a>
         </br>
         </br>
         <div class="findTeam">
@@ -15,8 +15,8 @@
             <div class="no-results" style="display: none;"> 
                 <div class="no-results-msg"><%= i18n.team.noResults%></div>
                 <div class="create-new-team"><%= i18n.team.doYouWantToCreate %></div>
-                <a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new">
-                     <i class="material-icons">add_circle_outline</i>
+                <a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new?token=<%=token%>">
+                     <span class="material-icons">add_circle_outline</span>
                 </a>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <br/>
             <div>
             <div id="teamCarouselItems-hidden" class="hide"></div>
-                <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/participants/turnos/<%= turno.id %>/members/xxxx?_method=put'>
+                <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/participants/turnos/<%= turno.id %>/members/xxxx?_method=put&token=<%=token%>'>
                     <div class="join-button-flex-container">
                         <a href="javascript:history.back()">
                             <button class="rounded deleteButton" type="button">

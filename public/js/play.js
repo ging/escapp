@@ -10,6 +10,7 @@ const SOLVE_PUZZLE = "SOLVE_PUZZLE";
 const START = "START";
 const STOP = "STOP";
 const JOIN = "JOIN";
+const JOIN_TEAM = "JOIN_TEAM";
 const RANKING = "RANKING";
 
 /** TEMPLATES **/
@@ -220,6 +221,18 @@ const onInitialRanking = ({teams:teamsNew}) => {
   sort();
 };
 
+const onTeamJoin = ({team}) => {
+  if (!teams.some(t => t.id === team.id)) {
+    let count = 0;
+    let retos = [];
+    let result = "0/" + nPuzzles;
+    let finishTime = "---";
+    teams.push({...team, result, finishTime, count, retos});
+    $('ranking').html(rankingTemplate(teams));
+    sort();
+  }
+}
+
 const onDisconnect = () => {
   console.error("Disconnected from socket server");
 
@@ -355,6 +368,9 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
 
   /*Initial ranking*/
   socket.on(INITIAL_RANKING, onInitialRanking);
+
+  /*Team join*/
+  socket.on(JOIN_TEAM, onTeamJoin);
 
   /*Disconnect*/
   socket.on(DISCONNECT, onDisconnect);

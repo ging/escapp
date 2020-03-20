@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%=i18n.lang%>">
 <head>
     <meta charset="utf-8">
     <title>escapp</title>
+    <meta name="description" content="<%=i18n.description%>">
+    <meta name="author" content="Universidad Politécnica de Madrid">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
-    <link rel="stylesheet" href="/stylesheets/vendor/animate.css">
-    <link rel="stylesheet" href="/stylesheets/vendor/easy-alert.css">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel='stylesheet' href="/stylesheets/style.css"/>
+    <link rel="stylesheet" href="/stylesheets/vendor/animate.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/easy-alert.css">
     <script src="/js/vendor/jquery-3.3.1.min.js"></script>
     <script src="/js/vendor/easy-alert.js"></script>
     <% include partials/_icons.ejs %>
+    <% include partials/_seo.ejs %>
 </head>
 <body>
-<section  id="mainSection">
+<div  id="mainSection">
     <%- body %>
     <%- include("./partials/_flash",{bs:false}) %>
-</section>
+</div>
 
 
 </body>

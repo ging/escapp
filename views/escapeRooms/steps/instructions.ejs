@@ -8,8 +8,8 @@
 </head>
 <!-- Theme included stylesheets -->
  <% include ../../partials/_header.ejs %>
-<div class="main step-instructions">
-  <h2><%=i18n.escapeRoom.steps[endPoint].title%></h2>
+<div class="main steps step-instructions">
+  <h1><%=i18n.escapeRoom.steps[endPoint].title%></h1>
     <p class="intro-paragraph">
        <%=i18n.escapeRoom.steps[endPoint].explanation%>
     </p>
@@ -51,8 +51,11 @@
     <br/>
 <script>
 window.placeholder = "<%=i18n.escapeRoom.steps[endPoint].placeholder%>"
+const insert = "<%=i18n.gallery.insert%>";
+const cancel = "<%=i18n.gallery.cancel%>";
 </script>
 <% include ../../partials/_footer %>
+
 <script src="/js/instructions.js"></script>
 <style>
   @font-face {

@@ -1,7 +1,10 @@
 <%if (!user.id) {%>
-<h1 class="loginWelcomeMessage">
-    Regístrate:
-</h1>
+    <h1 class="loginWelcomeMessage">
+        <%=i18n.user.messages.welcome%>
+    </h1>
+    <h2>
+        <%=i18n.user.actions.Register%>
+    </h2>
     <form method="post" class=" " action="/users<%=redir ? ("?redir="+redir) : "" %>">
         <%}else{%>
     <form method="post" class="editUserForm" action="/users/<%=user.id%>?_method=PUT%>">

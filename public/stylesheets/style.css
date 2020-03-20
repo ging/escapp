@@ -56,6 +56,19 @@ button, input[type="submit"] {
     background-color: #FAC855;
     border-color: #FAC855;
     color: #161938; }
+  button.cloneButton, input[type="submit"].cloneButton {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    outline: 0;
+    background-color: #F3945E;
+    border-color: #F3945E;
+    color: #161938; }
   button.deleteButton, input[type="submit"].deleteButton {
     margin: 0;
     padding: 0;
@@ -85,6 +98,16 @@ button, input[type="submit"] {
     font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
     border-radius: 5px;
     border-color: #48C18E;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    outline: 0; }
+  button.shareButton, input[type="submit"].shareButton {
+    background-color: #36A2EB;
+    color: #161938;
+    font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    border-color: #36A2EB;
     border-style: solid;
     padding: 10px;
     text-align: center;
@@ -139,14 +162,14 @@ button, input[type="submit"] {
       margin-top: 0;
       margin-bottom: 5px;
       font-size: 18x; }
-      .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag span {
+      .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag span:not(.material-icons) {
         font-family: Lato, sans-serif;
         color: white; }
-      .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag i {
+      .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag i, .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag .material-icons {
         font-size: 21px;
         margin-right: 10px;
         transition: 0.3s ease-in all; }
-    .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag:hover i {
+    .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag:hover i, .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag:hover .material-icons {
       transform: scale(1.2); }
   .main.summary .flex-container.analytics-menu .flex-container-right {
     flex: 1; }
@@ -187,21 +210,31 @@ button, input[type="submit"] {
       font-size: 20px;
       padding-left: 20px; }
 
-.apexcharts-canvas * {
+.main .apexcharts-canvas * {
   font-family: "Lato", sans-serif !important;
   color: #656683; }
 
-.apexcharts-xaxis-label {
+.main .apexcharts-xaxis-label {
   fill: white !important;
   font-family: "Lato", sans-serif !important; }
 
-.apexcharts-yaxis-label {
+.main .apexcharts-yaxis-label {
   fill: white !important;
   font-family: "Lato", sans-serif !important; }
 
-.apexcharts-legend-text {
+.main .apexcharts-legend-text {
   color: white !important;
   font-family: "Lato", sans-serif !important; }
+
+.main .apexcharts-tooltip.light {
+  background: white;
+  border-color: white !important;
+  border-radius: 0px; }
+  .main .apexcharts-tooltip.light .apexcharts-tooltip-title {
+    background: white;
+    max-width: 40vw;
+    text-overflow: ellipsis;
+    overflow: hidden; }
 
 #hints-chart * {
   color: #656683;
@@ -385,6 +418,9 @@ button, input[type="submit"] {
     border-radius: 50%;
     color: black; }
 
+#mainSection .main.steps > h1 {
+  font-size: 1.5em; }
+
 #mainSection .main .align-right.flex-buttons {
   flex-wrap: wrap; }
   #mainSection .main .align-right.flex-buttons #previous {
@@ -431,13 +467,7 @@ button, input[type="submit"] {
       #mainSection .main .flexShow .flexRow .flexShowRight img {
         width: 250px;
         border-radius: 5px; }
-      #mainSection .main .flexShow .flexRow .flexShowRight #joinUrl {
-        height: 10px;
-        opacity: 0.01;
-        width: 10px;
-        padding: 2px;
-        margin: 0px; }
-    #mainSection .main .flexShow .flexRow .copy {
+    #mainSection .main .flexShow .flexRow .preview-icon {
       background: transparent;
       border: none;
       font-size: 16px;
@@ -501,7 +531,8 @@ button, input[type="submit"] {
 
 #mainSection .main .basicConfig {
   font-size: 26px;
-  text-align: center; }
+  text-align: center;
+  margin-top: 100px; }
   #mainSection .main .basicConfig .erFormField {
     padding: 40px;
     text-align: left; }
@@ -563,7 +594,8 @@ button, input[type="submit"] {
   font-family: 'Lato', sans-serif;
   padding-left: 68px;
   text-align: left;
-  margin-top: -40px; }
+  margin-top: -40px;
+  display: block; }
   #mainSection .main .note input {
     vertical-align: middle; }
 
@@ -598,36 +630,69 @@ button, input[type="submit"] {
   #mainSection .main.escapeRoomShow .flexShow .flexRow .flexShowRight {
     color: white;
     font-weight: lighter; }
-  #mainSection .main.escapeRoomShow #dialog-preview-video, #mainSection .main.escapeRoomShow #dialog-preview-api {
+  #mainSection .main.escapeRoomShow #dialog-preview-video, #mainSection .main.escapeRoomShow #dialog-preview-api, #mainSection .main.escapeRoomShow #dialog-share {
     padding: 0;
     background-color: white;
     outline: none;
     border: none; }
-    #mainSection .main.escapeRoomShow #dialog-preview-video #previewVideoContent, #mainSection .main.escapeRoomShow #dialog-preview-api #previewVideoContent {
+    #mainSection .main.escapeRoomShow #dialog-preview-video #previewVideoContent, #mainSection .main.escapeRoomShow #dialog-preview-api #previewVideoContent, #mainSection .main.escapeRoomShow #dialog-share #previewVideoContent {
       padding: 10px; }
-  #mainSection .main.escapeRoomShow #dialog-preview-api {
+  #mainSection .main.escapeRoomShow #api-button {
+    background: none;
+    color: white;
+    border: none; }
+  #mainSection .main.escapeRoomShow #dialog-preview-api, #mainSection .main.escapeRoomShow #dialog-share {
     padding: 15px; }
-    #mainSection .main.escapeRoomShow #dialog-preview-api h4 {
+    #mainSection .main.escapeRoomShow #dialog-preview-api h4, #mainSection .main.escapeRoomShow #dialog-share h4 {
       color: #48C18E;
       font-size: 20px;
       margin-bottom: -4px; }
-    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th {
+    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th, #mainSection .main.escapeRoomShow #dialog-share .api-table td, #mainSection .main.escapeRoomShow #dialog-share .api-table th {
       font-size: 14px;
       font-family: 'Lato', sans-serif;
       color: #656683; }
-      #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td code, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th code {
+      #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td code, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th code, #mainSection .main.escapeRoomShow #dialog-share .api-table td code, #mainSection .main.escapeRoomShow #dialog-share .api-table th code {
         font-family: monospace;
         color: #F47E84; }
-    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th {
+    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th, #mainSection .main.escapeRoomShow #dialog-share .api-table th {
       color: #F47E84;
       font-weight: 600;
       text-align: left; }
-    #mainSection .main.escapeRoomShow #dialog-preview-api pre#sample-fetch {
+    #mainSection .main.escapeRoomShow #dialog-preview-api pre#sample-fetch, #mainSection .main.escapeRoomShow #dialog-share pre#sample-fetch {
       color: white;
       padding: 15px;
       font-size: 14px;
       font-family: monospace;
       background-color: #656683; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .show_link, #mainSection .main.escapeRoomShow #dialog-share .show_link {
+      font-family: 'Lato', sans-serif;
+      color: #161938;
+      text-decoration: underline;
+      text-underline-position: under; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api #joinUrl, #mainSection .main.escapeRoomShow #dialog-share #joinUrl {
+      height: 10px;
+      opacity: 0.01;
+      width: 10px;
+      padding: 2px;
+      margin: 0px; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .copy, #mainSection .main.escapeRoomShow #dialog-preview-api .qr, #mainSection .main.escapeRoomShow #dialog-share .copy, #mainSection .main.escapeRoomShow #dialog-share .qr {
+      background: transparent;
+      border: none;
+      font-size: 1px;
+      color: #F3945E;
+      vertical-align: middle; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .qr, #mainSection .main.escapeRoomShow #dialog-share .qr {
+      color: #F47E84; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .join-instructions, #mainSection .main.escapeRoomShow #dialog-share .join-instructions {
+      font-family: 'Lato', sans-serif;
+      font-size: 18px;
+      color: #161938; }
+      #mainSection .main.escapeRoomShow #dialog-preview-api .join-instructions a, #mainSection .main.escapeRoomShow #dialog-share .join-instructions a {
+        color: #48C18E;
+        font-family: inherit; }
+      #mainSection .main.escapeRoomShow #dialog-preview-api .join-instructions .hl, #mainSection .main.escapeRoomShow #dialog-share .join-instructions .hl {
+        color: #36A2EB;
+        font-family: inherit; }
   #mainSection .main.escapeRoomShow .ui-dialog {
     outline: none !important; }
   #mainSection .main.escapeRoomShow .ui-dialog-title {
@@ -675,7 +740,7 @@ button, input[type="submit"] {
     content: "";
     flex: 1; }
   .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper {
-    width: 19%;
+    width: 19.9%;
     padding: 10px;
     height: auto; }
     .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper:before {
@@ -986,19 +1051,36 @@ button, input[type="submit"] {
 
 #mainSection .main.step-evaluation .scorePuzzles {
   margin: 36px;
-  margin-bottom: 40px; }
+  margin-bottom: 0px; }
   #mainSection .main.step-evaluation .scorePuzzles * {
     font-family: Lato, sans-serif; }
-  #mainSection .main.step-evaluation .scorePuzzles td {
+  #mainSection .main.step-evaluation .scorePuzzles th {
+    color: inherit; }
+  #mainSection .main.step-evaluation .scorePuzzles td, #mainSection .main.step-evaluation .scorePuzzles th {
     padding: 10px;
     font-size: 0.8em; }
-    #mainSection .main.step-evaluation .scorePuzzles td .customInput {
+    #mainSection .main.step-evaluation .scorePuzzles td .customInput, #mainSection .main.step-evaluation .scorePuzzles th .customInput {
       margin: 0;
       padding-top: 0px; }
 
-#mainSection .main.step-evaluation .erFormField .customInput, #mainSection .main.step-evaluation label, #mainSection .main.step-evaluation input {
-  color: white;
-  -webkit-text-fill-color: white !important; }
+#mainSection .main.step-evaluation .erFormField {
+  color: #656683;
+  -webkit-text-fill-color: #656683 !important; }
+  #mainSection .main.step-evaluation .erFormField:focus-within {
+    color: white;
+    -webkit-text-fill-color: white !important; }
+    #mainSection .main.step-evaluation .erFormField:focus-within label {
+      color: white;
+      -webkit-text-fill-color: white !important; }
+    #mainSection .main.step-evaluation .erFormField:focus-within tr td label {
+      color: #656683;
+      -webkit-text-fill-color: #656683 !important; }
+    #mainSection .main.step-evaluation .erFormField:focus-within tr:focus-within td label {
+      color: white;
+      -webkit-text-fill-color: white !important; }
+  #mainSection .main.step-evaluation .erFormField tr:focus-within, #mainSection .main.step-evaluation .erFormField table:focus-within {
+    color: white;
+    -webkit-text-fill-color: white !important; }
 
 .filters * {
   font-size: 16px; }
@@ -1619,11 +1701,13 @@ button, input[type="submit"] {
           overflow: hidden;
           text-overflow: ellipsis;
           color: #FAC855; }
-  #mainSection .main.student .teamName {
+  #mainSection .main.student .teamName, #mainSection .main.student .tokenInput {
     overflow: hidden;
     width: 200px;
     max-width: 100%;
     min-width: 50%; }
+  #mainSection .main.student .typePasscode {
+    font-size: 18px; }
   #mainSection .main.student .findTeam {
     position: relative;
     min-height: 135px; }
@@ -1710,7 +1794,7 @@ button, input[type="submit"] {
     #mainSection .main .breadcrumbs-container {
       text-align: left;
       align-self: left; }
-      #mainSection .main .breadcrumbs-container .breadcrumbs a, #mainSection .main .breadcrumbs-container .breadcrumbs span {
+      #mainSection .main .breadcrumbs-container .breadcrumbs a, #mainSection .main .breadcrumbs-container .breadcrumbs span:not(.material-icons) {
         font-family: Lato, sans-serif;
         display: inline-block;
         font-size: 18px; }
@@ -1873,7 +1957,7 @@ button, input[type="submit"] {
       width: 50%;
       flex: 3;
       padding: 3em; }
-      .portada .contenedor .loginRight h1 {
+      .portada .contenedor .loginRight h2 {
         text-align: left; }
       .portada .contenedor .loginRight input, .portada .contenedor .loginRight select {
         width: 100%;
@@ -1888,7 +1972,8 @@ button, input[type="submit"] {
       .portada .contenedor .loginRight .loginWelcomeMessage {
         color: #656683;
         text-align: left;
-        padding-top: 15px; }
+        padding-top: 15px;
+        font-size: 18px; }
       .portada .contenedor .loginRight .roleField {
         display: flex;
         flex-direction: row;
@@ -1904,6 +1989,9 @@ button, input[type="submit"] {
           .portada .contenedor .loginRight .roleField .roleLabel span {
             display: inline-block;
             padding: 0px; }
+      .portada .contenedor .loginRight input:-webkit-autofill::first-line {
+        font-size: large;
+        font-family: Gugi, sans-serif; }
     .portada .contenedor #imagenPortada {
       width: auto; }
 
@@ -1925,9 +2013,9 @@ button, input[type="submit"] {
   position: relative; }
   #mainSection .main .puzzle-card.ui-sortable-helper {
     height: 105px !important; }
-  #mainSection .main .puzzle-card.collapsed h3 input {
+  #mainSection .main .puzzle-card.collapsed h2 input {
     border: none; }
-  #mainSection .main .puzzle-card h3.showAlways {
+  #mainSection .main .puzzle-card h2.showAlways {
     margin-block-end: 0px; }
   #mainSection .main .puzzle-card .ui-sortable-handle {
     -ms-touch-action: none;
@@ -1963,25 +2051,25 @@ button, input[type="submit"] {
       color: #F47E84; }
   #mainSection .main .puzzle-card .material-icons {
     color: #48C18E; }
-  #mainSection .main .puzzle-card h3 {
+  #mainSection .main .puzzle-card h2 {
     font-size: 22px;
     font-weight: bold;
     margin-top: 0px; }
-    #mainSection .main .puzzle-card h3 i.material-icons {
+    #mainSection .main .puzzle-card h2 i.material-icons, #mainSection .main .puzzle-card h2 span.material-icons {
       line-height: 40px;
       position: absolute; }
-    #mainSection .main .puzzle-card h3 input {
+    #mainSection .main .puzzle-card h2 input {
       font-size: 22px;
       height: 45px;
       padding-left: 30px;
       font-weight: bold; }
-  #mainSection .main .puzzle-card h4 {
+  #mainSection .main .puzzle-card h3 {
     font-size: 18px;
     font-weight: light;
     margin-bottom: 3px; }
-    #mainSection .main .puzzle-card h4 ::placeholder {
+    #mainSection .main .puzzle-card h3 ::placeholder {
       opacity: 0.5; }
-    #mainSection .main .puzzle-card h4 .material-icons {
+    #mainSection .main .puzzle-card h3 .material-icons {
       vertical-align: text-bottom; }
   #mainSection .main .puzzle-card p {
     font-size: 16px;
@@ -2238,7 +2326,7 @@ button, input[type="submit"] {
       margin: auto; }
     .ranking .content .podium {
       width: 100%;
-      height: 75vh;
+      height: 75vmin;
       display: flex;
       flex-direction: row;
       overflow-y: hidden; }
@@ -2250,9 +2338,9 @@ button, input[type="submit"] {
         align-items: center; }
         .ranking .content .podium .podium-col .podium-label {
           text-align: center;
-          padding: 5px 25px;
+          padding: 5px 3vmin;
           font-family: Lato, sans-serif;
-          font-size: 24px;
+          font-size: 3vmin;
           color: #48C18E;
           background: white;
           margin: 10px;
@@ -2266,9 +2354,9 @@ button, input[type="submit"] {
           flex: 1;
           background-color: #F47E84;
           width: 100%;
-          font-size: 13vh;
+          font-size: 13vmin;
           text-align: center;
-          line-height: 26vh;
+          line-height: 26vmin;
           vertical-align: text-bottom;
           max-height: 0;
           transition: max-height 2s ease-in-out; }
@@ -2280,14 +2368,14 @@ button, input[type="submit"] {
           animation-delay: 5s; }
         .ranking .content .podium .podium-col .star {
           color: #FAC855;
-          font-size: 15vh;
+          font-size: 15vmin;
           animation-delay: 1s; }
       .ranking .content .podium.started .podium-col.first .podium-rect {
-        max-height: 70vh; }
+        max-height: 70vmin; }
       .ranking .content .podium.started .podium-col.second .podium-rect {
-        max-height: 33vh; }
+        max-height: 33vmin; }
       .ranking .content .podium.started .podium-col.third .podium-rect {
-        max-height: 23vh; }
+        max-height: 23vmin; }
     .ranking .content .filters {
       text-align: left; }
     .ranking .content .ranking-table {
@@ -2333,6 +2421,16 @@ button, input[type="submit"] {
           width: 15%; }
         .ranking .content .ranking-table .ranking-row .ranking-pos {
           transform: scale(1.5); }
+
+@media (max-width: 600px) {
+  .ranking .content .ranking-table .ranking-row .ranking-team {
+    width: 30%; }
+  .ranking .content .ranking-table .ranking-row .ranking-members {
+    display: none; }
+  .ranking .content .ranking-table .ranking-row .ranking-res {
+    width: 35%; }
+  .ranking .content .ranking-table .ranking-row .ranking-time {
+    width: 35%; } }
 
 .showStudent .flex {
   display: flex; }
@@ -2935,6 +3033,8 @@ html {
         border-color: white; }
         html body input:focus + label, html body input:active + label, html body input:-webkit-autofill:focus + label, html body input:-webkit-autofill:active + label, html body select:focus + label, html body select:active + label, html body select:-webkit-autofill:focus + label, html body select:-webkit-autofill:active + label {
           color: white; }
+    html body select {
+      -webkit-appearance: none; }
     html body footer {
       display: flex;
       align-content: space-around;
@@ -2950,7 +3050,11 @@ html {
   vertical-align: middle; }
 
 .errorPage pre {
-  font-size: 16px; }
+  font-size: 16px;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap; }
 
 .centered {
   text-align: center; }

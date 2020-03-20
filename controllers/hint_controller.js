@@ -24,8 +24,10 @@ exports.load = (req, res, next, hintId) => {
 exports.create = (req, res, next) => {
     const {puzzle, body, escapeRoom} = req;
     const {content} = body;
-    const hint = models.hint.build({content,
-        "puzzleId": puzzle.id});
+    const hint = models.hint.build({
+        content,
+        "puzzleId": puzzle.id
+    });
 
     const back = `/escapeRooms/${escapeRoom.id}/puzzles`;
 
@@ -86,14 +88,18 @@ exports.destroy = async (req, res, next) => {
 
 // GET /escapeRooms/:escapeRoomId/hints/hintapp
 exports.hintApp = (req, res) => {
-    res.render("escapeRooms/hintApp/hintApp", {"layout": false,
-        "escapeRoom": req.escapeRoom});
+    res.render("escapeRooms/hintApp/hintApp", {
+        "layout": false,
+        "escapeRoom": req.escapeRoom
+    });
 };
 
 // GET /escapeRooms/:escapeRoomId/hints/hintappwrapper
 exports.hintAppWrapper = (req, res) => {
-    res.render("escapeRooms/hintApp/hintAppScormWrapper", {"layout": false,
-        "escapeRoom": req.escapeRoom});
+    res.render("escapeRooms/hintApp/hintAppScormWrapper", {
+        "layout": false,
+        "escapeRoom": req.escapeRoom
+    });
 };
 
 // GET /escapeRooms/:escapeRoomId/requestHint
@@ -103,8 +109,10 @@ exports.requestHint = async (req, res) => {
 
     try {
         if (req.session && req.session.user && !req.session.user.isStudent) {
-            res.send({"teacher": true,
-                "ok": false});
+            res.send({
+                "teacher": true,
+                "ok": false
+            });
             return;
         }
         const user = await models.user.findByPk(req.session.user.id);
@@ -113,8 +121,10 @@ exports.requestHint = async (req, res) => {
                 {
                     "model": models.turno,
                     "required": true,
-                    "where": {"escapeRoomId": escapeRoom.id,
-                        "status": "active"} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
+                    "where": {
+                        "escapeRoomId": escapeRoom.id,
+                        "status": "active"
+                    } // Aquí habrá que añadir las condiciones de si el turno está activo, etc
                 }
             ]
         });
@@ -122,24 +132,30 @@ exports.requestHint = async (req, res) => {
         if (teams && teams.length > 0) {
             const [team] = teams;
             const {empty, dontClose, failed, tooMany} = req.app.locals.i18n.hint;
-            const result = await calculateNextHint(escapeRoom, team, status, score, {empty,
+            const result = await calculateNextHint(escapeRoom, team, status, score, {
+                empty,
                 dontClose,
                 failed,
-                tooMany});
+                tooMany
+            });
 
             if (result) {
                 res.json(result);
             }
         } else {
             res.status(500);
-            res.send({"msg": req.app.locals.i18n.user.messages.ensureRegistered,
-                "ok": false});
+            res.send({
+                "msg": req.app.locals.i18n.user.messages.ensureRegistered,
+                "ok": false
+            });
         }
     } catch (msg) {
         console.error(msg);
         res.status(500);
-        res.send({msg,
-            "ok": false});
+        res.send({
+            msg,
+            "ok": false
+        });
     }
 };
 
@@ -163,8 +179,10 @@ exports.downloadMoodleXML = (req, res) => {
 exports.pistas = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/hints", {escapeRoom,
-        "progress": "hints"});
+    res.render("escapeRooms/steps/hints", {
+        escapeRoom,
+        "progress": "hints"
+    });
 };
 
 // POST /escapeRooms/:escapeRoomId/hints
@@ -190,7 +208,7 @@ exports.pistasUpdate = (req, res, next) => {
                 // There is no attachment: Delete old attachment.
                 if (!req.file) {
                     if (escapeRoom.hintApp) {
-                        attHelper.deleteResource(escapeRoom.hintApp.public_id);
+                        attHelper.deleteResource(escapeRoom.hintApp.public_id, models.hintApp);
                         escapeRoom.hintApp.destroy();
                     }
                     return;
@@ -220,12 +238,12 @@ exports.pistasUpdate = (req, res, next) => {
                             then(() => {
                                 req.flash("success", "Fichero guardado con éxito.");
                                 if (old_public_id) {
-                                    attHelper.deleteResource(old_public_id);
+                                    attHelper.deleteResource(old_public_id, models.hintApp);
                                 }
                             }).
                             catch((error) => { // Ignoring image validation errors
                                 req.flash("error", `Error al guardar el fichero: ${error.message}`);
-                                attHelper.deleteResource(uploadResult.public_id);
+                                attHelper.deleteResource(uploadResult.public_id, models.hintApp);
                             });
                     }).
                     catch((error) => {

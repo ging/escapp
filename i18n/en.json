@@ -1,5 +1,7 @@
 {
     "lang": "en",
+    "locale": "en_US",
+    "description": "Platform for managing educational escape rooms",
     "analytics": {
         "charts": {
             "titles": {
@@ -68,6 +70,8 @@
         },
         "timeline": {
             "customHint": "Custom hint",
+            "openDoor": "Open Door",
+            "closedDoor": "Closed Door",
             "nTeamsPuzzle": "Number of teams that completed each puzzle",
             "nTeamsPuzzleButton": "see by team",
             "nPuzzlesTeam": "Number of puzzles completed by each team",
@@ -93,7 +97,12 @@
         "forbidden": "Forbidden",
         "notFound": "Not found",
         "error": "Error",
-        "wrong": "Wrong answer"
+        "wrong": "Wrong answer",
+        "wrongCredentials": "The email and password combination is incorrect",
+        "notAParticipant": "You are not a participant of this escape room.",
+        "participant": "You are a participant of this escape room",
+        "notActive": "You are a participant of this escape room but your shift is not active",
+        "tooLate": "You are a participant of this escape room but your time is up"
     },
     "apps": {
         "newApp": "New app",
@@ -196,6 +205,7 @@
         "invitation": {
             "no": "no",
             "wannaJoin": "Would you like to join this Escape Room?",
+            "typePasscode": "Type the access passcode",
             "yes": "yes"
         },
         "main": {
@@ -253,8 +263,11 @@
                 "total": "Total",
                 "puzzle": "Puzzle",
                 "weight": "Weight",
-                "youCanUse": "You can use"
-
+                "youCanUse": "You can use",
+                "automaticAttendance": "Take attendance automatically when a student accesses an escape room during his/her shift",
+                "automaticAttendanceNone": "Do not take attendance automatically whatsoever",
+                "automaticAttendanceParticipant": "Take attendance automatically only for that student",
+                "automaticAttendanceTeam": "Take attendance automatically for the whole team"
             },
             "hints": {
                 "correctNumber": "Hit number",
@@ -327,6 +340,8 @@
         }
     },
     "gallery": {
+        "insert": "insert",
+        "cancel": "cancel",
         "title": "Gallery",
         "insertURL": "Insert URL",
         "selectFileFromList": "Select file from the list or ",
@@ -345,6 +360,7 @@
         "dontClose": "There aren't any hints left. You may ask your teacher now, he or she will help you. Don't close this message until they come",
         "empty": "Custom hint",
         "instructionsHints": "Answer the questions in order to get a hint",
+        "Hint": "Hint",
         "Hints": "Hints",
         "need": "Need a hint?",
         "successMessage": "Congratulations! You've achieved a new hint",
@@ -492,7 +508,9 @@
         "seeByParticipant": "see by participant",
         "seeByTeam": "see by team",
         "select": "select/deselect all ",
-        "title": "participants"
+        "title": "participants",
+        "wrongToken": "Wrong password to access the escape room"
+
     },
     "puzzle": {
         "check": "check",
@@ -522,17 +540,30 @@
             "analytics": "Learning analytics",
             "appearance": "Appearance",
             "basic": "Basic configuration",
+            "clone": "clone",
             "delete": "delete",
             "edit": "edit",
             "join": "Join invitation",
             "participants": "Participants",
             "teams": "Teams",
+            "share": "share",
             "shifts": "Shifts",
+            "turnos": "Shifts",
             "volver": "back"
         },
         "messages": {
             "noHintControl": "This Escape Room does not have any hint system yet",
-            "noVideo": "This Escape Room does not have any video yet"
+            "noVideo": "This Escape Room does not have any video yet",
+            "copyAria": "Invisible input to enable copying invitation link",
+            "copyTitle": "Copy the link",
+            "qrTitle": "Generate a QR code to share",
+            "noShifts": "You cannot share the escape room until you have created at least one shift",
+            "join": {
+                "intro": "Share the following link with yout students so they can access the escape room:",
+                "also": "They can also access ",
+                "register": " and, after signing up and login in, they can select the escape room entitled ",
+                "password": " and introduce the following password "
+            }
         },
         "titles": {
             "appearance": "Appearance",
@@ -551,7 +582,8 @@
             "thumbnail": "Thumbnail",
             "title": "Title",
             "turnos": "Shifts",
-            "video": "Video"
+            "video": "Video",
+            "share": "Share"
         }
     },
     "team": {
@@ -625,6 +657,7 @@
             "Login": "Login",
             "notRegistered": "Don't have an account?",
             "register": "register",
+            "Register": "Register",
             "resetPassword" : "Reset password",
             "save": "save"
         },

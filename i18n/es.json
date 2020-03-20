@@ -1,5 +1,7 @@
 {
     "lang": "es",
+    "locale": "es_ES",
+    "description": "Plataforma para gestionar escape rooms educativas",
     "analytics": {
         "charts": {
             "titles": { "retosSuperadosTeam": "Retos superados", "hintsByTeam":"Pistas solicitadas"}
@@ -89,7 +91,12 @@
         "notFound": "No encontrado",
         "forbidden": "Prohibido",
         "error": "Error",
-        "wrong": "Respuesta incorrecta"
+        "wrong": "Respuesta incorrecta",
+        "wrongCredentials": "La combinación de usuario y contraseña es incorrecta",
+        "notAParticipant": "No participas en esta escape room",
+        "participant": "Participas en esta escape room",
+        "notActive": "Participas en esta escape room pero tu turno no está activo",
+        "tooLate": "Participas en esta escape room pero se ha pasado el tiempo"
     },
     "apps": {
         "newApp": "Nueva app",
@@ -192,6 +199,7 @@
         "invitation": {
             "no": "no",
             "wannaJoin": "¿Quieres unirte a la Escape Room de",
+            "typePasscode": "Introduce la contraseña de acceso",
             "yes": "sí"
         },
         "main": {
@@ -249,7 +257,11 @@
                 "total": "Total",
                 "youCanUse": "Puedes utilizar",
                 "puzzle": "Reto",
-                "weight": "Peso"
+                "weight": "Peso",
+                "automaticAttendance": "Marcar asistencia automáticamente cuando un estudiante accede a la escape rom en su turno",
+                "automaticAttendanceNone": "No marcar asistencia automáticamente en ningún caso",
+                "automaticAttendanceParticipant": "Marcar asistencia sólo a ese estudiante",
+                "automaticAttendanceTeam": "Marcar asistencia a todo el equipo"
             },
             "hints": {
                 "correctNumber": "Nº de aciertos",
@@ -328,12 +340,15 @@
         "dontClose": "No quedan más pistas automáticas para tu situación. Puedes llamar al profesor para que te dé una personalizada. No cierres este mensaje hasta que venga",
         "instructionsHints": "Responde las preguntas para obtener una pista",
         "empty": "Pista personalizada",
+        "Hint": "Pista",
         "Hints": "Pistas",
         "need": "¿Necesitas una pista?",
         "successMessage": "Enhorabuena! Has conseguido una nueva pista.",
         "tooMany": "Ya has pedido el número máximo de pistas"
     },
     "gallery": {
+        "insert": "insertar",
+        "cancel": "cancelar",
         "title": "Galería",
         "insertURL": "Introduce la URL",
         "selectFileFromList": "Selecciona un fichero de la lista o ",
@@ -486,7 +501,8 @@
         "seeByParticipant": "ver por participante",
         "seeByTeam": "ver por equipo",
         "select": "marcar/desmarcar todos",
-        "title": "Participantes"
+        "title": "Participantes",
+        "wrongToken": "Contraseña de acceso a la escape room incorrecta"
     },
     "puzzle": {
         "check": "comprobar",
@@ -516,17 +532,31 @@
             "analytics": "Analíticas de aprendizaje",
             "appearance": "Apariencia",
             "basic": "Configuración básica",
+            "clone": "clonar",
             "delete": "borrar",
             "edit": "editar",
             "join": "Enlace de invitación",
             "participants": "Participantes",
             "teams": "Equipos",
+            "shifts": "Turnos",
             "turnos": "Turnos",
+            "share": "compartir",
             "volver": "volver"
+            
         },
         "messages": {
+            "copyAria": "Input invisible para permitir copiar el link de invitación",
             "noHintControl": "Esta Escape Room no utiliza ningún mecanismo de control de pistas",
-            "noVideo": "No hay vídeo"
+            "noVideo": "No hay vídeo",
+            "copyTitle": "Copia el enlace",
+            "qrTitle": "Genera un código QR para compartir",
+            "noShifts": "No puedes compartir la escape room hasta que hayas establecido al menos un turno",
+            "join": {
+                "intro": "Para que tus alumnos puedan acceder a la escape room comparte con ellos el siguiente enlace:",
+                "also": "También pueden acceder a ",
+                "register": " y, tras registrarse e iniciar sesión, seleccionar la escape room ",
+                "password": " e introducir la contraseña "
+            }
         },
         "titles": {
             "appearance": "Apariencia",
@@ -545,7 +575,8 @@
             "thumbnail": "Miniatura",
             "title": "Título",
             "turnos": "Turnos",
-            "video": "Vídeo"
+            "video": "Vídeo",
+            "share": "Compartir"
         }
     },
     "team": {
@@ -619,6 +650,7 @@
             "login": "entrar",
             "notRegistered": "¿No tienes cuenta?",
             "register": "regístrate",
+            "Register": "Regístrate",
             "resetPassword" : "Recuperar contraseña",
             "save": "guardar"
         },

@@ -221,7 +221,7 @@ $(function(){
       },
       appendTo: '.main',
       buttons: {
-        "accept": function () {
+        [insert]: function () {
             const selected = $('input[name=file-gallery-source]:checked').attr('id');
             switch (selected) {
                 case "sourceFile":
@@ -279,7 +279,7 @@ $(function(){
             gamificationElementSelected = null;
             $( "#dialog-gallery" ).dialog("close");
         },
-        "cancel": function () {
+        [cancel]: function () {
             $(".file-selected").removeClass("file-selected");
             $( "#dialog-gallery" ).dialog( "close" );
         }

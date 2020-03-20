@@ -26,20 +26,25 @@ exports.new = (req, res) => {
     const team = {"name": ""};
     const {escapeRoom} = req;
 
-    res.render("teams/new", {team,
+    res.render("teams/new", {
+        team,
         escapeRoom,
-        "turno": req.turn});
+        "token": req.token,
+        "turno": req.turn
+    });
 };
 
 
 // POST /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnId/teams
 exports.create = async (req, res, next) => {
     const {escapeRoom} = req;
-    const team = models.team.build({"name": req.body.name,
-        "turnoId": req.params.turnoId,
-        "members": [req.session.user.id]});
-    const back = "/escapeRooms";
 
+    const team = models.team.build({
+        "name": req.body.name,
+        "turnoId": req.params.turnoId,
+        "members": [req.session.user.id]
+    });
+    const back = "/escapeRooms";
     const teamCreated = await team.save();
 
     try {
@@ -106,7 +111,7 @@ exports.index = (req, res, next) => {
 exports.indexTurnos = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("teams/index", {"turno": req.turn, escapeRoom});
+    res.render("teams/index", {"turno": req.turn, escapeRoom, "token": req.token});
 };
 
 

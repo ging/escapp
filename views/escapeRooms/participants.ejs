@@ -5,7 +5,7 @@
     <div class="breadcrumbs-container">
         <div class="breadcrumbs">
             <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
-            <i class="material-icons">chevron_right</i>
+            <span class="material-icons">chevron_right</span>
             <span><%=i18n.participant.title%></span>
         </div>
     </div>
@@ -68,7 +68,7 @@
                     </div>
                     <div class="operations-participant">
                         <form method='POST' action='/escapeRooms/<%= escapeRoom.id %>/turno/<%=participant.turnoId %>/team/<%=participant.teamId %>/user/<%= participant.id %>?_method=DELETE'>
-                            <button class="delete-participant"><i class="material-icons"> delete </i></button>
+                            <button class="delete-participant"><span class="material-icons"> delete </span></button>
                         </form>
                     </div>
                 </div>

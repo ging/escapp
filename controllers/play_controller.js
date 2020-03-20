@@ -1,7 +1,8 @@
 const {Op} = require("sequelize");
-const {playInterface, getRetosSuperados} = require("../helpers/utils");
+const {playInterface, getRetosSuperados, byRanking} = require("../helpers/utils");
 const {models} = require("../models");
 const queries = require("../queries");
+const {sendJoinTeam} = require("../helpers/sockets");
 
 
 // GET /escapeRooms/:escapeRoomId/play
@@ -33,17 +34,7 @@ exports.ranking = async (req, res, next) => {
 
             return {...team, count, startTime, result, finishTime};
         }).
-            sort((a, b) => {
-                if (a.count > b.count) {
-                    return -1;
-                } else if (a.count < b.count) {
-                    return 1;
-                }
-                if (a.finishTime < b.finishTime) {
-                    return -1;
-                }
-                return 1;
-            });
+            sort(byRanking);
         next();
     } catch (e) {
         console.error(e);
@@ -67,11 +58,11 @@ exports.finish = async (req, res) => {
 exports.startPlaying = async (req, res) => {
     const {escapeRoom} = req;
     const team = await models.team.findOne({
-        "attributes": ["id", "startTime"],
+        "attributes": ["name", "id", "startTime"],
         "include": [
             {
                 "model": models.user,
-                "attributes": [],
+                "attributes": ["name", "surname"],
                 "as": "teamMembers",
                 "where": {"id": req.session.user.id}
             },
@@ -82,18 +73,34 @@ exports.startPlaying = async (req, res) => {
             }
         ]
     });
+    let inUser = [req.session.user.id];
 
-    if (team && !team.turno.startTime && !(team.startTime instanceof Date && isFinite(team.startTime))) {
-        team.startTime = new Date();
-        await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
-        await models.participants.update({"attendance": true}, { // Register attendance for self-paced shifts
-            "where": {
-                [Op.and]: [
-                    {"turnId": team.turno.id},
-                    {"userId": req.session.user.id}
-                ]
+    switch (escapeRoom.automaticAttendance) {
+    case "team":
+        inUser = await team.getTeamMembers({"attributes": ["id"]}).map((t) => t.id);
+        // eslint-disable-next-line no-fallthrough
+    case "participant":
+        await models.participants.update(
+            { "attendance": true },
+            {
+                "where": {
+                    [Op.and]: [
+                        {"turnId": team.turno.id},
+                        {"userId": {[Op.in]: inUser}}
+                    ]
+                }
             }
-        });
+        );
+        break;
+    case "none":
+    default:
+        break;
+    }
+
+    if (team && !(team.startTime instanceof Date && isFinite(team.startTime))) {
+        team.startTime = new Date();
+        sendJoinTeam(team);
+        await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
     }
     res.redirect(`/escapeRooms/${escapeRoom.id}/play`);
 };

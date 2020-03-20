@@ -19,27 +19,24 @@ exports.escapeRoomsForUser = (escapeRoomId, userId) => ({
                 },
                 {
                     "model": models.turno,
-                    "where": {
-                        escapeRoomId
-                    },
+                    "where": {escapeRoomId},
                     "required": true
                 }
 
             ]
         }
     ],
-    "where": {
-        "id": userId
-    }
+    "where": {"id": userId}
 });
 
-exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints) => {
+exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints, includeTeamsThatDidntAttend) => {
     const options = {
         "include": [
             {
                 "model": models.team,
                 "as": "teamsAgregados",
                 "required": true,
+                "where": includeTeamsThatDidntAttend ? {} : {"startTime": {[Sequelize.Op.ne]: null}},
                 "include": [
                     {
                         "model": models.turno,
@@ -48,18 +45,14 @@ exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints) 
                             "model": models.escapeRoom,
                             "attributes": [],
                             "required": true,
-                            "where": {
-                                "id": escapeRoomId
-                            }
+                            "where": {"id": escapeRoomId}
                         }
                     },
                     {
                         "model": models.puzzle,
                         // "attributes": ["id"],
                         "as": "retos",
-                        "through": {
-                            "model": models.retosSuperados
-                        }
+                        "through": {"model": models.retosSuperados}
                     }
 
                 ]
@@ -75,9 +68,7 @@ exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints) 
                     "startTime"
 
                 ],
-                "where": {
-                    escapeRoomId
-                },
+                "where": {escapeRoomId},
                 "through": {
                     "model": models.participants,
                     "attributes": ["attendance"]
@@ -99,9 +90,7 @@ exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints) 
     if (includeReqHints) {
         options.include[0].include.push({
             "model": models.requestedHint,
-            "include": {
-                "model": models.hint
-            }
+            "include": {"model": models.hint}
         });
     }
     return options;
@@ -127,11 +116,11 @@ exports.participantsWithTurnoAndTeam = (escapeRoomId, turnId, orderBy) => {
                     "id",
                     "date"
                 ],
-                "where": {
-                    escapeRoomId
-                },
-                "through": {"model": models.participants,
-                    "attributes": ["attendance"]}
+                "where": {escapeRoomId},
+                "through": {
+                    "model": models.participants,
+                    "attributes": ["attendance"]
+                }
             },
             {
                 "model": models.team,
@@ -141,9 +130,7 @@ exports.participantsWithTurnoAndTeam = (escapeRoomId, turnId, orderBy) => {
                 "attributes": ["id"],
                 "include": {
                     "model": models.turno,
-                    "where": {
-                        escapeRoomId
-                    }
+                    "where": {escapeRoomId}
                 }
 
             }

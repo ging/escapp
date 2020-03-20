@@ -57,9 +57,7 @@ exports.create = async (req, res, next) => {
 exports.new = async (req, res, next) => {
     try {
         const escapeRooms = await models.escapeRoom.findAll({
-            "where": {
-                "authorId": req.session.user.id
-            },
+            "where": {"authorId": req.session.user.id},
             "attributes": ["id", "title"],
             "include": {
                 "model": models.puzzle,
@@ -90,9 +88,7 @@ exports.show = async (req, res) => {
 exports.edit = async (req, res, next) => {
     try {
         const escapeRooms = await models.escapeRoom.findAll({
-            "where": {
-                "authorId": req.session.user.id
-            },
+            "where": {"authorId": req.session.user.id},
             "attributes": ["id", "title"],
             "include": {
                 "model": models.puzzle,

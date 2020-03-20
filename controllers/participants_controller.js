@@ -4,6 +4,18 @@ const Sequelize = require("sequelize");
 const {Op} = Sequelize;
 const queries = require("../queries");
 
+exports.checkJoinToken = (req, res, next) => {
+    const token = req.query.token || req.body.token;
+
+    if (token !== req.escapeRoom.invitation) {
+        req.flash("error", req.app.locals.i18n.participant.wrongToken);
+        res.redirect(`/escapeRooms/${req.escapeRoom.id}/join`);
+    } else {
+        req.token = token;
+        next();
+    }
+};
+
 // POST  /escapeRooms/:escapeRoomId/users/:userId/selectTurno
 exports.selectTurno = (req, res, next) => {
     const {escapeRoom} = req;
@@ -13,7 +25,7 @@ exports.selectTurno = (req, res, next) => {
         req.params.turnoId = req.body.turnSelected;
         next();
     } else {
-        const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.body.turnSelected}/teams`;
+        const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.body.turnSelected}/teams?token=${req.token}`;
 
         res.redirect(direccion);
     }
@@ -88,7 +100,7 @@ exports.studentLeave = async (req, res, next) => {
             res.redirect("back");
             return;
         } else if (!req.user && req.session.user.isStudent) {
-            if (req.turn.status !== "pending") {
+            if (req.turn.status !== "pending" || !req.turn.status.startTime) {
                 req.flash("error", `${req.app.locals.i18n.common.flash.errorStudentLeave}`);
                 res.redirect("/");
                 return;
@@ -100,8 +112,12 @@ exports.studentLeave = async (req, res, next) => {
 
 
         await req.team.removeTeamMember(user);
-        const participant = await models.participants.findOne({"where": {turnId,
-            userId}});
+        const participant = await models.participants.findOne({
+            "where": {
+                turnId,
+                userId
+            }
+        });
 
         await participant.destroy();
         if (req.session.user.isStudent) {

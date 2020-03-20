@@ -21,35 +21,45 @@ arrDates[3].setDate(arrDates[3].getDate() + 1);
 arrDates[3].setHours(11);
 arrDates[3].setMinutes(0);
 
-module.exports = {"up": (queryInterface) => queryInterface.bulkInsert("turnos", [
-    {"escapeRoomId": 1,
-        "date": arrDates[0],
-        "startTime": arrDates[0],
-        "status": "finished",
-        "indications": "No hay indicaciones",
-        "createdAt": new Date(),
-        "updatedAt": new Date()},
-    {"escapeRoomId": 1,
-        "date": arrDates[1],
-        "startTime": arrDates[1],
-        "status": "finished",
-        "indications": "No hay indicaciones",
-        "createdAt": new Date(),
-        "updatedAt": new Date()},
-    {"escapeRoomId": 1,
-        "date": arrDates[2],
-        "startTime": arrDates[2],
-        "status": "finished",
-        "indications": "No hay indicaciones",
-        "createdAt": new Date(),
-        "updatedAt": new Date()},
-    {"escapeRoomId": 1,
-        "date": arrDates[3],
-        "status": "pending",
-        "indications": "No hay indicaciones",
-        "createdAt": new Date(),
-        "updatedAt": new Date()}
+module.exports = {
+    "up": (queryInterface) => queryInterface.bulkInsert("turnos", [
+        {
+            "escapeRoomId": 1,
+            "date": arrDates[0],
+            "startTime": arrDates[0],
+            "status": "finished",
+            "indications": "No hay indicaciones",
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+        },
+        {
+            "escapeRoomId": 1,
+            "date": arrDates[1],
+            "startTime": arrDates[1],
+            "status": "finished",
+            "indications": "No hay indicaciones",
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+        },
+        {
+            "escapeRoomId": 1,
+            "date": arrDates[2],
+            "startTime": arrDates[2],
+            "status": "finished",
+            "indications": "No hay indicaciones",
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+        },
+        {
+            "escapeRoomId": 1,
+            "date": arrDates[3],
+            "status": "pending",
+            "indications": "No hay indicaciones",
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+        }
 
-]),
+    ]),
 
-"down": (queryInterface) => queryInterface.bulkDelete("turnos", null, {})};
+    "down": (queryInterface) => queryInterface.bulkDelete("turnos", null, {})
+};
