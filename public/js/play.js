@@ -120,6 +120,7 @@ const onPuzzleResponse = async ({success, puzzleId, msg, auto}) => {
       if (puzzlesPassed === totalPuzzles) {
         await forMs(1200);
         $('#finishPuzzles').html(finishTemplate());
+        confetti.start(10000);
       } else {
         const puzzleIndex = escapeRoomPuzzles.findIndex(puzzle => puzzle.id == puzzleId);
         if (puzzleIndex > -1  && puzzleIndex < (escapeRoomPuzzles.length - 1) && !escapeRoomPuzzles[puzzleIndex + 1].automatic){
