@@ -17,6 +17,7 @@ const SOLVE_PUZZLE = "SOLVE_PUZZLE";
 const START = "START";
 const STOP = "STOP";
 const JOIN = "JOIN";
+const JOIN_TEAM = "JOIN_TEAM";
 
 const getInfoFromSocket = ({request, handshake}) => {
     const userId = request.session.user.id;
@@ -95,7 +96,7 @@ const revokeAccess = (socketId) => sendIndividualMessage({"type": "ERROR", "payl
 const broadcastRanking = (teamId, puzzleId, time, turnId) => sendTurnMessage({"type": RANKING, "payload": {teamId, puzzleId, time}}, turnId);
 const initialRanking = (socketId, teams) => sendIndividualMessage({"type": INITIAL_RANKING, "payload": {teams}}, socketId);
 const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN, "payload": {username}}, teamId);
-
+const joinTeam = (turnId, team) => sendTurnMessage({"type": JOIN_TEAM, "payload": {team}}, turnId);
 /** Client-server**/
 
 const join = async (teamId, username) => {
@@ -179,6 +180,10 @@ const sendInitialRanking = async (socketId, userId, teamId, escapeRoomId, turnoI
     initialRanking(socketId, teams);
 };
 
+const sendJoinTeam = (team) => {
+    joinTeam(team.turno.id, team);
+};
+
 const requestHint = async (teamId, status, score) => {
     const team = await models.team.findByPk(teamId, {
         "include": [
@@ -227,10 +232,9 @@ const requestHint = async (teamId, status, score) => {
     }
 };
 
-const stopTurno = async (turnId) => {
-    await stopResponse(turnId);
+const stopTurno = (turnId) => {
+    stopResponse(turnId);
 };
-
 
 module.exports = {
     join,
@@ -244,6 +248,7 @@ module.exports = {
     broadcastRanking,
     getInfoFromSocket,
     sendInitialRanking,
+    sendJoinTeam,
     START,
     DISCONNECT,
     SOLVE_PUZZLE,

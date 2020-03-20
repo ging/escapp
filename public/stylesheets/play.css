@@ -193,3 +193,17 @@ p {
 .ranking-table .ranking-row .ranking-pos {
   transform: scale(1.5);
 }
+@media (max-width: 700px) {
+  .ranking-table .ranking-row .ranking-team {
+    width: 30%;
+  }
+  .ranking-table .ranking-row .ranking-members {
+    display: none;
+  }
+  .ranking-table .ranking-row .ranking-res {
+    width: 35%;
+  }
+  .ranking-table .ranking-row .ranking-time {
+    width: 35%;
+  }
+}

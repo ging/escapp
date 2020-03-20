@@ -2,6 +2,7 @@ const {Op} = require("sequelize");
 const {playInterface, getRetosSuperados} = require("../helpers/utils");
 const {models} = require("../models");
 const queries = require("../queries");
+const {sendJoinTeam} = require("../helpers/sockets");
 
 
 // GET /escapeRooms/:escapeRoomId/play
@@ -67,11 +68,11 @@ exports.finish = async (req, res) => {
 exports.startPlaying = async (req, res) => {
     const {escapeRoom} = req;
     const team = await models.team.findOne({
-        "attributes": ["id", "startTime"],
+        "attributes": ["name", "id", "startTime"],
         "include": [
             {
                 "model": models.user,
-                "attributes": [],
+                "attributes": ["name", "surname"],
                 "as": "teamMembers",
                 "where": {"id": req.session.user.id}
             },
@@ -108,6 +109,8 @@ exports.startPlaying = async (req, res) => {
 
     if (team && !(team.startTime instanceof Date && isFinite(team.startTime))) {
         team.startTime = new Date();
+        console.log("iiii", team.turno.id, team);
+        sendJoinTeam(team);
         await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
     }
     res.redirect(`/escapeRooms/${escapeRoom.id}/play`);

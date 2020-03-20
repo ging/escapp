@@ -49,8 +49,8 @@
                 </a>
             <% } %>
             <% if (user && !user.isStudent) { %>
-            <a href="/escapeRooms/new" class="escapeRoomItemWrapper animated bounceIn">
-                <div class="escapeRoomItem addEscapeRoom" style="animation-delay: <%=escapeRooms ? (escapeRooms.length * 100 + 100): 0 %>ms;">
+            <a href="/escapeRooms/new" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=escapeRooms ? (escapeRooms.length * 100 + 100): 0 %>ms;">
+                <div class="escapeRoomItem addEscapeRoom" >
                         <span>+</span>
                 </div>
             </a>

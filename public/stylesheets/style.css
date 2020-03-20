@@ -2256,7 +2256,7 @@ button, input[type="submit"] {
       margin: auto; }
     .ranking .content .podium {
       width: 100%;
-      height: 75vh;
+      height: 75vmin;
       display: flex;
       flex-direction: row;
       overflow-y: hidden; }
@@ -2268,9 +2268,9 @@ button, input[type="submit"] {
         align-items: center; }
         .ranking .content .podium .podium-col .podium-label {
           text-align: center;
-          padding: 5px 25px;
+          padding: 5px 3vmin;
           font-family: Lato, sans-serif;
-          font-size: 24px;
+          font-size: 3vmin;
           color: #48C18E;
           background: white;
           margin: 10px;
@@ -2284,9 +2284,9 @@ button, input[type="submit"] {
           flex: 1;
           background-color: #F47E84;
           width: 100%;
-          font-size: 13vh;
+          font-size: 13vmin;
           text-align: center;
-          line-height: 26vh;
+          line-height: 26vmin;
           vertical-align: text-bottom;
           max-height: 0;
           transition: max-height 2s ease-in-out; }
@@ -2298,14 +2298,14 @@ button, input[type="submit"] {
           animation-delay: 5s; }
         .ranking .content .podium .podium-col .star {
           color: #FAC855;
-          font-size: 15vh;
+          font-size: 15vmin;
           animation-delay: 1s; }
       .ranking .content .podium.started .podium-col.first .podium-rect {
-        max-height: 70vh; }
+        max-height: 70vmin; }
       .ranking .content .podium.started .podium-col.second .podium-rect {
-        max-height: 33vh; }
+        max-height: 33vmin; }
       .ranking .content .podium.started .podium-col.third .podium-rect {
-        max-height: 23vh; }
+        max-height: 23vmin; }
     .ranking .content .filters {
       text-align: left; }
     .ranking .content .ranking-table {
@@ -2351,6 +2351,16 @@ button, input[type="submit"] {
           width: 15%; }
         .ranking .content .ranking-table .ranking-row .ranking-pos {
           transform: scale(1.5); }
+
+@media (max-width: 600px) {
+  .ranking .content .ranking-table .ranking-row .ranking-team {
+    width: 30%; }
+  .ranking .content .ranking-table .ranking-row .ranking-members {
+    display: none; }
+  .ranking .content .ranking-table .ranking-row .ranking-res {
+    width: 35%; }
+  .ranking .content .ranking-table .ranking-row .ranking-time {
+    width: 35%; } }
 
 .showStudent .flex {
   display: flex; }
@@ -2970,7 +2980,11 @@ html {
   vertical-align: middle; }
 
 .errorPage pre {
-  font-size: 16px; }
+  font-size: 16px;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap; }
 
 .centered {
   text-align: center; }

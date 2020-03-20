@@ -8,7 +8,7 @@
 			margin: auto
 		.podium
 			width: 100%
-			height: 75vh
+			height: 75vmin
 			display: flex
 			flex-direction: row
 			overflow-y: hidden
@@ -21,9 +21,9 @@
 				transition: 
 				.podium-label
 					text-align: center
-					padding:  5px 25px
+					padding:  5px 3vmin
 					font-family: Lato, sans-serif
-					font-size: 24px
+					font-size: 3vmin
 					color: $brightgreen
 					background: white
 					margin: 10px
@@ -37,9 +37,9 @@
 					flex: 1
 					background-color: $lightred
 					width: 100%
-					font-size: 13vh
+					font-size: 13vmin
 					text-align: center
-					line-height: 26vh
+					line-height: 26vmin
 					vertical-align: text-bottom
 					max-height: 0
 					transition: max-height 2s ease-in-out
@@ -54,20 +54,20 @@
 						animation-delay: 5s	
 				.star
 					color: $brightyellow
-					font-size: 15vh
+					font-size: 15vmin
 					animation-delay: 1s
 
 			&.started
 				.podium-col
 					&.first
 						.podium-rect
-							max-height: 70vh
+							max-height: 70vmin
 					&.second
 						.podium-rect
-							max-height: 33vh
+							max-height: 33vmin
 					&.third
 						.podium-rect
-							max-height: 23vh
+							max-height: 23vmin
  	.filters
  		text-align: left
  	.ranking-table
@@ -114,3 +114,13 @@
 	 			width: 15%
 	 		.ranking-pos
 	 		    transform: scale(1.5)
+@media (max-width: 600px)
+	.ranking .content .ranking-table .ranking-row 
+		.ranking-team
+			width: 30%
+		.ranking-members
+			display: none
+		.ranking-res
+			width: 35%
+		.ranking-time
+			width: 35%

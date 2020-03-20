@@ -6,14 +6,14 @@ module.exports = {
     up (queryInterface) {
         return queryInterface.bulkInsert("users", [
             {
-                "name": "Maria",
-                "surname": "Garcia Valiente",
+                "name": "Sonsoles ¡",
+                "surname": "López Pernas",
                 "gender": "Femenino",
                 "username": "admin@upm.es",
                 "password": crypt.encryptPassword("1234", "aaaa"),
                 "salt": "aaaa",
-                "isAdmin": true,
-                "dni": "18737085C",
+                "isAdmin": !process.env.TEST,
+                "dni": "xxxxxxxxx",
                 "createdAt": new Date(),
                 "updatedAt": new Date()
             },

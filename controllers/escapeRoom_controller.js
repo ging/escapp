@@ -363,7 +363,7 @@ exports.destroy = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/join
-exports.studentToken = async (req, res) => {
+exports.studentToken = async (req, res, next) => {
     const {escapeRoom} = req;
 
     const participant = await models.participants.findOne({
@@ -375,8 +375,11 @@ exports.studentToken = async (req, res) => {
 
     if (participant) {
         res.redirect(`/escapeRooms/${escapeRoom.id}`);
+    } else if (req.session.user.isStudent) {
+        res.render("escapeRooms/indexInvitation", {escapeRoom, "token": req.query.token});
     } else {
-        res.render("escapeRooms/indexInvitation", {escapeRoom, token: req.query.token});
+        res.status(403);
+        next(new Error(403));
     }
 };
 

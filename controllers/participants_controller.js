@@ -8,7 +8,7 @@ exports.checkJoinToken = (req, res, next) => {
     const token = req.query.token || req.body.token;
 
     if (token !== req.escapeRoom.invitation) {
-        req.flash("error", req.app.locals.i18n.participant.wrongToken )
+        req.flash("error", req.app.locals.i18n.participant.wrongToken);
         res.redirect(`/escapeRooms/${req.escapeRoom.id}/join`);
     } else {
         req.token = token;
