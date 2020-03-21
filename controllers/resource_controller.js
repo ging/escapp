@@ -1,19 +1,28 @@
 const Sequelize = require("sequelize");
+const {Op} = Sequelize;
 const sequelize = require("../models");
 const {models} = sequelize;
 
 // Autoload the resource with id equals to :resourceId
 exports.load = async (req, res, next, resourceId) => {
     try {
-        const resource = await models.resource.findByPk(resourceId, {"include": [{"model": models.app}]});
-
+        const resource = await models.resource.findByPk(resourceId, {
+            "include": [
+                { "model": models.app },
+                {
+                    "model": models.puzzle,
+                    "required": false
+                }
+            ]
+        });
         if (resource) {
-        	req.resource = resource;
-        	next();
+            req.resource = resource;
+            next();
         } else {
-        	throw new Error(req.app.locals.i18n.api.notFound);
+            throw new Error(req.app.locals.i18n.api.notFound);
         }
     } catch (error) {
+        console.error(error)
         res.status(500);
         next(error);
     }
@@ -27,7 +36,7 @@ exports.showGuide = (req, res) => res.render("inspiration/inspiration");
 exports.showResources = (req, res) => res.render("inspiration/resources");
 
 // GET /resources/my
-exports.index = async (req, res) => {
+exports.index = async (req, res, next) => {
     try {
         const resources = await models.resource.findAll({"include": [{"model": models.app}], "where": {"authorId": req.session.user.id}});
 
@@ -72,12 +81,47 @@ exports.new = async (req, res, next) => {
 };
 
 // GET /resources/:resourceId
-exports.show = async (req, res) => {
+exports.show = async (req, res, next) => {
     try {
-        if (req.query.full) {
-            res.render(`inspiration/apps/${req.resource.app.key}/show`, {"layout": false, "resource": req.resource});
+        const {query, resource} = req;
+        let isAuthor = false;
+
+        if (resource && resource.puzzle) {
+            if (req.session.user) {
+                isAuthor = resource.authorId === req.session.user.id;
+                if (!isAuthor) {
+                    const isParticipant = await models.user.findOne({
+                        "where": { "id": req.session.user.id },
+                        "include": [
+                            {
+                                "model": models.turno,
+                                "through": "participants",
+                                "as": "turnosAgregados",
+                                "include": {
+                                    "model": models.escapeRoom,
+                                    "include": [
+                                        {
+                                            "model": models.puzzle,
+                                            "where": { "id": resource.puzzle.id }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    });
+
+                    if (!isParticipant) {
+                        throw new Error(403);
+                    }
+                }
+            } else {
+                throw new Error(403);
+            }
+        }
+        if (query.full) {
+            res.render(`inspiration/apps/${resource.app.key}/show`, {"layout": false, resource});
         } else {
-            res.render("inspiration/apps/show", {"resource": req.resource});
+            res.render("inspiration/apps/show", {resource, isAuthor});
         }
     } catch (err) {
         next(err);
@@ -118,5 +162,9 @@ exports.update = async (req, res, next) => {
 
 // DELETE /resources/:resourceId
 exports.destroy = async (req, res, next) => {
-
+    try {
+        await req.resource.destroy();
+    } catch (err) {
+        next(err);
+    }
 };
