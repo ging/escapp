@@ -188,6 +188,7 @@
         "ideas": "Puzzle ideas",
         "mainPage": "Main page",
         "next": "next",
+        "save": "save",
         "orderBy": "Order by",
         "previous": "back",
         "profile": "Profile",
@@ -462,7 +463,7 @@
         }
     },
     "resources": {
-        "title": "Escape Room resources",
+        "title": "Resources for creating puzzles",
         "coded": "Encoded messages",
         "assembly": "Form the parts of an object",
         "info": "Dig out information",
@@ -492,8 +493,11 @@
         "selectResource": "Select a puzzle",
         "my": "My puzzles",
         "share": "share",
-        "edit": "edit"
-
+        "shareIntro": "You can use this link to share the puzzle with your students",
+        "edit": "edit",
+        "delete": "delete",
+        "outside": "Other resources out of the scope of escapp",
+        "intro": "The collection of puzzles below allows you to connect digital puzzle applications with the puzzle outline that you defined for your escapp escape room. You can customize their settings and share them with your students as a part of your escape room."
     },
     "participant": {
         "attendanceSaved": "Attendance successfully saved",

@@ -14,6 +14,7 @@ const membersController = require("../controllers/members_controller");
 const analyticsController = require("../controllers/analytics_controller");
 const resourceController = require("../controllers/resource_controller");
 const resourceAppController = require("../controllers/resource_app_controller");
+const apiController = require("../controllers/api_controller");
 
 const multer = require("multer"),
     upload = multer({"dest": "./uploads/"});
@@ -138,6 +139,7 @@ router.get("/escapeRooms/:escapeRoomId(\\d+)/finish", sessionController.loginReq
 router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/play", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, playController.ranking, playController.classInterface);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/finish", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, playController.ranking, playController.finish);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/confirm", sessionController.loginRequired, participantController.confirmAttendance);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles/:puzzleId(\\d+)/check", sessionController.loginRequired, escapeRoomController.adminOrAuthorOrParticipantRequired, apiController.checkParticipantSession, apiController.checkPuzzle);
 
 // Routes for the resource participants of a turn
 router.post("/escapeRooms/:escapeRoomId(\\d+)/users/:userId(\\d+)/selectTurno", sessionController.loginRequired, sessionController.studentOrAdminRequired, participantController.checkJoinToken, participantController.selectTurno, teamController.create);
@@ -171,15 +173,13 @@ router.get("/escapeRooms/:escapeRoomId/analytics/puzzles/teams", sessionControll
 router.get("/escapeRooms/:escapeRoomId/analytics/grading", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.grading);
 router.get("/escapeRooms/:escapeRoomId/analytics/download", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, analyticsController.download);
 
-// Routes for guid/apps/resources
-router.get("/inspiration", sessionController.loginRequired, resourceController.showGuide);
-router.get("/resources", sessionController.loginRequired, resourceController.showResources);
+// Routes for guide/apps/resources
+router.get("/inspiration", resourceController.showGuide);
 router.get("/apps/new", sessionController.loginRequired, sessionController.adminRequired, resourceAppController.new);
 router.post("/apps/", sessionController.loginRequired, sessionController.adminRequired, resourceAppController.create);
 router.post("/apps/:appId", sessionController.loginRequired, sessionController.adminRequired, resourceController.create);
 router.delete("/apps/:appId", sessionController.loginRequired, sessionController.adminRequired, resourceAppController.destroy);
-router.get("/resources/my", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.index);
-router.get("/resources/new", sessionController.loginRequired, sessionController.notStudentRequired, resourceAppController.index);
+router.get("/resources", sessionController.loginRequired, sessionController.notStudentRequired, resourceAppController.index);
 router.get("/resources/:appId/new", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.new);
 router.get("/resources/:resourceId", resourceController.show);
 router.get("/resources/:resourceId/edit", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.edit);

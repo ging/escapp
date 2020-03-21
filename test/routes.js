@@ -122,7 +122,7 @@ exports.publicRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
     },
     {
         "route": "/inspiration",
-        "statusCode": 302
+        "statusCode": 200
     },
     {
         "route": "/resources",

@@ -1,7 +1,15 @@
 .main.resources
 	font-size: 18px
-	*:not(i):not(h2)
+	background: none
+	p
 		font-family: Lato, sans-serif
+		
+	#resourceList
+		.icon
+			vertical-align: middle
+			margin-right: 10px
+		*:not(i):not(h2)
+			font-family: Lato, sans-serif
 	h3
 		font-weight: bold
 
@@ -16,37 +24,38 @@
 		align-items: center
 		margin: 10px
 		padding: 10px
-		
 
-	.container 
-		position: relative
-		width: 100%
-		width: 100px
-		height: 100px
-		overflow: hidden
-		border-radius: 10px
-		margin: 5px
-	.image 
-		display: block
-		height: 150px
-		width: auto
-		transform: translate(-50px, -25px) scale(0.75)
-		
-	.overlay 
-		position: absolute
-		top: 0
-		bottom: 0
-		left: 0
-		right: 0
-		height: 100%
-		width: 100%
-		opacity: 0
-		transition: .5s ease
-		background-color: $lightred
-		border-radius : 10px
-		
-	.container:hover .overlay 
-		opacity: 1
+
+		.container 
+			position: relative
+			width: 100%
+			width: 100px
+			height: 100px
+			overflow: hidden
+			border-radius: 10px
+			margin: 5px
+			border: 5px solid white
+
+		.image 
+			display: block
+			height: 150px
+			width: auto
+			transform: translate(-56px, -31px) scale(0.75)
+			
+		.overlay 
+			position: absolute
+			top: 0
+			bottom: 0
+			left: 0
+			right: 0
+			height: 100%
+			width: 100%
+			opacity: 0
+			transition: .5s ease
+			background-color: $lightred
+			
+		.container:hover .overlay 
+			opacity: 1
 
 	.text 
 		color: white

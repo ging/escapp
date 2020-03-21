@@ -1,5 +1,3 @@
-const Sequelize = require("sequelize");
-const {Op} = Sequelize;
 const sequelize = require("../models");
 const {models} = sequelize;
 
@@ -15,6 +13,7 @@ exports.load = async (req, res, next, resourceId) => {
                 }
             ]
         });
+
         if (resource) {
             req.resource = resource;
             next();
@@ -22,7 +21,7 @@ exports.load = async (req, res, next, resourceId) => {
             throw new Error(req.app.locals.i18n.api.notFound);
         }
     } catch (error) {
-        console.error(error)
+        console.error(error);
         res.status(500);
         next(error);
     }
@@ -30,10 +29,6 @@ exports.load = async (req, res, next, resourceId) => {
 
 // GET /inspiration
 exports.showGuide = (req, res) => res.render("inspiration/inspiration");
-
-
-// GET /resources
-exports.showResources = (req, res) => res.render("inspiration/resources");
 
 // GET /resources/my
 exports.index = async (req, res, next) => {
@@ -115,13 +110,15 @@ exports.show = async (req, res, next) => {
                     }
                 }
             } else {
-                throw new Error(403);
+                res.redirect(`/?redir=${req.url}`);
             }
         }
         if (query.full) {
             res.render(`inspiration/apps/${resource.app.key}/show`, {"layout": false, resource});
         } else {
-            res.render("inspiration/apps/show", {resource, isAuthor});
+            const hostName = process.env.APP_NAME ? `https://${process.env.APP_NAME}` : "http://localhost:3000";
+
+            res.render("inspiration/apps/show", {resource, isAuthor, hostName});
         }
     } catch (err) {
         next(err);
@@ -140,7 +137,7 @@ exports.edit = async (req, res, next) => {
             }
         });
 
-        res.render("inspiration/apps/edit", {"app": req.resource.app, "resource": req.resource, escapeRooms});
+        res.render("inspiration/apps/form", {"app": req.resource.app, "resource": req.resource, escapeRooms});
     } catch (err) {
         next(err);
     }
@@ -164,6 +161,7 @@ exports.update = async (req, res, next) => {
 exports.destroy = async (req, res, next) => {
     try {
         await req.resource.destroy();
+        res.redirect("/resources/my");
     } catch (err) {
         next(err);
     }

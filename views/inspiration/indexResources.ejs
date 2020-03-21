@@ -11,7 +11,7 @@
 			<a href="/resources/<%= resource.id %>" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=100*i%>ms;">
 				<div class="escapeRoomItem">
 					<div class="erFoto" style="text-align: center">
-						<div class="bckgFoto" style="background-image: url(<% if (attachment) {%><%=attachment.url%><%} else {%>/images/placeholder.jpg<%}%>)"></div>
+						<div class="bckgFoto" style="background-image: url(/apps/<%=resource.app.key%>/thumbnail.png)"></div>
 						<div class="escapeRoomTitle"><%= config.title || resource.app.name %></div>
 					</div>
 	
@@ -20,13 +20,12 @@
 			
         <% } %>
         <% if (user && user.isAdmin) { %>
-            <a href="/resources/new" class="escapeRoomItemWrapper animated bounceIn">
+            <a href="/resources/" class="escapeRoomItemWrapper animated bounceIn">
                 <div class="escapeRoomItem addEscapeRoom">
                     <span>+</span>
                 </div>
             </a>
         <% } %>
 	</div>
-
 </div>
 <% include ../partials/_footer.ejs %>

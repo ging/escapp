@@ -12,16 +12,76 @@
     <iframe id="visor" class="embeddedResource" src="/resources/<%=resource.id%>?full=1"></iframe>
     <% if (isAuthor) { %>
         <div class="buttons">
-        <a href="/resources/<%=resource.id%>/edit">
-            <button class="rounded editButton">
-                <%=i18n.resources.edit%>
-            </button>
-        </a>
-            <button class="rounded acceptButton">
+            <button class="rounded acceptButton" id="share-button">
                 <%=i18n.resources.share%>
             </button>
-    </div>
+            <a href="/resources/<%=resource.id%>/edit">
+                <button class="rounded editButton">
+                    <%=i18n.resources.edit%>
+                </button>
+            </a>
+                
+            <a href="/resources/<%=resource.id%>?_method=DELETE">
+                <button class="rounded deleteButton">
+                    <%=i18n.resources.delete%>
+                </button>
+            </a>
+        </div>
     <% } %>
 </div>
+<div id="dialog-share" title="<%=i18n.showTeacher.titles.share%>">
+    <div>
+        
+        <% var invitationLink = hostName + "/resources/" + resource.id; %>
+        <p class=join-instructions>
+        <%=i18n.resources.shareIntro%>
+        </p>
+        <a class="show_link" href="<%= invitationLink %>"><%= invitationLink %></a>
+        <input id="joinUrl" value="<%= invitationLink %>" aria-label="<%=i18n.showTeacher.messages.copyAria%>"/>
+        <button title="<%=i18n.showTeacher.messages.copyTitle%>" class="copy" id="copyButton">
+        <span class="material-icons">file_copy</span></button>
+        <a class="show_link" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/<%= invitationLink %>"> 
+            <button class="qr" id="qrButton" title="<%=i18n.showTeacher.messages.qrTitle%>">
+                <span class="material-icons">camera_enhance</span>
+            </button>
+        </a>
+        
+    </div>
+</div>
+<script src="/js/vendor/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+    var dialogOptions = {
+        autoOpen: false,
+        resizable: false,
+        modal: true,
+        width: screen.width > 800 ? 860 : screen.width*0.9,
+        height: "auto",
+        show: {
+            effect: "scale",
+            duration: 400
+        },
+        hide: {
+            effect: "scale",
+            duration: 400
+        },
+        appendTo: '.main'
+    };
+
+    $( function() {
+            
+        $("#dialog-share").dialog(dialogOptions);
+
+        $( "#share-button" ).on( "click", function() {
+            $( "#dialog-share" ).dialog( "open" );
+        });
+
+        $('#copyButton').on('click', function() {
+            var copyText = $("#joinUrl");
+            copyText.select();
+            document.execCommand("copy");
+        });
+    });
+</script>
 
 

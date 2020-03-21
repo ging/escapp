@@ -173,44 +173,6 @@
 
 <div style="height: 100px"></div>
 
-
-
-<script src="/js/vendor/jquery-ui.min.js"></script>
-<script type="text/javascript">
-    var dialogOptions = {
-        autoOpen: false,
-        resizable: false,
-        width: screen.width > 800 ? 860 : screen.width*0.9,
-        height: "auto",
-        show: {
-            effect: "blind",
-            duration: 100
-        },
-        hide: {
-            effect: "explode",
-            duration: 400
-        },
-        appendTo: '.main'
-    };
-
-    $( function() {
-        $('#copyButton').on('click', function() {
-            var copyText = $("#joinUrl");
-            copyText.select();
-            document.execCommand("copy");
-        });
-
-        $("#dialog-preview-api").dialog(dialogOptions);
-
-        $( "#api-button" ).on( "click", function() {
-            $( "#dialog-preview-api" ).dialog( "open" );
-        }); 
-    });
-
-
-</script>
-
-
 <div id="dialog-share" title="<%=i18n.showTeacher.titles.share%>">
     <div>
         <% var invitationLink = hostName + "/escapeRooms/" + escapeRoom.id +"/join?token=" + escapeRoom.invitation; %>
@@ -281,12 +243,46 @@ fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/s
     </pre>
 
 </div>
-<script>
-    
-    $("#dialog-share").dialog(dialogOptions);
 
-    $( "#share-button" ).on( "click", function() {
-      $( "#dialog-share" ).dialog( "open" );
+<script src="/js/vendor/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    var dialogOptions = {
+        autoOpen: false,
+        resizable: false,
+        width: screen.width > 800 ? 860 : screen.width*0.9,
+        height: "auto",
+        modal: true,
+        show: {
+            effect: "scale",
+            duration: 400
+        },
+        hide: {
+            effect: "scale",
+            duration: 400
+        },
+        appendTo: '.main'
+    };
+
+    $( function() {
+
+        // API usage
+        $("#dialog-preview-api").dialog(dialogOptions);
+
+        $( "#api-button" ).on( "click", function() {
+            $( "#dialog-preview-api" ).dialog( "open" );
+        }); 
+
+        // Share ER link
+        $("#dialog-share").dialog(dialogOptions);
+
+        $( "#share-button" ).on( "click", function() {
+            $( "#dialog-share" ).dialog( "open" );
+        });
+
+        $('#copyButton').on('click', function() {
+            var copyText = $("#joinUrl");
+            copyText.select();
+            document.execCommand("copy");
+        });
     });
-
 </script>

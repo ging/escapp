@@ -367,9 +367,9 @@ button, input[type="submit"] {
     width: 100%;
     margin-bottom: 20px; }
   .showApp iframe.embeddedResource {
-    width: 104vh;
-    height: 78vh;
-    max-height: calc(100vh - 180px);
+    width: 96vh;
+    height: 72vh;
+    max-height: calc(100vh - 200px);
     max-width: 100%;
     border: none; }
   .showApp .buttons {
@@ -378,6 +378,10 @@ button, input[type="submit"] {
     @media (max-width: 720px) {
       .showApp .buttons button {
         font-size: 16px !important; } }
+
+#mainSection .main.apps {
+  height: auto;
+  min-height: 0px; }
 
 .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker {
   width: 20em;
@@ -417,6 +421,108 @@ button, input[type="submit"] {
     background-color: #48C18E !important;
     border-radius: 50%;
     color: black; }
+
+.main #dialog-preview-video, .main #dialog-preview-api, .main #dialog-share {
+  padding: 0;
+  background-color: white;
+  outline: none;
+  border: none; }
+  .main #dialog-preview-video #previewVideoContent, .main #dialog-preview-api #previewVideoContent, .main #dialog-share #previewVideoContent {
+    padding: 10px; }
+
+.main #api-button {
+  background: none;
+  color: white;
+  border: none; }
+
+.main #dialog-preview-api, .main #dialog-share {
+  padding: 15px;
+  color: #48C18E;
+  font-size: 20px;
+  margin-bottom: -4px; }
+  .main #dialog-preview-api .api-table td, .main #dialog-preview-api .api-table th, .main #dialog-share .api-table td, .main #dialog-share .api-table th {
+    font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    color: #656683; }
+    .main #dialog-preview-api .api-table td code, .main #dialog-preview-api .api-table th code, .main #dialog-share .api-table td code, .main #dialog-share .api-table th code {
+      font-family: monospace;
+      color: #F47E84; }
+  .main #dialog-preview-api .api-table th, .main #dialog-share .api-table th {
+    color: #F47E84;
+    font-weight: 600;
+    text-align: left; }
+  .main #dialog-preview-api .api-table pre#sample-fetch, .main #dialog-share .api-table pre#sample-fetch {
+    color: white;
+    padding: 15px;
+    font-size: 14px;
+    font-family: monospace;
+    background-color: #656683; }
+  .main #dialog-preview-api .show_link, .main #dialog-share .show_link {
+    font-family: 'Lato', sans-serif;
+    color: #161938;
+    text-decoration: underline;
+    text-underline-position: under; }
+  .main #dialog-preview-api #joinUrl, .main #dialog-share #joinUrl {
+    height: 10px;
+    opacity: 0.01;
+    width: 10px;
+    padding: 2px;
+    margin: 0px; }
+  .main #dialog-preview-api .copy, .main #dialog-preview-api .qr, .main #dialog-share .copy, .main #dialog-share .qr {
+    background: transparent;
+    border: none;
+    font-size: 1px;
+    color: #F3945E;
+    vertical-align: middle; }
+  .main #dialog-preview-api .qr, .main #dialog-share .qr {
+    color: #F47E84; }
+  .main #dialog-preview-api .join-instructions, .main #dialog-share .join-instructions {
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    color: #161938; }
+  .main #dialog-preview-api a, .main #dialog-share a {
+    color: #48C18E;
+    font-family: inherit; }
+  .main #dialog-preview-api .hl, .main #dialog-share .hl {
+    color: #36A2EB;
+    font-family: inherit; }
+
+.main .ui-dialog {
+  outline: none !important; }
+
+.main .ui-dialog-title {
+  line-height: 50px;
+  padding-left: 10px; }
+
+.main .ui-dialog-titlebar-close {
+  visibility: hidden;
+  float: right;
+  width: 50px; }
+
+.main .ui-button-icon-space {
+  visibility: visible; }
+  .main .ui-button-icon-space:after {
+    content: '\e5cd';
+    font-family: 'Material Icons'; }
+
+.main .ui-dialog .ui-dialog-titlebar {
+  background: white !important;
+  border-color: white !important;
+  color: #F47E84; }
+
+.main .ui-dialog {
+  z-index: 1; }
+
+.main .ui-widget-overlay {
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background: #161938;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.5; }
 
 #mainSection .main.steps > h1 {
   font-size: 1.5em; }
@@ -2638,8 +2744,14 @@ button, input[type="submit"] {
       background-image: linear-gradient(to right, var(--brightyellow) 80%, var(--mainpurple) 100%); }
 
 .main.resources {
-  font-size: 18px; }
-  .main.resources *:not(i):not(h2) {
+  font-size: 18px;
+  background: none; }
+  .main.resources p {
+    font-family: Lato, sans-serif; }
+  .main.resources #resourceList .icon {
+    vertical-align: middle;
+    margin-right: 10px; }
+  .main.resources #resourceList *:not(i):not(h2) {
     font-family: Lato, sans-serif; }
   .main.resources h3 {
     font-weight: bold; }
@@ -2653,33 +2765,33 @@ button, input[type="submit"] {
     align-items: center;
     margin: 10px;
     padding: 10px; }
-  .main.resources .container {
-    position: relative;
-    width: 100%;
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    border-radius: 10px;
-    margin: 5px; }
-  .main.resources .image {
-    display: block;
-    height: 150px;
-    width: auto;
-    transform: translate(-50px, -25px) scale(0.75); }
-  .main.resources .overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0;
-    transition: .5s ease;
-    background-color: #F47E84;
-    border-radius: 10px; }
-  .main.resources .container:hover .overlay {
-    opacity: 1; }
+    .main.resources .flex-screenshots .container {
+      position: relative;
+      width: 100%;
+      width: 100px;
+      height: 100px;
+      overflow: hidden;
+      border-radius: 10px;
+      margin: 5px;
+      border: 5px solid white; }
+    .main.resources .flex-screenshots .image {
+      display: block;
+      height: 150px;
+      width: auto;
+      transform: translate(-56px, -31px) scale(0.75); }
+    .main.resources .flex-screenshots .overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      transition: .5s ease;
+      background-color: #F47E84; }
+    .main.resources .flex-screenshots .container:hover .overlay {
+      opacity: 1; }
   .main.resources .text {
     color: white;
     font-size: 0.7em;

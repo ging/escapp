@@ -33,5 +33,5 @@ module.exports = {
         {"sync": {"force": true}}
     ),
 
-    "down": (queryInterface, Sequelize) => queryInterface.dropTable("resources")
+    "down": (queryInterface) => queryInterface.dropTable("resources")
 };

@@ -1,3 +1,7 @@
 <% include ../../partials/_header.ejs %>
+<% if (locals.resource) { %>
+    <script>
+        window.action = "/resources/<%=resource.id%>?_method=PUT";
+    </script>
+<% } %>
 <%- include(app.key + "/form") %>
-

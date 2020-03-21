@@ -37,6 +37,8 @@ exports.checkParticipant = async (req, res, next) => {
         ]
 
     });
+    [req.user] = users;
+
     next();
 };
 
@@ -71,6 +73,7 @@ exports.checkParticipantSafe = async (req, res, next) => {
                     }
                 ]
             });
+            req.user = user;
             next();
         } else {
             res.status(404).json({"msg": i18n.api.wrongCredentials});
@@ -78,6 +81,34 @@ exports.checkParticipantSafe = async (req, res, next) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({"msg": i18n.api.error});
+    }
+};
+
+exports.checkParticipantSession = async (req, res, next) => {
+    const {i18n} = req.app.locals;
+    const user = await models.user.findByPk(req.session.user.id);
+
+
+    if (user) {
+        req.teams = await user.getTeamsAgregados({
+            "include": [
+                {
+                    "model": models.turno,
+                    "required": true,
+                    "where": {"escapeRoomId": req.escapeRoom.id}, // Aquí habrá que añadir las condiciones de si el turno está activo, etc
+                    "include": [
+                        {
+                            "model": models.escapeRoom,
+                            "attributes": ["duration", "forbiddenLateSubmissions"] // ForbiddenLateSubmissions // Falta pasar a sockets.js
+                        }
+                    ]
+                }
+            ]
+        });
+        req.user = user;
+        next();
+    } else {
+        res.status(404).json({"msg": i18n.api.wrongCredentials});
     }
 };
 
@@ -98,33 +129,33 @@ exports.checkPuzzle = async (req, res) => {
                 const [team] = teams;
 
                 if (team.turno.status !== "active") {
-                    res.status(202).json({"msg": `${i18n.api.correctNotActive}. ${req.puzzle.correct ? `${i18n.api.message}: ${req.puzzle.correct}` : ""}`});
+                    res.status(202).json({"msg": `${i18n.api.correctNotActive}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`});
                     return;
                 }
                 if (isTooLate(team)) {
-                    res.status(202).json({"msg": `${i18n.api.correctTooLate}. ${req.puzzle.correct ? `${i18n.api.message}: ${req.puzzle.correct}` : ""}`});
+                    res.status(202).json({"msg": `${i18n.api.correctTooLate}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`});
                 } else {
-                    const msg = req.puzzle.correct || i18n.api.correct;
+                    const msg = puzzle.correct || i18n.api.correct;
 
-                    await req.puzzle.addSuperados(team.id);
-                    puzzleResponse(true, req.puzzle.id, msg, true, team.id);
-                    broadcastRanking(team.id, req.puzzle.id, new Date(), team.turno.id);
-
+                    await puzzle.addSuperados(team.id);
+                    puzzleResponse(true, puzzle.id, msg, true, team.id);
+                    broadcastRanking(team.id, puzzle.id, new Date(), team.turno.id);
                     res.json({msg});
                 }
-            } else if (users[0].isStudent) {
-                res.status(202).json({"msg": `${i18n.api.correctNotParticipant}. ${req.puzzle.correct ? `${i18n.api.message}: ${req.puzzle.correct}` : ""}`});
+            } else if (req.user.isStudent) {
+                res.status(202).json({"msg": `${i18n.api.correctNotParticipant}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`});
             } else {
-                res.status(202).json({"msg": req.puzzle.correct ? i18n.api.message : req.puzzle.correct});
+                res.status(202).json({"msg": puzzle.correct || i18n.api.correct});
             }
         } else {
-            res.status(401).json({"msg": req.puzzle.fail || i18n.api.wrong});
+            res.status(401).json({"msg": puzzle.fail || i18n.api.wrong});
         }
     } catch (e) {
         res.status(500).json({"msg": e});
     }
 };
 
+// POST /api/escapeRooms/:escapeRoomId/auth
 exports.auth = async (req, res) => {
     const {teams} = req;
     const {i18n} = req.app.locals;

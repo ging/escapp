@@ -81,7 +81,7 @@ $(function(){
             node.innerHTML = ` 
                 <div class="col-xs-12 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3" style="margin:auto;">
                     <div class="progress">
-                      <div class="progress-bar puzzle-progress" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar puzzle-progress bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>`;
 

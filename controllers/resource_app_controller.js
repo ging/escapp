@@ -1,4 +1,3 @@
-const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
 
@@ -8,10 +7,10 @@ exports.load = async (req, res, next, appId) => {
         const resourceApp = await models.app.findByPk(appId);
 
         if (resourceApp) {
-        	req.resourceApp = resourceApp;
-        	next();
+            req.resourceApp = resourceApp;
+            next();
         } else {
-        	throw new Error(req.app.locals.i18n.api.notFound);
+            throw new Error(req.app.locals.i18n.api.notFound);
         }
     } catch (error) {
         res.status(500);
@@ -20,7 +19,7 @@ exports.load = async (req, res, next, appId) => {
 };
 
 // GET /apps/new
-exports.new = async (req, res, next) => {
+exports.new = (_, res) => {
     const app = {"name": "", "description": "", "key": ""};
 
     res.render("inspiration/newApp", {app});
@@ -28,10 +27,14 @@ exports.new = async (req, res, next) => {
 
 // POST /apps
 exports.create = async (req, res, next) => {
-    const {name, key, description} = req.body;
+    try {
+        const {name, key, description} = req.body;
 
-    await models.app.create({name, key, description});
-    res.redirect("/apps/");
+        await models.app.create({name, key, description});
+        res.redirect("/apps/");
+    } catch (err) {
+        next(err);
+    }
 };
 
 // GET /resources/new
@@ -43,5 +46,10 @@ exports.index = async (req, res) => {
 
 // DELETE /apps/:appId
 exports.destroy = async (req, res, next) => {
-    res.send("Not yet implemented");
+    try {
+        await req.app.destroy();
+        res.redirect("/resources/new");
+    } catch (err) {
+        next(err);
+    }
 };

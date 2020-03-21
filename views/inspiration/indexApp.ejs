@@ -1,22 +1,19 @@
 <% include ../partials/_header.ejs %>
-<div class="main escapeRooms">
-	<h1>
-		<%=i18n.resources.selectApp%>
-	</h1>
+<div class="main resources escapeRooms apps ">
+	<h1><%=i18n.resources.title%></h1>
+	<p><%=i18n.resources.intro%></p>
 	<div class="flexBoxEscapeRooms">
 		<% for (var i in apps) { %>
 			<% var app = apps[i]; %>
 			<% var attachment = app.attachment; %>
-			<a href="/resources/<%= app.id %>/new" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=100*i%>ms;">
+			<a href="/resources/<%= app.id %>/new" title="<%=app.description%>" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=100*i%>ms;">
 				<div class="escapeRoomItem">
 					<div class="erFoto" style="text-align: center">
-						<div class="bckgFoto" style="background-image: url(<% if (attachment) {%><%=attachment.url%><%} else {%>/images/placeholder.jpg<%}%>)"></div>
+						<div class="bckgFoto" style="background-image: url(/apps/<%=app.key%>/thumbnail.png)"></div>
 						<div class="escapeRoomTitle"><%= app.name %></div>
 					</div>
-	
 				</div>
 			</a>
-			
 		<% } %>
 		<% if (user && user.isAdmin) { %>
 			<a href="/apps/new" class="escapeRoomItemWrapper animated bounceIn">
@@ -26,6 +23,8 @@
 			</a>
 		<% } %>
 	</div>
-
+	<div id="resourceList">
+		<% include ./resources.ejs %>
+	</div>
 </div>
 <% include ../partials/_footer.ejs %>

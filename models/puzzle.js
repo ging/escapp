@@ -6,12 +6,8 @@ module.exports = function (sequelize, DataTypes) {
                 "type": DataTypes.STRING,
                 "validate": {"notEmpty": {"msg": "El título no puede estar vacío."}}
             },
-            "sol": {
-                "type": DataTypes.STRING
-            },
-            "desc": {
-                "type": DataTypes.STRING
-            },
+            "sol": {"type": DataTypes.STRING},
+            "desc": {"type": DataTypes.STRING},
             "order": {
                 "type": DataTypes.INTEGER,
                 "allowNull": false

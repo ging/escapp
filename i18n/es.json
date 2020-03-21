@@ -186,7 +186,9 @@
         "previous": "anterior",
         "profile": "Mi perfil",
         "total": "total",
-        "Total": "Total"
+        "Total": "Total",
+        "save": "guardar"
+
     },
     "escapeRoom": {
         "api":{
@@ -258,7 +260,7 @@
                 "youCanUse": "Puedes utilizar",
                 "puzzle": "Reto",
                 "weight": "Peso",
-                "automaticAttendance": "Marcar asistencia automáticamente cuando un estudiante accede a la escape rom en su turno",
+                "automaticAttendance": "Marcar asistencia automáticamente cuando un estudiante acceda a la escape room en su turno",
                 "automaticAttendanceNone": "No marcar asistencia automáticamente en ningún caso",
                 "automaticAttendanceParticipant": "Marcar asistencia sólo a ese estudiante",
                 "automaticAttendanceTeam": "Marcar asistencia a todo el equipo"
@@ -456,7 +458,7 @@
         }
     },
     "resources": {
-        "title": "Recursos para crear una Escape Room",
+        "title": "Recursos para crear retos",
         "coded": "Mensajes codificados",
         "assembly": "Formar las partes de un objeto",
         "info": "Extraer información",
@@ -486,7 +488,12 @@
         "selectResource": "Selecciona un reto",
         "my": "Mis retos",
         "share": "compartir",
-        "edit": "editar"
+        "shareIntro": "Puedes usar este link para compartir el reto con tus alumnos",
+        "edit": "editar",
+        "delete": "borrar",
+        "outside": "Otros recursos ajenos a escapp",
+        "intro": "La siguiente colección de recursos se integra con los retos de tu escape room de escapp. Puedes personalizar distintos aspectos de los mismos y obtener un enlace para compartirlos con tus alumnos como parte de la escape room."
+
     },
     "participant": {
         "attendanceSaved": "Asistencia guardada correctamente",
