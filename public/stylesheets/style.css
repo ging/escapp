@@ -492,7 +492,7 @@ button, input[type="submit"] {
 
 .main .ui-dialog-title {
   line-height: 50px;
-  padding-left: 10px; }
+  padding-left: 15px; }
 
 .main .ui-dialog-titlebar-close {
   visibility: hidden;
@@ -803,7 +803,7 @@ button, input[type="submit"] {
     outline: none !important; }
   #mainSection .main.escapeRoomShow .ui-dialog-title {
     line-height: 50px;
-    padding-left: 10px; }
+    padding-left: 15px; }
   #mainSection .main.escapeRoomShow .ui-dialog-titlebar-close {
     visibility: hidden;
     float: right;
@@ -1390,7 +1390,7 @@ button, input[type="submit"] {
 
 #mainSection .main.step-instructions .ui-dialog-title {
   line-height: 50px;
-  padding-left: 10px;
+  padding-left: 15px;
   color: #656683;
   font-size: 22px; }
 

@@ -209,6 +209,7 @@ $(function(){
     $("#dialog-gallery").dialog({
       autoOpen: false,
       resizable: false,
+      modal: true,
       width: screen.width > 1000 ? 900 : screen.width*0.9,
       height: "auto",
       show: {

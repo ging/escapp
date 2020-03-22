@@ -34,8 +34,11 @@ exports.showGuide = (req, res) => res.render("inspiration/inspiration");
 exports.index = async (req, res, next) => {
     try {
         const resources = await models.resource.findAll({"include": [{"model": models.app}], "where": {"authorId": req.session.user.id}});
-
-        res.render("inspiration/indexResources", {resources, "user": req.session.user});
+        if (resources.length) {
+            res.render("inspiration/indexResources", {resources, "user": req.session.user});
+        } else {
+            res.redirect("/resources/");
+        }
     } catch (err) {
         next(err);
     }
