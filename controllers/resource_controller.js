@@ -48,7 +48,7 @@ exports.create = async (req, res, next) => {
             "appId": req.params.appId,
             "puzzleId": req.body.puzzleId,
             "authorId": req.session.user ? req.session.user.id : null,
-            "config": JSON.stringify(req.body)
+            "config": req.body.config
         });
 
         res.redirect(`/resources/${resource.id}`);
@@ -112,6 +112,8 @@ exports.show = async (req, res, next) => {
             } else {
                 res.redirect(`/?redir=${req.url}`);
             }
+        } else {
+            isAuthor = req.session.user && resource && (resource.authorId === req.session.user.id);
         }
         if (query.full) {
             res.render(`inspiration/apps/${resource.app.key}/show`, {"layout": false, resource});
@@ -148,7 +150,7 @@ exports.update = async (req, res, next) => {
     try {
         const {resource, body} = req;
 
-        resource.config = JSON.stringify(body);
+        resource.config = body.config;
         resource.puzzleId = body.puzzleId;
         await resource.save();
         res.redirect(`/resources/${resource.id}`);

@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/apps/digitalLock/precache-manifest.7c20e01ece4c7064729ab65269602e91.js"
+  "/apps/digitalLock/precache-manifest.1f364f0649737e03ae0857329f965710.js"
 );
 
 workbox.clientsClaim();

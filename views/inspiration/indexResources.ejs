@@ -19,7 +19,7 @@
 			</a>
 			
         <% } %>
-        <% if (user && user.isAdmin) { %>
+        <% if (user && !user.isStudent) { %>
             <a href="/resources/" class="escapeRoomItemWrapper animated bounceIn">
                 <div class="escapeRoomItem addEscapeRoom">
                     <span>+</span>

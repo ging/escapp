@@ -180,6 +180,7 @@ router.post("/apps/", sessionController.loginRequired, sessionController.adminRe
 router.post("/apps/:appId", sessionController.loginRequired, sessionController.adminRequired, resourceController.create);
 router.delete("/apps/:appId", sessionController.loginRequired, sessionController.adminRequired, resourceAppController.destroy);
 router.get("/resources", sessionController.loginRequired, sessionController.notStudentRequired, resourceAppController.index);
+router.get("/resources/my", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.index);
 router.get("/resources/:appId/new", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.new);
 router.get("/resources/:resourceId", resourceController.show);
 router.get("/resources/:resourceId/edit", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.edit);

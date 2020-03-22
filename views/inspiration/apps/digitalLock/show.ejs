@@ -11,12 +11,6 @@
 <div id="root"></div>
 <script>
     window.config = JSON.parse('<%-resource.config%>');
-    if (window.config.timeout === "0") { // TODO Sanitize booleans and numbers
-        window.config.timeout = undefined;
-    }
-    <% if (locals.session.user) { %>
-        window.config.token = "<%=locals.session.user.username%>";
-    <% } %>
 </script>
 <script type="text/javascript" src="/apps/digitalLock/scorm12/bundle.js"></script>
 </body>
