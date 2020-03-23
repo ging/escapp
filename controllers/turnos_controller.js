@@ -74,7 +74,7 @@ exports.indexStudent = async (req, res, next) => {
         });
 
         if (escapeRoom.turnos && escapeRoom.turnos.length === 1) {
-            if (escapeRoom.teamSize > 1) {
+            if (!escapeRoom.teamSize || escapeRoom.teamSize > 1) {
                 res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}`);
             } else {
                 req.params.turnoId = escapeRoom.turnos[0].id;
@@ -182,7 +182,8 @@ exports.destroy = async (req, res, next) => {
     const transaction = await sequelize.transaction();
 
     try {
-        const back = `/escapeRooms/${req.params.escapeRoomId}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
+        const date = req.turn.date ? `?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}` : "";
+        const back = `/escapeRooms/${req.params.escapeRoomId}/turnos${date}`;
 
         await req.turn.destroy({}, {transaction});
 

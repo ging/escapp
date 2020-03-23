@@ -60,6 +60,7 @@
                  <%= escapeRoom.description %>
              </div>
         </div>
+        <% if (escapeRoom.nmax) { %>
         <div class="flexRow animated slideInUp">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.nmax%>:
@@ -68,6 +69,8 @@
                 <%= escapeRoom.nmax %>
             </div>
         </div>
+        <%}%>
+        <% if (escapeRoom.teamSize) { %>
         <div class="flexRow animated slideInUp">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.teamSize%>:
@@ -76,6 +79,7 @@
                 <%= escapeRoom.teamSize %>
             </div>
         </div>
+        <%}%>
         <div class="flexRow animated slideInUp" id="turnos">
             <div class="flexShowLeft">
                 <%=i18n.showTeacher.titles.turnos%>:

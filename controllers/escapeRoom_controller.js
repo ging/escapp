@@ -129,7 +129,7 @@ exports.create = (req, res) => {
 
         authorId = req.session.user && req.session.user.id || 0,
 
-        escapeRoom = models.escapeRoom.build({title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize, authorId}); // Saves only the fields question and answer into the DDBB
+        escapeRoom = models.escapeRoom.build({title, subject, duration, forbiddenLateSubmissions, description, "nmax": nmax || 0, "teamSize": teamSize || 0, authorId}); // Saves only the fields question and answer into the DDBB
 
     escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "invitation"]}).
         then((er) => {
@@ -191,8 +191,8 @@ exports.update = (req, res, next) => {
     escapeRoom.duration = body.duration;
     escapeRoom.forbiddenLateSubmissions = body.forbiddenLateSubmissions === "on";
     escapeRoom.description = body.description;
-    escapeRoom.nmax = body.nmax;
-    escapeRoom.teamSize = body.teamSize;
+    escapeRoom.nmax = body.nmax || 0;
+    escapeRoom.teamSize = body.teamSize || 0;
     const progressBar = body.progress;
 
     escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "nmax", "teamSize"]}).
@@ -253,7 +253,7 @@ exports.update = (req, res, next) => {
         }).
         catch(Sequelize.ValidationError, (error) => {
             error.errors.forEach(({message}) => req.flash("error", message));
-            res.render("escapeRooms/edit", {escapeRoom});
+            res.render("escapeRooms/edit", {escapeRoom, "progress": "edit"});
         }).
         catch((error) => {
             req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);

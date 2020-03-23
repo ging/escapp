@@ -6,10 +6,11 @@ exports.add = async (req, res, next) => {
     try {
         const members = await req.team.getTeamMembers();
 
-        if (members.length < escapeRoom.teamSize) {
+        if (escapeRoom.teamSize && members.length < escapeRoom.teamSize) {
             await req.team.addTeamMembers(req.session.user.id);
             const turnos = await req.user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
 
+            // TODO nmax aforo turnos
             if (turnos.length === 0) {
                 await req.user.addTurnosAgregados(turn.id);
                 res.redirect(direccion);

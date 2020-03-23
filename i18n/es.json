@@ -231,11 +231,11 @@
                 "descriptionPlaceHolder": "Escribe la descripción de tu Escape Room. Esta será la información que se les presentará a los alumnos",
                 "durationPlaceHolder": "¿Cual es el tiempo máximo del que disponen los alumnos?",
                 "forbiddenLateSubmissionsPlaceHolder": "No permitir resolver retos al acabarse la cuenta atrás",
-                "nmaxPlaceHolder": "¿Cuántos participantes puede haber en cada turno?",
+                "nmaxPlaceHolder": "¿Cuántos participantes puede haber en cada turno? Déjalo en blanco si no quieres limitarlo",
                 "noFileUploaded": "No has subido ningún fichero",
                 "noImageUploaded": "No has subido ninguna imagen",
                 "subjectPlaceHolder": "¿A qué asignatura pertenece esta actividad?",
-                "teamSizePlaceHolder": "¿Cuántos alumnos puede haber en cada equipo?",
+                "teamSizePlaceHolder": "¿Cuántos alumnos puede haber en cada equipo? Déjalo en blanco si no quieres limitarlo",
                 "title": "Configuración básica de la escape room",
                 "titlePlaceHolder": "¿Cómo se llama tu Escape Room?",
                 "videoPlaceHolder": "URL del vídeo de presentación de la Escape Room"

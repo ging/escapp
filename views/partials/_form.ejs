@@ -29,6 +29,8 @@
          id: "nm",
          i18n: "nmax",
          number: true,
+         min: 0,
+         max: 10000,
          value: escapeRoom.nmax
      },
      {
@@ -36,13 +38,15 @@
          id: "ts",
          i18n: "teamSize",
          number: true,
+         min: 0,
+         max: 10000,
          value: escapeRoom.teamSize
      }]; %>
 <% for (let f in formFields) {
   var field = formFields[f];%>
     <div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*f%>ms;">
         <label for="<%=field.id%>"  class="itemNarrow"><%=parseInt(f)+1%>. <%=i18n.showTeacher.titles[field.i18n]%>:</label>
-        <input autofocus type="<%=field.number ? "number" : "text"%>" min="1" class="customInput itemWide" id="<%= field.id %>" name="<%= field.name %>" value="<%= field.value %>"
+        <input autofocus type="<%=field.number ? "number" : "text"%>" min="<%=field.min%>" max="<%=field.max%>" class="customInput itemWide" id="<%= field.id %>" name="<%= field.name %>" value="<%= field.value %>"
                placeholder="<%=i18n.escapeRoom.steps.edit[field.i18n + "PlaceHolder"]%>" autocomplete="off"/>
     </div>
     <% if (field.name === "duration") { %> 

@@ -59,7 +59,7 @@ const formatDate = function (currentDate) {
 
         <div class="flexBoxTurnos">
             <%}%>
-            <div class="turno turnoAlumno <%=turn.students.length >= escapeRoom.nmax ? "disabled":""%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
+            <div class="turno turnoAlumno <%= (escapeRoom.nmax && turn.students.length >= escapeRoom.nmax) ? "disabled":""%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
                 <div class="hora">
                     <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %>
                 </div>

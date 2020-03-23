@@ -236,11 +236,11 @@
                 "descriptionPlaceHolder": "Write the Escape Room's description here. This information will be given to your students",
                 "durationPlaceHolder": "¿What time do students have to complete de Escape Room?",
                 "forbiddenLateSubmissionsPlaceHolder": "Do not allow to solve puzzles once the time is up",
-                "nmaxPlaceHolder": "How many participants will have each shift?",
+                "nmaxPlaceHolder": "How many participants will have each shift? Leave it blank if you do not want to limit it",
                 "noFileUploaded": "Any files have been uploaded yet",
                 "noImageUploaded": "Any pictures have been uploaded yet",
                 "subjectPlaceHolder": "What subject does this activity belong to?",
-                "teamSizePlaceHolder": "How many participants will have each team?",
+                "teamSizePlaceHolder": "How many participants will have each team? Leave it blank if you do not want to limit it",
                 "title": "Escape Room basic configuration",
                 "titlePlaceHolder": "What is the Escape Room's name?",
                 "videoPlaceHolder": "An URL dor the Escape Room's introduction video"
