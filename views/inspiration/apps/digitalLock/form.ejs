@@ -20,6 +20,7 @@
 	var state = JSON.stringify({
 		...initialConfig,
 		...{
+			"PUBLIC_URL": "/apps/" + app.key,
 			"action": "/apps/" + app.id,
 			"embeddedInEscapp": true,
 			puzzleOptions,

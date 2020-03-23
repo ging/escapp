@@ -9,7 +9,6 @@ const formatDate = function (currentDate) {
         return `${currentDate.getDate()} de ${monthArray[currentDate.getMonth()]} de ${currentDate.getFullYear()}`;
     } else {
         let ord = "th"
-        console.log()
         switch(currentDate.getDate().toString()) {
             case "1": case "21": case "31":
                 ord = "st"; break;

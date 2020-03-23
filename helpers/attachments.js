@@ -54,7 +54,6 @@ exports.uploadResource = function (src, options) {
 exports.deleteResource = async function (public_id, model) {
     const inUse = await model.count({"where": {public_id}});
 
-    console.log(inUse);
     if (inUse && inUse.length >= 1) {
         return;
     }

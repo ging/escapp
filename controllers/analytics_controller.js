@@ -12,7 +12,6 @@ exports.analytics = async (req, res, next) => {
         const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId));
         const teamSizes = teams.map((t) => t.teamMembers.length);
 
-        console.log(teams);
         const nParticipants = {
             "value": teamSizes.reduce((acc, c) => acc + c, 0),
             "icon": "person"

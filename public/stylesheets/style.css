@@ -333,7 +333,8 @@ button, input[type="submit"] {
       -webkit-text-fill-color: white !important;
       border-color: white; }
     #root .App .config .form-group input, #root .App .config .form-group select {
-      min-width: 75px; }
+      min-width: 75px;
+      max-width: 300px; }
   #root .App .content .left {
     border-right: none; }
   #root .App .buttons button {
@@ -350,11 +351,14 @@ button, input[type="submit"] {
     padding: 8px 25px !important;
     background-color: #FAC855;
     color: #161938;
-    font-family: Lato, sans-serif;
+    font-family: Gugi, Lato, sans-serif;
     border: none;
     text-transform: lowercase; }
     #root .App .buttons button i {
       vertical-align: middle; }
+    #root .App .buttons button:first-child {
+      background-color: #48C18E;
+      margin-right: 10px; }
 
 .showApp {
   height: 100vh;
@@ -371,7 +375,7 @@ button, input[type="submit"] {
     height: 72vh;
     max-height: calc(100vh - 200px);
     max-width: 100%;
-    border: none; }
+    border: 2px solid white; }
   .showApp .buttons {
     padding-top: 18px;
     text-align: right; }
@@ -480,6 +484,11 @@ button, input[type="submit"] {
     font-family: 'Lato', sans-serif;
     font-size: 18px;
     color: #161938; }
+    .main #dialog-preview-api .join-instructions .fullscreen, .main #dialog-share .join-instructions .fullscreen {
+      font-family: Lato;
+      line-height: 43px; }
+      .main #dialog-preview-api .join-instructions .fullscreen #fullscreen-check, .main #dialog-share .join-instructions .fullscreen #fullscreen-check {
+        vertical-align: bottom; }
   .main #dialog-preview-api a, .main #dialog-share a {
     color: #48C18E;
     font-family: inherit; }

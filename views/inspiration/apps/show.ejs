@@ -31,21 +31,23 @@
 </div>
 <div id="dialog-share" title="<%=i18n.showTeacher.titles.share%>">
     <div>
-        
         <% var invitationLink = hostName + "/resources/" + resource.id; %>
         <p class=join-instructions>
-        <%=i18n.resources.shareIntro%>
+            <%=i18n.resources.shareIntro%> <br/>
+            <label class="fullscreen"><input id="fullscreen-check" type="checkbox" /><%=i18n.resources.fullscreen%> </label>
         </p>
-        <a class="show_link" href="<%= invitationLink %>"><%= invitationLink %></a>
+        <a class="show_link" target="_blank" id="link" href="<%= invitationLink %>">
+            <%= invitationLink %>
+        </a>
         <input id="joinUrl" value="<%= invitationLink %>" aria-label="<%=i18n.showTeacher.messages.copyAria%>"/>
         <button title="<%=i18n.showTeacher.messages.copyTitle%>" class="copy" id="copyButton">
-        <span class="material-icons">file_copy</span></button>
-        <a class="show_link" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/<%= invitationLink %>"> 
+            <span class="material-icons">file_copy</span>
+        </button>
+        <a class="show_link" target="_blank" id="qrLink" href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/<%= invitationLink %>"> 
             <button class="qr" id="qrButton" title="<%=i18n.showTeacher.messages.qrTitle%>">
                 <span class="material-icons">camera_enhance</span>
             </button>
         </a>
-        
     </div>
 </div>
 <script src="/js/vendor/jquery-ui.min.js"></script>
@@ -80,6 +82,19 @@
             var copyText = $("#joinUrl");
             copyText.select();
             document.execCommand("copy");
+        });
+
+        $('#fullscreen-check').change(function() {
+            let url = $("#joinUrl").val();
+            if (url.match("full")) {
+                url = url.split("?full=true")[0];
+            } else {
+                url = url + "?full=true";
+            }
+            $('#link').html(url);
+            $('#link').attr("href", url);
+            $('#joinUrl').val(url);
+            $('#qrLink').attr("href", "https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/" + url);
         });
     });
 </script>

@@ -21,6 +21,7 @@
                     border-color: white
                 input, select    
                     min-width: 75px
+                    max-width: 300px
         .content
             .left
                 border-right: none;
@@ -30,11 +31,14 @@
             padding: 8px 25px !important
             background-color: $brightyellow
             color: $darkerpurple
-            font-family: Lato, sans-serif
+            font-family: Gugi, Lato, sans-serif
             border: none
             text-transform: lowercase
             i
                 vertical-align: middle
+            &:first-child
+                background-color: $brightgreen
+                margin-right: 10px
 .showApp
     height: 100vh
     display: flex
@@ -50,7 +54,7 @@
         height: 72vh
         max-height: calc(100vh - 200px)
         max-width: 100%
-        border: none
+        border: 2px solid white
     .buttons
         padding-top: 18px
         text-align: right

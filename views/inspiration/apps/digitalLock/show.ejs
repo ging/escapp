@@ -10,7 +10,11 @@
 <body>
 <div id="root"></div>
 <script>
-    window.config = JSON.parse('<%-resource.config%>');
+			
+    window.config = { 
+        "PUBLIC_URL": "/apps/digitalLock", 
+        ...JSON.parse('<%-resource.config%>')
+    };
 </script>
 <script type="text/javascript" src="/apps/digitalLock/scorm12/bundle.js"></script>
 </body>

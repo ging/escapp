@@ -34,6 +34,7 @@ exports.showGuide = (req, res) => res.render("inspiration/inspiration");
 exports.index = async (req, res, next) => {
     try {
         const resources = await models.resource.findAll({"include": [{"model": models.app}], "where": {"authorId": req.session.user.id}});
+
         if (resources.length) {
             res.render("inspiration/indexResources", {resources, "user": req.session.user});
         } else {
@@ -116,7 +117,7 @@ exports.show = async (req, res, next) => {
                 res.redirect(`/?redir=${req.url}`);
             }
         } else {
-            isAuthor = req.session.user && resource && (resource.authorId === req.session.user.id);
+            isAuthor = req.session.user && resource && resource.authorId === req.session.user.id;
         }
         if (query.full) {
             res.render(`inspiration/apps/${resource.app.key}/show`, {"layout": false, resource});
