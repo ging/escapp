@@ -3,7 +3,7 @@ const queries = require("../queries");
 const {models} = sequelize;
 const {calculateNextHint} = require("./hint");
 const {getRetosSuperados, isTooLate} = require("../helpers/utils");
-
+const {RIGHT_ANSWER, RIGHT_ANSWER_NOT_ACTIVE, RIGHT_ANSWER_TOO_LATE, RIGHT_ANSWER_NOT_PARTICIPANT, WRONG_ANSWER} = require("./apiCodes");
 /** Server-client**/
 
 const DISCONNECT = "disconnect";
@@ -89,7 +89,7 @@ const sendTurnMessage = (msg, turnId) => {
 /** Action creators */
 const error = (msg, teamId) => sendTeamMessage({"type": ERROR, "payload": {msg}}, teamId);
 const hintResponse = (success, hintId, msg, teamId) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {success, hintId, msg}}, teamId);
-const puzzleResponse = (success, puzzleId, msg, auto, teamId) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {success, puzzleId, msg, auto}}, teamId);
+const puzzleResponse = (success, code, puzzleId, msg, auto, teamId) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {success, code, puzzleId, msg, auto}}, teamId);
 const startResponse = (turnId) => sendTurnMessage({"type": START, "payload": {}}, turnId);
 const stopResponse = (turnId) => sendTurnMessage({"type": STOP}, turnId);
 const revokeAccess = (socketId) => sendIndividualMessage({"type": "ERROR", "payload": {"msg": "You are not allowed to access this page"}}, socketId);
@@ -136,7 +136,7 @@ const solvePuzzle = async (escapeRoomId, teamId, puzzleId, solution, i18n) => {
                 if (team.turno.status !== "active") {
                     const msg = `${i18n.api.correctNotActive}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
 
-                    await puzzleResponse(false, puzzleId, msg, false, teamId);
+                    await puzzleResponse(false, RIGHT_ANSWER_NOT_ACTIVE, puzzleId, msg, false, teamId);
                     await transaction.commit();
                     return;
                 }
@@ -144,19 +144,19 @@ const solvePuzzle = async (escapeRoomId, teamId, puzzleId, solution, i18n) => {
                 if (isTooLate(team)) {
                     const msg = `${i18n.api.correctTooLate}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
 
-                    await puzzleResponse(false, puzzleId, msg, false, teamId);
+                    await puzzleResponse(false, RIGHT_ANSWER_TOO_LATE, puzzleId, msg, false, teamId);
                 } else {
                     await puzzle.addSuperados(team.id, {transaction});
-                    await puzzleResponse(true, puzzleId, puzzle.correct || i18n.api.correct, false, teamId);
+                    await puzzleResponse(true, RIGHT_ANSWER, puzzleId, puzzle.correct || i18n.api.correct, false, teamId);
                     await broadcastRanking(team.id, puzzleId, new Date(), team.turno.id);
                 }
             } else {
                 const msg = `${i18n.api.correctNotParticipant}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
 
-                await puzzleResponse(false, puzzleId, msg, false, teamId);
+                await puzzleResponse(false, RIGHT_ANSWER_NOT_PARTICIPANT, puzzleId, msg, false, teamId);
             }
         } else {
-            await puzzleResponse(false, puzzleId, puzzle.fail || i18n.api.wrong, false, teamId);
+            await puzzleResponse(false, WRONG_ANSWER, puzzleId, puzzle.fail || i18n.api.wrong, false, teamId);
         }
 
         await transaction.commit();

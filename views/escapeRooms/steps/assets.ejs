@@ -3,6 +3,8 @@
 <!-- Theme included stylesheets -->
 <% include ../../partials/_header.ejs %>
 <div class="main steps step-assets">
+	<%- include ../../partials/_breadcrumbStep %>
+
     <h1><%=i18n.escapeRoom.steps.assets.title%></h1>
     <p class="intro-paragraph">
         <%=i18n.escapeRoom.steps.assets.explanation%>
@@ -17,7 +19,7 @@
     <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/assets' >
         <div class="align-right flex-buttons">
             <input id="assets" name="assets" type="hidden" value=""/>
-            <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
+            <button class="progress-buttons" type="submit" value="<%=progress%>" id="progress-save" name="progress"><%=i18n.common.save%></button>
             <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
             <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
         </div>

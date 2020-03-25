@@ -1,6 +1,10 @@
 <% include ../../partials/_header.ejs %>
 <div class="main steps step-evaluation">
-  <h1><%=i18n.escapeRoom.steps.evaluation.title%></h1>  
+	<%- include ../../partials/_breadcrumbStep %>
+  <h1><%=i18n.escapeRoom.steps.evaluation.title%></h1> 
+  <p class="intro-paragraph">
+	<%=i18n.escapeRoom.steps.evaluation.gradingIntro%> 
+  </p> 
   <form method='POST' class="basicConfig" action='/escapeRooms/<%= escapeRoom.id %>/evaluation'  >
 		<!--
 		<p class="intro-paragraph"><%=i18n.escapeRoom.steps.evaluation.youCanUse%> <a target="_blank" href="https://docs.google.com/forms/u/0/">Google Forms</a> o <a target="_blank" href="https://www.typeform.com/es/">TypeForm</a> <%=i18n.escapeRoom.steps.evaluation.forSurveys%></p>
@@ -17,80 +21,64 @@
 			<input type="text" class="customInput itemWide" id="survey" name="survey" value="<%= escapeRoom.survey %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.surveyPlaceHolder%>" autocomplete="off"/>
 		</div> -->
 
-	  	<p class="intro-paragraph">
-		  <%=i18n.escapeRoom.steps.evaluation.gradingIntro%> 
-		</p>
-	  	<div class=" erFormField disallow animated slideInUp" style="animation-delay:0ms;">
+		<div class="inputFormField erFormField disallow animated slideInUp" style="animation-delay:0ms;">
+			<label for="score-participation" class="itemNarrow">
+				1. <%=i18n.escapeRoom.steps.evaluation.justParticipating%>
+			</label>
+			<input autofocus type="number" min="0" max="100" placeholder="0" value="<%=escapeRoom.scoreParticipation || 0%>" name="scoreParticipation" class="customInput scoreInput itemWide"  id="score-participation"/>
+		</div>
+		<div class="inputFormField erFormField disallow animated slideInUp" style="animation-delay:200ms;">
+			<label for="automaticAttendance"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.automaticAttendance%>:</label>
+			<select class="customInput itemWide" id="automaticAttendance" name="automaticAttendance" >
+				<option value="none" <%= (!escapeRoom.automaticAttendance || escapeRoom.automaticAttendance === "none") ? "selected" : "" %> ><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceNone%></option> 
+				<option value="participant" <%= escapeRoom.automaticAttendance === "participant" ? "selected" : "" %>><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceParticipant%></option> 
+				<option value="team" <%= escapeRoom.automaticAttendance === "team" ? "selected" : "" %>><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceTeam%></option> 
+			</select>
+			</div>
+	  	<div class=" erFormField disallow animated slideInUp" style="animation-delay:400ms;">
 		  	<label for="tit"  class="itemNarrow">
-			  1. <%=i18n.escapeRoom.steps.evaluation.eachPuzzle%>:
+			  2. <%=i18n.escapeRoom.steps.evaluation.eachPuzzle%>:
 			</label>
 			<input type="hidden"/>
 			<table class="scorePuzzles">
 				<tr>
-					<th>
-						<label>
-							<%=i18n.escapeRoom.steps.evaluation.puzzle%>
-						</label>
-					</th>
-					<th>
-						<label>
-							<%=i18n.escapeRoom.steps.evaluation.weight%> (%)
-						</label>
-					</th>
+					<th><label><%=i18n.escapeRoom.steps.evaluation.puzzle%></label></th>
+					<th><label><%=i18n.escapeRoom.steps.evaluation.weight%> (%)</label></th>
 				</tr>
-				<tr>
-					<td>
-						<label for="score-participation">
-							<%=i18n.escapeRoom.steps.evaluation.justParticipating%>
-						</label>
-					</td>
-					<td>
-						<input autofocus type="number" min="0" max="100" value="<%=escapeRoom.scoreParticipation || 0%>" name="scoreParticipation" class="customInput scoreInput"  id="score-participation"/>
-					</td>
-				</tr>
-
 			<% var totalScore = escapeRoom.scoreParticipation || 0;%>
 			<% for (let p in escapeRoom.puzzles) { let puzzle = escapeRoom.puzzles[p] %>
 				<tr>
 					<td><label for="score-puzzle-<%=puzzle.id%>"><%= puzzle.title %></label></td>
 					<td>
-						<input type="number" min="0" max="100" step="any" value="<%= puzzle.score || 0 %>" name="scores[]" class="customInput scoreInput" id="score-puzzle-<%=puzzle.id%>"/>
+						<input type="number" min="0" max="100" step="any" placeholder="0" value="<%= puzzle.score || 0 %>" name="scores[]" class="customInput scoreInput" id="score-puzzle-<%=puzzle.id%>"/>
 						<% totalScore += puzzle.score || 0 %>
 					</td>
 				</tr>
 			<% } %>
 			</table>
-	  	</div>
-	  	<div class="inputFormField erFormField disallow animated slideInUp" style="animation-delay:200ms;">
-		<label for="automaticAttendance"  class="itemNarrow">2. <%=i18n.escapeRoom.steps.evaluation.automaticAttendance%>:</label>
-		<select class="customInput itemWide" id="automaticAttendance" name="automaticAttendance" >
-			<option value="none" <%= (!escapeRoom.automaticAttendance || escapeRoom.automaticAttendance === "none") ? "selected" : "" %> ><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceNone%></option> 
-			<option value="participant" <%= escapeRoom.automaticAttendance === "participant" ? "selected" : "" %>><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceParticipant%></option> 
-			<option value="team" <%= escapeRoom.automaticAttendance === "team" ? "selected" : "" %>><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceTeam%></option> 
-		</select>
-		</div>
-	  	<div class="erFormField disallow animated slideInUp" style="animation-delay:400ms;">
-			<label for="tit"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.eachHint%>:</label>
-		  	<table class="scorePuzzles">
-				<tr>
-					<td>
-						<label for="hintSuccess"><%=i18n.escapeRoom.steps.evaluation.hintSuccess%>(%)</label></td>
-				  	<td>
-					  	<input type="number" min="-100" max="100" value="<%=escapeRoom.hintSuccess || 0%>" class="customInput" id="hintSuccess" name="hintSuccess"/>
-				  	</td>
-			  	</tr>
-			  	<tr>
-				  	<td>
-						<label for="hintFailed">
-							<%=i18n.escapeRoom.steps.evaluation.hintFailed%>(%)
-						</label>
-					</td>
-				  	<td>
-						<input type="number" min="-100" max="100" value="<%=escapeRoom.hintFailed || 0%>" class="customInput" id="hintFailed" name="hintFailed"/>
-				  	</td>
-			  	</tr>
-		  	</table>
-	  	</div>
+		  </div>
+		<% if (escapeRoom.hintApp) {%>
+			<div class="erFormField disallow animated slideInUp" style="animation-delay:600ms;">
+				<label for="tit"  class="itemNarrow">4. <%=i18n.escapeRoom.steps.evaluation.eachHint%>:</label>
+				  <table class="scorePuzzles">
+					<tr>
+						<td><label for="hintSuccess"><%=i18n.escapeRoom.steps.evaluation.hintSuccess%>(%)</label></td>
+						  <td><input type="number" min="-100" max="100" value="<%=escapeRoom.hintSuccess || 0%>" class="customInput" id="hintSuccess" name="hintSuccess"/></td>
+					  </tr>
+					  <tr>
+						  <td><label for="hintFailed"><%=i18n.escapeRoom.steps.evaluation.hintFailed%>(%)</label></td>
+						  <td><input type="number" min="-100" max="100" value="<%=escapeRoom.hintFailed || 0%>" class="customInput" id="hintFailed" name="hintFailed"/></td>
+					  </tr>
+				  </table>
+			  </div>
+		<% } else { %>
+			<div class="erFormField disallow animated slideInUp" style="animation-delay:600ms;">
+				<label for="tit"  class="itemNarrow">4. <%=i18n.escapeRoom.steps.evaluation.eachHintObtain%>:</label>
+				<input  type="number" min="0" max="100" placeholder="0" value="<%=escapeRoom.hintSuccess || 0%>" name="scoreParticipation" class="customInput scoreInput itemWide"  id="score-participation"/>
+				<input type="hidden" value=" 0"  id="hintFailed" name="hintFailed"/></td>	
+			  </div>
+		<% } %>
+	  	
 	  	<div class="disallow score-total">
 		  	<span><%=i18n.escapeRoom.steps.evaluation.total%></span>
 		  	<span id="totalScore"><%=totalScore%>%</span>
@@ -98,17 +86,9 @@
 	  	<br>
 	  	<br>
 	  	<div class="align-right flex-buttons" style="margin-bottom: 60px;">
-			<a href="/escapeRooms/<%= escapeRoom.id %>">
-				<button class="progress-buttons" type="button" value="exit" id="exit" name="exit">
-					<%=i18n.common.exit%>
-				</button>
-			</a>
-      		<button class="progress-buttons" type="submit" value="next" id="next" name="next">
-				<%=i18n.common.finish%>
-			</button>
-      		<button class="progress-buttons" type="submit" value="previous" id="previous" name="previous">
-				  <%=i18n.common.previous%>
-			</button>
+            <button class="progress-buttons" type="submit" value="<%=progress%>" id="progress-save" name="progress"><%=i18n.common.save%></button>
+      		<button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.finish%></button>
+      		<button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
   		</div>
       	<%- include('../../partials/_progress', {progress}) %>
   	</form>

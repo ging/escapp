@@ -1,16 +1,19 @@
 <span class="progressBar">
     <% var labels =  steps() %>
-    <% var index = labels.indexOf(progress) %>
-	<div class="progressText"><%=index%>/<%=labels.length%> <%=i18n.common.completado%> </div>
-    <% var width = progress / labels.length * 100 ; %>
+	<% var index = labels.indexOf(progress) %>
+	<% console.log(labels, progress) %>
+	<div class="progressText">
+		<%=Math.round(index /labels.length * 100)%>% <%=i18n.common.completado%> 
+	</div>
 	<% var realLabels = labels.map(label=>i18n.escapeRoom.steps.list[label]) %>
-	<% labels.splice(index, 1)%>
-	<% realLabels.splice(index, 1)%>
+
 	<div class="outterBar">
         <%for(var i in labels){%>
-		<button name="progress" value="<%=labels[i]%>" title="<%=realLabels[i]%>" class="innerBar"
-				style="opacity: <%= ( index > i) ? 1 : 0 %>; left: <%=  100/(labels.length)*i %>%;width: <%=100/(labels.length)%>%;">
-
+		<button name="progress" value="<%=labels[i]%>" title="<%=realLabels[i]%>" 
+			class="innerBar" 
+			style="opacity: <%= ( index > i) ? 1 : 0 %>; 
+			left: <%=  100/(labels.length)*i %>%;
+			width: <%=100/(labels.length)%>%;">
 		</button>
         <%}%>
 	</div>

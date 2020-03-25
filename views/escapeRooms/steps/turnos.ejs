@@ -2,6 +2,8 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <% include ../../partials/_header.ejs %>
 <div class="main steps step-turnos">
+	<%- include ../../partials/_breadcrumbStep %>
+
   	<h1><%=i18n.escapeRoom.steps.turnos.title%></h1>
 	<% var turnos = escapeRoom.turnos; %>
 	<div class="contenedor">
@@ -17,16 +19,10 @@
 	</div>
 	<form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/turnos'  >
 		<br/>
-		<br/>
-		<br/>
-		<br/>
+	
 	
 		<div class="align-right flex-buttons">
-    		<a href="/escapeRooms/<%= escapeRoom.id %>">
-    			<button class="progress-buttons" type="button" value="exit" id="exit" name="exit">
-    				<%=i18n.common.exit%>
-    			</button>
-    		</a>
+            <button class="progress-buttons" type="submit" value="<%=progress%>" id="progress-save" name="progress"><%=i18n.common.save%></button>
     		<button class="progress-buttons" type="submit" value="next" id="next" name="next">
     			<%=i18n.common.next%>
     		</button>
@@ -36,7 +32,6 @@
 		</div>
         <%- include('../../partials/_progress', {progress}) %>
 	</form>
-	<br/>
 	<br/>
 	<br/>
 	<br/>
@@ -51,5 +46,4 @@ var selectedDates = [
 ].map(d=>{d.setHours(0,0,0,0); return d.getTime()}); 
 
 </script>
-<script type="text/javascript" src="/js/turnos.js"></script>
 <% include ../../turnos/_turnosCommonLogic %>

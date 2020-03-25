@@ -154,16 +154,20 @@ button, input[type="submit"] {
     flex-direction: column;
     margin-bottom: 20px; }
     .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag {
-      display: inline-block;
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
       background-color: transparent;
       padding: 9px 18px;
       border-radius: 40px;
-      margin: 15px;
+      margin: 0px;
       margin-top: 0;
       margin-bottom: 5px;
       font-size: 18x; }
-      .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag span:not(.material-icons) {
-        font-family: Lato, sans-serif;
+      .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag .analyticsTagTitle {
+        font-family: Gugi, sans-serif;
+        font-size: 0.8em;
+        white-space: nowrap;
         color: white; }
       .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag i, .main.summary .flex-container.analytics-menu .flex-container-left .linkAnalyticsTag .analyticsTag .material-icons {
         font-size: 21px;
@@ -533,8 +537,8 @@ button, input[type="submit"] {
   left: 0;
   opacity: 0.5; }
 
-#mainSection .main.steps > h1 {
-  font-size: 1.5em; }
+#mainSection .main.steps-new .breadcrumbs-container .breadcrumbs .breadcrumb-select, #mainSection .main.steps-edit .breadcrumbs-container .breadcrumbs .breadcrumb-select {
+  width: 330px; }
 
 #mainSection .main .align-right.flex-buttons {
   flex-wrap: wrap; }
@@ -559,9 +563,6 @@ button, input[type="submit"] {
     padding-bottom: 20px; }
     #mainSection .main .flexShow .flexRow:first-child {
       font-size: 26px; }
-    #mainSection .main .flexShow .flexRow .flexShowLeft {
-      width: 250px;
-      line-height: 37px; }
     #mainSection .main .flexShow .flexRow .flexShowRight {
       width: 100%;
       font-size: 24px;
@@ -594,7 +595,7 @@ button, input[type="submit"] {
   padding: 10px 20px;
   margin-right: 5px;
   margin-bottom: 5px; }
-  #mainSection .main .progress-buttons#exit {
+  #mainSection .main .progress-buttons#progress-save, #mainSection .main .progress-buttons#save {
     border: 2px solid white;
     background-color: transparent;
     color: white; }
@@ -647,7 +648,7 @@ button, input[type="submit"] {
 #mainSection .main .basicConfig {
   font-size: 26px;
   text-align: center;
-  margin-top: 100px; }
+  margin-top: 50px; }
   #mainSection .main .basicConfig .erFormField {
     padding: 40px;
     text-align: left; }
@@ -718,30 +719,46 @@ button, input[type="submit"] {
   background: none; }
   #mainSection .main.escapeRoomShow .menuERShow {
     display: flex; }
-    #mainSection .main.escapeRoomShow .menuERShow .attachmentShow {
-      text-align: center;
-      flex: 1; }
     #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight {
-      margin-left: 50px;
+      flex: 1;
       padding: 10px;
-      border-left: 2px solid white; }
-      #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList {
+      padding-top: 30px; }
+    #mainSection .main.escapeRoomShow .menuERShow .attachmentShow {
+      float: right;
+      text-align: center;
+      width: 200px; }
+    #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft {
+      margin-right: 50px;
+      padding: 10px;
+      padding-right: 40px; }
+      #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList {
         list-style: none;
-        font-size: 16px; }
-        #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList li {
+        font-size: 16px;
+        padding-left: 10px; }
+        #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li {
           margin-bottom: 16px; }
-          #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList li a {
+          #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li.actionTitle {
+            font-size: 20px;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            color: #FAC855; }
+          #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li.actionIndent {
+            margin-left: 15px; }
+          #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li a {
             line-height: 24px; }
-            #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList li a:hover {
+            #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li a:hover {
               color: #48C18E; }
-          #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList li .showMenuButton {
+          #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li .showMenuButton {
             font-size: 16px;
             border-radius: 20px;
             padding: 5px 20px;
             width: 100%;
             transition: 0.1s all ease-in; }
-            #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList li .showMenuButton:hover {
+            #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li .showMenuButton:hover {
               transform: scale(0.9); }
+  #mainSection .main.escapeRoomShow .flexShow .flexRow .flexShowLeft {
+    width: 170px;
+    line-height: 37px; }
   #mainSection .main.escapeRoomShow .flexShow .flexRow .flexShowRight {
     color: white;
     font-weight: lighter; }
@@ -828,17 +845,20 @@ button, input[type="submit"] {
     color: #F47E84; }
 
 @media (max-width: 768px) {
+  #mainSection .main.escapeRoomShow .flexRow {
+    flex-direction: column; }
   #mainSection .main.escapeRoomShow .menuERShow {
     flex-wrap: wrap;
     flex: 1; }
     #mainSection .main.escapeRoomShow .menuERShow .attachmentShow {
       width: 100%;
       max-width: 100%; }
-    #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight {
+    #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft {
       width: 100%;
-      margin-left: 0px;
-      border-left: none; }
-      #mainSection .main.escapeRoomShow .menuERShow .menuERShowRight .menuERactionList {
+      margin-right: 0px;
+      border-right: none;
+      padding: 10px; }
+      #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList {
         padding: 0px; } }
 
 @media (max-width: 992px) {
@@ -1209,7 +1229,8 @@ button, input[type="submit"] {
 .filters select, .filters button.inverse {
   color: white;
   -webkit-text-fill-color: white !important;
-  border-color: white; }
+  border-color: white;
+  padding: 10px; }
 
 #flassmessages {
   position: fixed;
@@ -1740,6 +1761,62 @@ button, input[type="submit"] {
 .ql-picker.ql-color-picker.ql-color .ql-picker-options {
   width: 92px; }
 
+.ql-html-overlayContainer .ql-html-popupContainer {
+  border-radius: 0;
+  background-color: white; }
+  .ql-html-overlayContainer .ql-html-popupContainer i {
+    font-family: Gugi;
+    font-style: normal;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #F47E84; }
+  .ql-html-overlayContainer .ql-html-popupContainer .ql-html-textContainer {
+    width: 100%;
+    height: calc(100% - 64px); }
+  .ql-html-overlayContainer .ql-html-popupContainer .ql-html-textArea {
+    font-family: monospace;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    padding: 20px;
+    background: #eaeaea;
+    border: navajowhite; }
+  .ql-html-overlayContainer .ql-html-popupContainer .ql-html-buttonGroup {
+    position: relative;
+    text-align: right;
+    left: 0;
+    bottom: 0;
+    transform: none;
+    padding: 4px; }
+    .ql-html-overlayContainer .ql-html-popupContainer .ql-html-buttonGroup button {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
+      border-radius: 5px;
+      border-style: solid;
+      padding: 10px;
+      text-align: center;
+      outline: 0;
+      background: yellow;
+      border-radius: 20px;
+      text-transform: lowercase;
+      border-radius: 20px;
+      text-align: center;
+      height: 42px;
+      outline: 0;
+      background-color: #48C18E;
+      color: #161938;
+      border: #48C18E;
+      border-radius: 25px !important;
+      padding: 8px 25px !important;
+      font-size: 18px; }
+      .ql-html-overlayContainer .ql-html-popupContainer .ql-html-buttonGroup button.ql-html-buttonCancel {
+        background-color: #F47E84;
+        border: #F47E84;
+        margin-right: 10px; }
+
 #mainSection .main.student {
   background-image: url("../images/puzzle_bg.png");
   font-size: xx-large;
@@ -1917,6 +1994,19 @@ button, input[type="submit"] {
         text-decoration: underline; }
       #mainSection .main .breadcrumbs-container .breadcrumbs .material-icons {
         color: #48C18E; }
+      #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select {
+        border: none;
+        color: white;
+        font-family: Lato, sans-serif;
+        -webkit-appearance: menulist;
+        width: 200px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        color: white;
+        -webkit-text-fill-color: white !important;
+        -webkit-text-stroke-color: white;
+        background: none; }
     #mainSection .main footer {
       margin-left: -35px; }
     #mainSection .main .align-right {
@@ -2278,15 +2368,15 @@ button, input[type="submit"] {
         text-align: center;
         border-right: 3px solid white; }
         #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-retos {
-          width: 15%; }
+          width: 20%; }
         #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-sol {
-          width: 15%; }
+          width: 20%; }
           #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-sol .retoTextArea:empty:before {
             content: 'xxxx'; }
         #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-desc {
-          width: 30%; }
+          width: 24%; }
         #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-pista {
-          width: 40%;
+          width: 36%;
           border-right: none; }
         #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea {
           padding: 20px;
@@ -2434,11 +2524,12 @@ button, input[type="submit"] {
 .ranking {
   text-align: center; }
   .ranking .content {
-    width: auto;
+    width: 100%;
     display: inline-block;
     margin: auto; }
     .ranking .content table {
-      margin: auto; }
+      margin: auto;
+      width: 100%; }
     .ranking .content .podium {
       width: 100%;
       height: 75vmin;
@@ -2819,7 +2910,8 @@ button, input[type="submit"] {
     display: table !important;
     margin: auto;
     color: #161938;
-    border-spacing: 0px; }
+    border-spacing: 0px;
+    width: 100%; }
     .retosSuperados table *:not(i) {
       font-family: Lato, sans-serif; }
     .retosSuperados table tr {
@@ -3055,7 +3147,8 @@ button, input[type="submit"] {
 
 #mainSection .main .turno-date-title-show {
   color: white;
-  margin: 5px; }
+  margin: 5px;
+  font-size: 20px; }
 
 @media (max-width: 992px) {
   .contenedor {
@@ -3125,6 +3218,8 @@ html {
       font-weight: lighter; }
     html body h1, html body h2, html body h3 {
       font-weight: lighter; }
+    html body h1 {
+      font-size: 1.5em; }
     html body label {
       color: #656683; }
     html body input, html body select {

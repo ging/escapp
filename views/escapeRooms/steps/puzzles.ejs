@@ -1,6 +1,9 @@
 <% include ../../partials/_header.ejs %>
 <div class="main step-puzzles">
-  <h1><%=i18n.escapeRoom.steps.puzzles.title%></h1>
+    <%- include ../../partials/_breadcrumbStep %>
+
+     <h1><%=i18n.escapeRoom.steps.puzzles.title%></h1>
+
     <div class="align-right">
         <button class="rounded editButton" type="button" id="add-new-puzzle">
             <!-- <span class="material-icons">control_point</span> -->
@@ -20,7 +23,7 @@
     </div>
     <br/>
     <div class="align-right flex-buttons" style="margin-bottom: 60px;">
-    <a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
+    <button class="progress-buttons" type="submit" value="<%=progress%>" id="progress-save" name="progress"><%=i18n.common.save%></button>
     <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
     <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
     </div>
@@ -150,6 +153,26 @@
             $(e).val(i);
         });
     })
+
+    $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            var inputs = $("form input:visible, form select");
+            var idx = (document.activeElement && (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT")) ? inputs.index(document.activeElement) : -1;
+            console.log(idx)
+            if (idx == inputs.length - 1) {
+                idx = -1;
+            } 
+            inputs[idx + 1].focus(); //  handles submit buttons
+            if (inputs[idx + 1].select) {
+                inputs[idx + 1].select();
+            }
+            return false;
+        }
+        
+    });
+
+    $("form input:visible, form select")[0].focus();
 });
 </script>
 

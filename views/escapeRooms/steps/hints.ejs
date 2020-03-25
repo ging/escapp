@@ -1,6 +1,10 @@
 <% include ../../partials/_header.ejs %>
 <div class="main steps step-hints">
-  	<h1><%=i18n.escapeRoom.steps.hints.title%></h1>  
+	<%- include ../../partials/_breadcrumbStep %>
+	<h1><%=i18n.escapeRoom.steps.hints.title%></h1>  
+	<p class="intro-paragraph">
+    	<%=i18n.escapeRoom.steps.hints.explanation%>
+    </p>
   	<form class="basicConfig" method='POST' action='/escapeRooms/<%= escapeRoom.id %>/hints' enctype="multipart/form-data" >
 		<div class="inputFormField erFormField animated slideInUp">
 			<label for="hintLimit"  class="itemNarrow">1. <%=i18n.escapeRoom.steps.hints.hintLimit%>:
@@ -9,7 +13,7 @@
 		</div>
 		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:200ms;">
 		    <label for="hints" class="itemNarrow">2. <%=i18n.escapeRoom.steps.hints.MoodleXML%>:</label>
-		    <p class="explanation"><%=i18n.escapeRoom.steps.hints.explanation%></p>
+		    <p class="explanation"><%=i18n.escapeRoom.steps.hints.moodleXMLexplanation%></p>
 		  	<input class="attach" style="display: none;" type="file" id="hints" name="hints" tabindex="0" accept="text/xml"/>
 		  	<label for="hints" class="fileUpload customInput itemWide">
 		  	  <span id="hintsLabel" >
@@ -37,16 +41,16 @@
 		  	  <input type="hidden" name="keepAttachment" id="keepAttachment" value="<%= (escapeRoom.id && escapeRoom.hintApp) ? "1" : "0" %>" >
 		  	</label>
 	  </div>
-		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:400ms;">
+		<div class="inputFormField erFormField animated slideInUp hintConditional" style="<%=(escapeRoom.id && escapeRoom.hintApp) ? '':'display: none;'%> animation-delay:400ms;">
 		  <label for="numQuestions"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.hints.questionNumber%>:</label>
 		  <p class="explanation"><%=i18n.escapeRoom.steps.hints.questionNumberExplanation%></p>
 		  <input type="number" min="0" class="customInput itemWide" id="numQuestions" name="numQuestions" value="<%= escapeRoom.numQuestions %>" placeholder="<%=i18n.escapeRoom.steps.hints.questionNumberPlaceHolder%>" autocomplete="off"/>
 		</div>
-		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:600ms;">
+		<div class="inputFormField erFormField animated slideInUp hintConditional" style="<%=(escapeRoom.id && escapeRoom.hintApp) ? '':'display: none;'%> animation-delay:600ms;">
 		    <label for="numRight"  class="itemNarrow">4. <%=i18n.escapeRoom.steps.hints.correctNumber%>:</label>
 		    <input type="number" min="0" class="customInput itemWide" id="numRight" name="numRight" value="<%= Math.round(escapeRoom.numRight/100*escapeRoom.numQuestions)  %>" placeholder="<%=i18n.escapeRoom.steps.hints.correctNumberPlaceHolder%>" autocomplete="off"/>
 		</div>
-		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:800ms;">
+		<div class="inputFormField erFormField animated slideInUp hintConditional" style="<%=(escapeRoom.id && escapeRoom.hintApp) ? '':'display: none;'%> animation-delay:800ms;">
 		    <label for="feedback"  class="itemNarrow">5. <%=i18n.escapeRoom.steps.hints.feedback%>:
 		    <input type="checkbox" class="customCheckbox" id="feedback" name="feedback" <%= escapeRoom.feedback ? "checked" : "" %> autocomplete="off"/></label>
 		    <p class="explanation"><%=i18n.escapeRoom.steps.hints.feedbackExplanation%></p>
@@ -58,7 +62,7 @@
 		<br/>
 
 	  	<div class="align-right flex-buttons" style="margin-bottom: 60px;">
-			<a href="/escapeRooms/<%= escapeRoom.id %>"><button class="progress-buttons" type="button" value="exit" id="exit" name="exit"><%=i18n.common.exit%></button></a>
+            <button class="progress-buttons" type="submit" value="<%=progress%>" id="progress-save" name="progress"><%=i18n.common.save%></button>
 			<button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
 			<button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
 		</div>
@@ -79,21 +83,28 @@ $(function(){
 	    if(fileName) {
 	      $('#delete').show();
 	      $('#upload').hide();
-	      $('#hintsLabel').html(fileName);
+		  $('#hintsLabel').html(fileName);
+		  $('.hintConditional').show();
 	    }
 	  } catch (e) {
 	      $('#delete').hide();
 	      $('#upload').show();
-	      $('#imgLabel').html("<%=i18n.escapeRoom.steps.hints.noFile%>");
+		  $('#imgLabel').html("<%=i18n.escapeRoom.steps.hints.noFile%>");
+		  $('.hintConditional').hide();
+		  $(this).val("");
+		  
 	  }
 	});
 
 	$('#delete').on('click', function(e){
 	    e.preventDefault();
 	    $('#delete').hide();
-	    $('#upload').show();
+		$('#upload').show();
+		$('.hintConditional').hide();
 	    $('#hintsLabel').html("<%=i18n.escapeRoom.steps.hints.noFile%>");
-	    $('#keepAttachment').val("0");
+		$('#keepAttachment').val("0");
+		$('#hints').val("");
+		
 	});
 
 

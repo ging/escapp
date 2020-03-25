@@ -1,6 +1,7 @@
 const {models} = require("../models");
 const {puzzleResponse, broadcastRanking} = require("../helpers/sockets");
 const {isTooLate, authenticate} = require("../helpers/utils");
+const {RIGHT_ANSWER, RIGHT_ANSWER_NOT_ACTIVE, RIGHT_ANSWER_TOO_LATE, RIGHT_ANSWER_NOT_PARTICIPANT, WRONG_ANSWER, WRONG_CREDENTIALS, CREDENTIALS_MISSING, OK, NOT_ACTIVE, TOO_LATE, AUTHOR, ERROR} = require("../helpers/apiCodes");
 
 
 exports.checkParticipant = async (req, res, next) => {
@@ -12,13 +13,13 @@ exports.checkParticipant = async (req, res, next) => {
     if (token) {
         where.username = token;
     } else {
-        return res.status(401).json({"msg": i18n.api.unauthorized});
+        return res.status(401).json({"msg": i18n.api.unauthorized, "code": CREDENTIALS_MISSING});
     }
 
     const users = await models.user.findAll({where});
 
     if (!users || users.length === 0) {
-        res.status(404).json({"msg": i18n.api.userNotFound});
+        res.status(404).json({"msg": i18n.api.userNotFound, "code": WRONG_CREDENTIALS});
         return;
     }
     req.teams = await users[0].getTeamsAgregados({
@@ -51,7 +52,7 @@ exports.checkParticipantSafe = async (req, res, next) => {
     if (email && password) {
         where.username = email;
     } else {
-        return res.status(401).json({"msg": i18n.api.unauthorized});
+        return res.status(401).json({"msg": i18n.api.unauthorized, "code": CREDENTIALS_MISSING });
     }
 
     try {
@@ -76,11 +77,11 @@ exports.checkParticipantSafe = async (req, res, next) => {
             req.user = user;
             next();
         } else {
-            res.status(404).json({"msg": i18n.api.wrongCredentials});
+            res.status(401).json({"msg": i18n.api.wrongCredentials, "code": WRONG_CREDENTIALS});
         }
     } catch (err) {
         console.error(err);
-        res.status(500).json({"msg": i18n.api.error});
+        res.status(500).json({"msg": i18n.api.error, "code": ERROR});
     }
 };
 
@@ -108,7 +109,7 @@ exports.checkParticipantSession = async (req, res, next) => {
         req.user = user;
         next();
     } else {
-        res.status(404).json({"msg": i18n.api.wrongCredentials});
+        res.status(401).json({"msg": i18n.api.wrongCredentials, "code": WRONG_CREDENTIALS});
     }
 };
 
@@ -117,11 +118,14 @@ exports.checkPuzzle = async (req, res) => {
     const {puzzle, body, teams} = req;
     const {i18n} = req.app.locals;
     const {solution} = body;
-
     // eslint-disable-next-line no-undefined
     const answer = solution === undefined || solution === null ? "" : solution;
     // eslint-disable-next-line no-undefined
     const puzzleSol = puzzle.sol === undefined || puzzle.sol === null ? "" : puzzle.sol;
+
+    let status = 200;
+    let code = "OK";
+    let msg = "";
 
     try {
         if (answer.toString().toLowerCase().trim() === puzzleSol.toString().toLowerCase().trim()) {
@@ -129,38 +133,49 @@ exports.checkPuzzle = async (req, res) => {
                 const [team] = teams;
 
                 if (team.turno.status !== "active") {
-                    res.status(202).json({"msg": `${i18n.api.correctNotActive}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`});
-                    return;
-                }
-                if (isTooLate(team)) {
-                    res.status(202).json({"msg": `${i18n.api.correctTooLate}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`});
+                    status = 202;
+                    code = RIGHT_ANSWER_NOT_ACTIVE;
+                    msg = `${i18n.api.correctNotActive}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
+                } else if (isTooLate(team)) {
+                    status = 202;
+                    code = RIGHT_ANSWER_TOO_LATE;
+                    msg = `${i18n.api.correctTooLate}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`
                 } else {
-                    const msg = puzzle.correct || i18n.api.correct;
-
+                    code = RIGHT_ANSWER;
+                    msg = puzzle.correct || i18n.api.correct;
                     await puzzle.addSuperados(team.id);
-                    puzzleResponse(true, puzzle.id, msg, true, team.id);
+                    puzzleResponse(true, code, puzzle.id, msg, true, team.id);
                     broadcastRanking(team.id, puzzle.id, new Date(), team.turno.id);
-                    res.json({msg});
                 }
             } else if (req.user.isStudent) {
-                res.status(202).json({"msg": `${i18n.api.correctNotParticipant}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`});
+                status = 202;
+                code = RIGHT_ANSWER_NOT_PARTICIPANT;
+                msg = `${i18n.api.correctNotParticipant}. ${puzzle.correct ? `${i18n.api.message}: ${puzzle.correct}` : ""}`;
             } else {
-                res.status(202).json({"msg": puzzle.correct || i18n.api.correct});
+                status = 202;
+                code = RIGHT_ANSWER;
+                msg = puzzle.correct || i18n.api.correct;
             }
         } else {
-            res.status(401).json({"msg": puzzle.fail || i18n.api.wrong});
+            status = 423;
+            code = WRONG_ANSWER;
+            msg = puzzle.fail || i18n.api.wrong;
         }
     } catch (e) {
-        res.status(500).json({"msg": e});
+        status = 500;
+        code = ERROR;
+        msg = e;
     }
+    res.status(status).json({code, msg});
 };
 
 // POST /api/escapeRooms/:escapeRoomId/auth
 exports.auth = async (req, res) => {
-    const {teams} = req;
+    const {teams, escapeRoom, user} = req;
     const {i18n} = req.app.locals;
     let status = 200;
     let msg = i18n.api.participant;
+    let code = OK;
     // eslint-disable-next-line no-undef-init
     let puzzles = undefined;
 
@@ -171,15 +186,22 @@ exports.auth = async (req, res) => {
         puzzles = retosSuperados.map((p) => p.id);
 
         if (team.turno.status !== "active") {
-            status = 202;
+            status = 403;
+            code = NOT_ACTIVE;
             msg = i18n.api.notActive;
         } else if (isTooLate(team)) {
-            status = 202;
+            status = 403;
+            code = TOO_LATE;
             msg = i18n.api.tooLate;
         }
+    } else if (escapeRoom.authorId === user.id) {
+        status = 202;
+        code = AUTHOR;
+        msg = i18n.api.isAuthor;
     } else {
         status = 403;
+        code = ERROR;
         msg = i18n.api.notAParticipant;
     }
-    res.status(status).json({msg, puzzles});
+    res.status(status).json({msg, code, puzzles});
 };

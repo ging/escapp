@@ -92,6 +92,8 @@ $(function(){
     ProgressBlot.blotName = 'progressbar';
     ProgressBlot.tagName = 'progressbar';
     Quill.register(ProgressBlot);
+    
+    Quill.register("modules/htmlEditButton", htmlEditButton);
 
     Quill.register('modules/VideoResize', VideoResize);
 
@@ -141,7 +143,12 @@ $(function(){
             toolbar: { container: toolbarOptions, handlers: {image: imageHandler, appearance: appearanceHandler}},
             imageResize: {},
             videoResize: {},
-            clipboard: {}
+            clipboard: {},
+            htmlEditButton: {
+                msg: "Edit your text",
+                okText: "guardar",
+                cancelText: "descartar"
+            }
         },
         placeholder: window.placeholder || 'Write here your escape room instructions',
         readOnly: false,

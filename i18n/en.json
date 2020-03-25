@@ -98,6 +98,7 @@
         "notFound": "Not found",
         "error": "Error",
         "wrong": "Wrong answer",
+        "isAuthor": "You are the author of this escape room",
         "wrongCredentials": "The email and password combination is incorrect",
         "notAParticipant": "You are not a participant of this escape room.",
         "participant": "You are a participant of this escape room",
@@ -121,6 +122,7 @@
         "delete": "delete",
         "download": "download",
         "edit": "edit",
+        "my": "My escape rooms",
         "error": {
             "whoops": "Whoops!",
             "notFound": "It seems like we couldn't find the page you were looking for"
@@ -233,6 +235,7 @@
                 "dictMaxFilesExceeded": "Too many files"
             },
             "edit": {
+                "New": "New",
                 "descriptionPlaceHolder": "Write the Escape Room's description here. This information will be given to your students",
                 "durationPlaceHolder": "¿What time do students have to complete de Escape Room?",
                 "forbiddenLateSubmissionsPlaceHolder": "Do not allow to solve puzzles once the time is up",
@@ -247,11 +250,12 @@
             },
             "evaluation": {
                 "eachHint": "Assign a penalty or reward for requesting a hint",
-                "eachPuzzle": "Assign a different weight to each puzzle",
+                "eachHintObtain": "Assign a penalty or reward for receiving a hint",
+                "eachPuzzle": "Assign a different percentage to each puzzle",
                 "forSurveys": "create surveys and quizes for your Escape Room",
                 "hintSuccess": "Points for each hint request succeeded",
                 "hintFailed": "Points for each hint request failed",
-                "justParticipating": "Just for participating",
+                "justParticipating": "Assign a percentage of the grade just for participating",
                 "gradingIntro": "You can customize a grading scheme to grade the activity",
                 "or": "or",
                 "posttestField": "Post-quiz",
@@ -273,7 +277,8 @@
             "hints": {
                 "correctNumber": "Hit number",
                 "correctNumberPlaceHolder": "How many correct answers do students need to obtain a hint?",
-                "explanation": "If you want students to answer a quiz in order to get a hint, please upload a MoodleXML with a battery of questions",
+                "explanation": "In this step you can set the maximum number of hits a team can receive during the escape room. By default, students will be given a hint every time they ask for one. Optionally, you can make them pass a short quiz in order to get a hint. To do so, just upload a MoodleXML file containing a battery of questions and indicate how many questions will be shown each attempt, how many they need to get right in order to pass, and whether the right answer should be shown to them after each attempt",
+                "moodleExplanation": "If you want students to answer a quiz in order to get a hint, please upload a MoodleXML with a battery of questions",
                 "feedback": "Feedback",
                 "feedbackExplanation": "Do you want to show students the correct answers once the quiz is completed?",
                 "hintFile": "Battery of questions file",
@@ -545,16 +550,24 @@
             "analytics": "Learning analytics",
             "appearance": "Appearance",
             "basic": "Basic configuration",
+            "puzzles": "Puzzles & hints",
+            "hintStrategy": "Hint management",
+            "teamInterface": "Team interface",
+            "classInterface": "Class interface",
+            "evaluation": "Evaluation",
             "clone": "clone",
             "delete": "delete",
-            "edit": "edit",
+            "edit": "Edit",
             "join": "Join invitation",
             "participants": "Participants",
             "teams": "Teams",
             "share": "share",
             "shifts": "Shifts",
             "turnos": "Shifts",
-            "volver": "back"
+            "volver": "back",
+            "actions": "Actions",
+            "information": "Information"
+            
         },
         "messages": {
             "noHintControl": "This Escape Room does not have any hint system yet",

@@ -247,3 +247,51 @@
         background-color: var(--#{$current-theme-color})
       .ql-picker-options
         width: 92px
+.ql-html-overlayContainer
+  .ql-html-popupContainer
+    border-radius: 0
+    background-color: white
+    i
+      font-family: Gugi
+      font-style: normal
+      margin-bottom: 10px
+      font-size: 20px
+      color: $lightred
+    .ql-html-textContainer
+      width: 100%
+      height: calc(100% - 64px)
+    .ql-html-textArea
+      font-family: monospace
+      position: relative
+      width: 100%
+      height: 100%
+      left: 0
+      padding: 20px
+      background: #eaeaea
+      border: navajowhite
+    .ql-html-buttonGroup
+      position: relative
+      text-align: right
+      left: 0
+      bottom: 0
+      transform: none
+      padding: 4px
+      button
+        @include common-button
+        background: yellow
+        border-radius: 20px
+        text-transform: lowercase
+        border-radius: 20px
+        text-align: center
+        height: 42px
+        outline: 0
+        background-color: $brightgreen
+        color: $darkerpurple
+        border: $brightgreen
+        border-radius: 25px !important
+        padding: 8px 25px !important
+        font-size: 18px
+        &.ql-html-buttonCancel
+          background-color: $lightred
+          border: $lightred
+          margin-right: 10px

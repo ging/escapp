@@ -3,18 +3,32 @@
     background: none
     .menuERShow
       display: flex
-      .attachmentShow
-        text-align: center
-        flex: 1
       .menuERShowRight
-        margin-left:  50px
+        flex: 1
         padding: 10px
-        border-left: 2px solid white
+        padding-top: 30px
+      .attachmentShow
+        float: right
+        text-align: center
+        width: 200px
+      .menuERShowLeft
+        margin-right:  50px
+        padding: 10px
+        padding-right: 40px
+        // border-right: 2px solid white
         .menuERactionList
           list-style: none
           font-size: 16px
+          padding-left: 10px
           li
             margin-bottom: 16px
+            &.actionTitle
+              font-size: 20px
+              margin-bottom: 20px
+              margin-top: 30px
+              color: $brightyellow
+            &.actionIndent
+              margin-left: 15px
             a
               line-height: 24px
               &:hover
@@ -30,6 +44,9 @@
                 transform: scale(0.9)
     .flexShow
       .flexRow
+        .flexShowLeft
+          width: 170px
+          line-height: 37px
         .flexShowRight
           color: white
           font-weight: lighter
@@ -120,16 +137,19 @@
 @media (max-width: 768px)
   #mainSection
     .main.escapeRoomShow
+      .flexRow
+        flex-direction: column
       .menuERShow
         flex-wrap: wrap
         flex: 1
         .attachmentShow
           width: 100%
           max-width: 100%
-        .menuERShowRight
+        .menuERShowLeft
           width: 100%
-          margin-left: 0px
-          border-left: none
+          margin-right: 0px
+          border-right: none
+          padding: 10px
           .menuERactionList
             padding: 0px
 @media (max-width: 992px)

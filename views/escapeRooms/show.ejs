@@ -1,174 +1,200 @@
 <% include ../partials/_header.ejs %>
+
 <div class="main escapeRoomShow">
+    <div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=i18n.common.my%></a>
+            <span class="material-icons">chevron_right</span>
+            <span><%=escapeRoom.title%></span>
+        </div>
+    </div>
+    <br class="escapeRoomItem">
     <h1><%=i18n.escapeRoom.steps.edit.title%>:</h1>
 
-    <br class="escapeRoomItem">
     <div class="menuERShow">
-    <div class="attachmentShow" >
-        <% var attachment = escapeRoom.attachment; %>
-        <% include ../attachments/_show %>
-    </div>
-    <div class="menuERShowRight">
-       <ul class="menuERactionList">
-           <li><a href="#basic"><%=i18n.showTeacher.actionList.basic%></a></li>
-           <li><a href="#turnos"><%=i18n.showTeacher.actionList.turnos%></a></li>
-           <li><a href="/escapeRooms/<%= escapeRoom.id %>/participants"><%=i18n.showTeacher.actionList.participants%> <span class="material-icons">keyboard_arrow_right</span></a></li>
-           <li><a href="/escapeRooms/<%= escapeRoom.id %>/teams"><%=i18n.showTeacher.actionList.teams%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
-           <li><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
-           <li><button id="share-button" class="showMenuButton shareButton" <%- (escapeRoom.turnos && escapeRoom.turnos.length) ? '' : (' title=\"' + i18n.showTeacher.messages.noShifts + '\" disabled') %> ><%=i18n.showTeacher.actionList.share%></button></li>
-           <li><a href="/escapeRooms/<%= escapeRoom.id %>/activarTurno"><button class="showMenuButton acceptButton"><%=i18n.showTeacher.actionList.activateTurno%></button></a></li>
-           <li><a href="/escapeRooms/<%= escapeRoom.id %>/edit"><button class="showMenuButton editButton"><%=i18n.showTeacher.actionList.edit%></button></a></li>
-           <li><a href="/escapeRooms/<%= escapeRoom.id %>/clone?_method=PUT"><button class="showMenuButton cloneButton" ><%=i18n.showTeacher.actionList.clone%></button></a></li>
-           <li><a href="/escapeRooms/<%= escapeRoom.id %>?_method=DELETE" onClick="return confirm('Delete: <%= escapeRoom.title %>');"><button class="showMenuButton deleteButton"><%=i18n.showTeacher.actionList.delete%></button></a></li>
-           <li><a href="/users/<%= session.user.id %>/escapeRooms"><button class="showMenuButton"><%=i18n.showTeacher.actionList.volver%></button></a></li>
-       </ul>
+        <div class="menuERShowLeft">
+            <ul class="menuERactionList">
+                <li class="actionTitle"><%=i18n.showTeacher.actionList.edit%></li>
+                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/edit"><%=i18n.showTeacher.actionList.basic%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/turnos"><%=i18n.showTeacher.actionList.turnos%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/puzzles"><%=i18n.showTeacher.actionList.puzzles%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/hints"><%=i18n.showTeacher.actionList.hintStrategy%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/team"><%=i18n.showTeacher.actionList.teamInterface%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/class"><%=i18n.showTeacher.actionList.classInterface%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/evaluation"><%=i18n.showTeacher.actionList.evaluation%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                <li class="actionTitle"><%=i18n.showTeacher.actionList.information%></li>
+                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/participants"><%=i18n.showTeacher.actionList.participants%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/teams"><%=i18n.showTeacher.actionList.teams%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
+                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
+                    <li class="actionTitle"><%=i18n.showTeacher.actionList.actions%></li>
+                    <li><button id="share-button" class="showMenuButton shareButton" <%- (escapeRoom.turnos && escapeRoom.turnos.length) ? '' : (' title=\"' + i18n.showTeacher.messages.noShifts + '\" disabled') %> ><%=i18n.showTeacher.actionList.share%></button></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/activarTurno"><button class="showMenuButton acceptButton"><%=i18n.showTeacher.actionList.activateTurno%></button></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/clone?_method=PUT"><button class="showMenuButton cloneButton" ><%=i18n.showTeacher.actionList.clone%></button></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>?_method=DELETE" onClick="return confirm('Delete: <%= escapeRoom.title %>');"><button class="showMenuButton deleteButton"><%=i18n.showTeacher.actionList.delete%></button></a></li>
+            </ul>
+        </div>
+        <div class="menuERShowRight">
+           <!--  <div class="attachmentShow" >
+                <% var attachment = escapeRoom.attachment; %>
+                <% include ../attachments/_show %>
+            </div> -->
 
-    </div>
+
+            <div class="flexShow">
+                <div class="flexRow animated slideInUp" id="basic">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.title%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <%= escapeRoom.title %>
+                    </div>
+                </div>
+                <div class="flexRow animated slideInUp">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.subject%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <%= escapeRoom.subject %>
+                    </div>
+                </div>
+                <div class="flexRow animated slideInUp">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.duration%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <%= escapeRoom.duration %> min.
+                    </div>
+                </div>
+                <div class="flexRow animated slideInUp">
+                     <div class="flexShowLeft">
+                         <%=i18n.showTeacher.titles.description%>:
+                     </div>
+                     <div class="flexShowRight">
+                         <%= escapeRoom.description %>
+                     </div>
+                </div>
+                <% if (escapeRoom.nmax) { %>
+                <div class="flexRow animated slideInUp">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.nmax%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <%= escapeRoom.nmax %>
+                    </div>
+                </div>
+                <%}%>
+                <% if (escapeRoom.teamSize) { %>
+                <div class="flexRow animated slideInUp">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.teamSize%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <%= escapeRoom.teamSize %>
+                    </div>
+                </div>
+                <%}%>
+            
+            
+            
+                <div class="flexRow animated slideInUp" id="turnos">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.turnos%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <% var turnos = escapeRoom.turnos; %>
+                        <%  include ../turnos/_indexShow  %>
+                    </div>
+                </div>
+                <div class="flexRow animated slideInUp smallHidden" id="retos">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.puzzles%>:
+                        <% const someAutomatic = escapeRoom.puzzles && escapeRoom.puzzles.length > 0 && escapeRoom.puzzles.some(p=>p.automatic); %>
+                        <% if (someAutomatic) { %>
+                            <br/><button id="api-button"><span class="material-icons">info</span></button>
+                        <% } %>
+                    </div>
+                    <div class="flexShowRight previewPuzzles">
+                        <%if (escapeRoom.puzzles && escapeRoom.puzzles.length > 0) {%>
+                        <div class="flex-table-retos-wrapper">
+                            <div class="flex-table-retos animated jello">
+                                <div class="flex-row-retos flex-row-retos-title">
+                                    <div class="flex-cell flex-cell-retos">
+                                        <%=i18n.escapeRoom.steps.puzzles.puzzleTitle%>:
+                                    </div>
+                                    <div class="flex-cell flex-cell-sol">
+                                        <%=i18n.escapeRoom.steps.puzzles.solution%>:
+                                    </div>
+                                    <div class="flex-cell flex-cell-desc">
+                                        <%=i18n.escapeRoom.steps.puzzles.description%>:
+                                    </div>
+                                    <div class="flex-cell flex-cell-pista">
+                                        <%=i18n.escapeRoom.steps.puzzles.hints%>:
+                                    </div>
+                                </div>
+                                <% for(var reto in escapeRoom.puzzles) { %>
+                                <% var puzzle = escapeRoom.puzzles[reto] %>
+        
+                                <div class="flex-row-retos">
+                                    <div class="flex-cell flex-cell-retos">
+                                        <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="title"><%= puzzle.title%></div>
+                                    </div>
+                                    <div class="flex-cell flex-cell-sol">
+                                        <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="sol"><%= puzzle.sol%></div>
+                                    </div>
+                                    <div class="flex-cell flex-cell-desc">
+                                        <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="desc"><%= puzzle.desc%></div>
+                                    </div>
+                                    <div class="flex-cell flex-cell-pista">
+                                        <div class="retoTextArea hints-cell hints-cell-preview" data-reto="<%=puzzle.id%>" data-id="hint">
+                                            <ul class=" ">
+                                                <%if (puzzle.hints && puzzle.hints.length > 0) {%>
+                                                <% for (var p in puzzle.hints) { %>
+                                                <% var hint = puzzle.hints[p] %>
+                                                <li class="hint-text-preview">
+                                                        <%= hint.content %>
+                                                </li>
+                                                <% } %>
+                                                <% } else {%>
+                                                <span class="no-pistas-preview">
+                                                    <%=i18n.escapeRoom.steps.puzzles.noCluesYet%>:
+                                                </span>
+                                                <% } %>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        <%} else {%>
+                            <%=i18n.escapeRoom.steps.puzzles.noPuzzlesYet%>:
+                        <%}%>
+                    </div>
+                </div>
+                <div class="flexRow animated slideInUp" id="pistas">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.hints%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <% if (escapeRoom.hintApp) { %>
+        
+                            <a class="show_link"  download="quiz" href="/escapeRooms/<%= escapeRoom.id%>/xml"><%=escapeRoom.hintApp.filename%></a>
+                            <button class="preview-icon" onclick="previewHintApp()"><span class="material-icons">remove_red_eye</span></button> 
+                        <% } else { %>
+                            <%=i18n.showTeacher.messages.noHintControl%>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
     </div>
     <br/>
     <br/>
     <div class="flexShow">
-        <div class="flexRow animated slideInUp" id="basic">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.title%>:
-            </div>
-            <div class="flexShowRight">
-                <%= escapeRoom.title %>
-            </div>
-        </div>
-        <div class="flexRow animated slideInUp">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.subject%>:
-            </div>
-            <div class="flexShowRight">
-                <%= escapeRoom.subject %>
-            </div>
-        </div>
-        <div class="flexRow animated slideInUp">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.duration%>:
-            </div>
-            <div class="flexShowRight">
-                <%= escapeRoom.duration %>
-            </div>
-        </div>
-        <div class="flexRow animated slideInUp">
-             <div class="flexShowLeft">
-                 <%=i18n.showTeacher.titles.description%>:
-             </div>
-             <div class="flexShowRight">
-                 <%= escapeRoom.description %>
-             </div>
-        </div>
-        <% if (escapeRoom.nmax) { %>
-        <div class="flexRow animated slideInUp">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.nmax%>:
-            </div>
-            <div class="flexShowRight">
-                <%= escapeRoom.nmax %>
-            </div>
-        </div>
-        <%}%>
-        <% if (escapeRoom.teamSize) { %>
-        <div class="flexRow animated slideInUp">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.teamSize%>:
-            </div>
-            <div class="flexShowRight">
-                <%= escapeRoom.teamSize %>
-            </div>
-        </div>
-        <%}%>
-        <div class="flexRow animated slideInUp" id="turnos">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.turnos%>:
-            </div>
-            <div class="flexShowRight">
-                <% var turnos = escapeRoom.turnos; %>
-                <%  include ../turnos/_indexShow  %>
-            </div>
-        </div>
-        <div class="flexRow animated slideInUp smallHidden" id="retos">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.puzzles%>:
-                <% const someAutomatic = escapeRoom.puzzles && escapeRoom.puzzles.length > 0 && escapeRoom.puzzles.some(p=>p.automatic); %>
-                <% if (someAutomatic) { %>
-                    <br/><button id="api-button"><span class="material-icons">info</span></button>
-                <% } %>
-            </div>
-            <div class="flexShowRight previewPuzzles">
-                <%if (escapeRoom.puzzles && escapeRoom.puzzles.length > 0) {%>
-                <div class="flex-table-retos-wrapper">
-                    <div class="flex-table-retos animated jello">
-                        <div class="flex-row-retos flex-row-retos-title">
-                            <div class="flex-cell flex-cell-retos">
-                                <%=i18n.escapeRoom.steps.puzzles.puzzleTitle%>:
-                            </div>
-                            <div class="flex-cell flex-cell-sol">
-                                <%=i18n.escapeRoom.steps.puzzles.solution%>:
-                            </div>
-                            <div class="flex-cell flex-cell-desc">
-                                <%=i18n.escapeRoom.steps.puzzles.description%>:
-                            </div>
-                            <div class="flex-cell flex-cell-pista">
-                                <%=i18n.escapeRoom.steps.puzzles.hints%>:
-                            </div>
-                        </div>
-                        <% for(var reto in escapeRoom.puzzles) { %>
-                        <% var puzzle = escapeRoom.puzzles[reto] %>
-
-                        <div class="flex-row-retos">
-                            <div class="flex-cell flex-cell-retos">
-                                <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="title"><%= puzzle.title%></div>
-                            </div>
-                            <div class="flex-cell flex-cell-sol">
-                                <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="sol"><%= puzzle.sol%></div>
-                            </div>
-                            <div class="flex-cell flex-cell-desc">
-                                <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="desc"><%= puzzle.desc%></div>
-                            </div>
-                            <div class="flex-cell flex-cell-pista">
-                                <div class="retoTextArea hints-cell hints-cell-preview" data-reto="<%=puzzle.id%>" data-id="hint">
-                                    <ul class=" ">
-                                        <%if (puzzle.hints && puzzle.hints.length > 0) {%>
-                                        <% for (var p in puzzle.hints) { %>
-                                        <% var hint = puzzle.hints[p] %>
-                                        <li class="hint-text-preview">
-                                             <%= hint.content %>
-                                        </li>
-                                        <% } %>
-                                        <% } else {%>
-                                        <span class="no-pistas-preview">
-                                            <%=i18n.escapeRoom.steps.puzzles.noCluesYet%>:
-                                        </span>
-                                        <% } %>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <% } %>
-                    </div>
-                </div>
-                <%} else {%>
-                    <%=i18n.escapeRoom.steps.puzzles.noPuzzlesYet%>:
-                <%}%>
-            </div>
-        </div>
-        <div class="flexRow animated slideInUp" id="pistas">
-            <div class="flexShowLeft">
-                <%=i18n.showTeacher.titles.hints%>:
-            </div>
-            <div class="flexShowRight">
-                <% if (escapeRoom.hintApp) { %>
-
-                   <a class="show_link"  download="quiz" href="/escapeRooms/<%= escapeRoom.id%>/xml"><%=escapeRoom.hintApp.filename%></a>
-                   <button class="preview-icon" onclick="previewHintApp()"><span class="material-icons">remove_red_eye</span></button> 
-                <% } else { %>
-                   <%=i18n.showTeacher.messages.noHintControl%>
-                <% } %>
-            </div>
-        </div>
+       
     </div>
 </div>
 <br/>

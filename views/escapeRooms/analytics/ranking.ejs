@@ -2,6 +2,8 @@
 <div class="main retosSuperados ranking">
 	<div class="breadcrumbs-container">
 		<div class="breadcrumbs">
+			<a href="/escapeRooms/<%=escapeRoom.id%>"><%=i18n.common.my%></a>
+            <span class="material-icons">chevron_right</span>
 			<a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
 			<span class="material-icons">chevron_right</span>
 			<a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
@@ -9,7 +11,7 @@
 			<span><%=i18n.analytics.ranking.title%></span>
 		</div>
 	</div>
-    <h2 style="text-align:left;"><%=i18n.analytics.ranking.title%></h2>
+    <h1 style="text-align:left;"><%=i18n.analytics.ranking.title%></h1>
     	<div class="content">
 	    	<br/>
 	    	<form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/ranking">

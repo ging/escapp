@@ -1,15 +1,16 @@
 #mainSection
 	.main
-		&.steps
-			> h1
-				font-size: 1.5em
+		&.steps-new, &.steps-edit
+			.breadcrumbs-container
+				.breadcrumbs
+					.breadcrumb-select
+						width: 330px
 		.align-right.flex-buttons
 			flex-wrap: wrap
 			#previous
 				order: 1
 			#next
 				order: 2
-
 		.intro-paragraph
 			font-family: 'Lato', sans-serif
 			text-align: left
@@ -25,9 +26,6 @@
 				padding-bottom: 20px
 				&:first-child
 					font-size: 26px
-				.flexShowLeft
-					width: 250px
-					line-height: 37px
 				.flexShowRight
 					width: 100%
 					font-size: 24px
@@ -60,7 +58,7 @@
 			padding: 10px 20px
 			margin-right: 5px
 			margin-bottom: 5px
-			&#exit
+			&#progress-save, &#save
 				border: 2px solid white
 				background-color: transparent
 				color: white

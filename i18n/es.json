@@ -92,6 +92,7 @@
         "forbidden": "Prohibido",
         "error": "Error",
         "wrong": "Respuesta incorrecta",
+        "isAuthor": "Eres el autor de esta escape room",
         "wrongCredentials": "La combinación de usuario y contraseña es incorrecta",
         "notAParticipant": "No participas en esta escape room",
         "participant": "Participas en esta escape room",
@@ -121,6 +122,7 @@
         "exit": "salir",
         "filter": "filtrar",
         "finish": "finalizar",
+        "my": "Mis escape rooms",
         "completado": "completado",
         "flash": {
             "errors": "Errores",
@@ -228,6 +230,7 @@
                 "dictMaxFilesExceeded": "Demasiados ficheros"
             },
             "edit": {
+                "New": "Nueva",
                 "descriptionPlaceHolder": "Escribe la descripción de tu Escape Room. Esta será la información que se les presentará a los alumnos",
                 "durationPlaceHolder": "¿Cual es el tiempo máximo del que disponen los alumnos?",
                 "forbiddenLateSubmissionsPlaceHolder": "No permitir resolver retos al acabarse la cuenta atrás",
@@ -242,11 +245,12 @@
             },
             "evaluation": {
                 "eachHint": "Asigna una penalización o recompensa por solicitar una pista",
-                "eachPuzzle": "Asigna un peso diferente a cada reto",
+                "eachHintObtain": "Asigna una penalización o recompensa por conseguir una pista",
+                "eachPuzzle": "Asigna un porcentaje diferente a cada reto",
                 "gradingIntro": "Puedes configurar la rúbrica de evaluación para calificar a los alumnos",
                 "hintSuccess": "Puntos por solicitud de pista conseguida",
                 "hintFailed": "Puntos por solicitud de pista fallida",
-                "justParticipating": "Sólo por participar",
+                "justParticipating": "Asigna un porcentaje de la nota sólo por participar",
                 "forSurveys": "para crear las encuestas y cuestionarios de tu escape room",
                 "or": "o",
                 "posttestField": "Post-test",
@@ -266,9 +270,10 @@
                 "automaticAttendanceTeam": "Marcar asistencia a todo el equipo"
             },
             "hints": {
-                "correctNumber": "Nº de aciertos",
+                "explanation": "En este apartado puedes configurar el límite de pistas que puede recibir cada equipo durante la escape room. Por defecto, a los alumnos se les otorgará una pista cada vez que la soliciten. Opcionalmente, puedes hacer que respondan a una serie de preguntas correctamente si desean obtener una pista. Para ello sólo tienes que subir un fichero MoodleXML con una batería de preguntas e indicar cuántas se les muestran cada intento, cuántas deben acertar para lograr una pista y si se les muestra la respuesta correcta al finalizar cada intento.",
+                "correctNumber": "Número de aciertos",
                 "correctNumberPlaceHolder": "¿Cuántas preguntas hay que acertar para obtener una pista?",
-                "explanation": "Si quieres que los alumnos tengan que responder a una serie de preguntas para obtener una pista, sube un fichero MoodleXML que incluya una batería de preguntas",
+                "moodleXMLExplanation": "Si quieres que los alumnos tengan que responder a una serie de preguntas para obtener una pista, sube un fichero MoodleXML que incluya una batería de preguntas",
                 "feedback": "Retroalimentación",
                 "feedbackExplanation": "¿Deseas que se muestre a los alumnos la solución de las preguntas una vez respondidas?",
                 "hintFile": "Fichero de preguntas",
@@ -540,16 +545,23 @@
             "analytics": "Analíticas de aprendizaje",
             "appearance": "Apariencia",
             "basic": "Configuración básica",
+            "puzzles": "Retos y pistas",
+            "hintStrategy": "Gestión de pistas",
+            "teamInterface": "Interfaz de equipo",
+            "classInterface": "Interfaz de clase",
+            "evaluation": "Evaluación",
             "clone": "clonar",
             "delete": "borrar",
-            "edit": "editar",
+            "edit": "Editar",
             "join": "Enlace de invitación",
             "participants": "Participantes",
             "teams": "Equipos",
             "shifts": "Turnos",
             "turnos": "Turnos",
             "share": "compartir",
-            "volver": "volver"
+            "volver": "volver",
+            "actions": "Acciones",
+            "information": "Información"
             
         },
         "messages": {
@@ -569,7 +581,7 @@
         "titles": {
             "appearance": "Apariencia",
             "description": "Descripción",
-            "duration": "Duración (min.)",
+            "duration": "Duración",
             "hints": "Pistas",
             "instructions": "Instrucciones",
             "invitation": "Invitación",

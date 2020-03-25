@@ -3,6 +3,8 @@
 <div class="main summary">
     <div class="breadcrumbs-container">
         <div class="breadcrumbs">
+            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=i18n.common.my%></a>
+            <span class="material-icons">chevron_right</span>
             <a href="/escapeRooms/<%=escapeRoom.id%>">
                 <%=escapeRoom.title%>
             </a>
@@ -10,7 +12,7 @@
             <span><%=i18n.analytics.main.title%></span>
         </div>
     </div>
-    <h2><%=i18n.analytics.main.title%></h2>
+    <h1><%=i18n.analytics.main.title%></h1>
 <%
     var sections = [
         {

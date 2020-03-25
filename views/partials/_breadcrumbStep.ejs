@@ -1,0 +1,31 @@
+<% var labels =  steps() %>
+<div class="breadcrumbs-container">
+    <div class="breadcrumbs">
+        <a href="/escapeRooms/<%=escapeRoom.id%>"><%=i18n.common.my%></a>
+        <span class="material-icons">chevron_right</span>
+        <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+        <span class="material-icons">chevron_right</span>
+        <span>
+            <select class="breadcrumb-select" onchange="change(this)">
+                <% for (var i of labels) { %>
+                    <option value="<%=i%>" <%=i === progress ? "selected" : "" %> >
+                        <%=i18n.escapeRoom.steps[i].title%>
+                    </option>
+                <% } %>
+            </select>
+        </span>
+    </div>
+</div>
+<script>
+    function change (ev) {
+       
+        $('<input>').attr({
+            type: 'hidden',
+            id: 'progress',
+            name: 'progress',
+            value: $(ev).val()
+        }).appendTo('.main > form');
+    
+        $('.main > form').submit();
+    }
+</script>
