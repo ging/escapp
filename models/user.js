@@ -1,5 +1,7 @@
 
-const crypt = require("../helpers/crypt");// Definition of the User model:
+const crypt = require("../helpers/crypt");
+
+// Definition of the User model:
 
 module.exports = function (sequelize, DataTypes) {
     const User = sequelize.define("user", {
@@ -30,6 +32,13 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         "salt": {"type": DataTypes.STRING},
+        "token": {
+            "type": DataTypes.STRING,
+            "allowNull": false,
+            "defaultValue" () {
+                return crypt.generateToken();
+            }
+        },
         "dni": {
             "type": DataTypes.STRING,
             "unique": true,

@@ -47,18 +47,15 @@ exports.checkParticipant = async (req, res, next) => {
 
 exports.checkParticipantSafe = async (req, res, next) => {
     const {body} = req;
-    const {email, password} = body;
-    const where = {};
+    const {email, password, token} = body;
     const {i18n} = req.app.locals;
 
-    if (email && password) {
-        where.username = email;
-    } else {
+    if (!email || !(password || token)) {
         return res.status(401).json({"code": CREDENTIALS_MISSING, "msg": i18n.api.unauthorized});
     }
 
     try {
-        const user = await authenticate((email || "").toString().toLowerCase(), (password || "").toString());
+        const user = await authenticate(email, password, token);
 
         if (user) {
             req.teams = await user.getTeamsAgregados({
@@ -79,7 +76,7 @@ exports.checkParticipantSafe = async (req, res, next) => {
             req.user = user;
             next();
         } else {
-            res.status(401).json({"code": WRONG_CREDENTIALS, "msg": i18n.api.wrongCredentials});
+            res.status(401).json({"code": WRONG_CREDENTIALS, "msg": password ? i18n.api.wrongCredentials : i18n.api.wrongCredentialsToken});
         }
     } catch (err) {
         console.error(err);
@@ -218,5 +215,5 @@ exports.auth = async (req, res) => {
         code = NOT_A_PARTICIPANT;
         msg = i18n.api.notAParticipant;
     }
-    res.status(status).json({code, msg, puzzlesSolved, hintsAllowed});
+    res.status(status).json({"token": user.token, code, msg, puzzlesSolved, hintsAllowed});
 };

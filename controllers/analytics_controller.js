@@ -361,8 +361,8 @@ exports.grading = async (req, res, next) => {
     const {turnId, orderBy, csv} = query;
     const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
-    const hintConditional = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed
-    const hintAppConditional = hintConditional && escapeRoom.hintApp; // Hint app methodology 
+    const hintConditional = !escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 || escapeRoom.hintLimit > 0; // Hints allowed
+    const hintAppConditional = hintConditional && escapeRoom.hintApp; // Hint app methodology
 
     try {
         const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true, true));
@@ -377,7 +377,7 @@ exports.grading = async (req, res, next) => {
 
             const grades = retosSuperados.map((reto, index) => reto * (escapeRoom.puzzles[index].score || 0));
             const gradeScore = grades.reduce((a, b) => a + b);
-            const attendance = user.turnosAgregados[0].participants.attendance ? (escapeRoom.scoreParticipation || 0) : 0;
+            const attendance = user.turnosAgregados[0].participants.attendance ? escapeRoom.scoreParticipation || 0 : 0;
 
 
             let total = attendance + gradeScore;
@@ -396,7 +396,6 @@ exports.grading = async (req, res, next) => {
                     total += hintsFailed;
                     result.hintsFailed = hintsFailed;
                 }
-
             }
             return result;
         });

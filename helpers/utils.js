@@ -54,8 +54,7 @@ exports.getPuzzleOrderSuperados = async (team) => {
     const retosSuperados = await team.getRetos({ "attributes": ["id"] });
 
     return retosSuperados.length ? Array(retosSuperados.length).fill(0).map((_, i) => i + 1) : [];
-
-}
+};
 
 exports.pctgRetosSuperados = (retosSuperados) => Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
 
@@ -203,14 +202,13 @@ exports.playInterface = async (name, req, res, next) => {
 };
 
 exports.isTooLate = (team) => {
-    console.log(team.turno.status)
     if (team.turno.status === "finished") {
         return true;
     }
 
     const {duration} = team.turno.escapeRoom;
     const startTime = team.turno.startTime || team.startTime;
-    console.log(duration, startTime, team.turno.escapeRoom.forbiddenLateSubmissions)
+
     return team.turno.escapeRoom.forbiddenLateSubmissions && new Date(startTime.getTime() + duration * 60000) < new Date();
 };
 
@@ -251,5 +249,13 @@ exports.byRanking = (a, b) => {
  * If the authentication fails, then the promise is also satisfied, but it
  * returns null.
  */
-exports.authenticate = (login, password) => models.user.findOne({"where": {"username": login}}).
-    then((user) => user && user.verifyPassword(password) ? user : null);// GET /   -- Login form
+exports.authenticate = (login, password, token) => {
+    const username = (login || "").toString();
+
+    if (token) {
+        return models.user.findOne({"where": {username, token}}).
+            then((user) => user);
+    }
+    return models.user.findOne({"where": {username}}).
+        then((user) => user && user.verifyPassword(password || "").toString() ? user : null);
+};

@@ -119,8 +119,8 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
 exports.areHintsAllowedForTeam = async (teamId, hintLimit) => {
     const reqHints = await models.requestedHint.findAll({"where": { teamId, "success": true}});
 
-    if ((!hintLimit && hintLimit !== 0) || hintLimit >= reqHints.length) {
+    if (!hintLimit && hintLimit !== 0 || hintLimit >= reqHints.length) {
         return true;
     }
     return false;
-}
+};

@@ -14,6 +14,7 @@
     "migrate_local_sqlite": "sequelize db:migrate --url sqlite://$(pwd)/escaperoom.sqlite",
     "migrate_local_sqlite_windows": "sequelize db:migrate --url sqlite://%cd%/escaperoom.sqlite",
     "migrate_heroku": "heroku run ./node_modules/.bin/sequelize db:migrate --url $DATABASE_URL",
+    "undo_last_migration_local_sqlite" : "sequelize db:migrate:undo --url sqlite://$(pwd)/escaperoom.sqlite",
     "seed_local": "sequelize db:seed:all --url $(grep DATABASE_URL  .env | cut -d '=' -f2)",
     "seed_local_sqlite": "sequelize db:seed:all --url sqlite://$(pwd)/escaperoom.sqlite",
     "seed_local_sqlite_windows": "sequelize db:seed:all --url sqlite://%cd%/escaperoom.sqlite",
@@ -62,6 +63,7 @@
     "socket.io": "^2.3.0",
     "supertest": "^4.0.2",
     "supertest-session": "^4.0.0",
+    "uuid-token-generator": "^1.0.0",
     "zombie": "^6.1.4"
   },
   "devDependencies": {

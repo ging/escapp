@@ -94,6 +94,7 @@
         "wrong": "Respuesta incorrecta",
         "isAuthor": "Eres el autor de esta escape room",
         "wrongCredentials": "La combinación de usuario y contraseña es incorrecta",
+        "wrongCredentialsToken": "La combinación de usuario y token es incorrecta",
         "notAParticipant": "No participas en esta escape room",
         "participant": "Participas en esta escape room",
         "notActive": "Participas en esta escape room pero tu turno no está activo",

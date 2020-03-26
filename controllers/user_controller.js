@@ -65,7 +65,7 @@ exports.create = (req, res, next) => {
     user.isStudent = Boolean(isStudent);
 
     // Save into the data base
-    user.save({"fields": ["name", "surname", "gender", "username", "dni", "password", "isStudent", "salt"]}).
+    user.save({"fields": ["name", "surname", "gender", "username", "dni", "password", "isStudent", "salt", "token"]}).
         then(() => { // Render the users page
             req.flash("success", req.app.locals.i18n.common.flash.successCreatingUser);
             res.redirect(redir ? `/?redir=${redir}` : "/"); // Redirection
