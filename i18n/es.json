@@ -245,7 +245,7 @@
             },
             "evaluation": {
                 "eachHint": "Asigna una penalización o recompensa por solicitar una pista",
-                "eachHintObtain": "Asigna una penalización o recompensa por conseguir una pista",
+                "eachHintObtain": "Asigna una penalización o recompensa por pista conseguida",
                 "eachPuzzle": "Asigna un porcentaje diferente a cada reto",
                 "gradingIntro": "Puedes configurar la rúbrica de evaluación para calificar a los alumnos",
                 "hintSuccess": "Puntos por solicitud de pista conseguida",
@@ -270,7 +270,7 @@
                 "automaticAttendanceTeam": "Marcar asistencia a todo el equipo"
             },
             "hints": {
-                "explanation": "En este apartado puedes configurar el límite de pistas que puede recibir cada equipo durante la escape room. Por defecto, a los alumnos se les otorgará una pista cada vez que la soliciten. Opcionalmente, puedes hacer que respondan a una serie de preguntas correctamente si desean obtener una pista. Para ello sólo tienes que subir un fichero MoodleXML con una batería de preguntas e indicar cuántas se les muestran cada intento, cuántas deben acertar para lograr una pista y si se les muestra la respuesta correcta al finalizar cada intento.",
+                "explanation": "En este apartado puedes configurar la estrategia de pistas a seguir durante la escape room. Hay tres estragias disponibles: no permitir pistas; permitir que el alumno obtenga una pista cuando la necesite sin proporcionar nada a cambio, y permitir que el alumno obtenga una pista tras responder correctamente a un cuestionario. Si habilitas las pistas, puedes configurar el límite de pistas que puede recibir cada equipo durante la escape room. Si eliges la última estrategia, sólo tienes que subir un fichero MoodleXML con una batería de preguntas e indicar cuántas se les muestran cada intento, cuántas deben acertar para lograr una pista y si se les muestra la respuesta correcta al finalizar cada intento.",
                 "correctNumber": "Número de aciertos",
                 "correctNumberPlaceHolder": "¿Cuántas preguntas hay que acertar para obtener una pista?",
                 "moodleXMLExplanation": "Si quieres que los alumnos tengan que responder a una serie de preguntas para obtener una pista, sube un fichero MoodleXML que incluya una batería de preguntas",
@@ -280,6 +280,10 @@
                 "hintLimit": "Límite de pistas",
                 "hintLimitExplanation": "¿Cuántas pistas pueden obtener los alumnos como máximo?",
                 "hintLimitPlaceholder": "No hay límite",
+                "hintStrategy": "Estrategia de pistas",
+                "noHintsStrategy": "Pistas no permitidas",
+                "freeHintsStrategy": "Los alumnos pueden obtener pistas gratuitamente",
+                "quizHintsStrategy": "Los alumnos pueden obtener pistas si aprueban un cuestionario",
                 "MoodleXML": "MoodleXML",
                 "noFile": "No has subido ningún fichero",
                 "questionNumber": "Número de preguntas",

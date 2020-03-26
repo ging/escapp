@@ -50,6 +50,13 @@ exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({
         return t1.countretos > t2.countretos ? -1 : 1;
     });
 
+exports.getPuzzleOrderSuperados = async (team) => {
+    const retosSuperados = await team.getRetos({ "attributes": ["id"] });
+
+    return retosSuperados.length ? Array(retosSuperados.length).fill(0).map((_, i) => i + 1) : [];
+
+}
+
 exports.pctgRetosSuperados = (retosSuperados) => Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;
 
 exports.countHints = (requestedHints) => {
@@ -196,9 +203,14 @@ exports.playInterface = async (name, req, res, next) => {
 };
 
 exports.isTooLate = (team) => {
+    console.log(team.turno.status)
+    if (team.turno.status === "finished") {
+        return true;
+    }
+
     const {duration} = team.turno.escapeRoom;
     const startTime = team.turno.startTime || team.startTime;
-
+    console.log(duration, startTime, team.turno.escapeRoom.forbiddenLateSubmissions)
     return team.turno.escapeRoom.forbiddenLateSubmissions && new Date(startTime.getTime() + duration * 60000) < new Date();
 };
 

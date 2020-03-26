@@ -13,11 +13,26 @@ exports.load = (req, res, next, puzzleId) => {
                 req.puzzle = puzzle;
                 next();
             } else {
-                next(new Error(404));
+                next(new Error(req.app.locals.i18n.api.notFound));
             }
         }).
         catch((error) => next(error));
 };
+
+// Autoload the puzzle with order equals to :puzzleOrder for escape room :escapeRoomId
+exports.loadOrder = (req, res, next, puzzleOrder) => {
+    if (req.escapeRoom) {
+        if (puzzleOrder > 0 && puzzleOrder <= req.escapeRoom.puzzles.length) {
+            const order = puzzleOrder - 1;
+
+            req.puzzle = req.escapeRoom.puzzles[order];
+            next();
+            return;
+        }
+    }
+    next(new Error(req.app.locals.i18n.api.notFound));
+};
+
 
 // POST /escapeRooms/:escapeRoomId/puzzles/new
 exports.create = (req, res, next) => {

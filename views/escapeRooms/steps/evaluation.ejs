@@ -57,7 +57,9 @@
 			<% } %>
 			</table>
 		  </div>
-		<% if (escapeRoom.hintApp) {%>
+		<% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
+		<% var hintAppConditional = hintConditional && escapeRoom.hintApp; // Hint app methodology %>
+		<% if (hintAppConditional) {%>
 			<div class="erFormField disallow animated slideInUp" style="animation-delay:600ms;">
 				<label for="tit"  class="itemNarrow">4. <%=i18n.escapeRoom.steps.evaluation.eachHint%>:</label>
 				  <table class="scorePuzzles">
@@ -71,7 +73,7 @@
 					  </tr>
 				  </table>
 			  </div>
-		<% } else { %>
+		<% } else if (hintConditional) { %>
 			<div class="erFormField disallow animated slideInUp" style="animation-delay:600ms;">
 				<label for="tit"  class="itemNarrow">4. <%=i18n.escapeRoom.steps.evaluation.eachHintObtain%>:</label>
 				<input  type="number" min="0" max="100" placeholder="0" value="<%=escapeRoom.hintSuccess || 0%>" name="scoreParticipation" class="customInput scoreInput itemWide"  id="score-participation"/>

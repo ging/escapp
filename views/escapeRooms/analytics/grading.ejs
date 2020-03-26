@@ -51,8 +51,8 @@
             <% for (var p in escapeRoom.puzzles) { var puzzle = escapeRoom.puzzles[p]; %>
             <th><%=puzzle.title%></th>
             <% } %>
-            <th><%=i18n.analytics.grading.hintSuccess%></th>
-            <th><%=i18n.analytics.grading.hintFailed%></th>
+            <% if (hintConditional) { %><th><%=i18n.analytics.grading.hintSuccess%></th><%}%>
+            <% if (hintAppConditional) { %><th><%=i18n.analytics.grading.hintFailed%></th><%}%>
             <th><%=i18n.common.Total%></th>
         </tr>
         <%for (var p in results) { var result = results[p]; %>
@@ -66,8 +66,8 @@
                 <%=grade%>
             </td>
             <% } %>
-            <td><%=result.hintsSucceeded%></td>
-            <td><%=result.hintsFailed%></td>
+            <% if (hintConditional) { %><td><%=result.hintsSucceeded%></td><%}%>
+            <% if (hintAppConditional) { %> <td><%=result.hintsFailed%></td><%}%>
             <td style="background-color: <%=getGradientColor(result.total)%>;"><%=result.total%>%</td>
         </tr>
         <% } %>

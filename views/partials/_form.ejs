@@ -16,6 +16,8 @@
          id: "dur",
          i18n: "duration",
          number: true,
+         min: 1,
+         max: 100000,
          value: escapeRoom.duration
      },
      {
@@ -29,18 +31,18 @@
          id: "nm",
          i18n: "nmax",
          number: true,
-         min: 0,
-         max: 10000,
-         value: escapeRoom.nmax
+         min: 1,
+         max: 100000,
+         value: escapeRoom.nmax || null
      },
      {
          name: "teamSize",
          id: "ts",
          i18n: "teamSize",
          number: true,
-         min: 0,
-         max: 10000,
-         value: escapeRoom.teamSize
+         min: 1,
+         max: 100000,
+         value: escapeRoom.teamSize || null
      }]; %>
 <% for (let f in formFields) {
   var field = formFields[f];%>

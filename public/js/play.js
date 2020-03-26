@@ -325,9 +325,15 @@ $(document).on("click", ".puzzle-check-btn", function(){
 });
 
 $(document).on("click", "#btn-hints", function(){
-  $( "body" ).append(modalTemplate());
-  $('#hintAppModal').modal('show');
-  $('#hintAppModal').on('hidden.bs.modal', () => setTimeout(()=>$('#hintAppModal').remove(), 200));
+  console.log(hintAppConditional)
+  if (hintAppConditional) {
+    $( "body" ).append(modalTemplate());
+    $('#hintAppModal').modal('show');
+    $('#hintAppModal').on('hidden.bs.modal', () => setTimeout(()=>$('#hintAppModal').remove(), 200));
+  } else {
+    waitingForHintReply = true;
+    requestHint(100, "completed");
+  }
 });
 
 let waitingForHintReply = false;

@@ -361,6 +361,8 @@ exports.grading = async (req, res, next) => {
     const {turnId, orderBy, csv} = query;
     const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
+    const hintConditional = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed
+    const hintAppConditional = hintConditional && escapeRoom.hintApp; // Hint app methodology 
 
     try {
         const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true, true));
@@ -371,35 +373,56 @@ exports.grading = async (req, res, next) => {
             const startDate = user.turnosAgregados[0].startTime || user.teamsAgregados[0].startTime;
 
             const {retosSuperados} = retosSuperadosByWho(user.teamsAgregados[0], puzzles, false, startDate);
-            const [{requestedHints}] = user.teamsAgregados;
 
-            let {hintsSucceeded, hintsFailed} = countHints(requestedHints);
 
             const grades = retosSuperados.map((reto, index) => reto * (escapeRoom.puzzles[index].score || 0));
             const gradeScore = grades.reduce((a, b) => a + b);
-            const attendance = user.turnosAgregados[0].participants.attendance ? escapeRoom.scoreParticipation : 0;
+            const attendance = user.turnosAgregados[0].participants.attendance ? (escapeRoom.scoreParticipation || 0) : 0;
 
-            hintsFailed *= escapeRoom.hintFailed || 0;
-            hintsSucceeded *= escapeRoom.hintSuccess || 0;
-            const total = hintsFailed + hintsSucceeded + attendance + gradeScore;
 
-            return {name, surname, dni, username, turno, grades, turnId, attendance, hintsFailed, hintsSucceeded, total};
+            let total = attendance + gradeScore;
+            const result = {name, surname, dni, username, turno, grades, turnId, attendance, total};
+
+            if (hintConditional) {
+                const [{requestedHints}] = user.teamsAgregados;
+
+                let {hintsSucceeded, hintsFailed} = countHints(requestedHints);
+
+                hintsSucceeded *= escapeRoom.hintSuccess || 0;
+                total += hintsSucceeded;
+                result.hintsSucceeded = hintsSucceeded;
+                if (hintAppConditional) {
+                    hintsFailed *= escapeRoom.hintFailed || 0;
+                    total += hintsFailed;
+                    result.hintsFailed = hintsFailed;
+                }
+
+            }
+            return result;
         });
 
         if (csv) {
             const resultsCsv = results.map((rslt) => {
-                const {name, surname, username, dni, turno, grades, attendance, hintsFailed, hintsSucceeded, total} = rslt;
+                const {name, surname, username, dni, turno, grades, hintsSucceeded, hintsFailed, attendance, total} = rslt;
                 const rs = {};
 
                 for (const r in grades) {
                     rs[puzzleNames[r]] = grades[r];
                 }
-                return {name, surname, username, dni, turno, ...rs, attendance, hintsFailed, hintsSucceeded, total};
+                const result = {name, surname, username, dni, turno, ...rs, attendance, total};
+
+                if (hintConditional) {
+                    result.hintsSucceeded = hintsSucceeded;
+                    if (hintAppConditional) {
+                        result.hintsFailed = hintsFailed;
+                    }
+                }
+                return result;
             });
 
             createCsvFile(res, resultsCsv);
         } else {
-            res.render("escapeRooms/analytics/grading", {escapeRoom, results, turnId, orderBy});
+            res.render("escapeRooms/analytics/grading", {escapeRoom, results, turnId, orderBy, hintConditional, hintAppConditional});
         }
     } catch (e) {
         console.error(e);

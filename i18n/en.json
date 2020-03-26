@@ -250,7 +250,7 @@
             },
             "evaluation": {
                 "eachHint": "Assign a penalty or reward for requesting a hint",
-                "eachHintObtain": "Assign a penalty or reward for receiving a hint",
+                "eachHintObtain": "Assign a penalty or reward for each hint obtained",
                 "eachPuzzle": "Assign a different percentage to each puzzle",
                 "forSurveys": "create surveys and quizes for your Escape Room",
                 "hintSuccess": "Points for each hint request succeeded",
@@ -277,7 +277,7 @@
             "hints": {
                 "correctNumber": "Hit number",
                 "correctNumberPlaceHolder": "How many correct answers do students need to obtain a hint?",
-                "explanation": "In this step you can set the maximum number of hits a team can receive during the escape room. By default, students will be given a hint every time they ask for one. Optionally, you can make them pass a short quiz in order to get a hint. To do so, just upload a MoodleXML file containing a battery of questions and indicate how many questions will be shown each attempt, how many they need to get right in order to pass, and whether the right answer should be shown to them after each attempt",
+                "explanation": "In this step you can select the hint strategy of your escape room. There are three strategies available: not allowing hints, allowing free hints, and requiring students to solve a quiz in order to obtain a hint. If you enable hints, you can set a limit of hints that students can obtain. If you choose the last strategy, you need to upload a MoodleXML file containing a battery of questions and indicate how many questions will be shown each attempt, how many they need to get right in order to pass, and whether the right answer should be shown to them after each attempt",
                 "moodleExplanation": "If you want students to answer a quiz in order to get a hint, please upload a MoodleXML with a battery of questions",
                 "feedback": "Feedback",
                 "feedbackExplanation": "Do you want to show students the correct answers once the quiz is completed?",
@@ -285,6 +285,10 @@
                 "hintLimit": "Hint limit",
                 "hintLimitExplanation": "What is the maximum number of hints students can get?",
                 "hintLimitPlaceholder": "No limit",
+                "hintStrategy": "Hint strategy",
+                "noHintsStrategy": "No hints allowed",
+                "freeHintsStrategy": "Students can obtain free hints",
+                "quizHintsStrategy": "Students can obtain hints by passing a quiz",
                 "MoodleXML": "MoodleXML",
                 "noFile": "You haven't uploaded any files yet",
                 "questionNumber": "Number of questions",

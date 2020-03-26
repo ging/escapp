@@ -11,12 +11,12 @@
 
         $(container)
             .find(".erFormField:not(.disallow)")
-            .not(".erFormField input")
+            .not(".erFormField input, .erFormField select")
             .on("click", function() {
                 rescroll(this);
             });
 
-        $(container).find(".erFormField:not(.disallow) input").keypress(function(e) {
+        $(container).find(".erFormField:not(.disallow) input, .erFormField:not(.disallow) select").keypress(function(e) {
             if (e.which == 13) {
                 if ($(this).hasClass("required") && $(this).val() == "") {
                 } else moveNext(this);
@@ -41,7 +41,7 @@
         function reinitState(e) {
             $(container).find(".erFormField:not(.disallow)").removeClass("active");
 
-            $(container).find(".erFormField:not(.disallow) input").each(function() {
+            $(container).find(".erFormField:not(.disallow) input, .erFormField:not(.disallow) select").each(function() {
                 $(this).blur();
             });
             $(e).addClass("active");
@@ -81,7 +81,7 @@
 
         $(container)
             .find(".erFormField:not(.disallow)")
-            .not(".erFormField:not(.disallow) input")
+            .not(".erFormField:not(.disallow) input, .erFormField:not(.disallow) select")
             .on("click", function() {
                 rescroll(this);
             });
@@ -111,7 +111,7 @@
         function reinitState(e) {
             $(container).find(".erFormField:not(.disallow)").removeClass("active");
 
-            $(container).find(".erFormField:not(.disallow) input").each(function() {
+            $(container).find(".erFormField:not(.disallow) input, .erFormField:not(.disallow) select").each(function() {
                 $(this).blur();
             });
             $(e).find("input").focus();

@@ -97,6 +97,7 @@ app.use((req, res, next) => {
     const err = new Error("Not Found");
 
     err.status = 404;
+    err.message = "NOT_FOUND";
     res.locals.message = "Not found";
     res.locals.error = app.get("env") === "production" ? {"status": 404} : err;
     next(err);
@@ -119,7 +120,7 @@ app.use((err, req, res, next) => {
         // Render the error page
         res.render("error");
     } else {
-        res.send(err);
+        res.json({"code": "ERROR", "msg": err.message});
     }
 });
 
