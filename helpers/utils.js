@@ -51,9 +51,9 @@ exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({
     });
 
 exports.getPuzzleOrderSuperados = async (team) => {
-    const retosSuperados = await team.getRetos({ "attributes": ["id"] });
+    const retosSuperados = await team.getRetos({ "attributes": ["order"] });
 
-    return retosSuperados.length ? Array(retosSuperados.length).fill(0).map((_, i) => i + 1) : [];
+    return retosSuperados.length ? retosSuperados.map((r) => r.order + 1) : [];
 };
 
 exports.pctgRetosSuperados = (retosSuperados) => Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;

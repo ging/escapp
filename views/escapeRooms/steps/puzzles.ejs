@@ -3,7 +3,9 @@
     <%- include ../../partials/_breadcrumbStep %>
 
      <h1><%=i18n.escapeRoom.steps.puzzles.title%></h1>
-
+    <p class="intro-paragraph">
+        <%=i18n.escapeRoom.steps.puzzles.explanation%>
+    </p>
     <div class="align-right">
         <button class="rounded editButton" type="button" id="add-new-puzzle">
             <!-- <span class="material-icons">control_point</span> -->
@@ -42,19 +44,14 @@
 <script>
   $( function() {
     // Puzzle sortable
-    $.easing.custom = function (x, t, b, c, d) {
-        var s = 0.70158; 
-        if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
-        return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
-    }
 
     $(document).on('mousedown touchdown', '.handle', () => {
-        $('.puzzle-card > *:not(.showAlways)').slideToggle();
-        $('.puzzle-card').toggleClass('collapsed')
+        $('.puzzle-card > *:not(.showAlways)').slideUp({easing: "swing", duration: 100});
+        $('.puzzle-card').addClass('collapsed')
     });
     $(document).on('mouseup touchend', '.handle', () => {
-        $('.puzzle-card > *:not(.showAlways)').slideToggle({easing: "custom", duration: 200});
-        $('.puzzle-card').toggleClass('collapsed')
+        $('.puzzle-card > *:not(.showAlways)').slideDown({easing: "swing", duration: 150});
+        $('.puzzle-card').removeClass('collapsed')
         $('.puzzle-card > *:not(.showAlways)').show();
     });
 
@@ -65,8 +62,8 @@
          $(ui.placeholder).height('105px');
         },
         stop: () => {
-            $('.puzzle-card > *:not(.showAlways)').slideToggle({easing: "custom", duration: 200});
-            $('.puzzle-card').toggleClass('collapsed')
+            $('.puzzle-card > *:not(.showAlways)').slideDown({easing: "swing", duration: 200});
+            $('.puzzle-card').removeClass('collapsed')
             $('.puzzle-card > *:not(.showAlways)').show();
         },
         update: (a,b)=>{
@@ -78,7 +75,6 @@
     });
 
     // Hint sortable
-
     $( ".hint-list" ).sortable({
         handle: '.handle-hint',
         update: (event,b)=>{
@@ -101,7 +97,7 @@
         newCard.appendTo('#sortable');
         $('html, body').animate({
             scrollTop: $(newCard).offset().top
-        }, 300);
+        }, 100);
 
         newCard.find('input[type=text]').first().focus();
     })

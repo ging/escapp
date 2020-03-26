@@ -10,7 +10,13 @@
       .attachmentShow
         float: right
         text-align: center
-        width: 200px
+        position: absolute
+        right: 0
+        img
+          height: auto
+          width: auto
+          max-height: 150px
+          max-width: 150px
       .menuERShowLeft
         margin-right:  50px
         padding: 10px
@@ -50,6 +56,10 @@
         .flexShowRight
           color: white
           font-weight: lighter
+          .turno-date-title-show
+            text-align: left
+        &.nextToPicture
+            width: calc(100% - 160px)
     #dialog-preview-video, #dialog-preview-api, #dialog-share
       padding: 0
       background-color: white
@@ -64,10 +74,19 @@
     #dialog-preview-api, #dialog-share
       padding: 15px
       h4
-        color: $brightgreen
+        color: $mainpurple
         font-size: 20px
         margin-bottom: -4px
+      h5, h6
+        color: $mainpurple
+      h6
+        margin-bottom: 0px
+        font-family: Lato, sans-serif
+      
       .api-table
+        tr
+          &.first
+            border-top: 2px solid grey
         td, th
           font-size: 14px
           font-family: 'Lato', sans-serif
@@ -75,16 +94,34 @@
           code
             font-family: monospace
             color: $lightred
+
+            &>*
+              font-family: monospace
+            &.api-method
+              color: $brightblue
+          &.api-key
+            padding-right: 10px
+            code
+              color: $brightgreen
+          &.api-value
+            padding-right: 10px
+            code
+              color: $brightblue
         th
-          color: $lightred
+          color: $mainpurple
           font-weight: 600
           text-align: left
-      pre#sample-fetch
-        color: white
+      pre.sample-fetch
+        color: $mainpurple
         padding: 15px
         font-size: 14px
         font-family: monospace
-        background-color: $textpurple
+        background-color: white
+        border: 1px solid $brightorange
+        span 
+          font-family: monospace
+        .code-highlighted
+          color: $lightred
       .show_link
         font-family: 'Lato', sans-serif
         color: $darkerpurple
@@ -114,6 +151,13 @@
         .hl
           color: $brightblue
           font-family: inherit
+      .api-description
+        font-family: 'Lato', sans-serif
+        font-size: 14px
+        color: $darkerpurple
+        code
+          color: $brightgreen
+          font-family: monospace
     .ui-dialog
       outline: none !important
     .ui-dialog-title
@@ -145,6 +189,13 @@
         .attachmentShow
           width: 100%
           max-width: 100%
+          position: relative
+          float: none
+          img
+            width: 100%
+            max-width: 100%
+            height: auto
+            max-height: none
         .menuERShowLeft
           width: 100%
           margin-right: 0px

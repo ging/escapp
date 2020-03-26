@@ -204,7 +204,43 @@
             "name": "Name",
             "endpoint": "Endpoint",
             "solution": "Solution",
-            "sample": "Sample remote request"
+            "sample": "Sample remote request",
+            "key": "Key",
+            "value": "Possible values",
+            "description": "Description",
+            "authenticationAPI": "Authentication API",
+            "method": "Method",
+            "email": "User e-mail",
+            "password": "User password",
+            "tokenR": "Instead of the password you can provide the user token",
+            "request": "Request",
+            "sampleRequest": "Sample request",
+            "response": "Response",
+            "sampleResponse": "Sample response",
+            "puzzleAPI": "Puzzle API",
+            "erState": "Object indicating the current state of the escape room for the team. It has two properties: <code>puzzlesSolved</code>, which contains an array indicating which puzzles have been completed by the team, and <code>hintsAllowed</code>, which is a boolean indicating whether the team can request any more hints.",
+            "puzzleAPIRequestExplanation": "The puzzle API accepts the same parameters in its body as the authentication API.",
+            "code": {
+                "OK": "The answer provided for the puzzle is correct",
+                "NOK": "The answer provided for the puzzle is incorrect"
+            },
+            "correctAnswer":"Besides returning the parameters returned by the authentication API, the puzzle API returns an additional paramater named <code>correctAnswer</code>, which  is  <code>true</code> if the answer provided for the puzzle is correct and <code>false</code> otherwise.",
+
+            "participation": {
+                "PARTICIPANT": "You are a participant of this escape room and the shift you signed up for is active",
+                "TOO_LATE": "You are a participant of this escape room but the shift you signed up for is finished or you have run out of time",
+                "NOT_A_PARTICIPANT": "You are not a participant of this escape room",
+                "AUTHOR": "You are the author of this escape room"
+            },
+            "token": {
+                "xxxx": "The authentication token you can use for the API"
+            },
+            "puzzlesSolved": "Array containing the puzzles already solved by the team",
+            "hintsAllowed": {
+                "true": "The team can request more hints",
+                "false": "The team can NOT request more hints"
+            }
+
         },
         "invitation": {
             "no": "no",
@@ -320,6 +356,7 @@
                 "turnos": "Shifts"
             },
             "puzzles": {
+                "explanation": "In this step, you can specify the different puzzles that make up the escape room. Bear in mind that they must follow a linear structure, which means that in order to solve a puzzle, students need to have solved the previous one before. You need to specify the name and description of each puzzle, as well as its solution. If you check the automatic monitorization option for any puzzle, it will not be displayed in the team interface for students to solve. Instead, you need to use the puzzle API in order to solve it. In addition, you may add automatic hints for each puzzle, which will be handed to students when they get stuck and ask for help.",
                 "addNewHint": "add hint",
                 "addNewPuzzles": "add puzzle",
             	"automatic": "automatic",
@@ -576,11 +613,14 @@
         },
         "messages": {
             "noHintControl": "This Escape Room does not have any hint system yet",
+            "freeHintsStrategy": "This escape room allows obtaining free hints",
+            "noHintsStrategy": "This escape room does not allow to obtain hints",
             "noVideo": "This Escape Room does not have any video yet",
             "copyAria": "Invisible input to enable copying invitation link",
             "copyTitle": "Copy the link",
             "qrTitle": "Generate a QR code to share",
-            "noShifts": "You cannot share the escape room until you have created at least one shift",
+            "noShiftsShare": "You cannot share the escape room until you have created at least one shift",
+            "noShiftsStart": "You cannot start the escape room until you have created at least one shift",
             "join": {
                 "intro": "Share the following link with yout students so they can access the escape room:",
                 "also": "They can also access ",

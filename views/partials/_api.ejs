@@ -1,0 +1,171 @@
+<div id="dialog-preview-api" title="API" style="display: none;">
+    <h4><%=i18n.escapeRoom.api.authenticationAPI%></h4>
+    <h5><%=i18n.escapeRoom.api.request%></h5>
+    <table class="api-table">
+        <tr>
+            <th><%=i18n.escapeRoom.api.method%></th>
+            <th><%=i18n.escapeRoom.api.endpoint%></th>
+        </tr>
+        <tr>
+            <td> <code class="api-method">POST</code></td>
+            <td> <code><%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/auth</code></td>
+        </tr>
+    </table>
+    <br/>
+    <table class="api-table">
+        <tr>
+            <th><%=i18n.escapeRoom.api.key%></th>
+            <th><%=i18n.escapeRoom.api.description%></th>
+        </tr>
+        <tr>
+            <td class="api-key"><code>email</code></td>
+            <td class="api-desc"><%=i18n.escapeRoom.api.email%></td>
+        </tr>
+        <tr>
+            <td class="api-key"><code>password</code></td>
+            <td class="api-desc"><%=i18n.escapeRoom.api.password%></td>
+        </tr>
+        <tr>
+            <td class="api-key"><code>token</code></td>
+            <td class="api-desc"><%=i18n.escapeRoom.api.tokenR%></td>
+        </tr>
+    </table>
+    <h6><%=i18n.escapeRoom.api.sampleRequest%></h6>
+    <pre class="sample-fetch">
+fetch(<span class="code-highlighted">"</span><span class="code-highlighted">https://escapp.dit.upm.es/api/escapeRooms/1/puzzles/3/submit</span><span class="code-highlighted">"</span>, {
+    <span class="code-highlighted">"</span><span class="code-highlighted">method</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">POST</span><span class="code-highlighted">"</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">body</span><span class="code-highlighted">"</span>: JSON.<span class="code-highlighted" style="font-weight:bold;">stringify</span>({
+        <span class="code-highlighted">"</span><span class="code-highlighted">email</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">admin@upm.es</span><span class="code-highlighted">"</span>,
+        <span class="code-highlighted">"</span><span class="code-highlighted">password</span><span class="code-highlighted">"</span> : <span class="code-highlighted">"</span><span class="code-highlighted">********</span><span class="code-highlighted">"</span>
+    }),
+    <span class="code-highlighted">"</span><span class="code-highlighted">headers</span><span class="code-highlighted">"</span>: {
+        <span class="code-highlighted">"</span><span class="code-highlighted">Content-type</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">application/json</span><span class="code-highlighted">"</span>,
+        <span class="code-highlighted">"</span><span class="code-highlighted">Accept-Language</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span cƒ>es-ES</span><span class="code-highlighted">"</span>
+    }
+})
+.then(res => res.json())
+.then(res => console.<span class="code-highlighted" style="font-weight:bold;">log</span>(res));      
+    </pre>
+    <h5><%=i18n.escapeRoom.api.response%></h5>
+    <table class="api-table">
+        <tr>
+            <th><%=i18n.escapeRoom.api.key%></th>
+            <th><%=i18n.escapeRoom.api.value%></th>
+            <th><%=i18n.escapeRoom.api.description%></th>
+        </tr>
+        <% var counter = 0 %>
+        <% for (var key in i18n.escapeRoom.api.code) { 
+            let value = i18n.escapeRoom.api.code[key]; %>
+            <tr class="<%=counter ? "":"first"%>">
+                <td class="api-key"><%-counter ? "":"<code>code</code>"%></td>
+                <td class="api-value"><code><%= key %> </code></td>
+                <td class="api-desc"><%= value %></td>
+            </tr>
+        <% counter++;} %>
+        <% var counter = 0 %>
+        <% for (var key in i18n.escapeRoom.api.participation) { 
+            let value = i18n.escapeRoom.api.participation[key]; %>
+            <tr class="<%=counter ? "":"first"%>">
+                <td class="api-key"><%-counter ? "":"<code>participation</code>"%></td>
+                <td class="api-value"><code><%= key %> </code></td>
+                <td class="api-desc"><%= value %></td>
+            </tr>
+        <% counter++;} %>
+        <% var counter = 0 %>
+        <% for (var key in i18n.escapeRoom.api.token) { 
+            let value = i18n.escapeRoom.api.token[key]; %>
+            <tr class="<%=counter ? "":"first"%>">
+                <td class="api-key"><%-counter ? "":"<code>token</code>"%></td>
+                <td class="api-value"><code><%= key %> </code></td>
+                <td class="api-desc"><%= value %></td>
+            </tr>
+        <% counter++;} %>
+        <tr class="first">
+            <td class="api-key"><code>erState</code></td>
+            <td class="api-value"><code>{<b>"puzzlesSolved"</b>:[<%= escapeRoom.puzzles.map((_,p)=>p+1).toString()%>,...],
+            <b>"hintsAllowed": true/false }</b></code></td>
+            <td class="api-desc"><%-i18n.escapeRoom.api.erState%></td>
+        </tr>
+
+    </table>
+    <h6><%=i18n.escapeRoom.api.sampleResponse%></h6>
+    <pre class="sample-fetch">
+{
+    <span class="code-highlighted">"</span><span class="code-highlighted">code</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">OK</span><span class="code-highlighted">"</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">authentication</span><span class="code-highlighted">"</span>: <span class="code-highlighted" style="font-weight:bold; ">true</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">token</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">E2hXH9AfgQerUDUcWGae3h</span><span class="code-highlighted">"</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">participation</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">PARTICIPANT</span><span class="code-highlighted">"</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">msg</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted"><%=i18n.api.participant%></span><span class="code-highlighted">"</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">erState</span><span class="code-highlighted">"</span>: {
+        <span class="code-highlighted">"</span><span class="code-highlighted">puzzlesSolved</span><span class="code-highlighted">"</span>: [
+            1,
+            2,
+            3
+        ],
+        <span class="code-highlighted">"</span><span class="code-highlighted">hintsAllowed</span><span class="code-highlighted">"</span>: <span class="code-highlighted" style="font-weight:bold; ">true</span>
+    }
+}
+        
+    </pre>
+    <hr/>
+    <h4><%=i18n.escapeRoom.api.puzzleAPI%></h4>
+    <h5><%=i18n.escapeRoom.api.request%></h5>
+    <table class="api-table">
+        <tr>
+            <th><%=i18n.escapeRoom.api.name%></th>
+            <th><%=i18n.escapeRoom.api.method%></th>
+            <th><%=i18n.escapeRoom.api.endpoint%></th>
+            <th><%=i18n.escapeRoom.api.solution%></th>
+        </tr>
+    <% for (var p in escapeRoom.puzzles) { let puzzle = escapeRoom.puzzles[p]; %>
+        <tr>
+            <td><%= puzzle.title %></td>
+            <td><code class="api-method">POST</code></td>
+            <td><code><%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=Number(p)+1%>/submit </code></td>
+            <td><%= puzzle.sol %></td>
+        </tr>
+    <% } %>
+    </table>
+    <p class="api-description"><%-i18n.escapeRoom.api.puzzleAPIRequestExplanation%></p>
+
+    <h6><%=i18n.escapeRoom.api.sampleRequest%></h6>
+    <pre class="sample-fetch">
+fetch(<span class="code-highlighted">"</span><span class="code-highlighted">https://escapp.dit.upm.es/api/escapeRooms/1/puzzles/3/submit</span><span class="code-highlighted">"</span>, {
+    <span class="code-highlighted">"</span><span class="code-highlighted">method</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">POST</span><span class="code-highlighted">"</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">body</span><span class="code-highlighted">"</span>: JSON.<span class="code-highlighted" style="font-weight:bold;">stringify</span>({
+        <span class="code-highlighted">"</span><span class="code-highlighted">email</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">admin@upm.es</span><span class="code-highlighted">"</span>,
+        <span class="code-highlighted">"</span><span class="code-highlighted">password</span><span class="code-highlighted">"</span> : <span class="code-highlighted">"</span><span class="code-highlighted">********</span><span class="code-highlighted">"</span>,
+        <span class="code-highlighted">"</span><span class="code-highlighted">solution</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">5678</span><span class="code-highlighted">"</span>
+    }),
+    <span class="code-highlighted">"</span><span class="code-highlighted">headers</span><span class="code-highlighted">"</span>: {
+        <span class="code-highlighted">"</span><span class="code-highlighted">Content-type</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">application/json</span><span class="code-highlighted">"</span>,
+        <span class="code-highlighted">"</span><span class="code-highlighted">Accept-Language</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span cƒ>es-ES</span><span class="code-highlighted">"</span>
+    }
+})
+.then(res => res.json())
+.then(res => console.<span class="code-highlighted" style="font-weight:bold;">log</span>(res));
+    </pre>
+    <h5><%=i18n.escapeRoom.api.response%></h5>
+    <p class="api-description"><%-i18n.escapeRoom.api.correctAnswer%></p>
+
+    <h6><%=i18n.escapeRoom.api.sampleResponse%></h6>
+    <pre class="sample-fetch">
+{
+    <span class="code-highlighted">"</span><span class="code-highlighted">code</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">OK</span><span class="code-highlighted">"</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">correctAnswer</span><span class="code-highlighted">"</span>: <span class="code-highlighted" style="font-weight:bold; ">true</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">authentication</span><span class="code-highlighted">"</span>: <span class="code-highlighted" style="font-weight:bold; ">true</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">token</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">E2hXH9AfgQerUDUcWGae3h</span><span class="code-highlighted">"</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">participation</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">PARTICIPANT</span><span class="code-highlighted">"</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">msg</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted"><%=i18n.api.participant%></span><span class="code-highlighted">"</span>,
+    <span class="code-highlighted">"</span><span class="code-highlighted">erState</span><span class="code-highlighted">"</span>: {
+        <span class="code-highlighted">"</span><span class="code-highlighted">puzzlesSolved</span><span class="code-highlighted">"</span>: [
+            1,
+            2,
+            3
+        ],
+        <span class="code-highlighted">"</span><span class="code-highlighted">hintsAllowed</span><span class="code-highlighted">"</span>: <span class="code-highlighted" style="font-weight:bold; ">true</span>
+    }
+}
+        
+    </pre>
+</div>

@@ -3,7 +3,7 @@
 <div class="main summary">
     <div class="breadcrumbs-container">
         <div class="breadcrumbs">
-            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=i18n.common.my%></a>
+            <a href="/escapeRooms"><%=i18n.common.my%></a>
             <span class="material-icons">chevron_right</span>
             <a href="/escapeRooms/<%=escapeRoom.id%>">
                 <%=escapeRoom.title%>
@@ -54,10 +54,10 @@
 
  %>
     <div class="flex-container analytics-menu">
-        <div class="flex-container-left">
+        <div class="flex-container-left animated slideInLeft">
             <%for (let i in sections) {
             let {url, icon, title} = sections[i];%>
-            <%- include('_analytics_link', {url, icon, title, escapeRoom}) %>
+            <%- include('_analytics_link', {url, icon, title, escapeRoom, i}) %>
             <%}%>
         </div>
         <div class="flex-container-right">

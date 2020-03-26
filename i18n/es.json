@@ -199,7 +199,41 @@
             "name": "Name",
             "endpoint": "URL",
             "solution": "Solución",
-            "sample": "Ejemplo de petición a la API"
+            "sample": "Ejemplo de petición a la API",
+            "key": "Clave",
+            "value": "Posibles valores",
+            "description": "Descripción",
+            "authenticationAPI": "API de autenticación",
+            "method": "Método",
+            "email": "Correo electrónico del usuario",
+            "password": "Contraseña del usuario",
+            "tokenR": "En vez de la contraseña, se puede proveer el token de usuario",
+            "request": "Petición",
+            "sampleRequest": "Ejemplo de petición",
+            "response": "Respuesta",
+            "sampleResponse": "Ejemplo de respuesta",
+            "puzzleAPI": "API de retos",
+            "erState": "Objeto que indica el estado actual de la escape room para el equipo. Tiene dos propiedades: <code>puzzlesSolved</code>, que contiene un array de los retos que el equipo ha superado, y <code>hintsAllowed</code>, un booleano que indica si el equipo puede o no recibir más pistas.",
+            "puzzleAPIRequestExplanation": "La API de retos acepta los mismos parámetros en el body de la petición HTTP que la API de autenticación.",
+            "code": {
+                "OK": "La petición ha tenido éxito total",
+                "NOK": "La petición no ha tenido éxito total"
+            },
+            "correctAnswer":"Además de devolver los parámetros que devuelve el endpoint de autenticación, la API de retos devuelve un parámetro adicional <code>correctAnswer</code>, que vale <code>true</code> si la respuesta proporcionada es correcta y <code>false</code> si no lo es.",
+            "participation": {
+                "PARTICIPANT": "Eres participante de esta escape room y el turno al que te has apuntado está activo ahora mismo",
+                "TOO_LATE": "Eres participante de esta escape room pero el turno al que te has apuntado ha terminado o te has quedado sin tiempo",
+                "NOT_A_PARTICIPANT": "No eres participante de esta escape room",
+                "AUTHOR": "Eres el creador de esta escape room"
+            },
+            "token": {
+                "xxxx": "El token de autenticación para usar la API"
+            },
+            "puzzlesSolved": "Array con los retos superados por el equipo",
+            "hintsAllowed": {
+                "true": "El equipo puede pedir más pistas",
+                "false": "El equipo NO puede pedir más pistas"
+            }        
         },
         "invitation": {
             "no": "no",
@@ -316,6 +350,7 @@
             	"evaluation": "Evaluación"
             },
             "puzzles": {
+                "explanation": "En este apartado puedes configurar los distintos retos que componen la escape room. Ten en cuenta que deben seguir una estructura lineal, es decir, para resolver un reto es necesario haber resuelto el anterior. Debes especificar el nombre y descripción del reto, así como la solución del mismo. Si seleccionas la opción de monitorización automática para algún reto, en la interfaz de equipo no se permitirá resolver ese reto sino que debes hacerlo a través de la API de retos. Adicionalmente puedes añadir pistas automáticas para cada reto, que se le proporcionaran a los alumnos cuando se queden atascados y pidan ayuda.",
                 "addNewHint": "añadir pista",
                 "addNewPuzzles": "añadir reto",
             	"automatic": "Automática",
@@ -571,11 +606,14 @@
         },
         "messages": {
             "copyAria": "Input invisible para permitir copiar el link de invitación",
+            "freeHintsStrategy": "Esta escape room permite obtener pistas libremente",
+            "noHintsStrategy": "Esta escape room no permite obtener pistas",
             "noHintControl": "Esta Escape Room no utiliza ningún mecanismo de control de pistas",
             "noVideo": "No hay vídeo",
             "copyTitle": "Copia el enlace",
             "qrTitle": "Genera un código QR para compartir",
-            "noShifts": "No puedes compartir la escape room hasta que hayas establecido al menos un turno",
+            "noShiftsShare": "No puedes compartir la escape room hasta que hayas establecido al menos un turno",
+            "noShiftsStart": "No puedes comenzar la escape room hasta que hayas establecido al menos un turno",
             "join": {
                 "intro": "Para que tus alumnos puedan acceder a la escape room comparte con ellos el siguiente enlace:",
                 "also": "También pueden acceder a ",

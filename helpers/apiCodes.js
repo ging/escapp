@@ -10,7 +10,6 @@ exports.WRONG_CREDENTIALS = "WRONG_CREDENTIALS";
 exports.OK = "OK";
 exports.NOT_ACTIVE = "NOT_ACTIVE";
 exports.TOO_LATE = "TOO_LATE";
-exports.PARTICIPANT = "PARTICIPANT";
 exports.NOT_A_PARTICIPANT = "NOT_A_PARTICIPANT";
 exports.AUTHOR = "AUTHOR";
 exports.ERROR = "ERROR";

@@ -121,14 +121,14 @@ button, input[type="submit"] {
     cursor: pointer; }
 
 #mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto, #mainSection .main #add-reto {
-  transition: 0.2s all ease-in; }
+  transition: 0.1s all ease-in; }
   #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus {
     -webkit-transform: scale(1.2);
     -ms-transform: scale(1.2);
     transform: scale(1.2); }
 
 #mainSection .main.participants input[type=submit], #mainSection .main.participants button, .retosSuperados input[type=submit], .retosSuperados button, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom, #mainSection .main.student .dialog .teamCarouselItem:not(.disabled):hover, #mainSection .main.teams input[type=submit], #mainSection .main.teams button, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:not(.disabled):not(.finished):hover {
-  transition: 0.2s all ease-in; }
+  transition: 0.1s all ease-in; }
   #mainSection .main.participants input:hover[type=submit], #mainSection .main.participants button:hover, .retosSuperados input:hover[type=submit], .retosSuperados button:hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:hover, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:hover, #mainSection .main.student .dialog .teamCarouselItem:hover:not(.disabled), #mainSection .main.teams input:hover[type=submit], #mainSection .main.teams button:hover, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:hover, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:hover:not(.disabled):not(.finished), #mainSection .main .flexBoxTurnos .turno.turnoProfe:hover:not(.disabled):not(.finished), #mainSection .main.participants input:active[type=submit], #mainSection .main.participants button:active, .retosSuperados input:active[type=submit], .retosSuperados button:active, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:active, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:active, #mainSection .main.student .dialog .teamCarouselItem:active:not(.disabled):hover, #mainSection .main.teams input:active[type=submit], #mainSection .main.teams button:active, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:active, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:active:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:active:not(.disabled):not(.finished):hover, #mainSection .main.participants input:focus[type=submit], #mainSection .main.participants button:focus, .retosSuperados input:focus[type=submit], .retosSuperados button:focus, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:focus, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:focus, #mainSection .main.student .dialog .teamCarouselItem:focus:not(.disabled):hover, #mainSection .main.teams input:focus[type=submit], #mainSection .main.teams button:focus, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:focus, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:focus:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:focus:not(.disabled):not(.finished):hover {
     -webkit-transform: scale(0.8);
     -ms-transform: scale(0.8);
@@ -443,6 +443,9 @@ button, input[type="submit"] {
   color: white;
   border: none; }
 
+.main #dialog-preview-api {
+  overflow: auto; }
+
 .main #dialog-preview-api, .main #dialog-share {
   padding: 15px;
   color: #48C18E;
@@ -459,7 +462,7 @@ button, input[type="submit"] {
     color: #F47E84;
     font-weight: 600;
     text-align: left; }
-  .main #dialog-preview-api .api-table pre#sample-fetch, .main #dialog-share .api-table pre#sample-fetch {
+  .main #dialog-preview-api .api-table pre.sample-fetch, .main #dialog-share .api-table pre.sample-fetch {
     color: white;
     padding: 15px;
     font-size: 14px;
@@ -546,12 +549,6 @@ button, input[type="submit"] {
     order: 1; }
   #mainSection .main .align-right.flex-buttons #next {
     order: 2; }
-
-#mainSection .main .intro-paragraph {
-  font-family: 'Lato', sans-serif;
-  text-align: left; }
-  #mainSection .main .intro-paragraph a {
-    font-family: inherit; }
 
 #mainSection .main .flexShow {
   width: 100%; }
@@ -726,7 +723,13 @@ button, input[type="submit"] {
     #mainSection .main.escapeRoomShow .menuERShow .attachmentShow {
       float: right;
       text-align: center;
-      width: 200px; }
+      position: absolute;
+      right: 0; }
+      #mainSection .main.escapeRoomShow .menuERShow .attachmentShow img {
+        height: auto;
+        width: auto;
+        max-height: 150px;
+        max-width: 150px; }
     #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft {
       margin-right: 50px;
       padding: 10px;
@@ -762,6 +765,10 @@ button, input[type="submit"] {
   #mainSection .main.escapeRoomShow .flexShow .flexRow .flexShowRight {
     color: white;
     font-weight: lighter; }
+    #mainSection .main.escapeRoomShow .flexShow .flexRow .flexShowRight .turno-date-title-show {
+      text-align: left; }
+  #mainSection .main.escapeRoomShow .flexShow .flexRow.nextToPicture {
+    width: calc(100% - 160px); }
   #mainSection .main.escapeRoomShow #dialog-preview-video, #mainSection .main.escapeRoomShow #dialog-preview-api, #mainSection .main.escapeRoomShow #dialog-share {
     padding: 0;
     background-color: white;
@@ -776,9 +783,16 @@ button, input[type="submit"] {
   #mainSection .main.escapeRoomShow #dialog-preview-api, #mainSection .main.escapeRoomShow #dialog-share {
     padding: 15px; }
     #mainSection .main.escapeRoomShow #dialog-preview-api h4, #mainSection .main.escapeRoomShow #dialog-share h4 {
-      color: #48C18E;
+      color: #232951;
       font-size: 20px;
       margin-bottom: -4px; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api h5, #mainSection .main.escapeRoomShow #dialog-preview-api h6, #mainSection .main.escapeRoomShow #dialog-share h5, #mainSection .main.escapeRoomShow #dialog-share h6 {
+      color: #232951; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api h6, #mainSection .main.escapeRoomShow #dialog-share h6 {
+      margin-bottom: 0px;
+      font-family: Lato, sans-serif; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .api-table tr.first, #mainSection .main.escapeRoomShow #dialog-share .api-table tr.first {
+      border-top: 2px solid grey; }
     #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th, #mainSection .main.escapeRoomShow #dialog-share .api-table td, #mainSection .main.escapeRoomShow #dialog-share .api-table th {
       font-size: 14px;
       font-family: 'Lato', sans-serif;
@@ -786,16 +800,33 @@ button, input[type="submit"] {
       #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td code, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th code, #mainSection .main.escapeRoomShow #dialog-share .api-table td code, #mainSection .main.escapeRoomShow #dialog-share .api-table th code {
         font-family: monospace;
         color: #F47E84; }
+        #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td code > *, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th code > *, #mainSection .main.escapeRoomShow #dialog-share .api-table td code > *, #mainSection .main.escapeRoomShow #dialog-share .api-table th code > * {
+          font-family: monospace; }
+        #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td code.api-method, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th code.api-method, #mainSection .main.escapeRoomShow #dialog-share .api-table td code.api-method, #mainSection .main.escapeRoomShow #dialog-share .api-table th code.api-method {
+          color: #36A2EB; }
+      #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td.api-key, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th.api-key, #mainSection .main.escapeRoomShow #dialog-share .api-table td.api-key, #mainSection .main.escapeRoomShow #dialog-share .api-table th.api-key {
+        padding-right: 10px; }
+        #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td.api-key code, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th.api-key code, #mainSection .main.escapeRoomShow #dialog-share .api-table td.api-key code, #mainSection .main.escapeRoomShow #dialog-share .api-table th.api-key code {
+          color: #48C18E; }
+      #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td.api-value, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th.api-value, #mainSection .main.escapeRoomShow #dialog-share .api-table td.api-value, #mainSection .main.escapeRoomShow #dialog-share .api-table th.api-value {
+        padding-right: 10px; }
+        #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td.api-value code, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th.api-value code, #mainSection .main.escapeRoomShow #dialog-share .api-table td.api-value code, #mainSection .main.escapeRoomShow #dialog-share .api-table th.api-value code {
+          color: #36A2EB; }
     #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th, #mainSection .main.escapeRoomShow #dialog-share .api-table th {
-      color: #F47E84;
+      color: #232951;
       font-weight: 600;
       text-align: left; }
-    #mainSection .main.escapeRoomShow #dialog-preview-api pre#sample-fetch, #mainSection .main.escapeRoomShow #dialog-share pre#sample-fetch {
-      color: white;
+    #mainSection .main.escapeRoomShow #dialog-preview-api pre.sample-fetch, #mainSection .main.escapeRoomShow #dialog-share pre.sample-fetch {
+      color: #232951;
       padding: 15px;
       font-size: 14px;
       font-family: monospace;
-      background-color: #656683; }
+      background-color: white;
+      border: 1px solid #F3945E; }
+      #mainSection .main.escapeRoomShow #dialog-preview-api pre.sample-fetch span, #mainSection .main.escapeRoomShow #dialog-share pre.sample-fetch span {
+        font-family: monospace; }
+      #mainSection .main.escapeRoomShow #dialog-preview-api pre.sample-fetch .code-highlighted, #mainSection .main.escapeRoomShow #dialog-share pre.sample-fetch .code-highlighted {
+        color: #F47E84; }
     #mainSection .main.escapeRoomShow #dialog-preview-api .show_link, #mainSection .main.escapeRoomShow #dialog-share .show_link {
       font-family: 'Lato', sans-serif;
       color: #161938;
@@ -825,6 +856,13 @@ button, input[type="submit"] {
       #mainSection .main.escapeRoomShow #dialog-preview-api .join-instructions .hl, #mainSection .main.escapeRoomShow #dialog-share .join-instructions .hl {
         color: #36A2EB;
         font-family: inherit; }
+    #mainSection .main.escapeRoomShow #dialog-preview-api .api-description, #mainSection .main.escapeRoomShow #dialog-share .api-description {
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      color: #161938; }
+      #mainSection .main.escapeRoomShow #dialog-preview-api .api-description code, #mainSection .main.escapeRoomShow #dialog-share .api-description code {
+        color: #48C18E;
+        font-family: monospace; }
   #mainSection .main.escapeRoomShow .ui-dialog {
     outline: none !important; }
   #mainSection .main.escapeRoomShow .ui-dialog-title {
@@ -852,7 +890,14 @@ button, input[type="submit"] {
     flex: 1; }
     #mainSection .main.escapeRoomShow .menuERShow .attachmentShow {
       width: 100%;
-      max-width: 100%; }
+      max-width: 100%;
+      position: relative;
+      float: none; }
+      #mainSection .main.escapeRoomShow .menuERShow .attachmentShow img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        max-height: none; }
     #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft {
       width: 100%;
       margin-right: 0px;
@@ -1386,9 +1431,10 @@ button, input[type="submit"] {
   background-color: white;
   margin-bottom: 20px;
   color: black; }
+  #mainSection .main.step-instructions .editor-wrapper > * {
+    font-family: Lato, sans-serif; }
   #mainSection .main.step-instructions .editor-wrapper #editor {
-    min-height: 300px;
-    font-family: inherit; }
+    min-height: 300px; }
     #mainSection .main.step-instructions .editor-wrapper #editor.ql-container {
       font-size: 18px; }
       #mainSection .main.step-instructions .editor-wrapper #editor.ql-container .ql-blank {
@@ -2407,6 +2453,10 @@ button, input[type="submit"] {
             background-color: #656683; }
             #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell.hints-cell-preview {
               background-color: inherit; }
+              #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell.hints-cell-preview ul {
+                padding-left: 0px; }
+                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell.hints-cell-preview ul li {
+                  margin-left: 30px; }
             #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell *:not(.material-icons) {
               font-family: inherit; }
             #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .hint-text-preview {
@@ -3147,8 +3197,7 @@ button, input[type="submit"] {
 
 #mainSection .main .turno-date-title-show {
   color: white;
-  margin: 5px;
-  font-size: 20px; }
+  margin: 5px; }
 
 @media (max-width: 992px) {
   .contenedor {
@@ -3211,7 +3260,8 @@ html {
   background-color: #2A2A52; }
   html body {
     min-height: 100%;
-    margin: 0; }
+    margin: 0;
+    font-family: inherit; }
     html body a {
       color: white;
       text-decoration: none;
@@ -3220,6 +3270,13 @@ html {
       font-weight: lighter; }
     html body h1 {
       font-size: 1.5em; }
+    html body p {
+      font-family: Lato, sans-serif;
+      text-align: left; }
+    html body p.centeredSmall {
+      font-size: 20px;
+      font-family: Gugi, sans-serif;
+      text-align: center; }
     html body label {
       color: #656683; }
     html body input, html body select {
@@ -3270,7 +3327,8 @@ html {
   word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: pre-wrap; }
+  white-space: pre-wrap;
+  font-family: monospace; }
 
 .centered {
   text-align: center; }

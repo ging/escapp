@@ -3,7 +3,7 @@
 <div class="main escapeRoomShow">
     <div class="breadcrumbs-container">
         <div class="breadcrumbs">
-            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=i18n.common.my%></a>
+            <a href="/escapeRooms/%>"><%=i18n.common.my%></a>
             <span class="material-icons">chevron_right</span>
             <span><%=escapeRoom.title%></span>
         </div>
@@ -27,21 +27,19 @@
                     <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/teams"><%=i18n.showTeacher.actionList.teams%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
                     <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
                 <li class="actionTitle"><%=i18n.showTeacher.actionList.actions%></li>
-                    <li><button id="share-button" class="showMenuButton acceptButton" <%- (escapeRoom.turnos && escapeRoom.turnos.length) ? '' : (' title=\"' + i18n.showTeacher.messages.noShifts + '\" disabled') %> ><%=i18n.showTeacher.actionList.share%></button></li>
-                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/activarTurno"><button class="showMenuButton editButton"><%=i18n.showTeacher.actionList.activateTurno%></button></a></li>
+                    <li><button id="share-button" class="showMenuButton acceptButton" <%- (escapeRoom.turnos && escapeRoom.turnos.length) ? '' : (' title=\"' + i18n.showTeacher.messages.noShiftsShare + '\" disabled') %> ><%=i18n.showTeacher.actionList.share%></button></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/activarTurno"><button class="showMenuButton editButton"  <%- (escapeRoom.turnos && escapeRoom.turnos.length) ? '' : (' title=\"' + i18n.showTeacher.messages.noShiftsStart + '\" disabled') %>><%=i18n.showTeacher.actionList.activateTurno%></button></a></li>
                     <li><a href="/escapeRooms/<%= escapeRoom.id %>/clone?_method=PUT"><button class="showMenuButton cloneButton" ><%=i18n.showTeacher.actionList.clone%></button></a></li>
                     <li><a href="/escapeRooms/<%= escapeRoom.id %>?_method=DELETE" onClick="return confirm('Delete: <%= escapeRoom.title %>');"><button class="showMenuButton deleteButton"><%=i18n.showTeacher.actionList.delete%></button></a></li>
             </ul>
         </div>
-        <div class="menuERShowRight">
-           <!--  <div class="attachmentShow" >
-                <% var attachment = escapeRoom.attachment; %>
-                <% include ../attachments/_show %>
-            </div> -->
-
-
+        <div class="menuERShowRight animated slideInUp" >
             <div class="flexShow">
-                <div class="flexRow animated slideInUp" id="basic">
+                <div class="attachmentShow" >
+                    <% var attachment = escapeRoom.attachment; %>
+                    <% include ../attachments/_show %>
+                </div> 
+                <div class="flexRow nextToPicture animated slideInUp" id="basic" style="animation-delay: 200ms;">
                     <div class="flexShowLeft">
                         <%=i18n.showTeacher.titles.title%>:
                     </div>
@@ -49,7 +47,7 @@
                         <%= escapeRoom.title %>
                     </div>
                 </div>
-                <div class="flexRow animated slideInUp">
+                <div class="flexRow nextToPicture animated slideInUp" style="animation-delay: 400ms;">
                     <div class="flexShowLeft">
                         <%=i18n.showTeacher.titles.subject%>:
                     </div>
@@ -57,7 +55,7 @@
                         <%= escapeRoom.subject %>
                     </div>
                 </div>
-                <div class="flexRow animated slideInUp">
+                <div class="flexRow nextToPicture animated slideInUp" style="animation-delay: 600ms;">
                     <div class="flexShowLeft">
                         <%=i18n.showTeacher.titles.duration%>:
                     </div>
@@ -65,7 +63,7 @@
                         <%= escapeRoom.duration %> min.
                     </div>
                 </div>
-                <div class="flexRow animated slideInUp">
+                <div class="flexRow animated slideInUp" style="animation-delay: 800ms;">
                      <div class="flexShowLeft">
                          <%=i18n.showTeacher.titles.description%>:
                      </div>
@@ -73,8 +71,10 @@
                          <%= escapeRoom.description %>
                      </div>
                 </div>
+                <%var delay = 1000%>
                 <% if (escapeRoom.nmax) { %>
-                <div class="flexRow animated slideInUp">
+                <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
+                    <% delay += 200 %>
                     <div class="flexShowLeft">
                         <%=i18n.showTeacher.titles.nmax%>:
                     </div>
@@ -84,7 +84,8 @@
                 </div>
                 <%}%>
                 <% if (escapeRoom.teamSize) { %>
-                <div class="flexRow animated slideInUp">
+                <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
+                    <% delay += 200 %>
                     <div class="flexShowLeft">
                         <%=i18n.showTeacher.titles.teamSize%>:
                     </div>
@@ -96,7 +97,8 @@
             
             
             
-                <div class="flexRow animated slideInUp" id="turnos">
+                <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
+                    <% delay += 200 %>
                     <div class="flexShowLeft">
                         <%=i18n.showTeacher.titles.turnos%>:
                     </div>
@@ -105,7 +107,8 @@
                         <%  include ../turnos/_indexShow  %>
                     </div>
                 </div>
-                <div class="flexRow animated slideInUp smallHidden" id="retos">
+                <div class="flexRow animated slideInUp smallHidden" style="animation-delay: <%=delay%>ms;">
+                    <% delay += 200 %>
                     <div class="flexShowLeft">
                         <%=i18n.showTeacher.titles.puzzles%>:
                         <% const someAutomatic = escapeRoom.puzzles && escapeRoom.puzzles.length > 0 && escapeRoom.puzzles.some(p=>p.automatic); %>
@@ -171,17 +174,23 @@
                         <%}%>
                     </div>
                 </div>
-                <div class="flexRow animated slideInUp" id="pistas">
+                <div class="flexRow animated slideInUp" id="pistas" style="animation-delay: <%=delay%>ms;">
+                    <% delay += 200 %>
                     <div class="flexShowLeft">
-                        <%=i18n.showTeacher.titles.hints%>:
+                        <%=i18n.showTeacher.actionList.hintStrategy%>:
+                        <% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
+                        <% var hintAppConditional = hintConditional && Boolean(escapeRoom.hintApp); // Hint app methodology %>
+                    
                     </div>
                     <div class="flexShowRight">
-                        <% if (escapeRoom.hintApp) { %>
-        
+                        <% if (hintAppConditional) { %>
                             <a class="show_link"  download="quiz" href="/escapeRooms/<%= escapeRoom.id%>/xml"><%=escapeRoom.hintApp.filename%></a>
                             <button class="preview-icon" onclick="previewHintApp()"><span class="material-icons">remove_red_eye</span></button> 
+                        <% } else if (hintConditional) { %>
+                            <%=i18n.showTeacher.messages.freeHintsStrategy%>
                         <% } else { %>
-                            <%=i18n.showTeacher.messages.noHintControl%>
+                            <%=i18n.showTeacher.messages.noHintsStrategy%>
+
                         <% } %>
                     </div>
                 </div>
@@ -232,47 +241,11 @@
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
     const previewHintApp = () => {
-            var newwindow = window.open('/escapeRooms/'+escapeRoomId+'/hintAppWrapper','',
-                'width='+screen.width*0.7+',height='+screen.height*0.7);
-        };
+        var newwindow = window.open('/escapeRooms/'+escapeRoomId+'/hintAppWrapper','',
+            'width='+screen.width*0.7+',height='+screen.height*0.7);
+    };
 </script>
-<div id="dialog-preview-api" title="API">
-    <table class="api-table">
-        <tr>
-            <th><%=i18n.escapeRoom.api.id%></th>
-            <th><%=i18n.escapeRoom.api.name%></th>
-            <th><%=i18n.escapeRoom.api.endpoint%></th>
-            <th><%=i18n.escapeRoom.api.solution%></th>
-        </tr>
-    <% for (var p in escapeRoom.puzzles) { let puzzle = escapeRoom.puzzles[p]; %>
-        <tr>
-            <td><%= puzzle.id %></td>
-            <td><%= puzzle.title %></td>
-            <td> <code><%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/submit </code></td>
-            <td><%= puzzle.sol %></td>
-        </tr>
-    <% } %>
-    </table>
-
-    <h4><%=i18n.escapeRoom.api.sample%></h4>
-    <pre id="sample-fetch">
-fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/submit", {
-    "method": "POST",
-    "body": JSON.stringify({
-        "email": "<%= email %>",
-        "password" : "********",
-        "solution": "<%=puzzle.sol%>"
-    }),
-    "headers": {
-        "Content-type": "application/json"<% if (i18n.lang === "es"){%>,
-        "Accept-Language": "es-ES"<%}%>
-    }
-})
-.then(res => res.json())
-.then(res => console.log(res));
-    </pre>
-
-</div>
+<% include ../partials/_api %>
 
 <script src="/js/vendor/jquery-ui.min.js"></script>
 <script type="text/javascript">
@@ -296,7 +269,7 @@ fetch("<%=hostName%>/api/escapeRooms/<%=escapeRoom.id%>/puzzles/<%=puzzle.id%>/s
     $( function() {
 
         // API usage
-        $("#dialog-preview-api").dialog(dialogOptions);
+        $("#dialog-preview-api").dialog({...dialogOptions, height: screen.height * 0.8});
 
         $( "#api-button" ).on( "click", function() {
             $( "#dialog-preview-api" ).dialog( "open" );

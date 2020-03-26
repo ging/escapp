@@ -30,7 +30,7 @@ var pastDates = [];
 <%	if (pastDates.indexOf(dateNoTime.getTime()) === -1) {
   		pastDates.push(dateNoTime.getTime()); %>
 		</div>
-		<p class="turno-date-title-show">
+		<p class="turno-date-title-show centeredSmall">
 			<%= turn.date ? formatDate(dateNoTime) : i18n.turnos.alwaysOpen %>
 		</p>
 		<div class="flexBoxTurnos">

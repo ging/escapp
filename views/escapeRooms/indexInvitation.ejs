@@ -9,7 +9,7 @@
             <% if (escapeRoom.invitation === token) {%>
                 <input type="hidden" name="token" value="<%=token%>"/>
             <% } else { %>
-                 <p class="typePasscode"><%=i18n.escapeRoom.invitation.typePasscode%></p>
+                 <p class="typePasscode centeredSmall"><%=i18n.escapeRoom.invitation.typePasscode%></p>
 
                 <input type="text" class="tokenInput" name="token" value=""/>
             <% } %>
