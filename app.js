@@ -111,7 +111,6 @@ app.use((err, req, res, next) => {
     const status = err.status || (app.get("env") === "production" ? res.statusCode : devStatusCode);
 
     res.status(status);
-
     if (req.session && req.session.flash) {
         // Set locals, only providing error in development
         res.locals.message = err.message;

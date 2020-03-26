@@ -152,10 +152,15 @@ const onHintResponse = async ({success, hintId, msg}) => {
   } else {
     if (success) {
       if (waitingForHintReply) {
-        $('#hintAppModal').on('hidden.bs.modal', async (e) => {
-          await forMs(700);
+        if (hintAppConditional) {
+          $('#hintAppModal').on('hidden.bs.modal', async (e) => {
+            await forMs(700);
+            $('ul#hintList').append(hintTemplate(message));
+          });
+        } else {
           $('ul#hintList').append(hintTemplate(message));
-        });
+          
+        }
         await forMs(3000);
         $('#modalContent').append(customHintTemplate());
       } else {
