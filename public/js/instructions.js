@@ -332,8 +332,8 @@ $(function(){
 
     $( function() {
         $( ".ql-editor" ).sortable({
-          cancel: "h1, h2, h3, h4, h5, h6, countdown *",
-          items: "br, iframe, countdown, progressbar, :not(div):empty, .ql-cursor",
+          cancel: "h1, h2, h3, h4, h5, h6, p, countdown *",
+          items: "h1, h2, h3, h4, h5, h6, p, iframe, countdown, progressbar, ranking, :not(div):empty, .ql-cursor, img, .ui-sortable-handle",
         });
     });
 

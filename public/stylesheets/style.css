@@ -1434,8 +1434,14 @@ button, input[type="submit"] {
   #mainSection .main.step-instructions .editor-wrapper.indications #editor {
     background-color: #2A2A52;
     color: white; }
-    #mainSection .main.step-instructions .editor-wrapper.indications #editor a {
+    #mainSection .main.step-instructions .editor-wrapper.indications #editor blockquote {
+      font-family: Lato;
+      margin-top: 0px;
+      margin-bottom: 0px; }
+    #mainSection .main.step-instructions .editor-wrapper.indications #editor a, #mainSection .main.step-instructions .editor-wrapper.indications #editor b, #mainSection .main.step-instructions .editor-wrapper.indications #editor i, #mainSection .main.step-instructions .editor-wrapper.indications #editor strong, #mainSection .main.step-instructions .editor-wrapper.indications #editor em, #mainSection .main.step-instructions .editor-wrapper.indications #editor ul, #mainSection .main.step-instructions .editor-wrapper.indications #editor li, #mainSection .main.step-instructions .editor-wrapper.indications #editor span, #mainSection .main.step-instructions .editor-wrapper.indications #editor u {
       font-family: inherit; }
+    #mainSection .main.step-instructions .editor-wrapper.indications #editor pre {
+      font-family: monospace; }
   #mainSection .main.step-instructions .editor-wrapper > * {
     font-family: Lato, sans-serif; }
   #mainSection .main.step-instructions .editor-wrapper #editor {
@@ -1480,6 +1486,9 @@ button, input[type="submit"] {
   float: right;
   width: 50px; }
 
+#mainSection .main.step-instructions .ui-sortable-placeholder {
+  display: none; }
+
 #mainSection .main.step-instructions .ui-button-icon-space {
   visibility: visible; }
   #mainSection .main.step-instructions .ui-button-icon-space:after {
@@ -1501,7 +1510,8 @@ button, input[type="submit"] {
   #mainSection .main.step-instructions .gallery-msg label {
     font-family: inherit !important; }
   #mainSection .main.step-instructions .gallery-msg input[type=radio] {
-    height: 14px; }
+    height: 14px;
+    font-family: inherit !important; }
   #mainSection .main.step-instructions .gallery-msg .fileUrlInput {
     background: none;
     border: none;
@@ -1510,6 +1520,7 @@ button, input[type="submit"] {
     font-size: 0.8em;
     -webkit-text-fill-color: #656683 !important;
     padding-left: 0px;
+    margin-left: 25px;
     text-align: left;
     width: 70%;
     border-bottom: 2px solid #F47E84;
@@ -1537,20 +1548,25 @@ button, input[type="submit"] {
   font-size: 15px;
   background-color: #FAC855; }
 
-#mainSection .main.step-instructions #assetsForm .dz-preview * {
-  cursor: pointer; }
-
-#mainSection .main.step-instructions #assetsForm .dz-preview .dz-image {
-  border: 2px solid #fff; }
-  #mainSection .main.step-instructions #assetsForm .dz-preview .dz-image img {
-    object-fit: cover;
-    height: 100%;
-    opacity: 0; }
-  #mainSection .main.step-instructions #assetsForm .dz-preview .dz-image img[src] {
-    opacity: 1; }
-
-#mainSection .main.step-instructions #assetsForm .dz-preview.file-selected .dz-image {
-  border: 2px solid #48C18E; }
+#mainSection .main.step-instructions #assetsForm {
+  margin-left: 50px;
+  margin-right: 20px;
+  border: 2px dashed #FAC855;
+  padding: 0px; }
+  #mainSection .main.step-instructions #assetsForm .dz-preview * {
+    cursor: pointer; }
+  #mainSection .main.step-instructions #assetsForm .dz-preview .dz-image {
+    border: 2px solid #fff; }
+    #mainSection .main.step-instructions #assetsForm .dz-preview .dz-image img {
+      object-fit: cover;
+      height: 100%;
+      opacity: 0; }
+    #mainSection .main.step-instructions #assetsForm .dz-preview .dz-image img[src] {
+      opacity: 1; }
+  #mainSection .main.step-instructions #assetsForm .dz-preview .dz-filename span {
+    font-family: Lato; }
+  #mainSection .main.step-instructions #assetsForm .dz-preview.file-selected .dz-image {
+    border: 2px solid #48C18E; }
 
 #mainSection .main.step-instructions .ui-dialog-buttonset {
   text-align: right;
@@ -1575,13 +1591,16 @@ button, input[type="submit"] {
 
 #mainSection .main.step-instructions .gamification-elements {
   padding: 20px;
+  padding-left: 50px;
+  padding-top: 0px;
   display: flex;
+  flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap; }
   #mainSection .main.step-instructions .gamification-elements .gamification-element {
-    width: 116px;
-    height: 116px;
-    margin: 10px;
+    width: 120px;
+    height: 120px;
+    margin: 0.5em;
     display: inline-block;
     text-align: center;
     border-radius: 20px;
@@ -1600,7 +1619,7 @@ button, input[type="submit"] {
       font-family: 'Lato', sans-serif;
       color: #656683;
       height: 25%;
-      font-size: 14px;
+      font-size: 11px;
       margin: 0;
       margin-bottom: 4px; }
     #mainSection .main.step-instructions .gamification-elements .gamification-element img {
@@ -1625,43 +1644,45 @@ button, input[type="submit"] {
   #mainSection .main.step-instructions progressbar .puzzle-progress {
     width: 60% !important; }
 
-#mainSection .main.step-instructions ranking .ranking-table {
-  width: 100%;
-  position: relative;
-  border: 2px solid var(--primary); }
-  #mainSection .main.step-instructions ranking .ranking-table .ranking-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    position: absolute;
+#mainSection .main.step-instructions ranking {
+  display: block; }
+  #mainSection .main.step-instructions ranking .ranking-table {
     width: 100%;
-    height: 75px;
+    position: relative;
     border: 2px solid var(--primary); }
-    #mainSection .main.step-instructions ranking .ranking-table .ranking-row.ranking-header {
-      font-weight: bolder; }
-    #mainSection .main.step-instructions ranking .ranking-table .ranking-row.myTeam {
-      background-color: var(--success); }
-    #mainSection .main.step-instructions ranking .ranking-table .ranking-row div {
+    #mainSection .main.step-instructions ranking .ranking-table .ranking-row {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Lato', sans-serif;
-      overflow: hidden;
-      padding: 10px; }
-      #mainSection .main.step-instructions ranking .ranking-table .ranking-row div b, #mainSection .main.step-instructions ranking .ranking-table .ranking-row div span {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      position: absolute;
+      width: 100%;
+      height: 75px;
+      border: 2px solid var(--primary); }
+      #mainSection .main.step-instructions ranking .ranking-table .ranking-row.ranking-header {
+        font-weight: bolder; }
+      #mainSection .main.step-instructions ranking .ranking-table .ranking-row.myTeam {
+        background-color: var(--success); }
+      #mainSection .main.step-instructions ranking .ranking-table .ranking-row div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Lato', sans-serif;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap; }
-    #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-team {
-      width: 20%; }
-    #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-members {
-      flex: 1; }
-    #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-res {
-      width: 10%; }
-    #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-time {
-      width: 15%; }
-    #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-pos {
-      transform: scale(1.5); }
+        padding: 10px; }
+        #mainSection .main.step-instructions ranking .ranking-table .ranking-row div b, #mainSection .main.step-instructions ranking .ranking-table .ranking-row div span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap; }
+      #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-team {
+        width: 20%; }
+      #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-members {
+        flex: 1; }
+      #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-res {
+        width: 10%; }
+      #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-time {
+        width: 15%; }
+      #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-pos {
+        transform: scale(1.5); }
 
 #mainSection .main.step-instructions [draggable] {
   -moz-user-select: none;

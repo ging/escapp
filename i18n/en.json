@@ -599,6 +599,7 @@
             "basic": "Basic configuration",
             "puzzles": "Puzzles & hints",
             "hintStrategy": "Hint management",
+            "indications": "Pre-activity instructions",
             "teamInterface": "Team interface",
             "classInterface": "Class interface",
             "evaluation": "Evaluation",

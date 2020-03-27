@@ -11,6 +11,9 @@
            file.id = id;
            file.mime = file.type;
            file.url = url;
+           if (window.uploadCallback) {
+               window.uploadCallback(file);
+           }
         },
         "removedfile": function(file) {
             if (file.id) {

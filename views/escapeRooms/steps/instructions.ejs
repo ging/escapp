@@ -41,7 +41,18 @@
     <br/>
     <br/>
     <br/>
-
+<script>
+  window.uploadCallback = (file) => {
+    $(".file-selected").removeClass("file-selected");
+    $(".gamification-element-selected").removeClass("gamification-element-selected");
+    let parent = $(file.previewElement);
+    fileSelected = file;
+    parent.addClass("file-selected");
+    $('#sourceUrl').prop('checked', false);
+    $('#sourceGamificationElement').prop('checked', false);
+    $('#sourceFile').prop('checked', true);
+  }
+</script>
 <%- include('../../partials/_gallery', {endPoint}) %>
     <br/>
     <br/>

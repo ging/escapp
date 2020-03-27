@@ -9,10 +9,14 @@
           #editor
             background-color: $bckg
             color: white
-            
-            a
+            blockquote
+              font-family: Lato
+              margin-top: 0px
+              margin-bottom: 0px
+            a, b, i, strong, em, ul, li, span, u, 
               font-family: inherit
-             
+            pre
+              font-family: monospace
         & > *
             font-family: Lato, sans-serif
         #editor
@@ -53,6 +57,8 @@
         visibility: hidden
         float: right
         width: 50px
+      .ui-sortable-placeholder
+        display: none
       .ui-button-icon-space
         visibility: visible
         &:after
@@ -73,6 +79,7 @@
           font-family: inherit !important
         input[type=radio]
           height: 14px
+          font-family: inherit !important
         .fileUrlInput
           background: none
           border: none
@@ -81,6 +88,7 @@
           font-size: 0.8em
           -webkit-text-fill-color: $textpurple !important
           padding-left: 0px
+          margin-left: 25px
           text-align: left
           width: 70%
           border-bottom: 2px solid $lightred
@@ -99,6 +107,10 @@
         font-size: 15px
         background-color: $brightyellow
       #assetsForm
+        margin-left: 50px
+        margin-right: 20px
+        border: 2px dashed $brightyellow
+        padding: 0px
         .dz-preview
           * 
             cursor: pointer
@@ -110,6 +122,9 @@
                 opacity: 0
               img[src]
                 opacity: 1
+          .dz-filename
+            span
+              font-family: Lato
           &.file-selected
             .dz-image
               border: 2px solid $brightgreen
@@ -127,14 +142,16 @@
             background-color: $lightred
       .gamification-elements
         padding: 20px
+        padding-left: 50px
+        padding-top: 0px
         display: flex
-        flex-direction-row
+        flex-direction: row
         justify-content: flex-start
         flex-wrap: wrap
         .gamification-element
-          width: 116px
-          height: 116px
-          margin: 10px
+          width: 120px
+          height: 120px
+          margin: 0.5em
           display: inline-block
           text-align: center
           border-radius: 20px
@@ -153,7 +170,7 @@
             font-family: 'Lato', sans-serif
             color: $textpurple
             height: 25%
-            font-size: 14px
+            font-size: 11px
             margin: 0
             margin-bottom: 4px
           img
@@ -176,6 +193,7 @@
         .puzzle-progress
             width: 60% !important
       ranking
+        display: block
         .ranking-table
           width: 100%
           position: relative

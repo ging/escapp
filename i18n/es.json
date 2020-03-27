@@ -592,6 +592,7 @@
             "basic": "Configuración básica",
             "puzzles": "Retos y pistas",
             "hintStrategy": "Gestión de pistas",
+            "indications": "Instrucciones previas",
             "teamInterface": "Interfaz de equipo",
             "classInterface": "Interfaz de clase",
             "evaluation": "Evaluación",
