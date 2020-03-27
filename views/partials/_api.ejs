@@ -32,7 +32,7 @@
     </table>
     <h6><%=i18n.escapeRoom.api.sampleRequest%></h6>
     <pre class="sample-fetch">
-fetch(<span class="code-highlighted">"</span><span class="code-highlighted">https://escapp.dit.upm.es/api/escapeRooms/auth<%=escapeRoom.id%></span><span class="code-highlighted">"</span>, {
+fetch(<span class="code-highlighted">"</span><span class="code-highlighted">https://escapp.dit.upm.es/api/escapeRooms/<%=escapeRoom.id%>/auth</span><span class="code-highlighted">"</span>, {
     <span class="code-highlighted">"</span><span class="code-highlighted">method</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">POST</span><span class="code-highlighted">"</span>,
     <span class="code-highlighted">"</span><span class="code-highlighted">body</span><span class="code-highlighted">"</span>: JSON.<span class="code-highlighted" style="font-weight:bold;">stringify</span>({
         <span class="code-highlighted">"</span><span class="code-highlighted">email</span><span class="code-highlighted">"</span>: <span class="code-highlighted">"</span><span class="code-highlighted">admin@upm.es</span><span class="code-highlighted">"</span>,
