@@ -249,13 +249,15 @@ exports.byRanking = (a, b) => {
  * If the authentication fails, then the promise is also satisfied, but it
  * returns null.
  */
-exports.authenticate = (login, password, token) => {
+exports.authenticate = (login, pass, token) => {
     const username = (login || "").toString();
 
     if (token) {
         return models.user.findOne({"where": {username, token}}).
             then((user) => user);
     }
+    const password = (pass || "").toString();
+
     return models.user.findOne({"where": {username}}).
-        then((user) => user && user.verifyPassword(password || "").toString() ? user : null);
+        then((user) => user && user.verifyPassword(password) ? user : null);
 };
