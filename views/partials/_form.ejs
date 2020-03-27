@@ -3,13 +3,16 @@
          name: "title",
          id: "tit",
          i18n: "title",
-         value: escapeRoom.title
+         value: escapeRoom.title,
+         required: true
      },
      {
          name: "subject",
          id: "subj",
          i18n: "subject",
-         value: escapeRoom.subject
+         value: escapeRoom.subject,
+         required: true
+
      },
      {
          name: "duration",
@@ -18,7 +21,9 @@
          number: true,
          min: 1,
          max: 100000,
-         value: escapeRoom.duration
+         value: escapeRoom.duration,
+         required: true
+
      },
      {
          name: "description",
@@ -48,7 +53,7 @@
   var field = formFields[f];%>
     <div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*f%>ms;">
         <label for="<%=field.id%>"  class="itemNarrow"><%=parseInt(f)+1%>. <%=i18n.showTeacher.titles[field.i18n]%>:</label>
-        <input autofocus type="<%=field.number ? "number" : "text"%>" min="<%=field.min%>" max="<%=field.max%>" class="customInput itemWide" id="<%= field.id %>" name="<%= field.name %>" value="<%= field.value %>"
+        <input <%=field.required ? 'required="required"' : "" %>  type="<%=field.number ? "number" : "text"%>" min="<%=field.min%>" max="<%=field.max%>" class="customInput itemWide" id="<%= field.id %>" name="<%= field.name %>" value="<%= field.value %>"
                placeholder="<%=i18n.escapeRoom.steps.edit[field.i18n + "PlaceHolder"]%>" autocomplete="off"/>
     </div>
     <% if (field.name === "duration") { %> 

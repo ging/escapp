@@ -2,7 +2,7 @@ const sanitizeId = (id) => id && id !== "" && id !== "new" ? id : undefined;
 
 
 exports.sanitizePuzzles = (puzzles = []) => puzzles.
-    sort((a, b) => parseInt(isNaN(a.order) ? 0 : a.order, 10) < parseInt(isNaN(b.order) ? 0 : b.order, 10) ? -1:1).
+    sort((a, b) => parseInt(isNaN(a.order) ? 0 : a.order, 10) < parseInt(isNaN(b.order) ? 0 : b.order, 10) ? -1 : 1).
     map((puzzle, order) => {
         const {id, title, desc, sol, automatic, correct, fail, hints} = puzzle;
 
@@ -24,7 +24,7 @@ exports.sanitizePuzzles = (puzzles = []) => puzzles.
     });
 
 exports.sanitizeHints = (hints = []) => hints.
-    sort((a, b) => parseInt(isNaN(a.order) ? 0 : a.order, 10) < parseInt(isNaN(b.order) ? 0 : b.order, 10) ? -1:1).
+    sort((a, b) => parseInt(isNaN(a.order) ? 0 : a.order, 10) < parseInt(isNaN(b.order) ? 0 : b.order, 10) ? -1 : 1).
     map((hint, order) => {
         const {id, content, puzzleId} = hint;
 
