@@ -508,7 +508,7 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
     },
     {
         "route": "/resources",
-        "statusCode": 200
+        "statusCode": 403
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/participants`,

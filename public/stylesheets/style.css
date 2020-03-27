@@ -2371,7 +2371,8 @@ button, input[type="submit"] {
         flex: 1;
         padding-right: 25px; }
       #mainSection .main .puzzle-card .hint-list .hint-li .handle-hint {
-        position: absolute; }
+        position: absolute;
+        cursor: grab; }
       #mainSection .main .puzzle-card .hint-list .hint-li .delete-hint {
         position: absolute;
         right: 25px;

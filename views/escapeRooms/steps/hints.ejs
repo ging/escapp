@@ -149,7 +149,6 @@ $(function(){
 				break;
 			case 'QUIZ_HINTS':
 				$('.hintConditional').show();
-				console.log($('#hintsLabel').html())
 				if (!$('#hintsLabel').html().match("<%=i18n.escapeRoom.steps.hints.uploadFile%>")) {
 					$('#keepAttachment').val("1");
 				}

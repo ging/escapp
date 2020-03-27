@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
-const {sanitizePuzzles} = require("../helpers/sanitize");
+const {sanitizePuzzles, sanitizeHints} = require("../helpers/sanitize");
 const {nextStep, prevStep} = require("../helpers/progress");
 
 
@@ -144,7 +144,9 @@ exports.retosUpdate = async (req, res, next) => {
                     oldPuzzle.correct = reto.correct;
                     oldPuzzle.fail = reto.fail;
                     promises.push(oldPuzzle.save({transaction}));
-                    for (const hint of reto.hints) {
+                    const hints = sanitizeHints(reto.hints);
+
+                    for (const hint of hints) {
                         if (hint.id) {
                             const oldHint = oldHints.find((h) => h.id.toString() === hint.id.toString());
 
@@ -165,7 +167,7 @@ exports.retosUpdate = async (req, res, next) => {
                         {
                             ...reto,
                             "escapeRoomId": escapeRoom.id,
-                            "hints": reto.hints.map((hint) => ({
+                            "hints": sanitizeHints(reto.hints).map((hint) => ({
                                 "content": hint.content,
                                 "order": hint.order
                             }))

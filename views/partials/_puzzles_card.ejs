@@ -1,5 +1,7 @@
 <div class="puzzle-card" id="puzzle-<%=puzzle.id%>">
-    <span title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle showAlways">swap_vert</span>
+    <span title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle showAlways">
+        swap_vert
+    </span>
     <input type="hidden" name="puzzles[<%=reto%>][order]" class="order" value="<%=puzzle.order%>"/>
     <input type="hidden" name="puzzles[<%=reto%>][id]" value="<%=puzzle.id%>"/>
     <h2 class="showAlways">

@@ -1,7 +1,6 @@
 <span class="progressBar">
     <% var labels =  steps() %>
 	<% var index = labels.indexOf(progress) %>
-	<% console.log(labels, progress) %>
 	<div class="progressText">
 		<%=Math.round(index /labels.length * 100)%>% <%=i18n.common.completado%> 
 	</div>
