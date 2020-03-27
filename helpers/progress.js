@@ -3,6 +3,7 @@ const steps = [
     "turnos",
     "puzzles",
     "hints",
+    "indications",
     "team",
     "class",
     "evaluation"

@@ -340,9 +340,14 @@
                 "title": "Team interface"
             },
             "class": {
-                "explanation": "Here you can customize the interface that you'll be able to sreen in the classroom for all students to see. It can include the introductory video, the countdown, the leaderboard, etc. If students are participating in the escape room remotely, they will never see the class interface, so you can skip this step.",
+                "explanation": "Here you can customize the interface that you'll be able to screen in the classroom for all students to see. It can include the introductory video, the countdown, the leaderboard, etc. If students are participating in the escape room remotely, they will never see the class interface, so you can skip this step.",
                 "placeholder": "You can choose to project the countdown, an introductory video, etc.",
                 "title": "Classroom interface"
+            },
+            "indications": {
+                "explanation": "Here you can customize the information students will see prior to the start of the escape room since the moment the sign up. For instance, you can remind them to bring certain material, tell them to review the course content, or provide them a video to watch.",
+                "placeholder": "Add custom instructions",
+                "title": "Pre-activity instructions"
             },
             "list": {
                 "edit":"Basic configuration",

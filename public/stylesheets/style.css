@@ -1431,6 +1431,11 @@ button, input[type="submit"] {
   background-color: white;
   margin-bottom: 20px;
   color: black; }
+  #mainSection .main.step-instructions .editor-wrapper.indications #editor {
+    background-color: #2A2A52;
+    color: white; }
+    #mainSection .main.step-instructions .editor-wrapper.indications #editor a {
+      font-family: inherit; }
   #mainSection .main.step-instructions .editor-wrapper > * {
     font-family: Lato, sans-serif; }
   #mainSection .main.step-instructions .editor-wrapper #editor {
@@ -3250,7 +3255,15 @@ button, input[type="submit"] {
   --brightorange: #F3945E;
   --lightred: #F47E84;
   --textgrey: #a1a3af;
-  --purpleedit: #9091A6; }
+  --purpleedit: #9091A6;
+  --primary: #fff;
+  --secondary: #36A2EB;
+  --success: #48C18E;
+  --info: #FAC855;
+  --warning: #F3945E;
+  --danger: #F47E84;
+  --light: #9091A6;
+  --dark: #161938; }
 
 * {
   font-family: 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;

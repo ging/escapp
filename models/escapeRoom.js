@@ -49,6 +49,7 @@ module.exports = function (sequelize, DataTypes) {
             "forbiddenLateSubmissions": {"type": DataTypes.BOOLEAN, "defaultValue": true},
             "classInstructions": {"type": DataTypes.TEXT},
             "teamInstructions": {"type": DataTypes.TEXT},
+            "indicationsInstructions": {"type": DataTypes.TEXT},
             "scoreParticipation": {
                 "type": DataTypes.FLOAT,
                 "defaultValue": 0.0

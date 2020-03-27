@@ -325,11 +325,22 @@ exports.classInterface = (req, res) => {
 
     res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "class", "endPoint": "class"});
 };
+// GET /escapeRooms/:escapeRoomId/indications
+exports.indicationsInterface = (req, res) => {
+    const {escapeRoom} = req;
 
-// GET /escapeRooms/:escapeRoomId/team
+    res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "indications", "endPoint": "indications"});
+
+};
+
+// POST /escapeRooms/:escapeRoomId/class
+exports.indicationsInterfaceUpdate = (req, res, next) => saveInterface("indications", req, res, next);
+
+
+// POST /escapeRooms/:escapeRoomId/team
 exports.teamInterfaceUpdate = (req, res, next) => saveInterface("team", req, res, next);
 
-// GET /escapeRooms/:escapeRoomId/class
+// POST /escapeRooms/:escapeRoomId/class
 exports.classInterfaceUpdate = (req, res, next) => saveInterface("class", req, res, next);
 
 // DELETE /escapeRooms/:escapeRoomId

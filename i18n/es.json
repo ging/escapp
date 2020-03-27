@@ -337,6 +337,11 @@
                 "placeholder": "Añade la cuenta atrás, un ranking, el vídeo de presentación, etc.",
                 "title": "Interfaz de clase"
             },
+            "indications": {
+                "explanation": "En este apartado puedes personalizar las instrucciones que los alumnos recibirán antes de que comience la escape room desde el momento en el que se apunten. Por ejemplo, puedes recordarles que traigan algún material, indicarles que repasen parte del contenido de la asignatura o proporcionarles un vídeo para que visualicen.",
+                "placeholder": "Añade instrucciones previas personalizadas",
+                "title": "Instrucciones previas"
+            },
             "list": {
             	"edit":"Configuración básica",
             	"turnos": "Turnos",

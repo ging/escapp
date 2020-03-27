@@ -15,12 +15,15 @@
       <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone" >
           <input type="file" name="file" style="display:none;"/>
       </form>
+      <% if (endPoint === "team" || endPoint === "class") { %>
+
       <p class="gallery-msg">
       <label for="sourceGamificationElement">
         <input type="radio" id="sourceGamificationElement" name="file-gallery-source" value="url"/>
           <%=i18n.gallery.selectGamificationElements%>
       </label>
         <div class="gamification-elements">
+          
           <div class="gamification-element" id="countdown">
             <img src="/images/countdown.png" title="<%=i18n.gallery.countdownExplanation%>" alt="<%=i18n.gallery.countdown%>"/>
             <p class="gamification-element-title"><%=i18n.gallery.countdown%></p>
@@ -37,6 +40,7 @@
           <% } %>
         </div>
       </p>
+      <%}%>
     </div>
     <script src="/js/vendor/dropzone.js"></script>
     <script>

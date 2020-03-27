@@ -25,14 +25,15 @@
 			<% } %>
 		</div>
 	</div>
+	<h3 class="animated slideInUp"><%=i18n.turnos.Description%></h3>
+	<p class="desc animated slideInUp"><%=escapeRoom.description%></p>
+
 	<% if (turno.indications) { %> 
 		<h3 class="animated slideInUp">Indicaciones</h3>
 		<p class="desc animated slideInUp">
 			<%= turno.indications %>
 		</p>
 	<% } %>
-	<h3 class="animated slideInUp"><%=i18n.turnos.Description%></h3>
-	<p class="desc animated slideInUp"><%=escapeRoom.description%></p>
 
 	<div class="status">
 
@@ -80,6 +81,11 @@
 				</div>-->
 			<% } %>
 		<%}%>
+	</div>
+	<div class="col-xs-12 text-left ql-editor instructionsShow" id="editor">
+		<% if (escapeRoom["indicationsInstructions"]) {%>
+			<%-escapeRoom["indicationsInstructions"] %>
+		<% } %>
 	</div>
 	<br/><br/><br/><br/>
 	<% if(turno.status === "pending"){%>

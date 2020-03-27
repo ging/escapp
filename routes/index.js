@@ -99,6 +99,8 @@ router.post("/escapeRooms/:escapeRoomId(\\d+)/uploadAssets", sessionController.l
 router.post("/escapeRooms/:escapeRoomId(\\d+)/deleteAssets/:assetId(\\d+)", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, assetsController.deleteAssets);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/evaluation", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.evaluation);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/evaluation", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.evaluationUpdate);
+router.get("/escapeRooms/:escapeRoomId(\\d+)/indications", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.indicationsInterface);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/indications", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.indicationsInterfaceUpdate);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/team", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.teamInterface);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/team", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.teamInterfaceUpdate);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/class", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, escapeRoomController.classInterface);

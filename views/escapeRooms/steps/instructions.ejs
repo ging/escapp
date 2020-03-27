@@ -1,6 +1,8 @@
 <head><link rel="stylesheet" href="/stylesheets/vendor/dropzone.css">
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
-<link rel="stylesheet" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"] || "litera"%>.editor.bootstrap.min.css">
+<% if (endPoint !== "indications") {%>
+  <link rel="stylesheet" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"] || "litera"%>.editor.bootstrap.min.css">
+<%}%>
 <script src="/js/vendor/quill.min.js"></script>
 <script src="/js/vendor/jquery.ui.sortable.min.js"></script>
 <script src="/js/vendor/image-resize.min.js"></script>
@@ -19,7 +21,7 @@
     <form method='POST' id="instructionsForm" action='/escapeRooms/<%= escapeRoom.id %>/<%=endPoint%>'  >
       <input type="hidden" id="appearance" name="appearance" 
       value="<%=escapeRoom[endPoint + "Appearance"] || "litera" %>" />
-    	<div class="editor-wrapper  ">
+    	<div class="editor-wrapper  <%=endPoint === 'indications' ? 'indications':''%>">
           <div id="editor" class="" spellcheck="false" style="visibility: hidden;">
             <%if (escapeRoom[endPoint + "Instructions"]) {%>
                 <%- escapeRoom[endPoint + "Instructions"] %>
@@ -45,6 +47,7 @@
     <br/>
     <br/>
 <script>
+window.endPoint = "<%=endPoint%>"
 window.placeholder = "<%=i18n.escapeRoom.steps[endPoint].placeholder%>"
 const insert = "<%=i18n.gallery.insert%>";
 const cancel = "<%=i18n.gallery.cancel%>";
