@@ -685,6 +685,10 @@ button, input[type="submit"] {
         font-family: Lato, sans-serif; }
         #mainSection .main .basicConfig .erFormField .customInput #imgLabel:focus, #mainSection .main .basicConfig .erFormField .customInput #hintsLabel:focus {
           color: white; }
+        #mainSection .main .basicConfig .erFormField .customInput #imgLabel option option, #mainSection .main .basicConfig .erFormField .customInput #hintsLabel option option {
+          background: white;
+          color: #161938;
+          font-family: Lato, sans-serif; }
     #mainSection .main .basicConfig .erFormField input[type=file] {
       font-family: Lato, sans-serif;
       width: 0.1px;
@@ -2079,6 +2083,10 @@ button, input[type="submit"] {
         -webkit-text-fill-color: white !important;
         -webkit-text-stroke-color: white;
         background: none; }
+        #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select option {
+          background: white;
+          color: #161938;
+          font-family: Lato, sans-serif; }
     #mainSection .main footer {
       margin-left: -35px; }
     #mainSection .main .align-right {
