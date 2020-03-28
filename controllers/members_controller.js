@@ -12,12 +12,12 @@ exports.add = async (req, res, next) => {
         if (escapeRoom.nmax && participants >= escapeRoom.nmax) {
             req.flash("error", req.app.locals.i18n.turnos.fullTurno);
             res.redirect(`/escapeRooms/${escapeRoom.id}/join?token=${req.token}`);
+            return;
         }
         if (escapeRoom.teamSize && members.length < escapeRoom.teamSize) {
             await req.team.addTeamMembers(req.session.user.id);
             const turnos = await req.user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
 
-            // TODO nmax aforo turnos
             if (turnos.length === 0) {
                 await req.user.addTurnosAgregados(turn.id);
                 res.redirect(direccion);

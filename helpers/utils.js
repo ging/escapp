@@ -51,6 +51,16 @@ exports.getRetosSuperados = (teams) => teams.map((teamRes) => ({
         return t1.countretos > t2.countretos ? -1 : 1;
     });
 
+exports.getRetosSuperadosIdTime = (retos, actualStartTime) => {
+    return retos.map((reto) => {
+        const {retosSuperados} = reto;
+        const {createdAt} = retosSuperados;
+        const time = actualStartTime ? (createdAt - actualStartTime) / 1000 : null;
+
+        return {"id": reto.id, time};
+    });
+
+}
 exports.getPuzzleOrderSuperados = async (team) => {
     const retosSuperados = await team.getRetos({ "attributes": ["order"] });
 

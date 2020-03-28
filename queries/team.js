@@ -44,7 +44,10 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
                     "model": models.puzzle,
                     "as": "retos"
                 },
-                "id",
+                {
+                    "model": models.retosSuperados
+                },
+                "createdAt",
                 "ASC"
             ]
         ]
@@ -87,7 +90,7 @@ exports.puzzlesByTeam = (escapeRoomId, turnId) => {
                 }
             }
         ],
-        "order": Sequelize.literal("lower(team.name) ASC")
+        "order": [Sequelize.literal("lower(team.name) ASC"), {"model": models.puzzle}, {"model": models.retosSuperados}, "createdAt", 'ASC']
     };
 
     if (turnId) {

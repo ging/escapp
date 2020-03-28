@@ -1,7 +1,7 @@
 const {models} = require("../models");
 const {createCsvFile} = require("../helpers/csv");
 const queries = require("../queries");
-const {retosSuperadosByWho, flattenObject, getRetosSuperados, countHints, countHintsByPuzzle, pctgRetosSuperados, getBestTime, getAvgHints, byRanking} = require("../helpers/utils");
+const {retosSuperadosByWho, flattenObject, getRetosSuperados, getRetosSuperadosIdTime, countHints, countHintsByPuzzle, pctgRetosSuperados, getBestTime, getAvgHints, byRanking} = require("../helpers/utils");
 
 // GET /escapeRooms/:escapeRoomId/analytics
 exports.analytics = async (req, res, next) => {
@@ -289,13 +289,7 @@ exports.progress = async (req, res, next) => {
         const result = teams.map((team) => {
             const {id, name, retos, turno, startTime} = team;
             const actualStartTime = turno.startTime || startTime;
-            const retosSuperadosArr = retos.map((reto) => {
-                const {retosSuperados} = reto;
-                const {createdAt} = retosSuperados;
-                const time = actualStartTime ? (createdAt - actualStartTime) / 1000 : null;
-
-                return {"id": reto.id, time};
-            });
+            const retosSuperadosArr = getRetosSuperadosIdTime(retos, actualStartTime);
 
             return {id, name, "retosSuperados": actualStartTime ? retosSuperadosArr : []};
         });
@@ -332,7 +326,7 @@ exports.histogram = async (req, res, next) => {
             map((team) => {
                 const {turno, startTime} = team;
                 const actualStartTime = turno.startTime || startTime;
-                const retosSuperados = team.retos.map((reto) => ({"id": reto.id, "time": actualStartTime ? (reto.retosSuperados.createdAt - actualStartTime) / 1000 : null}));
+                const retosSuperados = getRetosSuperadosIdTime(team.retos, actualStartTime);
 
                 return {"id": team.id, retosSuperados};
             });

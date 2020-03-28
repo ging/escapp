@@ -63,6 +63,7 @@
           <% for (let r in team.retos) { 
             let reto = team.retos[r];
             let puzzleTime = reto.retosSuperados.createdAt;
+            console.log(reto.id, reto.order, puzzleTime)
             let perc = puzzlePosition(puzzleTime, prevPuzzleTime);
             prevPuzzleTime = puzzleTime;
             %>

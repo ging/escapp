@@ -672,6 +672,10 @@ button, input[type="submit"] {
       font-family: Lato, sans-serif;
       font-weight: normal;
       padding-left: 5px; }
+      #mainSection .main .basicConfig .erFormField .customInput option {
+        background: white;
+        color: #161938;
+        font-family: Lato, sans-serif; }
       #mainSection .main .basicConfig .erFormField .customInput:active, #mainSection .main .basicConfig .erFormField .customInput:focus {
         font-family: Lato, sans-serif !important; }
       #mainSection .main .basicConfig .erFormField .customInput .fileUploadButton {
@@ -685,10 +689,6 @@ button, input[type="submit"] {
         font-family: Lato, sans-serif; }
         #mainSection .main .basicConfig .erFormField .customInput #imgLabel:focus, #mainSection .main .basicConfig .erFormField .customInput #hintsLabel:focus {
           color: white; }
-        #mainSection .main .basicConfig .erFormField .customInput #imgLabel option option, #mainSection .main .basicConfig .erFormField .customInput #hintsLabel option option {
-          background: white;
-          color: #161938;
-          font-family: Lato, sans-serif; }
     #mainSection .main .basicConfig .erFormField input[type=file] {
       font-family: Lato, sans-serif;
       width: 0.1px;
