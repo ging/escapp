@@ -24,51 +24,13 @@ exports.load = async (req, res, next, escapeRoomId) => {
     }
 };
 
-// MW that allows actions only if the user logged in is admin or is the author of the escape room.
-exports.adminOrAuthorRequired = (req, res, next) => {
-    const isAdmin = Boolean(req.session.user.isAdmin),
-        isAuthor = req.escapeRoom.authorId === req.session.user.id;
-
-    if (isAdmin || isAuthor) {
-        next();
-    } else {
-        res.status(403);
-        next(new Error(req.app.locals.i18n.api.forbidden));
-    }
-};
-
-// MW that allows actions only if the user logged in is admin, the author, or a participant of the escape room.
-exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
-    const isAdmin = Boolean(req.session.user.isAdmin),
-        isAuthor = req.escapeRoom.authorId === req.session.user.id;
-
-    try {
-        if (isAdmin || isAuthor) {
-            next();
-            return;
-        }
-        const participants = await models.user.findAll(query.user.escapeRoomsForUser(req.escapeRoom.id, req.session.user.id));
-        const isParticipant = participants && participants.length > 0;
-
-        req.isParticipant = isParticipant ? participants[0] : null;
-        if (isParticipant) {
-            next();
-        } else {
-            res.status(403);
-            next(new Error(req.app.locals.i18n.api.forbidden));
-        }
-    } catch (error) {
-        next(error);
-    }
-};
-
 // GET /escapeRooms
 exports.index = async (req, res, next) => {
     const user = req.user || req.session.user;
-
+    let escapeRooms = [];
     try {
         if (user && !user.isStudent) {
-            const escapeRooms = await models.escapeRoom.findAll({
+            escapeRooms = await models.escapeRoom.findAll({
                 "attributes": ["id", "title", "invitation"],
                 "include": [
                     models.attachment,
@@ -79,29 +41,32 @@ exports.index = async (req, res, next) => {
                     }
                 ]
             });
-
-            res.render("escapeRooms/index.ejs", {escapeRooms, cloudinary, user});
         } else {
             const erAll = await models.escapeRoom.findAll(query.escapeRoom.all());
             const erFiltered = await models.escapeRoom.findAll(query.escapeRoom.all(user.id));
             const ids = erFiltered.map((e) => e.id);
-            const escapeRooms = erAll.map((er) => ({
-                "id": er.id,
-                "title": er.title,
-                "invitation": er.invitation,
-                "attachment": er.attachment,
-                "isSignedUp": ids.indexOf(er.id) !== -1
-            }));
 
-            res.render("escapeRooms/index.ejs", {escapeRooms, cloudinary, user});
+            escapeRooms = erAll.map((er) => {
+                const {id, title, invitation, attachment} = er;
+
+                return {
+                    id,
+                    title,
+                    invitation,
+                    attachment,
+                    "isSignedUp": ids.indexOf(er.id) !== -1
+                };
+            });
         }
+
+        res.render("escapeRooms/index.ejs", {escapeRooms, cloudinary, user});
     } catch (error) {
         next(error);
     }
 };
 
 // GET /escapeRooms
-exports.indexBreakDown = (req, res) => res.redirect("/");
+exports.indexBreakDown = (_req, res) => res.redirect("/");
 
 // GET /escapeRooms/:escapeRoomId
 exports.show = (req, res) => {
@@ -117,7 +82,7 @@ exports.show = (req, res) => {
 };
 
 // GET /escapeRooms/new
-exports.new = (req, res) => {
+exports.new = (_req, res) => {
     const escapeRoom = {"title": "", "teacher": "", "subject": "", "duration": "", "description": "", "nmax": "", "teamSize": ""};
 
     res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
@@ -294,9 +259,7 @@ exports.evaluationUpdate = async (req, res, next) => {
         for (const p in body.scores) {
             if (parseFloat(escapeRoom.puzzles[p].score || 0) !== parseFloat(body.scores[p] || 0)) {
                 escapeRoom.puzzles[p].score = body.scores[p];
-                promises.push(new Promise((resolve) => {
-                    escapeRoom.puzzles[p].save({"fields": ["score"]}).then(resolve);
-                }));
+                promises.push(escapeRoom.puzzles[p].save({"fields": ["score"]}));
             }
         }
         await Promise.all(promises);

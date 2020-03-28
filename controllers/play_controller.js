@@ -11,7 +11,7 @@ exports.play = (req, res, next) => playInterface("team", req, res, next);
 // GET /escapeRooms/:escapeRoomId/project
 exports.classInterface = (req, res, next) => playInterface("class", req, res, next);
 
-exports.ranking = async (req, res, next) => {
+exports.ranking = async (req, _res, next) => {
     let {turnoId} = req.params;
 
     try {

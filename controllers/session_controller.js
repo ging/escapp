@@ -1,5 +1,6 @@
 const {authenticate} = require("../helpers/utils");
-
+const {models} = require("../models");
+const query = require("../queries");
 /*
  * This variable contains the maximum inactivity time allowed without
  * Making requests.
@@ -132,6 +133,44 @@ exports.adminAndNotMyselfRequired = function (req, res, next) {
     } else {
         res.status(403);
         throw new Error(req.app.locals.i18n.api.forbidden);
+    }
+};
+
+// MW that allows actions only if the user logged in is admin or is the author of the escape room.
+exports.adminOrAuthorRequired = (req, res, next) => {
+    const isAdmin = Boolean(req.session.user.isAdmin),
+        isAuthor = req.escapeRoom.authorId === req.session.user.id;
+
+    if (isAdmin || isAuthor) {
+        next();
+    } else {
+        res.status(403);
+        next(new Error(req.app.locals.i18n.api.forbidden));
+    }
+};
+
+// MW that allows actions only if the user logged in is admin, the author, or a participant of the escape room.
+exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
+    const isAdmin = Boolean(req.session.user.isAdmin),
+        isAuthor = req.escapeRoom.authorId === req.session.user.id;
+
+    try {
+        if (isAdmin || isAuthor) {
+            next();
+            return;
+        }
+        const participants = await models.user.findAll(query.user.escapeRoomsForUser(req.escapeRoom.id, req.session.user.id));
+        const isParticipant = participants && participants.length > 0;
+
+        req.isParticipant = isParticipant ? participants[0] : null;
+        if (isParticipant) {
+            next();
+        } else {
+            res.status(403);
+            next(new Error(req.app.locals.i18n.api.forbidden));
+        }
+    } catch (error) {
+        next(error);
     }
 };
 

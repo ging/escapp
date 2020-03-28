@@ -212,7 +212,7 @@ exports.hintsByParticipants = async (req, res, next) => {
                     const reqHint = requestedHints[h];
                     const {success, score, createdAt} = reqHint;
                     const hint = reqHint.hint && reqHint.hint.content ? reqHint.hint.content : "";
-                    const minute = Math.floor((createdAt - startTime) / 60000); // TODO team.startTime
+                    const minute = Math.floor((createdAt - startTime) / 60000);
 
                     resultsCsv.push({id, name, surname, dni, username, teamId, teamName, teamAttendance, success, score, hint, minute, createdAt});
                 }
