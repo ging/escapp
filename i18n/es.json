@@ -705,6 +705,7 @@
         	"dec": "Diciembre"
         },
         "noIndications": "Sin indicaciones",
+        "fullTurno": "El turno seleccionado está lleno. Elige otro.",
         "notActive": "Esta escape room no está activa para tu usuario",
         "selectActivate": "Selecciona el turno que quieres activar/desactivar",
         "selectStudent": "Selecciona un turno",

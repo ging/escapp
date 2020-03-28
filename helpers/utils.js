@@ -3,6 +3,7 @@ const sequelize = require("../models");
 const {models} = sequelize;
 const {nextStep, prevStep} = require("../helpers/progress");
 const cloudinary = require("cloudinary");
+const ejs = require("ejs");
 
 exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
     const retosSuperados = new Array(puzzles.length).fill(0);
@@ -261,3 +262,13 @@ exports.authenticate = (login, pass, token) => {
     return models.user.findOne({"where": {username}}).
         then((user) => user && user.verifyPassword(password) ? user : null);
 };
+
+
+exports.renderEJS = (view, queries = {}, options = {}) => new Promise((resolve, reject) => {
+    ejs.renderFile(view, queries, options, function (err, str) {
+        if (err) {
+            return reject(err);
+        }
+        resolve(str);
+    });
+});

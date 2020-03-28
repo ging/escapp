@@ -1,3 +1,5 @@
+const {models} = require("../models");
+
 // PUT /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnoId/members/:teamId
 exports.add = async (req, res, next) => {
     const direccion = req.body.redir || "/escapeRooms";
@@ -5,7 +7,12 @@ exports.add = async (req, res, next) => {
 
     try {
         const members = await req.team.getTeamMembers();
+        const participants = await models.user.count({"include": [{ "model": models.turno, "through": "participants", "as": "turnosAgregados", "where": {"id": turn.id}}]});
 
+        if (escapeRoom.nmax && participants >= escapeRoom.nmax) {
+            req.flash("error", req.app.locals.i18n.turnos.fullTurno);
+            res.redirect(`/escapeRooms/${escapeRoom.id}/join?token=${req.token}`);
+        }
         if (escapeRoom.teamSize && members.length < escapeRoom.teamSize) {
             await req.team.addTeamMembers(req.session.user.id);
             const turnos = await req.user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
@@ -20,7 +27,7 @@ exports.add = async (req, res, next) => {
             }
         } else {
             req.flash("error", req.app.locals.i18n.team.fullTeam);
-            res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams`);
+            res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams?token=${req.token}`);
         }
     } catch (error) {
         next(error);

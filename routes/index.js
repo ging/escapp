@@ -147,15 +147,11 @@ router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles/:puzzleId(\\d+)/check", se
 router.post("/escapeRooms/:escapeRoomId(\\d+)/users/:userId(\\d+)/selectTurno", sessionController.loginRequired, sessionController.studentOrAdminRequired, participantController.checkJoinToken, participantController.selectTurno, teamController.create);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/participants", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, participantController.index);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/teams", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, teamController.index);
-router.delete("/escapeRooms/:escapeRoomId(\\d+)/turno/:turnoId(\\d+)/team/:teamId(\\d+)/user/:userId(\\d+)", sessionController.loginRequired, sessionController.adminOrMyselfRequired, participantController.studentLeave);
+router.delete("/escapeRooms/:escapeRoomId(\\d+)/turno/:turnoId(\\d+)/team/:teamId(\\d+)/user/:userId(\\d+)", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, participantController.studentLeave);
 router.delete("/escapeRooms/:escapeRoomId(\\d+)/turno/:turnoId(\\d+)/team/:teamId(\\d+)", sessionController.loginRequired, participantController.studentLeave);
 
 // Routes for the resource members of a team
-router.put(
-    "/escapeRooms/:escapeRoomId/users/:userId(\\d+)/participants/turnos/:turnoId(\\d+)/members/:teamId(\\d+)",
-    sessionController.loginRequired, sessionController.studentOrAdminRequired,
-    membersController.add
-);
+router.put("/escapeRooms/:escapeRoomId/users/:userId(\\d+)/participants/turnos/:turnoId(\\d+)/members/:teamId(\\d+)", sessionController.loginRequired, sessionController.studentOrAdminRequired, participantController.checkJoinToken, membersController.add);
 
 // Routes for the resource /teams
 router.get("/escapeRooms/:escapeRoomId/users/:userId(\\d+)/turnos/:turnoId(\\d+)/teams/new", sessionController.loginRequired, sessionController.studentOrAdminRequired, participantController.checkJoinToken, teamController.new);

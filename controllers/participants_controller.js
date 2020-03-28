@@ -125,6 +125,9 @@ exports.studentLeave = async (req, res, next) => {
         }
 
         if (req.team.teamMembers.length <= 1) {
+            // TODO Delete retos superados & requested hints
+            await req.team.removeRetos();
+            // await req.team.removeRequestedHints();
             await req.team.destroy();
             res.redirect(redirectUrl);
         } else {

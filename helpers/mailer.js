@@ -3,7 +3,7 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.resetPasswordEmail = (to, subject = "escapp", text, html) => {
-    const from = `noreply@${process.env.APP_NAME || "http://localhost:3000"}`;
+    const from = `noreply@${process.env.APP_NAME || "escapp.dit.upm.es"}`;
     const msg = {
         to,
         from,

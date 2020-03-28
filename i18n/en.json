@@ -712,6 +712,7 @@
         	"dec": "December"
         },
         "noIndications": "No indications",
+        "fullTurno": "The shift you selected is full. Select another one",
         "notActive": "This Escape Room isn't available for you right now",
         "selectActivate": "Select the shift you want to activate/deactivate",
         "selectStudent": "Select a shift",

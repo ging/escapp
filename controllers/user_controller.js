@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
 const mailer = require("../helpers/mailer");
-const ejs = require("ejs");
+const {renderEJS} = require("../helpers/utils");
 
 // Autoload the user with id equals to :userId
 exports.load = (req, res, next, userId) => {
@@ -160,34 +160,34 @@ exports.index = (req, res, next) => {
 };
 
 // GET /users/password-reset
-exports.newResetPassword = (req, res) => {
+exports.newResetPassword = async (req, res) => {
     if (!req.body.login) {
         req.flash("error", req.app.locals.i18n.common.flash.resetPasswordUserNotFound);
         res.redirect("/users/password-reset");
         return;
     }
-    models.user.findOne({"where": {"username": req.body.login}}).then((user) => {
+    const user = await models.user.findOne({"where": {"username": req.body.login}});
+
+    try {
         if (user) {
-            ejs.renderFile("views/emails/resetPassword.ejs", {
-                "i18n": req.app.locals.i18n,
-                "link": `http://${process.env.APP_NAME}/users/password-reset/${user.id}?code=${user.password}&email=${user.username}`
-            }, {}, function (err, str) {
-                if (err) {
-                    console.error(err);
-                    req.flash("error", req.app.locals.i18n.common.flash.problemSendingEmail);
-                    res.redirect("/users/password-reset");
-                    return;
-                }
-                mailer.resetPasswordEmail(user.username, "Reset password", str, str).
-                    then(() => req.flash("success", req.app.locals.i18n.common.flash.resetPasswordSent)).
-                    catch(() => req.flash("error", req.app.locals.i18n.common.flash.problemSendingEmail)).
-                    then(() => res.redirect("/users/password-reset"));
-            });
+            try {
+                const str = await renderEJS("views/emails/resetPassword.ejs", {"i18n": req.app.locals.i18n, "link": `http://${process.env.APP_NAME}/users/password-reset/${user.id}?code=${user.password}&email=${user.username}`}, {});
+
+                await mailer.resetPasswordEmail(user.username, "Reset password", str, str);
+                req.flash("success", req.app.locals.i18n.common.flash.resetPasswordSent);
+                res.redirect("/users/password-reset");
+            } catch (err) {
+                console.error(err);
+                req.flash("error", req.app.locals.i18n.common.flash.problemSendingEmail);
+                res.redirect("/users/password-reset");
+            }
         } else {
-            req.flash("error", req.app.locals.i18n.common.flash.resetPasswordUserNotFound);
-            res.redirect("/users/password-reset");
+            throw new Error();
         }
-    });
+    } catch (e) {
+        req.flash("error", req.app.locals.i18n.common.flash.resetPasswordUserNotFound);
+        res.redirect("/users/password-reset");
+    }
 };
 
 // POST /users/password-reset
@@ -201,10 +201,7 @@ exports.resetPasswordHash = (req, res, next) => {
     const {code, email} = query;
 
     if (user && user.password === code && user.username === email) {
-        res.render("index", {
-            "resetPasswordHash": true,
-            user
-        });
+        res.render("index", { "resetPasswordHash": true, user });
     } else {
         next();
     }
