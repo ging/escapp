@@ -29,6 +29,8 @@
                 <button type="button" id="teams-button" class="participants-button " name="see-as-participant"><%=i18n.participant.seeByParticipant%></button>
             </a>
         </div>
+    </form>
+
         <div class="flex-table-retos-wrapper">
             <div class="flex-table-retos animated jello">
                 <div class="flex-row-retos flex-row-retos-title">
@@ -39,9 +41,23 @@
                 <% for (var p in teams) {
                     var team = teams[p]; %>
                 <div class="flex-row-retos">
-                    <div class="flex-cell flex-name"><%= team.name %></div>
-                    <div class="flex-cell flex-turno"> <%= team.turno.date ? getFullDate(team.turno.date): i18n.turnos.alwaysOpen%></div>
-                    <div class="flex-cell flex-participants"><%=team.teamMembers.map(m=>m.name + " " + m.surname).join(", ") %></div>
+                    <div class="flex-cell flex-name">
+                        
+                        <span><%= team.name %></span>
+                    </div>
+                    <div class="flex-cell flex-turno">
+                        <%= team.turno.date ? getFullDate(team.turno.date): i18n.turnos.alwaysOpen%>
+                    </div>
+                    <div class="flex-cell flex-participants">
+                        <%=team.teamMembers.map(m=>m.name + " " + m.surname).join(", ") %>
+                    </div>
+                    <div class="operations-team">
+                        <form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=team.turno.id%>/teams/<%=team.id%>/reset?_method=PUT" onsubmit="return confirm('<%=i18n.team.areYouSureReset%>');">
+                            <button class="reset-team">
+                                <span class="material-icons">settings_backup_restore </span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 <% } %>
                 <% if (!teams || teams.length === 0) { %>
@@ -58,6 +74,5 @@
         <div class="total-number">
             <b><%=i18n.common.Total%>:</b> <%= teams.length %> <%=i18n.team.teamS%>
         </div>
-    </form>
 </div>
 <% include ../partials/_footer %>

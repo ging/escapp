@@ -120,9 +120,9 @@ button, input[type="submit"] {
   button[type=submit], input[type="submit"][type=submit] {
     cursor: pointer; }
 
-#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto, #mainSection .main #add-reto {
+#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto, #mainSection .main #add-reto, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team {
   transition: 0.1s all ease-in; }
-  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus {
+  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team:focus {
     -webkit-transform: scale(1.2);
     -ms-transform: scale(1.2);
     transform: scale(1.2); }
@@ -3046,18 +3046,37 @@ button, input[type="submit"] {
 
 #mainSection .main.teams .flex-table-retos-wrapper {
   margin: 10px 0px; }
-  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos {
-    overflow: hidden; }
-    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-name {
-      width: 20%; }
-    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-turno {
-      width: 20%; }
-    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-participants {
-      width: 60%;
-      border-right: none; }
-    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos:not(.flex-row-retos-title) .flex-cell {
-      font-family: 'Lato', sans-serif;
-      padding: 5px; }
+  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-name {
+    width: 20%; }
+  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-turno {
+    width: 20%; }
+  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-participants {
+    width: 60%;
+    border-right: none; }
+  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos:not(.flex-row-retos-title) .flex-cell {
+    font-family: 'Lato', sans-serif;
+    padding: 5px; }
+  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team {
+    position: absolute;
+    left: 0;
+    margin-left: -65px;
+    margin-top: 0px;
+    width: 62px;
+    text-align: right;
+    color: white; }
+    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form {
+      display: inline-block; }
+      #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team {
+        background: transparent;
+        border: none;
+        color: white;
+        padding: 2px; }
+        #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team .material-icons {
+          background: transparent;
+          border: none;
+          color: white; }
+        #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team.hidden {
+          display: none; }
 
 #mainSection .main.teams .filters * {
   font-size: 16px; }

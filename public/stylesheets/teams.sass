@@ -2,7 +2,6 @@
   .flex-table-retos-wrapper
     margin: 10px 0px
     .flex-table-retos
-      overflow: hidden
       .flex-row-retos
         .flex-cell
           &.flex-name
@@ -16,6 +15,29 @@
           .flex-cell
             font-family: 'Lato', sans-serif
             padding: 5px
+      .operations-team
+        position: absolute
+        left: 0
+        margin-left: -65px
+        margin-top: 0px
+        width: 62px
+        text-align: right
+        color: white
+        form
+          display: inline-block
+          .reset-team
+            background: transparent
+            border: none
+            color: white
+            padding: 2px
+            .material-icons
+              background: transparent
+              border: none
+              color: white
+            @extend %scale-animation-up
+            &.hidden
+              display: none
+
   .filters
     *
       font-size: 16px

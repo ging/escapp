@@ -330,7 +330,6 @@ exports.indicationsInterface = (req, res) => {
     const {escapeRoom} = req;
 
     res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "indications", "endPoint": "indications"});
-
 };
 
 // POST /escapeRooms/:escapeRoomId/class

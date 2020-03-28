@@ -114,4 +114,14 @@ exports.indexTurnos = (req, res) => {
     res.render("teams/index", {"turno": req.turn, escapeRoom, "token": req.token});
 };
 
-
+// PUT /escapeRooms/:escapeRoomId/turnos/:turnoId/teams/:teamId/reset
+exports.resetProgress = async (req, res) => {
+    try {
+        await models.retosSuperados.destroy({"where": {"teamId": req.team.id}});
+        await models.requestedHint.destroy({"where": {"teamId": req.team.id}});
+        req.flash("error", req.app.locals.i18n.team.resetSuccess);
+    } catch (e) {
+        req.flash("error", req.app.locals.i18n.team.resetFail);
+    }
+    res.redirect("back");
+};

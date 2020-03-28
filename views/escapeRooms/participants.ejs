@@ -69,7 +69,7 @@
                                 <%= participant.attendance ? "checked":"" %> />
                     </div>
                     <div class="operations-participant">
-                        <form method='POST' action='/escapeRooms/<%= escapeRoom.id %>/turno/<%=participant.turnoId %>/team/<%=participant.teamId %>/user/<%= participant.id %>?_method=DELETE'>
+                        <form method='POST' action='/escapeRooms/<%= escapeRoom.id %>/turno/<%=participant.turnoId %>/team/<%=participant.teamId %>/user/<%= participant.id %>?_method=DELETE' onsubmit="return confirm('<%=i18n.participant.areYouSureDelete%>');">
                             <button class="delete-participant"><span class="material-icons"> delete </span></button>
                         </form>
                     </div>

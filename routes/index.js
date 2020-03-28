@@ -152,6 +152,7 @@ router.delete("/escapeRooms/:escapeRoomId(\\d+)/turno/:turnoId(\\d+)/team/:teamI
 
 // Routes for the resource members of a team
 router.put("/escapeRooms/:escapeRoomId/users/:userId(\\d+)/participants/turnos/:turnoId(\\d+)/members/:teamId(\\d+)", sessionController.loginRequired, sessionController.studentOrAdminRequired, participantController.checkJoinToken, membersController.add);
+router.put("/escapeRooms/:escapeRoomId/turnos/:turnoId(\\d+)/teams/:teamId(\\d+)/reset", sessionController.loginRequired, escapeRoomController.adminOrAuthorRequired, teamController.resetProgress);
 
 // Routes for the resource /teams
 router.get("/escapeRooms/:escapeRoomId/users/:userId(\\d+)/turnos/:turnoId(\\d+)/teams/new", sessionController.loginRequired, sessionController.studentOrAdminRequired, participantController.checkJoinToken, teamController.new);
