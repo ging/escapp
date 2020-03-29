@@ -125,7 +125,6 @@ exports.studentLeave = async (req, res, next) => {
         }
 
         if (req.team.teamMembers.length <= 1) {
-            await models.retosSuperados.destroy({"where": {"teamId": req.team.id}});
             await req.team.destroy();
             res.redirect(redirectUrl);
         } else {

@@ -111,14 +111,11 @@ exports.retosUpdate = async (req, res, next) => {
 
                     if (!foundHint) {
                         promises.push(oldHint.destroy({transaction}));
-                        // Promises.push(models.requestedHint.destroy({"where": {"hintId": oldHint.id}},  {transaction}));
                     }
                 }
             } else {
-                // Promises.push(models.retosSuperados.destroy({"where": {"puzzleId": oldReto.id}}, {transaction}));
-                // Promises.push(oldReto.removeSuperados({transaction}));
+                // promises.push(models.retosSuperados.destroy({"where": {"puzzleId": oldReto.id}}, {transaction}));
                 promises.push(oldReto.destroy({transaction}));
-                // Promises.push(models.requestedHint.destroy({"where": {"hintId": {[Sequelize.Op.in]: oldReto.hints.map(h=>h.id) }}}, {transaction}));
             }
         }
         await Promise.all(promises);

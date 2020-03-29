@@ -136,8 +136,8 @@ exports.destroy = async (req, res, next) => {
             // Close the user session
             delete req.session.user;
         }
-        await models.participants.destroy({"where": {"userId": req.user.id}}, {transaction});
-        await models.teamMembers.destroy({"where": {"userId": req.user.id}}, {transaction});
+        // await models.participants.destroy({"where": {"userId": req.user.id}}, {transaction});
+        // await models.teamMembers.destroy({"where": {"userId": req.user.id}}, {transaction});
         transaction.commit();
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingUser);
         res.redirect("/goback");

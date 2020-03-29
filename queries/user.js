@@ -55,7 +55,7 @@ exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints, 
                         "through": {"model": models.retosSuperados}
                     }
 
-                ],
+                ]
             },
             {
                 "model": models.turno,
@@ -76,12 +76,14 @@ exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints, 
             }
 
         ],
-        "order": [[
-            {model: models.team},
-            {model: models.puzzle},
-            "order",
-            "asc"
-        ]]
+        "order": [
+            [
+                {"model": models.team},
+                {"model": models.puzzle},
+                "order",
+                "asc"
+            ]
+        ]
 
     };
 
@@ -90,9 +92,10 @@ exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints, 
     }
     if (orderBy) {
         const isPg = process.env.DATABASE_URL;
-        where.order = [
+
+        options.order = [
             [Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`)],
-            ...where.order
+            ...options.order
         ];
     }
 

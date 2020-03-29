@@ -100,16 +100,20 @@ turno.belongsToMany(user, {
     "as": "students",
     "through": "participants",
     "foreignKey": "turnId",
-    "ondelete": "CASCADE",
-    "otherKey": "userId"
+    "onDelete": "CASCADE",
+    "otherKey": "userId",
+    "constraints": true
+
 });
 
 user.belongsToMany(turno, {
     "as": "turnosAgregados",
     "through": "participants",
-    "ondelete": "CASCADE",
+    "onDelete": "CASCADE",
     "foreignKey": "userId",
-    "otherKey": "turnId"
+    "otherKey": "turnId",
+    "constraints": true
+
 });
 
 
@@ -121,7 +125,9 @@ team.belongsToMany(user, {
     "through": "members",
     "foreignKey": "teamId",
     "onDelete": "CASCADE",
-    "otherKey": "userId"
+    "otherKey": "userId",
+    "constraints": true
+
 });
 
 user.belongsToMany(team, {
@@ -129,13 +135,15 @@ user.belongsToMany(team, {
     "through": "members",
     "foreignKey": "userId",
     "onDelete": "CASCADE",
-    "otherKey": "teamId"
+    "otherKey": "teamId",
+    "constraints": true
 });
 
 // Relation 1-to-N between Turno and Team:
 team.belongsTo(turno);
 turno.hasMany(team, {
     "onDelete": "CASCADE",
+    "foreignKey": "turnoId",
     "hooks": true
 });
 
@@ -152,7 +160,8 @@ team.belongsToMany(puzzle, {
     "through": "retosSuperados",
     "foreignKey": "teamId",
     "onDelete": "CASCADE",
-    "otherKey": "puzzleId"
+    "otherKey": "puzzleId",
+    "constraints": true
 });
 
 puzzle.belongsToMany(team, {
@@ -160,7 +169,8 @@ puzzle.belongsToMany(team, {
     "through": "retosSuperados",
     "foreignKey": "puzzleId",
     "onDelete": "CASCADE",
-    "otherKey": "teamId"
+    "otherKey": "teamId",
+    "constraints": true
 });
 
 // Relation N-to-M between Team and Hint:
