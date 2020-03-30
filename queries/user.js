@@ -78,8 +78,8 @@ exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints, 
         ],
         "order": [
             [
-                {"model": models.team},
-                {"model": models.puzzle},
+                {"model": models.team, "as": "teamsAgregados"},
+                {"model": models.puzzle, "as": "retos"},
                 "order",
                 "asc"
             ]

@@ -88,7 +88,7 @@ exports.puzzlesByTeam = (escapeRoomId, turnId) => {
                 }
             }
         ],
-        "order": [Sequelize.literal("lower(team.name) ASC"), {"model": models.puzzle}, {"model": models.retosSuperados}, "createdAt", "ASC"]
+        "order": [Sequelize.literal("lower(team.name) ASC"), [{"model": models.puzzle, "as": "retos"}, {"model": models.retosSuperados}, "createdAt", "ASC"]]
     };
 
     if (turnId) {
