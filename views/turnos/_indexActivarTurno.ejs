@@ -63,13 +63,11 @@ const formatDate = function (currentDate) {
                 <div class="hora">
                       <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %> 
                 </div>
-                <div class="indications">
-                    <% if (turn.indications) { %>
-                        <%= turn.indications %> <br/>
+                <div class="place">
+                    <% if (turn.place) { %>
+                        <%= turn.place %> <br/>
                     <% } else { %>
-                        <em class="no-indications">
-                            <%=i18n.turnos.noIndications%>
-                        </em>
+                            <span class="no-place"><%=i18n.turnos.noPlace%></span>
                     <% } %>
                 </div>
             </div>

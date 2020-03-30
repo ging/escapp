@@ -1,9 +1,9 @@
 const {models} = require("../models");
-const {puzzleResponse, broadcastRanking} = require("../helpers/sockets");
-const {isTooLate, authenticate, getPuzzleOrderSuperados} = require("../helpers/utils");
+const {isTooLate, authenticate, getPuzzleOrderSuperados, checkPuzzleAnswer} = require("../helpers/utils");
 const {areHintsAllowedForTeam} = require("../helpers/hint");
+const {puzzleResponse, broadcastRanking} = require("../helpers/sockets");
 
-const {OK, NOT_A_PARTICIPANT, PARTICIPANT, NOK, NOT_ACTIVE, TOO_LATE, AUTHOR, ERROR} = require("../helpers/apiCodes");
+const {OK, NOT_A_PARTICIPANT, PARTICIPANT, NOK, NOT_ACTIVE, NOT_STARTED, TOO_LATE, AUTHOR} = require("../helpers/apiCodes");
 
 
 exports.checkParticipant = async (req, res, next) => {
@@ -29,13 +29,7 @@ exports.checkParticipant = async (req, res, next) => {
             {
                 "model": models.turno,
                 "required": true,
-                "where": {"escapeRoomId": req.escapeRoom.id}, // Aquí habrá que añadir las condiciones de si el turno está activo, etc
-                "include": [
-                    {
-                        "model": models.escapeRoom,
-                        "attributes": ["duration", "forbiddenLateSubmissions"] // ForbiddenLateSubmissions // Falta pasar a sockets.js
-                    }
-                ]
+                "where": {"escapeRoomId": req.escapeRoom.id}
             }
         ]
 
@@ -63,13 +57,7 @@ exports.checkParticipantSafe = async (req, res, next) => {
                     {
                         "model": models.turno,
                         "required": true,
-                        "where": {"escapeRoomId": req.escapeRoom.id}, // Aquí habrá que añadir las condiciones de si el turno está activo, etc
-                        "include": [
-                            {
-                                "model": models.escapeRoom,
-                                "attributes": ["duration", "forbiddenLateSubmissions"] // ForbiddenLateSubmissions // Falta pasar a sockets.js
-                            }
-                        ]
+                        "where": {"escapeRoomId": req.escapeRoom.id}
                     }
                 ]
             });
@@ -95,13 +83,7 @@ exports.checkParticipantSession = async (req, res, next) => {
                 {
                     "model": models.turno,
                     "required": true,
-                    "where": {"escapeRoomId": req.escapeRoom.id}, // Aquí habrá que añadir las condiciones de si el turno está activo, etc
-                    "include": [
-                        {
-                            "model": models.escapeRoom,
-                            "attributes": ["duration", "forbiddenLateSubmissions"] // ForbiddenLateSubmissions // Falta pasar a sockets.js
-                        }
-                    ]
+                    "where": {"escapeRoomId": req.escapeRoom.id} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
                 }
             ]
         });
@@ -113,72 +95,25 @@ exports.checkParticipantSession = async (req, res, next) => {
 };
 
 // POST /api/escapeRooms/:escapeRoomId/puzzles/:puzzleId/check
-exports.checkPuzzle = async (req, res) => {
-    const {puzzle, body, teams, escapeRoom} = req;
+exports.checkPuzzle = async (req, _res, next) => {
+    const {puzzle, body, teams, escapeRoom, user} = req;
     const {i18n} = req.app.locals;
     const {solution} = body;
-    // eslint-disable-next-line no-undefined
-    const answer = solution === undefined || solution === null ? "" : solution;
-    // eslint-disable-next-line no-undefined
-    const puzzleSol = puzzle.sol === undefined || puzzle.sol === null ? "" : puzzle.sol;
 
-    let status = 200;
-    let code = NOK;
-    let participation = PARTICIPANT;
-    let msg = "";
-    // eslint-disable-next-line no-undef-init
-    let puzzlesSolved = undefined;
-    // eslint-disable-next-line no-undef-init
-    let hintsAllowed = undefined;
-    let rightAnswer = false;
+    req.response = await checkPuzzleAnswer(solution, puzzle, escapeRoom, teams, user, i18n, req.params.puzzleOrder);
+    const {code, correctAnswer, participation, authentication, msg} = req.response.body;
 
-    try {
-        rightAnswer = answer.toString().toLowerCase().trim() === puzzleSol.toString().toLowerCase().trim();
+    if (code === OK) {
+        const [team] = teams;
 
-        if (rightAnswer) {
-            msg = puzzle.correct || i18n.api.correct;
-        } else {
-            status = 423;
-            msg = puzzle.fail || i18n.api.wrong;
-        }
-
-        if (teams && teams.length > 0) {
-            const [team] = teams;
-
-            if (team.turno.status === "pending") {
-                status = rightAnswer ? 202 : 423;
-                participation = NOT_ACTIVE;
-            } else if (isTooLate(team)) {
-                status = rightAnswer ? 202 : 423;
-                participation = TOO_LATE;
-            } else if (rightAnswer) {
-                code = OK;
-                await puzzle.addSuperados(team.id);
-                puzzleResponse(true, code, puzzle.id, msg, true, team.id);
-                broadcastRanking(team.id, puzzle.id, new Date(), team.turno.id);
-            }
-
-            if (req.params.puzzleOrder) {
-                puzzlesSolved = await getPuzzleOrderSuperados(team);
-                hintsAllowed = await areHintsAllowedForTeam(team.id, escapeRoom.hintLimit);
-            }
-        } else if (escapeRoom.authorId === req.user.id) {
-            status = rightAnswer ? 202 : 423;
-            participation = AUTHOR;
-        } else {
-            status = rightAnswer ? 202 : 423;
-            participation = NOT_A_PARTICIPANT;
-        }
-    } catch (e) {
-        status = 500;
-        code = ERROR;
-        msg = e;
+        puzzleResponse(code === OK, correctAnswer, puzzle.id, participation, authentication, msg, i18n.escapeRoom.api.participation[participation], team.id);
+        broadcastRanking(team.id, puzzle.id, new Date(), team.turno.id);
     }
-    res.status(status).json({code, "correctAnswer": rightAnswer, "authentication": true, "token": req.user.token, participation, msg, "erState": {puzzlesSolved, hintsAllowed}});
+    next();
 };
 
 // POST /api/escapeRooms/:escapeRoomId/auth
-exports.auth = async (req, res) => {
+exports.auth = async (req, _res, next) => {
     const {teams, escapeRoom, user} = req;
     const {i18n} = req.app.locals;
     let status = 200;
@@ -200,10 +135,13 @@ exports.auth = async (req, res) => {
             status = 403;
             participation = NOT_ACTIVE;
             msg = i18n.api.notActive;
-        } else if (isTooLate(team)) {
+        } else if (isTooLate(team, escapeRoom.forbiddenLateSubmissions, escapeRoom.duration)) {
             status = 403;
             participation = TOO_LATE;
             msg = i18n.api.tooLate;
+        } else if (!team.startTime) {
+            status = 403;
+            participation = NOT_STARTED;
         } else {
             code = OK;
         }
@@ -216,5 +154,10 @@ exports.auth = async (req, res) => {
         participation = NOT_A_PARTICIPANT;
         msg = i18n.api.notAParticipant;
     }
-    res.status(status).json({code, "authentication": true, "token": user.token, participation, msg, "erState": { puzzlesSolved, hintsAllowed }});
+    req.response = {status, "body": {code, "authentication": true, "token": user.token, participation, msg, "erState": { puzzlesSolved, hintsAllowed }}};
+    next();
+};
+
+exports.reply = (req, res) => {
+    res.status(req.response.status).json(req.response.body);
 };

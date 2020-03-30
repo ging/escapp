@@ -114,7 +114,7 @@ exports.retosUpdate = async (req, res, next) => {
                     }
                 }
             } else {
-                // promises.push(models.retosSuperados.destroy({"where": {"puzzleId": oldReto.id}}, {transaction}));
+                // Promises.push(models.retosSuperados.destroy({"where": {"puzzleId": oldReto.id}}, {transaction}));
                 promises.push(oldReto.destroy({transaction}));
             }
         }

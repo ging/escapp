@@ -28,7 +28,7 @@ module.exports = {
             "date": arrDates[0],
             "startTime": arrDates[0],
             "status": "finished",
-            "indications": "No hay indicaciones",
+            "place": "Class",
             "createdAt": new Date(),
             "updatedAt": new Date()
         },
@@ -37,7 +37,7 @@ module.exports = {
             "date": arrDates[1],
             "startTime": arrDates[1],
             "status": "finished",
-            "indications": "No hay indicaciones",
+            "place": "Lab",
             "createdAt": new Date(),
             "updatedAt": new Date()
         },
@@ -46,7 +46,7 @@ module.exports = {
             "date": arrDates[2],
             "startTime": arrDates[2],
             "status": "finished",
-            "indications": "No hay indicaciones",
+            "place": "Class",
             "createdAt": new Date(),
             "updatedAt": new Date()
         },
@@ -54,7 +54,7 @@ module.exports = {
             "escapeRoomId": 1,
             "date": arrDates[3],
             "status": "pending",
-            "indications": "No hay indicaciones",
+            "place": "Lab",
             "createdAt": new Date(),
             "updatedAt": new Date()
         }

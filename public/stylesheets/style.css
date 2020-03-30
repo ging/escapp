@@ -3162,7 +3162,7 @@ button, input[type="submit"] {
           margin-bottom: -1em; }
           #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker.turnos-time-picker::-webkit-clear-button, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker.turnos-time-picker::-ms-clear {
             display: none; }
-        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker.turnos-indications-picker {
+        #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker.turnos-place-picker {
           resize: none;
           height: 40px;
           outline: none !important; }
@@ -3231,17 +3231,17 @@ button, input[type="submit"] {
       font-size: 25px;
       margin-bottom: 10px;
       overflow: hidden; }
-    #mainSection .main .flexBoxTurnos .turno .indications {
+    #mainSection .main .flexBoxTurnos .turno .place {
       color: #161938;
       font-size: 12px;
       line-height: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
       word-break: normal; }
-      #mainSection .main .flexBoxTurnos .turno .indications .no-indications {
+      #mainSection .main .flexBoxTurnos .turno .place .no-place {
         color: #a1a3af;
         font-size: 10px; }
-        #mainSection .main .flexBoxTurnos .turno .indications .no-indications em {
+        #mainSection .main .flexBoxTurnos .turno .place .no-place em {
           opacity: 0.8; }
     #mainSection .main .flexBoxTurnos .turno .always {
       font-size: 17px;

@@ -14,6 +14,11 @@
 			<h3 class="animated slideInUp">
 				<b><%=i18n.turnos.Turno%>:</b> <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
 			</h3>
+			<% if (turno.place) { %> 
+				<h3 class="animated slideInUp">
+					<b><%=i18n.turnos.place%>:</b> <%= turno.place %>
+				</h3>
+			<% } %>
 			<% if (escapeRoom.teamSize > 1) { %>
 				<h4 class="animated slideInUp">
 					<b><%=i18n.team.Team%>:</b> <%=participant.teamsAgregados[0].name%>
@@ -27,14 +32,6 @@
 	</div>
 	<h3 class="animated slideInUp"><%=i18n.turnos.Description%></h3>
 	<p class="desc animated slideInUp"><%=escapeRoom.description%></p>
-
-	<% if (turno.indications) { %> 
-		<h3 class="animated slideInUp">Indicaciones</h3>
-		<p class="desc animated slideInUp">
-			<%= turno.indications %>
-		</p>
-	<% } %>
-
 	<div class="status">
 
 		<% 

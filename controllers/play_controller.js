@@ -62,7 +62,7 @@ exports.startPlaying = async (req, res) => {
         "include": [
             {
                 "model": models.user,
-                "attributes": ["name", "surname"],
+                "attributes": [],
                 "as": "teamMembers",
                 "where": {"id": req.session.user.id}
             },
@@ -74,10 +74,11 @@ exports.startPlaying = async (req, res) => {
         ]
     });
     let inUser = [req.session.user.id];
+    const members = await team.getTeamMembers({"attributes": ["id", "name", "surname"]});
 
     switch (escapeRoom.automaticAttendance) {
     case "team":
-        inUser = await team.getTeamMembers({"attributes": ["id"]}).map((t) => t.id);
+        inUser = members.map((t) => t.id);
         // eslint-disable-next-line no-fallthrough
     case "participant":
         await models.participants.update(
@@ -99,8 +100,12 @@ exports.startPlaying = async (req, res) => {
 
     if (team && !(team.startTime instanceof Date && isFinite(team.startTime))) {
         team.startTime = new Date();
-        sendJoinTeam(team);
+        const participants = members.map((m) => `${m.name} ${m.surname}`).join(", ");
+
         await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
+        const {id, name, result, turno, finishTime} = team;
+
+        sendJoinTeam({id, turno, name, result, finishTime, participants});
     }
     res.redirect(`/escapeRooms/${escapeRoom.id}/play`);
 };

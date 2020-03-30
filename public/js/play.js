@@ -108,17 +108,19 @@ const onJoin = () => {
   console.log("Someone from your team has joined the ER")
 }
 
-const onPuzzleResponse = async ({success, puzzleId, msg, auto}) => {
+const onPuzzleResponse = async ({success, correctAnswer, puzzleId, participation, authentication, msg, participantMessage}) => {
+  console.log(success, correctAnswer, puzzleId, participation, authentication, msg, participantMessage)
+  const feedback = msg + (participantMessage && participation !== "PARTICIPANT" ? `. ${participantMessage}`: "");
   if (success) {
     if (!retosSuperados.some(r => r == puzzleId)) {
       retosSuperados.push(puzzleId)
       puzzlesPassed++;
       updateProgress(Math.round(puzzlesPassed/totalPuzzles*100));
-      const feedback = (msg && msg !== "OK") ? msg : i18n.correctAnswer;
+      
       $(`.puzzle-sol[data-reto="${puzzleId}"]`).html(`<b>${feedback}</b>`);
 
       if (puzzlesPassed === totalPuzzles) {
-        await forMs(1200);
+        await forMs(1000);
         $('#finishPuzzles').html(finishTemplate());
         confetti.start(10000);
       } else {
@@ -129,7 +131,6 @@ const onPuzzleResponse = async ({success, puzzleId, msg, auto}) => {
       }
     }
   } else {
-    const feedback = (msg && msg !== "WRONG") ? msg : i18n.wrongAnswer;
     $(`.puzzle-feedback[data-puzzle-id="${puzzleId}"]`).html(feedback);
     $(`.puzzle-input[data-puzzle-id="${puzzleId}"]`).addClass("is-invalid");
   }
@@ -188,6 +189,7 @@ const onRankingDiff = ({teamId, puzzleId, time}) => {
   if (team) {
     const reto = team.retos.find(reto => reto.id === puzzleId)
     if (!reto) {
+      console.log(team)
       team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
       team.result = team.retos.length + "/" + nPuzzles;
       team.latestRetoSuperado = time;
@@ -204,7 +206,8 @@ const onRankingDiff = ({teamId, puzzleId, time}) => {
 
 const onInitialRanking = ({teams:teamsNew}) => {
   teams = teamsNew
-    .map(team => {
+  .map(team => {
+      console.log(team)
       let result = team.count + "/" + nPuzzles;
       let finishTime = (nPuzzles == parseInt(team.count) && team.startTime) ?  
         (secondsToDhms((new Date(team.latestRetoSuperado) - new Date(team.startTime))/1000)) : "---";
@@ -228,11 +231,13 @@ const onInitialRanking = ({teams:teamsNew}) => {
 };
 
 const onTeamJoin = ({team}) => {
+  console.log(team)
   if (!teams.some(t => t.id === team.id)) {
     let count = 0;
     let retos = [];
     let result = "0/" + nPuzzles;
     let finishTime = "---";
+
     teams.push({...team, result, finishTime, count, retos});
     $('ranking').html(rankingTemplate(teams));
     sort();

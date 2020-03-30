@@ -223,6 +223,8 @@
             "participation": {
                 "PARTICIPANT": "Eres participante de esta escape room y el turno al que te has apuntado está activo ahora mismo",
                 "TOO_LATE": "Eres participante de esta escape room pero el turno al que te has apuntado ha terminado o te has quedado sin tiempo",
+                "NOT_ACTIVE": "Eres participante de esta escape room pero el turno al que te has apuntado aún no ha empezado",
+                "NOT_STARTED": "Eres participante de esta escape room pero no le has dado al botón de comenzar en la plataforma escapp",
                 "NOT_A_PARTICIPANT": "No eres participante de esta escape room",
                 "AUTHOR": "Eres el creador de esta escape room"
             },
@@ -708,7 +710,8 @@
         	"nov": "Noviembre",
         	"dec": "Diciembre"
         },
-        "noIndications": "Sin indicaciones",
+        "noPlace": "Lugar no indicado",
+        "place": "Lugar",
         "fullTurno": "El turno seleccionado está lleno. Elige otro.",
         "notActive": "Esta escape room no está activa para tu usuario",
         "selectActivate": "Selecciona el turno que quieres activar/desactivar",

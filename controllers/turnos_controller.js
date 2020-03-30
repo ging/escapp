@@ -144,11 +144,11 @@ exports.activar = async (req, res, next) => {
 
 // POST /escapeRooms/:escapeRoomId/turnos
 exports.create = (req, res, next) => {
-    const {date, indications} = req.body;
+    const {date, place} = req.body;
     const modDate = date === "always" ? null : new Date(date);
     const turn = models.turno.build({
         "date": modDate,
-        indications,
+        place,
         "status": date === "always" ? "active" : "pending",
         "escapeRoomId": req.escapeRoom.id
     });

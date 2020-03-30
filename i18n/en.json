@@ -229,6 +229,8 @@
             "participation": {
                 "PARTICIPANT": "You are a participant of this escape room and the shift you signed up for is active",
                 "TOO_LATE": "You are a participant of this escape room but the shift you signed up for is finished or you have run out of time",
+                "NOT_ACTIVE": "You are a participant of this escape room but the shift you signed up for has not started yet",
+                "NOT_STARTED": "You are a participant of this escape room but you have not hit the start button on the escapp platform",
                 "NOT_A_PARTICIPANT": "You are not a participant of this escape room",
                 "AUTHOR": "You are the author of this escape room"
             },
@@ -715,7 +717,8 @@
         	"nov": "November",
         	"dec": "December"
         },
-        "noIndications": "No indications",
+        "place": "Location",
+        "noPlace": "Place not specified",
         "fullTurno": "The shift you selected is full. Select another one",
         "notActive": "This Escape Room isn't available for you right now",
         "selectActivate": "Select the shift you want to activate/deactivate",

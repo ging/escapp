@@ -317,14 +317,14 @@ exports.destroy = async (req, res, next) => {
             await attHelper.deleteResource(req.escapeRoom.attachment.public_id, models.attachment);
         }
 
-        /* let teamIds = [];
+        /* Let teamIds = [];
                 const turnos = req.escapeRoom.turnos.map((turno) => {
                     teamIds = [...teamIds, ...turno.teams.map((team) => team.id)];
                     return turno.id;
                 });
         */
-        // await models.participants.destroy({"where": {"turnId": {[Sequelize.Op.in]: turnos}}}, {transaction});
-        // await models.members.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
+        // Await models.participants.destroy({"where": {"turnId": {[Sequelize.Op.in]: turnos}}}, {transaction});
+        // Await models.members.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
         await transaction.commit();
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingER);
         res.redirect("/escapeRooms");

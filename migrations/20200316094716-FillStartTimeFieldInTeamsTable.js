@@ -4,7 +4,7 @@ module.exports = {
 
     "up": async () => {
         const teams = await models.team.findAll({
-            "include": [{ "model": models.turno, "where": {"status": "finished"} }],
+            "include": [{ "model": models.turno, "attributes": ["startTime", "date"], "where": {"status": "finished"} }],
             "raw": true
         });
         const promises = [];

@@ -1,9 +1,12 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
-const {nextStep, prevStep} = require("../helpers/progress");
+const {nextStep, prevStep} = require("./progress");
+const {areHintsAllowedForTeam} = require("./hint");
 const cloudinary = require("cloudinary");
 const ejs = require("ejs");
+const {OK, NOT_A_PARTICIPANT, PARTICIPANT, NOK, NOT_ACTIVE, NOT_STARTED, TOO_LATE, AUTHOR, ERROR} = require("../helpers/apiCodes");
+
 
 exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
     const retosSuperados = new Array(puzzles.length).fill(0);
@@ -209,15 +212,13 @@ exports.playInterface = async (name, req, res, next) => {
     }
 };
 
-exports.isTooLate = (team) => {
+exports.isTooLate = (team, forbiddenLateSubmissions, duration) => {
     if (team.turno.status === "finished") {
         return true;
     }
-
-    const {duration} = team.turno.escapeRoom;
     const startTime = team.turno.startTime || team.startTime;
 
-    return team.turno.escapeRoom.forbiddenLateSubmissions && new Date(startTime.getTime() + duration * 60000) < new Date();
+    return forbiddenLateSubmissions && new Date(startTime.getTime() + duration * 60000) < new Date();
 };
 
 exports.getBestTime = (finished) => `${finished.map((t) => t.retos.
@@ -279,3 +280,71 @@ exports.renderEJS = (view, queries = {}, options = {}) => new Promise((resolve, 
         resolve(str);
     });
 });
+
+exports.checkPuzzleAnswer = async (solution, puzzle, escapeRoom, teams, user, i18n, puzzleOrder) => {
+    // eslint-disable-next-line no-undefined
+    const answer = solution === undefined || solution === null ? "" : solution;
+    // eslint-disable-next-line no-undefined
+    const puzzleSol = puzzle.sol === undefined || puzzle.sol === null ? "" : puzzle.sol;
+
+    let status = 200;
+    let code = NOK;
+    let participation = PARTICIPANT;
+    let msg = "";
+    // eslint-disable-next-line no-undef-init
+    let puzzlesSolved = undefined;
+    // eslint-disable-next-line no-undef-init
+    let hintsAllowed = undefined;
+    let rightAnswer = false;
+
+    try {
+        rightAnswer = answer.toString().toLowerCase().trim() === puzzleSol.toString().toLowerCase().trim();
+
+        if (rightAnswer) {
+            msg = puzzle.correct || i18n.api.correct;
+        } else {
+            status = 423;
+            msg = puzzle.fail || i18n.api.wrong;
+        }
+
+        if (teams && teams.length > 0) {
+            const [team] = teams;
+
+            if (team.turno.status === "pending") {
+                status = rightAnswer ? 202 : 423;
+                participation = NOT_ACTIVE;
+            } else if (exports.isTooLate(team, escapeRoom.forbiddenLateSubmissions, escapeRoom.duration)) {
+                status = rightAnswer ? 202 : 423;
+                participation = TOO_LATE;
+            } else if (!team.startTime) {
+                status = rightAnswer ? 202 : 423;
+                participation = NOT_STARTED;
+            } else if (rightAnswer) {
+                try {
+                    await puzzle.addSuperados(team.id);
+                    code = OK;
+                } catch (e) {
+                    code = ERROR;
+                    status = 500;
+                    msg = e.message;
+                }
+            }
+
+            if (puzzleOrder) {
+                puzzlesSolved = await exports.getPuzzleOrderSuperados(team);
+                hintsAllowed = await areHintsAllowedForTeam(team.id, escapeRoom.hintLimit);
+            }
+        } else if (escapeRoom.authorId === user.id) {
+            status = rightAnswer ? 202 : 423;
+            participation = AUTHOR;
+        } else {
+            status = rightAnswer ? 202 : 423;
+            participation = NOT_A_PARTICIPANT;
+        }
+    } catch (e) {
+        status = 500;
+        code = ERROR;
+        msg = e;
+    }
+    return {status, "body": {code, "correctAnswer": rightAnswer, "authentication": true, "token": user.token, participation, msg, "erState": {puzzlesSolved, hintsAllowed}}};
+};

@@ -10,11 +10,9 @@
 			<div class="hora">
 				<%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %>
 			</div>
-			<div class="indications">
-				<% if (turn.indications) { %>
-					<%= turn.indications %> <br/>
-				<% } else { %> 
-					<em class="no-indications"><%=i18n.turnos.noIndications%></em>
+			<div class="place">
+				<% if (turn.place) { %>
+					<%= turn.place %> <br/>
 				<% } %>
 			</div>
 			<form method="POST" action="/escapeRooms/<%= escapeRoom.id %>/turnos/<%=turn.id%>?_method=DELETE">
