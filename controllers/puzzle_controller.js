@@ -37,10 +37,7 @@ exports.loadOrder = (req, res, next, puzzleOrder) => {
 exports.retos = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/puzzles", {
-        escapeRoom,
-        "progress": "puzzles"
-    });
+    res.render("escapeRooms/steps/puzzles", {escapeRoom, "progress": "puzzles" });
 };
 
 // POST /escapeRooms/:escapeRoomId/puzzles

@@ -1,9 +1,8 @@
 const {models} = require("../models");
-const {isTooLate, authenticate, getPuzzleOrderSuperados, checkPuzzleAnswer} = require("../helpers/utils");
-const {areHintsAllowedForTeam} = require("../helpers/hint");
-const {puzzleResponse, broadcastRanking} = require("../helpers/sockets");
+const { authenticate, checkPuzzle, checkTurnoAccess, automaticallySetAttendance} = require("../helpers/utils");
+const {puzzleResponse, broadcastRanking, sendJoinTeam} = require("../helpers/sockets");
 
-const {OK, NOT_A_PARTICIPANT, PARTICIPANT, NOK, NOT_ACTIVE, NOT_STARTED, TOO_LATE, AUTHOR} = require("../helpers/apiCodes");
+const {OK, PARTICIPANT, NOK, NOT_STARTED, getAuthMessageAndCode} = require("../helpers/apiCodes");
 
 
 exports.checkParticipant = async (req, res, next) => {
@@ -100,7 +99,7 @@ exports.checkPuzzle = async (req, _res, next) => {
     const {i18n} = req.app.locals;
     const {solution} = body;
 
-    req.response = await checkPuzzleAnswer(solution, puzzle, escapeRoom, teams, user, i18n, req.params.puzzleOrder);
+    req.response = await checkPuzzle(solution, puzzle, escapeRoom, teams, user, i18n, req.params.puzzleOrder);
     const {code, correctAnswer, participation, authentication, msg} = req.response.body;
 
     if (code === OK) {
@@ -115,48 +114,44 @@ exports.checkPuzzle = async (req, _res, next) => {
 // POST /api/escapeRooms/:escapeRoomId/auth
 exports.auth = async (req, _res, next) => {
     const {teams, escapeRoom, user} = req;
-    const {i18n} = req.app.locals;
-    let status = 200;
-    let msg = i18n.api.participant;
-    let code = NOK;
-    let participation = PARTICIPANT;
-    // eslint-disable-next-line no-undef-init
-    let puzzlesSolved = undefined;
-    // eslint-disable-next-line no-undef-init
-    let hintsAllowed = undefined;
+    const authentication = true;
+    const {token} = user;
 
-    if (teams && teams.length > 0) {
-        const [team] = teams;
+    try {
+        const {i18n} = req.app.locals;
 
-        puzzlesSolved = await getPuzzleOrderSuperados(team);
-        hintsAllowed = await areHintsAllowedForTeam(team.id, escapeRoom.hintLimit);
+        const {participation, erState} = await checkTurnoAccess(teams, user, escapeRoom, true);
+        const {status, code, msg} = getAuthMessageAndCode(participation, i18n);
 
-        if (team.turno.status === "pending") {
-            status = 403;
-            participation = NOT_ACTIVE;
-            msg = i18n.api.notActive;
-        } else if (isTooLate(team, escapeRoom.forbiddenLateSubmissions, escapeRoom.duration)) {
-            status = 403;
-            participation = TOO_LATE;
-            msg = i18n.api.tooLate;
-        } else if (!team.startTime) {
-            status = 403;
-            participation = NOT_STARTED;
-        } else {
-            code = OK;
-        }
-    } else if (escapeRoom.authorId === user.id) {
-        status = 202;
-        participation = AUTHOR;
-        msg = i18n.api.isAuthor;
-    } else {
-        status = 403;
-        participation = NOT_A_PARTICIPANT;
-        msg = i18n.api.notAParticipant;
+        req.response = {status, "body": {code, authentication, token, participation, msg, erState}};
+    } catch (err) {
+        req.response = {"status": 500, "body": {"code": NOK, authentication, token}};
     }
-    req.response = {status, "body": {code, "authentication": true, "token": user.token, participation, msg, "erState": { puzzlesSolved, hintsAllowed }}};
     next();
 };
+exports.startPlaying = async (req, _res, next) => {
+    const {teams, escapeRoom, user} = req;
+    const authentication = true;
+    const {token} = user;
+
+    const {i18n} = req.app.locals;
+
+    // eslint-disable-next-line prefer-const
+    let {participation, erState} = await checkTurnoAccess(teams, user, escapeRoom, true);
+    const {status, code, msg} = getAuthMessageAndCode(participation, i18n, true);
+
+    if (participation === PARTICIPANT || participation === NOT_STARTED) {
+        const joinTeam = await automaticallySetAttendance(teams[0], user, escapeRoom.automaticAttendance);
+
+        if (joinTeam) {
+            sendJoinTeam(joinTeam);
+        }
+        participation = PARTICIPANT;
+    }
+    req.response = {status, "body": {code, authentication, token, participation, msg, erState}};
+    next();
+};
+
 
 exports.reply = (req, res) => {
     res.status(req.response.status).json(req.response.body);

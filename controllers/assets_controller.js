@@ -10,20 +10,10 @@ exports.assets = (req, res) => {
     const assets = escapeRoom.assets.map((a) => {
         const {id, public_id, url, mime, filename} = a;
 
-        return {
-            id,
-            public_id,
-            url,
-            mime,
-            "name": filename
-        };
+        return {id, public_id, url, mime, "name": filename};
     });
 
-    res.render("escapeRooms/steps/assets", {
-        escapeRoom,
-        assets,
-        "progress": "assets"
-    });
+    res.render("escapeRooms/steps/assets", {escapeRoom, assets, "progress": "assets"});
 };
 
 // POST /escapeRooms/:escapeRoomId/assets
@@ -50,13 +40,7 @@ exports.uploadAssets = async (req, res) => {
         res.send(err);
     }
     try {
-        const saved = await models.asset.build({ // Remember the public_id of the old asset.
-            "escapeRoomId": escapeRoom.id,
-            "public_id": uploadResult.public_id,
-            "url": uploadResult.url,
-            "filename": req.file.originalname,
-            "mime": req.file.mimetype
-        }).save();
+        const saved = await models.asset.build({ "escapeRoomId": escapeRoom.id, "public_id": uploadResult.public_id, "url": uploadResult.url, "filename": req.file.originalname, "mime": req.file.mimetype}).save();
 
         res.json({"id": saved.id, "url": uploadResult.url});
     } catch (error) {

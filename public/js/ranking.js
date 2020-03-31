@@ -3,7 +3,9 @@ const DISCONNECT = "disconnect";
 const ERROR = "ERROR";
 const RANKING = "RANKING";
 const JOIN_TEAM = "JOIN_TEAM";
-
+const JOIN_PARTICIPANT = "JOIN_PARTICIPANT";
+const LEAVE_TEAM = "LEAVE_TEAM";
+const LEAVE_PARTICIPANT = "LEAVE_PARTICIPANT";
 const sort = () => {
 	teams = teams.sort((a,b)=>{
 		if (a.retos.length > b.retos.length) {
@@ -11,10 +13,10 @@ const sort = () => {
 		} else if (a.retos.length < b.retos.length) {
 			return 1;
 		} else {
-			if (a.latestRetoSuperado > b.latestRetoSuperado) {
-				return 1;
-			} else {
+			if (a.latestRetoSuperado < b.latestRetoSuperado) {
 				return -1;
+			} else {
+				return 1;
 			}
 		}
 	});
@@ -72,7 +74,7 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
       const reto = team.retos.find(reto => reto.id === puzzleId);
       
   		if (!reto) {
-  			team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
+  			team.retos = [...team.retos, {id: puzzleId, date: time}];
   			team.result = team.retos.length + "/" + nPuzzles;
   			team.latestRetoSuperado = time;
   			$('#team-' + teamId + " .ranking-res").html(team.result);
@@ -96,11 +98,41 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
         let count = 0;
         let retos = [];
         let result = "0/" + nPuzzles;
-        let finishTime = "---";
-        teams.push({...team, result, finishTime, count, retos});
-        $('ranking').html(rankingTemplate(teams));
+        teams.push({...team, result, count, retos});
+        $('ranking').html(rankingTemplate(teams, teamId));
         sort();
       }
+  });
+
+  socket.on(JOIN_PARTICIPANT,function({team}){
+    const index = teams.findIndex(t => t.id === team.id);
+    if (index > -1) {
+      const {teamMembers, participants} = team;
+      teams[index].teamMembers = teamMembers;
+      teams[index].participants = participants;
+      $('ranking').html(rankingTemplate(teams, teamId));
+      sort();
+    }
+  });
+
+  socket.on(LEAVE_TEAM,  function ({team}) {
+    const index = teams.findIndex(t => t.id === team.id);
+    if (index > -1) {
+      teams.splice(index, 1);
+      $('ranking').html(rankingTemplate(teams, teamId));
+      sort();
+    }
+  });
+  
+  socket.on(LEAVE_PARTICIPANT,  function ({team}) {
+    const foundTeam = teams.find(t => t.id === team.id);
+    if (foundTeam) {
+      const {teamMembers, participants} = team;
+      foundTeam.teamMembers = teamMembers;
+      foundTeam.participants = participants;
+      $('ranking').html(rankingTemplate(teams, teamId));
+      sort();
+    }
   });
 
 };

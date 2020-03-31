@@ -136,8 +136,6 @@ exports.destroy = async (req, res, next) => {
             // Close the user session
             delete req.session.user;
         }
-        // Await models.participants.destroy({"where": {"userId": req.user.id}}, {transaction});
-        // Await models.teamMembers.destroy({"where": {"userId": req.user.id}}, {transaction});
         transaction.commit();
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingUser);
         res.redirect("/goback");
@@ -208,22 +206,18 @@ exports.resetPasswordHash = (req, res, next) => {
 };
 
 // POST /users/password-reset/:hash
-exports.newResetPasswordHash = (req, res, next) => {
+exports.newResetPasswordHash = async (req, res, next) => {
     const {code, email} = req.query;
 
     if (req.user && req.user.password === code && req.user.username === email) {
         if (req.body.password && req.body.password === req.body.confirm_password) {
             req.user.password = req.body.password.toString();
-            req.user.save({
-                "fields": [
-                    "password",
-                    "salt"
-                ]
-            }).
-                then(() => {
-                    req.flash("error", req.app.locals.i18n.common.flash.passwordChangedSuccessfully);
-                    res.redirect("/");
-                });
+            try {
+                await req.user.save({"fields": ["password", "salt"]});
+            } catch (e) {
+                req.flash("error", req.app.locals.i18n.common.flash.passwordChangedSuccessfully);
+                res.redirect("/");
+            }
         } else {
             req.flash("error", req.app.locals.i18n.common.flash.passwordsDoNotMatch);
             res.redirect("back");

@@ -38,7 +38,7 @@
         </div>
     <% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
     <% var hintAppConditional = hintConditional && Boolean(escapeRoom.hintApp); // Hint app methodology %>
-
+   
         <% if (endPoint === "team" && hintConditional) {%>
             <div class="row-centered">
                 <div class="col-xs-12">
@@ -108,12 +108,12 @@
     var escapeRoomId = "<%= escapeRoom.id%>";
     var nPuzzles = "<%= escapeRoom.puzzles.length%>";
     var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
-
+    var teamId = <%= team.id || "undefined";%>   
     var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(puzzles)%>');
     var hintConditional = <%= hintConditional || false %>;
     var hintAppConditional =  <%= hintAppConditional || false%>;
     
-    initSocketServer(<%= escapeRoom.id%>, <%= team.id || "undefined" %>, <%= team.turno ? team.turno.id : "undefined" %>)
+    initSocketServer(<%= escapeRoom.id%>, teamId, <%= team.turno ? team.turno.id : "undefined" %>)
     var i18n = {
         empty: "<%=  i18n.hint.empty %>", 
         correctAnswer: "<%=i18n.puzzle.correctAnswer%>",

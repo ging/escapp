@@ -1,5 +1,5 @@
-const {Op} = require("sequelize");
-const {playInterface, getRetosSuperados, byRanking} = require("../helpers/utils");
+const {playInterface, automaticallySetAttendance} = require("../helpers/utils");
+const {getRetosSuperados, byRanking} = require("../helpers/analytics");
 const {models} = require("../models");
 const queries = require("../queries");
 const {sendJoinTeam} = require("../helpers/sockets");
@@ -26,15 +26,7 @@ exports.ranking = async (req, _res, next) => {
 
         const teams = await models.team.findAll(queries.team.ranking(req.escapeRoom.id, turnoId));
 
-        req.teams = getRetosSuperados(teams).map((team) => {
-            const {"countretos": count, "turno": turn, "latestretosuperado": latestRetoSuperado} = team;
-            const startTime = turn.startTime || team.startTime;
-            const result = `${count}/${req.escapeRoom.puzzles.length}`;
-            const finishTime = req.escapeRoom.puzzles.length === parseInt(count, 10) && startTime ? (new Date(latestRetoSuperado) - new Date(startTime)) / 1000 : null;
-
-            return {...team, count, startTime, result, finishTime};
-        }).
-            sort(byRanking);
+        req.teams = getRetosSuperados(teams, req.escapeRoom.puzzles.length).sort(byRanking);
         next();
     } catch (e) {
         console.error(e);
@@ -56,56 +48,32 @@ exports.finish = async (req, res) => {
 
 // POST /escapeRooms/:escapeRoomId/play
 exports.startPlaying = async (req, res) => {
-    const {escapeRoom} = req;
-    const team = await models.team.findOne({
-        "attributes": ["name", "id", "startTime"],
-        "include": [
-            {
-                "model": models.user,
-                "attributes": [],
-                "as": "teamMembers",
-                "where": {"id": req.session.user.id}
-            },
-            {
-                "model": models.turno,
-                "attributes": ["id"],
-                "where": {"escapeRoomId": escapeRoom.id}
-            }
-        ]
-    });
-    let inUser = [req.session.user.id];
-    const members = await team.getTeamMembers({"attributes": ["id", "name", "surname"]});
-
-    switch (escapeRoom.automaticAttendance) {
-    case "team":
-        inUser = members.map((t) => t.id);
-        // eslint-disable-next-line no-fallthrough
-    case "participant":
-        await models.participants.update(
-            { "attendance": true },
-            {
-                "where": {
-                    [Op.and]: [
-                        {"turnId": team.turno.id},
-                        {"userId": {[Op.in]: inUser}}
-                    ]
+    try {
+        const team = await models.team.findOne({
+            "attributes": ["name", "id", "startTime"],
+            "include": [
+                {
+                    "model": models.user,
+                    "attributes": [],
+                    "as": "teamMembers",
+                    "where": {"id": req.session.user.id}
+                },
+                {
+                    "model": models.turno,
+                    "attributes": ["id", "startTime"],
+                    "where": {"escapeRoomId": req.escapeRoom.id}
                 }
-            }
-        );
-        break;
-    case "none":
-    default:
-        break;
+            ]
+        });
+
+        const joinTeam = await automaticallySetAttendance(team, req.session.user, req.escapeRoom.automaticAttendance);
+
+        if (joinTeam) {
+            sendJoinTeam(joinTeam);
+        }
+    } catch (err) {
+        console.error(err);
+        req.flash("error", "Error");
     }
-
-    if (team && !(team.startTime instanceof Date && isFinite(team.startTime))) {
-        team.startTime = new Date();
-        const participants = members.map((m) => `${m.name} ${m.surname}`).join(", ");
-
-        await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
-        const {id, name, result, turno, finishTime} = team;
-
-        sendJoinTeam({id, turno, name, result, finishTime, participants});
-    }
-    res.redirect(`/escapeRooms/${escapeRoom.id}/play`);
+    res.redirect(`/escapeRooms/${req.escapeRoom.id}/play`);
 };

@@ -1,7 +1,8 @@
 const {models} = require("../models");
 const {createCsvFile} = require("../helpers/csv");
 const queries = require("../queries");
-const {retosSuperadosByWho, flattenObject, getRetosSuperados, getRetosSuperadosIdTime, countHints, countHintsByPuzzle, pctgRetosSuperados, getBestTime, getAvgHints, byRanking} = require("../helpers/utils");
+const {flattenObject} = require("../helpers/utils");
+const {retosSuperadosByWho, getRetosSuperados, getBestTime, getAvgHints, byRanking, pctgRetosSuperados, getRetosSuperadosIdTime, countHints, countHintsByPuzzle } = require("../helpers/analytics");
 
 // GET /escapeRooms/:escapeRoomId/analytics
 exports.analytics = async (req, res, next) => {
@@ -163,17 +164,7 @@ exports.ranking = async (req, res, next) => {
 
     try {
         const teamsRanked = await models.team.findAll(queries.team.ranking(escapeRoom.id, turnId));
-        const teams = getRetosSuperados(teamsRanked).map((team) => {
-            const count = team.countretos;
-            const startTime = team.turno.startTime || team.startTime;
-
-            const latestRetoSuperado = team.latestretosuperado;
-            const result = `${count}/${escapeRoom.puzzles.length}`;
-            const finishTime = escapeRoom.puzzles.length === parseInt(count, 10) && startTime ? (new Date(latestRetoSuperado) - new Date(startTime)) / 1000 : null;
-
-            return {...team, count, startTime, latestRetoSuperado, result, finishTime};
-        }).sort(byRanking);
-
+        const teams = getRetosSuperados(teamsRanked, escapeRoom.puzzles.length).sort(byRanking);
 
         res.render("escapeRooms/analytics/ranking", {teams, escapeRoom, turnId});
     } catch (e) {
@@ -369,28 +360,31 @@ exports.grading = async (req, res, next) => {
             const {retosSuperados} = retosSuperadosByWho(user.teamsAgregados[0], puzzles, false, startDate);
 
 
-            const grades = retosSuperados.map((reto, index) => reto * (escapeRoom.puzzles[index].score || 0));
-            const gradeScore = grades.reduce((a, b) => a + b);
-            const attendance = user.turnosAgregados[0].participants.attendance ? escapeRoom.scoreParticipation || 0 : 0;
-
+            const hasAttended = user.turnosAgregados[0].participants.attendance;
+            const grades = retosSuperados.map((reto, index) => hasAttended ? (reto * (escapeRoom.puzzles[index].score || 0)) : 0);
+            const gradeScore = hasAttended ? grades.reduce((a, b) => a + b) : 0;
+            const attendance = hasAttended ? escapeRoom.scoreParticipation || 0 : 0;
 
             let total = attendance + gradeScore;
-            const result = {name, surname, dni, username, turno, grades, turnId, attendance, total};
+            const result = {name, surname, dni, username, turno, grades, turnId, attendance, total, "hintsSucceeded": 0, "hintsFailed": 0};
 
-            if (hintConditional) {
-                const [{requestedHints}] = user.teamsAgregados;
+            if (hasAttended) {
+                if (hintConditional) {
+                    const [{requestedHints}] = user.teamsAgregados;
 
-                let {hintsSucceeded, hintsFailed} = countHints(requestedHints);
+                    let {hintsSucceeded, hintsFailed} = countHints(requestedHints);
 
-                hintsSucceeded *= escapeRoom.hintSuccess || 0;
-                total += hintsSucceeded;
-                result.hintsSucceeded = hintsSucceeded;
-                if (hintAppConditional) {
-                    hintsFailed *= escapeRoom.hintFailed || 0;
-                    total += hintsFailed;
-                    result.hintsFailed = hintsFailed;
+                    hintsSucceeded *= escapeRoom.hintSuccess || 0;
+                    total += hintsSucceeded;
+                    result.hintsSucceeded = hintsSucceeded;
+                    if (hintAppConditional) {
+                        hintsFailed *= escapeRoom.hintFailed || 0;
+                        total += hintsFailed;
+                        result.hintsFailed = hintsFailed;
+                    }
                 }
             }
+
             return result;
         });
 

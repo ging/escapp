@@ -1,5 +1,8 @@
 const Sequelize = require("sequelize");
-const {models} = require("../models");
+const {Op} = Sequelize;
+const sequelize = require("../models");
+const {models} = sequelize;
+const {sendLeaveTeam} = require("../helpers/sockets");
 
 // Autoload the team with id equals to :teamId
 exports.load = (req, res, next, teamId) => {
@@ -26,40 +29,31 @@ exports.new = (req, res) => {
     const team = {"name": ""};
     const {escapeRoom} = req;
 
-    res.render("teams/new", {
-        team,
-        escapeRoom,
-        "token": req.token,
-        "turno": req.turn
-    });
+    res.render("teams/new", {team, escapeRoom, "token": req.token, "turno": req.turn});
 };
 
 
 // POST /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnId/teams
 exports.create = async (req, res, next) => {
-    const {escapeRoom} = req;
+    const {escapeRoom, user, app, params, body, session} = req;
 
-    const team = models.team.build({
-        "name": req.body.name,
-        "turnoId": req.params.turnoId,
-        "members": [req.session.user.id]
-    });
+    const team = models.team.build({ "name": body.name, "turnoId": params.turnoId, "members": [session.user.id]});
     const back = "/escapeRooms";
     const teamCreated = await team.save();
 
     try {
         await teamCreated.addTeamMembers(req.session.user.id);
-        req.flash("success", req.app.locals.i18n.common.flash.successCreatingTeam);
+        req.flash("success", app.locals.i18n.common.flash.successCreatingTeam);
 
         try {
-            const turnos = await req.user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
+            const turnos = await user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
 
             if (turnos.length === 0) {
-                await req.user.addTurnosAgregados(req.params.turnoId);
+                await user.addTurnosAgregados(params.turnoId);
                 res.redirect(back);
             } else {
-                req.flash("error", req.app.locals.i18n.team.alreadyIn);
-                res.redirect(`/users/${req.session.user.id}/escapeRooms`);
+                req.flash("error", app.locals.i18n.team.alreadyIn);
+                res.redirect(`/users/${session.user.id}/escapeRooms`);
             }
         } catch (e) {
             next(e);
@@ -69,14 +63,14 @@ exports.create = async (req, res, next) => {
             err.errors.forEach(({message}) => req.flash("error", message));
             res.redirect(back);
         } else {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorCreatingTeam}: ${err.message}`);
+            req.flash("error", `${app.locals.i18n.common.flash.errorCreatingTeam}: ${err.message}`);
             next(err);
         }
     }
 };
 
 // GET /escapeRooms/:escapeRoomId/teams
-exports.index = (req, res, next) => {
+exports.index = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId} = query;
     const where = {
@@ -98,13 +92,14 @@ exports.index = (req, res, next) => {
     if (turnId) {
         where.include[0].where.id = turnId;
     }
-    models.team.findAll(where).then((teams) => {
+    try {
+        const teams = await models.team.findAll(where);
+
         res.render("escapeRooms/teams", {teams, escapeRoom, turnId});
-    }).
-        catch((e) => {
-            console.error(e);
-            next(e);
-        });
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/turnos/:turnoId/teams
@@ -117,10 +112,20 @@ exports.indexTurnos = (req, res) => {
 // PUT /escapeRooms/:escapeRoomId/turnos/:turnoId/teams/:teamId/reset
 exports.resetProgress = async (req, res) => {
     try {
-        await models.retosSuperados.destroy({"where": {"teamId": req.team.id}});
+        const userIds = [];
+
+        for (const member of req.team.teamMembers) {
+            userIds.push(member.id);
+        }
+        req.team.startTime = null;
         await models.requestedHint.destroy({"where": {"teamId": req.team.id}});
+        await models.retosSuperados.destroy({"where": {"teamId": req.team.id}});
+        await models.participants.update({"attendance": false}, {"where": {"userId": {[Op.in]: userIds}, "turnId": req.turn.id}});
+        await req.team.save({"fields": ["startTime"]});
+        sendLeaveTeam({"id": req.team.id, "turno": {"id": req.turn.id}});
         req.flash("error", req.app.locals.i18n.team.resetSuccess);
     } catch (e) {
+        console.error(e)
         req.flash("error", req.app.locals.i18n.team.resetFail);
     }
     res.redirect("back");

@@ -11,8 +11,12 @@ const START = "START";
 const STOP = "STOP";
 const JOIN = "JOIN";
 const JOIN_TEAM = "JOIN_TEAM";
+const JOIN_PARTICIPANT = "JOIN_PARTICIPANT";
+const LEAVE_TEAM = "LEAVE_TEAM";
+const LEAVE_PARTICIPANT = "LEAVE_PARTICIPANT";
+const RESET_PROGRESS = "RESET_PROGRESS";
 const RANKING = "RANKING";
-
+var myTeamId;
 /** TEMPLATES **/
 const hintTemplate = (hint) => `
   <li class="animated zoomInUp">
@@ -189,8 +193,7 @@ const onRankingDiff = ({teamId, puzzleId, time}) => {
   if (team) {
     const reto = team.retos.find(reto => reto.id === puzzleId)
     if (!reto) {
-      console.log(team)
-      team.retos = [...team.retos, {id: puzzleId, createdAt: time}];
+      team.retos = [...team.retos, {id: puzzleId, date: time}];
       team.result = team.retos.length + "/" + nPuzzles;
       team.latestRetoSuperado = time;
       $('#team-' + teamId +" .ranking-res").html(team.result);
@@ -206,43 +209,58 @@ const onRankingDiff = ({teamId, puzzleId, time}) => {
 
 const onInitialRanking = ({teams:teamsNew}) => {
   teams = teamsNew
-  .map(team => {
-      console.log(team)
-      let result = team.count + "/" + nPuzzles;
-      let finishTime = (nPuzzles == parseInt(team.count) && team.startTime) ?  
-        (secondsToDhms((new Date(team.latestRetoSuperado) - new Date(team.startTime))/1000)) : "---";
-      return {...team, result, finishTime}
-    })
-    .sort((a,b)=>{
-      if (a.retos.length > b.retos.length) {
-        return -1;
-      } else if (a.retos.length < b.retos.length) {
-        return 1;
-      } else {
-        if (a.latestRetoSuperado > b.latestRetoSuperado) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
-    });
-  $('ranking').html(rankingTemplate(teams));
+  $('ranking').html(rankingTemplate(teams, myTeamId));
   sort();
 };
 
 const onTeamJoin = ({team}) => {
-  console.log(team)
   if (!teams.some(t => t.id === team.id)) {
     let count = 0;
     let retos = [];
     let result = "0/" + nPuzzles;
-    let finishTime = "---";
 
-    teams.push({...team, result, finishTime, count, retos});
-    $('ranking').html(rankingTemplate(teams));
+    teams.push({...team, result, count, retos});
+    $('ranking').html(rankingTemplate(teams, myTeamId));
     sort();
   }
 }
+
+const onParticipantJoin = ({team}) => {
+  const index = teams.findIndex(t => t.id === team.id);
+  if (index > -1) {
+    const {teamMembers, participants} = team;
+    teams[index].teamMembers = teamMembers;
+    teams[index].participants = participants;
+    $('ranking').html(rankingTemplate(teams, teamId));
+    sort();
+  }
+}
+
+const onTeamLeave = ({team}) => {
+  if (team.id === teamId) {
+    window.location.replace("/escapeRooms");
+  }
+  const index = teams.findIndex(t => t.id === team.id);
+  if (index > -1) {
+    teams.splice(index, 1);
+    $('ranking').html(rankingTemplate(teams, teamId));
+    sort();
+  }
+}
+
+const onParticipantLeave = ({team}) => {
+  const foundTeam = teams.find(t => t.id === team.id);
+  if (foundTeam) {
+    const {teamMembers, participants} = team;
+    foundTeam.teamMembers = teamMembers;
+    foundTeam.participants = participants;
+    $('ranking').html(rankingTemplate(teams, myTeamId));
+    sort();
+  }
+
+}
+
+
 
 const onDisconnect = () => {
   console.error("Disconnected from socket server");
@@ -259,18 +277,19 @@ const forMs = (delay) => {
 }
 
 const sort = () => {
+
   teams = teams.sort((a,b)=>{
     if (a.retos.length > b.retos.length) {
       return -1;
     } else if (a.retos.length < b.retos.length) {
       return 1;
     } else {
-      if (a.latestRetoSuperado > b.latestRetoSuperado) {
-        return 1;
-      } else {
-        return -1;
-      }
-    }
+        if (a.latestRetoSuperado < b.latestRetoSuperado) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } 
   });
     var top = 75;
     $.each(teams.map(t=>t.id), function(idx, id) {
@@ -358,7 +377,8 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
     team: teamId == "undefined" ? undefined : teamId, 
     turn: turnId == "undefined" ? undefined : turnId  
   }});
-  
+  myTeamId = teamId;
+
   /*Connect*/
   socket.on(CONNECT, onConnect);
 
@@ -388,6 +408,15 @@ const initSocketServer = (escapeRoomId, teamId, turnId) => {
 
   /*Team join*/
   socket.on(JOIN_TEAM, onTeamJoin);
+
+  /*Participant join*/
+  socket.on(JOIN_PARTICIPANT, onParticipantJoin);
+
+  /*Participant leave*/
+  socket.on(LEAVE_PARTICIPANT, onParticipantLeave);
+
+  /*Team leave*/
+  socket.on(LEAVE_TEAM, onTeamLeave);
 
   /*Disconnect*/
   socket.on(DISCONNECT, onDisconnect);

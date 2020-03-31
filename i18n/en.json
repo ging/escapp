@@ -101,9 +101,11 @@
         "isAuthor": "You are the author of this escape room",
         "wrongCredentials": "The email and password combination is incorrect",
         "wrongCredentialsToken": "The email and token combination is incorrect",
-        "notAParticipant": "You are not a participant of this escape room.",
+        "notAParticipant": "You are not a participant of this escape room",
+        "alreadyParticipating": "You have already started participating in this escape room",
         "participant": "You are a participant of this escape room",
         "notActive": "You are a participant of this escape room but your shift is not active",
+        "notStarted": "You are a participant of this escape room but you have not clicked the start button",
         "tooLate": "You are a participant of this escape room but your time is up"
     },
     "apps": {
@@ -686,6 +688,7 @@
         "all": "All shifts",
         "alreadyIn": "You're already assigned to a shift",
         "always": "always",
+        "tooLate": "It is too late to join this team",
         "alwaysOpen": "Always open",
         "arrows": {
         	"closeText": "Close",

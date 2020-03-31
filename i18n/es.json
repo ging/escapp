@@ -95,9 +95,11 @@
         "isAuthor": "Eres el autor de esta escape room",
         "wrongCredentials": "La combinación de usuario y contraseña es incorrecta",
         "wrongCredentialsToken": "La combinación de usuario y token es incorrecta",
+        "alreadyParticipating": "Ya habías comenzado a participar en esta escape room",
         "notAParticipant": "No participas en esta escape room",
         "participant": "Participas en esta escape room",
         "notActive": "Participas en esta escape room pero tu turno no está activo",
+        "notStarted": "Participas en esta escape room pero no le has dado al botón de comenzar",
         "tooLate": "Participas en esta escape room pero se ha pasado el tiempo"
     },
     "apps": {
@@ -678,6 +680,7 @@
     "turnos": {
         "all": "Todos los turnos",
         "alreadyIn": "Ya estas dentro de un turno.",
+        "tooLate": "Es demasiado tarde para unirte a este equipo",
         "always": "siempre",
         "alwaysOpen": "Siempre abierto",
         "arrows": {

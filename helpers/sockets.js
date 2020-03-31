@@ -2,7 +2,8 @@ const sequelize = require("../models");
 const queries = require("../queries");
 const {models} = sequelize;
 const {calculateNextHint} = require("./hint");
-const {getRetosSuperados, checkPuzzleAnswer} = require("../helpers/utils");
+const {checkPuzzle} = require("./utils");
+const {getRetosSuperados, byRanking} = require("./analytics");
 const {OK} = require("./apiCodes");
 /** Server-client**/
 
@@ -18,6 +19,9 @@ const START = "START";
 const STOP = "STOP";
 const JOIN = "JOIN";
 const JOIN_TEAM = "JOIN_TEAM";
+const JOIN_PARTICIPANT = "JOIN_PARTICIPANT";
+const LEAVE_TEAM = "LEAVE_TEAM";
+const LEAVE_PARTICIPANT = "LEAVE_PARTICIPANT";
 
 const getInfoFromSocket = ({request, handshake}) => {
     const userId = request.session.user.id;
@@ -97,6 +101,9 @@ const broadcastRanking = (teamId, puzzleId, time, turnId) => sendTurnMessage({"t
 const initialRanking = (socketId, teams) => sendIndividualMessage({"type": INITIAL_RANKING, "payload": {teams}}, socketId);
 const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN, "payload": {username}}, teamId);
 const joinTeam = (turnId, team) => sendTurnMessage({"type": JOIN_TEAM, "payload": {team}}, turnId);
+const joinParticipant = (turnId, team) => sendTurnMessage({"type": JOIN_PARTICIPANT, "payload": {team}}, turnId);
+const leaveParticipant = (turnId, team) => sendTurnMessage({"type": LEAVE_PARTICIPANT, "payload": {team}}, turnId);
+const leaveTeam = (turnId, team) => sendTurnMessage({"type": LEAVE_TEAM, "payload": {team}}, turnId);
 /** Client-server**/
 
 const join = async (teamId, username) => {
@@ -112,7 +119,7 @@ const solvePuzzle = async (escapeRoomId, teamId, userId, puzzleId, solution, i18
         const puzzle = await models.puzzle.findOne({"where": {"id": puzzleId, escapeRoomId}});
 
         if (!puzzle) {
-            throw new Error("Team not found");
+            throw new Error("Puzzle not found");
         }
         const team = await models.team.findByPk(teamId, {
             "include": [
@@ -133,36 +140,42 @@ const solvePuzzle = async (escapeRoomId, teamId, userId, puzzleId, solution, i18
         if (!team) {
             throw new Error("Team not found");
         }
-
-        const {body} = await checkPuzzleAnswer(solution, puzzle, team.turno.escapeRoom, [team], {"id": userId}, i18n);
+        const {body} = await checkPuzzle(solution, puzzle, team.turno.escapeRoom, [team], {"id": userId}, i18n);
         const {code, correctAnswer, participation, authentication, msg} = body;
 
         if (code === OK) {
-            puzzle.addSuperados(team.id);
+            await puzzle.addSuperados(team.id);
             broadcastRanking(team.id, puzzleId, new Date(), team.turno.id);
         }
         puzzleResponse(code === OK, correctAnswer, puzzleId, participation, authentication, msg, i18n.escapeRoom.api.participation[participation], teamId);
     } catch (e) {
+        console.error("lll", e);
         error(e, teamId);
     }
 };
 
 const sendInitialRanking = async (socketId, userId, teamId, escapeRoomId, turnoId) => {
     const teamsRaw = await models.team.findAll(queries.team.ranking(escapeRoomId, turnoId));
-
-    const teams = getRetosSuperados(teamsRaw).map((team) => {
-        const {id, name, retos, turno, "latestretosuperado": latestRetoSuperado, "countretos": count} = JSON.parse(JSON.stringify(team));
-        const startTime = turno.startTime || team.startTime;
-        const participants = team.teamMembers.map((member) => `${member.name} ${member.surname}`).join(", ");
-
-        return {id, name, count, retos, participants, latestRetoSuperado, startTime};
-    });
+    const nPuzzles = await models.puzzle.count({"where": { escapeRoomId }});
+    const teams = getRetosSuperados(teamsRaw, nPuzzles).sort(byRanking);
 
     initialRanking(socketId, teams);
 };
 
 const sendJoinTeam = (team) => {
     joinTeam(team.turno.id, team);
+};
+
+const sendJoinParticipant = (team) => {
+    joinParticipant(team.turno.id, team);
+};
+
+const sendLeaveParticipant = (team) => {
+    leaveParticipant(team.turno.id, team);
+};
+
+const sendLeaveTeam = (team) => {
+    leaveTeam(team.turno.id, team);
 };
 
 const requestHint = async (teamId, status, score) => {
@@ -230,6 +243,9 @@ module.exports = {
     getInfoFromSocket,
     sendInitialRanking,
     sendJoinTeam,
+    sendJoinParticipant,
+    sendLeaveParticipant,
+    sendLeaveTeam,
     START,
     DISCONNECT,
     SOLVE_PUZZLE,

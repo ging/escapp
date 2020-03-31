@@ -3,6 +3,7 @@ const {createCsvFile} = require("../helpers/csv");
 const Sequelize = require("sequelize");
 const {Op} = Sequelize;
 const queries = require("../queries");
+const {sendLeaveTeam, sendLeaveParticipant} = require("../helpers/sockets");
 
 exports.checkJoinToken = (req, res, next) => {
     const token = req.query.token || req.body.token;
@@ -63,22 +64,8 @@ exports.confirmAttendance = async (req, res) => {
     const turnos = req.escapeRoom.turnos.map((t) => t.id);
 
     try {
-        await models.participants.update({"attendance": true}, {
-            "where": {
-                [Op.and]: [
-                    {"turnId": {[Op.in]: turnos}},
-                    {"userId": {[Op.in]: req.body.attendance.yes}}
-                ]
-            }
-        });
-        await models.participants.update({"attendance": false}, {
-            "where": {
-                [Op.and]: [
-                    {"turnId": {[Op.in]: turnos}},
-                    {"userId": {[Op.in]: req.body.attendance.no}}
-                ]
-            }
-        });
+        await models.participants.update({"attendance": true}, { "where": {[Op.and]: [{"turnId": {[Op.in]: turnos}}, {"userId": {[Op.in]: req.body.attendance.yes}}]} });
+        await models.participants.update({"attendance": false}, { "where": {[Op.and]: [{"turnId": {[Op.in]: turnos}}, {"userId": {[Op.in]: req.body.attendance.no}}]}});
         await res.end();
     } catch (e) {
         res.status(500);
@@ -109,15 +96,10 @@ exports.studentLeave = async (req, res, next) => {
         }
         const userId = user.id;
         const turnId = turn.id;
-
+        const teamId = req.team.id;
 
         await req.team.removeTeamMember(user);
-        const participant = await models.participants.findOne({
-            "where": {
-                turnId,
-                userId
-            }
-        });
+        const participant = await models.participants.findOne({"where": { turnId, userId}});
 
         await participant.destroy();
         if (req.session.user.isStudent) {
@@ -126,8 +108,21 @@ exports.studentLeave = async (req, res, next) => {
 
         if (req.team.teamMembers.length <= 1) {
             await req.team.destroy();
+            sendLeaveTeam({"id": teamId, "turno": {"id": turnId}});
             res.redirect(redirectUrl);
         } else {
+            const members = await req.team.getTeamMembers();
+            const teamMembers = [];
+            const participantsNames = [];
+
+            for (const member of members) {
+                teamMembers.push({"name": member.name, "surname": member.surname});
+                participantsNames.push(`${member.name} ${member.surname}`);
+            }
+            const participants = participantsNames.join(", ");
+            const team = {"id": req.team.id, teamMembers, participants, "turno": {"id": req.turn.id}};
+
+            sendLeaveParticipant(team);
             res.redirect(redirectUrl);
         }
     } catch (e) {

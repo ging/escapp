@@ -164,7 +164,7 @@ p {
   font-weight: bolder;
 }
 .ranking-table .ranking-row.myTeam {
-  background-color: var(--success);
+  color: var(--success);
 }
 .ranking-table .ranking-row div {
   display: flex;

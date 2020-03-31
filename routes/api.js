@@ -20,5 +20,6 @@ router.param("puzzleOrder", 	puzzleController.loadOrder);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles/:puzzleId(\\d+)/check", apiController.checkParticipant, apiController.checkPuzzle, apiController.reply);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles/:puzzleOrder(\\d+)/submit", apiController.checkParticipantSafe, apiController.checkPuzzle, apiController.reply);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/auth", apiController.checkParticipantSafe, apiController.auth, apiController.reply);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/start", apiController.checkParticipantSafe, apiController.startPlaying, apiController.reply);
 
 module.exports = router;

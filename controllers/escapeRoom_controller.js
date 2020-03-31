@@ -316,15 +316,6 @@ exports.destroy = async (req, res, next) => {
             await attHelper.checksCloudinaryEnv();
             await attHelper.deleteResource(req.escapeRoom.attachment.public_id, models.attachment);
         }
-
-        /* Let teamIds = [];
-                const turnos = req.escapeRoom.turnos.map((turno) => {
-                    teamIds = [...teamIds, ...turno.teams.map((team) => team.id)];
-                    return turno.id;
-                });
-        */
-        // Await models.participants.destroy({"where": {"turnId": {[Sequelize.Op.in]: turnos}}}, {transaction});
-        // Await models.members.destroy({"where": {"teamId": {[Sequelize.Op.in]: teamIds}}}, {transaction});
         await transaction.commit();
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingER);
         res.redirect("/escapeRooms");
@@ -339,12 +330,7 @@ exports.destroy = async (req, res, next) => {
 exports.studentToken = async (req, res, next) => {
     const {escapeRoom} = req;
 
-    const participant = await models.participants.findOne({
-        "where": {
-            "userId": req.session.user.id,
-            "turnId": {[Sequelize.Op.or]: [escapeRoom.turnos.map((t) => t.id)]}
-        }
-    });
+    const participant = await models.participants.findOne({ "where": { "userId": req.session.user.id, "turnId": {[Sequelize.Op.or]: [escapeRoom.turnos.map((t) => t.id)]}}});
 
     if (participant) {
         res.redirect(`/escapeRooms/${escapeRoom.id}`);

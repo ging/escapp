@@ -1665,7 +1665,7 @@ button, input[type="submit"] {
       #mainSection .main.step-instructions ranking .ranking-table .ranking-row.ranking-header {
         font-weight: bolder; }
       #mainSection .main.step-instructions ranking .ranking-table .ranking-row.myTeam {
-        background-color: var(--success); }
+        color: var(--success); }
       #mainSection .main.step-instructions ranking .ranking-table .ranking-row div {
         display: flex;
         justify-content: center;

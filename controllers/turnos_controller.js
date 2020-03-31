@@ -11,16 +11,8 @@ exports.load = (req, res, next, turnId) => {
         "include": [
             {
                 "model": models.team,
-                "include": {
-                    "model": models.user,
-                    "as": "teamMembers"
-                },
-                "order": [
-                    [
-                        "date",
-                        "ASC"
-                    ]
-                ]
+                "include": {"model": models.user, "as": "teamMembers"},
+                "order": [["date", "ASC"]]
             }
         ]
     };
@@ -61,16 +53,8 @@ exports.indexStudent = async (req, res, next) => {
 
         const turnos = await models.turno.findAll({
             "where": {"escapeRoomId": req.escapeRoom.id},
-            "include": {
-                "model": models.user,
-                "as": "students"
-            },
-            "order": [
-                [
-                    "date",
-                    "ASC"
-                ]
-            ]
+            "include": {"model": models.user, "as": "students"},
+            "order": [["date", "ASC"]]
         });
 
         if (escapeRoom.turnos && escapeRoom.turnos.length === 1) {
@@ -118,12 +102,7 @@ exports.activar = async (req, res, next) => {
             turno.status = "finished";
         }
 
-        await turno.save({
-            "fields": [
-                "startTime",
-                "status"
-            ]
-        });
+        await turno.save({"fields": ["startTime", "status"]});
         req.flash("success", turno.status === "active" ? "Turno activo." : "Turno desactivado");
         if (turno.status === "active") {
             startTurno(turno.id);

@@ -18,9 +18,10 @@
 <script src="/js/vendor/socket.io.js"></script>
 <script src="/js/ranking.js"></script>
 <script>
+	var teamId = <%= teamId || "undefined"%>;
 	var escapeRoomId = "<%= escapeRoom.id%>";
 	var nPuzzles = "<%= escapeRoom.puzzles.length%>";
-    initSocketServer(<%= escapeRoom.id%>, <%= teamId || "undefined"%>, <%=turnoId || "undefined" %>)
+    initSocketServer(<%= escapeRoom.id%>, teamId, <%=turnoId || "undefined" %>)
 </script>
 <br/>
 <% include ../../partials/_footer %>
