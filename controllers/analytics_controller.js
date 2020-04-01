@@ -361,7 +361,7 @@ exports.grading = async (req, res, next) => {
 
 
             const hasAttended = user.turnosAgregados[0].participants.attendance;
-            const grades = retosSuperados.map((reto, index) => hasAttended ? (reto * (escapeRoom.puzzles[index].score || 0)) : 0);
+            const grades = retosSuperados.map((reto, index) => hasAttended ? reto * (escapeRoom.puzzles[index].score || 0) : 0);
             const gradeScore = hasAttended ? grades.reduce((a, b) => a + b) : 0;
             const attendance = hasAttended ? escapeRoom.scoreParticipation || 0 : 0;
 

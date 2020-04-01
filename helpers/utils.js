@@ -253,7 +253,7 @@ exports.automaticallySetAttendance = async (team, user, automaticAttendance) => 
         await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
         const {id, name, result, turno, finishTime} = team;
 
-        return {id, turno, name, result, finishTime, participants, "startTime" : turno.startTime || team.startTime};
+        return {id, turno, name, result, finishTime, participants, "startTime": turno.startTime || team.startTime};
     }
 };
 

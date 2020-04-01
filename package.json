@@ -26,6 +26,7 @@
     "css": "node-sass public/stylesheets/style.sass public/stylesheets/style.css",
     "lint": "eslint . ",
     "lint:fix": "eslint . --fix",
+    "unused": "unused-exports --path ./ --ignore node_modules/ --ignore public --ignore migrations",
     "dump_heroku": "heroku pg:backups:download -o escape-room-upm.dump --app escape-room-upm"
   },
   "dependencies": {
@@ -69,7 +70,8 @@
   },
   "devDependencies": {
     "jest": "^24.7.1",
-    "sqlite3": "^4.0.6"
+    "sqlite3": "^4.0.6",
+    "unused-exports" : "^0.0.6-beta"
   },
   "jest": {
     "testEnvironment": "node",

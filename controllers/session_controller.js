@@ -88,22 +88,6 @@ exports.studentOrAdminRequired = (req, res, next) => {
 
 /*
  * MW that allows to pass only if the logged in user is:
- * - the user to manage.
- */
-exports.myselfRequired = (req, res, next) => {
-    const isMyself = req.user.id === req.session.user.id;
-
-    if (isMyself) {
-        next();
-    } else {
-        res.status(403);
-        throw new Error(req.app.locals.i18n.api.forbidden);
-    }
-};
-
-
-/*
- * MW that allows to pass only if the logged in user is:
  * - admin
  * - or is the user to be managed.
  */
@@ -112,23 +96,6 @@ exports.adminOrMyselfRequired = (req, res, next) => {
         isMyself = req.user.id === req.session.user.id;
 
     if (isAdmin || isMyself) {
-        next();
-    } else {
-        res.status(403);
-        throw new Error(req.app.locals.i18n.api.forbidden);
-    }
-};
-
-/*
- * MW that allows to pass only if the logged in user is:
- * - admin
- * - and is not the user to manage.
- */
-exports.adminAndNotMyselfRequired = function (req, res, next) {
-    const {isAdmin} = req.session.user,
-        isAnother = req.user.id !== req.session.user.id;
-
-    if (isAdmin && isAnother) {
         next();
     } else {
         res.status(403);

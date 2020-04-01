@@ -66,9 +66,6 @@ exports.index = async (req, res, next) => {
     }
 };
 
-// GET /escapeRooms
-exports.indexBreakDown = (_req, res) => res.redirect("/");
-
 // GET /escapeRooms/:escapeRoomId
 exports.show = (req, res) => {
     const {escapeRoom} = req;

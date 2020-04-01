@@ -125,7 +125,7 @@ exports.resetProgress = async (req, res) => {
         sendLeaveTeam({"id": req.team.id, "turno": {"id": req.turn.id}});
         req.flash("error", req.app.locals.i18n.team.resetSuccess);
     } catch (e) {
-        console.error(e)
+        console.error(e);
         req.flash("error", req.app.locals.i18n.team.resetFail);
     }
     res.redirect("back");
