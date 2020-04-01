@@ -119,7 +119,7 @@ const solvePuzzle = async (escapeRoomId, teamId, userId, puzzleId, solution, i18
         const puzzle = await models.puzzle.findOne({"where": {"id": puzzleId, escapeRoomId}});
 
         if (!puzzle) {
-            throw new Error("Puzzle not found");
+            throw new Error(i18n.api.notFound);
         }
         const team = await models.team.findByPk(teamId, {
             "include": [
@@ -138,7 +138,7 @@ const solvePuzzle = async (escapeRoomId, teamId, userId, puzzleId, solution, i18
         });
 
         if (!team) {
-            throw new Error("Team not found");
+            throw new Error(i18n.api.notFound);
         }
         const {body} = await checkPuzzle(solution, puzzle, team.turno.escapeRoom, [team], {"id": userId}, i18n);
         const {code, correctAnswer, participation, authentication, msg} = body;

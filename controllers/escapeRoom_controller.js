@@ -140,10 +140,7 @@ exports.create = (req, res) => {
 
 // GET /escapeRooms/:escapeRoomId/edit
 exports.edit = (req, res) => {
-    res.render("escapeRooms/edit", {
-        "escapeRoom": req.escapeRoom,
-        "progress": "edit"
-    });
+    res.render("escapeRooms/edit", {"escapeRoom": req.escapeRoom, "progress": "edit"});
 };
 
 // PUT /escapeRooms/:escapeRoomId
@@ -229,10 +226,7 @@ exports.update = (req, res, next) => {
 exports.evaluation = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/evaluation", {
-        escapeRoom,
-        "progress": "evaluation"
-    });
+    res.render("escapeRooms/steps/evaluation", {escapeRoom, "progress": "evaluation"});
 };
 
 // POST /escapeRooms/:escapeRoomId/evaluation

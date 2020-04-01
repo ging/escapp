@@ -87,7 +87,7 @@ exports.studentLeave = async (req, res, next) => {
             res.redirect("back");
             return;
         } else if (!req.user && req.session.user.isStudent) {
-            if (req.turn.status !== "pending" || !req.turn.status.startTime) {
+            if (turn.status === "finished" || (turn.status === "active" && (turn.startTime || req.team.startTime))) {
                 req.flash("error", `${req.app.locals.i18n.common.flash.errorStudentLeave}`);
                 res.redirect("/");
                 return;
@@ -101,6 +101,10 @@ exports.studentLeave = async (req, res, next) => {
         await req.team.removeTeamMember(user);
         const participant = await models.participants.findOne({"where": { turnId, userId}});
 
+        if (!participant) {
+            next(new Error(res.app.locals.i18n.api.notAParticipant));
+            return;
+        }
         await participant.destroy();
         if (req.session.user.isStudent) {
             redirectUrl = `/users/${req.session.user.id}/escapeRooms`;
@@ -109,7 +113,6 @@ exports.studentLeave = async (req, res, next) => {
         if (req.team.teamMembers.length <= 1) {
             await req.team.destroy();
             sendLeaveTeam({"id": teamId, "turno": {"id": turnId}});
-            res.redirect(redirectUrl);
         } else {
             const members = await req.team.getTeamMembers();
             const teamMembers = [];
@@ -122,9 +125,9 @@ exports.studentLeave = async (req, res, next) => {
             const participants = participantsNames.join(", ");
             const team = {"id": req.team.id, teamMembers, participants, "turno": {"id": req.turn.id}};
 
-            sendLeaveParticipant(team, req.user.id);
-            res.redirect(redirectUrl);
+            sendLeaveParticipant(team, req.session.user.id);
         }
+        res.redirect(redirectUrl);
     } catch (e) {
         next(e);
     }

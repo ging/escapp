@@ -98,7 +98,7 @@ exports.pistas = (req, res) => {
 };
 
 // POST /escapeRooms/:escapeRoomId/hints
-exports.pistasUpdate = async (req, res, next) => {
+exports.pistasUpdate = async (req, res) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
@@ -120,8 +120,8 @@ exports.pistasUpdate = async (req, res, next) => {
             // There is no attachment: Delete old attachment.
             if (!req.file) {
                 if (escapeRoom.hintApp) {
-                    attHelper.deleteResource(escapeRoom.hintApp.public_id, models.hintApp);
-                    escapeRoom.hintApp.destroy();
+                    await attHelper.deleteResource(escapeRoom.hintApp.public_id, models.hintApp);
+                    await escapeRoom.hintApp.destroy();
                 }
             } else {
                 try {
@@ -144,11 +144,11 @@ exports.pistasUpdate = async (req, res, next) => {
                         await hintApp.save();
                         req.flash("success", "Fichero guardado con éxito.");
                         if (old_public_id) {
-                            attHelper.deleteResource(old_public_id, models.hintApp);
+                            await attHelper.deleteResource(old_public_id, models.hintApp);
                         }
                     } catch (error) {
                         req.flash("error", `Error al guardar el fichero: ${error.message}`);
-                        attHelper.deleteResource(uploadResult.public_id, models.hintApp);
+                        await attHelper.deleteResource(uploadResult.public_id, models.hintApp);
                     }
                 } catch (e) {
                     req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${e.message}`);
@@ -162,7 +162,7 @@ exports.pistasUpdate = async (req, res, next) => {
             res.render("escapeRooms/hints", {escapeRoom});
         } else {
             req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
-            next(error);
+            res.render("escapeRooms/hints", {escapeRoom});
         }
     }
 };
