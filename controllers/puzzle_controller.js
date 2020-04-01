@@ -13,6 +13,7 @@ exports.load = (req, res, next, puzzleId) => {
                 req.puzzle = puzzle;
                 next();
             } else {
+                res.status(404);
                 next(new Error(req.app.locals.i18n.api.notFound));
             }
         }).
@@ -30,6 +31,7 @@ exports.loadOrder = (req, res, next, puzzleOrder) => {
             return;
         }
     }
+    res.status(404);
     next(new Error(req.app.locals.i18n.api.notFound));
 };
 

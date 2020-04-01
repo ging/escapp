@@ -1,5 +1,4 @@
 <% include ../partials/_header.ejs %>
-
 <div class="main teams">
     <div class="breadcrumbs-container">
         <div class="breadcrumbs">
@@ -52,11 +51,16 @@
                         <%=team.teamMembers.map(m=>m.name + " " + m.surname).join(", ") %>
                     </div>
                     <div class="operations-team">
-                        <form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=team.turno.id%>/teams/<%=team.id%>/reset?_method=PUT" onsubmit="return confirm('<%=i18n.team.areYouSureReset%>');">
-                            <button class="reset-team">
-                                <span class="material-icons">settings_backup_restore </span>
-                            </button>
-                        </form>
+                        <button class="reset-team" title="<%=i18n.team.resetProgress%>" onclick="overlayTrigger(<%=team.id%>)">
+                            <span class="material-icons">settings_backup_restore </span>
+                        </button>
+                        <div class="overlay-trigger" data-id="<%=team.id%>">
+                            <form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=team.turno.id%>/teams/<%=team.id%>/reset?_method=PUT">
+                                <p><%=i18n.team.areYouSureReset%></p>
+                                <button class="deleteButton" type="button" onclick="overlayTrigger(<%=team.id%>, true)"><%=i18n.common.cancel%></button>
+                                <button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <% } %>
@@ -75,4 +79,12 @@
             <b><%=i18n.common.Total%>:</b> <%= teams.length %> <%=i18n.team.teamS%>
         </div>
 </div>
+<script>
+    const overlayTrigger = (id, close) => {
+        $('.overlay-trigger').hide();
+        if (!close) {
+            $('.overlay-trigger[data-id="' + id + '"]').show();
+        }
+    };
+</script> 
 <% include ../partials/_footer %>

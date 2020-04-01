@@ -112,6 +112,7 @@
         "keyPlaceHolder": "Dónde se va a guardar la app"
     },
     "common": {
+        "accept": "aceptar",
         "back": "volver",
         "cancel": "cancelar",
         "continue": "continuar",
@@ -388,6 +389,9 @@
                 "deleteTitle": "Borrar turno",
                 "hourTitle": "Fijar hora"
             }
+        },
+        "general": {
+            "areYouSureDelete": "¿Seguro que deseas eliminar esta escape room?"
         }
     },
     "hint": {
@@ -555,6 +559,7 @@
         "areYouSureDelete": "¿Seguro que desea borrar este participante?",
         "back": "volver",
         "confirm": "confirmar asistencia",
+        "delete": "Quitar a este participante de la escape room",
         "download": "descargar",
         "emptyER": "No hay participantes en esta escape room",
         "emptyTurno": "No hay participantes en este turno",
@@ -667,6 +672,7 @@
         "noTeamYet": "No hay equipos todavía...",
         "doYouWantToCreate": "¿Quieres crear tu propio equipo?",
         "seeByTeam": "ver por equipo",
+        "resetProgress": "Reinicia el progreso del equipo para que tengan que volver a empezar",
         "resetSuccess": "El progreso del equipo se ha reiniciado correctamente",
         "resetFail": "El progreso del equipo NO se ha reiniciado correctamente",
         "teamSearch": "Busca tu equipo por nombre o miembros",
@@ -773,6 +779,7 @@
         "sessionExpired": "Ha caducado la sesión",
         "surname": "Apellidos",
         "title": "Usuario",
+        "user": "usuario",
         "username": "E-mail",
         "wrongCredentials": "Error al iniciar sesión",
         "turno": "Turno"

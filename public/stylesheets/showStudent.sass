@@ -20,6 +20,15 @@
 		text-align: center
 	#unjoin
 		text-align: right
+		position: relative
+		.overlay-trigger
+			right: 12px
+			bottom: 60px
+			&::after
+				right: 10px
+				left: calc(100% - 50px)
+				top: 100%
+				border-color: white transparent transparent transparent
 	.pulseButton
 		margin-top: 100px
 		cursor: pointer

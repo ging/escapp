@@ -44,41 +44,44 @@
         width: 62px
         text-align: right
         color: white
+        .overlay-trigger
+          left: 30px
+          top: 35px
         form
           display: inline-block
-          .delete-participant
+        .delete-participant
+          background: transparent
+          border: none
+          color: white
+          padding: 2px
+          .material-icons
             background: transparent
             border: none
             color: white
-            padding: 2px
-            .material-icons
-              background: transparent
-              border: none
-              color: white
-            @extend %scale-animation-up
-            &.hidden
-              display: none
+          @extend %scale-animation-up
+          &.hidden
+            display: none
 
 
-
-  input[type=submit], button
-    @extend %common-button-props
-    &.participants-button
-      &.download-button
-        background-color: $lightred
-        color: $darkerpurple
-        border-color: $lightred
-        border-style: solid
-      &.attendance-button
-        background-color: $brightgreen
-        color: $darkerpurple
-        border-color: $brightgreen
-        border-style: solid
-      &.attendance-all-button
-        background-color: $brightyellow
-        color: $darkerpurple
-        border-color: $brightyellow
-        border-style: solid
+  .filters
+    input[type=submit], button
+      @extend %common-button-props
+      &.participants-button
+        &.download-button
+          background-color: $lightred
+          color: $darkerpurple
+          border-color: $lightred
+          border-style: solid
+        &.attendance-button
+          background-color: $brightgreen
+          color: $darkerpurple
+          border-color: $brightgreen
+          border-style: solid
+        &.attendance-all-button
+          background-color: $brightyellow
+          color: $darkerpurple
+          border-color: $brightyellow
+          border-style: solid
   .no-participants
     display: block
     font-family: Lato, sans-serif

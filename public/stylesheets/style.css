@@ -120,21 +120,21 @@ button, input[type="submit"] {
   button[type=submit], input[type="submit"][type=submit] {
     cursor: pointer; }
 
-#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto, #mainSection .main #add-reto, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team {
+#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto, #mainSection .main #add-reto, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team {
   transition: 0.1s all ease-in; }
-  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team:focus {
+  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team:focus {
     -webkit-transform: scale(1.2);
     -ms-transform: scale(1.2);
     transform: scale(1.2); }
 
-#mainSection .main.participants input[type=submit], #mainSection .main.participants button, .retosSuperados input[type=submit], .retosSuperados button, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom, #mainSection .main.student .dialog .teamCarouselItem:not(.disabled):hover, #mainSection .main.teams input[type=submit], #mainSection .main.teams button, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:not(.disabled):not(.finished):hover {
+#mainSection .main.participants .filters input[type=submit], #mainSection .main.participants .filters button, .retosSuperados input[type=submit], .retosSuperados button, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom, #mainSection .main.student .dialog .teamCarouselItem:not(.disabled):hover, #mainSection .main .overlay-trigger button, #mainSection .main.teams .filters input[type=submit], #mainSection .main.teams .filters button, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:not(.disabled):not(.finished):hover {
   transition: 0.1s all ease-in; }
-  #mainSection .main.participants input:hover[type=submit], #mainSection .main.participants button:hover, .retosSuperados input:hover[type=submit], .retosSuperados button:hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:hover, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:hover, #mainSection .main.student .dialog .teamCarouselItem:hover:not(.disabled), #mainSection .main.teams input:hover[type=submit], #mainSection .main.teams button:hover, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:hover, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:hover:not(.disabled):not(.finished), #mainSection .main .flexBoxTurnos .turno.turnoProfe:hover:not(.disabled):not(.finished), #mainSection .main.participants input:active[type=submit], #mainSection .main.participants button:active, .retosSuperados input:active[type=submit], .retosSuperados button:active, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:active, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:active, #mainSection .main.student .dialog .teamCarouselItem:active:not(.disabled):hover, #mainSection .main.teams input:active[type=submit], #mainSection .main.teams button:active, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:active, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:active:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:active:not(.disabled):not(.finished):hover, #mainSection .main.participants input:focus[type=submit], #mainSection .main.participants button:focus, .retosSuperados input:focus[type=submit], .retosSuperados button:focus, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:focus, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:focus, #mainSection .main.student .dialog .teamCarouselItem:focus:not(.disabled):hover, #mainSection .main.teams input:focus[type=submit], #mainSection .main.teams button:focus, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:focus, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:focus:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:focus:not(.disabled):not(.finished):hover {
+  #mainSection .main.participants .filters input:hover[type=submit], #mainSection .main.participants .filters button:hover, .retosSuperados input:hover[type=submit], .retosSuperados button:hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:hover, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:hover, #mainSection .main.student .dialog .teamCarouselItem:hover:not(.disabled), #mainSection .main .overlay-trigger button:hover, #mainSection .main.teams .filters input:hover[type=submit], #mainSection .main.teams .filters button:hover, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:hover, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:hover:not(.disabled):not(.finished), #mainSection .main .flexBoxTurnos .turno.turnoProfe:hover:not(.disabled):not(.finished), #mainSection .main.participants .filters input:active[type=submit], #mainSection .main.participants .filters button:active, .retosSuperados input:active[type=submit], .retosSuperados button:active, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:active, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:active, #mainSection .main.student .dialog .teamCarouselItem:active:not(.disabled):hover, #mainSection .main .overlay-trigger button:active, #mainSection .main.teams .filters input:active[type=submit], #mainSection .main.teams .filters button:active, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:active, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:active:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:active:not(.disabled):not(.finished):hover, #mainSection .main.participants .filters input:focus[type=submit], #mainSection .main.participants .filters button:focus, .retosSuperados input:focus[type=submit], .retosSuperados button:focus, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:focus, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:focus, #mainSection .main.student .dialog .teamCarouselItem:focus:not(.disabled):hover, #mainSection .main .overlay-trigger button:focus, #mainSection .main.teams .filters input:focus[type=submit], #mainSection .main.teams .filters button:focus, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:focus, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:focus:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:focus:not(.disabled):not(.finished):hover {
     -webkit-transform: scale(0.8);
     -ms-transform: scale(0.8);
     transform: scale(0.8); }
 
-#mainSection .main.participants input[type=submit], #mainSection .main.participants button, .retosSuperados input[type=submit], .retosSuperados button {
+#mainSection .main.participants .filters input[type=submit], #mainSection .main.participants .filters button, .retosSuperados input[type=submit], .retosSuperados button {
   outline: 0;
   cursor: pointer;
   border-radius: 20px;
@@ -744,6 +744,8 @@ button, input[type="submit"] {
         padding-left: 10px; }
         #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li {
           margin-bottom: 16px; }
+          #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li .overlay-trigger {
+            top: 40px; }
           #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li.actionTitle {
             font-size: 20px;
             margin-bottom: 20px;
@@ -1266,20 +1268,20 @@ button, input[type="submit"] {
     color: white;
     -webkit-text-fill-color: white !important; }
 
-.filters * {
-  font-size: 16px; }
-
-.filters label {
-  margin-right: 10px;
-  color: white; }
-  .filters label:focus-within {
+.filters {
+  line-height: 45px; }
+  .filters * {
+    font-size: 16px; }
+  .filters label {
+    margin-right: 10px;
     color: white; }
-
-.filters select, .filters button.inverse {
-  color: white;
-  -webkit-text-fill-color: white !important;
-  border-color: white;
-  padding: 10px; }
+    .filters label:focus-within {
+      color: white; }
+  .filters select, .filters button.inverse {
+    color: white;
+    -webkit-text-fill-color: white !important;
+    border-color: white;
+    padding: 10px; }
 
 #flassmessages {
   position: fixed;
@@ -2097,6 +2099,39 @@ button, input[type="submit"] {
     #mainSection .main .attachmentShow img {
       max-width: 100%;
       border: 2px solid white; }
+    #mainSection .main .overlay-trigger {
+      display: none;
+      background-color: white;
+      position: absolute;
+      width: 300px;
+      z-index: 9999;
+      padding: 10px; }
+      #mainSection .main .overlay-trigger p {
+        margin: 0;
+        margin-bottom: 10px;
+        color: #161938; }
+      #mainSection .main .overlay-trigger::after {
+        background: transparent;
+        width: 0px;
+        height: 0px;
+        content: ' ';
+        top: -16px;
+        left: 10px;
+        position: absolute;
+        border-width: 8px;
+        border-style: solid;
+        margin-top: 0px;
+        border-color: transparent transparent white transparent; }
+      #mainSection .main .overlay-trigger button {
+        outline: 0;
+        cursor: pointer;
+        border-radius: 20px;
+        padding: 10px;
+        text-align: center;
+        font-size: 16px;
+        border-width: 2px;
+        border-style: solid;
+        color: #161938; }
 
 @media (min-width: 1200px) {
   #mainSection .main {
@@ -2158,33 +2193,36 @@ button, input[type="submit"] {
       width: 62px;
       text-align: right;
       color: white; }
+      #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .overlay-trigger {
+        left: 30px;
+        top: 35px; }
       #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form {
         display: inline-block; }
-        #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant {
+      #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant {
+        background: transparent;
+        border: none;
+        color: white;
+        padding: 2px; }
+        #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant .material-icons {
           background: transparent;
           border: none;
-          color: white;
-          padding: 2px; }
-          #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant .material-icons {
-            background: transparent;
-            border: none;
-            color: white; }
-          #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form .delete-participant.hidden {
-            display: none; }
+          color: white; }
+        #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant.hidden {
+          display: none; }
 
-#mainSection .main.participants input[type=submit].participants-button.download-button, #mainSection .main.participants button.participants-button.download-button {
+#mainSection .main.participants .filters input[type=submit].participants-button.download-button, #mainSection .main.participants .filters button.participants-button.download-button {
   background-color: #F47E84;
   color: #161938;
   border-color: #F47E84;
   border-style: solid; }
 
-#mainSection .main.participants input[type=submit].participants-button.attendance-button, #mainSection .main.participants button.participants-button.attendance-button {
+#mainSection .main.participants .filters input[type=submit].participants-button.attendance-button, #mainSection .main.participants .filters button.participants-button.attendance-button {
   background-color: #48C18E;
   color: #161938;
   border-color: #48C18E;
   border-style: solid; }
 
-#mainSection .main.participants input[type=submit].participants-button.attendance-all-button, #mainSection .main.participants button.participants-button.attendance-all-button {
+#mainSection .main.participants .filters input[type=submit].participants-button.attendance-all-button, #mainSection .main.participants .filters button.participants-button.attendance-all-button {
   background-color: #FAC855;
   color: #161938;
   border-color: #FAC855;
@@ -2746,7 +2784,16 @@ button, input[type="submit"] {
   text-align: center; }
 
 .showStudent #unjoin {
-  text-align: right; }
+  text-align: right;
+  position: relative; }
+  .showStudent #unjoin .overlay-trigger {
+    right: 12px;
+    bottom: 60px; }
+    .showStudent #unjoin .overlay-trigger::after {
+      right: 10px;
+      left: calc(100% - 50px);
+      top: 100%;
+      border-color: white transparent transparent transparent; }
 
 .showStudent .pulseButton {
   margin-top: 100px;
@@ -2905,6 +2952,9 @@ button, input[type="submit"] {
     transition: 0.3s opacity ease-in;
     z-index: 1;
     text-align: left; }
+    .timeline .tooltip b {
+      font-weight: 700;
+      color: #161938; }
     .timeline .tooltip * {
       font-family: 'Lato'; }
   .timeline .progress-puzzle-0 {
@@ -3072,19 +3122,20 @@ button, input[type="submit"] {
     width: 62px;
     text-align: right;
     color: white; }
-    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form {
-      display: inline-block; }
-      #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team {
+    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .overlay-trigger {
+      left: 30px;
+      top: 35px; }
+    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team {
+      background: transparent;
+      border: none;
+      color: white;
+      padding: 2px; }
+      #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team .material-icons {
         background: transparent;
         border: none;
-        color: white;
-        padding: 2px; }
-        #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team .material-icons {
-          background: transparent;
-          border: none;
-          color: white; }
-        #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team form .reset-team.hidden {
-          display: none; }
+        color: white; }
+      #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team.hidden {
+        display: none; }
 
 #mainSection .main.teams .filters * {
   font-size: 16px; }
@@ -3094,7 +3145,7 @@ button, input[type="submit"] {
   #mainSection .main.teams .filters label:focus-within {
     color: white; }
 
-#mainSection .main.teams input[type=submit], #mainSection .main.teams button {
+#mainSection .main.teams .filters input[type=submit], #mainSection .main.teams .filters button {
   outline: 0;
   cursor: pointer;
   border-radius: 20px;
@@ -3104,17 +3155,17 @@ button, input[type="submit"] {
   background: transparent;
   border: 2px solid #656683;
   color: #656683; }
-  #mainSection .main.teams input[type=submit].participants-button.download-button, #mainSection .main.teams button.participants-button.download-button {
+  #mainSection .main.teams .filters input[type=submit].participants-button.download-button, #mainSection .main.teams .filters button.participants-button.download-button {
     background-color: #F47E84;
     color: #161938;
     border-color: #F47E84;
     border-style: solid; }
-  #mainSection .main.teams input[type=submit].participants-button.attendance-button, #mainSection .main.teams button.participants-button.attendance-button {
+  #mainSection .main.teams .filters input[type=submit].participants-button.attendance-button, #mainSection .main.teams .filters button.participants-button.attendance-button {
     background-color: #48C18E;
     color: #161938;
     border-color: #48C18E;
     border-style: solid; }
-  #mainSection .main.teams input[type=submit].participants-button.attendance-all-button, #mainSection .main.teams button.participants-button.attendance-all-button {
+  #mainSection .main.teams .filters input[type=submit].participants-button.attendance-all-button, #mainSection .main.teams .filters button.participants-button.attendance-all-button {
     background-color: #FAC855;
     color: #161938;
     border-color: #FAC855;

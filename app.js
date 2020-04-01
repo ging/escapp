@@ -99,7 +99,7 @@ app.use((req, res, next) => {
     err.status = 404;
     err.message = "NOT_FOUND";
     res.locals.message = "Not found";
-    res.locals.error = app.get("env") === "production" ? {"status": 404} : err;
+    res.locals.error = app.get("env") !== "production" ? {"status": 404} : err;
     next(err);
 });
 
@@ -108,14 +108,14 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     // eslint-disable-next-line  eqeqeq
     const devStatusCode = res.statusCode == 200 ? 500 : res.statusCode;
-    const status = err.status || (app.get("env") === "production" ? res.statusCode : devStatusCode);
+    const status = err.status || (app.get("env") !== "production" ? res.statusCode : devStatusCode);
 
     res.status(status);
     if (req.session && req.session.flash) {
         // Set locals, only providing error in development
         res.locals.message = err.message;
         err.status = err.status || res.statusCode;
-        res.locals.error = app.get("env") === "production" ? {"status": err.status || 404} : err;
+        res.locals.error = app.get("env") !== "production" ? {"status": err.status || 404} : err;
         // Render the error page
         res.render("error");
     } else {

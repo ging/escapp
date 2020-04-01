@@ -12,8 +12,8 @@ exports.load = (req, res, next, userId) => {
                 req.user = user;
                 next();
             } else {
-                req.flash("error", `No existe usuario con id=${userId}.`);
-                throw new Error(`No existe userId=${userId}`);
+                res.status(404);
+                next(new Error(req.app.locals.i18n.api.notFound));
             }
         }).
         catch((error) => next(error));

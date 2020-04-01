@@ -23,20 +23,21 @@
         width: 62px
         text-align: right
         color: white
-        form
-          display: inline-block
-          .reset-team
+        .overlay-trigger
+          left: 30px
+          top: 35px
+        .reset-team
+          background: transparent
+          border: none
+          color: white
+          padding: 2px
+          .material-icons
             background: transparent
             border: none
             color: white
-            padding: 2px
-            .material-icons
-              background: transparent
-              border: none
-              color: white
-            @extend %scale-animation-up
-            &.hidden
-              display: none
+          @extend %scale-animation-up
+          &.hidden
+            display: none
 
   .filters
     *
@@ -46,33 +47,33 @@
       &:focus-within
         color: white
 
-  input[type=submit], button
-    outline: 0
-    cursor: pointer
-    border-radius: 20px
-    padding: 10px
-    text-align: center
-    font-size: 16px
-    background: transparent
-    border: 2px solid $textpurple
-    color: $textpurple
-    @extend %scale-animation-down
-    &.participants-button
-      &.download-button
-        background-color: $lightred
-        color: $darkerpurple
-        border-color: $lightred
-        border-style: solid
-      &.attendance-button
-        background-color: $brightgreen
-        color: $darkerpurple
-        border-color: $brightgreen
-        border-style: solid
-      &.attendance-all-button
-        background-color: $brightyellow
-        color: $darkerpurple
-        border-color: $brightyellow
-        border-style: solid
+    input[type=submit], button
+      outline: 0
+      cursor: pointer
+      border-radius: 20px
+      padding: 10px
+      text-align: center
+      font-size: 16px
+      background: transparent
+      border: 2px solid $textpurple
+      color: $textpurple
+      @extend %scale-animation-down
+      &.participants-button
+        &.download-button
+          background-color: $lightred
+          color: $darkerpurple
+          border-color: $lightred
+          border-style: solid
+        &.attendance-button
+          background-color: $brightgreen
+          color: $darkerpurple
+          border-color: $brightgreen
+          border-style: solid
+        &.attendance-all-button
+          background-color: $brightyellow
+          color: $darkerpurple
+          border-color: $brightyellow
+          border-style: solid
   .no-teams
     display: block
     font-family: Lato, sans-serif

@@ -69,9 +69,17 @@
                                 <%= participant.attendance ? "checked":"" %> />
                     </div>
                     <div class="operations-participant">
-                        <form method='POST' action='/escapeRooms/<%= escapeRoom.id %>/turno/<%=participant.turnoId %>/team/<%=participant.teamId %>/user/<%= participant.id %>?_method=DELETE' onsubmit="return confirm('<%=i18n.participant.areYouSureDelete%>');">
-                            <button class="delete-participant"><span class="material-icons"> delete </span></button>
-                        </form>
+                
+                        <button class="delete-participant" title="<%=i18n.participant.delete%>" onclick="overlayTrigger(<%=participant.id%>)">
+                            <span class="material-icons">delete </span>
+                        </button>
+                        <div class="overlay-trigger" data-id="<%=participant.id%>">
+                            <form method="POST" action='/escapeRooms/<%= escapeRoom.id %>/turno/<%=participant.turnoId %>/team/<%=participant.teamId %>/user/<%= participant.id %>?_method=DELETE' >
+                                <p><%=i18n.participant.areYouSureDelete%></p>
+                                <button class="deleteButton" type="button" onclick="overlayTrigger(<%=participant.id%>, true)"><%=i18n.common.cancel%></button>
+                                <button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <% } %>
@@ -98,7 +106,12 @@
 </div>
 <% include ../partials/_footer %>
 <script>
-
+    const overlayTrigger = (id, close) => {
+        $('.overlay-trigger').hide();
+        if (!close) {
+            $('.overlay-trigger[data-id="' + id + '"]').show();
+        }
+    };
   $(function(){
     $('#attendance-button').on('click', ()=>{
       let att = {yes:[], no:[]};

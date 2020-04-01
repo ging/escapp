@@ -1,29 +1,52 @@
-<h1>
-    <%=i18n.user.title%>
-</h1>
+<div class="main">
+    <h1>
+        <%=i18n.user.title%>
+    </h1>
 
-<table>
-    <% for (var i in users) { %>
-        <tr>
-            <td>
-                <a href="/users/<%= users[i].id %>" ><%= users[i].username %></a>
-                <%= users[i].isAdmin ? "(admin)" : "" %>
-            </td>
-            <% if (session.user) { %>
-                <% if (session.user.isAdmin || session.user.id === users[i].id) { %>
-                    <td>
-                        <a href="/users/<%= users[i].id %>/edit"><button><%=i18n.common.edit%></button></a>
-                    </td>
-                <%  } %>
-                <% if (session.user.isAdmin && session.user.id !== users[i].id) { %>
-                    <td>
-                        <a href="/users/<%= users[i].id %>?_method=DELETE"
-                           onClick="return confirm('<%=i18n.common.delete%> <%=i18n.user.title%>: <%= users[i].username %>');">
-                            <button><%=i18n.common.delete%></button>
-                        </a>
-                    </td>
-                <%  } %>
-            <% } %>
-        </tr>
-    <%  } %>
-</table>
+    <table>
+        <% for (var i in users) { %>
+            <tr>
+                <td>
+                    <a href="/users/<%= users[i].id %>" ><%= users[i].username %></a>
+                    <%= users[i].isAdmin ? "(admin)" : "" %>
+                </td>
+                <% if (session.user) { %>
+                    <% if (session.user.isAdmin || session.user.id === users[i].id) { %>
+                        <td>
+                            <a href="/users/<%= users[i].id %>/edit">
+                                <button class="rounded editButton"><%=i18n.common.edit%></button>
+                            </a>
+                        </td>
+                    <%  } %>
+                    <% if (session.user.isAdmin && session.user.id !== users[i].id) { %>
+                        <td>
+                            
+                            <button class="deleteButton rounded" onclick="overlayTrigger(<%=users[i].id%>)"><%=i18n.common.delete%></button>
+                            <div class="overlay-trigger" data-id="<%=users[i].id%>">
+                                <form method="POST" action='/users/<%= users[i].id %>?_method=DELETE' >
+                                    <p><%=i18n.common.delete%> <%=i18n.user.user%>: <%= users[i].username %></p>
+                                    <button class="deleteButton" type="button" onclick="overlayTrigger(<%=users[i].id%>, true)">
+                                        <%=i18n.common.cancel%>
+                                    </button>
+                                    <button class="acceptButton" type="submit">
+                                        <%=i18n.common.accept%>
+                                    </button>
+                                </form>
+                            </div>
+                            
+                        </td>
+                    <%  } %>
+                <% } %>
+            </tr>
+
+        <%  } %>
+    </table>
+    <script>
+    const overlayTrigger = (id, close) => {
+        $('.overlay-trigger').hide();
+        if (!close) {
+            $('.overlay-trigger[data-id="' + id + '"]').show();
+        }
+    };
+    </script>
+</div>

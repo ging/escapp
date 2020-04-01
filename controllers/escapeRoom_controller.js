@@ -16,6 +16,7 @@ exports.load = async (req, res, next, escapeRoomId) => {
             req.escapeRoom = escapeRoom;
             next();
         } else {
+            res.status(404);
             next(new Error(req.app.locals.i18n.api.notFound));
         }
     } catch (error) {

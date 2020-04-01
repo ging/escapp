@@ -118,6 +118,7 @@
         "keyPlaceHolder": "Name of the folder in which the app will be saved"
     },
     "common": {
+        "accept": "accept",
         "back": "back",
         "cancel": "cancel",
         "completado": "completed",
@@ -394,6 +395,9 @@
                 "deleteTitle": "Delete shift",
                 "hourTitle": "Set time"
             }
+        },
+        "general": {
+            "areYouSureDelete": "Are you sure you want to delete this escape room?"
         }
     },
     "gallery": {
@@ -561,6 +565,7 @@
         "areYouSureDelete": "Are you sure you wish to delete this participant?",
         "back": "back",
         "confirm": "confirm attendance",
+        "delete": "Delete this participant from the escape room",
         "download": "download",
         "emptyER": "There aren't any participants in this Escape Room yet",
         "emptyTurno": "There aren't any participants in this shift yet",
@@ -674,6 +679,7 @@
         "noTeamYet": "There aren't any teams yet",
         "noResults": "No results",
         "seeByTeam": "See by team",
+        "resetProgress": "Reset the team's progress so they have to start again",
         "resetSuccess": "The team progress has been successfully reset",
         "resetFail": "The team progress could not be reset",
         "teamSearch": "Search for your team name or members",
@@ -781,6 +787,7 @@
         "sessionExpired": "Your session has expired",
         "surname": "Last name",
         "title": "User",
+        "user": "user",
         "username": "E-mail",
         "wrongCredentials": "Login error. Please check your credentials",
         "turno": "Shift"

@@ -18,8 +18,8 @@ exports.load = async (req, res, next, resourceId) => {
             req.resource = resource;
             next();
         } else {
-            throw new Error(req.app.locals.i18n.api.notFound);
-        }
+            res.status(404);
+            next(new Error(req.app.locals.i18n.api.notFound));        }
     } catch (error) {
         console.error(error);
         res.status(500);
