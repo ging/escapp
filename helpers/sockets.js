@@ -102,7 +102,7 @@ const initialRanking = (socketId, teams) => sendIndividualMessage({"type": INITI
 const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN, "payload": {username}}, teamId);
 const joinTeam = (turnId, team) => sendTurnMessage({"type": JOIN_TEAM, "payload": {team}}, turnId);
 const joinParticipant = (turnId, team) => sendTurnMessage({"type": JOIN_PARTICIPANT, "payload": {team}}, turnId);
-const leaveParticipant = (turnId, team) => sendTurnMessage({"type": LEAVE_PARTICIPANT, "payload": {team}}, turnId);
+const leaveParticipant = (turnId, team, userId) => sendTurnMessage({"type": LEAVE_PARTICIPANT, "payload": {team, userId}}, turnId);
 const leaveTeam = (turnId, team) => sendTurnMessage({"type": LEAVE_TEAM, "payload": {team}}, turnId);
 /** Client-server**/
 
@@ -170,8 +170,8 @@ const sendJoinParticipant = (team) => {
     joinParticipant(team.turno.id, team);
 };
 
-const sendLeaveParticipant = (team) => {
-    leaveParticipant(team.turno.id, team);
+const sendLeaveParticipant = (team, userId) => {
+    leaveParticipant(team.turno.id, team, userId);
 };
 
 const sendLeaveTeam = (team) => {

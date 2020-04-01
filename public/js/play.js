@@ -17,6 +17,7 @@ const LEAVE_PARTICIPANT = "LEAVE_PARTICIPANT";
 const RESET_PROGRESS = "RESET_PROGRESS";
 const RANKING = "RANKING";
 var myTeamId;
+var myUserId;
 /** TEMPLATES **/
 const hintTemplate = (hint) => `
   <li class="animated zoomInUp">
@@ -237,18 +238,21 @@ const onParticipantJoin = ({team}) => {
 }
 
 const onTeamLeave = ({team}) => {
-  if (team.id === teamId) {
+  if (team.id === myTeamId) {
     window.location.replace("/escapeRooms");
   }
   const index = teams.findIndex(t => t.id === team.id);
   if (index > -1) {
     teams.splice(index, 1);
-    $('ranking').html(rankingTemplate(teams, teamId));
+    $('ranking').html(rankingTemplate(teams, myTeamId));
     sort();
   }
 }
 
-const onParticipantLeave = ({team}) => {
+const onParticipantLeave = ({team, userId}) => {
+  if (userId === myUserId) {
+    window.location.replace("/escapeRooms");
+  }
   const foundTeam = teams.find(t => t.id === team.id);
   if (foundTeam) {
     const {teamMembers, participants} = team;
@@ -275,55 +279,6 @@ const forMs = (delay) => {
       setTimeout(resolve, delay);
   });
 }
-
-const sort = () => {
-
-  teams = teams.sort((a,b)=>{
-    if (a.retos.length > b.retos.length) {
-      return -1;
-    } else if (a.retos.length < b.retos.length) {
-      return 1;
-    } else {
-        if (a.latestRetoSuperado < b.latestRetoSuperado) {
-          return -1;
-        } else {
-          return 1;
-        }
-      } 
-  });
-    var top = 75;
-    $.each(teams.map(t=>t.id), function(idx, id) {
-        var el = $('.ranking-row#team-' + id);
-        $('.ranking-row#team-' + id + " .ranking-pos").html(idx + 1);
-        el.animate({
-            position: 'absolute',
-            top: top + 'px'
-        }, {
-          duration: 1000
-        });
-        top += el.outerHeight() ;
-    });
-};
-
-const secondsToDhms = (secs) => {
-    const seconds = Number(secs);
-    const d = Math.floor(seconds / (3600 * 24));
-    const h = Math.floor(seconds % (3600 * 24) / 3600);
-    const m = Math.floor(seconds % 3600 / 60);
-    const s = Math.floor(seconds % 60);
-
-    const dDisplay = d > 0 ? `${d}d` : "";
-    const hDisplay = h > 0 ? `${h}h` : "";
-    const mDisplay = m > 0 ? `${m}m` : "";
-    const sDisplay = s > 0 ? `${s}s` : "";
-
-    return [
-        dDisplay,
-        hDisplay,
-        mDisplay,
-        sDisplay
-    ].filter((a) => a !== "").join(", ");
-};
 
 const rgb2hex = orig => {
   var rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
@@ -371,13 +326,14 @@ window.requestHintFinish = (completion, score, status) => {
   requestHint(score, status ? "completed" : "failed");
 };
 
-const initSocketServer = (escapeRoomId, teamId, turnId) => {
+const initSocketServer = (escapeRoomId, teamId, turnId, userId) => {
   socket = io('/', {query: {
     escapeRoom: escapeRoomId == "undefined" ? undefined : escapeRoomId, 
     team: teamId == "undefined" ? undefined : teamId, 
     turn: turnId == "undefined" ? undefined : turnId  
   }});
   myTeamId = teamId;
+  myUserId = userId;
 
   /*Connect*/
   socket.on(CONNECT, onConnect);

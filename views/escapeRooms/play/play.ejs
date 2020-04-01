@@ -109,11 +109,12 @@
     var nPuzzles = "<%= escapeRoom.puzzles.length%>";
     var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
     var teamId = <%= team.id || "undefined";%>   
+    var userId = <%= session.user.id %>;
     var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(puzzles)%>');
     var hintConditional = <%= hintConditional || false %>;
     var hintAppConditional =  <%= hintAppConditional || false%>;
     
-    initSocketServer(<%= escapeRoom.id%>, teamId, <%= team.turno ? team.turno.id : "undefined" %>)
+    initSocketServer(<%= escapeRoom.id%>, teamId, <%= team.turno ? team.turno.id : "undefined" %>, userId);
     var i18n = {
         empty: "<%=  i18n.hint.empty %>", 
         correctAnswer: "<%=i18n.puzzle.correctAnswer%>",

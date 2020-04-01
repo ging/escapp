@@ -28,7 +28,7 @@ exports.add = async (req, res, next) => {
         if (escapeRoom.teamSize && members.length < escapeRoom.teamSize) {
             await team.addTeamMembers(req.session.user.id);
             const turnos = await user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
-            const newMembers = await team.getMembers();
+            const newMembers = await team.getTeamMembers();
 
             if (!turnos || turnos.length === 0) {
                 await user.addTurnosAgregados(turn.id);

@@ -20,6 +20,7 @@
   <h1><%=i18n.analytics.timeline.title%></h1>
   <% let duration = escapeRoom.duration %>
   <% let puzzles = escapeRoom.puzzles %>
+  <% let puzzleIds = escapeRoom.puzzles.map(p=>p.id) %>
   <div id="legend">
 
     <% for (let p in puzzles) { 
@@ -43,11 +44,11 @@
       var time = calculatePuzzleTime(puzzleTime, prevPuzzleTime);
       return (time/duration)*100;
     }
-
     %>
 
     <% for (let t in teams) { 
       let team = teams[t];
+      console.log("teamId", team.id)
       let requestedHints = team.requestedHints;
       %>
       <div id="team">
@@ -62,15 +63,17 @@
           %>
           <% for (let r in team.retos) { 
             let reto = team.retos[r];
+          console.log("reto", reto.id, reto.order, reto.retosSuperados.createdAt)
+
             let puzzleTime = reto.retosSuperados.createdAt;
             let perc = puzzlePosition(puzzleTime, prevPuzzleTime);
             prevPuzzleTime = puzzleTime;
             %>
-              <div class="step progress-puzzle-<%=r % 5 %>" style="width:<%=perc%>%;">
+              <div class="step progress-puzzle-<%=reto.order % 5 %>" style="width:<%=perc%>%;">
                 <%= Math.round(perc*duration/100)%>'
                 <div class="tooltip">
                   <div class="tooltip-info">
-                  <b><%=puzzles[r].title%></b>
+                  <b><%=puzzles[reto.order].title%></b>
                   </div>
                   <div class="tooltip-info">
                     <b><%=i18n.analytics.timeline.solved%>: </b> <%=Math.round(calculatePuzzleTime(puzzleTime, startTime))%>'
@@ -80,11 +83,15 @@
           <% } %>
           <% if (team.retos.length === puzzles.length) {%>
             <img class="door" src="/images/dooropen.png" alt="<%=i18n.analytics.timeline.openDoor%>"/>
-          <%} else { %>
-              <div class="step step-flex progress-puzzle-<%= team.retos.length % 5%>" style="">
+          <%} else { 
+            console.log(puzzleIds)
+            var incomplete = puzzleIds.filter(puzzle => !team.retos.find(r=>r.id === puzzle));
+            var idx = puzzleIds.indexOf(incomplete[0])
+            %>
+              <div class="step step-flex progress-puzzle-<%= idx % 5%>" style="">
                   <div class="tooltip">
                     <div class="tooltip-info">
-                    <b><%=puzzles[team.retos.length].title%></b>
+                    <b><%=puzzles[idx].title%></b>
                     </div>
                     <div class="tooltip-info">
                      <%=i18n.analytics.timeline.unsolved%>

@@ -122,7 +122,7 @@ exports.studentLeave = async (req, res, next) => {
             const participants = participantsNames.join(", ");
             const team = {"id": req.team.id, teamMembers, participants, "turno": {"id": req.turn.id}};
 
-            sendLeaveParticipant(team);
+            sendLeaveParticipant(team, req.user.id);
             res.redirect(redirectUrl);
         }
     } catch (e) {

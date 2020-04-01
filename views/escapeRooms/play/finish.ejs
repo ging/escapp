@@ -15,13 +15,14 @@
 </div>
 <br/>
 <br/>
-<script src="/js/vendor/socket.io.js"></script>
-<script src="/js/ranking.js"></script>
+<!-- <script src="/js/vendor/socket.io.js"></script> -->
+<!-- <script src="/js/ranking.js"></script> -->
 <script>
 	var teamId = <%= teamId || "undefined"%>;
+	/*var userId = <%= session.user.id %>;
 	var escapeRoomId = "<%= escapeRoom.id%>";
 	var nPuzzles = "<%= escapeRoom.puzzles.length%>";
-    initSocketServer(<%= escapeRoom.id%>, teamId, <%=turnoId || "undefined" %>)
+    initSocketServer(<%= escapeRoom.id%>, teamId, <%=turnoId || "undefined" %>, userId);*/
 </script>
 <br/>
 <% include ../../partials/_footer %>
