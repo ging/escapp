@@ -1,6 +1,15 @@
 <% include ../../partials/_header.ejs %>
 
 <div class="main ranking finish">
+	<div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/escapeRooms"><%=i18n.common.my%></a>
+			<span class="material-icons">chevron_right</span>
+			<a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+            <span class="material-icons">chevron_right</span>
+            <span><%=i18n.showStudent.Results%></span>
+        </div>
+    </div>
 	<div class="content">
 		<h2 style="text-align:center;"><%=i18n.showStudent.congrats%></h2>
 		<% if (teams && teams.length >= 3 ) {%>

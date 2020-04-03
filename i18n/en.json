@@ -597,6 +597,8 @@
         "beforeStart": "Before you start, fill in the following questionnaire",
         "opinion": "Your opinion matters to us! Please tell us what do you think about it",
         "play": "play",
+        "results": "results",
+        "Results": "Results",
         "sureUnjoin": "Are you sure you want to leave the Escape Room?",
         "congrats": "Congratulations! You've successfully exited the Escape Room.",
         "unjoin": "leave"
@@ -678,6 +680,7 @@
         "Members": "Members",
         "noTeamYet": "There aren't any teams yet",
         "noResults": "No results",
+        "notAvailable": "The selected team is not available",
         "seeByTeam": "See by team",
         "resetProgress": "Reset the team's progress so they have to start again",
         "resetSuccess": "The team progress has been successfully reset",
@@ -733,7 +736,9 @@
         "selectActivate": "Select the shift you want to activate/deactivate",
         "selectStudent": "Select a shift",
         "todayEscapeRoom": "The Escape Room will be celebrated this day",
-        "Turno": "Shift"
+        "Turno": "Shift",
+        "noTurnAvailable": "No turn available for this ER",
+        "turnNotAvailable": "The selected turh is not available"
     },
     "user": {
         "actions": {

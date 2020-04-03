@@ -1,7 +1,17 @@
-<% const turno = participant.teamsAgregados[0].turno%>
+<% const team = participant.teamsAgregados[0]%>
+<% const turno = team.turno%>
 <% include ../partials/_header.ejs %>
+<link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
 
 <div class="main showStudent">
+	<div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/escapeRooms"><%=i18n.common.my%></a>
+            <span class="material-icons">chevron_right</span>
+            <span><%=escapeRoom.title%></span>
+
+        </div>
+    </div>
 	<div class="flex ">
 		<div class="flex-thumb attachmentShow">
 			<% var attachment = escapeRoom.attachment; %>
@@ -21,17 +31,25 @@
 			<% } %>
 			<% if (escapeRoom.teamSize > 1) { %>
 				<h4 class="animated slideInUp">
-					<b><%=i18n.team.Team%>:</b> <%=participant.teamsAgregados[0].name%>
+					<b><%=i18n.team.Team%>:</b> <%=team.name%>
 				</h4>
 			
 				<h5 class="animated slideInUp">
-					<%=participant.teamsAgregados[0].teamMembers.map(m=>m.name + " " + m.surname).join(", ")%>
+					<%=team.teamMembers.map(m=>m.name + " " + m.surname).join(", ")%>
 				</h5>
 			<% } %>
 		</div>
 	</div>
 	<h3 class="animated slideInUp"><%=i18n.turnos.Description%></h3>
 	<p class="desc animated slideInUp"><%=escapeRoom.description%></p>
+	<div class="col-xs-12 indications text-left instructionsShow">
+		<div id="editor" class="ql-editor" style="padding: 0px;">
+			<% if (escapeRoom["indicationsInstructions"]) {%>
+				<%-escapeRoom["indicationsInstructions"] %>
+			<% } %>
+		</div>
+	</div>
+	
 	<div class="status">
 
 		<% 
@@ -55,8 +73,8 @@
 				
 			<% } %>
 		<% } else if(turno.status === "active") { %>
-			<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play">
-				<button class="rounded editButton pulseButton"><%=i18n.showStudent.play%>%></button>
+			<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
+				<button class="rounded acceptButton pulseButton"><%=i18n.showStudent.play%>%></button>
 			</form>
 		<% } else {%>
 			<% if (escapeRoom.posttest) { %>
@@ -78,28 +96,30 @@
 				</div>-->
 			<% } %>
 		<%}%>
-	</div>
-	<div class="col-xs-12 text-left ql-editor instructionsShow" id="editor">
-		<% if (escapeRoom["indicationsInstructions"]) {%>
-			<%-escapeRoom["indicationsInstructions"] %>
+		<% if (team.startTime) { %>
+			<a href="/escapeRooms/<%=escapeRoom.id%>/finish">
+				<button class="rounded editButton" type="button"><%=i18n.showStudent.results%></button>
+			</a>
+
 		<% } %>
-	</div>
-	<br/><br/><br/><br/>
-	<% if(turno.status === "pending"){%>
-	<div id="unjoin" method="post">
-		<button class="rounded inverse" onclick="overlayTrigger('unjoin')">
-			<%=i18n.showStudent.unjoin%>
-		</button>
-		<div class="overlay-trigger" data-id="unjoin">
-			<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/turno/<%=turno.id%>/team/<%=participant.teamsAgregados[0].id%>?_method=delete">
-				<p><%=i18n.showStudent.sureUnjoin%></p>
-				<button class="deleteButton" type="button" onclick="overlayTrigger('unjoin', true)"><%=i18n.common.cancel%></button>
-				<button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
-			</form>
-		</div>
+		<% if(turno.status === "pending"){%>
+			<div id="unjoin" method="post" style="display: inline-block;">
+				<button class="rounded deleteButton" onclick="overlayTrigger('unjoin')">
+					<%=i18n.showStudent.unjoin%>
+				</button>
+				<div class="overlay-trigger" data-id="unjoin">
+					<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/turno/<%=turno.id%>/team/<%=team.id%>?_method=delete">
+						<p><%=i18n.showStudent.sureUnjoin%></p>
+						<button class="deleteButton" type="button" onclick="overlayTrigger('unjoin', true)"><%=i18n.common.cancel%></button>
+						<button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
+					</form>
+				</div>
+			</div>
+			<%}%>
 	</div>
 
-	<%}%>
+	<br/><br/><br/><br/>
+
 	<br/><br/><br/>
 </div>
 

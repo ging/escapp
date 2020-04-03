@@ -1,4 +1,5 @@
 const {models} = require("../models");
+const Sequelize = require("sequelize");
 
 exports.load = {
     "include": [
@@ -7,7 +8,7 @@ exports.load = {
             "include": {
                 "model": models.team,
                 "attributes": ["id"]
-            }
+            },
         },
         {
             "model": models.puzzle,
@@ -46,18 +47,19 @@ exports.all = (user) => {
         "attributes": [
             "id",
             "title",
-            "invitation"
+            "invitation",
+            "nmax"
         ],
         "include": [
             {
                 "model": models.turno,
-                "attributes": [],
+                "attributes": ["status"],
                 "duplicating": false,
                 "required": true,
                 "include": [
                     {
                         "model": models.user,
-                        "attributes": [],
+                        "attributes": ["id"],
                         "as": "students",
                         "duplicating": false,
                         "required": false

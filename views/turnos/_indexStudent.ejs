@@ -33,7 +33,6 @@ const formatDate = function (currentDate) {
         <%
         var pastDates = [];
         var firstDiv = false;
-        turnos = turnos.filter(t=>t.status !== "finished");
         %>
         <%if (turnos && turnos.length > 0) {%>
             <div class="owl-carousel">
@@ -59,7 +58,8 @@ const formatDate = function (currentDate) {
 
         <div class="flexBoxTurnos">
             <%}%>
-            <div class="turno turnoAlumno <%= (escapeRoom.nmax && turn.students.length >= escapeRoom.nmax) ? "disabled":""%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
+            <% var disabled = ((escapeRoom.nmax && turn.students.length >= escapeRoom.nmax) || turn.status === 'finished');%>
+            <div class="turno turnoAlumno <%= disabled ? "disabled finished":""%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
                 <div class="hora">
                     <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %>
                 </div>
@@ -77,10 +77,10 @@ const formatDate = function (currentDate) {
 </div>
 <%}%>
 <div class="join-button-flex-container">
-    <form method='GET' id="form" action='/users/<%= session.user.id %>/escapeRooms?token=<%=token%>'>
+    <form method='GET' action='/users/<%= session.user.id %>/escapeRooms?token=<%=token%>'>
         <button class="rounded deleteButton" type="submit" style="display:inline-block;"><%=i18n.common.cancel%></button>
     </form>
-    <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/selectTurno?token=<%=token%>'>
+    <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/xxxx/select?token=<%=token%>'>
         <input type="hidden" id="turnSelected" name="turnSelected" value="0">
         <button disabled id="continue" class="rounded acceptButton" type="submit" style="display:none;"><%=i18n.common.continue%></button>
     </form>
@@ -89,3 +89,16 @@ const formatDate = function (currentDate) {
 </div>
 <script src="/js/vendor/owl.carousel.min.js"></script>
 <script src="/js/turnoSelect.js"></script>
+<script>
+var repl = false;
+$('#form').on('submit', function(e){
+    if (!repl) {
+        e.preventDefault();
+        repl= true;
+        let action = document.getElementById('form').getAttribute('action');
+        action = action.replace("xxxx", $('#turnSelected').val());
+        $('#form').attr('action', action);
+        $('#form').submit();
+    }
+});
+</script>

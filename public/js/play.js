@@ -73,7 +73,7 @@ const puzzleInterfaceTemplate = (puzzle) => {
   </div>
   <div class="flex-cell flex-cell-sol puzzle-sol" data-reto="${puzzle.id}" >
     <div class="input-group mb-3 sol-input">
-      <input type="text" class="form-control puzzle-input" name="answer" data-puzzle-id="${puzzle.id}" placeholder="${i18n.writeSol}" aria-label="Answer" aria-describedby="basic-addon2" autocomplete="off">
+      <input type="text" autofocus class="form-control puzzle-input" name="answer" data-puzzle-id="${puzzle.id}" placeholder="${i18n.writeSol}" aria-label="Answer" aria-describedby="basic-addon2" autocomplete="off">
       <div class="input-group-append">
         <button class="btn btn-warning puzzle-check-btn" type="button" data-puzzle-id="${puzzle.id}">${i18n.check}</button>
       </div>

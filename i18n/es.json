@@ -590,6 +590,8 @@
         "beforeStart": "Antes de empezar rellena el siguiente cuestionario",
         "opinion": "¡Tu opinión cuenta! Dinos lo que piensas de la escape room",
         "play": "comenzar",
+        "results": "resultados",
+        "Results": "Resultados",
         "sureUnjoin": "¿Seguro que deseas desapuntarte?",
         "congrats": "¡Enhorabuena! Has terminado con éxito la escape room",
         "unjoin": "desapuntarse"
@@ -662,14 +664,15 @@
         "add": "Añada un equipo",
         "addMsg": "Tus compañeros podrán unirse a tu equipo cuando se registren en la escape room",
         "addPlaceHolder": "Escribe el nombre del equipo",
-        "areYouSureReset": "¿Seguro que desea reiniciar el progreso de este equipo?",
+        "areYouSureReset": "¿Seguro que deseas reiniciar el progreso de este equipo?",
         "back": "volver",
-        "choose": "Seleccione un equipo ",
+        "choose": "Selecciona un equipo ",
         "emptyER": "No hay equipos en esta escape room",
         "emptyTurno": "No hay equipos en este turno",
         "fullTeam": "Equipo completo. Por favor, elige otro equipo.",
         "Members": "Integrantes",
         "noTeamYet": "No hay equipos todavía...",
+        "notAvailable": "El equipo seleccionado no está disponible",
         "doYouWantToCreate": "¿Quieres crear tu propio equipo?",
         "seeByTeam": "ver por equipo",
         "resetProgress": "Reinicia el progreso del equipo para que tengan que volver a empezar",
@@ -681,7 +684,9 @@
         "team": "equipo",
         "teams": "equipos",
         "teamS": "equipo(s)",
-        "title": "Equipos"
+        "title": "Equipos",
+        "noTurnAvailable": "No hay ningún turno disponible en esta escape room",
+        "turnNotAvailable": "El turno seleccionado no está disponible"
     },
     "turnos": {
         "all": "Todos los turnos",

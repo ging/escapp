@@ -49,15 +49,11 @@ exports.index = async (req, res, next) => {
             const ids = erFiltered.map((e) => e.id);
 
             escapeRooms = erAll.map((er) => {
-                const {id, title, invitation, attachment} = er;
+                const {id, title, invitation, attachment, nmax} = er;
+                const isSignedUp = ids.indexOf(er.id) !== -1;
+                const disabled = !isSignedUp && !er.turnos.some((e) => e.status !== "finished" && e.students.length < nmax);
 
-                return {
-                    id,
-                    title,
-                    invitation,
-                    attachment,
-                    "isSignedUp": ids.indexOf(er.id) !== -1
-                };
+                return { id, title, invitation, attachment, disabled, isSignedUp };
             });
         }
 
@@ -319,14 +315,10 @@ exports.destroy = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/join
-exports.studentToken = async (req, res, next) => {
+exports.studentToken = (req, res, next) => {
     const {escapeRoom} = req;
 
-    const participant = await models.participants.findOne({ "where": { "userId": req.session.user.id, "turnId": {[Sequelize.Op.or]: [escapeRoom.turnos.map((t) => t.id)]}}});
-
-    if (participant) {
-        res.redirect(`/escapeRooms/${escapeRoom.id}`);
-    } else if (req.session.user.isStudent) {
+    if (req.session.user.isStudent) {
         res.render("escapeRooms/indexInvitation", {escapeRoom, "token": req.query.token});
     } else {
         res.status(403);

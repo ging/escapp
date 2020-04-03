@@ -65,7 +65,9 @@ exports.startPlaying = async (req, res) => {
                 }
             ]
         });
-
+        if (!team) {
+            throw new Error();
+        }
         const joinTeam = await automaticallySetAttendance(team, req.session.user, req.escapeRoom.automaticAttendance);
 
         if (joinTeam) {

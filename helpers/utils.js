@@ -257,3 +257,17 @@ exports.automaticallySetAttendance = async (team, user, automaticAttendance) => 
     }
 };
 
+
+exports.checkOnlyOneTurn = (escapeRoom) => escapeRoom.turnos && escapeRoom.turnos.length === 1;
+
+exports.checkTeamSizeOne = (escapeRoom) => !escapeRoom.teamSize || escapeRoom.teamSize === 1;
+
+exports.checkIsTurnAvailable = (turn, nmax, duration) => {
+    if (turn.status === "finished") {
+        return false;
+    }
+    if (turn.startTime && turn.startTime + duration < new Date()) {
+        return false;
+    }
+    return turn.students && (!nmax || turn.students.length < nmax);
+}

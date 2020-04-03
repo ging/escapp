@@ -3,10 +3,12 @@ const {Op} = Sequelize;
 const sequelize = require("../models");
 const {models} = sequelize;
 const {sendLeaveTeam} = require("../helpers/sockets");
+const {checkTeamSizeOne} = require("../helpers/utils");
 
 // Autoload the team with id equals to :teamId
 exports.load = (req, res, next, teamId) => {
     models.team.findByPk(teamId, {
+        "where": req.params.turnId ? {"turnId": req.params.turnId} : undefined,
         "include": {
             "model": models.user,
             "as": "teamMembers"
@@ -35,33 +37,29 @@ exports.new = (req, res) => {
 
 // POST /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnId/teams
 exports.create = async (req, res, next) => {
-    const {escapeRoom, user, app, params, body, session} = req;
+    const {app, params, body} = req;
+    const user = req.user || req.session.user;
 
-    const team = models.team.build({ "name": body.name, "turnoId": params.turnoId, "members": [session.user.id]});
-    const back = "/escapeRooms";
-    const teamCreated = await team.save();
+    if (!user.isStudent) {
+        req.flash("error", `${app.locals.i18n.common.flash.errorCreatingTeam}`);
+        res.redirect("back");
+        return;
+    }
+    const transaction = await sequelize.transaction();
 
     try {
-        await teamCreated.addTeamMembers(req.session.user.id);
+        const teamCreated = await models.team.create({ "name": body.name, "turnoId": params.turnoId}, {transaction});
+
+        await teamCreated.addTeamMembers(user.id, {transaction});
+        await models.participants.create({"attendance": false, "turnId": params.turnoId, "userId": user.id}, {transaction});
         req.flash("success", app.locals.i18n.common.flash.successCreatingTeam);
-
-        try {
-            const turnos = await user.getTurnosAgregados({"where": {"escapeRoomId": escapeRoom.id}});
-
-            if (turnos.length === 0) {
-                await user.addTurnosAgregados(params.turnoId);
-                res.redirect(back);
-            } else {
-                req.flash("error", app.locals.i18n.team.alreadyIn);
-                res.redirect(`/users/${session.user.id}/escapeRooms`);
-            }
-        } catch (e) {
-            next(e);
-        }
+        res.redirect("/escapeRooms");
+        transaction.commit();
     } catch (err) {
+        transaction.rollback();
         if (err instanceof Sequelize.ValidationError) {
             err.errors.forEach(({message}) => req.flash("error", message));
-            res.redirect(back);
+            res.redirect("back");
         } else {
             req.flash("error", `${app.locals.i18n.common.flash.errorCreatingTeam}: ${err.message}`);
             next(err);
@@ -105,8 +103,13 @@ exports.index = async (req, res, next) => {
 // GET /escapeRooms/:escapeRoomId/turnos/:turnoId/teams
 exports.indexTurnos = (req, res) => {
     const {escapeRoom} = req;
+    const onlyOneMember = checkTeamSizeOne(escapeRoom);
 
-    res.render("teams/index", {"turno": req.turn, escapeRoom, "token": req.token});
+    if (onlyOneMember) {
+        res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams`); // TODO Where?
+    } else {
+        res.render("teams/index", {"turno": req.turn, escapeRoom, "token": req.token});
+    }
 };
 
 // PUT /escapeRooms/:escapeRoomId/turnos/:turnoId/teams/:teamId/reset

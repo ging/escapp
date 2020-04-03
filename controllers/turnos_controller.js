@@ -3,11 +3,13 @@ const sequelize = require("../models");
 const {models} = sequelize;
 const {nextStep, prevStep} = require("../helpers/progress");
 const {startTurno, stopTurno} = require("../helpers/sockets");
+const {checkOnlyOneTurn, checkTeamSizeOne} = require("../helpers/utils");
 
 
 // Autoload the turn with id equals to :turnId
 exports.load = (req, res, next, turnId) => {
     const options = {
+        "where": req.params.escapeRoomId ? {"escapeRoomId": req.params.escapeRoomId} : undefined,
         "include": [
             {
                 "model": models.team,
@@ -45,29 +47,20 @@ exports.indexStudent = async (req, res, next) => {
         const {escapeRoom} = req;
         const token = req.body.token || req.query.token;
 
-        if (token !== escapeRoom.invitation) {
-            req.flash("error", "Wrong password");
-            res.redirect(`/escapeRooms/${escapeRoom.id}/join`);
-            return;
-        }
+        const onlyOneTurn = checkOnlyOneTurn(escapeRoom);
+        const onlyOneMember = checkTeamSizeOne(escapeRoom);
 
-        const turnos = await models.turno.findAll({
-            "where": {"escapeRoomId": req.escapeRoom.id},
-            "include": {"model": models.user, "as": "students"},
-            "order": [["date", "ASC"]]
-        });
-
-        if (escapeRoom.turnos && escapeRoom.turnos.length === 1) {
-            if (!escapeRoom.teamSize || escapeRoom.teamSize > 1) {
-                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}`);
-            } else {
+        if (onlyOneTurn) {
+            if (onlyOneMember) {
                 req.params.turnoId = escapeRoom.turnos[0].id;
                 req.body.name = req.session.user.name;
                 req.user = await models.user.findByPk(req.session.user.id);
                 next();
+            } else {
+                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}`);
             }
         } else {
-            res.render("turnos/_indexStudent.ejs", {turnos, escapeRoom, token});
+            res.render("turnos/_indexStudent.ejs", {"turnos": req.turnos, escapeRoom, token});
         }
     } catch (e) {
         next(e);

@@ -32,17 +32,23 @@
             <% for (var i in escapeRooms) { %>
                 <% var escapeRoom = escapeRooms[i]; %>
                 <% var attachment = escapeRoom.attachment; %>
-                <a href="/escapeRooms/<%= escapeRoom.id %><%= (user && user.isStudent && !escapeRoom.isSignedUp) ? ("/join") : ""%>" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=100*i%>ms;">
-                    <div class="escapeRoomItem">
+                <% var disabled = (user && user.isStudent && escapeRoom.disabled); %>
+                <% var href = "/escapeRooms/" + ((user && user.isStudent && !escapeRoom.isSignedUp) ? (disabled ? "":(escapeRoom.id +"/join")) : escapeRoom.id );%>
+                <a href="<%=href%>" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=100*i%>ms;">
+                    <div class="escapeRoomItem <%= disabled ?' disabled':'' %>">
                         <div class="erFoto" style="text-align: center">
                             <div class="bckgFoto" style="background-image: url(<% if (attachment) {%><%=attachment.url%><%} else {%>/images/placeholder.jpg<%}%>)"></div>
                             <div class="escapeRoomTitle"><%= escapeRoom.title %></div>
                         </div>
                         <% if (user && user.isStudent) {%>
                             <% if (escapeRoom.isSignedUp){ %>
-                            <div class="sign"><span class="material-icons">check</span></div>
-                            <%} else {%>
-                            <div class="sign add"><span class="material-icons">add</span></div>
+                            <div class="sign">
+                                <span class="material-icons">check</span>
+                            </div>
+                            <%} else if (!disabled){%>
+                            <div class="sign add">
+                                <span class="material-icons">add</span>
+                            </div>
                             <%}%>
                         <%}%>
                     </div>

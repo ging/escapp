@@ -4,6 +4,24 @@ const Sequelize = require("sequelize");
 const {Op} = Sequelize;
 const queries = require("../queries");
 const {sendLeaveTeam, sendLeaveParticipant} = require("../helpers/sockets");
+const {checkIsTurnAvailable} = require("../helpers/utils");
+
+exports.checkIsNotParticipant = async (req, res, next) => {
+    const {escapeRoom} = req;
+    const isParticipant = await models.participants.findOne({
+        "where": {
+            "userId": req.session.user.id,
+            "turnId": {[Sequelize.Op.or]: [escapeRoom.turnos.map((t) => t.id)]}
+        }
+    });
+
+    if (isParticipant) {
+        req.flash("error",req.app.locals.i18n.turnos.alreadyIn);
+        res.redirect("/escapeRooms");
+    } else {
+        next();
+    }
+};
 
 exports.checkJoinToken = (req, res, next) => {
     const token = req.query.token || req.body.token;
@@ -17,7 +35,45 @@ exports.checkJoinToken = (req, res, next) => {
     }
 };
 
-// POST  /escapeRooms/:escapeRoomId/users/:userId/selectTurno
+exports.checkSomeTurnAvailable = async (req, res, next) => {
+    const { escapeRoom } = req;
+    const turnos = await models.turno.findAll({"where": {"escapeRoomId": escapeRoom.id}, "include": [{"model": models.user, "as": "students", "through": "participants"}]});
+
+    req.turnos = turnos;
+    for (const turno of turnos) {
+        if (checkIsTurnAvailable(turno, escapeRoom.nmax, escapeRoom.duration)) {
+            next();
+            return;
+        }
+    }
+    req.flash("error", req.app.locals.i18n.turnos.noTurnAvailable);
+    res.redirect("back");
+};
+
+exports.checkTurnAvailable = (req, res, next) => {
+    const {turn, escapeRoom} = req;
+
+    if (checkIsTurnAvailable(turn, escapeRoom.nmax, escapeRoom.duration)) {
+        next();
+        return;
+    }
+    req.flash("error", req.app.locals.i18n.turnos.turnNotAvailable);
+    res.redirect("back");
+};
+
+exports.checkTeamAvailable = (req, res, next) => {
+    const {team, escapeRoom} = req;
+
+    if (team.teamMembers && team.teamMembers.length >= escapeRoom.teamSize) {
+        req.flash("error", req.app.locals.i18n.team.fullTeam);
+        res.redirect("back");
+    } else {
+        next();
+    }
+};
+
+
+// POST  /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnId/select
 exports.selectTurno = (req, res, next) => {
     const {escapeRoom} = req;
 
