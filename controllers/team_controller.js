@@ -26,7 +26,7 @@ exports.load = (req, res, next, teamId) => {
         catch((error) => next(error));
 };
 
-// GET /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnoId/teams/new
+// GET /escapeRooms/:escapeRoomId/turnos/:turnoId/teams/new
 exports.new = (req, res) => {
     const team = {"name": ""};
     const {escapeRoom} = req;
@@ -35,10 +35,10 @@ exports.new = (req, res) => {
 };
 
 
-// POST /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnId/teams
+// POST /escapeRooms/:escapeRoomId/turnos/:turnId/teams
 exports.create = async (req, res, next) => {
     const {app, params, body} = req;
-    const user = req.user || req.session.user;
+    const {user} = req.session;
 
     if (!user.isStudent) {
         req.flash("error", `${app.locals.i18n.common.flash.errorCreatingTeam}`);

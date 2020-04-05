@@ -246,14 +246,15 @@ exports.automaticallySetAttendance = async (team, user, automaticAttendance) => 
         break;
     }
 
-    if (team && !(team.startTime instanceof Date && isFinite(team.startTime))) {
+    if (!(team.startTime instanceof Date && isFinite(team.startTime))) {
         team.startTime = new Date();
         const participants = members.map((m) => `${m.name} ${m.surname}`).join(", ");
 
         await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
         const {id, name, result, turno, finishTime} = team;
+        const startTime = turno.startTime || team.startTime;
 
-        return {id, turno, name, result, finishTime, participants, "startTime": turno.startTime || team.startTime};
+        return {id, turno, name, result, finishTime, participants, startTime};
     }
 };
 
@@ -270,4 +271,4 @@ exports.checkIsTurnAvailable = (turn, nmax, duration) => {
         return false;
     }
     return turn.students && (!nmax || turn.students.length < nmax);
-}
+};

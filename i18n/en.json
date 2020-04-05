@@ -601,6 +601,7 @@
         "Results": "Results",
         "sureUnjoin": "Are you sure you want to leave the Escape Room?",
         "congrats": "Congratulations! You've successfully exited the Escape Room.",
+        "resultsTitle": "This is the escape room's leaderboard",
         "unjoin": "leave"
     },
     "showTeacher": {

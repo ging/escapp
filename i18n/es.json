@@ -594,6 +594,7 @@
         "Results": "Resultados",
         "sureUnjoin": "¿Seguro que deseas desapuntarte?",
         "congrats": "¡Enhorabuena! Has terminado con éxito la escape room",
+        "resultsTitle": "Este es el ranking de resultados de la escape room",
         "unjoin": "desapuntarse"
     },
     "showTeacher": {

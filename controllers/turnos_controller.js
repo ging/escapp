@@ -41,6 +41,28 @@ exports.load = (req, res, next, turnId) => {
         catch((error) => next(error));
 };
 
+exports.isTurnNotPending = (req, res, next) => {
+    if (req.session.user.isStudent) {
+        if (req.participant.teamsAgregados[0].turno.status === "pending") {
+            res.redirect("back");
+            return;
+        }
+    }
+    next();
+};
+
+exports.isTurnStarted = (req, res, next) => {
+    if (req.session.user.isStudent) {
+        const [team] = req.participant.teamsAgregados;
+
+        if (!(team.startTime instanceof Date && isFinite(team.startTime))) {
+            res.redirect("back");
+            return;
+        }
+    }
+    next();
+};
+
 // POST /escapeRooms/:escapeRoomId/join
 exports.indexStudent = async (req, res, next) => {
     try {

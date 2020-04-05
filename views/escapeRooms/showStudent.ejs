@@ -11,36 +11,43 @@
             <span><%=escapeRoom.title%></span>
 
         </div>
-    </div>
+	</div>	
 	<div class="flex ">
 		<div class="flex-thumb attachmentShow">
 			<% var attachment = escapeRoom.attachment; %>
 			<% include ../attachments/_show %>
 		</div>
 		<div class="flex-er-info">
-			<h2 class="animated slideInUp">
+			<h1 class="animated slideInUp">
 				<%=escapeRoom.title%>
-			</h2>
-			<h3 class="animated slideInUp">
-				<b><%=i18n.turnos.Turno%>:</b> <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
+			</h1>
+			<h2 class="animated slideInUp">
+				<%=i18n.turnos.Turno%>
 			</h3>
+			<p>
+				<%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
+			</p>
 			<% if (turno.place) { %> 
-				<h3 class="animated slideInUp">
-					<b><%=i18n.turnos.place%>:</b> <%= turno.place %>
-				</h3>
+				<h2 class="animated slideInUp">
+					<%=i18n.turnos.place%>
+				</h2>
+				<p><%= turno.place %></p>
 			<% } %>
 			<% if (escapeRoom.teamSize > 1) { %>
-				<h4 class="animated slideInUp">
-					<b><%=i18n.team.Team%>:</b> <%=team.name%>
-				</h4>
+				<h2 class="animated slideInUp">
+					<%=i18n.team.Team%> 
+				</h2>
+				<h3>
+					<%=team.name%>
+				</h3>
 			
-				<h5 class="animated slideInUp">
+				<p class="animated slideInUp members">
 					<%=team.teamMembers.map(m=>m.name + " " + m.surname).join(", ")%>
-				</h5>
+				</p>
 			<% } %>
 		</div>
 	</div>
-	<h3 class="animated slideInUp"><%=i18n.turnos.Description%></h3>
+	<h2 class="animated slideInUp"><%=i18n.turnos.Description%></h2>
 	<p class="desc animated slideInUp"><%=escapeRoom.description%></p>
 	<div class="col-xs-12 indications text-left instructionsShow">
 		<div id="editor" class="ql-editor" style="padding: 0px;">
@@ -72,6 +79,7 @@
 				<% } %>
 				
 			<% } %>
+			<button class="rounded disabled" disabled><%=i18n.showStudent.play%>%></button>
 		<% } else if(turno.status === "active") { %>
 			<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
 				<button class="rounded acceptButton pulseButton"><%=i18n.showStudent.play%>%></button>
@@ -96,8 +104,8 @@
 				</div>-->
 			<% } %>
 		<%}%>
-		<% if (team.startTime) { %>
-			<a href="/escapeRooms/<%=escapeRoom.id%>/finish">
+		<% if (turno.status !== "pending" && team.startTime) { %>
+			<a href="/escapeRooms/<%=escapeRoom.id%>/results">
 				<button class="rounded editButton" type="button"><%=i18n.showStudent.results%></button>
 			</a>
 

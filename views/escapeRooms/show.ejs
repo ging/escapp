@@ -15,18 +15,18 @@
         <div class="menuERShowLeft">
             <ul class="menuERactionList animated slideInLeft">
                 <li class="actionTitle"><%=i18n.showTeacher.actionList.edit%></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/edit"><%=i18n.showTeacher.actionList.basic%> <span class="material-icons">keyboard_arrow_right</span></a></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/turnos"><%=i18n.showTeacher.actionList.turnos%> <span class="material-icons">keyboard_arrow_right</span></a></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/puzzles"><%=i18n.showTeacher.actionList.puzzles%> <span class="material-icons">keyboard_arrow_right</span></a></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/hints"><%=i18n.showTeacher.actionList.hintStrategy%> <span class="material-icons">keyboard_arrow_right</span></a></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/indications"><%=i18n.showTeacher.actionList.indications%> <span class="material-icons">keyboard_arrow_right</span></a></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/team"><%=i18n.showTeacher.actionList.teamInterface%> <span class="material-icons">keyboard_arrow_right</span></a></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/class"><%=i18n.showTeacher.actionList.classInterface%> <span class="material-icons">keyboard_arrow_right</span></a></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/evaluation"><%=i18n.showTeacher.actionList.evaluation%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/edit"><%=i18n.showTeacher.actionList.basic%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/turnos"><%=i18n.showTeacher.actionList.turnos%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/puzzles"><%=i18n.showTeacher.actionList.puzzles%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/hints"><%=i18n.showTeacher.actionList.hintStrategy%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/indications"><%=i18n.showTeacher.actionList.indications%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/team"><%=i18n.showTeacher.actionList.teamInterface%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/class"><%=i18n.showTeacher.actionList.classInterface%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/evaluation"><%=i18n.showTeacher.actionList.evaluation%> <span class="material-icons">keyboard_arrow_right</span></a></li>
                 <li class="actionTitle"><%=i18n.showTeacher.actionList.information%></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/participants"><%=i18n.showTeacher.actionList.participants%> <span class="material-icons">keyboard_arrow_right</span></a></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/teams"><%=i18n.showTeacher.actionList.teams%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
-                    <li class="actionIndent"><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/participants"><%=i18n.showTeacher.actionList.participants%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/teams"><%=i18n.showTeacher.actionList.teams%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
+                    <li><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
                 <li class="actionTitle"><%=i18n.showTeacher.actionList.actions%></li>
                     <li><button id="share-button" class="showMenuButton acceptButton" <%- (escapeRoom.turnos && escapeRoom.turnos.length) ? '' : (' title=\"' + i18n.showTeacher.messages.noShiftsShare + '\" disabled') %> ><%=i18n.showTeacher.actionList.share%></button></li>
                     <li><a href="/escapeRooms/<%= escapeRoom.id %>/activarTurno"><button class="showMenuButton editButton"  <%- (escapeRoom.turnos && escapeRoom.turnos.length) ? '' : (' title=\"' + i18n.showTeacher.messages.noShiftsStart + '\" disabled') %>><%=i18n.showTeacher.actionList.activateTurno%></button></a></li>

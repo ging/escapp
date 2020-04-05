@@ -9,9 +9,9 @@
             <span class="material-icons">chevron_right</span>
             <span><%=i18n.showStudent.Results%></span>
         </div>
-    </div>
+	</div>
 	<div class="content">
-		<h2 style="text-align:center;"><%=i18n.showStudent.congrats%></h2>
+		<h1 style="text-align:center;"><%=locals.finish ? i18n.showStudent.congrats: i18n.showStudent.resultsTitle%></h1>
 		<% if (teams && teams.length >= 3 ) {%>
 			<%-include("../../partials/_podium")%>
 		<% } %>

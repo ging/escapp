@@ -1,17 +1,19 @@
-const {models} = require("../models");
+const sequelize = require("../models");
+const {models} = sequelize;
 const {sendJoinParticipant} = require("../helpers/sockets");
 
 // PUT /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnoId/teams/:teamId
 exports.add = async (req, res, next) => {
     const direccion = req.body.redir || "/escapeRooms";
-    const {escapeRoom, turn, team, user, token} = req;
+    const {escapeRoom, turn, team, session, token} = req;
     const {startTime} = team;
+    const {user} = session;
+    const transaction = await sequelize.transaction();
 
     try {
-
         const time = turn.startTime || startTime;
 
-        if (time && (time + escapeRoom.duration < new Date())) { // Already finished
+        if (time && time + escapeRoom.duration < new Date()) { // Already finished
             req.flash("error", req.app.locals.i18n.turnos.tooLate);
             res.redirect(`/escapeRooms/${escapeRoom.id}/join?token=${token}`);
             return;
@@ -20,9 +22,12 @@ exports.add = async (req, res, next) => {
 
         const attendance = escapeRoom.automaticAttendance === "team" && (startTime instanceof Date && isFinite(startTime));
 
-        await models.participants.create({attendance, "userId": user.id, "turnId": turn.id});
+        await models.participants.create({attendance, "userId": user.id, "turnId": turn.id}, {transaction});
+        await team.addTeamMembers(req.session.user.id, {transaction});
 
-        const newMembers = await team.getTeamMembers();
+        const newMembers = await team.getTeamMembers({}, {transaction});
+
+        await transaction.commit();
         const teamMembers = [];
         const teamMembersNames = [];
 
@@ -36,8 +41,8 @@ exports.add = async (req, res, next) => {
 
         sendJoinParticipant({"id": team.id, "turno": turn, "participants": participantsNames, teamMembers});
         res.redirect(direccion);
-
     } catch (error) {
+        await transaction.rollback();
         next(error);
     }
 };

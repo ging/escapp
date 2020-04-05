@@ -77,10 +77,10 @@ const formatDate = function (currentDate) {
 </div>
 <%}%>
 <div class="join-button-flex-container">
-    <form method='GET' action='/users/<%= session.user.id %>/escapeRooms?token=<%=token%>'>
+    <form method='GET' action='/escapeRooms'>
         <button class="rounded deleteButton" type="submit" style="display:inline-block;"><%=i18n.common.cancel%></button>
     </form>
-    <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/xxxx/select?token=<%=token%>'>
+    <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/turnos/xxxx/select?token=<%=token%>'>
         <input type="hidden" id="turnSelected" name="turnSelected" value="0">
         <button disabled id="continue" class="rounded acceptButton" type="submit" style="display:none;"><%=i18n.common.continue%></button>
     </form>

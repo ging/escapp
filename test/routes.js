@@ -9,7 +9,7 @@ exports.publicRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "statusCode": 302
     },
     {
-        "route": "/users/new",
+        "route": "/register",
         "statusCode": 200
     },
     {
@@ -109,6 +109,10 @@ exports.publicRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "statusCode": 302
     },
     {
+        "route": `/escapeRooms/${escapeRoomId}/results`,
+        "statusCode": 302
+    },
+    {
         "route": `/escapeRooms/${escapeRoomId}/finish`,
         "statusCode": 302
     },
@@ -137,7 +141,7 @@ exports.publicRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "statusCode": 302
     },
     {
-        "route": `/escapeRooms/${escapeRoomId}/users/${userId}/turnos/${turnoId}/teams/new`,
+        "route": `/escapeRooms/${escapeRoomId}/turnos/${turnoId}/teams/new`,
         "statusCode": 302
     },
     {
@@ -200,16 +204,16 @@ exports.teacherRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "statusCode": 200
     },
     {
-        "route": "/users/new",
-        "statusCode": 200
+        "route": "/register",
+        "statusCode": 302
     },
     {
         "route": "/users/password-reset",
-        "statusCode": 200
+        "statusCode": 302
     },
     {
         "route": `/users/password-reset/${userId}`,
-        "statusCode": 404
+        "statusCode": 302
     },
     {
         "route": "/users/index",
@@ -293,22 +297,22 @@ exports.teacherRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/play`,
-        "statusCode": 200
+        "statusCode": 403
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/project`,
         "statusCode": 200
     },
     {
+        "route": `/escapeRooms/${escapeRoomId}/results`,
+        "statusCode": 403
+    },
+    {
         "route": `/escapeRooms/${escapeRoomId}/finish`,
-        "statusCode": 302
+        "statusCode": 403
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/turnos/${turnoId}/play`,
-        "statusCode": 200
-    },
-    {
-        "route": `/escapeRooms/${escapeRoomId}/turnos/${turnoId}/finish`,
         "statusCode": 200
     },
     {
@@ -328,7 +332,7 @@ exports.teacherRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "statusCode": 200
     },
     {
-        "route": `/escapeRooms/${escapeRoomId}/users/${userId}/turnos/${turnoId}/teams/new`,
+        "route": `/escapeRooms/${escapeRoomId}/turnos/${turnoId}/teams/new`,
         "statusCode": 403
     },
     {
@@ -391,16 +395,16 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "statusCode": 200
     },
     {
-        "route": "/users/new",
-        "statusCode": 200
+        "route": "/register",
+        "statusCode": 302
     },
     {
         "route": "/users/password-reset",
-        "statusCode": 200
+        "statusCode": 302
     },
     {
         "route": `/users/password-reset/${userId}`,
-        "statusCode": 404
+        "statusCode": 302
     },
     {
         "route": "/users/index",
@@ -464,7 +468,7 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/join`,
-        "statusCode": 302
+        "statusCode": 200
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/activarTurno`,
@@ -489,6 +493,10 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
     {
         "route": `/escapeRooms/${escapeRoomId}/project`,
         "statusCode": 403
+    },
+    {
+        "route": `/escapeRooms/${escapeRoomId}/results`,
+        "statusCode": 200
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/finish`,
@@ -519,11 +527,11 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "statusCode": 403
     },
     {
-        "route": `/escapeRooms/${escapeRoomId}/users/${userId}/turnos/${turnoId}/teams/new`,
+        "route": `/escapeRooms/${escapeRoomId}/turnos/${turnoId}/teams/new`,
         "statusCode": 302
     },
     {
-        "route": `/escapeRooms/${escapeRoomId}/users/${userId}/turnos/${turnoId}/teams/new?token=assfdtWeQv`,
+        "route": `/escapeRooms/${escapeRoomId}/turnos/${turnoId}/teams/new?token=assfdtWeQv`,
         "statusCode": 200
     },
     {

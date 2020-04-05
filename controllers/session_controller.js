@@ -46,6 +46,13 @@ exports.loginRequired = (req, res, next) => {
     }
 };
 
+exports.logoutRequired = (req, res, next) => {
+    if (!req.session.user) {
+        next();
+    } else {
+        res.redirect("/escapeRooms");
+    }
+};
 
 // MW that allows to pass only if the logged user in is admin.
 exports.adminRequired = (req, res, next) => {
@@ -59,10 +66,23 @@ exports.adminRequired = (req, res, next) => {
     }
 };
 
-// MW that allows to pass only if the logged user in is not student.
+// MW that allows to pass only if the logged user in is not a student.
 
 exports.notStudentRequired = (req, res, next) => {
-    const isStudent = !req.session.user.isStudent;
+    const isNotStudent = !req.session.user.isStudent;
+
+    if (isNotStudent) {
+        next();
+    } else {
+        res.status(403);
+        throw new Error(req.app.locals.i18n.api.forbidden);
+    }
+};
+
+// MW that allows to pass only if the logged user in is a student.
+
+exports.studentRequired = (req, res, next) => {
+    const {isStudent} = req.session.user;
 
     if (isStudent) {
         next();
@@ -127,19 +147,41 @@ exports.adminOrAuthorOrParticipantRequired = async (req, res, next) => {
             return;
         }
         const participants = await models.user.findAll(query.user.escapeRoomsForUser(req.escapeRoom.id, req.session.user.id));
-        const isParticipant = participants && participants.length > 0;
 
-        req.isParticipant = isParticipant ? participants[0] : null;
-        if (isParticipant) {
+        req.participant = participants && participants.length ? participants[0] : null;
+        if (req.participant) {
             next();
         } else {
-            res.status(403);
-            next(new Error(req.app.locals.i18n.api.forbidden));
+            res.redirect("back");
         }
     } catch (error) {
         next(error);
     }
 };
+
+// MW that allows actions only if the user logged in is a participant of the escape room.
+exports.participantRequired = async (req, res, next) => {
+    const isAdmin = Boolean(req.session.user.isAdmin),
+        isAuthor = req.escapeRoom.authorId === req.session.user.id;
+
+    try {
+        if (isAdmin || isAuthor) {
+            res.status(403);
+            throw new Error("Forbidden");
+        }
+        const participants = await models.user.findAll(query.user.escapeRoomsForUser(req.escapeRoom.id, req.session.user.id));
+
+        req.participant = participants && participants.length ? participants[0] : null;
+        if (req.participant) {
+            next();
+        } else {
+            res.redirect("back");
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
 
 exports.new = (req, res) => {
     // Page to go/show after login:

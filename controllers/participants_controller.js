@@ -16,7 +16,7 @@ exports.checkIsNotParticipant = async (req, res, next) => {
     });
 
     if (isParticipant) {
-        req.flash("error",req.app.locals.i18n.turnos.alreadyIn);
+        req.flash("error", req.app.locals.i18n.turnos.alreadyIn);
         res.redirect("/escapeRooms");
     } else {
         next();
@@ -73,7 +73,7 @@ exports.checkTeamAvailable = (req, res, next) => {
 };
 
 
-// POST  /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnId/select
+// POST  /escapeRooms/:escapeRoomId/turnos/:turnId/select
 exports.selectTurno = (req, res, next) => {
     const {escapeRoom} = req;
 
@@ -143,7 +143,7 @@ exports.studentLeave = async (req, res, next) => {
             res.redirect("back");
             return;
         } else if (!req.user && req.session.user.isStudent) {
-            if (turn.status === "finished" || (turn.status === "active" && (turn.startTime || req.team.startTime))) {
+            if (turn.status === "finished" || turn.status === "active" && (turn.startTime || req.team.startTime)) {
                 req.flash("error", `${req.app.locals.i18n.common.flash.errorStudentLeave}`);
                 res.redirect("/");
                 return;

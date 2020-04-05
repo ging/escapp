@@ -1,41 +1,42 @@
-.showStudent
-	.flex
-		display: flex
-		.flex-thumb
-			width: 25%
+#mainSection
+	.main.showStudent
+		background-image: none
+		.flex
+			display: flex
+			flex-direction: row-reverse
+			.flex-thumb
+				width: 25%
+				position: relative
+				padding-top: 22px
+				img
+					width: 100%
+					border-width: 5px
+			.flex-er-info
+				flex: 1
+		.desc
+			font-family: Lato, sans-serif
+		.members
+			margin-bottom: 0px
+		.status
+			text-align: center
+		#unjoin
+			text-align: right
 			position: relative
-			img
-				width: 100%
-			padding-top: 40px
-		.flex-er-info
-			flex: 1
-			padding: 15px
-			*:not(h2)
-				font-family: Lato, sans-serif
-			*:not(b)
-				font-weight: normal
-	.desc
-		font-family: Lato, sans-serif
-	.status
-		text-align: center
-	#unjoin
-		text-align: right
-		position: relative
-		.overlay-trigger
-			right: 12px
-			bottom: 60px
-			&::after
-				right: 10px
-				left: calc(100% - 50px)
-				top: 100%
-				border-color: white transparent transparent transparent
-	.pulseButton
-		margin-top: 100px
-		cursor: pointer
-		box-shadow: 0 0 2px 0px rgba(72, 193, 142, 0.5)
-		animation: pulseButton 2s infinite
-		&:hover
-			animation: none
+			.overlay-trigger
+				right: 12px
+				bottom: 60px
+				&::after
+					right: 10px
+					left: calc(100% - 50px)
+					top: 100%
+					border-color: white transparent transparent transparent
+		.pulseButton
+			margin-top: 100px
+			cursor: pointer
+			box-shadow: 0 0 2px 0px rgba(72, 193, 142, 0.5)
+			animation: pulseButton 2s infinite
+			&:hover
+				animation: none
 
 .finish
 	.content

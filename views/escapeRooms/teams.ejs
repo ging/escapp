@@ -9,7 +9,7 @@
             <span><%=i18n.team.title%></span>
         </div>
     </div>
-    <h2><%=i18n.team.title%></h2>
+    <h1><%=i18n.team.title%></h1>
     <form method="get" class="teamsList" action="/escapeRooms/<%= escapeRoom.id %>/teams">
         <div class="filters">
             <label for="turnId"><%=i18n.turnos.Turno%>
@@ -79,6 +79,7 @@
             <b><%=i18n.common.Total%>:</b> <%= teams.length %> <%=i18n.team.teamS%>
         </div>
 </div>
+<br/><br/><br/>
 <script>
     const overlayTrigger = (id, close) => {
         $('.overlay-trigger').hide();

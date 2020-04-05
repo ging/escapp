@@ -16,6 +16,8 @@ button, input[type="submit"] {
   cursor: pointer; }
   button:disabled, button.disabled, input[type="submit"]:disabled, input[type="submit"].disabled {
     cursor: not-allowed; }
+  button.disabled, input[type="submit"].disabled {
+    opacity: 0.3; }
   button.rounded, input[type="submit"].rounded {
     border-radius: 25px !important;
     padding: 8px 25px !important; }
@@ -197,7 +199,7 @@ button, input[type="submit"] {
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.sucessRate {
           color: #48C18E; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.bestTime {
-          color: #232951; }
+          color: #232850; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.avgReqHints {
           color: #F3945E; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card .card-title {
@@ -751,8 +753,6 @@ button, input[type="submit"] {
             margin-bottom: 20px;
             margin-top: 30px;
             color: #FAC855; }
-          #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li.actionIndent {
-            margin-left: 15px; }
           #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li a {
             line-height: 24px; }
             #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft .menuERactionList li a:hover {
@@ -789,11 +789,11 @@ button, input[type="submit"] {
   #mainSection .main.escapeRoomShow #dialog-preview-api, #mainSection .main.escapeRoomShow #dialog-share {
     padding: 15px; }
     #mainSection .main.escapeRoomShow #dialog-preview-api h4, #mainSection .main.escapeRoomShow #dialog-share h4 {
-      color: #232951;
+      color: #232850;
       font-size: 20px;
       margin-bottom: -4px; }
     #mainSection .main.escapeRoomShow #dialog-preview-api h5, #mainSection .main.escapeRoomShow #dialog-preview-api h6, #mainSection .main.escapeRoomShow #dialog-share h5, #mainSection .main.escapeRoomShow #dialog-share h6 {
-      color: #232951; }
+      color: #232850; }
     #mainSection .main.escapeRoomShow #dialog-preview-api h6, #mainSection .main.escapeRoomShow #dialog-share h6 {
       margin-bottom: 0px;
       font-family: Lato, sans-serif; }
@@ -819,11 +819,11 @@ button, input[type="submit"] {
         #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td.api-value code, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th.api-value code, #mainSection .main.escapeRoomShow #dialog-share .api-table td.api-value code, #mainSection .main.escapeRoomShow #dialog-share .api-table th.api-value code {
           color: #36A2EB; }
     #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th, #mainSection .main.escapeRoomShow #dialog-share .api-table th {
-      color: #232951;
+      color: #232850;
       font-weight: 600;
       text-align: left; }
     #mainSection .main.escapeRoomShow #dialog-preview-api pre.sample-fetch, #mainSection .main.escapeRoomShow #dialog-share pre.sample-fetch {
-      color: #232951;
+      color: #232850;
       padding: 15px;
       font-size: 14px;
       font-family: monospace;
@@ -1293,7 +1293,7 @@ button, input[type="submit"] {
   background: white;
   max-width: 600px;
   margin: 1%;
-  color: #232951;
+  color: #232850;
   padding: 15px;
   opacity: 0.9;
   padding-top: 0px;
@@ -1440,8 +1440,10 @@ button, input[type="submit"] {
   background-color: white;
   margin-bottom: 20px;
   color: black; }
-  #mainSection .main.step-instructions .editor-wrapper.indications #editor.ql-container {
-    font-size: 22px; }
+  #mainSection .main.step-instructions .editor-wrapper.indications #editor {
+    background-color: #2A2A52; }
+    #mainSection .main.step-instructions .editor-wrapper.indications #editor .ql-container {
+      font-size: 22px; }
   #mainSection .main.step-instructions .editor-wrapper > * {
     font-family: Lato, sans-serif; }
   #mainSection .main.step-instructions .editor-wrapper #editor {
@@ -1897,7 +1899,6 @@ button, input[type="submit"] {
     font-family: Lato, sans-serif; }
 
 .indications #editor {
-  background-color: #2A2A52;
   color: white;
   font-size: 22px; }
   .indications #editor blockquote {
@@ -1957,11 +1958,13 @@ button, input[type="submit"] {
       overflow: hidden;
       text-overflow: ellipsis;
       cursor: pointer;
-      border: 2px solid white; }
+      border: 2px solid white;
+      text-align: center; }
       #mainSection .main.student .dialog .teamCarouselItem.disabled {
         opacity: 0.5; }
       #mainSection .main.student .dialog .teamCarouselItem p {
-        font-size: 10px; }
+        font-size: 10px;
+        text-align: center; }
       #mainSection .main.student .dialog .teamCarouselItem.selected {
         border: 2px solid #FAC855; }
     #mainSection .main.student .dialog #teamCarouselItems-hidden {
@@ -2078,6 +2081,7 @@ button, input[type="submit"] {
     position: relative; }
     #mainSection .main .breadcrumbs-container {
       text-align: left;
+      margin-bottom: 30px;
       align-self: left; }
       #mainSection .main .breadcrumbs-container .breadcrumbs a, #mainSection .main .breadcrumbs-container .breadcrumbs span:not(.material-icons) {
         font-family: Lato, sans-serif;
@@ -2268,7 +2272,7 @@ button, input[type="submit"] {
 .portada {
   flex: 1 100%;
   height: 100%;
-  background-color: #232951;
+  background-color: #232850;
   font: 18px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
   color: white; }
   .portada .contenedor {
@@ -2291,7 +2295,7 @@ button, input[type="submit"] {
         align-self: center; }
     .portada .contenedor .loginRight {
       color: white;
-      background-color: #232951;
+      background-color: #232850;
       text-align: center;
       width: 50%;
       flex: 3;
@@ -2777,47 +2781,44 @@ button, input[type="submit"] {
   .ranking .content .ranking-table .ranking-row .ranking-time {
     width: 35%; } }
 
-.showStudent .flex {
-  display: flex; }
-  .showStudent .flex .flex-thumb {
-    width: 25%;
-    position: relative;
-    padding-top: 40px; }
-    .showStudent .flex .flex-thumb img {
-      width: 100%; }
-  .showStudent .flex .flex-er-info {
-    flex: 1;
-    padding: 15px; }
-    .showStudent .flex .flex-er-info *:not(h2) {
-      font-family: Lato, sans-serif; }
-    .showStudent .flex .flex-er-info *:not(b) {
-      font-weight: normal; }
-
-.showStudent .desc {
-  font-family: Lato, sans-serif; }
-
-.showStudent .status {
-  text-align: center; }
-
-.showStudent #unjoin {
-  text-align: right;
-  position: relative; }
-  .showStudent #unjoin .overlay-trigger {
-    right: 12px;
-    bottom: 60px; }
-    .showStudent #unjoin .overlay-trigger::after {
-      right: 10px;
-      left: calc(100% - 50px);
-      top: 100%;
-      border-color: white transparent transparent transparent; }
-
-.showStudent .pulseButton {
-  margin-top: 100px;
-  cursor: pointer;
-  box-shadow: 0 0 2px 0px rgba(72, 193, 142, 0.5);
-  animation: pulseButton 2s infinite; }
-  .showStudent .pulseButton:hover {
-    animation: none; }
+#mainSection .main.showStudent {
+  background-image: none; }
+  #mainSection .main.showStudent .flex {
+    display: flex;
+    flex-direction: row-reverse; }
+    #mainSection .main.showStudent .flex .flex-thumb {
+      width: 25%;
+      position: relative;
+      padding-top: 22px; }
+      #mainSection .main.showStudent .flex .flex-thumb img {
+        width: 100%;
+        border-width: 5px; }
+    #mainSection .main.showStudent .flex .flex-er-info {
+      flex: 1; }
+  #mainSection .main.showStudent .desc {
+    font-family: Lato, sans-serif; }
+  #mainSection .main.showStudent .members {
+    margin-bottom: 0px; }
+  #mainSection .main.showStudent .status {
+    text-align: center; }
+  #mainSection .main.showStudent #unjoin {
+    text-align: right;
+    position: relative; }
+    #mainSection .main.showStudent #unjoin .overlay-trigger {
+      right: 12px;
+      bottom: 60px; }
+      #mainSection .main.showStudent #unjoin .overlay-trigger::after {
+        right: 10px;
+        left: calc(100% - 50px);
+        top: 100%;
+        border-color: white transparent transparent transparent; }
+  #mainSection .main.showStudent .pulseButton {
+    margin-top: 100px;
+    cursor: pointer;
+    box-shadow: 0 0 2px 0px rgba(72, 193, 142, 0.5);
+    animation: pulseButton 2s infinite; }
+    #mainSection .main.showStudent .pulseButton:hover {
+      animation: none; }
 
 .finish .content {
   width: 100%; }
@@ -3221,7 +3222,7 @@ button, input[type="submit"] {
           color: #a1a3af !important;
           -webkit-text-fill-color: #a1a3af !important; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker:-webkit-autofill {
-          -webkit-box-shadow: 0 0 0 30px #232951 inset !important;
+          -webkit-box-shadow: 0 0 0 30px #232850 inset !important;
           -webkit-text-fill-color: #a1a3af !important; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.add-turno .turnos-picker.turnos-time-picker {
           width: 150%;
@@ -3360,7 +3361,7 @@ button, input[type="submit"] {
     margin-bottom: 5px; }
 
 :root {
-  --mainpurple: #232951;
+  --mainpurple: #232850;
   --darkerpurple: #161938;
   --textpurple: #656683;
   --bckg: #2A2A52;
@@ -3399,6 +3400,10 @@ html {
       font-weight: lighter; }
     html body h1 {
       font-size: 1.5em; }
+    html body h2 {
+      font-size: 1.3em; }
+    html body h3 {
+      font-size: 1.1em; }
     html body p {
       font-family: Lato, sans-serif;
       text-align: left; }
@@ -3409,7 +3414,7 @@ html {
     html body label {
       color: #656683; }
     html body input, html body select {
-      background-color: #232951;
+      background-color: #232850;
       -webkit-text-fill-color: #656683 !important;
       color: #656683;
       font-size: large;
@@ -3424,12 +3429,12 @@ html {
       font-weight: lighter;
       box-shadow: none !important; }
       html body input:-webkit-autofill, html body select:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0 30px #232951 inset !important;
+        -webkit-box-shadow: 0 0 0 30px #232850 inset !important;
         -webkit-text-fill-color: #656683 !important;
         font-family: inherit !important; }
       html body input:focus, html body input:active, html body input:-webkit-autofill:focus, html body input:-webkit-autofill:active, html body select:focus, html body select:active, html body select:-webkit-autofill:focus, html body select:-webkit-autofill:active {
         font-family: inherit !important;
-        background-color: #232951;
+        background-color: #232850;
         color: white;
         -webkit-text-fill-color: white !important;
         border-color: white; }

@@ -26,7 +26,7 @@ exports.show = (req, res) => {
     res.render("users/show", {user});
 };
 
-// GET /users/new
+// GET /register
 exports.new = (req, res) => {
     const user = {"name": "", "surname": "", "gender": "", "dni": "", "username": "", "password": ""};
 

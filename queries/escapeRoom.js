@@ -8,7 +8,7 @@ exports.load = {
             "include": {
                 "model": models.team,
                 "attributes": ["id"]
-            },
+            }
         },
         {
             "model": models.puzzle,

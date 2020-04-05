@@ -34,13 +34,23 @@ exports.ranking = async (req, _res, next) => {
     }
 };
 
-exports.finish = async (req, res) => {
-    const {turnoId} = req.params;
-    const {teamId} = req;
-    const turno = await models.turno.findOne(queries.turno.myTurno(req.escapeRoom.id, req.session.user.id));
+exports.finish = (req, res, next) => {
+    req.finish = true;
+    next();
+};
 
-    if (turnoId || turno) {
-        res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom, "teams": req.teams, "turnoId": turnoId || turno.id, teamId, "userId": req.session.user.id});
+exports.results = async (req, res) => {
+    let {turnoId} = req.params;
+    const {teamId} = req;
+
+    if (!turnoId) {
+        const turno = await models.turno.findOne(queries.turno.myTurno(req.escapeRoom.id, req.session.user.id));
+
+        turnoId = turno.id;
+    }
+
+    if (turnoId) {
+        res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom, "teams": req.teams, turnoId, teamId, "userId": req.session.user.id, "finish": req.finish});
     } else {
         res.redirect("back");
     }
@@ -65,6 +75,7 @@ exports.startPlaying = async (req, res) => {
                 }
             ]
         });
+
         if (!team) {
             throw new Error();
         }

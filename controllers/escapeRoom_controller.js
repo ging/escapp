@@ -65,8 +65,7 @@ exports.index = async (req, res, next) => {
 
 // GET /escapeRooms/:escapeRoomId
 exports.show = (req, res) => {
-    const {escapeRoom} = req;
-    const participant = req.isParticipant;
+    const {escapeRoom, participant} = req;
     const hostName = process.env.APP_NAME ? `https://${process.env.APP_NAME}` : "http://localhost:3000";
 
     if (participant) {

@@ -14,10 +14,7 @@
                 <div class="no-results-msg"><%= i18n.team.noResults%></div>
             </div>
         </div>
-        <div class="create-new-team"><%= i18n.team.doYouWantToCreate %></div>
-        <a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/new?token=<%=token%>">
-                <span class="material-icons">add_circle_outline</span>
-        </a>
+
         <div>
             <% if (!turno.teams) { %>
                 <br/>
@@ -39,7 +36,11 @@
 
             <div>
             <div id="teamCarouselItems-hidden" class="hide"></div>
-                <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/users/<%= session.user.id %>/turnos/<%= turno.id %>/teams/xxxx?_method=put&token=<%=token%>'>
+            <div class="create-new-team"><%= i18n.team.doYouWantToCreate %></div>
+            <a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams/new?token=<%=token%>">
+                    <span class="material-icons">add_circle_outline</span>
+            </a>
+                <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams/xxxx?_method=put&token=<%=token%>'>
                     <div class="join-button-flex-container">
                         <a href="javascript:history.back()">
                             <button class="rounded deleteButton" type="button">
