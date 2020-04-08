@@ -10,14 +10,14 @@
 				<div class="escapeRoomItem">
 					<div class="erFoto" style="text-align: center">
 						<div class="bckgFoto" style="background-image: url(/apps/<%=app.key%>/thumbnail.png)"></div>
-						<div class="escapeRoomTitle"><%= app.name %></div>
+						<h2 class="escapeRoomTitle"><%= app.name %></h2>
 					</div>
 				</div>
 			</a>
 		<% } %>
 		<% if (user && user.isAdmin) { %>
 			<a href="/apps/new" class="escapeRoomItemWrapper animated bounceIn">
-				<div class="escapeRoomItem addEscapeRoom">
+				<div class="escapeRoomItem addEscapeRoom gugi">
 					<span>+</span>
 				</div>
 			</a>

@@ -12,7 +12,7 @@
 				<div class="escapeRoomItem">
 					<div class="erFoto" style="text-align: center">
 						<div class="bckgFoto" style="background-image: url(/apps/<%=resource.app.key%>/thumbnail.png)"></div>
-						<div class="escapeRoomTitle"><%= config.title || resource.app.name %></div>
+						<h2 class="escapeRoomTitle"><%= config.title || resource.app.name %></h2>
 					</div>
 	
 				</div>
@@ -21,7 +21,7 @@
         <% } %>
         <% if (user && !user.isStudent) { %>
             <a href="/resources/" class="escapeRoomItemWrapper animated bounceIn">
-                <div class="escapeRoomItem addEscapeRoom">
+                <div class="escapeRoomItem addEscapeRoom gugi">
                     <span>+</span>
                 </div>
             </a>

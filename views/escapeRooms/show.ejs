@@ -13,7 +13,7 @@
 
     <div class="menuERShow">
         <div class="menuERShowLeft">
-            <ul class="menuERactionList animated slideInLeft">
+            <ul class="menuERactionList animated slideInLeft gugi">
                 <li class="actionTitle"><%=i18n.showTeacher.actionList.edit%></li>
                     <li><a href="/escapeRooms/<%= escapeRoom.id %>/edit"><%=i18n.showTeacher.actionList.basic%> <span class="material-icons">keyboard_arrow_right</span></a></li>
                     <li><a href="/escapeRooms/<%= escapeRoom.id %>/turnos"><%=i18n.showTeacher.actionList.turnos%> <span class="material-icons">keyboard_arrow_right</span></a></li>
@@ -74,15 +74,19 @@
                         <%= escapeRoom.duration %> min.
                     </div>
                 </div>
-                <div class="flexRow animated slideInUp" style="animation-delay: 800ms;">
-                     <div class="flexShowLeft">
-                         <%=i18n.showTeacher.titles.description%>:
-                     </div>
-                     <div class="flexShowRight">
-                         <%= escapeRoom.description %>
-                     </div>
-                </div>
                 <%var delay = 1000%>
+                <% if (escapeRoom.description){ %>
+                    <% delay += 200 %>
+
+                    <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
+                        <div class="flexShowLeft">
+                            <%=i18n.showTeacher.titles.description%>:
+                        </div>
+                        <div class="flexShowRight">
+                            <%= escapeRoom.description %>
+                        </div>
+                    </div>
+                <% } %>
                 <% if (escapeRoom.nmax) { %>
                 <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
                     <% delay += 200 %>
@@ -107,7 +111,8 @@
                 <%}%>
             
             
-            
+                <% if (escapeRoom.turnos && escapeRoom.turnos.length) { %>
+                
                 <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
                     <% delay += 200 %>
                     <div class="flexShowLeft">
@@ -118,6 +123,7 @@
                         <%  include ../turnos/_indexShow  %>
                     </div>
                 </div>
+                <%}%>
                 <div class="flexRow animated slideInUp smallHidden" style="animation-delay: <%=delay%>ms;">
                     <% delay += 200 %>
                     <div class="flexShowLeft">
@@ -129,26 +135,26 @@
                     </div>
                     <div class="flexShowRight previewPuzzles">
                         <%if (escapeRoom.puzzles && escapeRoom.puzzles.length > 0) {%>
-                        <div class="flex-table-retos-wrapper">
-                            <div class="flex-table-retos animated jello">
-                                <div class="flex-row-retos flex-row-retos-title">
+                        <div class="flex-table-wrapper">
+                            <div class="flex-table animated jello">
+                                <div class="flex-row flex-row-title">
                                     <div class="flex-cell flex-cell-retos">
-                                        <%=i18n.escapeRoom.steps.puzzles.puzzleTitle%>:
+                                        <%=i18n.escapeRoom.steps.puzzles.puzzleTitle%>
                                     </div>
                                     <div class="flex-cell flex-cell-sol">
-                                        <%=i18n.escapeRoom.steps.puzzles.solution%>:
+                                        <%=i18n.escapeRoom.steps.puzzles.solution%>
                                     </div>
                                     <div class="flex-cell flex-cell-desc">
-                                        <%=i18n.escapeRoom.steps.puzzles.description%>:
+                                        <%=i18n.escapeRoom.steps.puzzles.description%>
                                     </div>
                                     <div class="flex-cell flex-cell-pista">
-                                        <%=i18n.escapeRoom.steps.puzzles.hints%>:
+                                        <%=i18n.escapeRoom.steps.puzzles.hints%>
                                     </div>
                                 </div>
                                 <% for(var reto in escapeRoom.puzzles) { %>
                                 <% var puzzle = escapeRoom.puzzles[reto] %>
         
-                                <div class="flex-row-retos">
+                                <div class="flex-row">
                                     <div class="flex-cell flex-cell-retos">
                                         <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="title"><%= puzzle.title%></div>
                                     </div>
@@ -181,7 +187,7 @@
                             </div>
                         </div>
                         <%} else {%>
-                            <%=i18n.escapeRoom.steps.puzzles.noPuzzlesYet%>:
+                            <%=i18n.escapeRoom.steps.puzzles.noPuzzlesYet%>
                         <%}%>
                     </div>
                 </div>

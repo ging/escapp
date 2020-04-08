@@ -7,6 +7,7 @@
 @import 'appearance'
 @import 'apps'
 @import 'calendar'
+@import 'charts'
 @import 'dialogs'
 @import 'escapeRoomCustomization'
 @import 'escapeRoomForm'
@@ -26,9 +27,9 @@
 @import 'puzzles'
 @import 'ranking'
 @import 'showStudent'
+@import 'table'
 @import 'timeline'
 @import 'resources'
-@import 'retosSuperados'
 @import 'teams'
 @import 'turnos'
 @import 'userForm'
@@ -56,11 +57,11 @@
   --dark: #{$darkerpurple}
 
 *
-  font-family: 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
   box-sizing: border-box
 html
   min-height: 100%
   background-color: $bckg
+  font-family: Lato, "Lucida Grande", Helvetica, Arial, sans-serif
   body
     min-height: 100%
     margin: 0
@@ -68,6 +69,8 @@ html
       color: white
       text-decoration: none
       font-weight: lighter
+    h1, h2, h3, h4, h5, h6, button, input, select, label, th, .gugi, .ui-dialog-titlebar
+      font-family: 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif
     h1, h2, h3
       font-weight: lighter
     h1
@@ -76,11 +79,10 @@ html
       font-size: 1.3em
     h3
       font-size: 1.1em
+    p, td, span
+      font-size: 1em
     p
-      font-family: Lato, sans-serif
       text-align: left
-      a
-				font-family: inherit
     p.centeredSmall
       font-size: 20px
       font-family: Gugi, sans-serif
@@ -105,9 +107,10 @@ html
       &:-webkit-autofill
           -webkit-box-shadow: 0 0 0 30px $mainpurple inset !important
           -webkit-text-fill-color: $textpurple !important
-          font-family: inherit !important
-      &:focus, &:active, &:-webkit-autofill:focus, &:-webkit-autofill:active
-        font-family: inherit !important
+          font-family: Gugi !important
+          
+      &:focus, &:active, &:-webkit-autofill:hover, &:-webkit-autofill:focus, &:-webkit-autofill:active, &-webkit-autofill::first-line 
+        font-family: Gugi !important
         background-color: $mainpurple
         color: white
         -webkit-text-fill-color: white !important

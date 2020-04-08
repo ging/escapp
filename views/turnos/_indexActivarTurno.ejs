@@ -25,12 +25,9 @@ const formatDate = function (currentDate) {
 %>
 <div class="main student" style="display: flex; justify-content: center; align-items: center;">
     <div class="dialog" >
-        <div style="font-size: xx-large;">
-            </br>
+        <h1 style="font-size: xx-large;">
             <%=i18n.turnos.selectActivate%>:
-            </br>
-            </br>
-        </div>        
+        </h1>        
         <%
         var pastDates = [];
         var firstDiv = false;
@@ -77,7 +74,7 @@ const formatDate = function (currentDate) {
 </div>
 <%}%>
 <div class="join-button-flex-container">
-    <form method='GET' id="form" action='/users/<%= session.user.id %>/escapeRooms'>
+    <form method='GET' id="form" action='/escapeRooms/<%= escapeRoom.id %>'>
         <button class="rounded deleteButton" type="submit" style="display:inline-block;"><%=i18n.common.cancel%></button>
     </form>
     <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/activar?_method=put'>

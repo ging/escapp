@@ -1,6 +1,6 @@
 <% include ../../partials/_header.ejs %>
 
-<div class="main retosSuperados">
+<div class="main grading">
     <div class="breadcrumbs-container">
         <div class="breadcrumbs">
             <a href="/escapeRooms"><%=i18n.common.my%></a>
@@ -33,17 +33,17 @@
                     <option value="name" <%= orderBy === "name" ? "selected": ""%>><%=i18n.user.name%></option>
                     <option value="surname" <%= orderBy === "surname" ? "selected": ""%>><%=i18n.user.surname%></option>
                 </select></label>
-            <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
-            <button type="submit" name="csv" value="1" class="filter-button white" >
+            <button type="submit" class="editButton filter-button" ><%=i18n.common.filter%></button>
+            <button type="submit" name="csv" value="1" class="acceptButton filter-button" >
                 <%=i18n.analytics.main.download%>
             </button>
-            <a class="editGradingScheme" href="/escapeRooms/<%=escapeRoom.id%>/evaluation">
+            <a class="editGradingScheme gugi" href="/escapeRooms/<%=escapeRoom.id%>/evaluation">
                 <%=i18n.analytics.grading.config%>
             </a>
         </div>
     </form>
     <br/>
-    <table>
+    <table class="mainTable">
         <tr class="animated fadeInRight">
             <th><%=i18n.user.name%></th>
             <th><%=i18n.turnos.Turno%></th>

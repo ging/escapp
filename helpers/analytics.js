@@ -40,9 +40,14 @@ exports.getRetosSuperadosIdTime = (retos, actualStartTime) => retos.map((reto) =
     return {"id": reto.id, time};
 });
 exports.getPuzzleOrderSuperados = async (team) => {
-    const retosSuperados = await team.getRetos({ "attributes": ["order"] });
+    const retosSuperados = await team.getRetos({ "attributes": ["order", "title", "correct", "sol"], "order": [["order", "ASC"]]});
 
-    return retosSuperados.length ? retosSuperados.map((r) => r.order + 1) : [];
+    return retosSuperados.length ? retosSuperados.map((r) => ({
+        "order": r.order + 1,
+        "name": r.title,
+        "msg": r.correct,
+        "solution": r.sol
+    })) : [];
 };
 
 exports.pctgRetosSuperados = (retosSuperados) => Math.round(retosSuperados.filter((r) => r === 1).length * 10000 / retosSuperados.length) / 100;

@@ -1,5 +1,5 @@
 <% include ../partials/_header.ejs %>
-<div class="main teams">
+<div class="main participants teams">
     <div class="breadcrumbs-container">
         <div class="breadcrumbs">
             <a href="/escapeRooms"><%=i18n.common.my%></a>
@@ -25,21 +25,21 @@
             </label>
             <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
             <a href="participants?turnId=<%=turnId%>"> 
-                <button type="button" id="teams-button" class="participants-button " name="see-as-participant"><%=i18n.participant.seeByParticipant%></button>
+                <button type="button" id="teams-button" class="participants-button see-button" name="see-as-participant"><%=i18n.participant.seeByParticipant%></button>
             </a>
         </div>
     </form>
 
-        <div class="flex-table-retos-wrapper">
-            <div class="flex-table-retos animated jello">
-                <div class="flex-row-retos flex-row-retos-title">
+        <div class="flex-table-wrapper">
+            <div class="flex-table animated jello">
+                <div class="flex-row flex-row-title">
                     <div class="flex-cell flex-name"><%=i18n.team.Team%></div>
                     <div class="flex-cell flex-turno"><%=i18n.turnos.Turno%></div>
                     <div class="flex-cell flex-participants"><%=i18n.participant.title%></div>
                 </div>
                 <% for (var p in teams) {
                     var team = teams[p]; %>
-                <div class="flex-row-retos">
+                <div class="flex-row">
                     <div class="flex-cell flex-name">
                         
                         <span><%= team.name %></span>
@@ -65,7 +65,7 @@
                 </div>
                 <% } %>
                 <% if (!teams || teams.length === 0) { %>
-                <div class="flex-row-retos">
+                <div class="flex-row">
                     <% if (turnId) {%>
                         <em class="no-teams"><%=i18n.team.emptyTurno%></em>
                     <% } else { %>

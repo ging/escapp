@@ -26,12 +26,12 @@
                     <% } %>
                 </select>
             </label>
-            <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
-            <button type="submit" name="csv" value="1" class="filter-button white" >    
+            <button type="submit" class="editButton filter-button" ><%=i18n.common.filter%></button>
+            <button type="submit" name="csv" value="1" class="acceptButton filter-button" >    
                 <%=i18n.analytics.main.download%>
             </button>
             <a href="participants">
-                <button  type="button" class="buttonTab inverse">
+                <button  type="button" class="buttonTab filter-button">
                     <%=i18n.participant.seeByParticipant%>
                 </button>  
             </a>
@@ -39,7 +39,7 @@
         </div>
     </form>
     <br/>
-    <table>
+    <table class="mainTable">
         <tr>
             <th><%=i18n.team.Team%></th>
             <th><%=i18n.team.Members%></th>

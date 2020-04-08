@@ -376,7 +376,7 @@
                 "hints": "Hints",
                 "manual": "Manual",
                 "noCluesYet": "You haven't defined any puzzles yet",
-                "noPuzzlesYet": "You haven't defined any hints yet",
+                "noPuzzlesYet": "You haven't defined any puzzles yet",
                 "notYet": "Please create a new puzzle before assigning it any hints",
                 "placeholder": "Select tracking mode",
                 "puzzleTitle": "Puzzle title",

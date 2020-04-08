@@ -42,7 +42,6 @@
           .card
             background-color: white
             color: $textpurple
-            font-family: Lato, sans-serif
             width: 25%
             margin: 15px
             padding: 20px
@@ -60,10 +59,9 @@
             &.avgReqHints
               color: $brightorange
             .card-title
-              font-family: inherit
-              font-weight: bold
+              font-family: Gugi, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+              margin-bottom: 10px
             .card-content
-              font-family: inherit
               color: $textpurple
             .card-icon
               float: right
@@ -72,59 +70,18 @@
         .la-chart-title
           font-size: 20px
           padding-left: 20px
-  .apexcharts-canvas
-    *
-      font-family: "Lato", sans-serif !important
-      color: $textpurple
-  .apexcharts-xaxis-label
-    fill: white !important
-    font-family: "Lato", sans-serif !important
-  .apexcharts-yaxis-label
-    fill: white !important
-    font-family: "Lato", sans-serif !important
-
-  .apexcharts-legend-text
-    color: white !important
-    font-family: "Lato", sans-serif !important
-  .apexcharts-tooltip.light
-    background: white
-    border-color: white !important
-    border-radius: 0px  
-    .apexcharts-tooltip-title
-      background: white
-      max-width: 40vw
-      text-overflow: ellipsis
-      overflow: hidden
-#hints-chart
-  *
-    color: $textpurple
-    font-family: "Lato", sans-serif !important
-    font-size: 12px !important
-  &.timeline, &.summary
-    .apexcharts-xaxis-label, .apexcharts-yaxis-label
-      fill: white !important
-    .apexcharts-legend-text
-      color: white !important
-      font-family: Lato, sans-serif
-    .apexcharts-tooltip
-      color: $textpurple
-      &.light
-        background: white
-        border-radius: 0px
-      .apexcharts-tooltip-title
-        background: white
-        
-    .apexcharts-menu
-      background-color: white
-      border-radius: 0px
-      .apexcharts-menu-item
-        color: $textpurple
-        font-family: Lato, sans-serif
-    .apexcharts-menu-icon svg
-      fill: white !important
-    .filters
-      .filter-button
-        border-radius: 50px
+  &.grading
+    .editGradingScheme
+      vertical-align: baseline
+      padding-left: 50px
+      display: inline-block
+  &.retosSuperados, &.grading
+    overflow-x: hidden
+  .filters
+    .filter-button
+      font-size: 16px
+      border-radius: 20px
+      border-width: 2px
     .title
       font-weight: lighter
       font-size: 25px
@@ -138,3 +95,4 @@
           .card-container
             .card
               width: 32%
+   

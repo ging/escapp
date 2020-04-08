@@ -35,21 +35,21 @@
                     <option value="surname" <%= orderBy === "surname" ? "selected": ""%>><%=i18n.user.surname%></option>
                 </select></label>
             <% } %>    
-            <button type="submit" class="filter-button white" >
+            <button type="submit" class="editButton filter-button" >
                 <%=i18n.common.filter%>
             </button>
-            <button type="submit" name="csv" value="1" class="filter-button white" >
+            <button type="submit" name="csv" value="1" class="acceptButton filter-button" >
                 <%=i18n.analytics.main.download%>
             </button>
             <% if (single) { %> 
                 <a href="teams">
-                    <button type="button" class="filter-button inverse">
+                    <button type="button" class="filter-button">
                         <%=i18n.team.seeByTeam%>
                     </button>
                 </a>
             <% } else {%>    
                 <a href="participants">
-                    <button type="button" class="filter-button inverse">
+                    <button type="button" class="filter-button">
                         <%=i18n.participant.seeByParticipant%>
                     </button>
                 </a>

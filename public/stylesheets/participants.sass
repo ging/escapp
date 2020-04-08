@@ -1,9 +1,9 @@
 #mainSection .main.participants
-  .flex-table-retos-wrapper
+  .flex-table-wrapper
     margin: 10px 0px
-    .flex-table-retos
+    .flex-table
       overflow: visible
-      .flex-row-retos
+      .flex-row
         .flex-cell
           &.flex-name
             width: 15%
@@ -25,7 +25,7 @@
             border-right: none
             .attendance-checkbox
               width: 20px
-        &:not(.flex-row-retos-title)
+        &:not(.flex-row-title)
           .flex-cell
             font-family: 'Lato', sans-serif
             padding: 5px
@@ -82,13 +82,18 @@
           color: $darkerpurple
           border-color: $brightyellow
           border-style: solid
+        &.filter-button
+          background-color: white
+          color: $darkerpurple
+          border-color: white
+          border-style: solid
+        &.see-button
+          background-color: $brightblue
+          color: $darkerpurple
+          border-color: $brightblue
+          border-style: solid
   .no-participants
     display: block
-    font-family: Lato, sans-serif
     text-align: center
     width: 100%
     padding: 15px
-.total-number
-  font-family: Lato, sans-serif
-  b
-    font-family: Lato, sans-serif

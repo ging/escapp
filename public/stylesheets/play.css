@@ -163,6 +163,7 @@ p {
   /*background-color: var(--primary);*/
   font-weight: bolder;
 }
+
 .ranking-table .ranking-row.myTeam {
   color: var(--success);
 }

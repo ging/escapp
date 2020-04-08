@@ -122,21 +122,21 @@ button, input[type="submit"] {
   button[type=submit], input[type="submit"][type=submit] {
     cursor: pointer; }
 
-#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto, #mainSection .main #add-reto, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team {
+#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto, #mainSection .main #add-reto, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team {
   transition: 0.1s all ease-in; }
-  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus, #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team:focus {
+  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant:hover, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant:active, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant:focus, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team:focus {
     -webkit-transform: scale(1.2);
     -ms-transform: scale(1.2);
     transform: scale(1.2); }
 
-#mainSection .main.participants .filters input[type=submit], #mainSection .main.participants .filters button, .retosSuperados input[type=submit], .retosSuperados button, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom, #mainSection .main.student .dialog .teamCarouselItem:not(.disabled):hover, #mainSection .main .overlay-trigger button, #mainSection .main.teams .filters input[type=submit], #mainSection .main.teams .filters button, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:not(.disabled):not(.finished):hover {
+#mainSection .main.participants .filters input[type=submit], #mainSection .main.participants .filters button, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom, #mainSection .main.student .dialog .teamCarouselItem:not(.disabled):hover, #mainSection .main .overlay-trigger button, #mainSection .main.teams .filters input[type=submit], #mainSection .main.teams .filters button, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:not(.disabled):not(.finished):hover {
   transition: 0.1s all ease-in; }
-  #mainSection .main.participants .filters input:hover[type=submit], #mainSection .main.participants .filters button:hover, .retosSuperados input:hover[type=submit], .retosSuperados button:hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:hover, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:hover, #mainSection .main.student .dialog .teamCarouselItem:hover:not(.disabled), #mainSection .main .overlay-trigger button:hover, #mainSection .main.teams .filters input:hover[type=submit], #mainSection .main.teams .filters button:hover, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:hover, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:hover:not(.disabled):not(.finished), #mainSection .main .flexBoxTurnos .turno.turnoProfe:hover:not(.disabled):not(.finished), #mainSection .main.participants .filters input:active[type=submit], #mainSection .main.participants .filters button:active, .retosSuperados input:active[type=submit], .retosSuperados button:active, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:active, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:active, #mainSection .main.student .dialog .teamCarouselItem:active:not(.disabled):hover, #mainSection .main .overlay-trigger button:active, #mainSection .main.teams .filters input:active[type=submit], #mainSection .main.teams .filters button:active, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:active, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:active:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:active:not(.disabled):not(.finished):hover, #mainSection .main.participants .filters input:focus[type=submit], #mainSection .main.participants .filters button:focus, .retosSuperados input:focus[type=submit], .retosSuperados button:focus, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:focus, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:focus, #mainSection .main.student .dialog .teamCarouselItem:focus:not(.disabled):hover, #mainSection .main .overlay-trigger button:focus, #mainSection .main.teams .filters input:focus[type=submit], #mainSection .main.teams .filters button:focus, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:focus, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:focus:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:focus:not(.disabled):not(.finished):hover {
+  #mainSection .main.participants .filters input:hover[type=submit], #mainSection .main.participants .filters button:hover, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:hover, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:hover, #mainSection .main.student .dialog .teamCarouselItem:hover:not(.disabled), #mainSection .main .overlay-trigger button:hover, #mainSection .main.teams .filters input:hover[type=submit], #mainSection .main.teams .filters button:hover, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:hover, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:hover:not(.disabled):not(.finished), #mainSection .main .flexBoxTurnos .turno.turnoProfe:hover:not(.disabled):not(.finished), #mainSection .main.participants .filters input:active[type=submit], #mainSection .main.participants .filters button:active, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:active, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:active, #mainSection .main.student .dialog .teamCarouselItem:active:not(.disabled):hover, #mainSection .main .overlay-trigger button:active, #mainSection .main.teams .filters input:active[type=submit], #mainSection .main.teams .filters button:active, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:active, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:active:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:active:not(.disabled):not(.finished):hover, #mainSection .main.participants .filters input:focus[type=submit], #mainSection .main.participants .filters button:focus, #mainSection .main.step-appearance .half-flex-container .left-half-flex .buttonApp:focus, .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem:focus, #mainSection .main.student .dialog .teamCarouselItem:focus:not(.disabled):hover, #mainSection .main .overlay-trigger button:focus, #mainSection .main.teams .filters input:focus[type=submit], #mainSection .main.teams .filters button:focus, #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno.turno-play:focus, #mainSection .main .flexBoxTurnos .turno.turnoAlumno:focus:not(.disabled):not(.finished):hover, #mainSection .main .flexBoxTurnos .turno.turnoProfe:focus:not(.disabled):not(.finished):hover {
     -webkit-transform: scale(0.8);
     -ms-transform: scale(0.8);
     transform: scale(0.8); }
 
-#mainSection .main.participants .filters input[type=submit], #mainSection .main.participants .filters button, .retosSuperados input[type=submit], .retosSuperados button {
+#mainSection .main.participants .filters input[type=submit], #mainSection .main.participants .filters button {
   outline: 0;
   cursor: pointer;
   border-radius: 20px;
@@ -185,7 +185,6 @@ button, input[type="submit"] {
       .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card {
         background-color: white;
         color: #656683;
-        font-family: Lato, sans-serif;
         width: 25%;
         margin: 15px;
         padding: 20px;
@@ -203,10 +202,9 @@ button, input[type="submit"] {
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card.avgReqHints {
           color: #F3945E; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card .card-title {
-          font-family: inherit;
-          font-weight: bold; }
+          font-family: Gugi, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+          margin-bottom: 10px; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card .card-content {
-          font-family: inherit;
           color: #656683; }
         .main.summary .flex-container.analytics-menu .flex-container-right .card-container .card .card-icon {
           float: right; }
@@ -216,66 +214,20 @@ button, input[type="submit"] {
       font-size: 20px;
       padding-left: 20px; }
 
-.main .apexcharts-canvas * {
-  font-family: "Lato", sans-serif !important;
-  color: #656683; }
+.main.grading .editGradingScheme {
+  vertical-align: baseline;
+  padding-left: 50px;
+  display: inline-block; }
 
-.main .apexcharts-xaxis-label {
-  fill: white !important;
-  font-family: "Lato", sans-serif !important; }
+.main.retosSuperados, .main.grading {
+  overflow-x: hidden; }
 
-.main .apexcharts-yaxis-label {
-  fill: white !important;
-  font-family: "Lato", sans-serif !important; }
+.main .filters .filter-button {
+  font-size: 16px;
+  border-radius: 20px;
+  border-width: 2px; }
 
-.main .apexcharts-legend-text {
-  color: white !important;
-  font-family: "Lato", sans-serif !important; }
-
-.main .apexcharts-tooltip.light {
-  background: white;
-  border-color: white !important;
-  border-radius: 0px; }
-  .main .apexcharts-tooltip.light .apexcharts-tooltip-title {
-    background: white;
-    max-width: 40vw;
-    text-overflow: ellipsis;
-    overflow: hidden; }
-
-#hints-chart * {
-  color: #656683;
-  font-family: "Lato", sans-serif !important;
-  font-size: 12px !important; }
-
-#hints-chart.timeline .apexcharts-xaxis-label, #hints-chart.timeline .apexcharts-yaxis-label, #hints-chart.summary .apexcharts-xaxis-label, #hints-chart.summary .apexcharts-yaxis-label {
-  fill: white !important; }
-
-#hints-chart.timeline .apexcharts-legend-text, #hints-chart.summary .apexcharts-legend-text {
-  color: white !important;
-  font-family: Lato, sans-serif; }
-
-#hints-chart.timeline .apexcharts-tooltip, #hints-chart.summary .apexcharts-tooltip {
-  color: #656683; }
-  #hints-chart.timeline .apexcharts-tooltip.light, #hints-chart.summary .apexcharts-tooltip.light {
-    background: white;
-    border-radius: 0px; }
-  #hints-chart.timeline .apexcharts-tooltip .apexcharts-tooltip-title, #hints-chart.summary .apexcharts-tooltip .apexcharts-tooltip-title {
-    background: white; }
-
-#hints-chart.timeline .apexcharts-menu, #hints-chart.summary .apexcharts-menu {
-  background-color: white;
-  border-radius: 0px; }
-  #hints-chart.timeline .apexcharts-menu .apexcharts-menu-item, #hints-chart.summary .apexcharts-menu .apexcharts-menu-item {
-    color: #656683;
-    font-family: Lato, sans-serif; }
-
-#hints-chart.timeline .apexcharts-menu-icon svg, #hints-chart.summary .apexcharts-menu-icon svg {
-  fill: white !important; }
-
-#hints-chart.timeline .filters .filter-button, #hints-chart.summary .filters .filter-button {
-  border-radius: 50px; }
-
-#hints-chart.timeline .title, #hints-chart.summary .title {
+.main .filters .title {
   font-weight: lighter;
   font-size: 25px; }
 
@@ -432,6 +384,45 @@ button, input[type="submit"] {
     border-radius: 50%;
     color: black; }
 
+.apexcharts-canvas * {
+  font-family: "Lato", sans-serif !important;
+  color: #656683; }
+
+.apexcharts-xaxis-label, .apexcharts-yaxis-label, .apexcharts-legend-text {
+  color: white !important;
+  fill: white !important; }
+
+.apexcharts-tooltip-title {
+  background: white !important;
+  color: #161938;
+  font-weight: bold;
+  border-width: 0;
+  max-width: 40vw;
+  text-overflow: ellipsis;
+  overflow: hidden; }
+
+.apexcharts-menu-icon svg, .apexcharts-menu-icon:hover svg {
+  fill: white !important; }
+
+.apexcharts-tooltip {
+  color: #656683;
+  background-color: white !important;
+  fill: white !important; }
+  .apexcharts-tooltip.light {
+    background: white;
+    border-color: white !important;
+    border-radius: 0px; }
+  .apexcharts-tooltip .apexcharts-tooltip-title {
+    background: white;
+    border: none; }
+
+.apexcharts-menu {
+  background-color: white;
+  border-radius: 0px; }
+  .apexcharts-menu .apexcharts-menu-itemss {
+    color: #656683;
+    font-family: Lato, sans-serif; }
+
 .main #dialog-preview-video, .main #dialog-preview-api, .main #dialog-share {
   padding: 0;
   background-color: white;
@@ -455,7 +446,6 @@ button, input[type="submit"] {
   margin-bottom: -4px; }
   .main #dialog-preview-api .api-table td, .main #dialog-preview-api .api-table th, .main #dialog-share .api-table td, .main #dialog-share .api-table th {
     font-size: 14px;
-    font-family: 'Lato', sans-serif;
     color: #656683; }
     .main #dialog-preview-api .api-table td code, .main #dialog-preview-api .api-table th code, .main #dialog-share .api-table td code, .main #dialog-share .api-table th code {
       font-family: monospace;
@@ -471,7 +461,6 @@ button, input[type="submit"] {
     font-family: monospace;
     background-color: #656683; }
   .main #dialog-preview-api .show_link, .main #dialog-share .show_link {
-    font-family: 'Lato', sans-serif;
     color: #161938;
     text-decoration: underline;
     text-underline-position: under; }
@@ -490,20 +479,16 @@ button, input[type="submit"] {
   .main #dialog-preview-api .qr, .main #dialog-share .qr {
     color: #F47E84; }
   .main #dialog-preview-api .join-instructions, .main #dialog-share .join-instructions {
-    font-family: 'Lato', sans-serif;
     font-size: 18px;
     color: #161938; }
     .main #dialog-preview-api .join-instructions .fullscreen, .main #dialog-share .join-instructions .fullscreen {
-      font-family: Lato;
       line-height: 43px; }
       .main #dialog-preview-api .join-instructions .fullscreen #fullscreen-check, .main #dialog-share .join-instructions .fullscreen #fullscreen-check {
         vertical-align: bottom; }
   .main #dialog-preview-api a, .main #dialog-share a {
-    color: #48C18E;
-    font-family: inherit; }
+    color: #48C18E; }
   .main #dialog-preview-api .hl, .main #dialog-share .hl {
-    color: #36A2EB;
-    font-family: inherit; }
+    color: #36A2EB; }
 
 .main .ui-dialog {
   outline: none !important; }
@@ -567,17 +552,9 @@ button, input[type="submit"] {
       font-size: 24px;
       flex: 1;
       color: #656683;
-      font-family: 'Lato', sans-serif;
       line-height: 32px;
       word-break: break-word; }
-      #mainSection .main .flexShow .flexRow .flexShowRight.instructionsPreview {
-        font-family: 'Lato', sans-serif; }
-        #mainSection .main .flexShow .flexRow .flexShowRight.instructionsPreview * {
-          font-family: inherit; }
-      #mainSection .main .flexShow .flexRow .flexShowRight .show_link {
-        font-family: inherit; }
       #mainSection .main .flexShow .flexRow .flexShowRight em {
-        font-family: inherit;
         opacity: 0.3; }
       #mainSection .main .flexShow .flexRow .flexShowRight img {
         width: 250px;
@@ -767,7 +744,8 @@ button, input[type="submit"] {
               transform: scale(0.9); }
   #mainSection .main.escapeRoomShow .flexShow .flexRow .flexShowLeft {
     width: 170px;
-    line-height: 37px; }
+    line-height: 37px;
+    font-family: Gugi, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; }
   #mainSection .main.escapeRoomShow .flexShow .flexRow .flexShowRight {
     color: white;
     font-weight: lighter; }
@@ -795,8 +773,7 @@ button, input[type="submit"] {
     #mainSection .main.escapeRoomShow #dialog-preview-api h5, #mainSection .main.escapeRoomShow #dialog-preview-api h6, #mainSection .main.escapeRoomShow #dialog-share h5, #mainSection .main.escapeRoomShow #dialog-share h6 {
       color: #232850; }
     #mainSection .main.escapeRoomShow #dialog-preview-api h6, #mainSection .main.escapeRoomShow #dialog-share h6 {
-      margin-bottom: 0px;
-      font-family: Lato, sans-serif; }
+      margin-bottom: 0px; }
     #mainSection .main.escapeRoomShow #dialog-preview-api .api-table tr.first, #mainSection .main.escapeRoomShow #dialog-share .api-table tr.first {
       border-top: 2px solid grey; }
     #mainSection .main.escapeRoomShow #dialog-preview-api .api-table td, #mainSection .main.escapeRoomShow #dialog-preview-api .api-table th, #mainSection .main.escapeRoomShow #dialog-share .api-table td, #mainSection .main.escapeRoomShow #dialog-share .api-table th {
@@ -955,6 +932,7 @@ button, input[type="submit"] {
         color: WHITE;
         padding: 9px;
         border-radius: 50%;
+        line-height: 1px;
         background-color: #48C18E; }
         .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem .sign.add {
           background-color: #FAC855; }
@@ -973,7 +951,8 @@ button, input[type="submit"] {
           text-overflow: ellipsis;
           overflow: hidden;
           padding-top: 5px;
-          font-size: 16px; }
+          font-size: 16px;
+          margin: 0px; }
       .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom {
         background-color: #9196A9;
         color: #D2D4DC;
@@ -1446,6 +1425,8 @@ button, input[type="submit"] {
       font-size: 22px; }
   #mainSection .main.step-instructions .editor-wrapper > * {
     font-family: Lato, sans-serif; }
+  #mainSection .main.step-instructions .editor-wrapper .ql-toolbar > * {
+    font-family: Gugi; }
   #mainSection .main.step-instructions .editor-wrapper #editor {
     min-height: 300px; }
     #mainSection .main.step-instructions .editor-wrapper #editor.ql-container {
@@ -1480,7 +1461,6 @@ button, input[type="submit"] {
 #mainSection .main.step-instructions .ui-dialog-title {
   line-height: 50px;
   padding-left: 15px;
-  color: #656683;
   font-size: 22px; }
 
 #mainSection .main.step-instructions .ui-dialog-titlebar-close {
@@ -1562,7 +1542,9 @@ button, input[type="submit"] {
     #mainSection .main.step-instructions #assetsForm .dz-preview .dz-image img {
       object-fit: cover;
       height: 100%;
-      opacity: 0; }
+      opacity: 0;
+      border-radius: 20px;
+      border: 5px solid white; }
     #mainSection .main.step-instructions #assetsForm .dz-preview .dz-image img[src] {
       opacity: 1; }
   #mainSection .main.step-instructions #assetsForm .dz-preview .dz-filename span {
@@ -1668,7 +1650,6 @@ button, input[type="submit"] {
         display: flex;
         justify-content: center;
         align-items: center;
-        font-family: 'Lato', sans-serif;
         overflow: hidden;
         padding: 10px; }
         #mainSection .main.step-instructions ranking .ranking-table .ranking-row div b, #mainSection .main.step-instructions ranking .ranking-table .ranking-row div span {
@@ -1970,7 +1951,7 @@ button, input[type="submit"] {
     #mainSection .main.student .dialog #teamCarouselItems-hidden {
       display: none; }
     #mainSection .main.student .dialog h1 {
-      font-size: 26px; }
+      font-size: 1.1em; }
     #mainSection .main.student .dialog .add-team i {
       color: #656683;
       font-size: 28px; }
@@ -1992,7 +1973,8 @@ button, input[type="submit"] {
     overflow: hidden;
     width: 200px;
     max-width: 100%;
-    min-width: 50%; }
+    min-width: 50%;
+    font-family: Gugi; }
   #mainSection .main.student .typePasscode {
     font-size: 18px; }
   #mainSection .main.student .findTeam {
@@ -2064,7 +2046,8 @@ button, input[type="submit"] {
       text-overflow: ellipsis;
       overflow: hidden;
       flex: 1;
-      text-align: right; }
+      text-align: right;
+      font-family: Gugi; }
     #mainSection #mainHeader .inputFormField {
       margin-bottom: 5px; }
       #mainSection #mainHeader .inputFormField label {
@@ -2084,7 +2067,6 @@ button, input[type="submit"] {
       margin-bottom: 30px;
       align-self: left; }
       #mainSection .main .breadcrumbs-container .breadcrumbs a, #mainSection .main .breadcrumbs-container .breadcrumbs span:not(.material-icons) {
-        font-family: Lato, sans-serif;
         display: inline-block;
         font-size: 18px; }
       #mainSection .main .breadcrumbs-container .breadcrumbs a:hover {
@@ -2094,7 +2076,6 @@ button, input[type="submit"] {
       #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select {
         border: none;
         color: white;
-        font-family: Lato, sans-serif;
         -webkit-appearance: menulist;
         width: 200px;
         text-overflow: ellipsis;
@@ -2103,11 +2084,13 @@ button, input[type="submit"] {
         color: white;
         -webkit-text-fill-color: white !important;
         -webkit-text-stroke-color: white;
-        background: none; }
+        background: none;
+        font-family: Lato; }
+        #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:active, #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:focus, #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:hover {
+          font-family: Lato; }
         #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select option {
           background: white;
-          color: #161938;
-          font-family: Lato, sans-serif; }
+          color: #161938; }
     #mainSection .main footer {
       margin-left: -35px; }
     #mainSection .main .align-right {
@@ -2171,41 +2154,41 @@ button, input[type="submit"] {
   #mainSection #mainHeader #logoUpm, #mainSection #mainFooter #logoUpm {
     width: 14%; } }
 
-#mainSection .main.participants .flex-table-retos-wrapper {
+#mainSection .main.participants .flex-table-wrapper {
   margin: 10px 0px; }
-  #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos {
+  #mainSection .main.participants .flex-table-wrapper .flex-table {
     overflow: visible; }
-    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-name {
+    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-name {
       width: 15%; }
-    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-surname {
+    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-surname {
       width: 15%; }
-    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-username {
+    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-username {
       width: 15%;
       text-overflow: ellipsis;
       white-space: pre;
       overflow: hidden; }
-    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-dni {
+    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-dni {
       width: 15%; }
-    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-gender {
+    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-gender {
       width: 15%; }
-    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-turno {
+    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-turno {
       width: 13%; }
-    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-attendance {
+    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-attendance {
       width: 12%;
       border-right: none; }
-      #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-attendance .attendance-checkbox {
+      #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-attendance .attendance-checkbox {
         width: 20px; }
-    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos:not(.flex-row-retos-title) .flex-cell {
+    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row:not(.flex-row-title) .flex-cell {
       font-family: 'Lato', sans-serif;
       padding: 5px;
       display: flex;
       justify-content: center;
       align-items: center; }
-      #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .flex-row-retos:not(.flex-row-retos-title) .flex-cell span {
+      #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row:not(.flex-row-title) .flex-cell span {
         text-overflow: ellipsis;
         overflow: hidden;
         font-family: 'Lato', sans-serif; }
-    #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant {
+    #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant {
       position: absolute;
       left: 0;
       margin-left: -65px;
@@ -2213,21 +2196,21 @@ button, input[type="submit"] {
       width: 62px;
       text-align: right;
       color: white; }
-      #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .overlay-trigger {
+      #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .overlay-trigger {
         left: 30px;
         top: 35px; }
-      #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant form {
+      #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant form {
         display: inline-block; }
-      #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant {
+      #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant {
         background: transparent;
         border: none;
         color: white;
         padding: 2px; }
-        #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant .material-icons {
+        #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant .material-icons {
           background: transparent;
           border: none;
           color: white; }
-        #mainSection .main.participants .flex-table-retos-wrapper .flex-table-retos .operations-participant .delete-participant.hidden {
+        #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant.hidden {
           display: none; }
 
 #mainSection .main.participants .filters input[type=submit].participants-button.download-button, #mainSection .main.participants .filters button.participants-button.download-button {
@@ -2248,17 +2231,23 @@ button, input[type="submit"] {
   border-color: #FAC855;
   border-style: solid; }
 
+#mainSection .main.participants .filters input[type=submit].participants-button.filter-button, #mainSection .main.participants .filters button.participants-button.filter-button {
+  background-color: white;
+  color: #161938;
+  border-color: white;
+  border-style: solid; }
+
+#mainSection .main.participants .filters input[type=submit].participants-button.see-button, #mainSection .main.participants .filters button.participants-button.see-button {
+  background-color: #36A2EB;
+  color: #161938;
+  border-color: #36A2EB;
+  border-style: solid; }
+
 #mainSection .main.participants .no-participants {
   display: block;
-  font-family: Lato, sans-serif;
   text-align: center;
   width: 100%;
   padding: 15px; }
-
-.total-number {
-  font-family: Lato, sans-serif; }
-  .total-number b {
-    font-family: Lato, sans-serif; }
 
 .portada + #mainHeader {
   position: absolute;
@@ -2479,10 +2468,10 @@ button, input[type="submit"] {
 #mainSection .main #add-puzzle-form {
   text-align: right; }
 
-#mainSection .main .flex-table-retos-wrapper {
+#mainSection .main .flex-table-wrapper {
   position: relative;
   overflow: visible; }
-  #mainSection .main .flex-table-retos-wrapper .flex-table-retos {
+  #mainSection .main .flex-table-wrapper .flex-table {
     display: flex;
     flex-direction: column;
     background-color: #9091A6;
@@ -2492,32 +2481,33 @@ button, input[type="submit"] {
     overflow: visible;
     font-size: 18px;
     word-break: break-word; }
-    #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos {
+    #mainSection .main .flex-table-wrapper .flex-table .flex-row {
       display: flex;
       flex-direction: row;
       border-top: 3px solid white; }
-      #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos.flex-row-retos-title {
+      #mainSection .main .flex-table-wrapper .flex-table .flex-row.flex-row-title {
         background-color: #161938;
         color: white;
-        border-top: none; }
-        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos.flex-row-retos-title .flex-cell {
+        border-top: none;
+        border-radius: 8px 8px 0px 0px; }
+        #mainSection .main .flex-table-wrapper .flex-table .flex-row.flex-row-title .flex-cell {
           font-family: 'Gugi', sans-serif !important;
           padding: 20px; }
-      #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell {
+      #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell {
         text-align: center;
         border-right: 3px solid white; }
-        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-retos {
+        #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-cell-retos {
           width: 20%; }
-        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-sol {
+        #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-cell-sol {
           width: 20%; }
-          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-sol .retoTextArea:empty:before {
+          #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-cell-sol .retoTextArea:empty:before {
             content: 'xxxx'; }
-        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-desc {
+        #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-cell-desc {
           width: 24%; }
-        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-cell-pista {
+        #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-cell-pista {
           width: 36%;
           border-right: none; }
-        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea {
+        #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea {
           padding: 20px;
           font-family: 'Lato', sans-serif !important;
           font-size: 16px;
@@ -2529,84 +2519,84 @@ button, input[type="submit"] {
           resize: none;
           outline: none;
           display: inline-block; }
-          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.retoEditable, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea[contenteditable] {
+          #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.retoEditable, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea[contenteditable] {
             background-color: #656683;
             color: #9091A6; }
-          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea .no-pistas {
+          #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea .no-pistas {
             cursor: not-allowed;
             font-style: italic; }
-          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea:empty:before {
+          #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea:empty:before {
             content: 'Escribe aquí...';
             opacity: 0.5;
             display: block; }
-          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea:focus:before {
+          #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea:focus:before {
             content: '' !important; }
-          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell {
+          #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell {
             padding: 0;
             background-color: #656683; }
-            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell.hints-cell-preview {
+            #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell.hints-cell-preview {
               background-color: inherit; }
-              #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell.hints-cell-preview ul {
+              #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell.hints-cell-preview ul {
                 padding-left: 0px; }
-                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell.hints-cell-preview ul li {
+                #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell.hints-cell-preview ul li {
                   margin-left: 30px; }
-            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell *:not(.material-icons) {
+            #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell *:not(.material-icons) {
               font-family: inherit; }
-            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .hint-text-preview {
+            #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .hint-text-preview {
               text-align: left; }
-            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .no-pistas-preview {
+            #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .no-pistas-preview {
               padding: 0px;
               font-style: italic; }
-            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints {
+            #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints {
               padding: 0;
               list-style: none;
               margin: 0px; }
-              #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li {
+              #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li {
                 padding: 0px;
                 background-color: #9091A6;
                 border-bottom: 3px solid white;
                 display: flex; }
-                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li.editable {
+                #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li.editable {
                   background-color: #656683;
                   color: #9091A6; }
-                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li.no-pistas {
+                #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li.no-pistas {
                   font-style: italic;
                   padding: 6px;
                   line-height: 25px;
                   justify-content: center; }
-                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hint-text-preview {
+                #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hint-text-preview {
                   padding: 5px; }
-                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li form.formLeft {
+                #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li form.formLeft {
                   display: flex;
                   flex: 1;
                   align-items: flex-start; }
-                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li form span {
+                #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li form span {
                   flex: 1;
                   padding: 6px;
                   line-height: 25px;
                   margin-left: 50px; }
-                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint {
+                #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint {
                   border: none;
                   background: transparent;
                   padding: 6px;
                   color: white; }
-                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hidden {
+                #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hidden {
                   display: none; }
-                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hiddenInputPistaEdit {
+                #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hiddenInputPistaEdit {
                   flex: 1;
                   border: none;
                   background: transparent;
                   font-size: 16px;
                   -webkit-text-fill-color: #9091A6 !important; }
-                  #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hiddenInputPistaEdit:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hiddenInputPistaEdit:active {
+                  #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hiddenInputPistaEdit:focus, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .hiddenInputPistaEdit:active {
                     color: white;
                     -webkit-text-fill-color: white !important; }
-            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint {
+            #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-new-hint {
               background-color: #656683;
               color: #161938; }
-              #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form {
+              #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-new-hint form {
                 display: flex; }
-                #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form input {
+                #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-new-hint form input {
                   flex: 1;
                   font-style: inherit;
                   font-family: inherit;
@@ -2618,18 +2608,18 @@ button, input[type="submit"] {
                   height: 36px;
                   min-width: 0px;
                   -webkit-text-fill-color: #9091A6 !important; }
-                  #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form input:-webkit-autofill {
+                  #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-new-hint form input:-webkit-autofill {
                     -webkit-box-shadow: 0 0 0 30px #656683 inset !important;
                     -webkit-text-fill-color: #9091A6 !important;
                     color: #9091A6; }
-                  #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form input:focus, #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form input:active {
+                  #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-new-hint form input:focus, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-new-hint form input:active {
                     color: white;
                     -webkit-text-fill-color: white !important; }
-                  #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-new-hint form input::placeholder {
+                  #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-new-hint form input::placeholder {
                     content: 'Escribe aquí...';
                     opacity: 0.5;
                     display: block; }
-            #mainSection .main .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell .retoTextArea.hints-cell .add-hint {
+            #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint {
               font-style: inherit;
               font-family: inherit;
               font-size: inherit;
@@ -2639,21 +2629,21 @@ button, input[type="submit"] {
               padding: 6px;
               vertical-align: bottom;
               background-color: transparent; }
-    #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto {
+    #mainSection .main .flex-table-wrapper .flex-table .operations-reto {
       position: absolute;
       left: 0;
       margin-left: -65px;
       margin-top: 8px;
       width: 62px;
       text-align: right; }
-      #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form {
+      #mainSection .main .flex-table-wrapper .flex-table .operations-reto form {
         display: inline-block; }
-        #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto {
+        #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto {
           background: transparent;
           border: none;
           color: white;
           padding: 2px; }
-          #mainSection .main .flex-table-retos-wrapper .flex-table-retos .operations-reto form .delete-reto.hidden {
+          #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto.hidden {
             display: none; }
 
 #mainSection .main #add-reto {
@@ -2725,51 +2715,55 @@ button, input[type="submit"] {
         max-height: 33vmin; }
       .ranking .content .podium.started .podium-col.third .podium-rect {
         max-height: 23vmin; }
-    .ranking .content .filters {
-      text-align: left; }
-    .ranking .content .ranking-table {
+  .ranking .filters {
+    text-align: left; }
+  .ranking .ranking-table {
+    width: 100%;
+    position: relative;
+    border: 2px solid white;
+    border-radius: 22px 22px 0px 0px; }
+    .ranking .ranking-table .ranking-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      position: absolute;
       width: 100%;
-      position: relative;
-      border: 2px solid white;
-      border-radius: 22px 22px 0px 0px; }
-      .ranking .content .ranking-table .ranking-row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        position: absolute;
-        width: 100%;
-        height: 75px;
-        background-color: #9091A6;
-        color: #161938;
-        border: 2px solid white; }
-        .ranking .content .ranking-table .ranking-row.ranking-header {
-          background-color: #161938;
-          color: white;
-          border-radius: 20px 20px 0px 0px; }
-        .ranking .content .ranking-table .ranking-row.myTeam {
+      height: 75px;
+      background-color: #9091A6;
+      color: #161938;
+      border: 2px solid white; }
+      .ranking .ranking-table .ranking-row.ranking-header {
+        background-color: #161938;
+        color: white;
+        border-radius: 20px 20px 0px 0px; }
+        .ranking .ranking-table .ranking-row.ranking-header > div {
+          font-family: Gugi; }
+      .ranking .ranking-table .ranking-row.myTeam {
+        background-color: #F47E84; }
+        .ranking .ranking-table .ranking-row.myTeam.won {
           background-color: #48C18E; }
-        .ranking .content .ranking-table .ranking-row div {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-family: 'Lato', sans-serif;
+      .ranking .ranking-table .ranking-row div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Lato', sans-serif;
+        overflow: hidden;
+        padding: 10px; }
+        .ranking .ranking-table .ranking-row div b, .ranking .ranking-table .ranking-row div span {
           overflow: hidden;
-          padding: 10px; }
-          .ranking .content .ranking-table .ranking-row div b, .ranking .content .ranking-table .ranking-row div span {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-family: 'Lato', sans-serif; }
-        .ranking .content .ranking-table .ranking-row .ranking-team {
-          width: 20%; }
-        .ranking .content .ranking-table .ranking-row .ranking-members {
-          flex: 1; }
-        .ranking .content .ranking-table .ranking-row .ranking-res {
-          width: 10%; }
-        .ranking .content .ranking-table .ranking-row .ranking-time {
-          width: 15%; }
-        .ranking .content .ranking-table .ranking-row .ranking-pos {
-          transform: scale(1.5); }
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-family: 'Lato', sans-serif; }
+      .ranking .ranking-table .ranking-row .ranking-team {
+        width: 20%; }
+      .ranking .ranking-table .ranking-row .ranking-members {
+        flex: 1; }
+      .ranking .ranking-table .ranking-row .ranking-res {
+        width: 10%; }
+      .ranking .ranking-table .ranking-row .ranking-time {
+        width: 15%; }
+      .ranking .ranking-table .ranking-row .ranking-pos {
+        transform: scale(1.5); }
 
 @media (max-width: 600px) {
   .ranking .content .ranking-table .ranking-row .ranking-team {
@@ -2860,6 +2854,62 @@ button, input[type="submit"] {
       width: 100%; }
     .showStudent .flex .flex-er-info {
       padding: 0px; } }
+
+table.mainTable {
+  display: table !important;
+  margin: auto;
+  color: #161938;
+  border-spacing: 0px;
+  width: 100%;
+    width-font-size: 18px; }
+  table.mainTable tr {
+    background-color: #9091A6;
+    border-left: 1px solid white; }
+    table.mainTable tr:first-child {
+      background-color: #161938;
+      color: white; }
+      table.mainTable tr:first-child th {
+        border-bottom-width: 0px; }
+        table.mainTable tr:first-child th:first-child {
+          border-radius: 20px 0px 0px 0px; }
+    table.mainTable tr th {
+      text-align: center;
+      padding: 10px;
+      border: 3px solid white;
+      border-right-width: 0px; }
+      table.mainTable tr th:last-child {
+        border-right-width: 3px;
+        border-radius: 0px 20px 0px 0px; }
+    table.mainTable tr:last-child th, table.mainTable tr:last-child td {
+      border-bottom-width: 3px; }
+    table.mainTable tr:last-child td:first-child {
+      border-radius: 0px 0px 0px 20px; }
+    table.mainTable tr:last-child td:last-child {
+      border-radius: 0px 0px 20px 0px; }
+    table.mainTable tr td {
+      padding: 10px;
+      text-align: center;
+      border: 3px solid white;
+      border-bottom-width: 0px;
+      border-right-width: 0px; }
+      table.mainTable tr td:last-child {
+        border-right-width: 3px; }
+      table.mainTable tr td.align-left {
+        text-align: left; }
+      table.mainTable tr td.complete {
+        color: #48C18E; }
+        table.mainTable tr td.complete .icon {
+          background-color: #48C18E; }
+      table.mainTable tr td.incomplete {
+        color: #F47E84; }
+        table.mainTable tr td.incomplete .icon {
+          background-color: #F47E84; }
+      table.mainTable tr td .icon {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        border: 2px solid #161938;
+        border-radius: 12px; }
 
 .timeline {
   overflow: hidden; }
@@ -3003,8 +3053,6 @@ button, input[type="submit"] {
   .main.resources #resourceList .icon {
     vertical-align: middle;
     margin-right: 10px; }
-  .main.resources #resourceList *:not(i):not(h2) {
-    font-family: Lato, sans-serif; }
   .main.resources h3 {
     font-weight: bold; }
   .main.resources .icon {
@@ -3056,82 +3104,19 @@ button, input[type="submit"] {
     transform: translate(-50%, -50%);
     text-align: center; }
 
-.retosSuperados {
-  overflow: hidden; }
-  .retosSuperados table {
-    display: table !important;
-    margin: auto;
-    color: #161938;
-    border-spacing: 0px;
-    width: 100%; }
-    .retosSuperados table *:not(i) {
-      font-family: Lato, sans-serif; }
-    .retosSuperados table tr {
-      background-color: #9091A6;
-      border-left: 1px solid white; }
-      .retosSuperados table tr:first-child {
-        background-color: #161938;
-        color: white; }
-        .retosSuperados table tr:first-child th {
-          border-bottom-width: 0px; }
-          .retosSuperados table tr:first-child th:first-child {
-            border-radius: 20px 0px 0px 0px; }
-      .retosSuperados table tr th {
-        text-align: center;
-        padding: 10px;
-        border: 3px solid white;
-        border-right-width: 0px; }
-        .retosSuperados table tr th:last-child {
-          border-right-width: 3px;
-          border-radius: 0px 20px 0px 0px; }
-      .retosSuperados table tr:last-child th, .retosSuperados table tr:last-child td {
-        border-bottom-width: 3px; }
-      .retosSuperados table tr:last-child td:first-child {
-        border-radius: 0px 0px 0px 20px; }
-      .retosSuperados table tr:last-child td:last-child {
-        border-radius: 0px 0px 20px 0px; }
-      .retosSuperados table tr td {
-        padding: 10px;
-        text-align: center;
-        border: 3px solid white;
-        border-bottom-width: 0px;
-        border-right-width: 0px; }
-        .retosSuperados table tr td:last-child {
-          border-right-width: 3px; }
-        .retosSuperados table tr td.align-left {
-          text-align: left; }
-        .retosSuperados table tr td.complete {
-          color: #48C18E; }
-          .retosSuperados table tr td.complete .icon {
-            background-color: #48C18E; }
-        .retosSuperados table tr td.incomplete {
-          color: #F47E84; }
-          .retosSuperados table tr td.incomplete .icon {
-            background-color: #F47E84; }
-        .retosSuperados table tr td .icon {
-          display: inline-block;
-          width: 24px;
-          height: 24px;
-          border: 2px solid #161938;
-          border-radius: 12px; }
-  .retosSuperados .editGradingScheme {
-    vertical-align: baseline;
-    padding-left: 50px;
-    display: inline-block; }
-
-#mainSection .main.teams .flex-table-retos-wrapper {
+#mainSection .main.teams .flex-table-wrapper {
   margin: 10px 0px; }
-  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-name {
+  #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-name {
     width: 20%; }
-  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-turno {
+  #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-turno {
     width: 20%; }
-  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos .flex-cell.flex-participants {
+  #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-participants {
     width: 60%;
     border-right: none; }
-  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .flex-row-retos:not(.flex-row-retos-title) .flex-cell {
+  #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row:not(.flex-row-title) .flex-cell {
     font-family: 'Lato', sans-serif;
     padding: 5px; }
-  #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team {
+  #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team {
     position: absolute;
     left: 0;
     margin-left: -65px;
@@ -3139,19 +3124,19 @@ button, input[type="submit"] {
     width: 62px;
     text-align: right;
     color: white; }
-    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .overlay-trigger {
+    #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .overlay-trigger {
       left: 30px;
       top: 35px; }
-    #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team {
+    #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team {
       background: transparent;
       border: none;
       color: white;
       padding: 2px; }
-      #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team .material-icons {
+      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team .material-icons {
         background: transparent;
         border: none;
         color: white; }
-      #mainSection .main.teams .flex-table-retos-wrapper .flex-table-retos .operations-team .reset-team.hidden {
+      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team.hidden {
         display: none; }
 
 #mainSection .main.teams .filters * {
@@ -3280,7 +3265,8 @@ button, input[type="submit"] {
     color: #161938;
     text-align: center;
     padding: 12px;
-    border-radius: 20px; }
+    border-radius: 20px;
+    font-family: Gugi; }
     #mainSection .main .flexBoxTurnos .turno.disabled {
       opacity: 0.4;
       cursor: not-allowed; }
@@ -3382,20 +3368,21 @@ button, input[type="submit"] {
   --dark: #161938; }
 
 * {
-  font-family: 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
   box-sizing: border-box; }
 
 html {
   min-height: 100%;
-  background-color: #2A2A52; }
+  background-color: #2A2A52;
+  font-family: Lato, "Lucida Grande", Helvetica, Arial, sans-serif; }
   html body {
     min-height: 100%;
-    margin: 0;
-    font-family: inherit; }
+    margin: 0; }
     html body a {
       color: white;
       text-decoration: none;
       font-weight: lighter; }
+    html body h1, html body h2, html body h3, html body h4, html body h5, html body h6, html body button, html body input, html body select, html body label, html body th, html body .gugi, html body .ui-dialog-titlebar {
+      font-family: 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif; }
     html body h1, html body h2, html body h3 {
       font-weight: lighter; }
     html body h1 {
@@ -3404,8 +3391,9 @@ html {
       font-size: 1.3em; }
     html body h3 {
       font-size: 1.1em; }
+    html body p, html body td, html body span {
+      font-size: 1em; }
     html body p {
-      font-family: Lato, sans-serif;
       text-align: left; }
     html body p.centeredSmall {
       font-size: 20px;
@@ -3431,14 +3419,14 @@ html {
       html body input:-webkit-autofill, html body select:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 30px #232850 inset !important;
         -webkit-text-fill-color: #656683 !important;
-        font-family: inherit !important; }
-      html body input:focus, html body input:active, html body input:-webkit-autofill:focus, html body input:-webkit-autofill:active, html body select:focus, html body select:active, html body select:-webkit-autofill:focus, html body select:-webkit-autofill:active {
-        font-family: inherit !important;
+        font-family: Gugi !important; }
+      html body input:focus, html body input:active, html body input:-webkit-autofill:hover, html body input:-webkit-autofill:focus, html body input:-webkit-autofill:active, html body input-webkit-autofill::first-line, html body select:focus, html body select:active, html body select:-webkit-autofill:hover, html body select:-webkit-autofill:focus, html body select:-webkit-autofill:active, html body select-webkit-autofill::first-line {
+        font-family: Gugi !important;
         background-color: #232850;
         color: white;
         -webkit-text-fill-color: white !important;
         border-color: white; }
-        html body input:focus + label, html body input:active + label, html body input:-webkit-autofill:focus + label, html body input:-webkit-autofill:active + label, html body select:focus + label, html body select:active + label, html body select:-webkit-autofill:focus + label, html body select:-webkit-autofill:active + label {
+        html body input:focus + label, html body input:active + label, html body input:-webkit-autofill:hover + label, html body input:-webkit-autofill:focus + label, html body input:-webkit-autofill:active + label, html body input-webkit-autofill::first-line + label, html body select:focus + label, html body select:active + label, html body select:-webkit-autofill:hover + label, html body select:-webkit-autofill:focus + label, html body select:-webkit-autofill:active + label, html body select-webkit-autofill::first-line + label {
           color: white; }
     html body select {
       -webkit-appearance: none; }

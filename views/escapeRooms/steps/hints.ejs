@@ -19,7 +19,7 @@
   	<form class="basicConfig" method='POST' action='/escapeRooms/<%= escapeRoom.id %>/hints' enctype="multipart/form-data" >
 		<div class="inputFormField erFormField animated slideInUp">
 			<label for="hintStrategy"  class="itemNarrow">1. <%=i18n.escapeRoom.steps.hints.hintStrategy%>:
-				<select  class="customInput itemWide" id="hintStrategy" name="hintStrategy" >
+				<select autofocus class="customInput itemWide" id="hintStrategy" name="hintStrategy" >
 					<option value="NO_HINTS"    <%= strategy === "NO_HINTS"   ? "selected" : "" %> ><%=i18n.escapeRoom.steps.hints.noHintsStrategy%></option>
 					<option value="FREE_HINTS"  <%= strategy === "FREE_HINTS" ? "selected" : "" %> ><%=i18n.escapeRoom.steps.hints.freeHintsStrategy%></option>
 					<option value="QUIZ_HINTS"  <%= strategy === "QUIZ_HINTS" ? "selected" : "" %> ><%=i18n.escapeRoom.steps.hints.quizHintsStrategy%></option>

@@ -139,7 +139,7 @@ router.delete("/escapeRooms/:escapeRoomId(\\d+)/turno/:turnoId(\\d+)/team/:teamI
 router.put("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/teams/:teamId(\\d+)/reset", sessionController.loginRequired, sessionController.adminOrAuthorRequired, teamController.resetProgress);
 
 // Routes for the resource /teams
-router.get("/escapeRooms/:escapeRoomId(\\d+)/join", sessionController.loginRequired, sessionController.studentRequired, participantController.checkSomeTurnAvailable, escapeRoomController.studentToken);
+router.get("/escapeRooms/:escapeRoomId(\\d+)/join", sessionController.loginRequired, sessionController.studentRequired, participantController.checkIsNotParticipant, participantController.checkSomeTurnAvailable, escapeRoomController.studentToken);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/join", sessionController.loginRequired, sessionController.studentRequired, participantController.checkJoinToken, participantController.checkIsNotParticipant, participantController.checkSomeTurnAvailable, turnoController.indexStudent, teamController.create);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/teams", sessionController.loginRequired, sessionController.studentRequired, participantController.checkJoinToken, participantController.checkIsNotParticipant, participantController.checkTurnAvailable, teamController.indexTurnos);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/teams/new", sessionController.loginRequired, sessionController.studentRequired, participantController.checkJoinToken, participantController.checkIsNotParticipant, participantController.checkTurnAvailable, teamController.new);

@@ -2,10 +2,7 @@
 <% include ../partials/_header.ejs %>
 <div class="main student">
     <div class="dialog" >
-        </br>
-        <%=i18n.team.add%>:
-        </br>
-        </br>
+        <h1><%=i18n.team.add%></h1>
         <div class="">
             <div>
                 <form method="POST" id="newForm" action="/escapeRooms/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams?token=<%=token%>">

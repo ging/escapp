@@ -101,7 +101,9 @@ exports.index = async (req, res, next) => {
             const {id, name, gender, username, surname, dni, teamsAgregados, turnosAgregados} = user;
             const [{"id": turnoId, "date": turnDate, "participants": parts}] = turnosAgregados;
             const [{"id": teamId}] = teamsAgregados;
-            const {attendance} = parts;
+            let {attendance} = parts;
+
+            attendance = Boolean(attendance);
 
             participants.push({id, name, surname, gender, username, dni, teamId, turnoId, turnDate, attendance});
         });

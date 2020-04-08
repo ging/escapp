@@ -1,5 +1,5 @@
 const {models} = require("../models");
-const { authenticate, checkPuzzle, checkTurnoAccess, automaticallySetAttendance} = require("../helpers/utils");
+const { authenticate, checkPuzzle, checkTurnoAccess, getERState, automaticallySetAttendance} = require("../helpers/utils");
 const {puzzleResponse, broadcastRanking, sendJoinTeam} = require("../helpers/sockets");
 
 const {OK, PARTICIPANT, NOK, NOT_STARTED, getAuthMessageAndCode} = require("../helpers/apiCodes");
@@ -120,7 +120,9 @@ exports.auth = async (req, _res, next) => {
     try {
         const {i18n} = req.app.locals;
 
-        const {participation, erState} = await checkTurnoAccess(teams, user, escapeRoom, true);
+        const {participation} = await checkTurnoAccess(teams, user, escapeRoom, true);
+        const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit) : undefined;
+
         const {status, code, msg} = getAuthMessageAndCode(participation, i18n);
 
         req.response = {status, "body": {code, authentication, token, participation, msg, erState}};
@@ -129,6 +131,8 @@ exports.auth = async (req, _res, next) => {
     }
     next();
 };
+
+// First time a team clicks the start button
 exports.startPlaying = async (req, _res, next) => {
     const {teams, escapeRoom, user} = req;
     const authentication = true;
@@ -136,20 +140,27 @@ exports.startPlaying = async (req, _res, next) => {
 
     const {i18n} = req.app.locals;
 
-    // eslint-disable-next-line prefer-const
-    let {participation, erState} = await checkTurnoAccess(teams, user, escapeRoom, true);
-    const {status, code, msg} = getAuthMessageAndCode(participation, i18n, true);
+    try {
+        // eslint-disable-next-line prefer-const
+        let {participation} = await checkTurnoAccess(teams, user, escapeRoom, true);
+        const {status, code, msg} = getAuthMessageAndCode(participation, i18n, true);
+        const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit) : undefined;
 
-    if (participation === PARTICIPANT || participation === NOT_STARTED) {
-        const joinTeam = await automaticallySetAttendance(teams[0], user, escapeRoom.automaticAttendance);
+        if (participation === PARTICIPANT || participation === NOT_STARTED) {
 
-        if (joinTeam) {
-            sendJoinTeam(joinTeam);
+            const joinTeam = await automaticallySetAttendance(teams[0], user, escapeRoom.automaticAttendance);
+            // ER state
+            if (joinTeam) {
+                sendJoinTeam(joinTeam);
+            }
+            participation = PARTICIPANT;
         }
-        participation = PARTICIPANT;
+        req.response = {status, "body": {code, authentication, token, participation, msg, erState}};
+        next();
+    } catch (e) {
+        next(e);
     }
-    req.response = {status, "body": {code, authentication, token, participation, msg, erState}};
-    next();
+
 };
 
 

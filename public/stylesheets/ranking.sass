@@ -70,51 +70,55 @@
 					&.third
 						.podium-rect
 							max-height: 23vmin
- 	.filters
- 		text-align: left
- 	.ranking-table
- 		width: 100%
- 		position: relative
- 		border: 2px solid white
- 		border-radius: 22px 22px 0px 0px
- 		.ranking-row
- 			display: flex
- 			flex-direction: row
- 			flex-wrap: nowrap
- 			position: absolute
- 			width: 100%
- 			height: 75px
- 			background-color: $purpleedit
- 			color: $darkerpurple
- 			border: 2px solid white
- 			&.ranking-header
- 				background-color: $darkerpurple
- 				color: white
- 				border-radius: 20px 20px 0px 0px
- 			&.myTeam
-              	background-color: $brightgreen
- 			div
- 				display: flex
- 				justify-content: center
- 				align-items: center
- 				font-family: 'Lato', sans-serif
- 				overflow: hidden
- 				padding: 10px
- 				b, span
- 					overflow: hidden
-	 				text-overflow: ellipsis
-	 				white-space: nowrap
- 					font-family: 'Lato', sans-serif
-	 		.ranking-team
-	 			width: 20%
-	 		.ranking-members
-	 			flex: 1
-	 		.ranking-res
-	 			width: 10%
-	 		.ranking-time
-	 			width: 15%
-	 		.ranking-pos
-	 		    transform: scale(1.5)
+	.filters
+		text-align: left
+	.ranking-table
+		width: 100%
+		position: relative
+		border: 2px solid white
+		border-radius: 22px 22px 0px 0px
+		.ranking-row
+			display: flex
+			flex-direction: row
+			flex-wrap: nowrap
+			position: absolute
+			width: 100%
+			height: 75px
+			background-color: $purpleedit
+			color: $darkerpurple
+			border: 2px solid white
+			&.ranking-header
+				background-color: $darkerpurple
+				color: white
+				border-radius: 20px 20px 0px 0px
+				& > div
+					font-family: Gugi
+			&.myTeam
+				background-color: $lightred
+				&.won 	
+					background-color: $brightgreen	
+			div
+				display: flex
+				justify-content: center
+				align-items: center
+				font-family: 'Lato', sans-serif
+				overflow: hidden
+				padding: 10px
+				b, span
+					overflow: hidden
+					text-overflow: ellipsis
+					white-space: nowrap
+					font-family: 'Lato', sans-serif
+			.ranking-team
+				width: 20%
+			.ranking-members
+				flex: 1
+			.ranking-res
+				width: 10%
+			.ranking-time
+				width: 15%
+			.ranking-pos
+			    transform: scale(1.5)
 @media (max-width: 600px)
 	.ranking .content .ranking-table .ranking-row 
 		.ranking-team

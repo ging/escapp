@@ -13,7 +13,7 @@
         <div class="flexBoxEscapeRooms">
             <% if (user && !user.isStudent) { %>
                 <a href="/escapeRooms/new" class="escapeRoomItemWrapper animated bounceIn">
-                    <div class="escapeRoomItem addEscapeRoom">
+                    <div class="escapeRoomItem addEscapeRoom gugi">
                         <span>+</span>
                     </div>
                 </a>
@@ -38,7 +38,7 @@
                     <div class="escapeRoomItem <%= disabled ?' disabled':'' %>">
                         <div class="erFoto" style="text-align: center">
                             <div class="bckgFoto" style="background-image: url(<% if (attachment) {%><%=attachment.url%><%} else {%>/images/placeholder.jpg<%}%>)"></div>
-                            <div class="escapeRoomTitle"><%= escapeRoom.title %></div>
+                            <h2 class="escapeRoomTitle"><%= escapeRoom.title %></h2>
                         </div>
                         <% if (user && user.isStudent) {%>
                             <% if (escapeRoom.isSignedUp){ %>
@@ -56,7 +56,7 @@
             <% } %>
             <% if (user && !user.isStudent) { %>
             <a href="/escapeRooms/new" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=escapeRooms ? (escapeRooms.length * 100 + 100): 0 %>ms;">
-                <div class="escapeRoomItem addEscapeRoom" >
+                <div class="escapeRoomItem addEscapeRoom gugi" >
                         <span>+</span>
                 </div>
             </a>

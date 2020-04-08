@@ -3,10 +3,7 @@
 <% include ../partials/_header.ejs %>
 <div class="main student">
     <div class="dialog" >
-        </br>
-        <%=i18n.team.choose%>
-        </br>
-        </br>
+        <h1><%=i18n.team.choose%></h1>
         <div class="findTeam">
             <input type="text" id="findTeam" placeholder="<%= i18n.team.teamSearch %>"/>
             <br/>
@@ -36,7 +33,7 @@
 
             <div>
             <div id="teamCarouselItems-hidden" class="hide"></div>
-            <div class="create-new-team"><%= i18n.team.doYouWantToCreate %></div>
+            <div class="create-new-team gugi"><%= i18n.team.doYouWantToCreate %></div>
             <a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams/new?token=<%=token%>">
                     <span class="material-icons">add_circle_outline</span>
             </a>

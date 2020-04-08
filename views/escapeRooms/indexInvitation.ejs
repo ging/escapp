@@ -3,9 +3,7 @@
     <div class="dialog" >
         <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/join'  >
 
-            </br>
-            <%=i18n.escapeRoom.invitation.wannaJoin%> "<%= escapeRoom.title %>"?
-            </br>
+            <h1><%=i18n.escapeRoom.invitation.wannaJoin%> "<%= escapeRoom.title %>"?</h1>
             <% if (escapeRoom.invitation === token) {%>
                 <input type="hidden" name="token" value="<%=token%>"/>
             <% } else { %>

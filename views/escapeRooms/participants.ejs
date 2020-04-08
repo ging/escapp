@@ -33,18 +33,18 @@
                         <option value="dni" <%= orderBy === "dni" ? "selected": ""%>><%=i18n.user.dni%></option>
                         <option value="username" <%= orderBy === "username" ? "selected": ""%>><%=i18n.user.username%></option>
                     </select></label>
-                <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
-                <button type="submit" id="csv-button" class="participants-button download-button" name="csv" value="csv"><%=i18n.participant.download%></button>
+            <button type="submit" class="editButton participants-button filter-button" ><%=i18n.common.filter%></button>
+            <button type="submit" id="csv-button" class="participants-button download-button" name="csv" value="csv"><%=i18n.participant.download%></button>
             <button type="button" id="attendance-all-button" class="participants-button attendance-all-button"  ><%=i18n.participant.select%></button>
             <button type="button" id="attendance-button" class="participants-button attendance-button" name="attendance"><%=i18n.participant.confirm%></button>
             <a href="teams?turnId=<%=turnId%>"> 
-                <button type="button" id="teams-button" class="participants-button " name="see-as-team"><%=i18n.participant.seeByTeam%></button>
+                <button type="button" id="teams-button" class="participants-button see-button" name="see-as-team"><%=i18n.participant.seeByTeam%></button>
             </a>
             </div>
         </form>
-        <div class="flex-table-retos-wrapper">
-            <div class="flex-table-retos animated jello">
-                <div class="flex-row-retos flex-row-retos-title">
+        <div class="flex-table-wrapper">
+            <div class="flex-table animated jello">
+                <div class="flex-row flex-row-title">
                     <div class="flex-cell flex-name"><span><%=i18n.user.name%></span></div>
                     <div class="flex-cell flex-surname"><span><%=i18n.user.surname%></span></div>
                     <div class="flex-cell flex-dni"><span><%=i18n.user.dni%></span></div>
@@ -55,7 +55,7 @@
                 </div>
                 <% for (var p in participants) {
                     var participant = participants[p]; %>
-                <div class="flex-row-retos">
+                <div class="flex-row">
                     <div class="flex-cell flex-name"><span><%= participant.name %></span></div>
                     <div class="flex-cell flex-surname"><span><%= participant.surname %></span></div>
                     <div class="flex-cell flex-dni"><span><%= participant.dni %></span></div>
@@ -84,7 +84,7 @@
                 </div>
                 <% } %>
                 <% if (!participants || participants.length === 0) { %>
-                <div class="flex-row-retos">
+                <div class="flex-row">
                     <% if (turnId) {%>
                     <em class="no-participants"><%=i18n.participant.emptyTurno%></em>
                     <% } else { %>

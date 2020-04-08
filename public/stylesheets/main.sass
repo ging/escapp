@@ -32,6 +32,7 @@
 			overflow: hidden
 			flex: 1
 			text-align: right
+			font-family: Gugi
 		.inputFormField
 			margin-bottom: 5px
 			&:focus-within
@@ -52,7 +53,6 @@
 			margin-bottom: 30px
 			.breadcrumbs
 				a, span:not(.material-icons)
-					font-family: Lato, sans-serif
 					display: inline-block
 					font-size: 18px
 				a
@@ -63,7 +63,6 @@
 				.breadcrumb-select
 					border: none
 					color: white
-					font-family: Lato, sans-serif
 					-webkit-appearance: menulist
 					width: 200px
 					text-overflow: ellipsis
@@ -73,10 +72,12 @@
 					-webkit-text-fill-color: white !important
 					-webkit-text-stroke-color: white
 					background: none
+					font-family: Lato
+					&:active, &:focus, &:hover
+						font-family: Lato
 					option
 						background: white
 						color: $darkerpurple
-						font-family: Lato, sans-serif
 			align-self: left
 		footer
 			margin-left: -35px

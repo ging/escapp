@@ -1,7 +1,7 @@
 <span class="progressBar">
     <% var labels =  steps() %>
 	<% var index = labels.indexOf(progress) %>
-	<div class="progressText">
+	<div class="progressText gugi">
 		<%=Math.round(index /labels.length * 100)%>% <%=i18n.common.completado%> 
 	</div>
 	<% var realLabels = labels.map(label=>i18n.escapeRoom.steps.list[label]) %>

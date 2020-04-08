@@ -3,7 +3,10 @@
         <%=i18n.user.title%>
     </h1>
 
-    <table>
+    <table class="mainTable">
+        <tr>
+            <th><%=i18n.user.user%></th><th><%=i18n.common.edit%></th><th><%=i18n.common.delete%></th>
+        </tr>
         <% for (var i in users) { %>
             <tr>
                 <td>
@@ -11,15 +14,15 @@
                     <%= users[i].isAdmin ? "(admin)" : "" %>
                 </td>
                 <% if (session.user) { %>
-                    <% if (session.user.isAdmin || session.user.id === users[i].id) { %>
-                        <td>
+                    <td>
+                        <% if (session.user.isAdmin || session.user.id === users[i].id) { %>
                             <a href="/users/<%= users[i].id %>/edit">
                                 <button class="rounded editButton"><%=i18n.common.edit%></button>
                             </a>
+                            <%  } %>
                         </td>
-                    <%  } %>
-                    <% if (session.user.isAdmin && session.user.id !== users[i].id) { %>
                         <td>
+                            <% if (session.user.isAdmin && session.user.id !== users[i].id) { %>
                             
                             <button class="deleteButton rounded" onclick="overlayTrigger(<%=users[i].id%>)"><%=i18n.common.delete%></button>
                             <div class="overlay-trigger" data-id="<%=users[i].id%>">
@@ -34,8 +37,8 @@
                                 </form>
                             </div>
                             
+                            <%  } %>
                         </td>
-                    <%  } %>
                 <% } %>
             </tr>
 

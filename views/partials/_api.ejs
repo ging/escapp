@@ -1,4 +1,5 @@
-<div id="dialog-preview-api" title="API" style="display: none;">
+<%if (escapeRoom.puzzles && escapeRoom.puzzles.length){%>
+    <div id="dialog-preview-api" title="API" style="display: none;">
     <h4><%=i18n.escapeRoom.api.authenticationAPI%></h4>
     <h5><%=i18n.escapeRoom.api.request%></h5>
     <table class="api-table">
@@ -169,3 +170,4 @@ fetch(<span class="code-highlighted">"</span><span class="code-highlighted">http
         
     </pre>
 </div>
+<%}%>

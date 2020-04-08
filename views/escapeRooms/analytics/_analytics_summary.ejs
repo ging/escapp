@@ -13,9 +13,9 @@
                 <% } %>
             </select>
         </label>
-        <button type="submit" class="filter-button white" ><%=i18n.common.filter%></button>
+        <button type="submit" class=" editButton filter-button" ><%=i18n.common.filter%></button>
         <a href="/escapeRooms/<%= escapeRoom.id %>/analytics/download">
-            <button type="button" class="filter-button white" ><%=i18n.common.download%></button>
+            <button type="button" class="acceptButton filter-button" ><%=i18n.common.download%></button>
             <%=i18n.analytics.charts.titles[0]%>
             <%=i18n.analytics.charts.titles["0"]%>
         </a>
@@ -24,7 +24,7 @@
 <div class="card-container">
     <% var counter = 0;
       for (var k in summary) {%>
-        <div class="card <%=k%> animated zoomIn  " style="animation-delay: <%=counter/5%>s;">
+        <div class="card <%=k%> animated zoomIn " style="animation-delay: <%=counter/5%>s;">
             <div class="card-icon"><span class="material-icons"><%=summary[k].icon%></span></div>
             <div class="card-title"><%=i18n.analytics.main.dashboard[k]%></div>
             <div class="card-content"><%=summary[k].value%></div>

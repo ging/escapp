@@ -111,6 +111,8 @@ exports.isTooLate = (team, forbiddenLateSubmissions, duration) => {
     if (team.turno.status === "finished") {
         return true;
     }
+    console.log("*****************", new Date())
+    console.log(team.turno.startTime)
     const startTime = team.turno.startTime || team.startTime;
 
     return forbiddenLateSubmissions && new Date(startTime.getTime() + duration * 60000) < new Date();
@@ -151,12 +153,16 @@ exports.renderEJS = (view, queries = {}, options = {}) => new Promise((resolve, 
     });
 });
 
-exports.checkTurnoAccess = async (teams, user, escapeRoom, puzzleOrder) => {
+exports.getERState = async (team, hintLimit) => {
+    const puzzlesSolved = await getPuzzleOrderSuperados(team);
+    const hintsAllowed = await areHintsAllowedForTeam(team.id, hintLimit);
+
+    return {puzzlesSolved, hintsAllowed};
+
+};
+
+exports.checkTurnoAccess = async (teams, user, escapeRoom) => {
     let participation = PARTICIPANT;
-    // eslint-disable-next-line init-declarations
-    let puzzlesSolved;
-    // eslint-disable-next-line init-declarations
-    let hintsAllowed;
 
     if (teams && teams.length > 0) {
         const [team] = teams;
@@ -170,17 +176,14 @@ exports.checkTurnoAccess = async (teams, user, escapeRoom, puzzleOrder) => {
         } else {
             participation = PARTICIPANT;
         }
-        if (puzzleOrder) {
-            puzzlesSolved = await getPuzzleOrderSuperados(team);
-            hintsAllowed = await areHintsAllowedForTeam(team.id, escapeRoom.hintLimit);
-        }
+
     } else if (escapeRoom.authorId === user.id) {
         participation = AUTHOR;
     } else {
         participation = NOT_A_PARTICIPANT;
     }
 
-    return {participation, "erState": {puzzlesSolved, hintsAllowed}};
+    return {participation};
 };
 
 exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, puzzleOrder) => {
@@ -205,10 +208,9 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
             status = 423;
             msg = puzzle.fail || i18n.api.wrong;
         }
-        const {"participation": participationCode, "erState": erStateCode} = await exports.checkTurnoAccess(teams, user, escapeRoom, puzzleOrder);
+        const {"participation": participationCode} = await exports.checkTurnoAccess(teams, user, escapeRoom, puzzleOrder);
 
         participation = participationCode;
-        erState = erStateCode;
 
         if (participation === PARTICIPANT && rightAnswer) {
             try {
@@ -221,6 +223,9 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
             }
         } else {
             status = rightAnswer ? 202 : 423;
+        }
+        if (teams && teams.length) {
+            erState = await exports.getERState(teams[0], escapeRoom.hintLimit);
         }
     } catch (e) {
         status = 500;
