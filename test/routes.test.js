@@ -49,7 +49,7 @@ describe("Unauthenticated routes", () => {
 });
 
 describe("Teacher routes", () => {
-    beforeEach((done) => {
+    beforeAll((done) => {
         testSession.post("/").
             send({"login": "admin@upm.es", "password": "1234"}).
             expect(302).
@@ -72,7 +72,7 @@ describe("Teacher routes", () => {
 });
 
 describe("Student routes", () => {
-    beforeEach((done) => {
+    beforeAll((done) => {
         testSession.post("/").
             send({"login": "pepe@alumnos.upm.es", "password": "5678"}).
             expect(302).

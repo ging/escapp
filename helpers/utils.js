@@ -111,8 +111,6 @@ exports.isTooLate = (team, forbiddenLateSubmissions, duration) => {
     if (team.turno.status === "finished") {
         return true;
     }
-    console.log("*****************", new Date())
-    console.log(team.turno.startTime)
     const startTime = team.turno.startTime || team.startTime;
 
     return forbiddenLateSubmissions && new Date(startTime.getTime() + duration * 60000) < new Date();
@@ -158,7 +156,6 @@ exports.getERState = async (team, hintLimit) => {
     const hintsAllowed = await areHintsAllowedForTeam(team.id, hintLimit);
 
     return {puzzlesSolved, hintsAllowed};
-
 };
 
 exports.checkTurnoAccess = async (teams, user, escapeRoom) => {
@@ -176,7 +173,6 @@ exports.checkTurnoAccess = async (teams, user, escapeRoom) => {
         } else {
             participation = PARTICIPANT;
         }
-
     } else if (escapeRoom.authorId === user.id) {
         participation = AUTHOR;
     } else {

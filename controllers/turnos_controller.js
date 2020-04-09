@@ -54,7 +54,6 @@ exports.isTurnNotPending = (req, res, next) => {
 exports.isTurnStarted = (req, res, next) => {
     if (req.session.user.isStudent) {
         const [team] = req.participant.teamsAgregados;
-
         if (!(team.startTime instanceof Date && isFinite(team.startTime))) {
             res.redirect("back");
             return;

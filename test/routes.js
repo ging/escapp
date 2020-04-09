@@ -468,7 +468,7 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/join`,
-        "statusCode": 200
+        "statusCode": 302
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/activarTurno`,
@@ -532,7 +532,7 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/turnos/${turnoId}/teams/new?token=assfdtWeQv`,
-        "statusCode": 200
+        "statusCode": 302
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/turnos/${turnoId}/teams`,
@@ -540,7 +540,7 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/turnos/${turnoId}/teams?token=assfdtWeQv`,
-        "statusCode": 200
+        "statusCode": 302
     },
     {
         "route": `/escapeRooms/${escapeRoomId}/analytics/`,

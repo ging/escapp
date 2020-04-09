@@ -147,9 +147,9 @@ exports.startPlaying = async (req, _res, next) => {
         const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit) : undefined;
 
         if (participation === PARTICIPANT || participation === NOT_STARTED) {
-
             const joinTeam = await automaticallySetAttendance(teams[0], user, escapeRoom.automaticAttendance);
             // ER state
+
             if (joinTeam) {
                 sendJoinTeam(joinTeam);
             }
@@ -160,7 +160,6 @@ exports.startPlaying = async (req, _res, next) => {
     } catch (e) {
         next(e);
     }
-
 };
 
 

@@ -48,7 +48,6 @@
 
     <% for (let t in teams) { 
       let team = teams[t];
-      console.log("teamId", team.id)
       let requestedHints = team.requestedHints;
       %>
       <div id="team">
@@ -63,8 +62,6 @@
           %>
           <% for (let r in team.retos) { 
             let reto = team.retos[r];
-          console.log("reto", reto.id, reto.order, reto.retosSuperados.createdAt)
-
             let puzzleTime = reto.retosSuperados.createdAt;
             let perc = puzzlePosition(puzzleTime, prevPuzzleTime);
             prevPuzzleTime = puzzleTime;
@@ -84,7 +81,6 @@
           <% if (team.retos.length === puzzles.length) {%>
             <img class="door" src="/images/dooropen.png" alt="<%=i18n.analytics.timeline.openDoor%>"/>
           <%} else { 
-            console.log(puzzleIds)
             var incomplete = puzzleIds.filter(puzzle => !team.retos.find(r=>r.id === puzzle));
             var idx = puzzleIds.indexOf(incomplete[0])
             %>

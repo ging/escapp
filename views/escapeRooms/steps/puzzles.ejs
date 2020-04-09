@@ -155,7 +155,6 @@
             event.preventDefault();
             var inputs = $("form input:visible, form select");
             var idx = (document.activeElement && (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT")) ? inputs.index(document.activeElement) : -1;
-            console.log(idx)
             if (idx == inputs.length - 1) {
                 idx = -1;
             } 
