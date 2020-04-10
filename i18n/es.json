@@ -206,7 +206,9 @@
             "key": "Clave",
             "value": "Posibles valores",
             "description": "Descripción",
-            "authenticationAPI": "API de autenticación",
+            "authentication": "Indica si los parámetros de autenticación son correctos o no",
+            "authenticationAPI": "Autenticación",
+            "authenticationAPIDesc": "Este endpoint te permite autenticarte en escapp y comprobar si puedes participar en una escape room determinada en un momento dado",
             "method": "Método",
             "email": "Correo electrónico del usuario",
             "password": "Contraseña del usuario",
@@ -215,24 +217,33 @@
             "sampleRequest": "Ejemplo de petición",
             "response": "Respuesta",
             "sampleResponse": "Ejemplo de respuesta",
-            "puzzleAPI": "API de retos",
-            "erState": "Objeto que indica el estado actual de la escape room para el equipo. Tiene dos propiedades: <code>puzzlesSolved</code>, que contiene un array de los retos que el equipo ha superado, y <code>hintsAllowed</code>, un booleano que indica si el equipo puede o no recibir más pistas.",
-            "puzzleAPIRequestExplanation": "La API de retos acepta los mismos parámetros en el body de la petición HTTP que la API de autenticación.",
+            "puzzleAPI": "Retos",
+            "puzzleAPIDesc": "Este endpoint permite resolver los retos de la escape room sin necesidad de emplear la interfaz de equipo de escapp",
+            "startAPI": "Participación",
+            "startAPIDesc": "Este endpoint te permite comenzar a participar en la escape room sin necesidad de darle al botón de comenzar en escapp",
+            "erState": "Objeto que indica el estado actual de la escape room para el equipo. Tiene 4 propiedades: <code>puzzlesSolved</code>, que contiene un array de los retos que el equipo ha superado (incluyendo el número, nombre, solución y mensaje de éxito); <code>hintsAllowed</code>, un booleano que indica si el equipo puede o no recibir más pistas; <code>progress</code>, que indica el porcentaje de retos superados, y <code>score</code>, que calcula la nota del participante según la rúbrica establecida por el profesor.",
             "code": {
                 "OK": "La petición ha tenido éxito total",
                 "NOK": "La petición no ha tenido éxito total"
             },
-            "correctAnswer":"Además de devolver los parámetros que devuelve el endpoint de autenticación, la API de retos devuelve un parámetro adicional <code>correctAnswer</code>, que vale <code>true</code> si la respuesta proporcionada es correcta y <code>false</code> si no lo es.",
+            "correctAnswer":"Booleano que vale <code>true</code> si la respuesta proporcionada es correcta y <code>false</code> si no lo es.",
             "participation": {
                 "PARTICIPANT": "Eres participante de esta escape room y el turno al que te has apuntado está activo ahora mismo",
                 "TOO_LATE": "Eres participante de esta escape room pero el turno al que te has apuntado ha terminado o te has quedado sin tiempo",
                 "NOT_ACTIVE": "Eres participante de esta escape room pero el turno al que te has apuntado aún no ha empezado",
-                "NOT_STARTED": "Eres participante de esta escape room pero no le has dado al botón de comenzar en la plataforma escapp",
+                "NOT_STARTED": "Eres participante de esta escape room pero no le has dado al botón de comenzar en la plataforma escapp o no has comenzado a través de la API",
+                "NOT_A_PARTICIPANT": "No eres participante de esta escape room",
+                "AUTHOR": "Eres el creador de esta escape room"
+            },
+            "participationStart": {
+                "PARTICIPANT": "Has comenzado con éxito la escape room",
+                "TOO_LATE": "El turno al que te has apuntado ha terminado o te has quedado sin tiempo",
+                "NOT_ACTIVE": "El turno al que te has apuntado aún no ha empezado",
                 "NOT_A_PARTICIPANT": "No eres participante de esta escape room",
                 "AUTHOR": "Eres el creador de esta escape room"
             },
             "token": {
-                "xxxx": "El token de autenticación para usar la API"
+                "String": "El token de autenticación para usar la API"
             },
             "puzzlesSolved": "Array con los retos superados por el equipo",
             "hintsAllowed": {
@@ -360,7 +371,7 @@
             	"evaluation": "Evaluación"
             },
             "puzzles": {
-                "explanation": "En este apartado puedes configurar los distintos retos que componen la escape room. Ten en cuenta que deben seguir una estructura lineal, es decir, para resolver un reto es necesario haber resuelto el anterior. Debes especificar el nombre y descripción del reto, así como la solución del mismo. Si seleccionas la opción de monitorización automática para algún reto, en la interfaz de equipo no se permitirá resolver ese reto sino que debes hacerlo a través de la API de retos. Adicionalmente puedes añadir pistas automáticas para cada reto, que se le proporcionaran a los alumnos cuando se queden atascados y pidan ayuda.",
+                "explanation": "En este apartado puedes configurar los distintos retos que componen la escape room. Ten en cuenta que deben seguir una estructura lineal, es decir, para resolver un reto es necesario haber resuelto el anterior. Debes especificar el nombre y descripción del reto, así como la solución del mismo. Si seleccionas la opción de monitorización automática para algún reto, en la interfaz de equipo no se permitirá resolver ese reto sino que debes hacerlo a través de la API de escapp. Adicionalmente puedes añadir pistas automáticas para cada reto, que se le proporcionaran a los alumnos cuando se queden atascados y pidan ayuda.",
                 "addNewHint": "añadir pista",
                 "addNewPuzzles": "añadir reto",
             	"automatic": "Automática",

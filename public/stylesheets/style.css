@@ -440,10 +440,13 @@ button, input[type="submit"] {
   overflow: auto; }
 
 .main #dialog-preview-api, .main #dialog-share {
-  padding: 15px;
-  color: #48C18E;
-  font-size: 20px;
-  margin-bottom: -4px; }
+  padding: 15px; }
+  .main #dialog-preview-api hr, .main #dialog-share hr {
+    margin-bottom: 20px; }
+  .main #dialog-preview-api h4, .main #dialog-share h4 {
+    color: #48C18E;
+    font-size: 20px;
+    margin-top: 5px; }
   .main #dialog-preview-api .api-table td, .main #dialog-preview-api .api-table th, .main #dialog-share .api-table td, .main #dialog-share .api-table th {
     font-size: 14px;
     color: #656683; }

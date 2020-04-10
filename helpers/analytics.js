@@ -40,13 +40,14 @@ exports.getRetosSuperadosIdTime = (retos, actualStartTime) => retos.map((reto) =
     return {"id": reto.id, time};
 });
 exports.getPuzzleOrderSuperados = async (team) => {
-    const retosSuperados = await team.getRetos({ "attributes": ["order", "title", "correct", "sol"], "order": [["order", "ASC"]]});
+    const retosSuperados = await team.getRetos({ "attributes": ["order", "title", "correct", "sol", "score"], "order": [["order", "ASC"]]});
 
     return retosSuperados.length ? retosSuperados.map((r) => ({
         "order": r.order + 1,
         "name": r.title,
         "msg": r.correct,
-        "solution": r.sol
+        "solution": r.sol,
+        "score": r.score
     })) : [];
 };
 

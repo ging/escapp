@@ -211,7 +211,9 @@
             "key": "Key",
             "value": "Possible values",
             "description": "Description",
-            "authenticationAPI": "Authentication API",
+            "authentication": "Whether the authentication parameters are correct or not",
+            "authenticationAPI": "Authentication",
+            "authenticationAPIDesc": "This endpoint allows you to authenticate in escapp and verify whether you are allowed to participate in an escape room at a given time",
             "method": "Method",
             "email": "User e-mail",
             "password": "User password",
@@ -220,25 +222,34 @@
             "sampleRequest": "Sample request",
             "response": "Response",
             "sampleResponse": "Sample response",
-            "puzzleAPI": "Puzzle API",
-            "erState": "Object indicating the current state of the escape room for the team. It has two properties: <code>puzzlesSolved</code>, which contains an array indicating which puzzles have been completed by the team, and <code>hintsAllowed</code>, which is a boolean indicating whether the team can request any more hints.",
-            "puzzleAPIRequestExplanation": "The puzzle API accepts the same parameters in its body as the authentication API.",
+            "puzzleAPI": "Puzzles",
+            "puzzleAPIDesc": "This endpoint allows you to solve puzzles remotely without a need to access escapp's team interface",
+            "startAPI": "Participation",
+            "startAPIDesc": "This endpoint allows you to start participating in an escape room without a need to hit the start button in escapp",
+            "erState": "Object indicating the current state of the escape room for the team. It has two properties: <code>puzzlesSolved</code>, which contains an array indicating which puzzles have been completed by the team (including the puzzle's name, number, solution, and success message);  <code>hintsAllowed</code>, a boolean indicating whether the team can request any more hints; <code>progress</code>, the percentage of puzzles solved, and <code>score</code>, the total score of the participant according to the grading rubric set up by the teacher.",
             "code": {
                 "OK": "The answer provided for the puzzle is correct",
                 "NOK": "The answer provided for the puzzle is incorrect"
             },
-            "correctAnswer":"Besides returning the parameters returned by the authentication API, the puzzle API returns an additional paramater named <code>correctAnswer</code>, which  is  <code>true</code> if the answer provided for the puzzle is correct and <code>false</code> otherwise.",
-
+            "correctAnswer":"Boolean whose value is <code>true</code> if the answer provided for the puzzle is correct and <code>false</code> otherwise.",
             "participation": {
                 "PARTICIPANT": "You are a participant of this escape room and the shift you signed up for is active",
                 "TOO_LATE": "You are a participant of this escape room but the shift you signed up for is finished or you have run out of time",
                 "NOT_ACTIVE": "You are a participant of this escape room but the shift you signed up for has not started yet",
-                "NOT_STARTED": "You are a participant of this escape room but you have not hit the start button on the escapp platform",
+                "NOT_STARTED": "You are a participant of this escape room but you have not hit the start button on the escapp platform or started via API",
+                "NOT_A_PARTICIPANT": "You are not a participant of this escape room",
+                "AUTHOR": "You are the author of this escape room"
+            },
+            "participationStart": {
+                "PARTICIPANT": "You have successfully started the escape room",
+                "TOO_LATE": "The shift you signed up for is finished or you have run out of time",
+                "NOT_ACTIVE": "The shift you signed up for has not started yet",
+                "NOT_STARTED": "You have not hit the start button on the escapp platform",
                 "NOT_A_PARTICIPANT": "You are not a participant of this escape room",
                 "AUTHOR": "You are the author of this escape room"
             },
             "token": {
-                "xxxx": "The authentication token you can use for the API"
+                "String": "The authentication token you can use for the API"
             },
             "puzzlesSolved": "Array containing the puzzles already solved by the team",
             "hintsAllowed": {
@@ -366,7 +377,7 @@
                 "turnos": "Shifts"
             },
             "puzzles": {
-                "explanation": "In this step, you can specify the different puzzles that make up the escape room. Bear in mind that they must follow a linear structure, which means that in order to solve a puzzle, students need to have solved the previous one before. You need to specify the name and description of each puzzle, as well as its solution. If you check the automatic monitorization option for any puzzle, it will not be displayed in the team interface for students to solve. Instead, you need to use the puzzle API in order to solve it. In addition, you may add automatic hints for each puzzle, which will be handed to students when they get stuck and ask for help.",
+                "explanation": "In this step, you can specify the different puzzles that make up the escape room. Bear in mind that they must follow a linear structure, which means that in order to solve a puzzle, students need to have solved the previous one before. You need to specify the name and description of each puzzle, as well as its solution. If you check the automatic monitorization option for any puzzle, it will not be displayed in the team interface for students to solve. Instead, you need to use escapp's API in order to solve it. In addition, you may add automatic hints for each puzzle, which will be handed to students when they get stuck and ask for help.",
                 "addNewHint": "add hint",
                 "addNewPuzzles": "add puzzle",
             	"automatic": "automatic",

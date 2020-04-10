@@ -119,9 +119,9 @@ exports.auth = async (req, _res, next) => {
 
     try {
         const {i18n} = req.app.locals;
-
         const {participation} = await checkTurnoAccess(teams, user, escapeRoom, true);
-        const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit) : undefined;
+        const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
+        const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed) : undefined;
 
         const {status, code, msg} = getAuthMessageAndCode(participation, i18n);
 
@@ -144,7 +144,8 @@ exports.startPlaying = async (req, _res, next) => {
         // eslint-disable-next-line prefer-const
         let {participation} = await checkTurnoAccess(teams, user, escapeRoom, true);
         const {status, code, msg} = getAuthMessageAndCode(participation, i18n, true);
-        const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit) : undefined;
+        const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
+        const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed) : undefined;
 
         if (participation === PARTICIPANT || participation === NOT_STARTED) {
             const joinTeam = await automaticallySetAttendance(teams[0], user, escapeRoom.automaticAttendance);
