@@ -185,10 +185,10 @@ exports.checkTurnoAccess = (teams, user, escapeRoom) => {
 
         if (team.turno.status === "pending") {
             participation = NOT_ACTIVE;
-        } else if (exports.isTooLate(team, escapeRoom.forbiddenLateSubmissions, escapeRoom.duration)) {
-            participation = TOO_LATE;
         } else if (!team.startTime) {
             participation = NOT_STARTED;
+        } else if (exports.isTooLate(team, escapeRoom.forbiddenLateSubmissions, escapeRoom.duration)) {
+            participation = TOO_LATE;
         } else {
             participation = PARTICIPANT;
         }
@@ -213,11 +213,11 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
     let msg = "";
     // eslint-disable-next-line init-declarations
     let erState;
-    let rightAnswer = false;
+    let correctAnswer = false;
 
     try {
-        rightAnswer = answer.toString().toLowerCase().trim() === puzzleSol.toString().toLowerCase().trim();
-        if (rightAnswer) {
+        correctAnswer = answer.toString().toLowerCase().trim() === puzzleSol.toString().toLowerCase().trim();
+        if (correctAnswer) {
             msg = puzzle.correct || i18n.api.correct;
         } else {
             status = 423;
@@ -227,7 +227,7 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
 
         participation = participationCode;
 
-        if (participation === PARTICIPANT && rightAnswer) {
+        if (participation === PARTICIPANT && correctAnswer) {
             try {
                 await puzzle.addSuperados(teams[0].id);
                 code = OK;
@@ -237,7 +237,7 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
                 msg = e.message;
             }
         } else {
-            status = rightAnswer ? 202 : 423;
+            status = correctAnswer ? 202 : 423;
         }
         if (teams && teams.length) {
             const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
@@ -249,7 +249,7 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
         code = ERROR;
         msg = e;
     }
-    return {status, "body": {code, "correctAnswer": rightAnswer, "authentication": true, "token": user.token, participation, msg, erState}};
+    return {status, "body": {code, correctAnswer, "authentication": true, "token": user.token, participation, msg, erState}};
 };
 
 exports.automaticallySetAttendance = async (team, user, automaticAttendance) => {

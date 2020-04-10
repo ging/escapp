@@ -144,7 +144,7 @@ exports.startPlaying = async (req, _res, next) => {
         // eslint-disable-next-line prefer-const
         let {participation} = await checkTurnoAccess(teams, user, escapeRoom, true);
         const {status, code, msg} = getAuthMessageAndCode(participation, i18n, true);
-        const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
+        const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE" || participation === NOT_STARTED;
         const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed) : undefined;
 
         if (participation === PARTICIPANT || participation === NOT_STARTED) {
