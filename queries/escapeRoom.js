@@ -1,5 +1,4 @@
 const {models} = require("../models");
-const Sequelize = require("sequelize");
 
 exports.load = {
     "include": [

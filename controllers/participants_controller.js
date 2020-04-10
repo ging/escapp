@@ -145,7 +145,7 @@ exports.studentLeave = async (req, res, next) => {
             res.redirect("back");
             return;
         } else if (!req.user && req.session.user.isStudent) {
-            if (turn.status === "finished" || turn.status === "active" && (turn.startTime || req.team.startTime)) {
+            if (turn.status === "finished" || turn.status === "active" && (turn.startTime || req.team.startTime)) {
                 req.flash("error", `${req.app.locals.i18n.common.flash.errorStudentLeave}`);
                 res.redirect("/");
                 return;

@@ -177,7 +177,7 @@ exports.getScore = (puzzlesSolved, successHints, failHints, attendance, attendan
     return score;
 };
 
-exports.checkTurnoAccess = async (teams, user, escapeRoom) => {
+exports.checkTurnoAccess = (teams, user, escapeRoom) => {
     let participation = PARTICIPANT;
 
     if (teams && teams.length > 0) {
