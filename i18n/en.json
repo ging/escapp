@@ -106,7 +106,12 @@
         "participant": "You are a participant of this escape room",
         "notActive": "You are a participant of this escape room but your shift is not active",
         "notStarted": "You are a participant of this escape room but you have not clicked the start button",
-        "tooLate": "You are a participant of this escape room but your time is up"
+        "tooLate": "You are a participant of this escape room but your time is up",
+        "timeUp": "Time is up!",
+        "teamJoined": "Someone from your team has joined the ER",
+        "disconnect": "Lost connection",
+        "reconnect": "Attempting to reconnect...",
+        "connected": "Connected!"
     },
     "apps": {
         "newApp": "New app",

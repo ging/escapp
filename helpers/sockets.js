@@ -130,7 +130,13 @@ const solvePuzzle = async (escapeRoomId, teamId, userId, puzzleId, solution, i18
                     "include": [
                         {
                             "model": models.escapeRoom,
-                            "attributes": ["duration", "forbiddenLateSubmissions"]
+                            "attributes": ["duration", "forbiddenLateSubmissions"],
+                            "include": [
+                                {
+                                    "model": models.puzzle,
+                                    "attributes": ["id"]
+                                }
+                            ]
                         }
                     ]
                 }
@@ -141,12 +147,15 @@ const solvePuzzle = async (escapeRoomId, teamId, userId, puzzleId, solution, i18
             throw new Error(i18n.api.notFound);
         }
         const {body} = await checkPuzzle(solution, puzzle, team.turno.escapeRoom, [team], {"id": userId}, i18n);
+        console.log(".......:",body)
+        
         const {code, correctAnswer, participation, authentication, msg} = body;
 
         if (code === OK) {
             await puzzle.addSuperados(team.id);
             broadcastRanking(team.id, puzzleId, new Date(), team.turno.id);
         }
+        console.log(msg)
         puzzleResponse(code === OK, correctAnswer, puzzleId, participation, authentication, msg, i18n.escapeRoom.api.participation[participation], teamId);
     } catch (e) {
         console.error("lll", e);

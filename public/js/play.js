@@ -18,6 +18,7 @@ const RESET_PROGRESS = "RESET_PROGRESS";
 const RANKING = "RANKING";
 var myTeamId;
 var myUserId;
+var alertMsg;
 /** TEMPLATES **/
 const hintTemplate = (hint) => `
   <li class="animated zoomInUp">
@@ -93,7 +94,11 @@ const requestHint = (score, status) => socket.emit("REQUEST_HINT", {score, statu
 
 /** INCOMING MESSAGES **/
 const onConnect = () => {
-  console.info("Connected")
+  console.info("Connected");
+  if (alertMsg) {
+    $('.alert').remove();
+    alertMsg = $.easyAlert({"message": i18n["connected"], "alertType": "success", "position": "b l", "showDuration": 1000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "slide"});
+  }
 }
 
 const onError = (msg) => {
@@ -106,15 +111,29 @@ const onStart = () => {
 
 const onStop = () => {
   console.log("Turno terminado");
+  alertMsg = $.easyAlert({"message": i18n["timeUp"], "alertType": "warning", "position": "b l", "showDuration": 10000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "slide"});
   window.location = `/escapeRooms/${escapeRoomId}/finish`;
 }
 
 const onJoin = () => {
   console.log("Someone from your team has joined the ER")
+  alertMsg = $.easyAlert({"message": i18n["teamJoined"], "alertType": "info", "position": "b l", "showDuration": 1000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "slide"});
+
 }
 
+const onDisconnect = () => {
+  console.log("Disconnect")
+  $('.alert').remove();
+  alertMsg = $.easyAlert({"message": i18n["disconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "slide"});
+};
+
+const onReconnect = () => {
+  console.log("Reconnect")
+  $('.alert').remove();
+  alertMsg = $.easyAlert({"message": i18n["reconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "slide"});
+
+};
 const onPuzzleResponse = async ({success, correctAnswer, puzzleId, participation, authentication, msg, participantMessage}) => {
-  console.log(success, correctAnswer, puzzleId, participation, authentication, msg, participantMessage)
   const feedback = msg + (participantMessage && participation !== "PARTICIPANT" ? `. ${participantMessage}`: "");
   if (success) {
     if (!retosSuperados.some(r => r == puzzleId)) {
@@ -266,11 +285,6 @@ const onParticipantLeave = ({team, userId}) => {
 
 
 
-const onDisconnect = () => {
-  console.error("Disconnected from socket server");
-
-};
-
 
 /** HELPERS **/
 const updateProgress = (newProgress) =>  $('.puzzle-progress').attr('aria-valuenow', newProgress).css("width", newProgress + "%")
@@ -376,6 +390,9 @@ const initSocketServer = (escapeRoomId, teamId, turnId, userId) => {
 
   /*Disconnect*/
   socket.on(DISCONNECT, onDisconnect);
+
+  /*Reconnect*/
+  socket.on(DISCONNECT, onReconnect);
 
 };
 

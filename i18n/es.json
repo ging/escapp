@@ -100,7 +100,12 @@
         "participant": "Participas en esta escape room",
         "notActive": "Participas en esta escape room pero tu turno no está activo",
         "notStarted": "Participas en esta escape room pero no le has dado al botón de comenzar",
-        "tooLate": "Participas en esta escape room pero se ha pasado el tiempo"
+        "tooLate": "Participas en esta escape room pero se ha pasado el tiempo",
+        "timeUp": "¡Se ha acabado el tiempo!",
+        "teamJoined": "Alguien de tu equipo se ha conectado",
+        "disconnect": "Se ha perdido la conexión",
+        "reconnect": "Intentando volver a conectar...",
+        "connected": "¡Conexión recuperada!"
     },
     "apps": {
         "newApp": "Nueva app",
@@ -650,6 +655,7 @@
                 "register": " y, tras registrarse e iniciar sesión, seleccionar la escape room ",
                 "password": " e introducir la contraseña "
             }
+            
         },
         "titles": {
             "appearance": "Apariencia",

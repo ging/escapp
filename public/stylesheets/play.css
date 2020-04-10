@@ -86,7 +86,7 @@ p {
   left: 10px;
 }
 
-.easy-alert {
+/*.easy-alert {
     position: fixed;
     min-width: 500px !important;
     right: 50% !important;
@@ -97,7 +97,7 @@ p {
     -o-transform: translateX(-50%) translateY(-50%);
     -moz-transform: translateX(-50%) translateY(-50%);
     font-size: 2rem; 
-}
+}*/
 
 .ql-video {
      margin: auto;

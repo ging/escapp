@@ -241,7 +241,7 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
         }
         if (teams && teams.length) {
             const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
-
+            console.log(escapeRoom.puzzles)
             erState = await exports.getERState(teams[0], escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed);
         }
     } catch (e) {
