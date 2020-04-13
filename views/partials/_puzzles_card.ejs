@@ -57,7 +57,7 @@
             <% for (let h in puzzle.hints) {
                 let hint = puzzle.hints[h];
              %>
-                <li>
+                <li class="hint-list-element">
                    <div class="hint-li">
                     <span title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle-hint">swap_vert</span>
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][id]" value="<%=hint.id%>"/>
@@ -74,7 +74,12 @@
             <button type="button" class="rounded editButton addHint" >
                 <%=i18n.escapeRoom.steps.puzzles.addNewHint%>
             </button>
+            <button type="button" class="rounded shareButton addCategory" >
+                <%=i18n.escapeRoom.steps.puzzles.addNewCategory%>
+            </button>
         </div>
     </h3>
-    <button type="button" class="delete-puzzle"><span class="material-icons">delete</span></button>
+    <button type="button" class="delete-puzzle">
+        <span class="material-icons">delete</span>
+    </button>
 </div>

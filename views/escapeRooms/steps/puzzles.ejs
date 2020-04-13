@@ -77,7 +77,9 @@
     // Hint sortable
     $( ".hint-list" ).sortable({
         handle: '.handle-hint',
+        cancel: ".hint-category",
         update: (event,b)=>{
+            console.log($(b.item[0]).closest('li').prev('.hint-category'));
             $(event.target).find('.hint-order').each((i,e)=> {
                 $(e).val(i);
             })
@@ -107,8 +109,8 @@
         const order = currentHintList.data('number');
         const hintOrder = currentHintList.children().length;
         const template = `
-            <li>
-               <div class="hint-li">
+        <li class="hint-list-element">
+            <div class="hint-li">
                 <span title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle-hint">swap_vert</span>
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][id]" value=""/>
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][order]" class="hint-order" value="${hintOrder}"/>
@@ -116,13 +118,15 @@
                 <button type="button" class="delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>" >
                   <span class="material-icons">clear</span> 
                 </button>
-                </div>
-            </li>
+            </div>
+        </li>
         `;
         $(template).appendTo(currentHintList);
         currentHintList.sortable({
             handle: '.handle-hint',
             update: (event,b)=>{
+            console.log($(event.target).closest('li'),$(event.target).closest('li').prev('.hint-category'));
+
                 $(event.target).find('.hint-order').each((i,e)=> {
                     $(e).val(i);
                 })
@@ -130,6 +134,45 @@
         });
         currentHintList.last().find('input[type=text]').focus();
 
+    });
+
+    $('#add-new-puzzle').on('click', ()=>{
+        let newCard = $('.hidden-card .puzzle-card').clone();
+        const order = $('.puzzle-card').length - 1;
+        newCard.find('.order').val(order);
+        newCard.find('.hint-list').data("number", order);
+        newCard.find( "input[name^='puzzles[new]'],select[name^='puzzles[new]']" ).each((i,e)=>{
+            e.name = e.name.replace('puzzles[new]','puzzles['+order+']');
+        });
+
+        newCard.appendTo('#sortable');
+        $('html, body').animate({
+            scrollTop: $(newCard).offset().top
+        }, 100);
+
+        newCard.find('input[type=text]').first().focus();
+    })
+
+    const catTemplate = (name) => {
+        return `<li class="hint-category">
+            <span class="material-icons handle-cat">call_split</span>
+            <input class="hint-category-name" value="${name || ""}" placeholder="New category"/>
+            <button type="button" class="delete-cat" title="<%=i18n.escapeRoom.steps.puzzles.delete%>">
+                <span class="material-icons">clear</span>
+            </button>
+        </li>`
+
+    }
+
+    $(document).on('click', '.addCategory', (e) => {
+        const currentHintList = $(e.target.parentNode.parentNode).find('.hint-list');
+        const order = currentHintList.data('number');
+        const hintOrder = currentHintList.children().length;
+
+        if (currentHintList.find('.hint-category').length === 0) {
+            currentHintList.prepend(catTemplate("General"));
+        }
+        currentHintList.append(catTemplate());
     });
 
     $(document).on('click', '.delete-hint', (e) => {

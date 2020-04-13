@@ -384,6 +384,7 @@
             "puzzles": {
                 "explanation": "In this step, you can specify the different puzzles that make up the escape room. Bear in mind that they must follow a linear structure, which means that in order to solve a puzzle, students need to have solved the previous one before. You need to specify the name and description of each puzzle, as well as its solution. If you check the automatic monitorization option for any puzzle, it will not be displayed in the team interface for students to solve. Instead, you need to use escapp's API in order to solve it. In addition, you may add automatic hints for each puzzle, which will be handed to students when they get stuck and ask for help.",
                 "addNewHint": "add hint",
+                "addNewCategory": "add category",
                 "addNewPuzzles": "add puzzle",
             	"automatic": "automatic",
                 "clueName": "Clue name",

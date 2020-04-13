@@ -14,8 +14,8 @@
     "migrate_local_sqlite": "sequelize db:migrate --url sqlite://$(pwd)/escaperoom.sqlite",
     "migrate_local_sqlite_windows": "sequelize db:migrate --url sqlite://%cd%/escaperoom.sqlite",
     "migrate_heroku": "heroku run ./node_modules/.bin/sequelize db:migrate --url $DATABASE_URL",
-    "undo_last_migration_local" : "sequelize db:migrate:undo --url $(grep DATABASE_URL  .env | cut -d '=' -f2)",
-    "undo_last_migration_local_sqlite" : "sequelize db:migrate:undo --url sqlite://$(pwd)/escaperoom.sqlite",
+    "undo_last_migration_local": "sequelize db:migrate:undo --url $(grep DATABASE_URL  .env | cut -d '=' -f2)",
+    "undo_last_migration_local_sqlite": "sequelize db:migrate:undo --url sqlite://$(pwd)/escaperoom.sqlite",
     "seed_local": "sequelize db:seed:all --url $(grep DATABASE_URL  .env | cut -d '=' -f2)",
     "seed_local_sqlite": "sequelize db:seed:all --url sqlite://$(pwd)/escaperoom.sqlite",
     "seed_local_sqlite_windows": "sequelize db:seed:all --url sqlite://%cd%/escaperoom.sqlite",
@@ -44,7 +44,7 @@
     "express-flash": "^0.0.2",
     "express-partials": "^0.3.0",
     "express-session": "^1.16.1",
-    "forever-monitor": "^1.7.1",
+    "forever-monitor": "^2.0.0",
     "fs": "^0.0.1-security",
     "global": "^4.3.2",
     "http-errors": "~1.6.2",
@@ -71,7 +71,7 @@
   "devDependencies": {
     "jest": "^24.7.1",
     "sqlite3": "^4.0.6",
-    "unused-exports" : "^0.0.6-beta"
+    "unused-exports": "^0.0.6-beta"
   },
   "jest": {
     "testEnvironment": "node",
