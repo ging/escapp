@@ -152,22 +152,22 @@ exports.renderEJS = (view, queries = {}, options = {}) => new Promise((resolve, 
 });
 
 exports.getERState = async (team, hintLimit, nPuzzles, attendance, attendanceScore, scoreHintSuccess, scoreHintFail) => {
-    const puzzlesSolved = await getPuzzleOrderSuperados(team);
+    const {puzzlesSolved, puzzleData} = await getPuzzleOrderSuperados(team);
     const {hintsAllowed, successHints, failHints} = await areHintsAllowedForTeam(team.id, hintLimit);
     const progress = exports.getProgress(puzzlesSolved, nPuzzles);
-    const score = exports.getScore(puzzlesSolved, successHints, failHints, attendance, attendanceScore, scoreHintSuccess, scoreHintFail);
+    const score = exports.getScore(puzzlesSolved, puzzleData, successHints, failHints, attendance, attendanceScore, scoreHintSuccess, scoreHintFail);
 
-    return {puzzlesSolved, hintsAllowed, progress, score};
+    return {puzzlesSolved, puzzleData, hintsAllowed, progress, score};
 };
 
 exports.getProgress = (puzzlesSolved, totalNumberOfPuzzles) => totalNumberOfPuzzles ? Math.round(puzzlesSolved.length / totalNumberOfPuzzles * 10000) / 100 : 0;
 
-exports.getScore = (puzzlesSolved, successHints, failHints, attendance, attendanceScore, scoreHintSuccess, scoreHintFail) => {
+exports.getScore = (puzzlesSolved, puzzleData, successHints, failHints, attendance, attendanceScore, scoreHintSuccess, scoreHintFail) => {
     let score = 0;
 
     if (attendance) {
-        for (const p in puzzlesSolved) {
-            score += puzzlesSolved[p].score;
+        for (const p of puzzlesSolved) {
+            score += puzzleData[p].score;
         }
         score += attendanceScore;
         score += successHints * (scoreHintSuccess || 0);
@@ -241,7 +241,7 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
         }
         if (teams && teams.length) {
             const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
-            console.log(escapeRoom.puzzles)
+
             erState = await exports.getERState(teams[0], escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed);
         }
     } catch (e) {
