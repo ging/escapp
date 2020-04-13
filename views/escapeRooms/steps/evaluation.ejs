@@ -76,7 +76,7 @@
 		<% } else if (hintConditional) { %>
 			<div class="erFormField disallow animated slideInUp" style="animation-delay:600ms;">
 				<label for="tit"  class="itemNarrow">4. <%=i18n.escapeRoom.steps.evaluation.eachHintObtain%>:</label>
-				<input  type="number" min="0" max="100" placeholder="0" value="<%=escapeRoom.hintSuccess || 0%>" name="scoreParticipation" class="customInput scoreInput itemWide"  id="score-participation"/>
+				<input  type="number" min="-100" max="100" placeholder="0" value="<%=escapeRoom.hintSuccess || 0%>" name="hintSuccess" class="customInput itemWide"  id="hintSuccess"/>
 				<input type="hidden" value=" 0"  id="hintFailed" name="hintFailed"/></td>	
 			  </div>
 		<% } %>
