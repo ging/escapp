@@ -168,9 +168,9 @@ exports.getScore = (puzzlesSolved, puzzleData, successHints, failHints, attendan
 
     if (attendance) {
         for (const p of puzzlesSolved) {
-            score += puzzleData[p].score;
+            score += puzzleData[p].score || 0;
         }
-        score += attendanceScore;
+        score += attendanceScore || 0;
         score += successHints * (scoreHintSuccess || 0);
         score += failHints * (scoreHintFail || 0);
     }
