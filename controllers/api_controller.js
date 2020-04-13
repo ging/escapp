@@ -29,6 +29,12 @@ exports.checkParticipant = async (req, res, next) => {
                 "model": models.turno,
                 "required": true,
                 "where": {"escapeRoomId": req.escapeRoom.id}
+            },
+            {
+                "model": models.user,
+                "through": "members",
+                "as": "teamMembers",
+                "attributes": ["username"]
             }
         ]
 
@@ -57,6 +63,12 @@ exports.checkParticipantSafe = async (req, res, next) => {
                         "model": models.turno,
                         "required": true,
                         "where": {"escapeRoomId": req.escapeRoom.id}
+                    },
+                    {
+                        "model": models.user,
+                        "through": "members",
+                        "as": "teamMembers",
+                        "attributes": ["username"]
                     }
                 ]
             });
@@ -83,6 +95,12 @@ exports.checkParticipantSession = async (req, res, next) => {
                     "model": models.turno,
                     "required": true,
                     "where": {"escapeRoomId": req.escapeRoom.id} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
+                },
+                {
+                    "model": models.user,
+                    "through": "members",
+                    "as": "teamMembers",
+                    "attributes": ["username"]
                 }
             ]
         });

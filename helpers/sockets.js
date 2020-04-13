@@ -139,6 +139,12 @@ const solvePuzzle = async (escapeRoomId, teamId, userId, puzzleId, solution, i18
                             ]
                         }
                     ]
+                },
+                {
+                    "model": models.user,
+                    "through": "members",
+                    "as": "teamMembers",
+                    "attributes": ["username"]
                 }
             ]
         });

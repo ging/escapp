@@ -153,11 +153,12 @@ exports.renderEJS = (view, queries = {}, options = {}) => new Promise((resolve, 
 
 exports.getERState = async (team, hintLimit, nPuzzles, attendance, attendanceScore, scoreHintSuccess, scoreHintFail) => {
     const {puzzlesSolved, puzzleData} = await getPuzzleOrderSuperados(team);
+    const teamMembers = team.teamMembers.map((member) => member.username);
     const {hintsAllowed, successHints, failHints} = await areHintsAllowedForTeam(team.id, hintLimit);
     const progress = exports.getProgress(puzzlesSolved, nPuzzles);
     const score = exports.getScore(puzzlesSolved, puzzleData, successHints, failHints, attendance, attendanceScore, scoreHintSuccess, scoreHintFail);
 
-    return {puzzlesSolved, puzzleData, hintsAllowed, progress, score};
+    return {puzzlesSolved, puzzleData, hintsAllowed, progress, score, teamMembers};
 };
 
 exports.getProgress = (puzzlesSolved, totalNumberOfPuzzles) => totalNumberOfPuzzles ? Math.round(puzzlesSolved.length / totalNumberOfPuzzles * 10000) / 100 : 0;
