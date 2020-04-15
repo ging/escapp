@@ -187,7 +187,8 @@
             "successEditingTeam": "Equipo editado con éxito",
             "successEditingTurno": "Turno editado con éxito",
             "successEditingUser": "Usuario editado con éxito",
-            "successImage": "Imagen subida con éxito"
+            "successImage": "Imagen subida con éxito",
+            "youMustAcceptTerms": "You must accept the terms and conditions in order to register"
         },
         "guide": "Manual de usuario",
         "ideas": "Ideas para retos",
@@ -616,6 +617,8 @@
         "play": "comenzar",
         "results": "resultados",
         "Results": "Resultados",
+        "start": "¡La escape room acaba de empezar!",
+        "join": "unirme",
         "sureUnjoin": "¿Seguro que deseas desapuntarte?",
         "congrats": "¡Enhorabuena! Has terminado con éxito la escape room",
         "resultsTitle": "Este es el ranking de resultados de la escape room",
@@ -776,6 +779,8 @@
         "student": "Alumno",
         "dni": "DNI",
         "gender": "Género",
+        "acceptTerms": "Condiciones de uso",
+        "terms": "Acepto ceder mis datos de uso de forma anonimizada con fines exclusivamente de investigación",
         "inputs": {
             "dniPlaceHolder": "Introduce tu DNI",
             "editUser": "Editar usuario",

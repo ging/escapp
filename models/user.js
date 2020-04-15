@@ -39,38 +39,7 @@ module.exports = function (sequelize, DataTypes) {
                 return crypt.generateToken();
             }
         },
-        "dni": {
-            "type": DataTypes.STRING,
-            "unique": true,
-            "validate": {
-                "notEmpty": {"msg": "DNI must not be empty."},
-                "isValidDNI": (/* Dni*/) => {
-                    /*  // DNI Check
-                const validChars = "TRWAGMYFPDXBNJZSQVHLCKET";
-                const nifRexp = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
-                const nieRexp = /^[XYZ]{1}[0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
-                const str = dni.toString().toUpperCase();
-
-                if (!nifRexp.test(str) && !nieRexp.test(str)) {
-                    throw new Error("Dni erroneo, formato no válido");
-                }
-
-                const nie = str.
-                    replace(/^[X]/, "0").
-                    replace(/^[Y]/, "1").
-                    replace(/^[Z]/, "2");
-
-                const letter = str.substr(-1);
-                const charIndex = parseInt(nie.substr(0, 8), 10) % 23;
-
-                if (validChars.charAt(charIndex) === letter) {
-                    return true;
-                }
-                throw new Error("Dni erroneo, formato no válido");
-                */
-                }
-            }
-        },
+        "dni": {"type": DataTypes.STRING},
         "isAdmin": {
             "type": DataTypes.BOOLEAN,
             "defaultValue": false

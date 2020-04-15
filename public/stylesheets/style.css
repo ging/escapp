@@ -423,12 +423,18 @@ button, input[type="submit"] {
     color: #656683;
     font-family: Lato, sans-serif; }
 
-.main #dialog-preview-video, .main #dialog-preview-api, .main #dialog-share {
+.main .no-close .ui-dialog-titlebar {
+  display: none; }
+
+.main #dialog-start > div {
+  text-align: center; }
+
+.main #dialog-preview-video, .main #dialog-preview-api, .main #dialog-share, .main #dialog-start {
   padding: 0;
   background-color: white;
   outline: none;
   border: none; }
-  .main #dialog-preview-video #previewVideoContent, .main #dialog-preview-api #previewVideoContent, .main #dialog-share #previewVideoContent {
+  .main #dialog-preview-video #previewVideoContent, .main #dialog-preview-api #previewVideoContent, .main #dialog-share #previewVideoContent, .main #dialog-start #previewVideoContent {
     padding: 10px; }
 
 .main #api-button {
@@ -439,58 +445,64 @@ button, input[type="submit"] {
 .main #dialog-preview-api {
   overflow: auto; }
 
-.main #dialog-preview-api, .main #dialog-share {
+.main #dialog-preview-api, .main #dialog-share, .main #dialog-start {
   padding: 15px; }
-  .main #dialog-preview-api hr, .main #dialog-share hr {
+  .main #dialog-preview-api hr, .main #dialog-share hr, .main #dialog-start hr {
     margin-bottom: 20px; }
-  .main #dialog-preview-api h4, .main #dialog-share h4 {
+  .main #dialog-preview-api h4, .main #dialog-share h4, .main #dialog-start h4 {
     color: #48C18E;
     font-size: 20px;
     margin-top: 5px; }
-  .main #dialog-preview-api .api-table td, .main #dialog-preview-api .api-table th, .main #dialog-share .api-table td, .main #dialog-share .api-table th {
+  .main #dialog-preview-api .api-table td, .main #dialog-preview-api .api-table th, .main #dialog-share .api-table td, .main #dialog-share .api-table th, .main #dialog-start .api-table td, .main #dialog-start .api-table th {
     font-size: 14px;
     color: #656683; }
-    .main #dialog-preview-api .api-table td code, .main #dialog-preview-api .api-table th code, .main #dialog-share .api-table td code, .main #dialog-share .api-table th code {
+    .main #dialog-preview-api .api-table td code, .main #dialog-preview-api .api-table th code, .main #dialog-share .api-table td code, .main #dialog-share .api-table th code, .main #dialog-start .api-table td code, .main #dialog-start .api-table th code {
       font-family: monospace;
       color: #F47E84; }
-  .main #dialog-preview-api .api-table th, .main #dialog-share .api-table th {
+  .main #dialog-preview-api .api-table th, .main #dialog-share .api-table th, .main #dialog-start .api-table th {
     color: #F47E84;
     font-weight: 600;
     text-align: left; }
-  .main #dialog-preview-api .api-table pre.sample-fetch, .main #dialog-share .api-table pre.sample-fetch {
+  .main #dialog-preview-api .api-table pre.sample-fetch, .main #dialog-share .api-table pre.sample-fetch, .main #dialog-start .api-table pre.sample-fetch {
     color: white;
     padding: 15px;
     font-size: 14px;
     font-family: monospace;
     background-color: #656683; }
-  .main #dialog-preview-api .show_link, .main #dialog-share .show_link {
+  .main #dialog-preview-api .show_link, .main #dialog-share .show_link, .main #dialog-start .show_link {
     color: #161938;
     text-decoration: underline;
     text-underline-position: under; }
-  .main #dialog-preview-api #joinUrl, .main #dialog-share #joinUrl {
+  .main #dialog-preview-api #joinUrl, .main #dialog-share #joinUrl, .main #dialog-start #joinUrl {
     height: 10px;
     opacity: 0.01;
     width: 10px;
     padding: 2px;
     margin: 0px; }
-  .main #dialog-preview-api .copy, .main #dialog-preview-api .qr, .main #dialog-share .copy, .main #dialog-share .qr {
+  .main #dialog-preview-api .copy, .main #dialog-preview-api .qr, .main #dialog-share .copy, .main #dialog-share .qr, .main #dialog-start .copy, .main #dialog-start .qr {
     background: transparent;
     border: none;
     font-size: 1px;
     color: #F3945E;
     vertical-align: middle; }
-  .main #dialog-preview-api .qr, .main #dialog-share .qr {
+  .main #dialog-preview-api .qr, .main #dialog-share .qr, .main #dialog-start .qr {
     color: #F47E84; }
-  .main #dialog-preview-api .join-instructions, .main #dialog-share .join-instructions {
+  .main #dialog-preview-api .start-er, .main #dialog-share .start-er, .main #dialog-start .start-er {
+    text-align: center; }
+    .main #dialog-preview-api .start-er button.pulseButton, .main #dialog-share .start-er button.pulseButton, .main #dialog-start .start-er button.pulseButton {
+      margin-top: 20px;
+      font-size: 20px;
+      cursor: pointer; }
+  .main #dialog-preview-api .join-instructions, .main #dialog-preview-api .start-er, .main #dialog-share .join-instructions, .main #dialog-share .start-er, .main #dialog-start .join-instructions, .main #dialog-start .start-er {
     font-size: 18px;
     color: #161938; }
-    .main #dialog-preview-api .join-instructions .fullscreen, .main #dialog-share .join-instructions .fullscreen {
+    .main #dialog-preview-api .join-instructions .fullscreen, .main #dialog-preview-api .start-er .fullscreen, .main #dialog-share .join-instructions .fullscreen, .main #dialog-share .start-er .fullscreen, .main #dialog-start .join-instructions .fullscreen, .main #dialog-start .start-er .fullscreen {
       line-height: 43px; }
-      .main #dialog-preview-api .join-instructions .fullscreen #fullscreen-check, .main #dialog-share .join-instructions .fullscreen #fullscreen-check {
+      .main #dialog-preview-api .join-instructions .fullscreen #fullscreen-check, .main #dialog-preview-api .start-er .fullscreen #fullscreen-check, .main #dialog-share .join-instructions .fullscreen #fullscreen-check, .main #dialog-share .start-er .fullscreen #fullscreen-check, .main #dialog-start .join-instructions .fullscreen #fullscreen-check, .main #dialog-start .start-er .fullscreen #fullscreen-check {
         vertical-align: bottom; }
-  .main #dialog-preview-api a, .main #dialog-share a {
+  .main #dialog-preview-api a, .main #dialog-share a, .main #dialog-start a {
     color: #48C18E; }
-  .main #dialog-preview-api .hl, .main #dialog-share .hl {
+  .main #dialog-preview-api .hl, .main #dialog-share .hl, .main #dialog-start .hl {
     color: #36A2EB; }
 
 .main .ui-dialog {
@@ -2272,7 +2284,7 @@ button, input[type="submit"] {
     min-height: 100%;
     background-color: #161938; }
     .portada .contenedor .loginLeft {
-      background-color: #161938;
+      background-color: #2A2A52;
       width: 50%;
       text-align: center;
       flex: 7;
@@ -2287,7 +2299,7 @@ button, input[type="submit"] {
         align-self: center; }
     .portada .contenedor .loginRight {
       color: white;
-      background-color: #232850;
+      background-color: #2A2A52;
       text-align: center;
       width: 50%;
       flex: 3;
@@ -2298,6 +2310,12 @@ button, input[type="submit"] {
         width: 100%;
         text-align-last: center;
         padding: 0px 15px; }
+      .portada .contenedor .loginRight #accept_terms {
+        width: auto;
+        vertical-align: middle;
+        height: 20px;
+        padding: 0px;
+        margin: 0px; }
       .portada .contenedor .loginRight label span {
         padding-bottom: 7px;
         text-align: left;
@@ -2808,7 +2826,8 @@ button, input[type="submit"] {
     #mainSection .main.showStudent .flex .flex-thumb {
       width: 25%;
       position: relative;
-      padding-top: 22px; }
+      padding-top: 22px;
+      margin-left: 8px; }
       #mainSection .main.showStudent .flex .flex-thumb img {
         width: 100%;
         border-width: 5px; }
@@ -2832,7 +2851,7 @@ button, input[type="submit"] {
         top: 100%;
         border-color: white transparent transparent transparent; }
   #mainSection .main.showStudent .pulseButton {
-    margin-top: 100px;
+    margin-top: 10px;
     cursor: pointer;
     box-shadow: 0 0 2px 0px rgba(72, 193, 142, 0.5);
     animation: pulseButton 2s infinite; }
@@ -2876,7 +2895,8 @@ button, input[type="submit"] {
   .showStudent .flex {
     flex-direction: column; }
     .showStudent .flex .flex-thumb {
-      width: 100%; }
+      width: 100%;
+      margin-left: 0px; }
     .showStudent .flex .flex-er-info {
       padding: 0px; } }
 

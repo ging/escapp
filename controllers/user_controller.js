@@ -28,7 +28,7 @@ exports.show = (req, res) => {
 
 // GET /register
 exports.new = (req, res) => {
-    const user = {"name": "", "surname": "", "gender": "", "dni": "", "username": "", "password": ""};
+    const user = {"name": "", "surname": "", "gender": "", "username": "", "password": ""};
 
     res.render("index", {
         user,
@@ -39,14 +39,33 @@ exports.new = (req, res) => {
 
 // POST /users
 exports.create = (req, res, next) => {
-    const {name, surname, gender, username, password, dni, role} = req.body;
+    const {name, surname, gender, username, password, confirm_password, accept_terms, role} = req.body;
     const {redir} = req.query;
+
+    if (password !== confirm_password) {
+        req.flash("error", req.app.locals.i18n.common.flash.passwordsDoNotMatch);
+        res.render("index", {
+            "user": req.body,
+            "register": true,
+            redir
+        });
+        return;
+    }
+
+    if (!accept_terms) {
+        req.flash("error", req.app.locals.i18n.common.flash.youMustAcceptTerms);
+        res.render("index", {
+            "user": req.body,
+            "register": true,
+            redir
+        });
+        return;
+    }
     const user = models.user.build({
             name,
             surname,
             gender,
             "username": (username || "").toLowerCase(),
-            "dni": (dni || "").toLowerCase(),
             password
         }),
         isStudent = role === "student",
@@ -65,10 +84,13 @@ exports.create = (req, res, next) => {
     user.isStudent = Boolean(isStudent);
 
     // Save into the data base
-    user.save({"fields": ["name", "surname", "gender", "username", "dni", "password", "isStudent", "salt", "token"]}).
+    user.save({"fields": ["name", "surname", "gender", "username", "password", "isStudent", "salt", "token"]}).
         then(() => { // Render the users page
             req.flash("success", req.app.locals.i18n.common.flash.successCreatingUser);
-            res.redirect(redir ? `/?redir=${redir}` : "/"); // Redirection
+            req.body.login = username;
+            req.body.redir = redir;
+            next();
+            // Res.redirect(redir ? `/?redir=${redir}` : "/"); // Redirection
         }).
         catch(Sequelize.UniqueConstraintError, (error) => {
             console.error(error);
@@ -106,7 +128,6 @@ exports.update = (req, res, next) => {
     user.name = body.name;
     user.surname = body.surname;
     user.gender = body.gender;
-    user.password = body.password;
 
     // Password can not be empty
     if (!body.password) {

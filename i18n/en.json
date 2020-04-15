@@ -193,7 +193,8 @@
             "successEditingTeam": "Team successfully edited",
             "successEditingTurno": "Shift successfully edited",
             "successEditingUser": "User successfully edited",
-            "successImage": "Picture successfully uploaded"
+            "successImage": "Picture successfully uploaded",
+            "youMustAcceptTerms": "Debes aceptar las condiciones para poder registrarte"
         },
         "guide": "User guide",
         "ideas": "Puzzle ideas",
@@ -623,6 +624,8 @@
         "play": "play",
         "results": "results",
         "Results": "Results",
+        "start": "The escape room has just started!",
+        "join": "join",
         "sureUnjoin": "Are you sure you want to leave the Escape Room?",
         "congrats": "Congratulations! You've successfully exited the Escape Room.",
         "resultsTitle": "This is the escape room's leaderboard",
@@ -782,6 +785,8 @@
         "teacher": "Teacher",
         "student": "Student",
         "gender": "Gender",
+        "acceptTerms": "Terms and conditions",
+        "terms": "I hereby allow making use of my data in an anonymized way for research purposes exclusively.",
         "inputs": {
             "dniPlaceHolder": "Please enter your ID number",
             "editUser": "Edit profile",

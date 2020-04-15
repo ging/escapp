@@ -64,12 +64,16 @@ exports.index = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId
-exports.show = (req, res) => {
+exports.show = async (req, res) => {
     const {escapeRoom, participant} = req;
     const hostName = process.env.APP_NAME ? `https://${process.env.APP_NAME}` : "http://localhost:3000";
 
     if (participant) {
-        res.render("escapeRooms/showStudent", {escapeRoom, cloudinary, participant});
+        const [team] = participant.teamsAgregados;
+        const howManyRetos = await team.countRetos();
+        const finished = howManyRetos === escapeRoom.puzzles.length;
+
+        res.render("escapeRooms/showStudent", {escapeRoom, cloudinary, participant, team, finished});
     } else {
         res.render("escapeRooms/show", {escapeRoom, cloudinary, hostName, "email": req.session.user.username});
     }

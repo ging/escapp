@@ -44,7 +44,7 @@ exports.load = (req, res, next, turnId) => {
 exports.isTurnNotPending = (req, res, next) => {
     if (req.session.user.isStudent) {
         if (req.participant.teamsAgregados[0].turno.status === "pending") {
-            res.redirect("back");
+            res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
             return;
         }
     }
@@ -56,7 +56,7 @@ exports.isTurnStarted = (req, res, next) => {
         const [team] = req.participant.teamsAgregados;
 
         if (!(team.startTime instanceof Date && isFinite(team.startTime))) {
-            res.redirect("back");
+            res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
             return;
         }
     }

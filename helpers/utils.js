@@ -95,8 +95,10 @@ exports.playInterface = async (name, req, res, next) => {
 
             const team = teams && teams[0] ? teams[0] : {};
 
-            if (!team.startTime || team.turno.status !== "active") {
+            if (!team.startTime || team.turno.status !== "active" || exports.isTooLate(team, req.escapeRoom.forbiddenLateSubmissions, req.escapeRoom.duration) || team.retos.length === req.escapeRoom.puzzles.length) {
                 res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
+            } else {
+                await exports.automaticallySetAttendance(team, req.session.user.id, req.escapeRoom.automaticAttendance);
             }
             const hints = await models.requestedHint.findAll({"where": {"teamId": team.id, "success": true}, "include": models.hint});
 
@@ -168,7 +170,7 @@ exports.getScore = (puzzlesSolved, puzzleData, successHints, failHints, attendan
 
     if (attendance) {
         for (const p of puzzlesSolved) {
-            score += puzzleData[p].score || 0;
+            score += puzzleData[p].score || 0;
         }
         score += attendanceScore || 0;
         score += successHints * (scoreHintSuccess || 0);
@@ -253,8 +255,8 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
     return {status, "body": {code, correctAnswer, "authentication": true, "token": user.token, participation, msg, erState}};
 };
 
-exports.automaticallySetAttendance = async (team, user, automaticAttendance) => {
-    let inUser = [user.id];
+exports.automaticallySetAttendance = async (team, userId, automaticAttendance) => {
+    let inUser = [userId];
     const members = await team.getTeamMembers({"attributes": ["id", "name", "surname"]});
 
     switch (automaticAttendance) {

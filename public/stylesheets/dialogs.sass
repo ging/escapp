@@ -1,5 +1,10 @@
 .main
-    #dialog-preview-video, #dialog-preview-api, #dialog-share
+    .no-close
+        .ui-dialog-titlebar
+            display: none
+    #dialog-start > div
+        text-align: center
+    #dialog-preview-video, #dialog-preview-api, #dialog-share, #dialog-start
         padding: 0
         background-color: white
         outline: none
@@ -12,7 +17,7 @@
         border: none
     #dialog-preview-api
         overflow: auto
-    #dialog-preview-api, #dialog-share
+    #dialog-preview-api, #dialog-share, #dialog-start
         padding: 15px
         hr
             margin-bottom: 20px
@@ -56,7 +61,13 @@
             vertical-align: middle
         .qr
             color: $lightred
-        .join-instructions
+        .start-er
+            text-align: center
+            button.pulseButton
+                margin-top: 20px
+                font-size: 20px
+                cursor: pointer
+        .join-instructions, .start-er
             font-size: 18px
             color: $darkerpurple
             .fullscreen

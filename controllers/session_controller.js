@@ -11,6 +11,8 @@ const query = require("../queries");
  */
 const maxIdleTime = 3 * 60 * 60 * 1000; /* * * Middleware used to destroy the user's session if the inactivity time * has been exceeded. * */
 
+exports.maxIdleTime = maxIdleTime;
+
 exports.deleteExpiredUserSession = (req, res, next) => {
     if (req.session.user) { // There exists a user session
         if (req.session.user.expires < Date.now()) { // Expired
@@ -197,9 +199,9 @@ exports.new = (req, res) => {
 
 // POST /   -- Create the session if the user authenticates successfully
 exports.create = async (req, res, next) => {
-    const {redir} = req.body,
-        {login} = req.body,
-        {password} = req.body;
+    const {redir, login, password} = req.body;
+
+    console.log(req.body);
 
     try {
         const user = await authenticate((login || "").toLowerCase(), password);

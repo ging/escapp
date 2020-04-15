@@ -68,7 +68,7 @@ router.get("/users/password-reset", sessionController.logoutRequired, userContro
 router.get("/users/password-reset/:userId(\\d+)", sessionController.logoutRequired, userController.resetPasswordHash);
 router.post("/users/password-reset", sessionController.logoutRequired, userController.newResetPassword);
 router.post("/users/password-reset/:userId(\\d+)", sessionController.logoutRequired, userController.newResetPasswordHash);
-router.post("/users", userController.create);
+router.post("/users", sessionController.logoutRequired, userController.create, sessionController.create);
 router.get("/users/index", sessionController.loginRequired, sessionController.adminRequired, userController.index);
 router.get("/users/:userId(\\d+)/edit", sessionController.loginRequired, sessionController.adminOrMyselfRequired, userController.edit);
 router.put("/users/:userId(\\d+)", sessionController.loginRequired, sessionController.adminOrMyselfRequired, userController.update);

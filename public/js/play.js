@@ -118,8 +118,8 @@ const onStop = () => {
 }
 
 const onJoin = () => {
-  console.log("Someone from your team has joined the ER")
-  alertMsg = $.easyAlert({"message": i18n["teamJoined"], "alertType": "info", "position": "b l", "showDuration": 1000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "slide"});
+  // console.log("Someone from your team has joined the ER")
+  // alertMsg = $.easyAlert({"message": i18n["teamJoined"], "alertType": "info", "position": "b l", "showDuration": 1000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "slide"});
 
 }
 

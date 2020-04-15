@@ -31,8 +31,9 @@ const getInfoFromSocket = ({request, handshake}) => {
     const turnId = parseInt(handshake.query.turn, 10) || undefined;
     const {username} = request.session.user;
     const isAdmin = Boolean(request.session.user.isAdmin);
+    const {waiting} = handshake.query;
 
-    return {userId, teamId, escapeRoomId, turnId, username, isAdmin, lang};
+    return {userId, teamId, escapeRoomId, turnId, username, isAdmin, lang, waiting};
 };
 
 /** Check if user has the rights to access a resource **/
@@ -106,8 +107,10 @@ const leaveParticipant = (turnId, team, userId) => sendTurnMessage({"type": LEAV
 const leaveTeam = (turnId, team) => sendTurnMessage({"type": LEAVE_TEAM, "payload": {team}}, turnId);
 /** Client-server**/
 
-const join = async (teamId, username) => {
-    await joinResponse(teamId, username);
+const join = async (teamId, username, waiting) => {
+    if (!waiting) {
+        await joinResponse(teamId, username);
+    }
 };
 
 const startTurno = async (turnId) => {
@@ -232,9 +235,9 @@ const requestHint = async (teamId, status, score, category) => {
         const result = await calculateNextHint(team.turno.escapeRoom, team, status, score, category);
 
         if (result) {
-            const {msg, ok, hintId, puzzleId, category} = result;
+            const {msg, ok, hintId, puzzleId, "category": newCat} = result;
 
-            await hintResponse(ok, hintId, puzzleId, category, msg, teamId, {"empty": "empty", "dontClose": "dontClose", "failed": "failed"});
+            await hintResponse(ok, hintId, puzzleId, newCat, msg, teamId, {"empty": "empty", "dontClose": "dontClose", "failed": "failed"});
         }
     }
 };

@@ -12,7 +12,7 @@ exports.createServer = (server, sessionMiddleware) => {
     // TODO Discover what happens when server disconnects. Reconnection same socket id?
     io.on("connection", async (socket) => {
         if (socket.request.session && socket.request.session.user) {
-            const {userId, teamId, escapeRoomId, turnId, isAdmin, username, lang} = getInfoFromSocket(socket);
+            const {userId, teamId, escapeRoomId, turnId, isAdmin, username, lang, waiting} = getInfoFromSocket(socket);
             // eslint-disable-next-line global-require
             const i18n = require(`./i18n/${lang}`);
             const access = isAdmin ? "ADMIN" : await checkAccess(userId, teamId, escapeRoomId, turnId, i18n);
@@ -25,7 +25,7 @@ exports.createServer = (server, sessionMiddleware) => {
                 if (teamId) {
                     socket.on(SOLVE_PUZZLE, ({puzzleId, sol}) => solvePuzzle(escapeRoomId, teamId, userId, puzzleId, sol, i18n));
                     socket.on(REQUEST_HINT, ({status, score, category}) => requestHint(teamId, status, score, category, i18n));
-                    await join(teamId, username);
+                    await join(teamId, username, waiting);
                     socket.join(`teamId_${teamId}`);
                 }
                 if (turnId) {

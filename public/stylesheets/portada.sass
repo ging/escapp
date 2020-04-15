@@ -17,7 +17,7 @@
         min-height: 100%
         background-color: $darkerpurple
         .loginLeft
-            background-color: #161938
+            background-color: $bckg
             width: 50%
             text-align: center
             flex: 7
@@ -32,7 +32,7 @@
                 align-self: center
         .loginRight
             color: white
-            background-color: $mainpurple
+            background-color: $bckg
             text-align: center
             width: 50%
             flex: 3
@@ -43,6 +43,12 @@
                 width: 100%
                 text-align-last: center
                 padding: 0px 15px
+            #accept_terms
+                width: auto
+                vertical-align: middle
+                height: 20px
+                padding: 0px
+                margin: 0px
             label
                 span
                     padding-bottom: 7px
@@ -51,7 +57,7 @@
                 &:focus-within
                     color: white
             .loginWelcomeMessage
-                color: #656683
+                color: $textpurple
                 text-align: left
                 padding-top: 15px
                 font-size: 18px

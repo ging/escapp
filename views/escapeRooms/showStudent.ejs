@@ -1,8 +1,8 @@
-<% const team = participant.teamsAgregados[0]%>
 <% const turno = team.turno%>
 <% include ../partials/_header.ejs %>
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
-
+<script src="/js/vendor/socket.io.js"></script>
+<script src="/js/vendor/jquery-ui.min.js"></script>
 <div class="main showStudent">
 	<div class="breadcrumbs-container">
         <div class="breadcrumbs">
@@ -47,50 +47,16 @@
 	
 		<div class="status animated fadeIn">
 
-			<% 
-			
-			if (turno.status === "pending") { 
-				let date = new Date(turno.date);
-				let now = new Date();%>
-				<script>
-				</script><%
-				const lessThanHalfAnHour = ((date - now) / 1000 / 60) < 30;
-				if (lessThanHalfAnHour) {%>
-					<% if (escapeRoom.pretest) { %>
-						<!--<div class="desc centered ">
-							<%=i18n.showStudent.beforeStart%>
-							<br/><br/>
-							<a target="_blank" href="<%=escapeRoom.pretest%>">
-								<button class="rounded"><%=i18n.showStudent.access%></button>
-							</a>
-						</div>-->
-					<% } %>
-					
-				<% } %>
-				<button class="rounded disabled" disabled><%=i18n.showStudent.play%>%></button>
-			<% } else if(turno.status === "active") { %>
-				<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
-					<button class="rounded acceptButton pulseButton"><%=i18n.showStudent.play%>%></button>
-				</form>
-			<% } else {%>
-				<% if (escapeRoom.posttest) { %>
-					<!--<div class="desc centered ">
-						<%=i18n.showStudent.beforeLeave%>
-						<br/><br/>
-						<a target="_blank" href="<%=escapeRoom.posttest%>">
-							<button class="rounded"><%=i18n.showStudent.access%></button>
-						</a> 
-					</div>
-					<br/><br/><br/>-->
-				<% } %>
-				<% if (escapeRoom.survey) { %>
-					<!--<div class="desc centered">
-						<%=i18n.showStudent.opinion%> <br/><br/>
-						<a  target="_blank" href="<%=escapeRoom.survey%>">
-							<button class="rounded"><%=i18n.showStudent.access%></button>
-						</a>
-					</div>-->
-				<% } %>
+			<% if (turno.status === "pending") { %>
+				<span id ="start">
+					<button class="rounded disabled" disabled id ><%=i18n.showStudent.play%>%></button>
+				</span>
+			<% } else if(turno.status === "active" && !finished && (!team.startTime || (new Date(team.startTime.getTime() + escapeRoom.duration * 60000) > new Date()))) { %>
+				<span id ="start">
+					<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
+						<button class="rounded acceptButton pulseButton"><%=team.startTime ? i18n.showStudent.join : i18n.showStudent.play%></button>
+					</form>
+				</span>
 			<%}%>
 			<% if (turno.status !== "pending" && team.startTime) { %>
 				<a href="/escapeRooms/<%=escapeRoom.id%>/results">
@@ -117,15 +83,81 @@
 	<br/><br/><br/><br/>
 
 	<br/><br/><br/>
-</div>
+	<% if (turno.status !== "finished") { %>
+	<div id="dialog-start" title="">
+		<div>
+			<p class="start-er"><%=i18n.showStudent.start%> <br/>
+				<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
+					<button class="rounded acceptButton pulseButton"><%=i18n.showStudent.join%>%></button>
+				</form>
+			</p>
+		
+		</div>
+	</div>
 
 <script>
+$(()=>{
 	var participant = JSON.parse('<%-JSON.stringify(participant)%>')
-    const overlayTrigger = (id, close) => {
-        $('.overlay-trigger').hide();
-        if (!close) {
-            $('.overlay-trigger[data-id="' + id + '"]').show();
-        }
-    };
+	var socket;
+	const CONNECT = "connect";
+	const DISCONNECT = "disconnect";
+	const ERROR = "ERROR";
+	const START = "START";
+	const STOP = "STOP";
+	const JOIN = "JOIN";
+	const escapeRoomId = "<%= escapeRoom.id%>";
+	const teamId = <%= team.id || "undefined";%>   
+	const userId = <%= session.user.id %>;
+	const startTime = <%=Boolean(turno.startTime || team.startTime)%>;
+	const dialogOptions = {
+		dialogClass: 'no-close',
+		autoOpen: false,
+		resizable: false,
+		width: screen.width > 420 ? 400 : screen.width*0.9,
+		height: "auto",
+		modal: true,
+		show: {effect: "scale", duration: 400},
+		hide: {effect: "scale", duration: 400},
+		appendTo: '.main'
+	};
+	$("#dialog-start").dialog(dialogOptions);
+
+	const overlayTrigger = (id, close) => {
+		$('.overlay-trigger').hide();
+		if (!close) {
+			$('.overlay-trigger[data-id="' + id + '"]').show();
+		}
+	};
+
+	const onStart = (msg) => {
+		$( "#dialog-start" ).dialog( "open" )
+		$('#start-er').html(`<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
+			<button class="rounded acceptButton pulseButton"><%=i18n.showStudent.join%>%></button>
+		</form>`);
+	};
+	const onJoin = (msg) => {
+		if (!startTime) {
+			$( "#dialog-start" ).dialog( "open" )
+			$('#start-er').html(`<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
+				<button class="rounded acceptButton pulseButton"><%=i18n.showStudent.join%>%></button>
+			</form>`);
+		}
+	};
+
+	const initSocketServer = (escapeRoomId, teamId, turnId, userId) => {
+		socket = io('/', {query: {
+			escapeRoom: escapeRoomId == "undefined" ? undefined : escapeRoomId, 
+			team: teamId == "undefined" ? undefined : teamId, 
+			turn: turnId == "undefined" ? undefined : turnId,
+			waiting: true  
+		}});
+		socket.on(START, onStart); 
+		socket.on(JOIN, onJoin); 
+	};
+	initSocketServer(<%= escapeRoom.id%>, teamId, <%= turno ? turno.id : "undefined" %>, userId);
+});
 </script> 
+<% } %>
+</div>
+
 <% include ../partials/_footer %>

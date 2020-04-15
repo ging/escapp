@@ -47,12 +47,6 @@
         </div>
     <%}%>
 </div>
-<br />
-<div class="userField">
-    <label for="dni"><span><%=i18n.user.dni%></span>
-    <input type="dni" <%=user.id?"disabled":""%> class="customInput" id="dni" name="dni" value="<%= user.dni %>" required placeholder="<%=i18n.user.inputs.dniPlaceHolder %>" autocomplete="off"/></label>
-</div>
-<br />
 <div class="userField">
         <label for="user_password"><span><%=i18n.user.password%></span>
         <input type="password" class="customInput" id="user_password" name="password" required placeholder="<%=i18n.user.inputs.passwordPlaceHolder %>" autocomplete="off"/></label>
@@ -60,9 +54,18 @@
 <br />
 <div class="userField">
         <label for="user_confirm_password"><span><%=i18n.user.passwordConfirm%></span>
-        <input type="password" class="customInput" id="user_confirm_password" required placeholder="<%=i18n.user.inputs.passwordConfirmPlaceHolder %>" autocomplete="off"/></label>
+        <input type="password" class="customInput" id="user_confirm_password" name="confirm_password" required placeholder="<%=i18n.user.inputs.passwordConfirmPlaceHolder %>" autocomplete="off"/></label>
 </div>
 <br />
+<div class="userField">
+    <label for="accept_terms"><span><%=i18n.user.acceptTerms%></span>
+     <p>
+        <input type="checkbox" class="" id="accept_terms" name="accept_terms" required autocomplete="off"/>
+        <%=i18n.user.terms%>
+    </p>
+</label>
+</div>
+<br/>
 <%if (!user.id) {%>
     <button class="registro" type="submit" value="Save" onclick="return (confirmPassword() && confirmDNI())"><%=i18n.user.actions.register %></button>
     <br />
@@ -93,38 +96,7 @@
             return false;
         }
     }
-    function validateDNI(value){
-
-      var validChars = 'TRWAGMYFPDXBNJZSQVHLCKET';
-      var nifRexp = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
-      var nieRexp = /^[XYZ]{1}[0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
-      var str = value.toString().toUpperCase();
-      if (!nifRexp.test(str) && !nieRexp.test(str)) return false;
-
-      var nie = str
-        .replace(/^[X]/, '0')
-        .replace(/^[Y]/, '1')
-        .replace(/^[Z]/, '2');
-
-      var letter = str.substr(-1);
-      var charIndex = parseInt(nie.substr(0, 8)) % 23;
-
-      if (validChars.charAt(charIndex) === letter) return true;
-
-      return false;
-    }
-    function confirmDNI(){
-        return true;
-        var numero, letr, letra, expresion_regular_dni;
-        var dni = document.getElementById('dni').value;
-
-        if(!validateDNI(dni)){
-            $.easyAlert({message: "<%=i18n.user.messages.invalidDNI %>", alertType: 'error', position: 'b l', time: 3000, autoHide: true});
-            return false;
-        } else {
-          return true;
-        }
-    }
+    
 </script>
 
 </form>

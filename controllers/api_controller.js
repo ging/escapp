@@ -120,6 +120,9 @@ exports.checkPuzzle = async (req, _res, next) => {
     req.response = await checkPuzzle(solution, puzzle, escapeRoom, teams, user, i18n, req.params.puzzleOrder);
     const {code, correctAnswer, participation, authentication, msg} = req.response.body;
 
+    if (participation === PARTICIPANT) {
+        await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
+    }
     if (code === OK) {
         const [team] = teams;
 
@@ -141,6 +144,9 @@ exports.auth = async (req, _res, next) => {
         const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
         const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed) : undefined;
 
+        if (participation === PARTICIPANT) {
+            await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
+        }
         const {status, code, msg} = getAuthMessageAndCode(participation, i18n);
 
         req.response = {status, "body": {code, authentication, token, participation, msg, erState}};
@@ -166,8 +172,7 @@ exports.startPlaying = async (req, _res, next) => {
         const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed) : undefined;
 
         if (participation === PARTICIPANT || participation === NOT_STARTED) {
-            const joinTeam = await automaticallySetAttendance(teams[0], user, escapeRoom.automaticAttendance);
-            // ER state
+            const joinTeam = await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
 
             if (joinTeam) {
                 sendJoinTeam(joinTeam);

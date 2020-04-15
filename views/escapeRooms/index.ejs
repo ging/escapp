@@ -33,7 +33,19 @@
                 <% var escapeRoom = escapeRooms[i]; %>
                 <% var attachment = escapeRoom.attachment; %>
                 <% var disabled = (user && user.isStudent && escapeRoom.disabled); %>
-                <% var href = "/escapeRooms/" + ((user && user.isStudent && !escapeRoom.isSignedUp) ? (disabled ? "":(escapeRoom.id +"/join")) : escapeRoom.id );%>
+                <% var href = "/escapeRooms/" + escapeRoom.id;
+                if (user && user.isStudent) {
+                    if (escapeRoom.isSignedUp) {
+                        href += "/play";
+                    } else {
+                        if (disabled) {
+                            href = "/escapeRooms/";
+                        } else {
+                            href += "/join";
+                        } 
+                    }
+                }
+                 ((user && user.isStudent && !escapeRoom.isSignedUp) ? (disabled ? "":(escapeRoom.id +"/join")) : escapeRoom.id );%>
                 <a href="<%=href%>" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=100*i%>ms;">
                     <div class="escapeRoomItem <%= disabled ?' disabled':'' %>">
                         <div class="erFoto" style="text-align: center">
