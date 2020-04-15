@@ -51,6 +51,7 @@ exports.retosUpdate = async (req, res, next) => {
 
     try {
         const promises = [];
+
         const retos = sanitizePuzzles(puzzles);
 
         for (const reto of retos) {
@@ -68,6 +69,7 @@ exports.retosUpdate = async (req, res, next) => {
                     oldPuzzle.correct = reto.correct;
                     oldPuzzle.fail = reto.fail;
                     promises.push(oldPuzzle.save({transaction}));
+
                     const hints = sanitizeHints(reto.hints);
 
                     for (const hint of hints) {
@@ -76,6 +78,7 @@ exports.retosUpdate = async (req, res, next) => {
 
                             if (oldHint) {
                                 oldHint.content = hint.content;
+                                oldHint.category = hint.category;
                                 oldHint.order = hint.order;
                                 promises.push(oldHint.save({transaction}));
                             }
@@ -93,7 +96,8 @@ exports.retosUpdate = async (req, res, next) => {
                             "escapeRoomId": escapeRoom.id,
                             "hints": sanitizeHints(reto.hints).map((hint) => ({
                                 "content": hint.content,
-                                "order": hint.order
+                                "order": hint.order,
+                                "category": hint.category
                             }))
                         },
                         {"include": [models.hint]}

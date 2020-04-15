@@ -17,7 +17,7 @@
             "hintFailed": "Hints missed"
         },
         "hints": {
-            "customClue": "Custom clue",
+            "customClue": "Help from the teacher",
             "failed": "Hint requests failed",
             "failedClue": "Failed clue",
             "succeeded": "Hints obtained",
@@ -69,7 +69,7 @@
             "title": "Summary"
         },
         "timeline": {
-            "customHint": "Custom hint",
+            "customHint": "Help from the teacher",
             "openDoor": "Open Door",
             "closedDoor": "Closed Door",
             "nTeamsPuzzle": "Number of teams that completed each puzzle",
@@ -340,6 +340,8 @@
                 "feedback": "Feedback",
                 "feedbackExplanation": "Do you want to show students the correct answers once the quiz is completed?",
                 "hintFile": "Battery of questions file",
+                "allowCustomHints": "Allow manual hints",
+                "allowCustomHintsExplanation": "If you check this option, when a team runs out of automatic hints, they will be told to ask the teacher for help instead. If not checked, students will not be able to request hints when they run out.", 
                 "hintLimit": "Hint limit",
                 "hintLimitExplanation": "What is the maximum number of hints students can get?",
                 "hintLimitPlaceholder": "No limit",
@@ -392,6 +394,7 @@
                 "failMsg": "Message on fail",
                 "hints": "Hints",
                 "manual": "Manual",
+                "newCat": "Categoría nueva",
                 "noCluesYet": "You haven't defined any puzzles yet",
                 "noPuzzlesYet": "You haven't defined any puzzles yet",
                 "notYet": "Please create a new puzzle before assigning it any hints",
@@ -436,8 +439,12 @@
         "failed": "Oops! Please try again",
         "failMessage": "Oops! Please keep trying",
         "dontClose": "There aren't any hints left. You may ask your teacher now, he or she will help you. Don't close this message until they come",
-        "empty": "Custom hint",
+        "empty": "Ask the teacher for help",
         "instructionsHints": "Answer the questions in order to get a hint",
+        "chooseCat": "¿What do you need help with?",
+        "cantRequestMore": "You cannot request more hints",
+        "cantRequestMoreThis": "You cannot request more hints in your current situation",
+        "canRequest": "Request a hint",
         "Hint": "Hint",
         "Hints": "Hints",
         "need": "Need a hint?",

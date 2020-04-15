@@ -38,7 +38,7 @@
         </div>
     <% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
     <% var hintAppConditional = hintConditional && Boolean(escapeRoom.hintApp); // Hint app methodology %>
-   
+    <% var reqHints = []; %>
         <% if (endPoint === "team" && hintConditional) {%>
             <div class="row-centered">
                 <div class="col-xs-12">
@@ -47,6 +47,7 @@
                         <ul id="hintList" >
                         <% for (var hint of hints) {
                             if (hint) {%>
+                                <% hint.hint ? reqHints.push(hint.hint.id) : null;%>
                             <li>
                                 <div class="card border-info mb-3">
                                     <div class="card-body">
@@ -79,6 +80,8 @@
             </script>
             <div class="dialog" >
                 <div class="dialog-content" id="finishPuzzles">
+                <% var found = null; %>
+
                     <% if (finish) {   %>
                         <h4 id="puzzles"><%=i18n.puzzle.finish%></h4>
                         <br/>
@@ -103,17 +106,36 @@
         </div>
     </div>
 </div>
-<% var puzzles = escapeRoom.puzzles.map(({ id, title, score, automatic })=>({ id, title, score, automatic })) %>
+
+<% var puzzles = escapeRoom.puzzles
+.map(({ id, title, score, automatic, hints })=>{ 
+    const categories = Array.from(new Set(hints.map(h=>h.category)));
+    return { id, title, score, automatic, categories, hints: hints.reduce((a,b) => {
+        if (reqHints.indexOf(b.id) === -1){
+            if ( a[b.category]) {
+                a[b.category].push(b.id)
+            } else {
+                a[b.category] = [b.id];
+            }
+        } else {
+            if (!a[b.category]) {
+                a[b.category] = [];
+            }
+        }
+        return a;
+    }, {})}}) %>
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
     var nPuzzles = "<%= escapeRoom.puzzles.length%>";
+    var reqHints = <%=JSON.stringify(reqHints)%>;
     var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
     var teamId = <%= team.id || "undefined";%>   
     var userId = <%= session.user.id %>;
     var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(puzzles)%>');
     var hintConditional = <%= hintConditional || false %>;
     var hintAppConditional =  <%= hintAppConditional || false%>;
-    
+    var allowCustomHints = <%= escapeRoom.allowCustomHints ? "true" : "false"%>
+    var currentlyWorkingOn = <%=found || "null"%>;
     initSocketServer(<%= escapeRoom.id%>, teamId, <%= team.turno ? team.turno.id : "undefined" %>, userId);
     var i18n = {
         "empty": "<%=  i18n.hint.empty %>", 
@@ -123,6 +145,10 @@
         "dontClose":  "<%= i18n.hint.dontClose %>", 
         "failed": "<%= i18n.hint.failed %>",
         "instructionsHints": "<%= i18n.hint.instructionsHints %>",
+        "chooseCat": "<%= i18n.hint.chooseCat %>",
+        "cantRequestMore": "<%= i18n.hint.cantRequestMore %>",
+        "cantRequestMoreThis": "<%= i18n.hint.cantRequestMoreThis %>",
+        "canRequest": "<%= i18n.hint.canRequest %>",
         "finishMsg": "<%=i18n.puzzle.finish%>",
         "finishButton": "<%=i18n.common.finish%>",
         "tooMany": "<%=i18n.hint.tooMany%>",

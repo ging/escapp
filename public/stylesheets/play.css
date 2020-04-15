@@ -121,9 +121,50 @@ p {
     padding: 0px;
 }
 
+#hintAppModal .categories{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 15px 15px 0px 15px;
+    align-items: stretch;
+    justify-content: stretch;
+}
+
+#hintAppModal .categories .category {
+    list-style-type: none;
+    flex: 1;
+    padding: 3px;
+}
+#hintAppModal .categories .category .cat-button {
+    background: transparent;
+    outline: none;
+    border: 2px solid var(--info);
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: var(--info);
+}
+
+#hintAppModal .categories .category .cat-button:active,
+#hintAppModal .categories .category .cat-button:hover,
+#hintAppModal .categories .category .cat-button:focus {
+  color: white;
+  background: var(--info);
+}
+#hintAppModal .categories .category .cat-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 #hintAppModal .customHint {
     padding: 20px;
     font-size: 1.3em;
+}
+
+#btn-hints:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+
 }
 
 .puzzle-progress {
@@ -206,5 +247,8 @@ p {
   }
   .ranking-table .ranking-row .ranking-time {
     width: 35%;
+  }
+  #hintAppModal .categories{
+    flex-direction: column;
   }
 }

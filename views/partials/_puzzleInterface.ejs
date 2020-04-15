@@ -2,7 +2,6 @@
 <% if (escapeRoom.puzzles.some(p=>!p.automatic)) { %> 
     <h4 id="puzzles"><%=i18n.puzzle.Puzzles%></h4> 
 <% } %>
-<% var found = false; %>
 <% for (var reto in puzzles){ %>
     <% var puzzle = puzzles[reto] %>
     <% var noSuperado = retosSuperados.indexOf(puzzle.id) === -1; %>
@@ -25,12 +24,12 @@
         <% 
           
         } else { %>
-            <b><%= i18n.puzzle.correctAnswer%></b>
+            <b><%= puzzle.correct || i18n.puzzle.correctAnswer%></b>
         <% } %>
       </div>
     <% } 
-    if (noSuperado) {
-      found = true;
+    if (noSuperado && !found) {
+      found = puzzle.id;
     } %>
 <%}%>
  

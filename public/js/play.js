@@ -33,22 +33,24 @@ const hintTemplate = (hint) => `
 
 const customHintTemplate = (msg = i18n.dontClose) => `
   <div class="customHint" >
-    ${msg}
+    ${(msg)}
   </div>
   `;
 
-const modalTemplate = () => `
+const modalTemplate = (categories, hints) => `
   <div class="modal animated zoomIn" tabindex="-1" role="dialog" id="hintAppModal" aria-labelledby="hintApp" aria-hidden="true">
     <div class="modal-dialog modal-lg " role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title"><b>${i18n.instructionsHints}</b></h5>
+          <h5 class="modal-title" id="modal-title"><b>${categories ? i18n.chooseCat : i18n.instructionsHints}</b></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body" id="modalContent">
-          <iframe class="hintAppIframe" src="/escapeRooms/${escapeRoomId}/hintAppWrapper"/>
+          ${categories ? `<ul class="categories">
+            ${categories.map(c=>`<li class="category"><button class="cat-button" ${hints[c].length || allowCustomHints ? "" : "disabled"} data-name="${c}">${c}</button></li>`).join("")}
+          </ul>` : `<iframe class="hintAppIframe" src="/escapeRooms/${escapeRoomId}/hintAppWrapper"/>`}
         </div>
       </div>
     </div>
@@ -89,7 +91,7 @@ const error = (msg) => ({type: ERROR, payload: {msg}});
 
 const solvePuzzle = (puzzleId, sol) => socket.emit("SOLVE_PUZZLE", {puzzleId, sol});
 
-const requestHint = (score, status) => socket.emit("REQUEST_HINT", {score, status});
+const requestHint = (score, status, category) => socket.emit("REQUEST_HINT", {score, status, category});
 
 
 /** INCOMING MESSAGES **/
@@ -136,6 +138,7 @@ const onReconnect = () => {
 const onPuzzleResponse = async ({success, correctAnswer, puzzleId, participation, authentication, msg, participantMessage}) => {
   const feedback = msg + (participantMessage && participation !== "PARTICIPANT" ? `. ${participantMessage}`: "");
   if (success) {
+    let nextPuzzleId = null;
     if (!retosSuperados.some(r => r == puzzleId)) {
       retosSuperados.push(puzzleId)
       puzzlesPassed++;
@@ -149,10 +152,13 @@ const onPuzzleResponse = async ({success, correctAnswer, puzzleId, participation
         confetti.start(10000);
       } else {
         const puzzleIndex = escapeRoomPuzzles.findIndex(puzzle => puzzle.id == puzzleId);
-        if (puzzleIndex > -1  && puzzleIndex < (escapeRoomPuzzles.length - 1) && !escapeRoomPuzzles[puzzleIndex + 1].automatic){
-          $('#finishPuzzles').append(puzzleInterfaceTemplate(escapeRoomPuzzles[puzzleIndex + 1]));
+        const nextPuzzle = escapeRoomPuzzles[puzzleIndex + 1];
+        nextPuzzleId = nextPuzzle.id;
+        if (puzzleIndex > -1  && puzzleIndex < (escapeRoomPuzzles.length - 1) && !nextPuzzle.automatic){
+          $('#finishPuzzles').append(puzzleInterfaceTemplate(nextPuzzle));
         }
       }
+      checkAvailHintsForPuzzle(nextPuzzleId);
     }
   } else {
     $(`.puzzle-feedback[data-puzzle-id="${puzzleId}"]`).html(feedback);
@@ -160,51 +166,115 @@ const onPuzzleResponse = async ({success, correctAnswer, puzzleId, participation
   }
 };
 
-const onHintResponse = async ({success, hintId, msg}) => {
-  const message = ((success && !hintId) || !success) ? i18n[msg] : msg;
-  if (hintId) {
-    if (waitingForHintReply) {
-      await forMs(2000);
-      $('#hintAppModal').addClass('zoomOut');
-      await forMs(300);
-      $('#hintAppModal').modal('hide');
-      waitingForHintReply = false;
-      await forMs(500);        
-    } else {
-      await forMs(2800);
-    }
-    $('ul#hintList').append(hintTemplate(message));
-  } else {
-    if (success) {
-      if (waitingForHintReply) {
-        if (hintAppConditional) {
-          $('#hintAppModal').on('hidden.bs.modal', async (e) => {
-            await forMs(700);
-            $('ul#hintList').append(hintTemplate(message));
-          });
-        } else {
-          $('ul#hintList').append(hintTemplate(message));
-          
-        }
-        await forMs(3000);
-        $('#modalContent').append(customHintTemplate());
-      } else {
-        $('ul#hintList').append(hintTemplate(message));
-      }
-    } else {
-      if (msg === "tooMany") {
-        $('#modalContent').append(customHintTemplate(i18n.tooMany));
-        await forMs(3000);
-      }
-      await forMs(1000);
-      $('#hintAppModal').addClass('zoomOut');
-      await forMs(300);
-      $('#hintAppModal').modal('hide');
-    }
-    waitingForHintReply = false;
+const closeHintModal = async () => {
+  // Close hint modal
+  $('#hintAppModal').addClass('zoomOut'); 
+  await forMs(300);
+  $('#hintAppModal').modal('hide'); 
+}
+
+const checkAvailHintsForPuzzle = (puzzleId) => {
+  if (!puzzleId) {
+    $('#btn-hints').attr("disabled", true);
+    $('#btn-hints').attr("title", i18n["cantRequestMore"]);
+    return;
   }
+
   if (escapeRoomHintLimit !== undefined && escapeRoomHintLimit <= $("#hintList").children().length){
     $('#btn-hints').attr("disabled", true);
+    $('#btn-hints').attr("title", i18n["cantRequestMore"]);
+
+    return;
+  }
+
+  if (allowCustomHints) {
+    $('#btn-hints').attr("disabled", false);
+    $('#btn-hints').attr("title", i18n["canRequest"]);
+
+    return;
+  }
+
+  const puzzle = escapeRoomPuzzles.find(p => p.id === puzzleId);
+  if (puzzle && puzzle.hints) {
+    var anyHint = false;
+    for (var c in puzzle.hints) {
+      var hints = puzzle.hints[c];
+      if (hints.length) {
+        anyHint = true;
+        break;
+      }
+    }
+    if (anyHint) {
+      $('#btn-hints').attr("disabled", false);
+      $('#btn-hints').attr("title", i18n["canRequest"]);
+      
+
+    } else {
+      $('#btn-hints').attr("disabled", true);
+      $('#btn-hints').attr("title", i18n["cantRequestMoreThis"]);
+    }
+  }
+}
+
+const onHintResponse = async ({success, puzzleId, hintId, category, msg}) => {
+  const message = ((success && !hintId) || !success) ? i18n[msg] : msg;
+  if (hintId) { // Existing hint
+    if (reqHints.indexOf(hintId) === -1 ) { // Not hint requested before
+      reqHints.push(hintId);
+      const currentPuzzle = escapeRoomPuzzles.find(puz => puz.id === puzzleId);
+      if (currentPuzzle) {
+        const hintArr = currentPuzzle.hints[category || currentPuzzle.categories[0]];
+        const idx = hintArr.indexOf(hintId);
+        if (idx !== -1) {
+          hintArr.splice(idx, 1);
+        }
+      }
+    }
+
+    if (waitingForHintReply) {  // Receive a hint that you requested
+      if (hintAppConditional) {
+        await forMs(2500);
+      }
+      await closeHintModal();
+      waitingForHintReply = false;
+      $('html').css('cursor','auto');
+      await forMs(500);        
+    } else {
+      await forMs(500);
+    }
+    $('ul#hintList').append(hintTemplate(message));
+  } else if(allowCustomHints) {
+    if (success) { // Hint obtained
+      if (waitingForHintReply) { // Receive a hint that you requested
+        if (hintAppConditional && allowCustomHints) {  // Modal is open
+          $('#hintAppModal').on('hidden.bs.modal', async (e) => { // When modal closes
+            await forMs(100);
+            $('ul#hintList').append(hintTemplate(message)); // Show hint
+          }); 
+          $('#modalContent').append(customHintTemplate()); // Show custom hint message in modal
+        } else { // Free hint
+          $('ul#hintList').append(hintTemplate(message));  // Show hint
+        }
+      } else { // Receive a hint that someone else requested
+        $('ul#hintList').append(hintTemplate(message));  // Show hint
+      }
+    } else { // Hint not obtained (only quiz strategy)
+      if (msg === "tooMany") { // By the time you finished the quiz there were no hints left
+        $('#modalContent').append(customHintTemplate(i18n.tooMany)); // Show message in modal
+        await forMs(3000);
+      }
+      await closeHintModal();
+    }
+    waitingForHintReply = false; // Stop waiting for hint response
+    $('html').css('cursor','auto');
+
+  } else {
+    await closeHintModal();
+    waitingForHintReply = false; // Stop waiting for hint response
+    $('html').css('cursor','auto');
+  }
+  if (success) {
+    checkAvailHintsForPuzzle(puzzleId);
   }
 };
 
@@ -322,23 +392,74 @@ $(document).on("click", ".puzzle-check-btn", function(){
   solvePuzzle(puzzleId, sol);
 });
 
+
 $(document).on("click", "#btn-hints", function(){
-  console.log(hintAppConditional)
-  if (hintAppConditional) {
-    $( "body" ).append(modalTemplate());
-    $('#hintAppModal').modal('show');
-    $('#hintAppModal').on('hidden.bs.modal', () => setTimeout(()=>$('#hintAppModal').remove(), 200));
+  let currentReto = 0;
+  
+  for (let r in escapeRoomPuzzles) {
+    const reto = escapeRoomPuzzles[r];
+    currentReto = reto;
+    if (retosSuperados.indexOf(reto.id) === -1) {
+      break;
+    }
+  }
+  const categories = currentReto ? currentReto.categories : null;
+  const hints = currentReto ? currentReto.hints : null;
+  if (categories && categories.length > 1) {
+    yesCat(categories, hints);
   } else {
-    waitingForHintReply = true;
-    requestHint(100, "completed");
+    noCat();
   }
 });
 
+/************************HINT MANAGEMENT***************************/
+
+const yesCat = (categories, hints) => {
+  $( "body" ).append(modalTemplate(categories, hints));
+  $('#hintAppModal').modal('show');
+  $('#hintAppModal').on('hidden.bs.modal', () => setTimeout(()=>$('#hintAppModal').remove(), 200));
+};
+
+$(document).on("click", ".cat-button", function(e){
+  chooseCat($(e.target).data('name'));
+});
+
+const chooseCat = async (cat) =>  {
+  if (hintAppConditional) {
+    chosenCat = cat;
+    $('#modal-title').html(i18n.instructionsHints);
+    $('#modalContent').html(`<iframe class="hintAppIframe" src="/escapeRooms/${escapeRoomId}/hintAppWrapper"/>`);
+  } else {
+    waitingForHintReply = true;
+    $('html').css('cursor','wait');
+    $('.cat-button').attr("disabled", true);
+    requestHint(100, "completed", cat);
+    await closeHintModal();
+
+  }
+}
+
+const noCat = () => {
+  if (hintAppConditional) {
+    $( "body" ).append(modalTemplate());
+    $('#hintAppModal').modal('show');
+    $('#hintAppModal').on('hidden.bs.modal', () => setTimeout(() => $('#hintAppModal').remove(), 200));
+  } else {
+    waitingForHintReply = true;
+    $('html').css('cursor','wait');
+    requestHint(100, "completed");
+  }
+}
+
 let waitingForHintReply = false;
+let chosenCat = null
 window.requestHintFinish = (completion, score, status) => {
   waitingForHintReply = true;
-  requestHint(score, status ? "completed" : "failed");
+  $('html').css('cursor', 'wait');
+  requestHint(score, status ? "completed" : "failed", chosenCat);
+  chosenCat = null;
 };
+/*******************************************************************/
 
 const initSocketServer = (escapeRoomId, teamId, turnId, userId) => {
   socket = io('/', {query: {
@@ -397,9 +518,8 @@ const initSocketServer = (escapeRoomId, teamId, turnId, userId) => {
 };
 
 $(()=>{
-  if (escapeRoomHintLimit !== undefined && (escapeRoomHintLimit <= $("#hintList").children().length )){
-    $('#btn-hints').attr("disabled", true)
-  }
+
+  checkAvailHintsForPuzzle(currentlyWorkingOn);
 
   try {
     if (progress !== undefined) {

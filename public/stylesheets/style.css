@@ -2414,7 +2414,8 @@ button, input[type="submit"] {
     #mainSection .main .puzzle-card label span {
       font-weight: bold; }
   #mainSection .main .puzzle-card input {
-    width: 100%;
+    width: 90%;
+    width: calc(100% - 30px);
     caret-color: #656683 !important; }
   #mainSection .main .puzzle-card select, #mainSection .main .puzzle-card input {
     height: 32px;
@@ -2484,6 +2485,8 @@ button, input[type="submit"] {
         padding-left: 0px; }
   #mainSection .main .puzzle-card .add-hint {
     text-align: center; }
+    #mainSection .main .puzzle-card .add-hint button {
+      font-size: 16px; }
     #mainSection .main .puzzle-card .add-hint .material-icons {
       color: #FAC855; }
 

@@ -24,7 +24,7 @@ exports.createServer = (server, sessionMiddleware) => {
             if (access) {
                 if (teamId) {
                     socket.on(SOLVE_PUZZLE, ({puzzleId, sol}) => solvePuzzle(escapeRoomId, teamId, userId, puzzleId, sol, i18n));
-                    socket.on(REQUEST_HINT, ({status, score}) => requestHint(teamId, status, score, i18n));
+                    socket.on(REQUEST_HINT, ({status, score, category}) => requestHint(teamId, status, score, category, i18n));
                     await join(teamId, username);
                     socket.join(`teamId_${teamId}`);
                 }

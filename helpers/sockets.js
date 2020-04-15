@@ -92,7 +92,7 @@ const sendTurnMessage = (msg, turnId) => {
 
 /** Action creators */
 const error = (msg, teamId) => sendTeamMessage({"type": ERROR, "payload": {msg}}, teamId);
-const hintResponse = (success, hintId, msg, teamId) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {success, hintId, msg}}, teamId);
+const hintResponse = (success, hintId, puzzleId, category, msg, teamId) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {success, hintId, puzzleId, category, msg}}, teamId);
 const puzzleResponse = (success, correctAnswer, puzzleId, participation, authentication, msg, participantMessage, teamId) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {success, correctAnswer, puzzleId, participation, authentication, msg, participantMessage}}, teamId);
 const startResponse = (turnId) => sendTurnMessage({"type": START, "payload": {}}, turnId);
 const stopResponse = (turnId) => sendTurnMessage({"type": STOP}, turnId);
@@ -191,7 +191,7 @@ const sendLeaveTeam = (team) => {
     leaveTeam(team.turno.id, team);
 };
 
-const requestHint = async (teamId, status, score) => {
+const requestHint = async (teamId, status, score, category) => {
     const team = await models.team.findByPk(teamId, {
         "include": [
             {
@@ -229,12 +229,12 @@ const requestHint = async (teamId, status, score) => {
     });
 
     if (team && team.turno && team.turno.escapeRoom) {
-        const result = await calculateNextHint(team.turno.escapeRoom, team, status, score);
+        const result = await calculateNextHint(team.turno.escapeRoom, team, status, score, category);
 
         if (result) {
-            const {msg, ok, hintId} = result;
+            const {msg, ok, hintId, puzzleId, category} = result;
 
-            await hintResponse(ok, hintId, msg, teamId, {"empty": "empty", "dontClose": "dontClose", "failed": "failed"});
+            await hintResponse(ok, hintId, puzzleId, category, msg, teamId, {"empty": "empty", "dontClose": "dontClose", "failed": "failed"});
         }
     }
 };
