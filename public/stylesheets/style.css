@@ -2090,7 +2090,7 @@ button, input[type="submit"] {
         background: none;
         font-family: Lato; }
         #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:active, #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:focus, #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:hover {
-          font-family: Lato; }
+          font-family: Lato !important; }
         #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select option {
           background: white;
           color: #161938; }
@@ -2396,7 +2396,7 @@ button, input[type="submit"] {
     #mainSection .main .puzzle-card h2 input {
       font-size: 22px;
       height: 45px;
-      padding-left: 30px;
+      margin-left: 30px;
       font-weight: bold; }
   #mainSection .main .puzzle-card h3 {
     font-size: 18px;
@@ -2414,7 +2414,8 @@ button, input[type="submit"] {
     #mainSection .main .puzzle-card label span {
       font-weight: bold; }
   #mainSection .main .puzzle-card input {
-    width: 100%;
+    width: 90%;
+    width: calc(100% - 30px);
     caret-color: #656683 !important; }
   #mainSection .main .puzzle-card select, #mainSection .main .puzzle-card input {
     height: 32px;
@@ -2428,7 +2429,7 @@ button, input[type="submit"] {
     border-width: 0px;
     border-bottom-width: 1px;
     text-align: left;
-    padding-left: 30px; }
+    margin-left: 30px; }
     #mainSection .main .puzzle-card select:-webkit-autofill, #mainSection .main .puzzle-card input:-webkit-autofill {
       -webkit-box-shadow: 0 0 0 30px white inset !important;
       -webkit-text-fill-color: #656683 !important;
@@ -2463,8 +2464,29 @@ button, input[type="submit"] {
         padding: 0; }
         #mainSection .main .puzzle-card .hint-list .hint-li .delete-hint .material-icons {
           color: #F47E84; }
+    #mainSection .main .puzzle-card .hint-list .hint-category {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      margin-bottom: 15px;
+      margin-top: 30px; }
+      #mainSection .main .puzzle-card .hint-list .hint-category .handle-cat {
+        color: #36A2EB;
+        position: absolute; }
+      #mainSection .main .puzzle-card .hint-list .hint-category .delete-cat {
+        position: absolute;
+        right: 25px;
+        padding: 0; }
+        #mainSection .main .puzzle-card .hint-list .hint-category .delete-cat .material-icons {
+          color: #F47E84; }
+      #mainSection .main .puzzle-card .hint-list .hint-category .hint-category-name {
+        font-size: 18px !important;
+        font-weight: bold !important;
+        padding-left: 0px; }
   #mainSection .main .puzzle-card .add-hint {
     text-align: center; }
+    #mainSection .main .puzzle-card .add-hint button {
+      font-size: 16px; }
     #mainSection .main .puzzle-card .add-hint .material-icons {
       color: #FAC855; }
 

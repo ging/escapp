@@ -327,7 +327,7 @@ exports.studentToken = (req, res, next) => {
 
 exports.clone = async (req, res, next) => {
     try {
-        const {"title": oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment} = req.escapeRoom;
+        const {"title": oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment, allowCustomHints} = req.escapeRoom;
         const authorId = req.session.user && req.session.user.id || 0;
         const newTitle = `Copy of ${oldTitle}`;
         const include = [{"model": models.puzzle, "include": [models.hint]}];
@@ -350,6 +350,7 @@ exports.clone = async (req, res, next) => {
             teamSize,
             teamAppearance,
             classAppearance,
+            allowCustomHints,
             survey,
             pretest,
             posttest,

@@ -64,7 +64,7 @@ $card-background: $textpurple
         input
           font-size: 22px
           height: 45px
-          padding-left: 30px
+          margin-left: 30px
           font-weight: bold
           
       h3
@@ -83,7 +83,8 @@ $card-background: $textpurple
           font-weight: bold
         font-size: 18px
       input
-        width: 100%
+        width: 90%
+        width: calc(100% - 30px)
         caret-color: $textpurple !important
       select, input
         height: 32px
@@ -97,7 +98,7 @@ $card-background: $textpurple
         border-width: 0px
         border-bottom-width: 1px
         text-align: left
-        padding-left: 30px
+        margin-left: 30px
         &:-webkit-autofill
           -webkit-box-shadow: 0 0 0 30px white inset !important
           -webkit-text-fill-color: $textpurple !important
@@ -132,8 +133,29 @@ $card-background: $textpurple
             padding: 0
             .material-icons
               color: $lightred
+        .hint-category
+          display: flex
+          flex-direction: row
+          flex-wrap: nowrap
+          margin-bottom: 15px
+          margin-top: 30px
+          .handle-cat
+            color: $brightblue
+            position: absolute
+          .delete-cat
+            position: absolute
+            right: 25px
+            padding: 0
+            .material-icons
+              color: $lightred
+          .hint-category-name
+            font-size: 18px !important
+            font-weight: bold !important
+            padding-left: 0px
       .add-hint
         text-align: center
+        button
+          font-size: 16px
         .material-icons
           color: $brightyellow
 

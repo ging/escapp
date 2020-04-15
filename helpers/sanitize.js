@@ -4,7 +4,7 @@ const sanitizeId = (id) => id && id !== "" && id !== "new" ? id : undefined;
 exports.sanitizePuzzles = (puzzles = []) => puzzles.
     sort((a, b) => parseInt(isNaN(a.order) ? 0 : a.order, 10) < parseInt(isNaN(b.order) ? 0 : b.order, 10) ? -1 : 1).
     map((puzzle, order) => {
-        const {id, title, desc, sol, automatic, correct, fail, hints} = puzzle;
+        const {id, title, desc, sol, automatic, correct, fail, hints, categories =  ["General"]} = puzzle;
 
         return {
             "id": sanitizeId(id),
@@ -18,7 +18,8 @@ exports.sanitizePuzzles = (puzzles = []) => puzzles.
             "hints": (hints || []).map((hint) => ({
                 "id": sanitizeId(hint.id),
                 "order": hint.order,
-                "content": hint.content
+                "content": hint.content,
+                "category": categories[hint.category || 0]
             }))
         };
     });
@@ -26,12 +27,13 @@ exports.sanitizePuzzles = (puzzles = []) => puzzles.
 exports.sanitizeHints = (hints = []) => hints.
     sort((a, b) => parseInt(isNaN(a.order) ? 0 : a.order, 10) < parseInt(isNaN(b.order) ? 0 : b.order, 10) ? -1 : 1).
     map((hint, order) => {
-        const {id, content, puzzleId} = hint;
+        const {id, content, puzzleId, category} = hint;
 
         return {
             "id": sanitizeId(id),
             order,
             puzzleId,
-            content
+            content,
+            category
         };
     });

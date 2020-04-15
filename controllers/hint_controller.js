@@ -33,7 +33,7 @@ exports.hintAppWrapper = (req, res) => {
 // GET /escapeRooms/:escapeRoomId/requestHint
 exports.requestHint = async (req, res) => {
     const {escapeRoom, body} = req;
-    const {score, status} = body;
+    const {score, status, category} = body;
 
     try {
         if (req.session && req.session.user && !req.session.user.isStudent) {
@@ -57,7 +57,7 @@ exports.requestHint = async (req, res) => {
                 const [team] = teams;
                 const {empty, dontClose, failed, tooMany} = req.app.locals.i18n.hint;
                 const hint = {empty, dontClose, failed, tooMany};
-                const result = await calculateNextHint(escapeRoom, team, status, score, hint);
+                const result = await calculateNextHint(escapeRoom, team, status, score, category, hint);
 
                 if (result) {
                     res.json(result);
@@ -102,7 +102,7 @@ exports.pistasUpdate = async (req, res) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
-    const {numQuestions, numRight, feedback, hintLimit} = body;
+    const {numQuestions, numRight, feedback, hintLimit, allowCustomHints} = body;
     let pctgRight = numRight || 0;
 
     pctgRight = (numRight >= 0 && numRight <= numQuestions ? numRight : numQuestions) * 100 / (numQuestions || 1);
@@ -111,11 +111,11 @@ exports.pistasUpdate = async (req, res) => {
     escapeRoom.numQuestions = numQuestions || 0;
     escapeRoom.numRight = pctgRight || 0;
     escapeRoom.feedback = Boolean(feedback);
-
+    escapeRoom.allowCustomHints = Boolean(allowCustomHints);
     const back = `/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("hints") : progressBar || nextStep("hints")}`;
 
     try {
-        await escapeRoom.save({"fields": ["numQuestions", "hintLimit", "numRight", "feedback"]});
+        await escapeRoom.save({"fields": ["numQuestions", "hintLimit", "numRight", "feedback", "allowCustomHints"]});
         if (body.keepAttachment === "0") {
             // There is no attachment: Delete old attachment.
             if (!req.file) {

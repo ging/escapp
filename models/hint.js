@@ -9,6 +9,10 @@ module.exports = function (sequelize, DataTypes) {
             "order": {
                 "type": DataTypes.INTEGER,
                 "allowNull": false
+            },
+            "category": {
+                "type": DataTypes.STRING,
+                "allowNull": false
             }
         }
     );

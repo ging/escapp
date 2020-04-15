@@ -14,7 +14,7 @@
             "hintFailed": "Pistas falladas"
         },
         "hints": {
-            "customClue": "Pista personalizada",
+            "customClue": "Ayuda del profesor",
             "failed": "Peticiones de pista fallidas",
             "failedClue": "Peticiones de pista fallidas",
             "succeeded": "Pistas obtenidas",
@@ -65,7 +65,7 @@
             "title": "Resumen"
         },
         "timeline": {
-            "customHint": "Pista personalizada",
+            "customHint": "Ayuda del profesor",
             "title": "Cronograma",
             "nTeamsPuzzle": "Nº de equipos que han superado cada reto",
             "nTeamsPuzzleButton": "ver por equipo",
@@ -333,6 +333,8 @@
                 "feedback": "Retroalimentación",
                 "feedbackExplanation": "¿Deseas que se muestre a los alumnos la solución de las preguntas una vez respondidas?",
                 "hintFile": "Fichero de preguntas",
+                "allowCustomHints": "Permitir pistas manuales",
+                "allowCustomHintsExplanation": "Si se marca esta opción, cuando no queden más pistas automáticas se indicará a los alumnos que recurran al profesor. Sino, no se les permitirá seguir pidiendo pistas cuando se acaben las pistas autmáticas.", 
                 "hintLimit": "Límite de pistas",
                 "hintLimitExplanation": "¿Cuántas pistas pueden obtener los alumnos como máximo?",
                 "hintLimitPlaceholder": "No hay límite",
@@ -378,6 +380,7 @@
             "puzzles": {
                 "explanation": "En este apartado puedes configurar los distintos retos que componen la escape room. Ten en cuenta que deben seguir una estructura lineal, es decir, para resolver un reto es necesario haber resuelto el anterior. Debes especificar el nombre y descripción del reto, así como la solución del mismo. Si seleccionas la opción de monitorización automática para algún reto, en la interfaz de equipo no se permitirá resolver ese reto sino que debes hacerlo a través de la API de escapp. Adicionalmente puedes añadir pistas automáticas para cada reto, que se le proporcionaran a los alumnos cuando se queden atascados y pidan ayuda.",
                 "addNewHint": "añadir pista",
+                "addNewCategory": "añadir categoría",
                 "addNewPuzzles": "añadir reto",
             	"automatic": "Automática",
                 "clueName": "Nombre de la pista",
@@ -385,6 +388,7 @@
                 "failMsg": "Mensaje al fallar",
                 "hints": "Pistas",
                 "manual": "Manual",
+                "newCat": "New category",
                 "noCluesYet": "No has definido ninguna pista todavía",
                 "noPuzzlesYet": "No has definido ningún reto todavía",
                 "notYet": "Hasta que crees el reto no puedes asignarle pistas",
@@ -415,7 +419,11 @@
         "failMessage": "Lo siento, tendrás que seguir intentándolo",
         "dontClose": "No quedan más pistas automáticas para tu situación. Puedes llamar al profesor para que te dé una personalizada. No cierres este mensaje hasta que venga",
         "instructionsHints": "Responde las preguntas para obtener una pista",
-        "empty": "Pista personalizada",
+        "chooseCat": "¿Con qué necesitas ayuda?",
+        "cantRequestMore": "No puedes pedir más pistas",
+        "cantRequestMoreThis": "No puedes pedir más pistas para tu situación actual",
+        "canRequest": "Pide una pista",
+        "empty": "Pide ayuda al profesor",
         "Hint": "Pista",
         "Hints": "Pistas",
         "need": "¿Necesitas una pista?",

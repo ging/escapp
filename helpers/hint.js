@@ -1,7 +1,7 @@
 const sequelize = require("../models");
 const {models} = sequelize;
 
-exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
+exports.calculateNextHint = async (escapeRoom, team, status, score, category, messages = {
     "empty": "empty",
     "failed": "failed",
     "dontClose": "dontClose",
@@ -37,7 +37,7 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
             "include": [
                 {
                     "model": models.hint,
-                    "attributes": ["id"],
+                    "attributes": ["id", "category"],
                     "include": [
                         {
                             "model": models.puzzle,
@@ -62,8 +62,12 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
 
         for (const h in currentRetos) {
             for (const i in currentRetos[h].hints) {
-                allHints.push(currentRetos[h].hints[i]);
-                allHintsIndexes.push(currentRetos[h].hints[i].id);
+                const currentHintAll = currentRetos[h].hints[i];
+
+                if (!category || category === currentHintAll.category) {
+                    allHints.push(currentHintAll);
+                    allHintsIndexes.push(currentHintAll.id);
+                }
             }
         }
 
@@ -98,6 +102,8 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, messages = {
             "msg": pista,
             "ok": true,
             hintId,
+            category,
+            "puzzleId": currentReto,
             "alert": hintId ? false : messages.dontClose
         };
     }

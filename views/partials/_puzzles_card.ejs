@@ -46,23 +46,38 @@
         <label for="puzzles[<%=reto%>][fail]"> <%=i18n.escapeRoom.steps.puzzles.failMsg%></label>
         <input type="text" name="puzzles[<%=reto%>][fail]" id="puzzles[<%=reto%>][fail]" placeholder="<%=i18n.puzzle.wrongAnswer%>" value="<%=puzzle.fail%>"/>
     </h3>
-    <!--<h3>
-        <span class="material-icons">view_module</span>
-        <%=i18n.escapeRoom.steps.puzzles.subpuzzles%>
-    </h3> -->
     <h3>
         <span class="material-icons">search</span>
         <%=i18n.escapeRoom.steps.puzzles.hints%>
+        <% var categoryIndex = -1%>
+        <% var category = undefined %>
+        <% var nCats = (new Set(puzzle.hints.map(h=> h.category))).size %>
         <ul class="hint-list" data-number="<%=reto%>">
             <% for (let h in puzzle.hints) {
                 let hint = puzzle.hints[h];
-             %>
-                <li>
+                if (nCats === 1) {
+                    categoryIndex = 0;
+                } else if (nCats > 1 && category !== hint.category) { 
+                    category =  hint.category || "General";
+                    categoryIndex++;    
+                %>
+                <li class="hint-category" data-id="<%=categoryIndex%>">
+                    <span class="material-icons handle-cat">call_split</span>
+                    <input class="hint-category-name" value="<%=category%>" placeholder="<%=i18n.escapeRoom.steps.puzzles.newCat%>" name="puzzles[<%=reto%>][categories][<%=categoryIndex%>]"/>
+                    <%if(categoryIndex){%>
+                        <button type="button" class="delete-cat" title="<%=i18n.escapeRoom.steps.puzzles.delete%>">
+                            <span class="material-icons">clear</span>
+                        </button>
+                    <%}%>
+                </li>
+               <% }%>
+                <li class="hint-list-element">
                    <div class="hint-li">
                     <span title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle-hint">swap_vert</span>
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][id]" value="<%=hint.id%>"/>
+                    <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][category]" class="hint-cat" value="<%=categoryIndex || 0%>"/>
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][order]" class="hint-order" value="<%=hint.order%>"/>
-                    <input type="text" name="puzzles[<%=reto%>][hints][<%=h%>][content]" placeholder="..." required value="<%=hint.content%>" aria-label="<%=i18n.hint.Hint%> <%=hint.order%>"/>
+                    <input type="text"   name="puzzles[<%=reto%>][hints][<%=h%>][content]" placeholder="..." required value="<%=hint.content%>" aria-label="<%=i18n.hint.Hint%> <%=hint.order%>"/>
                     <button type="button" class="delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>">
                         <span class="material-icons">clear</span>
                     </button>
@@ -74,7 +89,12 @@
             <button type="button" class="rounded editButton addHint" >
                 <%=i18n.escapeRoom.steps.puzzles.addNewHint%>
             </button>
+            <button type="button" class="rounded shareButton addCategory" >
+                <%=i18n.escapeRoom.steps.puzzles.addNewCategory%>
+            </button>
         </div>
     </h3>
-    <button type="button" class="delete-puzzle"><span class="material-icons">delete</span></button>
+    <button type="button" class="delete-puzzle">
+        <span class="material-icons">delete</span>
+    </button>
 </div>
