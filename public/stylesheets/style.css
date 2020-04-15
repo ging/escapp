@@ -2284,7 +2284,6 @@ button, input[type="submit"] {
     min-height: 100%;
     background-color: #161938; }
     .portada .contenedor .loginLeft {
-      background-color: #2A2A52;
       width: 50%;
       text-align: center;
       flex: 7;
@@ -3447,7 +3446,7 @@ html {
     html body label {
       color: #656683; }
     html body input, html body select {
-      background-color: #232850;
+      background-color: #2A2A52;
       -webkit-text-fill-color: #656683 !important;
       color: #656683;
       font-size: large;

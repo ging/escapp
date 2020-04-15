@@ -21,9 +21,11 @@
 			<% include ../../partials/_ranking %>
 		<% } %>
 	</div>
+<br/>
+<br/>
+<br/>
+
 </div>
-<br/>
-<br/>
 <!-- <script src="/js/vendor/socket.io.js"></script> -->
 <!-- <script src="/js/ranking.js"></script> -->
 <script>
@@ -33,5 +35,4 @@
 	var nPuzzles = "<%= escapeRoom.puzzles.length%>";
     initSocketServer(<%= escapeRoom.id%>, teamId, <%=turnoId || "undefined" %>, userId);*/
 </script>
-<br/>
 <% include ../../partials/_footer %>
