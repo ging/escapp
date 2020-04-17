@@ -3,7 +3,7 @@ module.exports = function (sequelize, DataTypes) {
         "hint",
         {
             "content": {
-                "type": DataTypes.STRING,
+                "type": DataTypes.TEXT,
                 "validate": {"notEmpty": {"msg": "El contenido no puede estar vacío."}}
             },
             "order": {

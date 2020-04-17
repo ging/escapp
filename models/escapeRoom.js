@@ -39,12 +39,12 @@ module.exports = function (sequelize, DataTypes) {
                 "validate": {"notEmpty": {"msg": "La URL de la invitación no puede estar vacía."}}
             },
             "teamAppearance": {
-                "type": DataTypes.STRING,
+                "type": DataTypes.TEXT,
                 "defaultValue": "litera",
                 "allowNull": false
             },
             "classAppearance": {
-                "type": DataTypes.STRING,
+                "type": DataTypes.TEXT,
                 "defaultValue": "litera",
                 "allowNull": false
             },

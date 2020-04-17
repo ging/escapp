@@ -2314,7 +2314,9 @@ button, input[type="submit"] {
         vertical-align: middle;
         height: 20px;
         padding: 0px;
-        margin: 0px; }
+        margin: 0px;
+        font-size: 12px;
+        font-family: Lato; }
       .portada .contenedor .loginRight label span {
         padding-bottom: 7px;
         text-align: left;

@@ -6,14 +6,14 @@ module.exports = function (sequelize, DataTypes) {
                 "type": DataTypes.STRING,
                 "validate": {"notEmpty": {"msg": "El título no puede estar vacío."}}
             },
-            "sol": {"type": DataTypes.STRING},
-            "desc": {"type": DataTypes.STRING},
+            "sol": {"type": DataTypes.TEXT},
+            "desc": {"type": DataTypes.TEXT},
             "order": {
                 "type": DataTypes.INTEGER,
                 "allowNull": false
             },
-            "correct": {"type": DataTypes.STRING},
-            "fail": {"type": DataTypes.STRING},
+            "correct": {"type": DataTypes.TEXT},
+            "fail": {"type": DataTypes.TEXT},
             "automatic": {
                 "type": DataTypes.BOOLEAN,
                 "defaultValue": false
