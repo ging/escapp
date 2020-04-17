@@ -122,7 +122,19 @@ exports.byRanking = (a, b) => {
     } else if (a.count < b.count) {
         return 1;
     }
-    if (a.latestRetoSuperado < b.latestRetoSuperado) {
+
+    if (a.latestRetoSuperado && b.latestRetoSuperado) {
+        const aLatestTime = a.latestRetoSuperado - a.startTime;
+        const bLatestTime = b.latestRetoSuperado - b.startTime;
+
+        if (aLatestTime < bLatestTime) {
+            return -1;
+        } else if (aLatestTime > bLatestTime) {
+            return 1;
+        }
+        return -1;
+    }
+    if (a.startTime > b.startTime) {
         return -1;
     }
     return 1;

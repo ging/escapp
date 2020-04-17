@@ -75,7 +75,7 @@ exports.checkPuzzle = async (req, _res, next) => {
     const {solution} = body;
 
     req.response = await checkPuzzle(solution, puzzle, escapeRoom, teams, user, i18n, req.params.puzzleOrder);
-    const {code, correctAnswer, participation, authentication, msg, alreadySolved} = req.response.body;
+    const {code, correctAnswer, participation, authentication, msg, alreadySolved, erState} = req.response.body;
 
     if (participation === PARTICIPANT) {
         await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
@@ -83,7 +83,7 @@ exports.checkPuzzle = async (req, _res, next) => {
     if (code === OK) {
         const [team] = teams;
 
-        puzzleResponse(team.id, code, correctAnswer, puzzle.order + 1, participation, authentication, msg, i18n.escapeRoom.api.participation[participation]);
+        puzzleResponse(team.id, code, correctAnswer, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
         if (!alreadySolved) {
             const updatedTeams = await getRanking(escapeRoom.id, team.turno.id);
 

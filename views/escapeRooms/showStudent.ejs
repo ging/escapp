@@ -100,16 +100,10 @@ var CLICKED = false;
 var clicked = () => {
 	CLICKED = true;
 }
+var myTeamId;
 $(()=>{
 	var participant = JSON.parse('<%-JSON.stringify(participant)%>')
 	var socket;
-	const CONNECT = "connect";
-	const DISCONNECT = "disconnect";
-	const ERROR = "ERROR";
-	const START = "START";
-	const STOP = "STOP";
-	const JOIN = "JOIN";
-	const TEAM_STARTED = "TEAM_STARTED";
 	const escapeRoomId = "<%= escapeRoom.id%>";
 	const teamId = <%= team.id || "undefined";%>   
 	const userId = <%= session.user.id %>;
@@ -134,7 +128,8 @@ $(()=>{
 		}
 	};
 
-	const onJoin = (msg) => {
+	const onJoin = (msg, e) => {
+		console.log(msg, e)
 		if (!startTime && !CLICKED) {
 			$( "#dialog-start" ).dialog( "open" )
 			$('#start-er').html(`<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
@@ -152,9 +147,10 @@ $(()=>{
 			turn: turnId == "undefined" ? undefined : turnId,
 			waiting: true  
 		}});
-		socket.on(START, onJoin); 
-		socket.on(JOIN, onJoin); 
-		socket.on(TEAM_STARTED, onJoin); 
+		myTeamId = teamId;
+		socket.on("START", (msg)=>{console.log(msg);onJoin(msg)}); 
+		// socket.on("JOIN", onJoin); 
+		socket.on("TEAM_STARTED", (msg)=>{console.log(msg);onJoin(msg)}); 
 	};
 	initSocketServer(<%= escapeRoom.id%>, teamId, <%= turno ? turno.id : "undefined" %>, userId);
 });

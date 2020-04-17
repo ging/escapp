@@ -5,7 +5,7 @@
 <% for (var reto in puzzles){ %>
     <% var puzzle = puzzles[reto] %>
     <% var noSuperado = retosSuperados.indexOf(puzzle.order) === -1; %>
-    <% if (!found && !puzzle.automatic) { %>
+    <% if ((found === undefined || found === null) && !puzzle.automatic) { %>
       <div class="flex-cell flex-cell-retos">
           <div class="retoTextArea editable" data-reto="<%=puzzle.order%>" data-id="title">
               <%= puzzle.title%>
@@ -28,7 +28,7 @@
         <% } %>
       </div>
     <% } 
-    if (noSuperado && !found) {
+    if (noSuperado && (found === undefined || found === null)) {
       found = (puzzle.order !== undefined && puzzle.order !== null) ? puzzle.order : null;
     } %>
 <%}%>

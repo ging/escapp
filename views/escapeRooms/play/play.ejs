@@ -136,7 +136,7 @@
     var hintConditional = <%= hintConditional || false %>;
     var hintAppConditional =  <%= hintAppConditional || false%>;
     var allowCustomHints = <%= escapeRoom.allowCustomHints ? "true" : "false"%>
-    var currentlyWorkingOn = <%=found || "null"%>;
+    var currentlyWorkingOn = <%=(found !== undefined && found !== null ) ? found :  "null"%>;
     initSocketServer(<%= escapeRoom.id%>, teamId, <%= team.turno ? team.turno.id : "undefined" %>, username);
     var i18n = {
         "correctAnswer": "<%=i18n.puzzle.correctAnswer%>",

@@ -172,8 +172,9 @@ exports.getERState = async (escapeRoomId, team, duration, hintLimit, nPuzzles, a
 exports.getRanking = async (escapeRoomId, turnoId) => {
     const teamsRaw = await models.team.findAll(queries.team.rankingShort(escapeRoomId, turnoId));
     const nPuzzles = await models.puzzle.count({"where": { escapeRoomId }});
+    const ranking = getRetosSuperados(teamsRaw, nPuzzles, true).sort(byRanking);
 
-    return getRetosSuperados(teamsRaw, nPuzzles, true).sort(byRanking);
+    return ranking;
 };
 exports.getProgress = (puzzlesSolved, totalNumberOfPuzzles) => totalNumberOfPuzzles ? Math.round(puzzlesSolved.length / totalNumberOfPuzzles * 10000) / 100 : 0;
 

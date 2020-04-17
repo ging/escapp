@@ -157,9 +157,13 @@ exports.ranking = (escapeRoomId, turnId) => {
                     "required": true
                 }
             }
-        ]/* ,
-        order: [Sequelize.literal(
-            '('+retoTime+' - turno.startTime) DESC')]*/
+        ],
+        "order": [
+            [
+                {"model": models.puzzle, "as": "retos"},
+                {"model": models.retosSuperados}, "createdAt", "ASC"
+            ]
+        ]
     };
 
 

@@ -40,7 +40,7 @@ const sendTurnMessage = (msg, turnId) => {
 const initialInfo = (socketId, code, authentication, token, participation, msg, erState) => sendIndividualMessage({"type": INITIAL_INFO, "payload": {code, authentication, token, participation, msg, erState}}, socketId);
 /* Team messages */
 // Response to team attempt to start
-const startTeam = (teamId, code, authentication, participation, msg, erState) => sendTurnMessage({"type": TEAM_STARTED, "payload": {code, authentication, participation, msg, erState}}, teamId);
+const startTeam = (teamId, code, authentication, participation, msg, erState) => sendTeamMessage({"type": TEAM_STARTED, "payload": {code, authentication, participation, msg, erState}}, teamId);
 // Response to team hint request
 const hintResponse = (teamId, code, authentication, participation, hintOrder, puzzleOrder, category, msg) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {code, authentication, participation, hintOrder, puzzleOrder, category, msg}}, teamId);
 // Response to puzzle solving attempt
@@ -159,17 +159,12 @@ exports.solvePuzzle = async (escapeRoomId, teamId, userId, puzzleOrderMinus, sol
         }
         const puzzleOrder = puzzleOrderMinus - 1;
         const puzzle = await models.puzzle.findOne({"where": {"order": puzzleOrder, escapeRoomId}});
-
-        if (!puzzle) {
-            throw new Error(i18n.api.notFound);
-        }
         const team = await models.team.findByPk(teamId, queries.team.teamInfo(escapeRoomId));
 
-        if (!team) {
+        if (!team && !puzzle) {
             throw new Error(i18n.api.notFound);
         }
         const {body} = await checkPuzzle(solution, puzzle, team.turno.escapeRoom, [team], {"id": userId}, i18n);
-
         const {code, correctAnswer, participation, authentication, msg, erState, alreadySolved} = body;
 
         puzzleResponse(teamId, code, correctAnswer, puzzleOrderMinus, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
@@ -195,6 +190,8 @@ exports.broadcastRanking = (turnoId, teams, teamId, puzzleOrder) => {
  * Send initial information on connection
  */
 exports.sendInitialInfo = (socket, {code, authentication, token, participation, msg, erState}) => {
+    console.log("sendInitialInfosendInitialInfosendInitialInfosendInitialInfo");
+    console.log(erState);
     initialInfo(socket.id, code, authentication, token, participation, msg, erState);
 };
 
