@@ -20,7 +20,7 @@
          i18n: "duration",
          number: true,
          min: 1,
-         max: 100000,
+         max: 24 * 60,
          value: escapeRoom.duration,
          required: true
 
@@ -29,6 +29,7 @@
          name: "description",
          id: "desc",
          i18n: "description",
+         required: true,
          value: escapeRoom.description
      },
      {
@@ -37,7 +38,7 @@
          i18n: "nmax",
          number: true,
          min: 1,
-         max: 100000,
+         max: 10000,
          value: escapeRoom.nmax || null
      },
      {
@@ -46,7 +47,7 @@
          i18n: "teamSize",
          number: true,
          min: 1,
-         max: 100000,
+         max: 10000,
          value: escapeRoom.teamSize || null
      }]; %>
 <% for (let f in formFields) {

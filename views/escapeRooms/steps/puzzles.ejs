@@ -121,7 +121,7 @@
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][id]" value=""/>
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][category]" class="hint-cat" value="${lastCat}"/>
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][order]" class="hint-order" value="${hintOrder}"/>
-                <input type="text" name="puzzles[${order}][hints][${hintOrder}][content]" placeholder="" required value=""/>
+                <input type="text" name="puzzles[${order}][hints][${hintOrder}][content]" maxlength="10000" placeholder="" required value=""/>
                 <button type="button" class="delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>" >
                   <span class="material-icons">clear</span> 
                 </button>

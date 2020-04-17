@@ -212,11 +212,15 @@ exports.update = (req, res, next) => {
             res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
         }).
         catch(Sequelize.ValidationError, (error) => {
-            error.errors.forEach(({message}) => req.flash("error", message));
+            console.log(error);
+            req.flash("error", req.app.locals.i18n.common.validationError);
+            // error.errors.forEach(({message}) => {
+            //     req.flash("error", message);
+            // });
             res.render("escapeRooms/edit", {escapeRoom, "progress": "edit"});
         }).
         catch((error) => {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
+            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}`);
             next(error);
         });
 };
@@ -258,7 +262,8 @@ exports.evaluationUpdate = async (req, res, next) => {
         res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("evaluation") : progressBar || nextStep("evaluation")}`);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            error.errors.forEach(({message}) => req.flash("error", message));
+            req.flash("error", req.app.locals.i18n.common.validationError);
+            // error.errors.forEach(({message}) => req.flash("error", message));
             res.redirect(`/escapeRooms/${escapeRoom.id}/evaluation`);
         } else {
             req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);

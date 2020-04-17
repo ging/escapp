@@ -169,8 +169,12 @@
                                             <ul class=" ">
                                                 <%if (puzzle.hints && puzzle.hints.length > 0) {%>
                                                 <% for (var p in puzzle.hints) { %>
-                                                <% var hint = puzzle.hints[p] %>
+                                                    <% var nCats = (new Set(puzzle.hints.map(h=> h.category))).size %>
+                                                    <% var hint = puzzle.hints[p] %>
                                                 <li class="hint-text-preview">
+                                                        <% if (nCats > 1)  { %>
+                                                            <b>(<%= hint.category %>)</b>
+                                                        <%}%>
                                                         <%= hint.content %>
                                                 </li>
                                                 <% } %>

@@ -30,7 +30,7 @@
 		<div class="inputFormField erFormField animated slideInUp hintConditional" style="<%=hintConditional ? '':'display: none;'%> animation-delay:400ms;" >
 			<label for="hintLimit"  class="itemNarrow">2. <%=i18n.escapeRoom.steps.hints.hintLimit%>:
 			<p class="explanation"><%=i18n.escapeRoom.steps.hints.hintLimitExplanation%></p>
-				<input type="number" class="customInput itemWide" id="hintLimit" name="hintLimit" placeholder="<%=i18n.escapeRoom.steps.hints.hintLimitPlaceholder%>" value="<%= escapeRoom.hintLimit%>" min="0" />
+				<input type="number" min="0" max="10000"  class="customInput itemWide" id="hintLimit" name="hintLimit" placeholder="<%=i18n.escapeRoom.steps.hints.hintLimitPlaceholder%>" value="<%= escapeRoom.hintLimit%>" min="0" />
 			</label>
 		</div>
 		<div class="inputFormField erFormField animated slideInUp hintConditional" style="<%=hintConditional ? '':'display: none;'%> animation-delay:500ms;" >
@@ -72,11 +72,11 @@
 		<div class="inputFormField erFormField animated slideInUp hintConditional hintAppConditional" style="<%=hintAppConditional ? '':'display: none;'%> animation-delay:700ms;">
 		  <label for="numQuestions"  class="itemNarrow">5. <%=i18n.escapeRoom.steps.hints.questionNumber%>:</label>
 		  <p class="explanation"><%=i18n.escapeRoom.steps.hints.questionNumberExplanation%></p>
-		  <input type="number" min="0" class="customInput itemWide" id="numQuestions" name="numQuestions" value="<%= escapeRoom.numQuestions %>" placeholder="<%=i18n.escapeRoom.steps.hints.questionNumberPlaceHolder%>" autocomplete="off"/>
+		  <input type="number" min="0" max="10000" class="customInput itemWide" id="numQuestions" name="numQuestions" value="<%= escapeRoom.numQuestions %>" placeholder="<%=i18n.escapeRoom.steps.hints.questionNumberPlaceHolder%>" autocomplete="off"/>
 		</div>
 		<div class="inputFormField erFormField animated slideInUp hintConditional hintAppConditional" style="<%=hintAppConditional ? '':'display: none;'%> animation-delay:800ms;">
 		    <label for="numRight"  class="itemNarrow">6. <%=i18n.escapeRoom.steps.hints.correctNumber%>:</label>
-		    <input type="number" min="0" class="customInput itemWide" id="numRight" name="numRight" value="<%= Math.round(escapeRoom.numRight/100*escapeRoom.numQuestions)  %>" placeholder="<%=i18n.escapeRoom.steps.hints.correctNumberPlaceHolder%>" autocomplete="off"/>
+		    <input type="number" min="0" max="10000" class="customInput itemWide" id="numRight" name="numRight" value="<%= Math.round(escapeRoom.numRight/100*escapeRoom.numQuestions)  %>" placeholder="<%=i18n.escapeRoom.steps.hints.correctNumberPlaceHolder%>" autocomplete="off"/>
 		</div>
 		<div class="inputFormField erFormField animated slideInUp hintConditional hintAppConditional" style="<%=hintAppConditional ? '':'display: none;'%> animation-delay:900ms;">
 		    <label for="feedback"  class="itemNarrow">7. <%=i18n.escapeRoom.steps.hints.feedback%>:

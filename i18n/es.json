@@ -133,6 +133,7 @@
         "finish": "finalizar",
         "my": "Mis escape rooms",
         "completado": "completado",
+        "validationError": "Datos de entrada incorrectos",
         "flash": {
             "errors": "Errores",
             "interestingInfo": "Información de interés",

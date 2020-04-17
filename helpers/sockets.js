@@ -190,8 +190,6 @@ exports.broadcastRanking = (turnoId, teams, teamId, puzzleOrder) => {
  * Send initial information on connection
  */
 exports.sendInitialInfo = (socket, {code, authentication, token, participation, msg, erState}) => {
-    console.log("sendInitialInfosendInitialInfosendInitialInfosendInitialInfo");
-    console.log(erState);
     initialInfo(socket.id, code, authentication, token, participation, msg, erState);
 };
 

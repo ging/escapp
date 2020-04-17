@@ -17,9 +17,15 @@
             });
 
         $(container).find(".erFormField:not(.disallow) input, .erFormField:not(.disallow) select").keypress(function(e) {
+            console.log(2,e.target)
             if (e.which == 13) {
-                if ($(this).hasClass("required") && $(this).val() == "") {
-                } else moveNext(this);
+                if (!this.checkValidity()) {
+                    $('form').find(':submit').click();
+                } else {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    moveNext(this);
+                }
             }
         });
 
@@ -32,7 +38,7 @@
                 var etop = $(this).offset().top;
                 var diff = etop - $(window).scrollTop();
 
-                if (diff > 100 && diff < 300) {
+                if (diff > 80 && diff < 300) {
                     reinitState(this);
                 }
             });
@@ -45,12 +51,12 @@
                 $(this).blur();
             });
             $(e).addClass("active");
-            /*$(e).find('input').focus();*/
+            $(e).find('input').focus();
         }
 
         function rescroll(e) {
             $(window).scrollTo($(e), 200, {
-                offset: { left: 100, top: -300 },
+                offset: { left: 100, top: -100 },
                 queue: false
             });
         }
@@ -61,80 +67,18 @@
         }
 
         function moveNext(e) {
-            $(e).parent().parent().next().click();
-        }
-
-        function movePrev(e) {
-            $(e).parent().parent().prev().click();
-        }
-    };
-
-    $(".main").upform();
-    $.fn.upform = function() {
-        var $this = $(this);
-        var container = $this.find(".basicConfig");
-
-        $(document).ready(function() {
-            $(container).find(".erFormField:not(.disallow)").first().click()
-        });
-
-
-        $(container)
-            .find(".erFormField:not(.disallow)")
-            .not(".erFormField:not(.disallow) input, .erFormField:not(.disallow) select")
-            .on("click", function() {
-                rescroll(this);
-            });
-
-        $(container).find(".erFormField:not(.disallow) input").keypress(function(e) {
-            if (e.which === 13) {
-                if ($(this).hasClass("required") && $(this).val() == "") {
-                } else moveNext(this);
+            console.log($(e).closest('.erFormField').nextAll('.erFormField'))
+            let next = $(e).closest('.erFormField').nextAll('.erFormField').first().find('.customInput')[0]
+            if (next) {next.focus();} else {
+                $("form").submit()
             }
-        });
 
-        $(container).find('.erFormField:not(.disallow) input[type="radio"]').change(function(e) {
-            moveNext(this);
-        });
-
-        $(window).on("scroll", function() {
-            $(container).find(".erFormField:not(.disallow)").each(function() {
-                var etop = $(this).offset().top;
-                var diff = etop - $(window).scrollTop();
-
-                if (diff > 90 && diff < 300) {
-                    reinitState(this);
-                }
-            });
-        });
-
-        function reinitState(e) {
-            $(container).find(".erFormField:not(.disallow)").removeClass("active");
-
-            $(container).find(".erFormField:not(.disallow) input, .erFormField:not(.disallow) select").each(function() {
-                $(this).blur();
-            });
-            $(e).find("input").focus();
-        }
-
-        function rescroll(e) {
-            $(window).scrollTo($(e), 200, {
-                offset: { left: 100, top: -300 },
-                queue: false
-            });
-        }
-
-        function reinit(e) {
-            reinitState(e);
-            rescroll(e);
-        }
-
-        function moveNext(e) {
-            $(e).parent().parent().next().click();
         }
 
         function movePrev(e) {
-            $(e).parent().parent().prev().click();
+            let next = $(e).closest('.erFormField').prevAll('.erFormField').first().find('.customInput')[0]
+            if (next) {next.focus();}
+       
         }
     };
 

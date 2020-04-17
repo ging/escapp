@@ -139,6 +139,7 @@
         "exit": "exit",
         "filter": "filter",
         "finish": "finish",
+        "validationError": "Invalid input data",
         "flash": {
             "errors": "Errors",
             "interestingInfo": "Relevant information",
@@ -262,6 +263,9 @@
                 "true": "The team can request more hints",
                 "false": "The team can NOT request more hints"
             }
+
+        },
+        "fields": {
 
         },
         "invitation": {

@@ -12,16 +12,22 @@ module.exports = function (sequelize, DataTypes) {
             },
             "duration": {
                 "type": DataTypes.INTEGER,
-                "validate": {"notEmpty": {"msg": "La duración no puede estar vacía."}}
+                "validate": {
+                    "notEmpty": {
+                        "msg": "La duración no puede estar vacía."
+                    },
+                    "min": 0,
+                    "max": 24 * 60
+                }
             },
             "description": {"type": DataTypes.STRING},
             "nmax": {
                 "type": DataTypes.INTEGER,
-                "validate": {"notEmpty": {"msg": "El número de participantes no puede estar vacío."}}
+                "validate": {"max": 10000, "notEmpty": {"msg": "El número de participantes no puede estar vacío.",}}
             },
             "teamSize": {
                 "type": DataTypes.INTEGER,
-                "validate": {"notEmpty": {"msg": "El tamaño de los equipos no puede estar vacío."}}
+                "validate": {"max": 10000, "notEmpty": {"msg": "El tamaño de los equipos no puede estar vacío."}}
             },
             "invitation": {
                 "type": DataTypes.STRING,
@@ -34,17 +40,28 @@ module.exports = function (sequelize, DataTypes) {
             },
             "teamAppearance": {
                 "type": DataTypes.STRING,
-                "defaultValue": "litera"
+                "defaultValue": "litera",
+                "allowNull": false
             },
             "classAppearance": {
                 "type": DataTypes.STRING,
-                "defaultValue": "litera"
+                "defaultValue": "litera",
+                "allowNull": false
             },
             "survey": {"type": DataTypes.STRING},
             "pretest": {"type": DataTypes.STRING},
             "posttest": {"type": DataTypes.STRING},
-            "numQuestions": {"type": DataTypes.INTEGER},
-            "numRight": {"type": DataTypes.INTEGER},
+            "numQuestions": {
+                "type": DataTypes.INTEGER, 
+                "validate": {
+                    "min": 0,
+                    "max": 10000
+                }
+            },
+            "numRight": {"type": DataTypes.INTEGER, "validate": {
+                "min": 0,
+                "max": 100
+            }},
             "feedback": {"type": DataTypes.BOOLEAN},
             "allowCustomHints": {"type": DataTypes.BOOLEAN},
             "forbiddenLateSubmissions": {"type": DataTypes.BOOLEAN, "defaultValue": true},
@@ -53,21 +70,36 @@ module.exports = function (sequelize, DataTypes) {
             "indicationsInstructions": {"type": DataTypes.TEXT},
             "scoreParticipation": {
                 "type": DataTypes.FLOAT,
-                "defaultValue": 0.0
+                "defaultValue": 0.0,
+                "validate": {
+                    "min": 0,
+                    "max": 100
+                }
             },
             "automaticAttendance": {
                 "type": DataTypes.STRING,
                 "defaultValue": "none",
                 "validate": {"isIn": [["none", "participant", "team"]]}
             },
-            "hintLimit": {"type": DataTypes.INTEGER},
+            "hintLimit": {
+                "type": DataTypes.INTEGER,
+                "validate": {"max": 10000}
+            },
             "hintSuccess": {
                 "type": DataTypes.FLOAT,
-                "defaultValue": 0.0
+                "defaultValue": 0.0,
+                "validate": {
+                    "min": -100,
+                    "max": 100
+                }
             },
             "hintFailed": {
                 "type": DataTypes.FLOAT,
-                "defaultValue": 0.0
+                "defaultValue": 0.0,
+                "validate": {
+                    "min": -100,
+                    "max": 100
+                }
             }
         }
     );
