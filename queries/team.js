@@ -147,7 +147,7 @@ exports.ranking = (escapeRoomId, turnId) => {
             },
             {
                 "model": models.puzzle,
-                "attributes": ["id"],
+                "attributes": ["id", "order"],
                 "as": "retos",
                 "required": false,
                 "duplicating": true,
@@ -170,3 +170,144 @@ exports.ranking = (escapeRoomId, turnId) => {
     return options;
 };
 
+exports.rankingShort = (escapeRoomId, turnId) => {
+    const options = {
+        "where": {"startTime": {[Sequelize.Op.ne]: null}},
+        "attributes": [
+            "id",
+            "name",
+            "startTime"
+        ],
+        "include": [
+            {
+                "model": models.user,
+                "as": "teamMembers",
+                "attributes": [
+                    "name",
+                    "surname",
+                    "username"
+                ],
+                "through": {
+                    "model": models.members,
+                    "duplicating": true,
+                    "attributes": []
+                },
+                "include": {
+                    "model": models.turno,
+                    "attributes": [],
+                    "as": "turnosAgregados",
+                    "through": {
+                        "model": models.participants,
+                        "required": true,
+                        "attributes": []
+                        // "where": {"attendance": true}
+                    }
+                }
+            },
+            {
+                "model": models.turno,
+                "duplicating": true,
+                "attributes": [
+                    "id",
+                    "date",
+                    "startTime"
+                ],
+                "where": {
+                    // "status": {[Sequelize.Op.not]: "pending"},
+                    escapeRoomId
+                }
+            },
+            {
+                "model": models.puzzle,
+                "attributes": ["id", "order"],
+                "as": "retos",
+                "required": false,
+                "duplicating": true,
+                "through": {
+                    "model": models.retosSuperados,
+                    "attributes": ["createdAt"],
+                    "required": true
+                }
+            }
+        ],
+        "order": [
+            [
+                {"model": models.puzzle, "as": "retos"},
+                {"model": models.retosSuperados}, "createdAt", "ASC"
+            ]
+        ]
+    };
+
+
+    if (turnId) {
+        options.include[1].where.id = turnId;
+    }
+
+    return options;
+};
+
+exports.teamInfo = (escapeRoomId) => ({
+    "include": [
+        {
+            "model": models.turno,
+            "required": true,
+            "where": {escapeRoomId},
+            "include": [
+                {
+                    "model": models.escapeRoom,
+                    "attributes": ["duration", "forbiddenLateSubmissions"],
+                    "include": [
+                        {
+                            "model": models.puzzle,
+                            "attributes": ["id"]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "model": models.user,
+            "through": "members",
+            "as": "teamMembers",
+            "attributes": ["username"]
+        }
+    ]
+});
+
+exports.puzzlesAndHints = () => (
+    {
+        "include": [
+            {
+                "model": models.turno,
+                "include": [
+                    {
+                        "model": models.escapeRoom,
+                        "include": [
+                            {
+                                "model": models.puzzle,
+                                "include": [{"model": models.hint}]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "order": [
+            [
+                {"model": models.turno},
+                {"model": models.escapeRoom},
+                {"model": models.puzzle},
+                "order",
+                "asc"
+            ],
+            [
+                {"model": models.turno},
+                {"model": models.escapeRoom},
+                {"model": models.puzzle},
+                {"model": models.hint},
+                "order",
+                "asc"
+            ]
+        ]
+    }
+);

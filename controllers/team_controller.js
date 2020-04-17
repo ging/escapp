@@ -3,7 +3,7 @@ const {Op} = Sequelize;
 const sequelize = require("../models");
 const {models} = sequelize;
 const {sendLeaveTeam} = require("../helpers/sockets");
-const {checkTeamSizeOne} = require("../helpers/utils");
+const {checkTeamSizeOne, getRanking} = require("../helpers/utils");
 
 // Autoload the team with id equals to :teamId
 exports.load = (req, res, next, teamId) => {
@@ -125,7 +125,9 @@ exports.resetProgress = async (req, res) => {
         await models.retosSuperados.destroy({"where": {"teamId": req.team.id}});
         await models.participants.update({"attendance": false}, {"where": {"userId": {[Op.in]: userIds}, "turnId": req.turn.id}});
         await req.team.save({"fields": ["startTime"]});
-        sendLeaveTeam({"id": req.team.id, "turno": {"id": req.turn.id}});
+        const teams = await getRanking(req.escapeRoom.id, req.turn.id);
+
+        sendLeaveTeam(req.team.id, req.turn.id, teams);
         req.flash("error", req.app.locals.i18n.team.resetSuccess);
     } catch (e) {
         console.error(e);

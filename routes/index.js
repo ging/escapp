@@ -115,7 +115,6 @@ router.delete("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)", sessionC
 // Routes for hint app
 router.get("/escapeRooms/:escapeRoomId(\\d+)/hintApp", sessionController.loginRequired, sessionController.adminOrAuthorOrParticipantRequired, hintController.hintApp);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/hintAppWrapper", sessionController.loginRequired, sessionController.adminOrAuthorOrParticipantRequired, hintController.hintAppWrapper);
-router.post("/escapeRooms/:escapeRoomId(\\d+)/requestHint", sessionController.loginRequired, sessionController.adminOrAuthorOrParticipantRequired, hintController.requestHint);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/xml", sessionController.loginRequired, sessionController.adminOrAuthorRequired, hintController.downloadMoodleXML);
 
 // Routes for playing - student

@@ -1,8 +1,8 @@
-const {playInterface, automaticallySetAttendance} = require("../helpers/utils");
+const {playInterface, automaticallySetAttendance, getERState} = require("../helpers/utils");
 const {getRetosSuperados, byRanking} = require("../helpers/analytics");
 const {models} = require("../models");
 const queries = require("../queries");
-const {sendJoinTeam} = require("../helpers/sockets");
+const {sendJoinTeam, sendStartTeam} = require("../helpers/sockets");
 
 
 // GET /escapeRooms/:escapeRoomId/play
@@ -59,12 +59,13 @@ exports.results = async (req, res) => {
 // POST /escapeRooms/:escapeRoomId/play
 exports.startPlaying = async (req, res) => {
     try {
+        const {automaticAttendance, duration, hintLimit, puzzles, attendanceScore, scoreHintSuccess, scoreHintFail} = req.escapeRoom;
         const team = await models.team.findOne({
             "attributes": ["name", "id", "startTime"],
             "include": [
                 {
                     "model": models.user,
-                    "attributes": [],
+                    "attributes": ["username"],
                     "as": "teamMembers",
                     "where": {"id": req.session.user.id}
                 },
@@ -79,14 +80,17 @@ exports.startPlaying = async (req, res) => {
         if (!team) {
             throw new Error();
         }
-        const joinTeam = await automaticallySetAttendance(team, req.session.user.id, req.escapeRoom.automaticAttendance);
+        const joinTeam = await automaticallySetAttendance(team, req.session.user.id, automaticAttendance);
 
         if (joinTeam) {
-            sendJoinTeam(joinTeam);
+            const erState = await getERState(req.escapeRoom.id, team, duration, hintLimit, puzzles.length, true, attendanceScore, scoreHintSuccess, scoreHintFail, true);
+
+            sendStartTeam(joinTeam.id, "OK", true, "PARTICIPANT", req.app.locals.i18n.escapeRoom.api.participationStart.PARTICIPANT, erState);
+            sendJoinTeam(joinTeam.id, joinTeam.turno.id, erState.ranking);
         }
     } catch (err) {
         console.error(err);
-        req.flash("error", "Error");
+        req.flash("error", err.message);
     }
     res.redirect(`/escapeRooms/${req.escapeRoom.id}/play`);
 };

@@ -1,6 +1,6 @@
 const socketio = require("socket.io");
-const {SOLVE_PUZZLE, solvePuzzle, REQUEST_HINT, requestHint, join, checkAccess, revokeAccess, sendInitialRanking, getInfoFromSocket} = require("./helpers/sockets");
-
+const {checkAccess, getInfoFromSocket, socketAuthenticate, sendInitialInfo, initializeListeners } = require("./helpers/sockets");
+const {getAuthMessageAndCode, NOT_A_PARTICIPANT, NOK} = require("./helpers/apiCodes");
 
 exports.createServer = (server, sessionMiddleware) => {
     const io = socketio(server);
@@ -11,32 +11,39 @@ exports.createServer = (server, sessionMiddleware) => {
 
     // TODO Discover what happens when server disconnects. Reconnection same socket id?
     io.on("connection", async (socket) => {
-        if (socket.request.session && socket.request.session.user) {
-            const {userId, teamId, escapeRoomId, turnId, isAdmin, username, lang, waiting} = getInfoFromSocket(socket);
+        try {
+            const user = await socketAuthenticate(socket);
+            const {escapeRoomId, lang, waiting, "turnId": teacherTurnId} = getInfoFromSocket(socket);
             // eslint-disable-next-line global-require
             const i18n = require(`./i18n/${lang}`);
-            const access = isAdmin ? "ADMIN" : await checkAccess(userId, teamId, escapeRoomId, turnId, i18n);
-            /** For future use
-                const   isAuthor  = access === "AUTHOR",
-                        isStudent = access === "PARTICIPANT";
-            **/
 
-            if (access) {
-                if (teamId) {
-                    socket.on(SOLVE_PUZZLE, ({puzzleId, sol}) => solvePuzzle(escapeRoomId, teamId, userId, puzzleId, sol, i18n));
-                    socket.on(REQUEST_HINT, ({status, score, category}) => requestHint(teamId, status, score, category, i18n));
-                    await join(teamId, username, waiting);
-                    socket.join(`teamId_${teamId}`);
+            if (user) {
+                const {token} = user;
+                const {"turnId": studentTurnId, teamId, participation, erState, errorMsg} = await checkAccess(user, escapeRoomId, i18n);
+
+                if (errorMsg) {
+                    sendInitialInfo(socket, {"code": NOK, "authentication": true, token, "msg": errorMsg});
+                    return;
                 }
-                if (turnId) {
-                    socket.join(`turnId_${turnId}`);
-                    if (teamId) {
-                        await sendInitialRanking(socket.id, userId, teamId, escapeRoomId, turnId, i18n);
+                const {code, msg} = getAuthMessageAndCode(participation, i18n);
+
+                const response = {code, "authentication": true, token, participation, msg, erState};
+
+                const turnId = studentTurnId || teacherTurnId;
+
+                if (participation && participation !== NOT_A_PARTICIPANT) {
+                    initializeListeners(escapeRoomId, turnId, teamId, user, waiting, i18n, socket);
+                    if (turnId) {
+                        sendInitialInfo(socket, response);
                     }
+                } else {
+                    sendInitialInfo(socket, response);
                 }
             } else {
-                await revokeAccess(socket.id, i18n);
+                sendInitialInfo(socket, {"code": NOK, "authentication": false, "msg": i18n.api.wrongCredentials});
             }
+        } catch (e) {
+            console.error(e);
         }
     });
     return io;

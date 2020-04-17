@@ -2,269 +2,320 @@ const sequelize = require("../models");
 const queries = require("../queries");
 const {models} = sequelize;
 const {calculateNextHint} = require("./hint");
-const {checkPuzzle} = require("./utils");
-const {getRetosSuperados, byRanking} = require("./analytics");
-const {OK} = require("./apiCodes");
-/** Server-client**/
+const {checkPuzzle, getRanking, authenticate, checkTurnoAccess, getERState, automaticallySetAttendance} = require("./utils");
+const {getAuthMessageAndCode, OK, NOK, AUTHOR, PARTICIPANT, TOO_LATE, NOT_STARTED, ERROR, HINT_RESPONSE, TEAM_STARTED, PUZZLE_RESPONSE, TEAM_PROGRESS, INITIAL_INFO, START_PLAYING, REQUEST_HINT, SOLVE_PUZZLE, START, STOP, JOIN, JOIN_TEAM, JOIN_PARTICIPANT, LEAVE_TEAM, LEAVE_PARTICIPANT} = require("./apiCodes");
 
-const DISCONNECT = "disconnect";
-const ERROR = "ERROR";
-const HINT_RESPONSE = "HINT_RESPONSE";
-const PUZZLE_RESPONSE = "PUZZLE_RESPONSE";
-const RANKING = "RANKING";
-const INITIAL_RANKING = "INITIAL_RANKING";
-const REQUEST_HINT = "REQUEST_HINT";
-const SOLVE_PUZZLE = "SOLVE_PUZZLE";
-const START = "START";
-const STOP = "STOP";
-const JOIN = "JOIN";
-const JOIN_TEAM = "JOIN_TEAM";
-const JOIN_PARTICIPANT = "JOIN_PARTICIPANT";
-const LEAVE_TEAM = "LEAVE_TEAM";
-const LEAVE_PARTICIPANT = "LEAVE_PARTICIPANT";
-
-const getInfoFromSocket = ({request, handshake}) => {
-    const userId = request.session.user.id;
-    const teamId = parseInt(handshake.query.team, 10) || undefined;
-    const lang = (handshake.headers["accept-language"] && handshake.headers["accept-language"].substring(0, 2)) === "es" ? "es" : "en";
-    const escapeRoomId = parseInt(handshake.query.escapeRoom, 10) || undefined;
-    const turnId = parseInt(handshake.query.turn, 10) || undefined;
-    const {username} = request.session.user;
-    const isAdmin = Boolean(request.session.user.isAdmin);
-    const {waiting} = handshake.query;
-
-    return {userId, teamId, escapeRoomId, turnId, username, isAdmin, lang, waiting};
-};
-
-/** Check if user has the rights to access a resource **/
-const checkAccess = async (userId, teamId, escapeRoomId, turnId) => {
-    const escapeRoom = await models.escapeRoom.findAll({
-        "where": {"id": escapeRoomId},
-        "include": [
-            {
-                "model": models.turno,
-                "include": [
-                    {
-                        "model": models.team,
-                        "where": {"id": teamId},
-                        "include": [
-                            {
-                                "model": models.user,
-                                "as": "teamMembers",
-                                "where": {"id": userId}
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    });
-
-    if (escapeRoom && escapeRoom.length > 0) {
-        // eslint-disable-next-line eqeqeq
-        if (escapeRoom.authorId == userId) {
-            return "AUTHOR";
-        } else if (escapeRoom[0].turnos && escapeRoom[0].turnos.length > 0) {
-            if (escapeRoom[0].turnos[0].teams && escapeRoom[0].turnos[0].teams.length > 0) {
-                if (escapeRoom[0].turnos[0].teams[0].teamMembers && escapeRoom[0].turnos[0].teams[0].teamMembers.length > 0) {
-                    // eslint-disable-next-line eqeqeq
-                    if (escapeRoom[0].turnos[0].id == turnId) {
-                        return "PARTICIPANT";
-                    }
-                }
-            }
-        }
-    }
-    return false;
-};
-
-/** Send message to every team member connected*/
+/**
+ * Send message to the whole team
+ * @param {*} msg Message to send
+ * @param {*} teamId Room name (team id)
+ */
 const sendTeamMessage = (msg, teamId) => {
     global.io.to(`teamId_${teamId}`).emit(msg.type, msg.payload);
 };
 
+/**
+ *  Send message to individual connection
+ * @param {*} msg Message to send
+ * @param {*} socketId Socket identifier
+ */
 const sendIndividualMessage = (msg, socketId) => {
     global.io.to(socketId).emit(msg.type, msg.payload);
 };
 
+/**
+ * Send message to every participant in a turn connected
+ * @param {*} msg Message to send
+ * @param {*} turnId Room name (turn id)
+ */
 const sendTurnMessage = (msg, turnId) => {
     global.io.to(`turnId_${turnId}`).emit(msg.type, msg.payload);
 };
 
-/** Action creators */
-const error = (msg, teamId) => sendTeamMessage({"type": ERROR, "payload": {msg}}, teamId);
-const hintResponse = (success, hintId, puzzleId, category, msg, teamId) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {success, hintId, puzzleId, category, msg}}, teamId);
-const puzzleResponse = (success, correctAnswer, puzzleId, participation, authentication, msg, participantMessage, teamId) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {success, correctAnswer, puzzleId, participation, authentication, msg, participantMessage}}, teamId);
-const startResponse = (turnId) => sendTurnMessage({"type": START, "payload": {}}, turnId);
-const stopResponse = (turnId) => sendTurnMessage({"type": STOP}, turnId);
-const revokeAccess = (socketId) => sendIndividualMessage({"type": "ERROR", "payload": {"msg": "You are not allowed to access this page"}}, socketId);
-const broadcastRanking = (teamId, puzzleId, time, turnId) => sendTurnMessage({"type": RANKING, "payload": {teamId, puzzleId, time}}, turnId);
-const initialRanking = (socketId, teams) => sendIndividualMessage({"type": INITIAL_RANKING, "payload": {teams}}, socketId);
-const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN, "payload": {username}}, teamId);
-const joinTeam = (turnId, team) => sendTurnMessage({"type": JOIN_TEAM, "payload": {team}}, turnId);
-const joinParticipant = (turnId, team) => sendTurnMessage({"type": JOIN_PARTICIPANT, "payload": {team}}, turnId);
-const leaveParticipant = (turnId, team, userId) => sendTurnMessage({"type": LEAVE_PARTICIPANT, "payload": {team, userId}}, turnId);
-const leaveTeam = (turnId, team) => sendTurnMessage({"type": LEAVE_TEAM, "payload": {team}}, turnId);
-/** Client-server**/
 
-const join = async (teamId, username, waiting) => {
-    if (!waiting) {
-        await joinResponse(teamId, username);
+/** ********** Action creators ********** **/
+
+/* Individual messages */
+// Initial info on connection
+const initialInfo = (socketId, code, authentication, token, participation, msg, erState) => sendIndividualMessage({"type": INITIAL_INFO, "payload": {code, authentication, token, participation, msg, erState}}, socketId);
+/* Team messages */
+// Response to team attempt to start
+const startTeam = (teamId, code, authentication, participation, msg, erState) => sendTurnMessage({"type": TEAM_STARTED, "payload": {code, authentication, participation, msg, erState}}, teamId);
+// Response to team hint request
+const hintResponse = (teamId, code, authentication, participation, hintOrder, puzzleOrder, category, msg) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {code, authentication, participation, hintOrder, puzzleOrder, category, msg}}, teamId);
+// Response to puzzle solving attempt
+const puzzleResponse = (teamId, code, correctAnswer, puzzleOrder, participation, authentication, erState, msg, participantMessage) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {code, correctAnswer, puzzleOrder, participation, authentication, erState, msg, participantMessage}}, teamId);
+// Announce that a team member has joined the room
+const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN, "payload": {username}}, teamId);
+// TODO attendance participant
+
+/* Turn messages */
+// Turn has started
+const startResponse = (turnId) => sendTurnMessage({"type": START, "payload": {}}, turnId);
+// Turn has ended
+const stopResponse = (turnId) => sendTurnMessage({"type": STOP, "payload": {}}, turnId);
+// Broadcast ranking after someone makes progress
+const sendRanking = (turnId, ranking, teamId, puzzleOrder) => sendTurnMessage({"type": TEAM_PROGRESS, "payload": {ranking, teamId, puzzleOrder}}, turnId);
+// Team has joined turn
+const joinTeam = (teamId, turnId, ranking) => sendTurnMessage({"type": JOIN_TEAM, "payload": {teamId, ranking}}, turnId);
+// Announce someone has joined an existing team
+const joinParticipant = (username, teamId, turnId, ranking) => sendTurnMessage({"type": JOIN_PARTICIPANT, "payload": {username, teamId, ranking}}, turnId);
+// Announce someone has left an existing team
+const leaveParticipant = (username, teamId, turnId, ranking) => sendTurnMessage({"type": LEAVE_PARTICIPANT, "payload": {username, teamId, ranking}}, turnId);
+// Announce a team has left
+const leaveTeam = (teamId, turnId, ranking) => sendTurnMessage({"type": LEAVE_TEAM, "payload": {teamId, ranking}}, turnId);
+
+/**
+ * Get socket query params
+ */
+exports.getInfoFromSocket = ({handshake}) => {
+    const lang = (handshake.headers["accept-language"] && handshake.headers["accept-language"].substring(0, 2)) === "es" ? "es" : "en";
+    const escapeRoomId = parseInt(handshake.query.escapeRoom, 10) || undefined;
+    const turnId = parseInt(handshake.query.turn, 10) || undefined;
+    const {waiting} = handshake.query;
+
+    return {escapeRoomId, turnId, lang, waiting};
+};
+
+/**
+ * Authenticate user using socket info
+ */
+exports.socketAuthenticate = async ({request, handshake}) => {
+    try {
+        if (request && request.session && request.session.user) {
+            return models.user.findByPk(request.session.user.id);
+        }
+        const {email, password, token} = handshake.query;
+        const user = await authenticate(email, password, token);
+
+        return user;
+    } catch (e) {
+        return null;
     }
 };
 
-const startTurno = async (turnId) => {
-    await startResponse(turnId);
+/**
+ * Check if user has the rights to access ER
+ */
+exports.checkAccess = async (user, escapeRoomId, i18n) => {
+    try {
+        const escapeRoom = await models.escapeRoom.findByPk(escapeRoomId, queries.escapeRoom.load);
+
+        if (escapeRoom) {
+            const teams = await user.getTeamsAgregados(queries.user.erTeam(escapeRoomId));
+            const participation = await checkTurnoAccess(teams, user, escapeRoom, true);
+
+            // TODO comprobar author turno está en ER
+            if (participation !== "AUTHOR" && teams && teams.length) {
+                const [team] = teams;
+                const teamId = team.id;
+                const turnId = team.turno.id;
+                const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
+                const erState = await getERState(escapeRoomId, team, escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance);
+
+                if (participation === "PARTICIPANT") {
+                    await automaticallySetAttendance(team, user.id, escapeRoom.automaticAttendance);
+                }
+                return {participation, teamId, turnId, erState};
+            }
+            return {participation};
+        }
+        return {"errorMsg": i18n.api.notFound};
+    } catch (err) {
+        return {"errorMsg": err.message};
+    }
 };
 
-const solvePuzzle = async (escapeRoomId, teamId, userId, puzzleId, solution, i18n) => {
+/**
+ * Team member joined room
+ */
+exports.join = (teamId, username, waiting) => {
+    if (!waiting) {
+        joinResponse(teamId, username);
+    }
+};
+
+/**
+ * Turn has started
+ */
+exports.startTurno = (turnId) => {
+    startResponse(turnId);
+};
+
+/**
+ * Turn has finished
+ */
+exports.stopTurno = (turnId) => {
+    stopResponse(turnId);
+};
+
+/**
+ * Puzzle solve attempt
+ */
+exports.solvePuzzle = async (escapeRoomId, teamId, userId, puzzleOrderMinus, solution, i18n) => {
     try {
-        const puzzle = await models.puzzle.findOne({"where": {"id": puzzleId, escapeRoomId}});
+        if (!puzzleOrderMinus && puzzleOrderMinus < 0) {
+            throw new Error(i18n.api.notFound);
+        }
+        const puzzleOrder = puzzleOrderMinus - 1;
+        const puzzle = await models.puzzle.findOne({"where": {"order": puzzleOrder, escapeRoomId}});
 
         if (!puzzle) {
             throw new Error(i18n.api.notFound);
         }
-        const team = await models.team.findByPk(teamId, {
-            "include": [
-                {
-                    "model": models.turno,
-                    "required": true,
-                    "where": {escapeRoomId},
-                    "include": [
-                        {
-                            "model": models.escapeRoom,
-                            "attributes": ["duration", "forbiddenLateSubmissions"],
-                            "include": [
-                                {
-                                    "model": models.puzzle,
-                                    "attributes": ["id"]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "model": models.user,
-                    "through": "members",
-                    "as": "teamMembers",
-                    "attributes": ["username"]
-                }
-            ]
-        });
+        const team = await models.team.findByPk(teamId, queries.team.teamInfo(escapeRoomId));
 
         if (!team) {
             throw new Error(i18n.api.notFound);
         }
         const {body} = await checkPuzzle(solution, puzzle, team.turno.escapeRoom, [team], {"id": userId}, i18n);
 
-        const {code, correctAnswer, participation, authentication, msg} = body;
+        const {code, correctAnswer, participation, authentication, msg, erState, alreadySolved} = body;
 
-        if (code === OK) {
-            await puzzle.addSuperados(team.id);
-            broadcastRanking(team.id, puzzleId, new Date(), team.turno.id);
+        puzzleResponse(teamId, code, correctAnswer, puzzleOrderMinus, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
+        if (code === OK && !alreadySolved) {
+            const teams = await getRanking(escapeRoomId, team.turno.id);
+
+            sendRanking(team.turno.id, teams, teamId, puzzleOrderMinus);
         }
-        puzzleResponse(code === OK, correctAnswer, puzzleId, participation, authentication, msg, i18n.escapeRoom.api.participation[participation], teamId);
     } catch (e) {
-        console.error("lll", e);
-        error(e, teamId);
+        console.error(e);
+        puzzleResponse(teamId, ERROR, undefined, undefined, undefined, true, undefined, e.message);
     }
 };
 
-const sendInitialRanking = async (socketId, userId, teamId, escapeRoomId, turnoId) => {
-    const teamsRaw = await models.team.findAll(queries.team.ranking(escapeRoomId, turnoId));
-    const nPuzzles = await models.puzzle.count({"where": { escapeRoomId }});
-    const teams = getRetosSuperados(teamsRaw, nPuzzles).sort(byRanking);
-
-    initialRanking(socketId, teams);
+/**
+ * Send ranking to everyone in the turn
+ */
+exports.broadcastRanking = (turnoId, teams, teamId, puzzleOrder) => {
+    sendRanking(turnoId, teams, teamId, puzzleOrder);
 };
 
-const sendJoinTeam = (team) => {
-    joinTeam(team.turno.id, team);
+/**
+ * Send initial information on connection
+ */
+exports.sendInitialInfo = (socket, {code, authentication, token, participation, msg, erState}) => {
+    initialInfo(socket.id, code, authentication, token, participation, msg, erState);
 };
 
-const sendJoinParticipant = (team) => {
-    joinParticipant(team.turno.id, team);
-};
+/**
+ * Start "button"
+ */
+exports.startPlaying = async (user, teamId, turnId, escapeRoomId, i18n) => {
+    try {
+        const escapeRoom = await models.escapeRoom.findByPk(escapeRoomId, queries.escapeRoom.load);
 
-const sendLeaveParticipant = (team, userId) => {
-    leaveParticipant(team.turno.id, team, userId);
-};
+        if (escapeRoom) {
+            const teams = await user.getTeamsAgregados(queries.user.erTeam(escapeRoomId));
+            const participation = await checkTurnoAccess(teams, user, escapeRoom, true);
+            const {code, msg} = getAuthMessageAndCode(participation, i18n, true);
 
-const sendLeaveTeam = (team) => {
-    leaveTeam(team.turno.id, team);
-};
+            // TODO comprobar author turno está en ER
 
-const requestHint = async (teamId, status, score, category) => {
-    const team = await models.team.findByPk(teamId, {
-        "include": [
-            {
-                "model": models.turno,
-                "include": [
-                    {
-                        "model": models.escapeRoom,
-                        "include": [
-                            {
-                                "model": models.puzzle,
-                                "include": [{"model": models.hint}]
-                            }
-                        ]
+            if (participation !== AUTHOR && teams && teams.length) {
+                const [team] = teams;
+                const attendance = participation === PARTICIPANT || participation === TOO_LATE;
+                // eslint-disable-next-line init-declarations
+                let erState;
+
+                if (participation === PARTICIPANT || participation === NOT_STARTED) {
+                    const firstTimer = await automaticallySetAttendance(team, user.id, escapeRoom.automaticAttendance);
+
+                    erState = await getERState(escapeRoomId, team, escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, true);
+
+                    if (firstTimer) {
+                        joinTeam(turnId, teamId, erState.ranking);
+                        startTeam(teamId, code, true, PARTICIPANT, msg, erState);
                     }
-                ]
+                    return;
+                } else if (participation === TOO_LATE) {
+                    erState = await getERState(escapeRoomId, team, escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, true);
+                }
+                startTeam(teamId, code, true, participation, msg, erState);
+                return;
             }
-        ],
-        "order": [
-            [
-                {"model": models.turno},
-                {"model": models.escapeRoom},
-                {"model": models.puzzle},
-                "order",
-                "asc"
-            ],
-            [
-                {"model": models.turno},
-                {"model": models.escapeRoom},
-                {"model": models.puzzle},
-                {"model": models.hint},
-                "order",
-                "asc"
-            ]
-        ]
-    });
+            startTeam(teamId, code, true, participation, msg);
+            return;
+        }
+        throw new Error(i18n.api.notFound);
+    } catch (err) {
+        console.error(err);
+        startTeam(teamId, ERROR, true, undefined, err.msg, undefined);
+    }
+};
+
+/**
+ * Announce all members of the team that someone has hit the start button
+ */
+exports.sendStartTeam = (teamId, code, authentication, participation, msg, erState) => {
+    startTeam(teamId, code, authentication, participation, msg, erState);
+};
+
+/**
+ * Announce all turn participants that a team has joined the turn
+ */
+exports.sendJoinTeam = (teamId, turnId, teams) => {
+    joinTeam(teamId, turnId, teams);
+};
+
+/**
+ * Announce all turn participants that a new participant has joined an existing team
+ */
+exports.sendJoinParticipant = (username, teamId, turnId, teams) => {
+    joinParticipant(username, teamId, turnId, teams);
+};
+
+/**
+ * Announce all turn participants that a new participant has left an existing team
+ */
+exports.sendLeaveParticipant = (username, teamId, turnId, teams) => {
+    leaveParticipant(username, teamId, turnId, teams);
+};
+
+/**
+ * Announce all turn participants that a team has left the turn
+ */
+exports.sendLeaveTeam = (teamId, turnId, teams) => {
+    leaveTeam(teamId, turnId, teams);
+};
+
+/**
+ * Request a hint
+ */
+const requestHint = async (escapeRoomId, teamId, userId, status, score, category, i18n) => {
+    const team = await models.team.findByPk(teamId, queries.team.puzzlesAndHints(teamId));
 
     if (team && team.turno && team.turno.escapeRoom) {
-        const result = await calculateNextHint(team.turno.escapeRoom, team, status, score, category);
+        const result = await calculateNextHint(team.turno.escapeRoom, team, status, score, category, i18n.hint);
 
-        if (result) {
-            const {msg, ok, hintId, puzzleId, "category": newCat} = result;
+        if (result) { // TODO participation, auth...
+            const {msg, ok, hintOrder, puzzleOrder, "category": newCat} = result;
 
-            await hintResponse(ok, hintId, puzzleId, newCat, msg, teamId, {"empty": "empty", "dontClose": "dontClose", "failed": "failed"});
+            await hintResponse(teamId, ok ? OK : NOK, true, PARTICIPANT, hintOrder, puzzleOrder, newCat, msg);
         }
     }
 };
 
-const stopTurno = (turnId) => {
-    stopResponse(turnId);
-};
+exports.requestHint = requestHint;
 
-module.exports = {
-    join,
-    stopTurno,
-    startTurno,
-    checkAccess,
-    requestHint,
-    solvePuzzle,
-    revokeAccess,
-    puzzleResponse,
-    broadcastRanking,
-    getInfoFromSocket,
-    sendInitialRanking,
-    sendJoinTeam,
-    sendJoinParticipant,
-    sendLeaveParticipant,
-    sendLeaveTeam,
-    START,
-    DISCONNECT,
-    SOLVE_PUZZLE,
-    REQUEST_HINT
-};
+/**
+ * Solve a puzzle
+ */
+exports.puzzleResponse = puzzleResponse;
 
+
+/**
+ * Join rooms for team and turn
+ */
+exports.initializeListeners = (escapeRoomId, turnId, teamId, user, waiting, i18n, socket) => {
+    if (teamId) {
+        socket.on(SOLVE_PUZZLE, ({puzzleOrder, sol}) => exports.solvePuzzle(escapeRoomId, teamId, user.id, puzzleOrder, sol, i18n));
+        socket.on(REQUEST_HINT, ({status, score, category}) => requestHint(escapeRoomId, teamId, user.id, status, score, category, i18n));
+        socket.on(START_PLAYING, () => exports.startPlaying(user, teamId, turnId, escapeRoomId, i18n));
+        exports.join(teamId, user.username, waiting);
+        socket.join(`teamId_${teamId}`);
+    }
+    if (turnId) {
+        socket.join(`turnId_${turnId}`);
+    }
+};

@@ -83,7 +83,6 @@
             const newCat = movedHint.prevAll('.hint-category').first();
             const catInd = newCat.data('id') || 0;
             movedHint.find('.hint-cat').val(catInd);
-            console.log("first", catInd, movedHint)
 
             $(event.target).find('.hint-order').each((i,e)=> {
                 $(e).val(i);
@@ -137,7 +136,6 @@
                 const movedHint = $(ui.item[0]).closest('li');
                 const newCat = movedHint.prevAll('.hint-category').first();
                 const catInd = newCat.data('id') || 0;
-                console.log("second", catInd)
                 movedHint.find('.hint-cat').val(catInd);
                 $(event.target).find('.hint-order').each((i,e)=> {
                     $(e).val(i);

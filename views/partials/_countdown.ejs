@@ -1,6 +1,5 @@
 <script>
     <%if (team && team.turno && team.turno.status === "active") { %>
-        <%console.log(team.turno.startTime , team.startTime) %>
             var countdown = true;
             var startTime = new Date("<%=team.turno.startTime || team.startTime%>");
             var duration = <%=escapeRoom.duration || 0%>;

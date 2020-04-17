@@ -19,9 +19,10 @@ exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
     };
 };
 
-exports.getRetosSuperados = (teams, nPuzzles) => teams.
+exports.getRetosSuperados = (teams, nPuzzles, ignoreTurno = false) => teams.
     map((team) => {
         const {id, name, retos, turno, "startTime": teamStartTime, teamMembers} = team.dataValues;
+        const puzzlesSolved = retos.map((r) => r.order + 1);
         const latestRetoSuperado = retos && retos.length > 0 ? retos.map((r) => new Date(r.retosSuperados.createdAt)).sort((a, b) => b - a)[0] : null;
         const startTime = turno.startTime || teamStartTime;
         const count = retos.length;
@@ -29,7 +30,7 @@ exports.getRetosSuperados = (teams, nPuzzles) => teams.
         const participants = teamMembers.map((member) => `${member.name} ${member.surname}`).join(", ");
         const finishTime = nPuzzles === parseInt(count, 10) && startTime ? (new Date(latestRetoSuperado) - new Date(startTime)) / 1000 : null;
 
-        return { id, name, retos, turno, startTime, latestRetoSuperado, finishTime, count, result, teamMembers, participants };
+        return { id, name, puzzlesSolved, "turno": ignoreTurno ? undefined : turno, startTime, latestRetoSuperado, finishTime, count, result, teamMembers, participants };
     });
 
 exports.getRetosSuperadosIdTime = (retos, actualStartTime) => retos.map((reto) => {

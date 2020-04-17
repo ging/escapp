@@ -54,7 +54,7 @@
 			<% } else if(turno.status === "active" && !finished && (!team.startTime || (new Date(team.startTime.getTime() + escapeRoom.duration * 60000) > new Date()))) { %>
 				<span id ="start">
 					<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
-						<button class="rounded acceptButton pulseButton"><%=team.startTime ? i18n.showStudent.join : i18n.showStudent.play%></button>
+						<button class="rounded acceptButton pulseButton" onclick="clicked()"><%=team.startTime ? i18n.showStudent.join : i18n.showStudent.play%></button>
 					</form>
 				</span>
 			<%}%>
@@ -88,14 +88,18 @@
 		<div>
 			<p class="start-er"><%=i18n.showStudent.start%> <br/>
 				<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
-					<button class="rounded acceptButton pulseButton"><%=i18n.showStudent.join%>%></button>
+					<button class="rounded acceptButton pulseButton" onclick="clicked()"><%=i18n.showStudent.join%>%></button>
 				</form>
 			</p>
 		
 		</div>
 	</div>
 
-<script>
+	<script>
+var CLICKED = false;
+var clicked = () => {
+	CLICKED = true;
+}
 $(()=>{
 	var participant = JSON.parse('<%-JSON.stringify(participant)%>')
 	var socket;
@@ -105,6 +109,7 @@ $(()=>{
 	const START = "START";
 	const STOP = "STOP";
 	const JOIN = "JOIN";
+	const TEAM_STARTED = "TEAM_STARTED";
 	const escapeRoomId = "<%= escapeRoom.id%>";
 	const teamId = <%= team.id || "undefined";%>   
 	const userId = <%= session.user.id %>;
@@ -129,20 +134,16 @@ $(()=>{
 		}
 	};
 
-	const onStart = (msg) => {
-		$( "#dialog-start" ).dialog( "open" )
-		$('#start-er').html(`<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
-			<button class="rounded acceptButton pulseButton"><%=i18n.showStudent.join%>%></button>
-		</form>`);
-	};
 	const onJoin = (msg) => {
-		if (!startTime) {
+		if (!startTime && !CLICKED) {
 			$( "#dialog-start" ).dialog( "open" )
 			$('#start-er').html(`<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
-				<button class="rounded acceptButton pulseButton"><%=i18n.showStudent.join%>%></button>
+				<button class="rounded acceptButton pulseButton"  onclick="clicked()" ><%=i18n.showStudent.join%>%></button>
 			</form>`);
 		}
 	};
+
+
 
 	const initSocketServer = (escapeRoomId, teamId, turnId, userId) => {
 		socket = io('/', {query: {
@@ -151,8 +152,9 @@ $(()=>{
 			turn: turnId == "undefined" ? undefined : turnId,
 			waiting: true  
 		}});
-		socket.on(START, onStart); 
+		socket.on(START, onJoin); 
 		socket.on(JOIN, onJoin); 
+		socket.on(TEAM_STARTED, onJoin); 
 	};
 	initSocketServer(<%= escapeRoom.id%>, teamId, <%= turno ? turno.id : "undefined" %>, userId);
 });

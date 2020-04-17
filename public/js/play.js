@@ -3,7 +3,7 @@ const CONNECT = "connect";
 const DISCONNECT = "disconnect";
 const ERROR = "ERROR";
 const HINT_RESPONSE = "HINT_RESPONSE";
-const INITIAL_RANKING = "INITIAL_RANKING";
+const INITIAL_INFO = "INITIAL_INFO";
 const PUZZLE_RESPONSE = "PUZZLE_RESPONSE";
 const REQUEST_HINT = "REQUEST_HINT";
 const SOLVE_PUZZLE = "SOLVE_PUZZLE";
@@ -15,9 +15,9 @@ const JOIN_PARTICIPANT = "JOIN_PARTICIPANT";
 const LEAVE_TEAM = "LEAVE_TEAM";
 const LEAVE_PARTICIPANT = "LEAVE_PARTICIPANT";
 const RESET_PROGRESS = "RESET_PROGRESS";
-const RANKING = "RANKING";
+const TEAM_PROGRESS = "TEAM_PROGRESS";
 var myTeamId;
-var myUserId;
+var myUserName;
 var alertMsg;
 /** TEMPLATES **/
 const hintTemplate = (hint) => `
@@ -70,17 +70,17 @@ const finishTemplate = () => `
 const puzzleInterfaceTemplate = (puzzle) => {
   return puzzle.automatic ? `` : `
   <div class="flex-cell flex-cell-retos">
-    <div class="retoTextArea editable" data-reto="${puzzle.id}" data-id="title">
-        ${puzzle.title}
+    <div class="retoTextArea editable" data-reto="${puzzle.order}" data-id="title">
+        ${puzzle.order}
     </div>
   </div>
-  <div class="flex-cell flex-cell-sol puzzle-sol" data-reto="${puzzle.id}" >
+  <div class="flex-cell flex-cell-sol puzzle-sol" data-reto="${puzzle.order}" >
     <div class="input-group mb-3 sol-input">
-      <input type="text" autofocus class="form-control puzzle-input" name="answer" data-puzzle-id="${puzzle.id}" placeholder="${i18n.writeSol}" aria-label="Answer" aria-describedby="basic-addon2" autocomplete="off">
+      <input type="text" autofocus class="form-control puzzle-input" name="answer" data-puzzle-order="${puzzle.order}" placeholder="${i18n.writeSol}" aria-label="Answer" aria-describedby="basic-addon2" autocomplete="off">
       <div class="input-group-append">
-        <button class="btn btn-warning puzzle-check-btn" type="button" data-puzzle-id="${puzzle.id}">${i18n.check}</button>
+        <button class="btn btn-warning puzzle-check-btn" type="button" data-puzzle-order="${puzzle.order}">${i18n.check}</button>
       </div>
-      <div class="puzzle-feedback invalid-feedback" data-puzzle-id="${puzzle.id}">
+      <div class="puzzle-feedback invalid-feedback" data-puzzle-order="${puzzle.order}">
       </div>
     </div>
   </div>`;};
@@ -89,7 +89,9 @@ const puzzleInterfaceTemplate = (puzzle) => {
 /** OUTGOING MESSAGES **/
 const error = (msg) => ({type: ERROR, payload: {msg}});
 
-const solvePuzzle = (puzzleId, sol) => socket.emit("SOLVE_PUZZLE", {puzzleId, sol});
+const solvePuzzle = (puzzleOrder, sol) => {
+  socket.emit("SOLVE_PUZZLE", {"puzzleOrder": parseInt(puzzleOrder, 10) + 1, sol})
+};
 
 const requestHint = (score, status, category) => socket.emit("REQUEST_HINT", {score, status, category});
 
@@ -108,11 +110,9 @@ const onError = (msg) => {
 }
 
 const onStart = () => {
-  console.log("Turno comenzado");
 }
 
 const onStop = () => {
-  console.log("Turno terminado");
   alertMsg = $.easyAlert({"message": i18n["timeUp"], "alertType": "warning", "position": "b l", "showDuration": 10000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "slide"});
   window.location = `/escapeRooms/${escapeRoomId}/finish`;
 }
@@ -124,7 +124,6 @@ const onJoin = () => {
 }
 
 const onDisconnect = () => {
-  console.log("Disconnect")
   $('.alert').remove();
   alertMsg = $.easyAlert({"message": i18n["disconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "slide"});
 };
@@ -135,34 +134,35 @@ const onReconnect = () => {
   alertMsg = $.easyAlert({"message": i18n["reconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "slide"});
 
 };
-const onPuzzleResponse = async ({success, correctAnswer, puzzleId, participation, authentication, msg, participantMessage}) => {
+const onPuzzleResponse = async ({code, correctAnswer, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage}) => {
   const feedback = msg + (participantMessage && participation !== "PARTICIPANT" ? `. ${participantMessage}`: "");
-  if (success) {
-    let nextPuzzleId = null;
-    if (!retosSuperados.some(r => r == puzzleId)) {
-      retosSuperados.push(puzzleId)
+  const puzzleOrder = puzzleOrderPlus - 1;
+  if (code === "OK") {
+    let nextPuzzleOrder = null;
+    if (!retosSuperados.some(r => r == puzzleOrder)) {
+      retosSuperados.push(puzzleOrder)
       puzzlesPassed++;
       updateProgress(Math.round(puzzlesPassed/totalPuzzles*100));
       
-      $(`.puzzle-sol[data-reto="${puzzleId}"]`).html(`<b>${feedback}</b>`);
+      $(`.puzzle-sol[data-reto="${puzzleOrder}"]`).html(`<b>${feedback}</b>`);
 
       if (puzzlesPassed === totalPuzzles) {
         await forMs(1000);
         $('#finishPuzzles').html(finishTemplate());
         confetti.start(10000);
       } else {
-        const puzzleIndex = escapeRoomPuzzles.findIndex(puzzle => puzzle.id == puzzleId);
+        const puzzleIndex = escapeRoomPuzzles.findIndex(puzzle => puzzle.order == puzzleOrder);
         const nextPuzzle = escapeRoomPuzzles[puzzleIndex + 1];
-        nextPuzzleId = nextPuzzle.id;
+        nextPuzzleOrder = nextPuzzle.order;
         if (puzzleIndex > -1  && puzzleIndex < (escapeRoomPuzzles.length - 1) && !nextPuzzle.automatic){
           $('#finishPuzzles').append(puzzleInterfaceTemplate(nextPuzzle));
         }
       }
-      checkAvailHintsForPuzzle(nextPuzzleId);
+      checkAvailHintsForPuzzle(nextPuzzleOrder);
     }
   } else {
-    $(`.puzzle-feedback[data-puzzle-id="${puzzleId}"]`).html(feedback);
-    $(`.puzzle-input[data-puzzle-id="${puzzleId}"]`).addClass("is-invalid");
+    $(`.puzzle-feedback[data-puzzle-order="${puzzleOrder}"]`).html(feedback);
+    $(`.puzzle-input[data-puzzle-order="${puzzleOrder}"]`).addClass("is-invalid");
   }
 };
 
@@ -173,8 +173,8 @@ const closeHintModal = async () => {
   $('#hintAppModal').modal('hide'); 
 }
 
-const checkAvailHintsForPuzzle = (puzzleId) => {
-  if (!puzzleId) {
+const checkAvailHintsForPuzzle = (puzzleOrder) => {
+  if (puzzleOrder === null || puzzleOrder === undefined) {
     $('#btn-hints').attr("disabled", true);
     $('#btn-hints').attr("title", i18n["cantRequestMore"]);
     return;
@@ -186,6 +186,7 @@ const checkAvailHintsForPuzzle = (puzzleId) => {
 
     return;
   }
+  console.log(allowCustomHints)
 
   if (allowCustomHints) {
     $('#btn-hints').attr("disabled", false);
@@ -194,7 +195,7 @@ const checkAvailHintsForPuzzle = (puzzleId) => {
     return;
   }
 
-  const puzzle = escapeRoomPuzzles.find(p => p.id === puzzleId);
+  const puzzle = escapeRoomPuzzles.find(p => p.order === puzzleOrder);
   if (puzzle && puzzle.hints) {
     var anyHint = false;
     for (var c in puzzle.hints) {
@@ -204,6 +205,7 @@ const checkAvailHintsForPuzzle = (puzzleId) => {
         break;
       }
     }
+    console.log(anyHint)
     if (anyHint) {
       $('#btn-hints').attr("disabled", false);
       $('#btn-hints').attr("title", i18n["canRequest"]);
@@ -216,15 +218,18 @@ const checkAvailHintsForPuzzle = (puzzleId) => {
   }
 }
 
-const onHintResponse = async ({success, puzzleId, hintId, category, msg}) => {
-  const message = ((success && !hintId) || !success) ? i18n[msg] : msg;
-  if (hintId) { // Existing hint
-    if (reqHints.indexOf(hintId) === -1 ) { // Not hint requested before
-      reqHints.push(hintId);
-      const currentPuzzle = escapeRoomPuzzles.find(puz => puz.id === puzzleId);
+const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzzleOrderPlus, category, msg}) => {
+  const message = msg;
+  const hintOrder = hintOrderPlus - 1;
+  const puzzleOrder = puzzleOrderPlus - 1;
+  if (hintOrderPlus) { // Existing hint
+    const actualCat = category || currentPuzzle.categories[0];
+    if (reqHints[puzzleOrder][actualCat].indexOf(hintOrder) === -1 ) { // Not hint requested before
+      reqHints[puzzleOrder][actualCat].push(hintOrder);
+      const currentPuzzle = escapeRoomPuzzles.find(puz => puz.order === puzzleOrder);
       if (currentPuzzle) {
-        const hintArr = currentPuzzle.hints[category || currentPuzzle.categories[0]];
-        const idx = hintArr.indexOf(hintId);
+        const hintArr = currentPuzzle.hints[actualCat];
+        const idx = hintArr.indexOf(hintOrder);
         if (idx !== -1) {
           hintArr.splice(idx, 1);
         }
@@ -244,7 +249,7 @@ const onHintResponse = async ({success, puzzleId, hintId, category, msg}) => {
     }
     $('ul#hintList').append(hintTemplate(message));
   } else if(allowCustomHints) {
-    if (success) { // Hint obtained
+    if (code == "OK") { // Hint obtained
       if (waitingForHintReply) { // Receive a hint that you requested
         if (hintAppConditional && allowCustomHints) {  // Modal is open
           $('#hintAppModal').on('hidden.bs.modal', async (e) => { // When modal closes
@@ -259,101 +264,73 @@ const onHintResponse = async ({success, puzzleId, hintId, category, msg}) => {
         $('ul#hintList').append(hintTemplate(message));  // Show hint
       }
     } else { // Hint not obtained (only quiz strategy)
-      if (msg === "tooMany") { // By the time you finished the quiz there were no hints left
-        $('#modalContent').append(customHintTemplate(i18n.tooMany)); // Show message in modal
+      if (waitingForHintReply) { // Receive a hint that you requested
+        // $('#modalContent').append(customHintTemplate(message)); // Show message in modal
         await forMs(3000);
+        await closeHintModal();
       }
-      await closeHintModal();
     }
     waitingForHintReply = false; // Stop waiting for hint response
     $('html').css('cursor','auto');
 
   } else {
-    await closeHintModal();
+    if (waitingForHintReply) { 
+      await closeHintModal();
+    }
     waitingForHintReply = false; // Stop waiting for hint response
     $('html').css('cursor','auto');
   }
-  if (success) {
-    checkAvailHintsForPuzzle(puzzleId);
+  if (code === "OK") {
+    checkAvailHintsForPuzzle(puzzleOrder);
   }
 };
 
-const onRankingDiff = ({teamId, puzzleId, time}) => {
-  const team = teams.find(team => team.id == teamId);
-  if (team) {
-    const reto = team.retos.find(reto => reto.id === puzzleId)
-    if (!reto) {
-      team.retos = [...team.retos, {id: puzzleId, date: time}];
-      team.result = team.retos.length + "/" + nPuzzles;
-      team.latestRetoSuperado = time;
-      $('#team-' + teamId +" .ranking-res").html(team.result);
-      if (team.retos.length == nPuzzles) {
-        team.finishTime = secondsToDhms((new Date(time) - new Date(team.startTime))/1000);
-        $('#team-' + teamId +" .ranking-time").html(team.finishTime);
-      }
+const onInitialInfo = ({erState}) => {
+  if (erState && erState.ranking) {
+    teams = erState.ranking
+    $('ranking').html(rankingTemplate(teams, myTeamId));
+    sort();
+  }
+  
+};
 
-      sort();
-    }
+const onRanking = ({ranking}) => {
+  if (ranking) {
+    teams = ranking
+    $('ranking').html(rankingTemplate(teams, myTeamId));
+    sort();
   }
 };
 
-const onInitialRanking = ({teams:teamsNew}) => {
-  teams = teamsNew
+const onParticipantJoin = ({ranking}) => {
+    teams = ranking;
+    $('ranking').html(rankingTemplate(teams, myTeamId));
+    sort();
+}
+
+const onTeamJoin = ({ranking}) => {
+  teams = ranking;
   $('ranking').html(rankingTemplate(teams, myTeamId));
   sort();
-};
-
-const onTeamJoin = ({team}) => {
-  if (!teams.some(t => t.id === team.id)) {
-    let count = 0;
-    let retos = [];
-    let result = "0/" + nPuzzles;
-
-    teams.push({...team, result, count, retos});
-    $('ranking').html(rankingTemplate(teams, myTeamId));
-    sort();
-  }
 }
 
-const onParticipantJoin = ({team}) => {
-  const index = teams.findIndex(t => t.id === team.id);
-  if (index > -1) {
-    const {teamMembers, participants} = team;
-    teams[index].teamMembers = teamMembers;
-    teams[index].participants = participants;
-    $('ranking').html(rankingTemplate(teams, teamId));
-    sort();
-  }
-}
-
-const onTeamLeave = ({team}) => {
-  if (team.id === myTeamId) {
+const onTeamLeave = ({teamId, ranking}) => {
+  if (teamId === myTeamId) {
     window.location.replace("/escapeRooms");
   }
-  const index = teams.findIndex(t => t.id === team.id);
-  if (index > -1) {
-    teams.splice(index, 1);
-    $('ranking').html(rankingTemplate(teams, myTeamId));
-    sort();
-  }
+  teams = ranking;
+  $('ranking').html(rankingTemplate(teams, myTeamId));
+  sort();
 }
 
-const onParticipantLeave = ({team, userId}) => {
-  if (userId === myUserId) {
+const onParticipantLeave = ({ranking, username}) => {
+  if (username === myUsername) {
     window.location.replace("/escapeRooms");
   }
-  const foundTeam = teams.find(t => t.id === team.id);
-  if (foundTeam) {
-    const {teamMembers, participants} = team;
-    foundTeam.teamMembers = teamMembers;
-    foundTeam.participants = participants;
-    $('ranking').html(rankingTemplate(teams, myTeamId));
-    sort();
-  }
-
+  teams = ranking;
+  $('ranking').html(rankingTemplate(teams, myTeamId));
+  sort();
 }
-
-
 
 
 /** HELPERS **/
@@ -377,8 +354,8 @@ const rgb2hex = orig => {
 $(document).on("keyup", ".puzzle-input", function(ev){
   const sol = $(this).val();
   if (ev.keyCode === 13) {
-    const puzzleId = $(this).data("puzzleId");
-    solvePuzzle(puzzleId, sol);
+    const puzzleOrder = $(this).data("puzzleOrder");
+    solvePuzzle(puzzleOrder, sol);
   } else {
     if (sol === "") {
       $(this).removeClass('is-invalid');
@@ -387,9 +364,9 @@ $(document).on("keyup", ".puzzle-input", function(ev){
 });
 
 $(document).on("click", ".puzzle-check-btn", function(){
-  const puzzleId = $(this).data("puzzleId");
-  const sol = $(`.puzzle-input[data-puzzle-id="${puzzleId}"]`).val();
-  solvePuzzle(puzzleId, sol);
+  const puzzleOrder = $(this).data("puzzleOrder");
+  const sol = $(`.puzzle-input[data-puzzle-order="${puzzleOrder}"]`).val();
+  solvePuzzle(puzzleOrder, sol);
 });
 
 
@@ -399,7 +376,7 @@ $(document).on("click", "#btn-hints", function(){
   for (let r in escapeRoomPuzzles) {
     const reto = escapeRoomPuzzles[r];
     currentReto = reto;
-    if (retosSuperados.indexOf(reto.id) === -1) {
+    if (retosSuperados.indexOf(reto.order) === -1) {
       break;
     }
   }
@@ -461,15 +438,13 @@ window.requestHintFinish = (completion, score, status) => {
 };
 /*******************************************************************/
 
-const initSocketServer = (escapeRoomId, teamId, turnId, userId) => {
+const initSocketServer = (escapeRoomId, teamId, turnId, username) => {
   socket = io('/', {query: {
     escapeRoom: escapeRoomId == "undefined" ? undefined : escapeRoomId, 
-    team: teamId == "undefined" ? undefined : teamId, 
     turn: turnId == "undefined" ? undefined : turnId  
   }});
   myTeamId = teamId;
-  myUserId = userId;
-
+  myUsername = username;
   /*Connect*/
   socket.on(CONNECT, onConnect);
 
@@ -491,11 +466,11 @@ const initSocketServer = (escapeRoomId, teamId, turnId, userId) => {
   /*Hint response*/
   socket.on(HINT_RESPONSE, onHintResponse);
 
-  /*New ranking event*/
-  socket.on(RANKING, onRankingDiff); 
+  /*New ranking */
+  socket.on(TEAM_PROGRESS, onRanking);
 
-  /*Initial ranking*/
-  socket.on(INITIAL_RANKING, onInitialRanking);
+  /*Initial info*/
+  socket.on(INITIAL_INFO, onInitialInfo);
 
   /*Team join*/
   socket.on(JOIN_TEAM, onTeamJoin);

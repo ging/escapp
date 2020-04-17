@@ -4,21 +4,21 @@
 <% } %>
 <% for (var reto in puzzles){ %>
     <% var puzzle = puzzles[reto] %>
-    <% var noSuperado = retosSuperados.indexOf(puzzle.id) === -1; %>
+    <% var noSuperado = retosSuperados.indexOf(puzzle.order) === -1; %>
     <% if (!found && !puzzle.automatic) { %>
       <div class="flex-cell flex-cell-retos">
-          <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="title">
+          <div class="retoTextArea editable" data-reto="<%=puzzle.order%>" data-id="title">
               <%= puzzle.title%>
           </div>
       </div>
-      <div class="flex-cell flex-cell-sol puzzle-sol" data-reto="<%=puzzle.id%>" >
+      <div class="flex-cell flex-cell-sol puzzle-sol" data-reto="<%=puzzle.order%>" >
         <% if (noSuperado) { %>
             <div class="input-group mb-3 sol-input">
-              <input type="text" class="form-control puzzle-input" name="answer" data-puzzle-id="<%= puzzle.id %>" placeholder="<%=i18n.puzzle.writeSol%>" aria-label="Answer" aria-describedby="basic-addon2" autocomplete="off">
+              <input type="text" class="form-control puzzle-input" name="answer" data-puzzle-order="<%= puzzle.order %>" placeholder="<%=i18n.puzzle.writeSol%>" aria-label="Answer" aria-describedby="basic-addon2" autocomplete="off">
               <div class="input-group-append">
-                <button class="btn btn-warning puzzle-check-btn" type="button" data-puzzle-id="<%= puzzle.id %>"><%=i18n.puzzle.check%></button>
+                <button class="btn btn-warning puzzle-check-btn" type="button" data-puzzle-order="<%= puzzle.order %>"><%=i18n.puzzle.check%></button>
               </div>
-              <div class="puzzle-feedback invalid-feedback" data-puzzle-id="<%= puzzle.id %>">
+              <div class="puzzle-feedback invalid-feedback" data-puzzle-order="<%= puzzle.order %>">
               </div>
             </div>
         <% 
@@ -29,7 +29,7 @@
       </div>
     <% } 
     if (noSuperado && !found) {
-      found = puzzle.id;
+      found = (puzzle.order !== undefined && puzzle.order !== null) ? puzzle.order : null;
     } %>
 <%}%>
  

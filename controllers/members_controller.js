@@ -1,6 +1,7 @@
 const sequelize = require("../models");
 const {models} = sequelize;
 const {sendJoinParticipant} = require("../helpers/sockets");
+const {getRanking} = require("../helpers/utils");
 
 // PUT /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnoId/teams/:teamId
 exports.add = async (req, res, next) => {
@@ -37,9 +38,9 @@ exports.add = async (req, res, next) => {
             teamMembers.push({"name": member.name, "surname": member.surname});
             teamMembersNames.push(`${member.name} ${member.surname}`);
         }
-        const participantsNames = teamMembersNames.join(", ");
+        const teams = await getRanking(escapeRoom.id, team.turno.id);
 
-        sendJoinParticipant({"id": team.id, "turno": turn, "participants": participantsNames, teamMembers});
+        sendJoinParticipant(user.username, team.id, turn.id, teams);
         res.redirect(direccion);
     } catch (error) {
         await transaction.rollback();

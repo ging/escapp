@@ -4,7 +4,7 @@ const Sequelize = require("sequelize");
 const {Op} = Sequelize;
 const queries = require("../queries");
 const {sendLeaveTeam, sendLeaveParticipant} = require("../helpers/sockets");
-const {checkIsTurnAvailable} = require("../helpers/utils");
+const {checkIsTurnAvailable, getRanking} = require("../helpers/utils");
 
 exports.checkIsNotParticipant = async (req, res, next) => {
     const {escapeRoom} = req;
@@ -170,20 +170,13 @@ exports.studentLeave = async (req, res, next) => {
 
         if (req.team.teamMembers.length <= 1) {
             await req.team.destroy();
-            sendLeaveTeam({"id": teamId, "turno": {"id": turnId}});
+            const teams = await getRanking(req.escapeRoom.id, turnId);
+
+            sendLeaveTeam(teamId, turnId, teams);
         } else {
-            const members = await req.team.getTeamMembers();
-            const teamMembers = [];
-            const participantsNames = [];
+            const teams = await getRanking(req.escapeRoom.id, turnId);
 
-            for (const member of members) {
-                teamMembers.push({"name": member.name, "surname": member.surname});
-                participantsNames.push(`${member.name} ${member.surname}`);
-            }
-            const participants = participantsNames.join(", ");
-            const team = {"id": req.team.id, teamMembers, participants, "turno": {"id": req.turn.id}};
-
-            sendLeaveParticipant(team, req.session.user.id);
+            sendLeaveParticipant(user.username, req.team.id, turnId, teams);
         }
         res.redirect(redirectUrl);
     } catch (e) {

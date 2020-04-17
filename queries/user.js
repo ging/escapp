@@ -159,3 +159,19 @@ exports.participantsWithTurnoAndTeam = (escapeRoomId, turnId, orderBy) => {
     }
     return options;
 };
+
+exports.erTeam = (escapeRoomId) => ({
+    "include": [
+        {
+            "model": models.turno,
+            "required": true,
+            "where": {escapeRoomId}
+        },
+        {
+            "model": models.user,
+            "through": "members",
+            "as": "teamMembers",
+            "attributes": ["username"]
+        }
+    ]
+});

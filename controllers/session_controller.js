@@ -201,8 +201,6 @@ exports.new = (req, res) => {
 exports.create = async (req, res, next) => {
     const {redir, login, password} = req.body;
 
-    console.log(req.body);
-
     try {
         const user = await authenticate((login || "").toLowerCase(), password);
 

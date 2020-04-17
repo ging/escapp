@@ -1,8 +1,8 @@
 const {models} = require("../models");
-const { authenticate, checkPuzzle, checkTurnoAccess, getERState, automaticallySetAttendance} = require("../helpers/utils");
-const {puzzleResponse, broadcastRanking, sendJoinTeam} = require("../helpers/sockets");
-
-const {OK, PARTICIPANT, NOK, NOT_STARTED, getAuthMessageAndCode} = require("../helpers/apiCodes");
+const { authenticate, checkPuzzle, checkTurnoAccess, getERState, automaticallySetAttendance, getRanking} = require("../helpers/utils");
+const {puzzleResponse, broadcastRanking, sendJoinTeam, sendStartTeam} = require("../helpers/sockets");
+const queries = require("../queries");
+const {OK, PARTICIPANT, NOK, NOT_STARTED, TOO_LATE, getAuthMessageAndCode} = require("../helpers/apiCodes");
 
 
 exports.checkParticipant = async (req, res, next) => {
@@ -23,22 +23,7 @@ exports.checkParticipant = async (req, res, next) => {
         res.status(404).json({"code": NOK, "authentication": false, "msg": i18n.api.userNotFound});
         return;
     }
-    req.teams = await users[0].getTeamsAgregados({
-        "include": [
-            {
-                "model": models.turno,
-                "required": true,
-                "where": {"escapeRoomId": req.escapeRoom.id}
-            },
-            {
-                "model": models.user,
-                "through": "members",
-                "as": "teamMembers",
-                "attributes": ["username"]
-            }
-        ]
-
-    });
+    req.teams = await users[0].getTeamsAgregados(queries.user.erTeam(req.escapeRoom.id));
     [req.user] = users;
 
     next();
@@ -57,21 +42,7 @@ exports.checkParticipantSafe = async (req, res, next) => {
         const user = await authenticate(email, password, token);
 
         if (user) {
-            req.teams = await user.getTeamsAgregados({
-                "include": [
-                    {
-                        "model": models.turno,
-                        "required": true,
-                        "where": {"escapeRoomId": req.escapeRoom.id}
-                    },
-                    {
-                        "model": models.user,
-                        "through": "members",
-                        "as": "teamMembers",
-                        "attributes": ["username"]
-                    }
-                ]
-            });
+            req.teams = await user.getTeamsAgregados(queries.user.erTeam(req.escapeRoom.id));
             req.user = user;
             next();
         } else {
@@ -89,21 +60,7 @@ exports.checkParticipantSession = async (req, res, next) => {
 
 
     if (user) {
-        req.teams = await user.getTeamsAgregados({
-            "include": [
-                {
-                    "model": models.turno,
-                    "required": true,
-                    "where": {"escapeRoomId": req.escapeRoom.id} // Aquí habrá que añadir las condiciones de si el turno está activo, etc
-                },
-                {
-                    "model": models.user,
-                    "through": "members",
-                    "as": "teamMembers",
-                    "attributes": ["username"]
-                }
-            ]
-        });
+        req.teams = await user.getTeamsAgregados(queries.user.erTeam(req.escapeRoom.id));
         req.user = user;
         next();
     } else {
@@ -118,7 +75,7 @@ exports.checkPuzzle = async (req, _res, next) => {
     const {solution} = body;
 
     req.response = await checkPuzzle(solution, puzzle, escapeRoom, teams, user, i18n, req.params.puzzleOrder);
-    const {code, correctAnswer, participation, authentication, msg} = req.response.body;
+    const {code, correctAnswer, participation, authentication, msg, alreadySolved} = req.response.body;
 
     if (participation === PARTICIPANT) {
         await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
@@ -126,8 +83,12 @@ exports.checkPuzzle = async (req, _res, next) => {
     if (code === OK) {
         const [team] = teams;
 
-        puzzleResponse(code === OK, correctAnswer, puzzle.id, participation, authentication, msg, i18n.escapeRoom.api.participation[participation], team.id);
-        broadcastRanking(team.id, puzzle.id, new Date(), team.turno.id);
+        puzzleResponse(team.id, code, correctAnswer, puzzle.order + 1, participation, authentication, msg, i18n.escapeRoom.api.participation[participation]);
+        if (!alreadySolved) {
+            const updatedTeams = await getRanking(escapeRoom.id, team.turno.id);
+
+            broadcastRanking(team.turno.id, updatedTeams);
+        }
     }
     next();
 };
@@ -140,9 +101,9 @@ exports.auth = async (req, _res, next) => {
 
     try {
         const {i18n} = req.app.locals;
-        const {participation} = await checkTurnoAccess(teams, user, escapeRoom, true);
-        const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
-        const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed) : undefined;
+        const participation = await checkTurnoAccess(teams, user, escapeRoom, true);
+        const attendance = participation === PARTICIPANT || participation === TOO_LATE;
+        const erState = teams && teams.length ? await getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance) : undefined;
 
         if (participation === PARTICIPANT) {
             await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
@@ -165,17 +126,19 @@ exports.startPlaying = async (req, _res, next) => {
     const {i18n} = req.app.locals;
 
     try {
-        // eslint-disable-next-line prefer-const
-        let {participation} = await checkTurnoAccess(teams, user, escapeRoom, true);
+        let participation = await checkTurnoAccess(teams, user, escapeRoom, true);
         const {status, code, msg} = getAuthMessageAndCode(participation, i18n, true);
-        const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE" || participation === NOT_STARTED;
-        const erState = teams && teams.length ? await getERState(teams[0], escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed) : undefined;
+        const attendance = participation === PARTICIPANT || participation === TOO_LATE || participation === NOT_STARTED;
+        // eslint-disable-next-line init-declarations
+        let erState;
 
         if (participation === PARTICIPANT || participation === NOT_STARTED) {
             const joinTeam = await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
 
+            erState = await getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance);
             if (joinTeam) {
-                sendJoinTeam(joinTeam);
+                sendStartTeam(joinTeam.id, code, authentication, PARTICIPANT, msg, erState);
+                sendJoinTeam(joinTeam.id, joinTeam.turno.id, erState.ranking);
             }
             participation = PARTICIPANT;
         }

@@ -437,10 +437,10 @@
         "progressExplanation": "It shows the percentage of puzzles a team has completed"
     },
     "hint": {
-        "failed": "Oops! Please try again",
-        "failMessage": "Oops! Please keep trying",
-        "dontClose": "There aren't any hints left. You may ask your teacher now, he or she will help you. Don't close this message until they come",
-        "empty": "Ask the teacher for help",
+        "failed": "Too bad! Please try again",
+        "failMessage": "Too bad! Please keep trying",
+        "dontClose": "There aren't any hints left. You may ask your for help now. Don't close this message until they come",
+        "empty": "Help from the teacher",
         "instructionsHints": "Answer the questions in order to get a hint",
         "chooseCat": "¿What do you need help with?",
         "cantRequestMore": "You cannot request more hints",
@@ -449,7 +449,7 @@
         "Hint": "Hint",
         "Hints": "Hints",
         "need": "Need a hint?",
-        "successMessage": "Congratulations! You've achieved a new hint",
+        "successMessage": "Congratulations! You've obtained a new hint",
         "tooMany": "You've obtained the maximum number of hints allowed"
     },
     "inspiration": {

@@ -37,8 +37,8 @@ exports.analytics = async (req, res, next) => {
         const hintLabels = escapeRoom.puzzles.map((p) => p.hints.map((h) => h.content)).reduce((x, y) => x.concat(y), []);
         const reqHints = {"-1": 0, "0": 0};
 
-        hintLabels.unshift(res.app.locals.i18n.analytics.hints.customClue);
-        hintLabels.push(res.app.locals.i18n.analytics.hints.failedClue);
+        hintLabels.unshift(req.app.locals.i18n.analytics.hints.customClue);
+        hintLabels.push(req.app.locals.i18n.analytics.hints.failedClue);
         hintIds.forEach((e) => {
             reqHints[e] = 0;
         });

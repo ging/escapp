@@ -3,7 +3,6 @@ const sequelize = require("../models");
 const {models} = sequelize;
 const http = require("https");
 const attHelper = require("../helpers/attachments");
-const {calculateNextHint} = require("../helpers/hint");
 const {nextStep, prevStep} = require("../helpers/progress");
 
 // Autoload the hint with id equals to :hintId
@@ -28,50 +27,6 @@ exports.hintApp = (req, res) => {
 // GET /escapeRooms/:escapeRoomId/hints/hintappwrapper
 exports.hintAppWrapper = (req, res) => {
     res.render("escapeRooms/hintApp/hintAppScormWrapper", {"layout": false, "escapeRoom": req.escapeRoom});
-};
-
-// GET /escapeRooms/:escapeRoomId/requestHint
-exports.requestHint = async (req, res) => {
-    const {escapeRoom, body} = req;
-    const {score, status, category} = body;
-
-    try {
-        if (req.session && req.session.user && !req.session.user.isStudent) {
-            res.send({ "teacher": true, "ok": false });
-        } else {
-            const user = await models.user.findByPk(req.session.user.id);
-            const teams = await user.getTeamsAgregados({
-                "include": [
-                    {
-                        "model": models.turno,
-                        "required": true,
-                        "where": {
-                            "escapeRoomId": escapeRoom.id,
-                            "status": "active"
-                        } // Aquí habrá que añadir las condiciones de si el turno está activo, etc
-                    }
-                ]
-            });
-
-            if (teams && teams.length > 0) {
-                const [team] = teams;
-                const {empty, dontClose, failed, tooMany} = req.app.locals.i18n.hint;
-                const hint = {empty, dontClose, failed, tooMany};
-                const result = await calculateNextHint(escapeRoom, team, status, score, category, hint);
-
-                if (result) {
-                    res.json(result);
-                }
-            } else {
-                res.status(500);
-                res.send({"msg": req.app.locals.i18n.user.messages.ensureRegistered, "ok": false});
-            }
-        }
-    } catch (msg) {
-        console.error(msg);
-        res.status(500);
-        res.send({msg, "ok": false});
-    }
 };
 
 // GET /escapeRooms/:escapeRoomId/xml

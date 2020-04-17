@@ -23,9 +23,9 @@
 
     const sort = () => {
         teams = teams.sort((a,b)=>{
-            if (a.retos.length > b.retos.length) {
+            if (a.puzzlesSolved.length > b.puzzlesSolved.length) {
                 return -1;
-            } else if (a.retos.length < b.retos.length) {
+            } else if (a.puzzlesSolved.length < b.puzzlesSolved.length) {
                 return 1;
             } else {
                 if (a.latestRetoSuperado < b.latestRetoSuperado) {

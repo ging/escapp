@@ -6,8 +6,9 @@ const {nextStep, prevStep} = require("./progress");
 const {areHintsAllowedForTeam} = require("./hint");
 const cloudinary = require("cloudinary");
 const ejs = require("ejs");
+const queries = require("../queries");
 const {OK, NOT_A_PARTICIPANT, PARTICIPANT, NOK, NOT_ACTIVE, NOT_STARTED, TOO_LATE, AUTHOR, ERROR} = require("../helpers/apiCodes");
-const {getPuzzleOrderSuperados} = require("./analytics");
+const {getRetosSuperados, byRanking, getPuzzleOrderSuperados} = require("./analytics");
 
 exports.flattenObject = (obj, labels, min = false) => {
     const rs = {};
@@ -100,7 +101,7 @@ exports.playInterface = async (name, req, res, next) => {
             } else {
                 await exports.automaticallySetAttendance(team, req.session.user.id, req.escapeRoom.automaticAttendance);
             }
-            const hints = await models.requestedHint.findAll({"where": {"teamId": team.id, "success": true}, "include": models.hint});
+            const hints = await models.requestedHint.findAll({"where": {"teamId": team.id, "success": true}, "include": [{"model": models.hint, "include": [{"model": models.puzzle, "attributes": ["order"]}]}]});
 
             res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom, cloudinary, "teams": req.teams, team, "userId": req.session.user.id, "turnoId": team.turno.id, "teamId": team.id, "isStudent": true, "hints": hints || [], "endPoint": name, "layout": false});
         } catch (err) {
@@ -144,8 +145,8 @@ exports.authenticate = (login, pass, token) => {
 /**
  * Promisify render EJS view
  */
-exports.renderEJS = (view, queries = {}, options = {}) => new Promise((resolve, reject) => {
-    ejs.renderFile(view, queries, options, function (err, str) {
+exports.renderEJS = (view, query = {}, options = {}) => new Promise((resolve, reject) => {
+    ejs.renderFile(view, query, options, function (err, str) {
         if (err) {
             return reject(err);
         }
@@ -153,16 +154,27 @@ exports.renderEJS = (view, queries = {}, options = {}) => new Promise((resolve, 
     });
 });
 
-exports.getERState = async (team, hintLimit, nPuzzles, attendance, attendanceScore, scoreHintSuccess, scoreHintFail) => {
+exports.getERState = async (escapeRoomId, team, duration, hintLimit, nPuzzles, attendance, attendanceScore, scoreHintSuccess, scoreHintFail, includeRanking = false) => {
     const {puzzlesSolved, puzzleData} = await getPuzzleOrderSuperados(team);
     const teamMembers = team.teamMembers.map((member) => member.username);
     const {hintsAllowed, successHints, failHints} = await areHintsAllowedForTeam(team.id, hintLimit);
     const progress = exports.getProgress(puzzlesSolved, nPuzzles);
     const score = exports.getScore(puzzlesSolved, puzzleData, successHints, failHints, attendance, attendanceScore, scoreHintSuccess, scoreHintFail);
+    const ranking = includeRanking ? await exports.getRanking(escapeRoomId, team.turno.id) : undefined;
+    const startTime = team.turno.startTime || team.startTime;
+    const timeLeft = duration * 60 - Math.round((new Date() - startTime) / 1000);
+    const remainingTime = !timeLeft || timeLeft < 0 ? 0 : timeLeft;
+    const teamId = team.id;
 
-    return {puzzlesSolved, puzzleData, hintsAllowed, progress, score, teamMembers};
+    return {teamId, startTime, remainingTime, puzzlesSolved, puzzleData, nPuzzles, hintsAllowed, progress, score, teamMembers, ranking};
 };
 
+exports.getRanking = async (escapeRoomId, turnoId) => {
+    const teamsRaw = await models.team.findAll(queries.team.rankingShort(escapeRoomId, turnoId));
+    const nPuzzles = await models.puzzle.count({"where": { escapeRoomId }});
+
+    return getRetosSuperados(teamsRaw, nPuzzles, true).sort(byRanking);
+};
 exports.getProgress = (puzzlesSolved, totalNumberOfPuzzles) => totalNumberOfPuzzles ? Math.round(puzzlesSolved.length / totalNumberOfPuzzles * 10000) / 100 : 0;
 
 exports.getScore = (puzzlesSolved, puzzleData, successHints, failHints, attendance, attendanceScore, scoreHintSuccess, scoreHintFail) => {
@@ -201,7 +213,7 @@ exports.checkTurnoAccess = (teams, user, escapeRoom) => {
         participation = NOT_A_PARTICIPANT;
     }
 
-    return {participation};
+    return participation;
 };
 
 exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, puzzleOrder) => {
@@ -217,6 +229,7 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
     // eslint-disable-next-line init-declarations
     let erState;
     let correctAnswer = false;
+    let alreadySolved = false;
 
     try {
         correctAnswer = answer.toString().toLowerCase().trim() === puzzleSol.toString().toLowerCase().trim();
@@ -226,14 +239,17 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
             status = 423;
             msg = puzzle.fail || i18n.api.wrong;
         }
-        const {"participation": participationCode} = await exports.checkTurnoAccess(teams, user, escapeRoom, puzzleOrder);
+        const participationCode = await exports.checkTurnoAccess(teams, user, escapeRoom, puzzleOrder);
 
         participation = participationCode;
+        alreadySolved = await puzzle.hasSuperado(teams[0].id);
 
         if (participation === PARTICIPANT && correctAnswer) {
             try {
-                await puzzle.addSuperados(teams[0].id);
                 code = OK;
+                if (!alreadySolved) {
+                    await puzzle.addSuperados(teams[0].id);
+                }
             } catch (e) {
                 code = ERROR;
                 status = 500;
@@ -245,14 +261,14 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
         if (teams && teams.length) {
             const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
 
-            erState = await exports.getERState(teams[0], escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed);
+            erState = await exports.getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed);
         }
     } catch (e) {
         status = 500;
         code = ERROR;
         msg = e;
     }
-    return {status, "body": {code, correctAnswer, "authentication": true, "token": user.token, participation, msg, erState}};
+    return {status, "body": {code, correctAnswer, alreadySolved, "authentication": true, "token": user.token, participation, msg, erState}};
 };
 
 exports.automaticallySetAttendance = async (team, userId, automaticAttendance) => {
@@ -270,7 +286,6 @@ exports.automaticallySetAttendance = async (team, userId, automaticAttendance) =
     default:
         break;
     }
-
     if (!(team.startTime instanceof Date && isFinite(team.startTime))) {
         team.startTime = new Date();
         const participants = members.map((m) => `${m.name} ${m.surname}`).join(", ");
