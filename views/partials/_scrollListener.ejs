@@ -67,7 +67,6 @@
         }
 
         function moveNext(e) {
-            console.log($(e).closest('.erFormField').nextAll('.erFormField'))
             let next = $(e).closest('.erFormField').nextAll('.erFormField').first().find('.customInput')[0]
             if (next) {next.focus();} else {
                 $("form").submit()
