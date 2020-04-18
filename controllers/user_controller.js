@@ -90,7 +90,6 @@ exports.create = (req, res, next) => {
             req.body.login = username;
             req.body.redir = redir;
             next();
-            // Res.redirect(redir ? `/?redir=${redir}` : "/"); // Redirection
         }).
         catch(Sequelize.UniqueConstraintError, (error) => {
             console.error(error);
@@ -102,7 +101,8 @@ exports.create = (req, res, next) => {
             });
         }).
         catch(Sequelize.ValidationError, (error) => {
-            error.errors.forEach(({message}) => req.flash("error", message));
+            req.flash("error", req.app.locals.i18n.common.validationError);
+            // Error.errors.forEach(({message}) => req.flash("error", message));
             res.render("index", {
                 user,
                 "register": true,

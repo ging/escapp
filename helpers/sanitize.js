@@ -28,12 +28,13 @@ exports.sanitizeHints = (hints = []) => hints.
     sort((a, b) => parseInt(isNaN(a.order) ? 0 : a.order, 10) < parseInt(isNaN(b.order) ? 0 : b.order, 10) ? -1 : 1).
     map((hint, order) => {
         const {id, content, puzzleId, category} = hint;
+        const sanitizedCat = category ? category.toString().trim().replace(/[\r\n\t]+/, ". ") : category;
 
         return {
             "id": sanitizeId(id),
             order,
             puzzleId,
             content,
-            category
+            "category": sanitizedCat
         };
     });

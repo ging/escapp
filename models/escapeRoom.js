@@ -13,9 +13,7 @@ module.exports = function (sequelize, DataTypes) {
             "duration": {
                 "type": DataTypes.INTEGER,
                 "validate": {
-                    "notEmpty": {
-                        "msg": "La duración no puede estar vacía."
-                    },
+                    "notEmpty": {"msg": "La duración no puede estar vacía."},
                     "min": 0,
                     "max": 24 * 60
                 }
@@ -23,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
             "description": {"type": DataTypes.STRING},
             "nmax": {
                 "type": DataTypes.INTEGER,
-                "validate": {"max": 10000, "notEmpty": {"msg": "El número de participantes no puede estar vacío.",}}
+                "validate": {"max": 10000, "notEmpty": {"msg": "El número de participantes no puede estar vacío."}}
             },
             "teamSize": {
                 "type": DataTypes.INTEGER,
@@ -52,16 +50,19 @@ module.exports = function (sequelize, DataTypes) {
             "pretest": {"type": DataTypes.STRING},
             "posttest": {"type": DataTypes.STRING},
             "numQuestions": {
-                "type": DataTypes.INTEGER, 
+                "type": DataTypes.INTEGER,
                 "validate": {
                     "min": 0,
                     "max": 10000
                 }
             },
-            "numRight": {"type": DataTypes.INTEGER, "validate": {
-                "min": 0,
-                "max": 100
-            }},
+            "numRight": {
+                "type": DataTypes.INTEGER,
+                "validate": {
+                    "min": 0,
+                    "max": 100
+                }
+            },
             "feedback": {"type": DataTypes.BOOLEAN},
             "allowCustomHints": {"type": DataTypes.BOOLEAN},
             "forbiddenLateSubmissions": {"type": DataTypes.BOOLEAN, "defaultValue": true},

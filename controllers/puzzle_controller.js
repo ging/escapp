@@ -130,12 +130,13 @@ exports.retosUpdate = async (req, res, next) => {
         res.redirect(`/escapeRooms/${req.escapeRoom.id}/${isPrevious ? prevStep("puzzles") : progressBar || nextStep("puzzles")}`);
     } catch (error) {
         await transaction.rollback();
+        console.error(error);
         if (error instanceof Sequelize.ValidationError) {
-            error.errors.forEach(({message}) => req.flash("error", message));
-            res.redirect(`/escapeRooms/${req.escapeRoom.id}/puzzles`);
+            // Error.errors.forEach(({message}) => req.flash("error", message));
+            req.flash("error", req.app.locals.i18n.common.validationError);
         } else {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
-            next(error);
+            req.flash("error", req.app.locals.i18n.common.flash.errorEditingER);
         }
+        res.redirect(`/escapeRooms/${req.escapeRoom.id}/puzzles`);
     }
 };

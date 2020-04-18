@@ -123,7 +123,7 @@ p {
 
 #hintAppModal .categories{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     padding: 15px 15px 0px 15px;
     align-items: stretch;

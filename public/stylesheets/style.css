@@ -1887,13 +1887,6 @@ button, input[type="submit"] {
         border: #F47E84;
         margin-right: 10px; }
 
-#editor, .ql-editor {
-  font-family: Lato, sans-serif; }
-  #editor h1, #editor h2, #editor h3, #editor h4, #editor h5, #editor h6, .ql-editor h1, .ql-editor h2, .ql-editor h3, .ql-editor h4, .ql-editor h5, .ql-editor h6 {
-    font-family: Gugi, sans-serif; }
-  #editor > *, .ql-editor > * {
-    font-family: Lato, sans-serif; }
-
 .indications #editor {
   color: white;
   font-size: 22px; }
@@ -3468,7 +3461,7 @@ html {
         font-family: Gugi !important; }
       html body input:focus, html body input:active, html body input:-webkit-autofill:hover, html body input:-webkit-autofill:focus, html body input:-webkit-autofill:active, html body input-webkit-autofill::first-line, html body select:focus, html body select:active, html body select:-webkit-autofill:hover, html body select:-webkit-autofill:focus, html body select:-webkit-autofill:active, html body select-webkit-autofill::first-line {
         font-family: Gugi !important;
-        background-color: #232850;
+        background-color: #2A2A52;
         color: white;
         -webkit-text-fill-color: white !important;
         border-color: white; }

@@ -32,17 +32,7 @@ exports.index = async (req, res, next) => {
 
     try {
         if (user && !user.isStudent) {
-            escapeRooms = await models.escapeRoom.findAll({
-                "attributes": ["id", "title", "invitation"],
-                "include": [
-                    models.attachment,
-                    {
-                        "model": models.user,
-                        "as": "author",
-                        "where": {"id": user.id}
-                    }
-                ]
-            });
+            escapeRooms = await models.escapeRoom.findAll(query.escapeRoom.forTeacher(user.id));
         } else {
             const erAll = await models.escapeRoom.findAll(query.escapeRoom.all());
             const erFiltered = await models.escapeRoom.findAll(query.escapeRoom.all(user.id));
@@ -87,54 +77,54 @@ exports.new = (_req, res) => {
 };
 
 // POST /escapeRooms/create
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     const {title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize} = req.body,
-
         authorId = req.session.user && req.session.user.id || 0,
-
         escapeRoom = models.escapeRoom.build({title, subject, duration, forbiddenLateSubmissions, description, "nmax": nmax || 0, "teamSize": teamSize || 0, authorId}); // Saves only the fields question and answer into the DDBB
 
-    escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "invitation"]}).
-        then((er) => {
-            req.flash("success", req.app.locals.i18n.common.flash.successCreatingER);
-            if (!req.file) {
-                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos`);
+    try {
+        const er = await escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "invitation"]});
 
-                return;
-            }
-            // Save the attachment into  Cloudinary
+        req.flash("success", req.app.locals.i18n.common.flash.successCreatingER);
 
-            return attHelper.checksCloudinaryEnv().
-                then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options)).
-                then((uploadResult) => models.attachment.create({
+        if (!req.file) {
+            res.redirect(`/escapeRooms/${escapeRoom.id}/turnos`);
+            return;
+        }
+
+        try {
+            await attHelper.checksCloudinaryEnv();
+            const uploadResult = await attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options);
+
+            try {
+                await models.attachment.create({
                     "public_id": uploadResult.public_id,
                     "url": uploadResult.url,
                     "filename": req.file.originalname,
                     "mime": req.file.mimetype,
                     "escapeRoomId": er.id
-                }).
-                    catch((error) => { // Ignoring validation errors
-                        console.error(error);
-                        req.flash("error", `${req.app.locals.i18n.common.flash.errorImage}: ${error.message}`);
-                        attHelper.deleteResource(uploadResult.public_id, models.attachment);
-                    })).
-                catch((error) => {
-                    console.error(error);
-
-                    req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
-                }).
-                then(() => {
-                    res.redirect(`/escapeRooms/${er.id}/${nextStep("edit")}`);
                 });
-        }).
-        catch(Sequelize.ValidationError, (error) => {
-            error.errors.forEach(({message}) => req.flash("error", message));
-            res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
-        }).
-        catch((error) => {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorCreatingER}: ${error.message}`);
-            res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
-        });
+            } catch (error) {
+                console.error(error);
+                req.flash("error", req.app.locals.i18n.common.flash.errorImage);
+                attHelper.deleteResource(uploadResult.public_id, models.attachment);
+            }
+        } catch (error) {
+            console.error(error);
+            req.flash("error", req.app.locals.i18n.common.flash.errorFile);
+        }
+        res.redirect(`/escapeRooms/${er.id}/${nextStep("edit")}`);
+    } catch (error) {
+        if (error instanceof Sequelize.ValidationError) {
+            console.error(error);
+            // Error.errors.forEach(({message}) => req.flash("error", message));
+            req.flash("error", req.app.locals.i18n.common.validationError);
+        } else {
+            console.error(error.message);
+            req.flash("error", req.app.locals.i18n.common.flash.errorCreatingER);
+        }
+        res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/edit
@@ -143,7 +133,7 @@ exports.edit = (req, res) => {
 };
 
 // PUT /escapeRooms/:escapeRoomId
-exports.update = (req, res, next) => {
+exports.update = async (req, res, next) => {
     const {escapeRoom, body} = req;
 
     escapeRoom.title = body.title;
@@ -155,74 +145,60 @@ exports.update = (req, res, next) => {
     escapeRoom.teamSize = body.teamSize || 0;
     const progressBar = body.progress;
 
-    escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "nmax", "teamSize"]}).
-        then((er) => {
-            if (body.keepAttachment === "0") {
-                // There is no attachment: Delete old attachment.
-                if (!req.file) {
-                    if (er.attachment) {
-                        attHelper.deleteResource(er.attachment.public_id, models.attachment);
-                        er.attachment.destroy();
-                    }
+    try {
+        const er = await escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "nmax", "teamSize"]});
 
-                    return;
+        if (body.keepAttachment === "0") {
+            // There is no attachment: Delete old attachment.
+            if (!req.file) {
+                if (er.attachment) {
+                    attHelper.deleteResource(er.attachment.public_id, models.attachment);
+                    er.attachment.destroy();
                 }
-
-                // Save the new attachment into Cloudinary:
-                return attHelper.checksCloudinaryEnv().
-                    then(() => attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options)).
-                    then((uploadResult) => {
-                        // Remenber the public_id of the old image.
-                        const old_public_id = er.attachment ? er.attachment.public_id : null;
-                        // Update the attachment into the data base.
-
-                        return er.getAttachment().
-                            then((att) => {
-                                let attachment = att;
-
-                                if (!attachment) {
-                                    attachment = models.attachment.build({"escapeRoomId": er.id});
-                                }
-                                attachment.public_id = uploadResult.public_id;
-                                attachment.url = uploadResult.url;
-                                attachment.filename = req.file.originalname;
-                                attachment.mime = req.file.mimetype;
-
-                                return attachment.save();
-                            }).
-                            then(() => {
-                                if (old_public_id) {
-                                    attHelper.deleteResource(old_public_id, models.attachment);
-                                }
-                            }).
-                            catch((error) => { // Ignoring image validation errors
-                                req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
-                                attHelper.deleteResource(uploadResult.public_id, models.attachment);
-                            }).
-                            then(() => {
-                                res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
-                            });
-                    }).
-                    catch((error) => {
-                        req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${error.message}`);
-                    });
+                res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
+                return;
             }
-        }).
-        then(() => {
-            res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
-        }).
-        catch(Sequelize.ValidationError, (error) => {
-            console.log(error);
+            try {
+                // Save the new attachment into Cloudinary:
+                await attHelper.checksCloudinaryEnv();
+                const uploadResult = await attHelper.uploadResource(req.file.path, attHelper.cloudinary_upload_options);
+                // Remember the public_id of the old image.
+                const old_public_id = er.attachment ? er.attachment.public_id : null;
+                let attachment = await er.getAttachment();
+
+                if (!attachment) {
+                    attachment = models.attachment.build({"escapeRoomId": er.id});
+                }
+                attachment.public_id = uploadResult.public_id;
+                attachment.url = uploadResult.url;
+                attachment.filename = req.file.originalname;
+                attachment.mime = req.file.mimetype;
+                try {
+                    await attachment.save();
+                    if (old_public_id) {
+                        attHelper.deleteResource(old_public_id, models.attachment);
+                    }
+                } catch (error) { // Ignoring image validation errors
+                    console.error(error);
+                    req.flash("error", req.app.locals.i18n.common.flash.errorFile);
+                    attHelper.deleteResource(uploadResult.public_id, models.attachment);
+                }
+                res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
+            } catch (error) {
+                console.error(error);
+                req.flash("error", req.app.locals.i18n.common.flash.errorFile);
+            }
+        }
+        res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
+    } catch (error) {
+        console.log(error);
+        if (error instanceof Sequelize.ValidationError) {
             req.flash("error", req.app.locals.i18n.common.validationError);
-            // error.errors.forEach(({message}) => {
-            //     req.flash("error", message);
-            // });
-            res.render("escapeRooms/edit", {escapeRoom, "progress": "edit"});
-        }).
-        catch((error) => {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}`);
-            next(error);
-        });
+        } else {
+            req.flash("error", req.app.locals.i18n.common.flash.errorEditingER);
+        }
+        res.render("escapeRooms/edit", {escapeRoom, "progress": "edit"});
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/evaluation
@@ -263,10 +239,10 @@ exports.evaluationUpdate = async (req, res, next) => {
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
             req.flash("error", req.app.locals.i18n.common.validationError);
-            // error.errors.forEach(({message}) => req.flash("error", message));
+            // Error.errors.forEach(({message}) => req.flash("error", message));
             res.redirect(`/escapeRooms/${escapeRoom.id}/evaluation`);
         } else {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
+            req.flash("error", req.app.locals.i18n.common.flash.errorEditingER);
             next(error);
         }
     }
@@ -383,7 +359,7 @@ exports.clone = async (req, res, next) => {
                 fail,
                 automatic,
                 score,
-                "hints": [...hints].map(({content, "order": hintOrder}) => ({content, "order": hintOrder}))
+                "hints": [...hints].map(({content, "order": hintOrder, category}) => ({content, "order": hintOrder, category}))
             })),
             "hintApp": hintApp ? attHelper.getFields(hintApp) : undefined,
             "assets": assets && assets.length ? [...assets].map((asset) => attHelper.getFields(asset)) : undefined,

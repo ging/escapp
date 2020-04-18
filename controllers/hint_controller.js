@@ -97,27 +97,28 @@ exports.pistasUpdate = async (req, res) => {
 
                     try {
                         await hintApp.save();
-                        req.flash("success", "Fichero guardado con éxito.");
                         if (old_public_id) {
                             await attHelper.deleteResource(old_public_id, models.hintApp);
                         }
                     } catch (error) {
-                        req.flash("error", `Error al guardar el fichero: ${error.message}`);
+                        req.flash("error", req.app.locals.i18n.common.flash.errorFile);
                         await attHelper.deleteResource(uploadResult.public_id, models.hintApp);
                     }
                 } catch (e) {
-                    req.flash("error", `${req.app.locals.i18n.common.flash.errorFile}: ${e.message}`);
+                    console.error(e.message);
+                    req.flash("error", req.app.locals.i18n.common.flash.errorFile);
                 }
             }
         }
         res.redirect(back);
     } catch (error) {
+        console.error(error);
         if (error instanceof Sequelize.ValidationError) {
-            error.errors.forEach(({message}) => req.flash("error", message));
-            res.render("escapeRooms/hints", {escapeRoom});
+            req.flash("error", req.app.locals.i18n.common.validationError);
+            // Error.errors.forEach(({message}) => req.flash("error", message));
         } else {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
-            res.render("escapeRooms/hints", {escapeRoom});
+            req.flash("error", req.app.locals.i18n.common.flash.errorEditingER);
         }
+        res.render("escapeRooms/hints", {escapeRoom});
     }
 };

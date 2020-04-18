@@ -274,10 +274,12 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
 
 exports.automaticallySetAttendance = async (team, userId, automaticAttendance) => {
     let inUser = [userId];
-    const members = await team.getTeamMembers({"attributes": ["id", "name", "surname"]});
 
     switch (automaticAttendance) {
     case "team":
+        // eslint-disable-next-line no-case-declarations
+        const members = await team.getTeamMembers({"attributes": ["id", "name", "surname"]});
+
         inUser = members.map((t) => t.id);
         // eslint-disable-next-line no-fallthrough
     case "participant":
@@ -289,13 +291,12 @@ exports.automaticallySetAttendance = async (team, userId, automaticAttendance) =
     }
     if (!(team.startTime instanceof Date && isFinite(team.startTime))) {
         team.startTime = new Date();
-        const participants = members.map((m) => `${m.name} ${m.surname}`).join(", ");
 
-        await team.save({"fields": ["startTime"]}); // Register start time for self-paced shifts
+        await team.save({"fields": ["startTime"]});
         const {id, name, result, turno, finishTime} = team;
         const startTime = turno.startTime || team.startTime;
 
-        return {id, turno, name, result, finishTime, participants, startTime};
+        return {id, turno, name, result, finishTime, startTime};
     }
 };
 

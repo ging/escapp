@@ -76,3 +76,15 @@ exports.all = (user) => {
     }
     return findOptions;
 };
+
+exports.forTeacher = (id) => ({
+    "attributes": ["id", "title", "invitation"],
+    "include": [
+        models.attachment,
+        {
+            "model": models.user,
+            "as": "author",
+            "where": {id}
+        }
+    ]
+});
