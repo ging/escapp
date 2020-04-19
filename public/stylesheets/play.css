@@ -11,6 +11,9 @@
     margin: auto;
     text-align: center;
 }
+.countdown .mins, .countdown .hours, .countdown .secs {
+  width: 3vw;
+}
 
 .container-fluid {
     padding: 35px 50px;
@@ -51,6 +54,12 @@ p {
     white-space: inherit;
 }
 
+.navbar-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* white-space: nowrap; */
+}
+
 .backToMain {
     padding: 15px;
     font-size: 25px;
@@ -62,7 +71,7 @@ p {
     text-decoration: none;
 }
 
-#hintList {
+.hintList {
     width: auto;
     display: inline-block;
     list-style: none;
@@ -70,7 +79,7 @@ p {
 
 }
 
-#hintList .card{
+.hintList .card{
     display: inline-block;
     width: auto;
 }
@@ -121,7 +130,7 @@ p {
     padding: 0px;
 }
 
-#hintAppModal .categories{
+.hints-modal-cats .categories{
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -130,12 +139,12 @@ p {
     justify-content: stretch;
 }
 
-#hintAppModal .categories .category {
+.hints-modal-cats .categories .category {
     list-style-type: none;
     flex: 1;
     padding: 3px;
 }
-#hintAppModal .categories .category .cat-button {
+.hints-modal-cats .categories .category .cat-button {
     background: transparent;
     outline: none;
     border: 2px solid var(--info);
@@ -145,18 +154,18 @@ p {
     color: var(--info);
 }
 
-#hintAppModal .categories .category .cat-button:active,
-#hintAppModal .categories .category .cat-button:hover,
-#hintAppModal .categories .category .cat-button:focus {
+.hints-modal-cats .categories .category .cat-button:active,
+.hints-modal-cats .categories .category .cat-button:hover,
+.hints-modal-cats .categories .category .cat-button:focus {
   color: white;
   background: var(--info);
 }
-#hintAppModal .categories .category .cat-button:disabled {
+.hints-modal-cats .categories .category .cat-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-#hintAppModal .customHint {
+.hints-modal-cats .customHint {
     padding: 20px;
     font-size: 1.3em;
 }
@@ -252,3 +261,28 @@ p {
     flex-direction: column;
   }
 }
+
+@media (max-width: 767.98px) {
+  
+    #navbar-collapse-div #puzzle-form {
+      flex-wrap: wrap !important;
+      flex-direction: column;
+    }
+    #navbar-collapse-div #puzzle-form label {
+      flex: none !important;
+      width: 100%;
+      text-align: center;
+
+    }
+    #navbar-collapse-div #puzzle-form input {
+      flex: 1;
+      width: 100%;
+      margin: 0 !important;
+      margin-bottom: 15px !important;
+    }
+    #navbar-collapse-div button {
+      width: 100%;
+    }
+  
+}
+

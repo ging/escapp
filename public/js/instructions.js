@@ -1,6 +1,104 @@
 $(function(){
     const Delta = Quill.import("delta");
     const BlockEmbed = Quill.import('blots/block/embed');
+
+
+    // class IframeBlot extends BlockEmbed {
+    //     static create(url) {
+    //       let node = super.create();
+    //       node.setAttribute('src', url);
+    //       node.setAttribute('frameborder', '0');
+    //       node.setAttribute('controls', '');
+    //       node.setAttribute('class', 'ql-video ui-sortable-handle');
+    //       node.setAttribute('allow', 'autoplay; fullscreen');
+    //       return node;
+    //     }
+        
+    //     static value(node) {
+    //       return node.getAttribute('src');
+    //     }
+    //   }
+    //   IframeBlot.blotName = 'iframe';
+    //   IframeBlot.tagName = 'iframe';
+    //   Quill.register(IframeBlot);
+    var Video = Quill.import('formats/video')
+
+    //   Video.tagName = 'video';
+
+
+      Video.create = function (url, value) {
+        console.log(url, value)
+        let node ;
+        const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
+        if (youtube && youtube[5]) {
+            node = document.createElement("iframe")
+            node.setAttribute('src', "https://www.youtube.com/embed/" + youtube[5]);
+        } else {
+            node = document.createElement("video")
+            if (url.match("autoplay=1")) {
+                node.setAttribute('autoplay', '');
+            }
+            node.setAttribute('src', url);
+        }
+        node.setAttribute('class', 'ql-video ui-sortable-handle')
+        node.setAttribute('frameborder', '0');
+        node.setAttribute('allowfullscreen', true);
+        node.setAttribute('allow', 'autoplay; fullscreen');
+        node.setAttribute('src', url);
+        node.setAttribute('controls', '');
+        
+        console.log(node)
+        return node
+      }
+
+      Video.format = function(name, value) {
+          console.log(name, value)
+        if (ATTRIBUTES.indexOf(name) > -1) {
+          if (value) {
+            this.domNode.setAttribute(name, value);
+          } else {
+            this.domNode.removeAttribute(name);
+          }
+        } else {
+          BlockEmbed.format(name, value);
+        }
+      }
+      /* video preload='metadata' controls='controls' poster='http://vishub.org/videos/3566.png?style=170x127%23'>
+    <source src='http://vishub.org/videos/3566.flv' type='video/x-flv'>
+     <source src='http://vishub.org/videos/3566.mp4' type='video/mp4'>
+     Your browser does not support HTML5 video.
+</video> */
+//https://www.youtube.com/embed/iHOZp6cMyMk?autoplay=1
+    // class VideoBlot extends BlockEmbed {
+    //   static create(url) {
+    //       console.log(url)
+    //     let node = super.create();
+    //     const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
+    //     if (youtube && youtube[5]) {
+    //         node = document.createElement("iframe")
+    //         node.setAttribute('src', "https://www.youtube.com/embed/" + youtube[5]);
+    //     } else {
+    //         node.setAttribute('src', url);
+    //     }
+    //     node.setAttribute('class', 'ql-video ui-sortable-handle')
+    //     node.setAttribute('frameborder', '0');
+    //     node.setAttribute('allowfullscreen', true);
+    //     node.setAttribute('allow', 'autoplay; fullscreen');
+    //     node.setAttribute('src', url);
+    //     node.setAttribute('controls', '');
+        
+    //     console.log(node)
+    //     return node
+    //   }
+      
+    //   static value(node) {
+    //     return node.getAttribute('src');
+    //   }
+    // }
+    // VideoBlot.blotName = 'video';
+    // VideoBlot.tagName = 'video';
+    // Quill.register(VideoBlot);
+
     class AudioBlot extends BlockEmbed {
       static create(url) {
         let node = super.create();
@@ -253,7 +351,7 @@ $(function(){
                                 if (parts && parts.length > 0) {
                                     const ext = parts[parts.length - 1];
                                     if (imageExt.indexOf(ext) > -1) {
-                                        insertContent(range.index, url, "image/"+ext, "immge");
+                                        insertContent(range.index, url, "image/"+ext, "image");
                                     } else if (videoExt.indexOf(ext) > -1) {
                                         insertContent(range.index, url, "video/"+ext, "video");
                                     } else if (audioExt.indexOf(ext) > -1) {
@@ -333,7 +431,7 @@ $(function(){
     $( function() {
         $( ".ql-editor" ).sortable({
           cancel: "h1, h2, h3, h4, h5, h6, p, countdown *",
-          items: "h1, h2, h3, h4, h5, h6, p, iframe, countdown, progressbar, ranking, :not(div):empty, .ql-cursor, img, .ui-sortable-handle",
+          items: "h1, h2, h3, h4, h5, h6, p, video, audio, iframe, countdown, progressbar, ranking, :not(div):empty, .ql-cursor, img, .ui-sortable-handle",
         });
     });
 

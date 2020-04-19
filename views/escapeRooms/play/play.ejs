@@ -9,6 +9,7 @@
     <script src="/js/vendor/bootstrap.min.js"></script>
     <script src="/js/vendor/socket.io.js"></script>
     <script src="/js/vendor/confetti.min.js"></script>
+    <script src="/js/vendor/fullscreen.js"></script>
     <script src="/js/play.js"></script>
     <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
     <link rel="stylesheet" href="/stylesheets/vendor/easy-alert.css">
@@ -17,17 +18,113 @@
     <link rel="stylesheet" href="/stylesheets/vendor/animate.css">
     <% include ../../partials/_icons.ejs %>
     <% include ../../partials/_seo.ejs %>
-
 </head>
 <body>
-<nav class="navbar navbar-light" style="padding: 0px 1em;">
-    <a class="backToMain"  href="/escapeRooms/<%=escapeRoom.id%>">&larr;</a>
-    <span class="erTitle"><%=escapeRoom.title%></span>
-    <%if (isStudent && escapeRoom.teamSize > 1) {%>
-        <span class="teamName"><b><%=i18n.team.Team%>: </b><%=team.name%></span>
-    <%}%>
-</nav>  
+    <% var currentlyWorkingOn = null %>
+    <% var latestRetoSuperado =  null %>
+
+    <% if (isStudent) { %>
+        <% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
+        <% var hintAppConditional = hintConditional && Boolean(escapeRoom.hintApp); // Hint app methodology %>
+        <% var retosSuperados = team.retos.map(a=>a.order);%>
+        <% var retosSuperadosIds = team.retos.map(a=>a.id);%>
+        <% var reqHintsList = hints.map(h=>h.hintId).filter(Boolean); %>
+        <% var reqHintsListOrder = hints.map(h=>h.hint ? h.hint.order : null).filter(a=>!isNaN(a)); %>
+        <% var reqHints = {}; %>
+        <% var progress = Math.round(retosSuperados.length / escapeRoom.puzzles.length * 100); %>
+        <% var finish = retosSuperados.length === escapeRoom.puzzles.length; %>
+        <% latestRetoSuperado = retosSuperados.length ? Math.max(...retosSuperados) : null %>
+        <% currentlyWorkingOn = retosSuperados.length ? (Math.max(...retosSuperados) + 1) : 0 %>
+        <% var pending = [] %>
+        <% if (finish) { 
+            currentlyWorkingOn = null;
+        } %>
+        
+    <% } else {%>
+        <% var retosSuperados = []%>
+        <% var retosSuperadosIds = []%>
+        <% var reqHints = []; %>
+        <% var reqHintsList = []; %>
+        <% var reqHintsListOrder = []; %>
+        <% var pending = []; %>
+        <% var progress = 0; %>
+    <% } %>
+        <% var puzzles = escapeRoom.puzzles.map(({ id, order, title, score, automatic, hints })=>{ 
+            reqHints[order] = [];
+            var noSuperado = retosSuperados.indexOf(order) === -1;
+            if (noSuperado) {
+                pending.push(order)
+            }
+            const categories = Array.from(new Set(hints.map(h=>h.category)));
+            return { id, title, order, score, automatic, categories, hints: hints.reduce((a,b) => {
+                if (reqHintsList.indexOf(b.id) === -1){
+                    if ( a[b.category]) {
+                        a[b.category].push(b.order)
+                    } else {
+                        a[b.category] = [b.order];
+                    }
+                } else {
+                    reqHints[order].push(b.order);
+                    if (!a[b.category]) {
+                        a[b.category] = [];
+                    }
+                }
+                return a;
+            }, {})}}) %>
+            <%
+                if (!finish && pending.length && currentlyWorkingOn >= puzzles.length) {
+                    currentlyWorkingOn = pending[0];
+                }
+                console.log("/////////////////",{currentlyWorkingOn, pending, retosSuperados})
+            %>
+    <nav class="navbar fixed-top navbar-expand-md justify-content-between navbar-fixed-top navbar-dark bg-primary">
+        <a class="navbar-brand" href="#"><%=escapeRoom.title%></a>
+        <%if (isStudent && escapeRoom.teamSize > 1) {%>
+            <span class="navbar-text">
+                <b><%=i18n.team.Team%>: </b><%=team.name%>
+            </span>
+        <%}%>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-div" aria-controls="navbar-collapse-div" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbar-collapse-div">
+          <%if (isStudent && currentlyWorkingOn !== null) {%> 
+            <% const puzzle = puzzles[currentlyWorkingOn] %>
+            <div class=" form-inline my-2 my-lg-0 ml-auto" style="flex-wrap: nowrap;" id="puzzle-form" > 
+              <label style="flex: 1;">
+                <span class="navbar-text puzzle-title" id="puzzle-title" data-puzzle-order="<%= puzzle.order %>"><%=puzzle.title%>
+                </span>&nbsp;
+            </label>
+            <input class="form-control mr-sm-2 puzzle-input" id="puzzle-input" type="text" placeholder="<%=i18n.puzzle.writeSol%>" data-puzzle-order="<%= puzzle.order %>">
+            <button class="btn btn-success my-2 my-sm-0" id="puzzle-check-btn" type="button" data-puzzle-order="<%= puzzle.order %>"><%=i18n.puzzle.check%></button>
+          </div>
+          <%}%>
+          <ul class="navbar-nav my-lg-0">
+            <% if (endPoint === "team" && hintConditional) {%>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">
+                        <button class="btn btn-info" data-toggle="modal" data-target="#hintModal">
+                            <%=i18n.hint.Hints%>
+                        </button>
+                    </a>
+                </li>
+            <%}%>
+            <li class="nav-item active" id="finish" style="display: none;">
+                <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>/finish">
+                    <button class="btn btn-success" ><%=i18n.common.Finish%></button>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>">
+                    <button class="btn btn-outline-light" ><%=i18n.common.Exit%></button>
+                </a>
+              </li>
+          </ul>
+      </nav>
+<br/><br/>
 <div class="previewContainer">
+    <br/><br/>
     <div class="container-fluid">
         <div class=" row-centered">
             <div class="col-xs-12 text-left ql-editor instructionsShow" id="editor">
@@ -36,119 +133,51 @@
                 <% } %>
             </div>
         </div>
-    <% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
-    <% var hintAppConditional = hintConditional && Boolean(escapeRoom.hintApp); // Hint app methodology %>
-    <% var reqHints = {}; %>
-    <% escapeRoom.puzzles.map(r=>{reqHints[r.order] = []});%>
-        <% if (endPoint === "team" && hintConditional) {%>
-            <div class="row-centered">
-                <div class="col-xs-12">
-                    <div >
-                        <h4><%=i18n.hint.Hints%></h4>
-                        <ul id="hintList" >
-                        <% for (var hint of hints) {
-                            if (hint) {
-                                if (hint.hint) {reqHints[hint.hint.puzzle.order.toString()].push(hint.hint.order);}%>
-                            <li>
-                                <div class="card border-info mb-3">
-                                    <div class="card-body">
-                                        <div class="card-text"><%=hint.hint ? hint.hint.content : i18n.hint.empty%></div>
-                                    </div>
-                                </div>
-                            </li>
-                            <% }
-                        } %>
-                        </ul>
-                        <br/>
-                        <button id="btn-hints" class="btn btn-primary"><%=i18n.hint.need%></button>
-                    </div>
-                </div>
-            </div>
-        <% } %>
-        <br/><br/>
-        <% 
-        var finish = false;
-        if (isStudent) { 
-            var retosSuperados = team.retos.map(a=>a.order);
-            var progress = Math.round(retosSuperados.length / escapeRoom.puzzles.length * 100);
-            finish = retosSuperados.length === escapeRoom.puzzles.length;
-            %>
-            <script>
-                var retosSuperados = <%=JSON.stringify(retosSuperados)%>;
-                var totalPuzzles = <%= escapeRoom.puzzles.length %>;
-                var puzzlesPassed = <%= retosSuperados.length %>;
-                var progress = <%= !isNaN(progress) ? progress : undefined %>;
-            </script>
-            <div class="dialog" >
-                <div class="dialog-content" id="finishPuzzles">
-                <% var found = null; %>
-
-                    <% if (finish) {   %>
-                        <h4 id="puzzles"><%=i18n.puzzle.finish%></h4>
-                        <br/>
-                        <a href="/escapeRooms/<%= escapeRoom.id %>/finish">
-                            <button class="btn btn-success">
-                                <%=i18n.common.finish%>
-                            </button>
-                        </a>
-                    <%} else { %>
-                        <% include ../../partials/_puzzleInterface.ejs %>
-                    <%}%>
-                </div>
-            </div>
-
-        <% } %>
-
+        <br/>
+        <br/>
         <div class=" row-centered">
             <div class="col-xs-12">
-            <% include ../../partials/_countdown.ejs %>
+            <% include ../../partials/_countdown %>
             <% include ../../partials/_ranking %>
             </div>
         </div>
     </div>
 </div>
+<% if (endPoint === "team" && hintConditional) {%>
+    <% include ../../partials/_hints_modal %>
 
-<% var puzzles = escapeRoom.puzzles
-.map(({ id, order, title, score, automatic, hints })=>{ 
-    const categories = Array.from(new Set(hints.map(h=>h.category)));
-    return { id, title, order, score, automatic, categories, hints: hints.reduce((a,b) => {
-        if (reqHints[order].indexOf(b.order) === -1){
-            if ( a[b.category]) {
-                a[b.category].push(b.order)
-            } else {
-                a[b.category] = [b.order];
-            }
-        } else {
-            if (!a[b.category]) {
-                a[b.category] = [];
-            }
-        }
-        return a;
-    }, {})}}) %>
+<%}%>
+
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
-    var nPuzzles = "<%= escapeRoom.puzzles.length%>";
-    var reqHints = JSON.parse('<%-JSON.stringify(reqHints)%>');
-    var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
-    var teamId = <%= team.id || "undefined";%>   
-    var username = "<%= session.user.username %>";
     var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(puzzles)%>');
+    var totalPuzzles = <%= escapeRoom.puzzles.length %>;
+    var currentlyWorkingOn = <%=(currentlyWorkingOn !== undefined && currentlyWorkingOn !== null ) ? currentlyWorkingOn :  "null"%>;
+    var retosSuperados = <%=JSON.stringify(retosSuperados)%>;
+    var pending =  <%=JSON.stringify(pending)%>;
+    var latestRetoSuperado =  <%=JSON.stringify(latestRetoSuperado)%>;
     var hintConditional = <%= hintConditional || false %>;
     var hintAppConditional =  <%= hintAppConditional || false%>;
     var allowCustomHints = <%= escapeRoom.allowCustomHints ? "true" : "false"%>
-    var currentlyWorkingOn = <%=(found !== undefined && found !== null ) ? found :  "null"%>;
+    var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
+    var reqHints = JSON.parse('<%-JSON.stringify(reqHints)%>');
+    var reqHintsListOrder =  <%=JSON.stringify(reqHintsListOrder)%>;
+    var progress = <%= !isNaN(progress) ? progress : undefined %>;
+    var username = "<%= session.user.username %>";
+    var teamId = <%= team.id || "undefined";%>   
     initSocketServer(<%= escapeRoom.id%>, teamId, <%= team.turno ? team.turno.id : "undefined" %>, username);
+    
     var i18n = {
         "correctAnswer": "<%=i18n.puzzle.correctAnswer%>",
         "check": "<%=i18n.puzzle.check%>",
+        "newHint": "<%=i18n.hint.newHint%>",
+        "noMoreLeft": "<%=i18n.hint.noMoreLeft%>",
         "wrongAnswer": "<%=i18n.puzzle.wrongAnswer%>",
-        "instructionsHints": "<%= i18n.hint.instructionsHints %>",
         "chooseCat": "<%= i18n.hint.chooseCat %>",
         "cantRequestMore": "<%= i18n.hint.cantRequestMore %>",
         "cantRequestMoreThis": "<%= i18n.hint.cantRequestMoreThis %>",
         "canRequest": "<%= i18n.hint.canRequest %>",
         "finishMsg": "<%=i18n.puzzle.finish%>",
-        "finishButton": "<%=i18n.common.finish%>",
         "dontClose": "<%=i18n.hint.dontClose%>",
         "writeSol": "<%=i18n.puzzle.writeSol%>",
         "timeUp": "<%=i18n.api.timeUp%>",
@@ -157,7 +186,6 @@
         "reconnect": "<%=i18n.api.reconnect%>",
         "connected": "<%=i18n.api.connected%>"
     };
-
 
 </script>
 <%- include("../../partials/_flash",{bs:true}) %>

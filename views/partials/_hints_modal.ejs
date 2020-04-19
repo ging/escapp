@@ -1,0 +1,63 @@
+<div class="modal animated zoomIn" tabindex="-1" role="dialog" id="hintModal" aria-labelledby="hintModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg " role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title"><b><%=i18n.hint.Hints%></b></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modalContent">
+            <div class="hints-modal-no-left">
+            </div>  
+            <div class="hints-modal-main-content">
+                <button id="btn-hints" class="btn btn-primary" style="float:right;"><%=i18n.hint.need%></button>
+                <h4><%=i18n.hint.Hints%></h4>
+                <br/>
+                <ul class="hintList" >
+                <% for (var p = escapeRoom.puzzles.length -1; p>=0; p--) { %>
+                    <% var categoryIndex = -1%>
+                    <% var category = undefined %>
+                    <% var nCats = (new Set(escapeRoom.puzzles[p].hints.map(h=> h.category))).size %>
+                    <% var requested = escapeRoom.puzzles[p].hints.some(h=>reqHintsList.indexOf(h.id) !== -1) %>
+                    <% var show = (pending.indexOf(escapeRoom.puzzles[p].order) === -1 || currentlyWorkingOn === escapeRoom.puzzles[p].order);%>
+                    <li class="reto-hint-title-<%=escapeRoom.puzzles[p].order%>" style="<%=requested ? '':'display: none;'%>" data-puzzle-number="<%=escapeRoom.puzzles[p].order%>">
+                        <h6><b><%=escapeRoom.puzzles[p].title%></b></h6>
+                        <ul class="hintList">
+                        <% for (var i = escapeRoom.puzzles[p].hints.length -1; i>=0; i--) {
+                            var hint = escapeRoom.puzzles[p].hints[i];
+                            if (nCats === 1) {
+                                categoryIndex = 0;
+                            } else if (nCats > 1 && category !== hint.category) { 
+                                category =  hint.category || "General";
+                                categoryIndex++;    
+                            %>
+                        <!-- <li class="hint-category" data-category="<%=category%>">
+                        <u><%=category%></u>
+                        </li> -->
+                        <% }%>
+                            <% if (hint && reqHintsList.indexOf(hint.id) !== -1) { %>                            
+                                <li class="reto-hint" data-hint-number="<%=hint.order%>">
+                                    <div class="card border-info mb-3">
+                                        <div class="card-body">
+                                            <div class="card-text"><%=hint.content%></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            <% } %>
+                        <% }%>
+                    </ul>
+                    </li>
+                <%}%>
+                </ul>
+                <br/>
+            </div>
+            <div class="hints-modal-cats">
+            </div>
+            <div class="hints-modal-quiz">
+            </div> 
+                     
+        </div>
+      </div>
+    </div>
+  </div>`;

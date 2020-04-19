@@ -9,24 +9,18 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, category, me
 
         if (success) {
             const retosSuperados = await team.getRetos();
-            const puzzleIndexes = escapeRoom.puzzles.map((p) => p.id);
-            let currentReto = -1;
+            const retosSuperadosOrder = retosSuperados.map(r => r.order);
+            const pending = escapeRoom.puzzles.map((p) => p.order).filter(p => retosSuperadosOrder.indexOf(p.order) === -1);
+            let currentlyWorkingOn = retosSuperadosOrder.length ? (Math.max(...retosSuperadosOrder) + 1) : 0;
 
-            for (const p in retosSuperados) {
-                const reto = retosSuperados[p];
-                const idx = puzzleIndexes.indexOf(reto.id);
-
-                if (idx > currentReto) {
-                    currentReto = idx;
-                }
+            if (retosSuperadosOrder.length === escapeRoom.puzzles.length) { 
+                currentlyWorkingOn = null;
+            } else if (currentlyWorkingOn >= escapeRoom.puzzles.length) {
+                [currentlyWorkingOn] = pending;
             }
-            currentReto++;
 
-            if (currentReto >= puzzleIndexes.length) {
-                currentReto = -1;
-            } else {
-                currentReto = escapeRoom.puzzles[currentReto].id;
-            }
+
+
             const hints = await models.requestedHint.findAll({
                 "where": {
                     teamId,
@@ -53,7 +47,7 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, category, me
             let currentHint = -1;
             const allHints = [];
             const allHintsIndexes = [];
-            const currentPuzzle = escapeRoom.puzzles.find((p) => p.id === currentReto);
+            const currentPuzzle = escapeRoom.puzzles.find(p => p.order === currentlyWorkingOn);
             const puzzleOrder = currentPuzzle ? currentPuzzle.order + 1 : null;
 
             if (!currentPuzzle) {

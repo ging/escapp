@@ -137,8 +137,10 @@
             "notFound": "It seems like we couldn't find the page you were looking for"
         },
         "exit": "exit",
+        "Exit": "Exit",
         "filter": "filter",
         "finish": "finish",
+        "Finish": "Finish",
         "validationError": "Invalid input data",
         "flash": {
             "errors": "Errors",
@@ -443,13 +445,14 @@
     "hint": {
         "failed": "Too bad! Please try again",
         "failMessage": "Too bad! Please keep trying",
-        "dontClose": "There aren't any hints left. You may ask your for help now. Don't close this message until they come",
+        "dontClose": "There aren't any hints left. You may ask your teacher for help now. Don't close this message until they come",
+        "noMoreLeft": "There aren't any hints left. You may ask your teacher for help now. ",
         "empty": "Help from the teacher",
-        "instructionsHints": "Answer the questions in order to get a hint",
-        "chooseCat": "¿What do you need help with?",
+        "chooseCat": "What do you need help with?",
         "cantRequestMore": "You cannot request more hints",
         "cantRequestMoreThis": "You cannot request more hints in your current situation",
         "canRequest": "Request a hint",
+        "newHint": "New hint",
         "Hint": "Hint",
         "Hints": "Hints",
         "need": "Need a hint?",
@@ -609,7 +612,7 @@
 
     },
     "puzzle": {
-        "check": "check",
+        "check": "Check",
         "puzzle": "puzzle",
         "Puzzle": "Puzzle",
         "puzzles": "puzzles",

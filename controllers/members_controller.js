@@ -29,19 +29,23 @@ exports.add = async (req, res, next) => {
         const newMembers = await team.getTeamMembers({}, {transaction});
 
         await transaction.commit();
-        const teamMembers = [];
-        const teamMembersNames = [];
+        try {
+            const teamMembers = [];
+            const teamMembersNames = [];
 
-        for (const p in newMembers) {
-            const member = newMembers[p];
+            for (const p in newMembers) {
+                const member = newMembers[p];
 
-            teamMembers.push({"name": member.name, "surname": member.surname});
-            teamMembersNames.push(`${member.name} ${member.surname}`);
+                teamMembers.push({"name": member.name, "surname": member.surname});
+                teamMembersNames.push(`${member.name} ${member.surname}`);
+            }
+            const teams = await getRanking(escapeRoom.id, turn.id);
+
+            sendJoinParticipant(user.username, team.id, turn.id, teams);
+            res.redirect(direccion);
+        } catch (error) {
+            next(error);
         }
-        const teams = await getRanking(escapeRoom.id, team.turno.id);
-
-        sendJoinParticipant(user.username, team.id, turn.id, teams);
-        res.redirect(direccion);
     } catch (error) {
         await transaction.rollback();
         next(error);

@@ -64,7 +64,7 @@
 				</a>
 
 			<% } %>
-			<% if(turno.status === "pending"){%>
+			<% if(turno.status !== "finished" && !team.startTime){%>
 				<div id="unjoin" method="post" style="display: inline-block;">
 					<button class="rounded deleteButton" onclick="overlayTrigger('unjoin')">
 						<%=i18n.showStudent.unjoin%>
@@ -101,6 +101,14 @@ var clicked = () => {
 	CLICKED = true;
 }
 var myTeamId;
+
+const overlayTrigger = (id, close) => {
+	$('.overlay-trigger').hide();
+	if (!close) {
+		$('.overlay-trigger[data-id="' + id + '"]').show();
+	}
+};
+
 $(()=>{
 	var participant = JSON.parse('<%-JSON.stringify(participant)%>')
 	var socket;
@@ -121,12 +129,7 @@ $(()=>{
 	};
 	$("#dialog-start").dialog(dialogOptions);
 
-	const overlayTrigger = (id, close) => {
-		$('.overlay-trigger').hide();
-		if (!close) {
-			$('.overlay-trigger[data-id="' + id + '"]').show();
-		}
-	};
+	
 
 	const onJoin = (msg, e) => {
 		console.log(msg, e)
