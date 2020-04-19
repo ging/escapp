@@ -39,21 +39,11 @@ exports.new = (req, res) => {
 
 // POST /users
 exports.create = (req, res, next) => {
-    const {name, surname, gender, username, password, confirm_password, accept_terms, role} = req.body;
+    const {name, surname, gender, username, password, confirm_password, role} = req.body;
     const {redir} = req.query;
 
     if (password !== confirm_password) {
         req.flash("error", req.app.locals.i18n.common.flash.passwordsDoNotMatch);
-        res.render("index", {
-            "user": req.body,
-            "register": true,
-            redir
-        });
-        return;
-    }
-
-    if (!accept_terms) {
-        req.flash("error", req.app.locals.i18n.common.flash.youMustAcceptTerms);
         res.render("index", {
             "user": req.body,
             "register": true,

@@ -69,6 +69,7 @@ module.exports = function (sequelize, DataTypes) {
             "classInstructions": {"type": DataTypes.TEXT},
             "teamInstructions": {"type": DataTypes.TEXT},
             "indicationsInstructions": {"type": DataTypes.TEXT},
+            "supportLink": {"type": DataTypes.TEXT},
             "scoreParticipation": {
                 "type": DataTypes.FLOAT,
                 "defaultValue": 0.0,

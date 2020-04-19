@@ -44,7 +44,7 @@ const startTeam = (teamId, code, authentication, participation, msg, erState) =>
 // Response to team hint request
 const hintResponse = (teamId, code, authentication, participation, hintOrder, puzzleOrder, category, msg) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {code, authentication, participation, hintOrder, puzzleOrder, category, msg}}, teamId);
 // Response to puzzle solving attempt
-const puzzleResponse = (teamId, code, correctAnswer, puzzleOrder, participation, authentication, erState, msg, participantMessage) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {code, correctAnswer, puzzleOrder, participation, authentication, erState, msg, participantMessage}}, teamId);
+const puzzleResponse = (teamId, code, correctAnswer, solution, puzzleOrder, participation, authentication, erState, msg, participantMessage) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {code, correctAnswer, solution, puzzleOrder, participation, authentication, erState, msg, participantMessage}}, teamId);
 // Announce that a team member has joined the room
 const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN, "payload": {username}}, teamId);
 // TODO attendance participant
@@ -167,7 +167,7 @@ exports.solvePuzzle = async (escapeRoomId, teamId, userId, puzzleOrderMinus, sol
         const {body} = await checkPuzzle(solution, puzzle, team.turno.escapeRoom, [team], {"id": userId}, i18n);
         const {code, correctAnswer, participation, authentication, msg, erState, alreadySolved} = body;
 
-        puzzleResponse(teamId, code, correctAnswer, puzzleOrderMinus, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
+        puzzleResponse(teamId, code, correctAnswer, solution, puzzleOrderMinus, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
         if (code === OK && !alreadySolved) {
             const teams = await getRanking(escapeRoomId, team.turno.id);
 
@@ -175,7 +175,7 @@ exports.solvePuzzle = async (escapeRoomId, teamId, userId, puzzleOrderMinus, sol
         }
     } catch (e) {
         console.error(e);
-        puzzleResponse(teamId, ERROR, undefined, undefined, undefined, true, undefined, e.message);
+        puzzleResponse(teamId, ERROR, undefined, undefined, undefined, undefined, true, undefined, e.message);
     }
 };
 

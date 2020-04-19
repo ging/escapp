@@ -61,9 +61,9 @@
 <br />
 <%if (!user.id) {%>
 <div class="userField">
-    <label for="accept_terms"><span><%=i18n.user.acceptTerms%></span>
+    <label for="accept_terms" ><span><%=i18n.user.acceptTerms%></span>
      <p>
-        <input type="checkbox" class="" id="accept_terms" name="accept_terms" checked required disabled autocomplete="off"/>
+        <input type="checkbox" class="" id="accept_terms" name="accept_terms" checked required disabled readonly="true" onclick="javascript: return false;"/>
         <%=i18n.user.terms%>
     </p>
 </label>

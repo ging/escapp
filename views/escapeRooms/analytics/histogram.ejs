@@ -24,11 +24,12 @@
     var nPuzzles = puzzles.length;
     var retosSuperados =<%-JSON.stringify(puzzles) %>;
     const colors = [green, yellow, orange, red, purple];
+    var size = 25;
+    var intervals =  Math.ceil(duration/size);
 
 
     function formData(){
       return puzzles.map( puz => {
-      	let size = duration/5 + 1;
       	let data = new Array(size).fill(0);
       	for (let i = 0; i < (retosSuperados[puz.id] ? retosSuperados[puz.id]:0).length; i++) {
       		let idx = Math.round((size*retosSuperados[puz.id][i])/(duration*60));
@@ -41,10 +42,9 @@
     }
 
     function xAxis(){
-      let size = duration/5 + 1;
       let values = new Array(size);
       for (let i = 0; i<=size; i++){
-        values[i]=i*5 + "'";
+        values[i]=i*intervals + "'";
       }
       return values;
     }

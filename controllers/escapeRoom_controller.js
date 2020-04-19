@@ -78,12 +78,12 @@ exports.new = (_req, res) => {
 
 // POST /escapeRooms/create
 exports.create = async (req, res) => {
-    const {title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize} = req.body,
+    const {title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize, supportLink} = req.body,
         authorId = req.session.user && req.session.user.id || 0,
-        escapeRoom = models.escapeRoom.build({title, subject, duration, forbiddenLateSubmissions, description, "nmax": nmax || 0, "teamSize": teamSize || 0, authorId}); // Saves only the fields question and answer into the DDBB
+        escapeRoom = models.escapeRoom.build({title, subject, duration, forbiddenLateSubmissions, description, supportLink, "nmax": nmax || 0, "teamSize": teamSize || 0, authorId}); // Saves only the fields question and answer into the DDBB
 
     try {
-        const er = await escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "invitation"]});
+        const er = await escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "supportLink", "invitation"]});
 
         req.flash("success", req.app.locals.i18n.common.flash.successCreatingER);
 
@@ -141,12 +141,13 @@ exports.update = async (req, res, next) => {
     escapeRoom.duration = body.duration;
     escapeRoom.forbiddenLateSubmissions = body.forbiddenLateSubmissions === "on";
     escapeRoom.description = body.description;
+    escapeRoom.supportLink = body.supportLink;
     escapeRoom.nmax = body.nmax || 0;
     escapeRoom.teamSize = body.teamSize || 0;
     const progressBar = body.progress;
 
     try {
-        const er = await escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "nmax", "teamSize"]});
+        const er = await escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "nmax", "teamSize", "supportLink"]});
 
         if (body.keepAttachment === "0") {
             // There is no attachment: Delete old attachment.

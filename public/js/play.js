@@ -4,26 +4,63 @@ var myUserName;
 var alertMsg;
 
 /** TEMPLATES **/
-const hintTemplate = (hint) => `
+const hintTemplate = (hint, category) => `
   <li class="animated zoomInUp">
       <div class="card border-info mb-3">
           <div class="card-body">
               <div class="card-text">
-                  ${hint}
-              </div>
+                  ${category ? `<b>${category}</b>`:''}${hint}
+             </div>
           </div>
       </div>
   </li>`;
 
+
+const otherMsg = (info) => `
+<li class="animated zoomInUp">
+    <div class="card border-info mb-3">
+        <div class="card-body">
+            <div class="card-text">
+                ${info}
+           </div>
+        </div>
+    </div>
+</li>`;
+
+
+const quizInstructionsTemplate = () => {
+  return `
+    <h4 class="instructions-button">
+    ${i18n.instructionsQuiz}<br/><br/>
+      <button class="btn btn-success" id="btn-start-quiz">
+      ${i18n.start}
+      </button>
+    </p>`
+} 
 
 const quizTemplate = () => {
   return `<iframe class="hintAppIframe" src="/escapeRooms/${escapeRoomId}/hintAppWrapper"/>`
 }
 
 const catsTemplate = (categories, hints) => {
-  return categories ? `<ul class="categories">
-            ${categories.map(c=>`<li class="category"><button class="cat-button" ${hints[c].length || allowCustomHints ? "" : "disabled"} data-name="${c}">${c}</button></li>`).join("")}
-          </ul>` : '';
+  return categories ? `<h4>${i18n.chooseCat}</h4><ul class="categories">
+    ${categories.map(c=>`<li class=" card border-success category"><button class="cat-button" ${hints[c].length || allowCustomHints ? "" : "disabled"} data-name="${c}">${c}</button></li>`).join("")}
+  </ul>` : '';
+}
+
+const retoMsg = (puzzle) => {
+  return `<li class="card reto-puzzle-li reto-puzzle-current animated zoomInUp"> 
+      <h6><b>${puzzle.title}</b></h6>
+      <ul class="cardList">
+          <li class="card border-success reto-msg">
+          <div class="card-body">
+              <div class="card-text">
+                ${puzzle.correct}
+              </div>
+          </div>
+          </li>
+      </ul>
+  </li>`;
 }
 
 /** OUTGOING MESSAGES **/
@@ -38,7 +75,7 @@ const onConnect = () => {
   console.info("Connected");
   if (alertMsg) {
     $('.alert').remove();
-    alertMsg = $.easyAlert({"message": i18n["connected"], "alertType": "success", "position": "b l", "showDuration": 5000, time: 3000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "slide"});
+    alertMsg = $.easyAlert({"message": i18n["connected"], "alertType": "success", "position": "b l", "showDuration": 5000, time: 3000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
   }
 }
  
@@ -46,29 +83,29 @@ const onStart = () => {
 }
 
 const onStop = async () => {
-  alertMsg = $.easyAlert({"message": i18n["timeUp"], "alertType": "warning", "position": "b l", "showDuration": 5000, time: 10000,  "autoHide": true, "hideAnimation": "slide", "showAnimation": "slide"});
+  alertMsg = $.easyAlert({"message": i18n["timeUp"], "alertType": "warning", "position": "b l", "showDuration": 5000, time: 10000,  "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
   await forMs(10000);
   window.location = `/escapeRooms/${escapeRoomId}/finish`;
 }
 
 const onJoin = () => {
   // console.log("Someone from your team has joined the ER")
-  // alertMsg = $.easyAlert({"message": i18n["teamJoined"], "alertType": "info", "position": "b l", "showDuration": 1000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "slide"});
+  // alertMsg = $.easyAlert({"message": i18n["teamJoined"], "alertType": "info", "position": "b l", "showDuration": 1000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
 }
 
 const onDisconnect = () => {
   $('.alert').remove();
-  alertMsg = $.easyAlert({"message": i18n["disconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "slide"});
+  alertMsg = $.easyAlert({"message": i18n["disconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
 };
 
 const onReconnect = () => {
   console.log("Reconnect")
   $('.alert').remove();
-  alertMsg = $.easyAlert({"message": i18n["reconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "slide"});
+  alertMsg = $.easyAlert({"message": i18n["reconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
 };
 
-const onPuzzleResponse = async ({code, correctAnswer, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage}) => {
-  const feedback = msg + (participantMessage && participation !== "PARTICIPANT" ? `. ${participantMessage}`: "");
+const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage}) => {
+  const feedback = (msg || i18n.correctAnswer) + (participantMessage && participation !== "PARTICIPANT" ? `. ${participantMessage}`: "");
   const puzzleOrder = puzzleOrderPlus - 1;
   if (code === "OK") {
     let nextPuzzleOrder = null;
@@ -80,14 +117,16 @@ const onPuzzleResponse = async ({code, correctAnswer, "puzzleOrder": puzzleOrder
       } 
       latestRetoSuperado = (!latestRetoSuperado || latestRetoSuperado > puzzleOrder) ? latestRetoSuperado : puzzleOrder;
       updateProgress(Math.round(retosSuperados.length/totalPuzzles*100));
-      $.easyAlert({"message": feedback, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "slide"});
+      $.easyAlert({"message": `<b>${i18n.newRetoSuperado}</b><br/> ${feedback}`, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
       $('#puzzle-input').addClass('is-valid');
+      appendRetoMsg(escapeRoomPuzzles[puzzleOrder]);
       await forMs(2000);
       if (retosSuperados.length === totalPuzzles) {
         await forMs(1000);
         confetti.start(10000);
         updatePuzzle();
         $('#finish').show();
+        checkAvailHintsForPuzzle(null);
       } else {
         const puzzleIndex = escapeRoomPuzzles.findIndex(puzzle => puzzle.order == puzzleOrder);
         if (puzzleIndex > -1  && (puzzleIndex < (escapeRoomPuzzles.length - 1)) && latestRetoSuperado !== totalPuzzles){
@@ -105,7 +144,7 @@ const onPuzzleResponse = async ({code, correctAnswer, "puzzleOrder": puzzleOrder
       }
     }
   } else {
-    $.easyAlert({"message": feedback, "alertType": "danger", "position": "b l", "time": 5000,  "autoHide": true, "hideAnimation": "slide", "showAnimation": "slide"});
+    $.easyAlert({"message": feedback, "alertType": "danger", "position": "b l", "time": 5000,  "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
     $(`#puzzle-input`).addClass("is-invalid");
   }
 };
@@ -134,15 +173,15 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
         await forMs(2500);
       }
       cleanHintModal();
-      appendHint(message, puzzleOrder);
+      appendHint(message, puzzleOrder, category);
       waitingForHintReply = false;
       $('html').css('cursor','auto');
       await forMs(500);
       $('.reto-hint-title-'+puzzleOrder).first().removeClass('animated')
     } else { // Someone in my team obtained a hint
-      $.easyAlert({"message": i18n.newHint +": "+message, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "slide"});
+      $.easyAlert({"message": `<b>${i18n.newHint}</b><br/>${message}`, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
       await forMs(500);
-      appendHint(message, puzzleOrder);
+      appendHint(message, puzzleOrder, category);
     }
     
   } else if(allowCustomHints) {
@@ -154,11 +193,11 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
           $('.hints-modal-no-left').html(`<p>${i18n.noMoreLeft}</p>`);
         }
       } else { // Receive a hint that someone else requested
-        $.easyAlert({"message": message, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "slide"});
+        $.easyAlert({"message": message, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
       }
     } else { // Hint not obtained (only quiz strategy)
       if (waitingForHintReply) { // Receive a hint that you requested
-        forMs(5000);
+        await forMs(5000);
         cleanHintModal();
       }
     }
@@ -166,7 +205,9 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
     $('html').css('cursor','auto');
 
   } else {
+    
     if (waitingForHintReply) { 
+      await forMs(5000);
       await cleanHintModal();
     }
     waitingForHintReply = false; // Stop waiting for hint response
@@ -223,6 +264,20 @@ const rgb2hex = orig => {
 
 /************************HINT MANAGEMENT***************************/
 
+const hintReq = ()=>{
+  $('#modal-title').html('<b>'+i18n.hints+'<b>');
+  let currentReto = escapeRoomPuzzles.find(p=>p.order === currentlyWorkingOn);
+  const categories = currentReto ? currentReto.categories : null;
+  const hints = currentReto ? currentReto.hints : null;
+  $('#hintModal .animated').removeClass('animated')
+  if (categories && categories.length > 1) {
+    yesCat(categories, hints);
+  } else {
+    noCat();
+  }
+}
+
+
 const closeHintModal = async () => {
   // Close hint modal
   $('#hintModal').addClass('zoomOut'); 
@@ -232,18 +287,37 @@ const closeHintModal = async () => {
 }
 
 const cleanHintModal = ()=> {
+  $('#modal-title').html('<b>'+i18n.info+'<b>');
   $('.hints-modal-main-content').show();
   $('.hints-modal-cats').html("");
   $('.hints-modal-quiz').html("");
   $('.hints-modal-no-left').html("");
 }
 
-const appendHint = async (message, puzzleOrder) => {
+const appendHint = (message, puzzleOrder) => {
+  $('#requested-hints-title').show();
   $('.reto-hint-title-'+puzzleOrder).show();
-  $('.reto-hint-title-'+puzzleOrder + ' .hintList').prepend(hintTemplate(message))
+  $('.reto-hint-title-'+puzzleOrder + ' .hintList').prepend(hintTemplate(message, category))
+  $('#no-info').hide();
 };
 
-const updatePuzzle = async (order, currentPuzzle) => {
+const appendRetoMsg = (puzzle) => {
+  if (puzzle.correct) {
+    $('.retoList').prepend(retoMsg(puzzle));
+    $('#puzzle-messages-title').show();
+    $('#no-info').hide();
+  }
+  $('.reto-puzzle-current').removeClass('reto-puzzle-current');
+  $('.reto-puzzle-li').first().addClass('reto-puzzle-current');
+};
+
+const appendExtraInfo = (info) => {
+  $('.otherList').prepend(otherMsg(info));
+  $('#other-messages-title').show();
+
+}
+
+const updatePuzzle = (order, currentPuzzle) => {
   if (order || order === 0) { // TODO automatic
       currentlyWorkingOn = order;
       console.log(order, currentPuzzle)
@@ -258,36 +332,39 @@ const updatePuzzle = async (order, currentPuzzle) => {
       $('#puzzle-input').removeClass('is-valid');
       // Update button
       $('#puzzle-check-btn').data("puzzleOrder", order);
-      // TODO Add to modal
+      // Update currentReto in modal
+      $('.reto-hint-li').removeClass('reto-hint-current');
+      $('.reto-hint-title-'+order).addClass('reto-hint-current');
+    
       if (currentPuzzle.automatic) {
-        $('#puzzle-form *').hide();
+        $('#puzzle-form').hide()
       } else {
-        $('#puzzle-form *').show();
+        $('#puzzle-form').show()
       }
   } else {
-    $('#puzzle-form *').hide();
-    // Show finish button
+    $('.reto-hint-li').removeClass('reto-hint-current');
+    $('#puzzle-form').hide();
     
   }
 }
 
 const checkAvailHintsForPuzzle = (puzzleOrder) => {
   if (puzzleOrder === null || puzzleOrder === undefined) {
-    $('#btn-hints').attr("disabled", true);
-    $('#btn-hints').attr("title", i18n["cantRequestMore"]);
+    $('.btn-hints').attr("disabled", true);
+    $('.btn-hints').attr("title", i18n["cantRequestMore"]);
     return;
   }
 
   if (escapeRoomHintLimit !== undefined && escapeRoomHintLimit <= reqHintsListOrder.length){
-    $('#btn-hints').attr("disabled", true);
-    $('#btn-hints').attr("title", i18n["cantRequestMore"]);
+    $('.btn-hints').attr("disabled", true);
+    $('.btn-hints').attr("title", i18n["cantRequestMore"]);
 
     return;
   }
 
   if (allowCustomHints) {
-    $('#btn-hints').attr("disabled", false);
-    $('#btn-hints').attr("title", i18n["canRequest"]);
+    $('.btn-hints').attr("disabled", false);
+    $('.btn-hints').attr("title", i18n["canRequest"]);
 
     return;
   }
@@ -303,13 +380,13 @@ const checkAvailHintsForPuzzle = (puzzleOrder) => {
       }
     }
     if (anyHint) {
-      $('#btn-hints').attr("disabled", false);
-      $('#btn-hints').attr("title", i18n["canRequest"]);
+      $('.btn-hints').attr("disabled", false);
+      $('.btn-hints').attr("title", i18n["canRequest"]);
       
 
     } else {
-      $('#btn-hints').attr("disabled", true);
-      $('#btn-hints').attr("title", i18n["cantRequestMoreThis"]);
+      $('.btn-hints').attr("disabled", true);
+      $('.btn-hints').attr("title", i18n["cantRequestMoreThis"]);
     }
   }
 }
@@ -324,7 +401,7 @@ const chooseCat = async (cat) =>  {
   if (hintAppConditional) {
     chosenCat = cat;
     $('.hints-modal-cats').html("");
-    $('.hints-modal-quiz').html(quizTemplate());
+    $('.hints-modal-quiz').html(quizInstructionsTemplate());
   } else {
     waitingForHintReply = true;
     $('html').css('cursor','wait');
@@ -336,7 +413,7 @@ const chooseCat = async (cat) =>  {
 const noCat = () => {
   if (hintAppConditional) {
     $( ".hints-modal-main-content").hide();
-    $('.hints-modal-quiz').html(quizTemplate());
+    $('.hints-modal-quiz').html(quizInstructionsTemplate());
   } else {
     waitingForHintReply = true;
     $('html').css('cursor','wait');
@@ -408,10 +485,9 @@ const initSocketServer = (escapeRoomId, teamId, turnId, username) => {
 
 };
 
-$(()=>{
+$( ()=>{
   checkAvailHintsForPuzzle(currentlyWorkingOn);
   /** BTN ACTIONS **/
-
 
   $(document).on("keyup", "#puzzle-input", function(ev){
     const sol = $(this).val();
@@ -431,16 +507,17 @@ $(()=>{
     solvePuzzle(puzzleOrder, sol);
   });
 
-  $(document).on("click", "#btn-hints", function(){
-    let currentReto = escapeRoomPuzzles.find(p=>p.order === currentlyWorkingOn);
-    const categories = currentReto ? currentReto.categories : null;
-    const hints = currentReto ? currentReto.hints : null;
-    $('#hintModal .animated').removeClass('animated')
-    if (categories && categories.length > 1) {
-      yesCat(categories, hints);
-    } else {
-      noCat();
-    }
+  $(document).on("click", ".btn-hints-nav", function(){
+    hintReq();
+    $('#hintModal').modal("show");
+  });
+
+  $(document).on("click", ".btn-hints-modal", function(){
+    hintReq();
+  });
+
+  $(document).on("click", "#btn-start-quiz", function(){
+    $('.hints-modal-quiz').html(quizTemplate());
   });
 
 
@@ -453,32 +530,53 @@ $(()=>{
   $(document).on("click", ".cat-button", function(e){
     chooseCat($(e.target).data('name'));
   });
+
+  // Update progress
   try {
     if (progress !== undefined) {
       updateProgress(progress);
     }
   } catch (err) {
   }
+
+  // Mobile header
   $('meta:not(:first)').attr('content', rgb2hex($('nav').first().css("background-color") || "#FFFFFF"));
-  
+
+  // Autoplay videos
+  setTimeout(()=>{
   if (!localStorage["escapp_"+escapeRoomId]) {
     $( "[autoplay]" ).first();
     if ( $( "[autoplay]" ).length) {
       toggleFullScreen($( "[autoplay]" )[0]);
       localStorage["escapp_"+escapeRoomId] = true;
-      
     } else {
       const auto = $("iframe").filter(function() {
         return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
       });
       if (auto.length) {
-        toggleFullScreen(auto[0]);
+        auto[0].scrollIntoView();
+        setTimeout(()=>{
+          toggleFullScreen(auto[0]);
+        },1000)
         localStorage["escapp_"+escapeRoomId] = true;
-
       }
     }
-  
+  } else {
+    try {
+      $( "[autoplay]" ).each((i,e)=>e.pause());
+    } catch(e){}
+    
+    $("iframe").filter(function(e) {
+      return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
+    }).each((i,e)=>{
+      $(e).attr('allow', $(e).attr("allow").replace(/autoplay/i,""));
+      $(e).attr('src', $(e).attr('src').replace(/autoplay=1/i,"autoplay=0"));
+    });
+    setTimeout(()=>{
+      $('iframe').attr('src', $('iframe').attr('src').replace(/autoplay=1/i,"autoplay=0") )
+    },1000)
   }
-  
+},500)
+
 
 });

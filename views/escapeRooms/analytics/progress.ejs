@@ -24,9 +24,9 @@
     var teams = <%-JSON.stringify(teams) %>
     var nTeams = teams.length;
     const colors = [green, yellow, orange, red, purple];
-
+    var size = 25;
+    var intervals =  Math.ceil(duration/size);
     function currentPuzzle(team) {
-      let size = duration/5 + 1;
       let puzzles = new Array(size).fill(0);
       let times = new Array(teams[team].retosSuperados.length)
       for(let i = 0; i<teams[team].retosSuperados.length; i++){
@@ -50,10 +50,9 @@
     }
 
     function xAxis(){
-      let size = duration/5 + 1;
       let values = new Array(size);
       for (let i = 0; i<=size; i++){
-        values[i]=i*5 + "'";
+        values[i]=i*intervals + "'";
       }
       return values;
     }

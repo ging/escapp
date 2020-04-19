@@ -1,8 +1,10 @@
 <div class="modal animated zoomIn" tabindex="-1" role="dialog" id="hintModal" aria-labelledby="hintModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg " role="document">
+    <div class="modal-dialog modal-xl " role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modal-title"><b><%=i18n.hint.Hints%></b></h5>
+          <h5 class="modal-title" id="modal-title">
+            <%=i18n.hint.Info%>
+          </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -11,19 +13,21 @@
             <div class="hints-modal-no-left">
             </div>  
             <div class="hints-modal-main-content">
-                <button id="btn-hints" class="btn btn-primary" style="float:right;"><%=i18n.hint.need%></button>
-                <h4><%=i18n.hint.Hints%></h4>
+                <button class="btn btn-success btn-hints btn-hints-modal" style="float:right;"><%=i18n.hint.need%></button>
+                <h4 id="requested-hints-title" style="<%=reqHintsList.length ? '': 'display: none;' %>">
+                    <%=i18n.hint.requestedHints%>
+                </h4>
                 <br/>
-                <ul class="hintList" >
+                <ul class="cardList hintList">
                 <% for (var p = escapeRoom.puzzles.length -1; p>=0; p--) { %>
                     <% var categoryIndex = -1%>
                     <% var category = undefined %>
                     <% var nCats = (new Set(escapeRoom.puzzles[p].hints.map(h=> h.category))).size %>
                     <% var requested = escapeRoom.puzzles[p].hints.some(h=>reqHintsList.indexOf(h.id) !== -1) %>
                     <% var show = (pending.indexOf(escapeRoom.puzzles[p].order) === -1 || currentlyWorkingOn === escapeRoom.puzzles[p].order);%>
-                    <li class="reto-hint-title-<%=escapeRoom.puzzles[p].order%>" style="<%=requested ? '':'display: none;'%>" data-puzzle-number="<%=escapeRoom.puzzles[p].order%>">
+                    <li class="card reto-hint-li reto-hint-title-<%=escapeRoom.puzzles[p].order%> <%=currentlyWorkingOn === escapeRoom.puzzles[p].order ? 'reto-hint-current' : ''%>" style="<%=requested ? '':'display: none;'%>" data-puzzle-number="<%=escapeRoom.puzzles[p].order%>">
                         <h6><b><%=escapeRoom.puzzles[p].title%></b></h6>
-                        <ul class="hintList">
+                        <ul class="cardList hintList">
                         <% for (var i = escapeRoom.puzzles[p].hints.length -1; i>=0; i--) {
                             var hint = escapeRoom.puzzles[p].hints[i];
                             if (nCats === 1) {
@@ -32,15 +36,18 @@
                                 category =  hint.category || "General";
                                 categoryIndex++;    
                             %>
-                        <!-- <li class="hint-category" data-category="<%=category%>">
-                        <u><%=category%></u>
-                        </li> -->
                         <% }%>
                             <% if (hint && reqHintsList.indexOf(hint.id) !== -1) { %>                            
                                 <li class="reto-hint" data-hint-number="<%=hint.order%>">
                                     <div class="card border-info mb-3">
                                         <div class="card-body">
-                                            <div class="card-text"><%=hint.content%></div>
+                                            <div class="card-text">
+                                                <%if (nCats === 1) {%>
+                                                <%=hint.content%>
+                                                <%} else {%>
+                                                <b>(<%=hint.category%>)</b> <%=hint.content%>
+                                                <%}%>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
@@ -49,6 +56,38 @@
                     </ul>
                     </li>
                 <%}%>
+                </ul>
+                <%const someMsg = retosSuperados.some(i=>escapeRoom.puzzles[i].correct);%>
+                <h4 style="<%= someMsg ? '' : 'display: none;'%>" id="puzzle-messages-title">
+                    <%=i18n.puzzle.messages%>
+                </h4>
+                <ul class="cardList retoList">
+                <% for (var p = retosSuperados.length -1; p>=0; p--) { %>
+                    <% var puz = retosSuperados[p];%>
+                    <% var found = escapeRoom.puzzles.find(r=>r.order === puz);%>
+                    <% if (found && found.correct ) {%>
+                    <li class="card reto-puzzle-li 
+                    <%=(p === (retosSuperados.length -1)) ? 'reto-puzzle-current':'' %>"> 
+                        <h6><b><%=found.title%></b></h6>
+                        <ul class="cardList">
+                            <li class="card border-success reto-msg">
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <%=found.correct%>
+                                </div>
+                            </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <%}%>
+                <%}%>
+                 </ul>
+                <br/>
+                <%if (!reqHintsList.length && !someMsg) {%>
+                    <p id="no-info"><%=i18n.hint.noRelevant%></p>
+                <%}%> 
+                <h4 style="display: none;" id="other-messages-title"><%=i18n.hint.other%></h4>
+                <ul class="cardList otherList">
                 </ul>
                 <br/>
             </div>
@@ -60,4 +99,4 @@
         </div>
       </div>
     </div>
-  </div>`;
+  </div>

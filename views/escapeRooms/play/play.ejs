@@ -3,7 +3,6 @@
     <title><%=escapeRoom.title%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    
     <script src="/js/vendor/jquery-1.12.4.min.js"></script>
     <script src="/js/vendor/easy-alert.js"></script>
     <script src="/js/vendor/bootstrap.min.js"></script>
@@ -11,6 +10,7 @@
     <script src="/js/vendor/confetti.min.js"></script>
     <script src="/js/vendor/fullscreen.js"></script>
     <script src="/js/play.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
     <link rel="stylesheet" href="/stylesheets/vendor/easy-alert.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"] || "litera" %>.bootstrap.min.css">
@@ -49,14 +49,14 @@
         <% var pending = []; %>
         <% var progress = 0; %>
     <% } %>
-        <% var puzzles = escapeRoom.puzzles.map(({ id, order, title, score, automatic, hints })=>{ 
+        <% var puzzles = escapeRoom.puzzles.map(({ id, order, title, score, correct, automatic, hints })=>{ 
             reqHints[order] = [];
             var noSuperado = retosSuperados.indexOf(order) === -1;
             if (noSuperado) {
                 pending.push(order)
             }
             const categories = Array.from(new Set(hints.map(h=>h.category)));
-            return { id, title, order, score, automatic, categories, hints: hints.reduce((a,b) => {
+            return { id, title, order, score, correct, automatic, categories, hints: hints.reduce((a,b) => {
                 if (reqHintsList.indexOf(b.id) === -1){
                     if ( a[b.category]) {
                         a[b.category].push(b.order)
@@ -75,7 +75,6 @@
                 if (!finish && pending.length && currentlyWorkingOn >= puzzles.length) {
                     currentlyWorkingOn = pending[0];
                 }
-                console.log("/////////////////",{currentlyWorkingOn, pending, retosSuperados})
             %>
     <nav class="navbar fixed-top navbar-expand-md justify-content-between navbar-fixed-top navbar-dark bg-primary">
         <a class="navbar-brand" href="#"><%=escapeRoom.title%></a>
@@ -91,40 +90,63 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-div">
           <%if (isStudent && currentlyWorkingOn !== null) {%> 
             <% const puzzle = puzzles[currentlyWorkingOn] %>
-            <div class=" form-inline my-2 my-lg-0 ml-auto" style="flex-wrap: nowrap;" id="puzzle-form" > 
-              <label style="flex: 1;">
+            <div class=" form-inline my-2 my-lg-0 mt-auto" style="flex: 1;flex-wrap: nowrap;<%=puzzle.automatic ? 'visibility: hidden;' : ''%>" id="puzzle-form" > 
+              <label style="flex: 1; justify-content: flex-end;">
                 <span class="navbar-text puzzle-title" id="puzzle-title" data-puzzle-order="<%= puzzle.order %>"><%=puzzle.title%>
                 </span>&nbsp;
             </label>
             <input class="form-control mr-sm-2 puzzle-input" id="puzzle-input" type="text" placeholder="<%=i18n.puzzle.writeSol%>" data-puzzle-order="<%= puzzle.order %>">
-            <button class="btn btn-success my-2 my-sm-0" id="puzzle-check-btn" type="button" data-puzzle-order="<%= puzzle.order %>"><%=i18n.puzzle.check%></button>
+            <button class="btn btn-success my-2 my-sm-0" id="puzzle-check-btn" type="button" data-puzzle-order="<%= puzzle.order %>" title="<%=i18n.puzzle.check%>"><span class="material-icons ">check</span></button>
           </div>
           <%}%>
-          <ul class="navbar-nav my-lg-0">
+          
+          <ul class="navbar-nav my-lg-0 ml-auto">
+            <li class="nav-item active" id="finish" style="display: none;">
+                <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>/finish" title="<%=i18n.common.Finish%>">
+                    <button class="btn btn-success" >
+                        <span class="material-icons ">star</span>
+                    </button>
+                </a>
+            </li>
             <% if (endPoint === "team" && hintConditional) {%>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">
-                        <button class="btn btn-info" data-toggle="modal" data-target="#hintModal">
-                            <%=i18n.hint.Hints%>
+                        <button class="btn btn-info" data-toggle="modal" data-target="#hintModal" title="<%=i18n.hint.Info%>">
+                            <span class="material-icons ">info</span>
                         </button>
                     </a>
                 </li>
             <%}%>
-            <li class="nav-item active" id="finish" style="display: none;">
-                <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>/finish">
-                    <button class="btn btn-success" ><%=i18n.common.Finish%></button>
+            <li class="nav-item active" id="">
+                <a class="nav-link" href="#">
+                    <button class="btn btn-warning btn-hints btn-hints-nav" title="<%=i18n.hint.canRequest%>">
+                        <span class="material-icons ">search</span>
+                    </button>
+                    
                 </a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>">
-                    <button class="btn btn-outline-light" ><%=i18n.common.Exit%></button>
-                </a>
-              </li>
+
+            <%if(escapeRoom.supportLink) {%>
+                <li class="nav-item active">
+                    <a class="nav-link" target="_blank" href="<%=escapeRoom.supportLink%>">
+                        <button class="btn btn-danger" title="<%=i18n.showStudent.supportLink%>">
+                            <span class="material-icons ">live_help</span>
+                        </button>
+                    </a>
+                </li>
+                <%}%>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>">
+                        <button class="btn btn-light" title="<%=i18n.common.Exit%>">
+                            <span class="material-icons ">exit_to_app</span>
+                        </button>
+                    </a>
+                </li>
           </ul>
       </nav>
-<br/><br/>
+<br/>
 <div class="previewContainer">
-    <br/><br/>
+    <br/>
     <div class="container-fluid">
         <div class=" row-centered">
             <div class="col-xs-12 text-left ql-editor instructionsShow" id="editor">
@@ -168,11 +190,14 @@
     initSocketServer(<%= escapeRoom.id%>, teamId, <%= team.turno ? team.turno.id : "undefined" %>, username);
     
     var i18n = {
-        "correctAnswer": "<%=i18n.puzzle.correctAnswer%>",
+        "correctAnswer": "<%=i18n.api.correct%>",
         "check": "<%=i18n.puzzle.check%>",
         "newHint": "<%=i18n.hint.newHint%>",
+        "newRetoSuperado": "<%=i18n.puzzle.newRetoSuperado%>",
+        "info": "<%=i18n.hint.Info%>",
+        "hints": "<%=i18n.hint.Hints%>",
         "noMoreLeft": "<%=i18n.hint.noMoreLeft%>",
-        "wrongAnswer": "<%=i18n.puzzle.wrongAnswer%>",
+        "wrongAnswer": "<%=i18n.api.wrong%>",
         "chooseCat": "<%= i18n.hint.chooseCat %>",
         "cantRequestMore": "<%= i18n.hint.cantRequestMore %>",
         "cantRequestMoreThis": "<%= i18n.hint.cantRequestMoreThis %>",
@@ -181,6 +206,8 @@
         "dontClose": "<%=i18n.hint.dontClose%>",
         "writeSol": "<%=i18n.puzzle.writeSol%>",
         "timeUp": "<%=i18n.api.timeUp%>",
+        "start": "<%=i18n.hint.start%>",
+        "instructionsQuiz": "<%=i18n.hint.instructionsQuiz1 + ' ' + (Math.round(escapeRoom.numRight/100*escapeRoom.numQuestions)) + ' ' + i18n.hint.instructionsQuiz2 + ' ' + escapeRoom.numQuestions + ' ' + i18n.hint.instructionsQuiz3%>",
         "teamJoined": "<%=i18n.api.teamJoined%>",
         "disconnect": "<%=i18n.api.disconnect%>",
         "reconnect": "<%=i18n.api.reconnect%>",

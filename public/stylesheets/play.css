@@ -53,11 +53,14 @@ p {
     overflow: visible;
     white-space: inherit;
 }
+.nav-link button {
+  white-space: nowrap;
+}
 
 .navbar-text {
   overflow: hidden;
   text-overflow: ellipsis;
-  /* white-space: nowrap; */
+  white-space: nowrap;
 }
 
 .backToMain {
@@ -71,17 +74,56 @@ p {
     text-decoration: none;
 }
 
-.hintList {
-    width: auto;
+
+.reto-hint-li {
+  border: 1px solid var(--secondary);
+  padding: 10px;
+  opacity: 0.6;
+  margin-bottom: 20px;
+}
+
+.reto-puzzle-li {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-color: transparent;
+  opacity: 0.6;
+
+}
+
+.reto-puzzle-li.reto-puzzle-current {
+  opacity: 1;
+}
+
+.reto-hint-li.reto-hint-current{
+  border-color: var(--success);
+  opacity: 1;
+
+} 
+.cardList {
+    width: 100%;
     display: inline-block;
     list-style: none;
     padding-left: 0px;
 
 }
+.cardList li {
+  width: 100%;
 
-.hintList .card{
+}
+
+#no-info {
+  text-align: center;
+}
+.cardList .card{
     display: inline-block;
     width: auto;
+    margin-bottom: 0.3rem !important;
+    width: 100%;
+}
+
+.cardList .card-body {
+  padding: 5px;
+
 }
 
 .sol-input {
@@ -89,6 +131,9 @@ p {
     max-width: 600px;
 }
 
+.instructions-button {
+  text-align: center;
+}
 #flassmessages {
   position: fixed;
   bottom: 0px;
@@ -123,42 +168,53 @@ p {
 
 .hintAppIframe {
     width: 100%;
-    height: 70vh;
+    height: 80vh;
     border: none;
 }
+#hintModal h4 {
+  font-size: 1.2rem;
+}
+
 #hintAppModal .modal-body {
     padding: 0px;
 }
 
 .hints-modal-cats .categories{
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    padding: 15px 15px 0px 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    padding: 0px;
     align-items: stretch;
-    justify-content: stretch;
+    justify-content: space-between;
 }
 
+
+.hints-modal-cats .categories::after{
+  content: "";
+  flex: auto;
+}
 .hints-modal-cats .categories .category {
     list-style-type: none;
-    flex: 1;
-    padding: 3px;
+    /* flex: 1; */
+    margin: 3px;
 }
 .hints-modal-cats .categories .category .cat-button {
     background: transparent;
     outline: none;
-    border: 2px solid var(--info);
+    border: none;
     width: 100%;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    color: var(--info);
+    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: var(--success);
 }
 
 .hints-modal-cats .categories .category .cat-button:active,
 .hints-modal-cats .categories .category .cat-button:hover,
 .hints-modal-cats .categories .category .cat-button:focus {
   color: white;
-  background: var(--info);
+  background: var(--success);
 }
 .hints-modal-cats .categories .category .cat-button:disabled {
   opacity: 0.5;
@@ -170,7 +226,7 @@ p {
     font-size: 1.3em;
 }
 
-#btn-hints:disabled {
+.btn-hints:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 
@@ -263,7 +319,13 @@ p {
 }
 
 @media (max-width: 767.98px) {
-  
+    .hints-modal-cats .categories{
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      justify-content: stretch;
+  }
+    
     #navbar-collapse-div #puzzle-form {
       flex-wrap: wrap !important;
       flex-direction: column;
@@ -272,8 +334,9 @@ p {
       flex: none !important;
       width: 100%;
       text-align: center;
-
+      justify-content: center !important;
     }
+
     #navbar-collapse-div #puzzle-form input {
       flex: 1;
       width: 100%;
@@ -284,5 +347,11 @@ p {
       width: 100%;
     }
   
+}
+
+@media (min-width: 768px){
+.navbar-expand-md .navbar-nav .nav-link {
+    padding-right: 0rem !important;
+}
 }
 
