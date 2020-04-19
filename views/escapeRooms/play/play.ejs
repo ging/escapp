@@ -172,10 +172,10 @@
 
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
-    var escapeRoomPuzzles = JSON.parse('<%-JSON.stringify(puzzles)%>');
+    var escapeRoomPuzzles = <%- JSON.stringify(puzzles)%>;
     var totalPuzzles = <%= escapeRoom.puzzles.length %>;
     var currentlyWorkingOn = <%=(currentlyWorkingOn !== undefined && currentlyWorkingOn !== null ) ? currentlyWorkingOn :  "null"%>;
-    var retosSuperados = <%=JSON.stringify(retosSuperados)%>;
+    var retosSuperados = <%-JSON.stringify(retosSuperados)%>;
     var pending =  <%=JSON.stringify(pending)%>;
     var latestRetoSuperado =  <%=JSON.stringify(latestRetoSuperado)%>;
     var hintConditional = <%= hintConditional || false %>;
