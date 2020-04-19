@@ -9,7 +9,7 @@ const hintTemplate = (hint, category) => `
       <div class="card border-info mb-3">
           <div class="card-body">
               <div class="card-text">
-                  ${category ? `<b>${category}</b>`:''}${hint}
+                  ${category ? `<b>(${category})</b>`:''}${hint}
              </div>
           </div>
       </div>
@@ -294,7 +294,7 @@ const cleanHintModal = ()=> {
   $('.hints-modal-no-left').html("");
 }
 
-const appendHint = (message, puzzleOrder) => {
+const appendHint = (message, puzzleOrder, category) => {
   $('#requested-hints-title').show();
   $('.reto-hint-title-'+puzzleOrder).show();
   $('.reto-hint-title-'+puzzleOrder + ' .hintList').prepend(hintTemplate(message, category))
