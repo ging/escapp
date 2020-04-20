@@ -111,47 +111,43 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
   const puzzleOrder = puzzleOrderPlus - 1;
   if (code === "OK") {
     let nextPuzzleOrder = null;
+    let nextPuzzle = null;
     if (!retosSuperados.some(r => r == puzzleOrder)) {
       retosSuperados.push(puzzleOrder)
       const pendingIndex = pending.indexOf(puzzleOrder);
-      if (pendingIndex !== -1 ) {
-        pending.splice(pendingIndex, 1);
-      } 
-      latestRetoSuperado = (!latestRetoSuperado || latestRetoSuperado > puzzleOrder) ? latestRetoSuperado : puzzleOrder;
+      if (pendingIndex !== -1 ) {pending.splice(pendingIndex, 1);} 
+      latestRetoSuperado = retosSuperados.length ? Math.max(...retosSuperados) : null;
       updateProgress(Math.round(retosSuperados.length/totalPuzzles*100));
       $.easyAlert({"message": `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correctAnswer ? '': feedback }`, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
-      $('#puzzle-input').addClass('is-valid');
       appendRetoMsg(escapeRoomPuzzles[puzzleOrder], solution);
-      await forMs(1000);
+      await forMs(300);
       if (retosSuperados.length === totalPuzzles) {
-        await forMs(1000);
-        confetti.start(10000);
-        updatePuzzle();
-        $('#finish').show();
-        checkAvailHintsForPuzzle(null);
+        await finish();
       } else {
         const puzzleIndex = escapeRoomPuzzles.findIndex(puzzle => puzzle.order == puzzleOrder);
-        if (puzzleIndex > -1  && (puzzleIndex < (escapeRoomPuzzles.length - 1)) && latestRetoSuperado !== totalPuzzles){
-          const nextPuzzle = escapeRoomPuzzles[puzzleIndex + 1];
+        if (puzzleIndex > -1  && (puzzleIndex < (escapeRoomPuzzles.length - 1)) && latestRetoSuperado !== totalPuzzles - 1){
+          nextPuzzle = escapeRoomPuzzles[puzzleIndex + 1];
           nextPuzzleOrder = nextPuzzle.order;
-          updatePuzzle(nextPuzzleOrder, nextPuzzle);
-          checkAvailHintsForPuzzle(nextPuzzleOrder);
-
         } else {
           nextPuzzleOrder = pending[0];
-          const nextPuzzle = escapeRoomPuzzles[nextPuzzleOrder];
-          updatePuzzle(nextPuzzleOrder, nextPuzzle);
-          checkAvailHintsForPuzzle(nextPuzzleOrder);
+          nextPuzzle = escapeRoomPuzzles[nextPuzzleOrder];
         }
       }
+      updatePuzzle(nextPuzzleOrder, nextPuzzle);
+      checkAvailHintsForPuzzle(nextPuzzleOrder);
       $('.reto-hint-title-'+puzzleOrder).show();
       $('.reto-hint-title-'+nextPuzzleOrder).show();
-
     }
   } else {
-    $.easyAlert({"message": feedback, "alertType": "danger", "position": "b l", "time": 5000,  "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
-    $(`#puzzle-input`).addClass("is-invalid");
+    if (msg !== i18n.wrongAnswer) {
+      $.easyAlert({"message": feedback, "alertType": "danger", "position": "b l", "time": 5000,  "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
+    }
+    if (waitingForPuzzleReply) {
+      $('#puzzle-input').addClass('is-invalid');
+    }
   }
+  waitingForPuzzleReply = false;
+
 };
 
 const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzzleOrderPlus, category, msg}) => {
@@ -307,6 +303,7 @@ const appendHint = (message, puzzleOrder, category) => {
 };
 
 const appendRetoMsg = (puzzle, sol) => {
+  if (waitingForPuzzleReply) {$('#puzzle-input').addClass('is-valid');}
   $('.retoList').append(retoMsg(puzzle, sol));
   $('#puzzle-messages-title').show();
   $('.reto-puzzle-current').removeClass('reto-puzzle-current');
@@ -320,6 +317,7 @@ const appendExtraInfo = (info) => {
 }
 
 const updatePuzzle = (order, currentPuzzle) => {
+  console.log(order, currentPuzzle)
   if (order || order === 0) { // TODO automatic
       currentlyWorkingOn = order;
       // Update title
@@ -347,6 +345,11 @@ const updatePuzzle = (order, currentPuzzle) => {
     $('#puzzle-form').hide();
     
   }
+}
+const finish = async () => {
+  await forMs(1000);
+  confetti.start(10000);
+  $('#finish').show();
 }
 
 const checkAvailHintsForPuzzle = (puzzleOrder) => {
@@ -422,7 +425,6 @@ const noCat = () => {
   }
 }
 
-let waitingForHintReply = false;
 let chosenCat = null
 window.requestHintFinish = (completion, score, status) => {
   waitingForHintReply = true;
@@ -498,6 +500,7 @@ $( ()=>{
     if (ev.keyCode === 13) {
       const puzzleOrder = $(this).data("puzzleOrder");
       ev.preventDefault();
+      waitingForPuzzleReply = true;
       solvePuzzle(puzzleOrder, sol);
     } else {
       $(this).removeClass('is-invalid');
@@ -508,6 +511,7 @@ $( ()=>{
   $(document).on("click", "#puzzle-check-btn", function(){
     const puzzleOrder = $(this).data("puzzleOrder");
     const sol = $(`#puzzle-input`).val();
+    waitingForPuzzleReply = true;
     solvePuzzle(puzzleOrder, sol);
   });
 

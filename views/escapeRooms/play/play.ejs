@@ -91,7 +91,7 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-div">
           <%if (isStudent && currentlyWorkingOn !== null) {%> 
             <% const puzzle = puzzles[currentlyWorkingOn] %>
-            <div class=" form-inline my-2 my-lg-0 mt-auto" style="flex: 1;flex-wrap: nowrap;<%=puzzle.automatic ? 'visibility: hidden;' : ''%>" id="puzzle-form" > 
+            <div class=" form-inline my-2 my-lg-0 mt-auto" style="flex: 1;flex-wrap: nowrap;<%=puzzle.automatic ? 'display: none;' : ''%>" id="puzzle-form" > 
               <label style="flex: 1; justify-content: flex-end;">
                 <span class="navbar-text puzzle-title" id="puzzle-title" data-puzzle-order="<%= puzzle.order %>"><%=puzzle.title%>
                 </span>&nbsp;
@@ -196,7 +196,10 @@
     var reqHintsListOrder =  <%=JSON.stringify(reqHintsListOrder)%>;
     var progress = <%= !isNaN(progress) ? progress : undefined %>;
     var username = "<%= session.user.username %>";
-    var teamId = <%= team.id || "undefined";%>   
+    var teamId = <%= team.id || "undefined";%>  
+    var waitingForHintReply = false;
+    var waitingForPuzzleReply = false;
+ 
     initSocketServer(<%= escapeRoom.id%>, teamId, <%= team.turno ? team.turno.id : "undefined" %>, username);
     
     var i18n = {

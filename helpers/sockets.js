@@ -41,12 +41,11 @@ const initialInfo = (socketId, code, authentication, token, participation, msg, 
 /* Team messages */
 // Response to team attempt to start
 const startTeam = (teamId, code, authentication, participation, msg, erState) => {
-    const message = {"type": TEAM_STARTED, "payload": {code, authentication, participation, msg, erState}}
+    const message = {"type": TEAM_STARTED, "payload": {code, authentication, participation, msg, erState}};
 
     sendTeamMessage(message, teamId);
     sendTeamMessage(message, `waiting_${teamId}`);
-
-}
+};
 // Response to team hint request
 const hintResponse = (teamId, code, authentication, participation, hintOrder, puzzleOrder, category, msg) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {code, authentication, participation, hintOrder, puzzleOrder, category, msg}}, teamId);
 // Response to puzzle solving attempt
@@ -118,9 +117,11 @@ exports.getConnectedMembers = (teamId) => {
 
     if (room) {
         for (const socketId in room.sockets) {
-            const {username} = global.io.sockets.connected[socketId].handshake;
+            if (global.io.sockets.connected[socketId]) {
+                const {username} = global.io.sockets.connected[socketId].handshake;
 
-            connectedMembers.add(username);
+                connectedMembers.add(username);
+            }
         }
     }
     return Array.from(connectedMembers);
@@ -227,7 +228,7 @@ exports.broadcastRanking = (turnoId, teams, teamId, puzzleOrder) => {
  * Send initial information on connection
  */
 exports.sendInitialInfo = (socket, {code, authentication, token, participation, msg, erState}) => {
-    const connectedMembers = (erState && erState.teamId) ? exports.getConnectedMembers(erState.teamId) : [];
+    const connectedMembers = erState && erState.teamId ? exports.getConnectedMembers(erState.teamId) : [];
 
     initialInfo(socket.id, code, authentication, token, participation, msg, erState, connectedMembers);
 };
@@ -343,8 +344,12 @@ exports.puzzleResponse = puzzleResponse;
  */
 exports.initializeListeners = (escapeRoomId, turnId, teamId, user, waiting, i18n, socket) => {
     if (waiting) {
-        if (teamId) {socket.join(`teamId_waiting_${teamId}`);}
-        if (turnId) {socket.join(`turnId_waiting_${turnId}`);}
+        if (teamId) {
+            socket.join(`teamId_waiting_${teamId}`);
+        }
+        if (turnId) {
+            socket.join(`turnId_waiting_${turnId}`);
+        }
     } else {
         if (teamId) {
             socket.on(SOLVE_PUZZLE, ({puzzleOrder, sol}) => exports.solvePuzzle(escapeRoomId, teamId, user.id, puzzleOrder, sol, i18n));
@@ -354,6 +359,8 @@ exports.initializeListeners = (escapeRoomId, turnId, teamId, user, waiting, i18n
             socket.join(`teamId_${teamId}`);
             exports.join(teamId, user.username, waiting);
         }
-        if (turnId) { socket.join(`turnId_${turnId}`); }
+        if (turnId) {
+            socket.join(`turnId_${turnId}`);
+        }
     }
 };

@@ -79,17 +79,20 @@ exports.checkPuzzle = async (req, _res, next) => {
 
     if (participation === PARTICIPANT) {
         await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
-    }
-    if (code === OK) {
         const [team] = teams;
 
-        puzzleResponse(team.id, code, correctAnswer, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
-        if (!alreadySolved) {
-            const updatedTeams = await getRanking(escapeRoom.id, team.turno.id);
+        if (code === OK) {
+            puzzleResponse(team.id, code, correctAnswer, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
+            if (!alreadySolved) {
+                const updatedTeams = await getRanking(escapeRoom.id, team.turno.id);
 
-            broadcastRanking(team.turno.id, updatedTeams, team.id, puzzle.order + 1);
+                broadcastRanking(team.turno.id, updatedTeams, team.id, puzzle.order + 1);
+            }
+        } else {
+            puzzleResponse(team.id, code, correctAnswer, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
         }
     }
+
     next();
 };
 
