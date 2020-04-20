@@ -48,18 +48,19 @@ const catsTemplate = (categories, hints) => {
   </ul>` : '';
 }
 
-const retoMsg = (puzzle) => {
+const retoMsg = (puzzle, sol) => {
   return `<li class="card reto-puzzle-li reto-puzzle-current animated zoomInUp"> 
       <h6><b>${puzzle.title}</b></h6>
-      <ul class="cardList">
-          <li class="card border-success reto-msg">
-          <div class="card-body">
-              <div class="card-text">
-                ${puzzle.correct}
-              </div>
-          </div>
-          </li>
-      </ul>
+      ${puzzle.correct ? `
+      <p>
+        <b>${i18n.msg}:</b> ${puzzle.correct}
+      </p>`:``}
+      ${puzzle.automatic ? '':`<p>
+        <b>${i18n.sol}:</b> <span class="hidden-sol">${sol}</span>
+      </p>
+      `
+      }
+      
   </li>`;
 }
 
@@ -93,6 +94,7 @@ const onJoin = () => {
   // alertMsg = $.easyAlert({"message": i18n["teamJoined"], "alertType": "info", "position": "b l", "showDuration": 1000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
 }
 
+
 const onDisconnect = () => {
   $('.alert').remove();
   alertMsg = $.easyAlert({"message": i18n["disconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
@@ -105,7 +107,7 @@ const onReconnect = () => {
 };
 
 const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage}) => {
-  const feedback = (msg || i18n.correctAnswer) + (participantMessage && participation !== "PARTICIPANT" ? `. ${participantMessage}`: "");
+  const feedback = (msg) + (participantMessage && participation !== "PARTICIPANT" ? `<br/> ${participantMessage}`: "");
   const puzzleOrder = puzzleOrderPlus - 1;
   if (code === "OK") {
     let nextPuzzleOrder = null;
@@ -117,10 +119,10 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
       } 
       latestRetoSuperado = (!latestRetoSuperado || latestRetoSuperado > puzzleOrder) ? latestRetoSuperado : puzzleOrder;
       updateProgress(Math.round(retosSuperados.length/totalPuzzles*100));
-      $.easyAlert({"message": `<b>${i18n.newRetoSuperado}</b><br/> ${feedback}`, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
+      $.easyAlert({"message": `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correctAnswer ? '': feedback }`, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
       $('#puzzle-input').addClass('is-valid');
-      appendRetoMsg(escapeRoomPuzzles[puzzleOrder]);
-      await forMs(2000);
+      appendRetoMsg(escapeRoomPuzzles[puzzleOrder], solution);
+      await forMs(1000);
       if (retosSuperados.length === totalPuzzles) {
         await forMs(1000);
         confetti.start(10000);
@@ -142,6 +144,7 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
           checkAvailHintsForPuzzle(nextPuzzleOrder);
         }
       }
+      $('.reto-hint-title-'+puzzleOrder).show();
       $('.reto-hint-title-'+nextPuzzleOrder).show();
 
     }
@@ -301,17 +304,13 @@ const appendHint = (message, puzzleOrder, category) => {
   $('.reto-hint-title-'+puzzleOrder).show();
   $('.reto-hint-title-'+puzzleOrder + ' .no-req-hints').hide();
   $('.reto-hint-title-'+puzzleOrder + ' .hintList').prepend(hintTemplate(message, category))
-  $('#no-info').hide();
 };
 
-const appendRetoMsg = (puzzle) => {
-  if (puzzle.correct) {
-    $('.retoList').prepend(retoMsg(puzzle));
-    $('#puzzle-messages-title').show();
-    $('#no-info').hide();
-  }
+const appendRetoMsg = (puzzle, sol) => {
+  $('.retoList').append(retoMsg(puzzle, sol));
+  $('#puzzle-messages-title').show();
   $('.reto-puzzle-current').removeClass('reto-puzzle-current');
-  $('.reto-puzzle-li').first().addClass('reto-puzzle-current');
+  $('.reto-puzzle-li').last().addClass('reto-puzzle-current');
 };
 
 const appendExtraInfo = (info) => {
@@ -323,7 +322,6 @@ const appendExtraInfo = (info) => {
 const updatePuzzle = (order, currentPuzzle) => {
   if (order || order === 0) { // TODO automatic
       currentlyWorkingOn = order;
-      console.log(order, currentPuzzle)
       // Update title
       $('#puzzle-title').data("puzzleOrder", order);
       $('#puzzle-title').text(currentPuzzle.title);
@@ -450,6 +448,12 @@ const initSocketServer = (escapeRoomId, teamId, turnId, username) => {
   /*Join*/
   socket.on("JOIN", onJoin); 
 
+  /*Team join*/
+  socket.on("JOIN_TEAM", onJoin);
+
+  /*Participant join*/
+  socket.on("JOIN_PARTICIPANT", onJoin);
+
   /*Start*/
   socket.on("START", onStart); 
 
@@ -468,11 +472,8 @@ const initSocketServer = (escapeRoomId, teamId, turnId, username) => {
   /*New ranking */
   socket.on("TEAM_PROGRESS", onRanking);
 
-  /*Team join*/
-  socket.on("JOIN_TEAM", onLeave);
-
-  /*Participant join*/
-  socket.on("JOIN_PARTICIPANT", onLeave);
+  /*Join*/
+  // socket.on("LEAVE", onLeave); 
 
   /*Participant leave*/
   socket.on("LEAVE_PARTICIPANT", onLeave);
@@ -562,7 +563,6 @@ $( ()=>{
           var elOffset = el.offset().top;
           var elHeight = el.height();
           var windowHeight = $(window).height();
-          console.log(elOffset, elHeight, windowHeight)
           var offset;
           if (elHeight < windowHeight) {
             offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
@@ -595,7 +595,7 @@ $( ()=>{
     });
     setTimeout(()=>{
       $('iframe').attr('src', $('iframe').attr('src').replace(/autoplay=1/i,"autoplay=0") )
-    },1000)
+    },500)
   }
 },500)
 

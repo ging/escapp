@@ -71,29 +71,23 @@
                 <%}%>
                 </ul>
                 
-                <%const someMsg = retosSuperados.some(i=>escapeRoom.puzzles[i].correct);%>
+                <%const someMsg = retosSuperados.length;%>
                 <h4 style="<%= someMsg ? '' : 'display: none;'%>" id="puzzle-messages-title">
-                    <%=i18n.puzzle.messages%>
+                    <%=i18n.puzzle.retosSuperados%>
                 </h4>
                 <ul class="cardList retoList">
-                <% for (var p = retosSuperados.length -1; p>=0; p--) { %>
+                <% for (var p = 0; p < retosSuperados.length; p++) { %>
                     <% var puz = retosSuperados[p];%>
                     <% var found = escapeRoom.puzzles.find(r=>r.order === puz);%>
-                    <% if (found && found.correct ) {%>
-                    <li class="card reto-puzzle-li 
-                    <%=(p === (retosSuperados.length -1)) ? 'reto-puzzle-current':'' %>"> 
+                    <li class="card reto-puzzle-li <%=(p === (retosSuperados.length -1)) ? 'reto-puzzle-current':'' %>"> 
                         <h6><b><%=found.title%></b></h6>
-                        <ul class="cardList">
-                            <li class="card border-success reto-msg">
-                            <div class="card-body">
-                                <div class="card-text">
-                                    <%=found.correct%>
-                                </div>
-                            </div>
-                            </li>
-                        </ul>
+                        <% if (found && found.correct ) {%>
+                        <p> <b><%=i18n.puzzle.Msg%>:</b> <%=found.correct%></p>
+                        <%}%>
+                        <% if (found && !found.automatic ) {%>
+                            <p> <b><%=i18n.puzzle.Solution%>:</b> <span class="hidden-sol"><%=found.sol%></p></span>
+                        <%}%>
                     </li>
-                    <%}%>
                 <%}%>
                  </ul>
                 <br/>

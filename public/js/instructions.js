@@ -27,7 +27,6 @@ $(function(){
 
 
       Video.create = function (url, value) {
-        console.log(url, value)
         let node ;
         const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
         if (youtube && youtube[5]) {
@@ -47,12 +46,10 @@ $(function(){
         node.setAttribute('src', url);
         node.setAttribute('controls', '');
         
-        console.log(node)
         return node
       }
 
       Video.format = function(name, value) {
-          console.log(name, value)
         if (ATTRIBUTES.indexOf(name) > -1) {
           if (value) {
             this.domNode.setAttribute(name, value);

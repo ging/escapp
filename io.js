@@ -18,9 +18,10 @@ exports.createServer = (server, sessionMiddleware) => {
             const i18n = require(`./i18n/${lang}`);
 
             if (user) {
-                const {token} = user;
+                const {token, username} = user;
                 const {"turnId": studentTurnId, teamId, participation, erState, errorMsg} = await checkAccess(user, escapeRoomId, i18n);
 
+                socket.handshake.username = username;
                 if (errorMsg) {
                     sendInitialInfo(socket, {"code": NOK, "authentication": true, token, "msg": errorMsg});
                     return;
@@ -41,6 +42,7 @@ exports.createServer = (server, sessionMiddleware) => {
                 }
             } else {
                 sendInitialInfo(socket, {"code": NOK, "authentication": false, "msg": i18n.api.wrongCredentials});
+                socket.close();
             }
         } catch (e) {
             console.error(e);

@@ -3,7 +3,7 @@ const queries = require("../queries");
 const {models} = sequelize;
 const {calculateNextHint} = require("./hint");
 const {checkPuzzle, getRanking, authenticate, checkTurnoAccess, getERState, automaticallySetAttendance} = require("./utils");
-const {getAuthMessageAndCode, OK, NOK, AUTHOR, PARTICIPANT, TOO_LATE, NOT_STARTED, ERROR, HINT_RESPONSE, TEAM_STARTED, PUZZLE_RESPONSE, TEAM_PROGRESS, INITIAL_INFO, START_PLAYING, REQUEST_HINT, SOLVE_PUZZLE, START, STOP, JOIN, JOIN_TEAM, JOIN_PARTICIPANT, LEAVE_TEAM, LEAVE_PARTICIPANT} = require("./apiCodes");
+const {getAuthMessageAndCode, OK, NOK, AUTHOR, PARTICIPANT, TOO_LATE, NOT_STARTED, ERROR, HINT_RESPONSE, TEAM_STARTED, PUZZLE_RESPONSE, TEAM_PROGRESS, INITIAL_INFO, START_PLAYING, REQUEST_HINT, SOLVE_PUZZLE, START, STOP, JOIN, JOIN_TEAM, JOIN_PARTICIPANT, LEAVE, LEAVE_TEAM, LEAVE_PARTICIPANT} = require("./apiCodes");
 
 /**
  * Send message to the whole team
@@ -40,18 +40,29 @@ const sendTurnMessage = (msg, turnId) => {
 const initialInfo = (socketId, code, authentication, token, participation, msg, erState) => sendIndividualMessage({"type": INITIAL_INFO, "payload": {code, authentication, token, participation, msg, erState}}, socketId);
 /* Team messages */
 // Response to team attempt to start
-const startTeam = (teamId, code, authentication, participation, msg, erState) => sendTeamMessage({"type": TEAM_STARTED, "payload": {code, authentication, participation, msg, erState}}, teamId);
+const startTeam = (teamId, code, authentication, participation, msg, erState) => {
+    const message = {"type": TEAM_STARTED, "payload": {code, authentication, participation, msg, erState}}
+
+    sendTeamMessage(message, teamId);
+    sendTeamMessage(message, `waiting_${teamId}`);
+
+}
 // Response to team hint request
 const hintResponse = (teamId, code, authentication, participation, hintOrder, puzzleOrder, category, msg) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {code, authentication, participation, hintOrder, puzzleOrder, category, msg}}, teamId);
 // Response to puzzle solving attempt
 const puzzleResponse = (teamId, code, correctAnswer, solution, puzzleOrder, participation, authentication, erState, msg, participantMessage) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {code, correctAnswer, solution, puzzleOrder, participation, authentication, erState, msg, participantMessage}}, teamId);
 // Announce that a team member has joined the room
-const joinResponse = (teamId, username) => sendTeamMessage({"type": JOIN, "payload": {username}}, teamId);
+const joinResponse = (teamId, username,connectedMembers) => sendTeamMessage({"type": JOIN, "payload": {username, connectedMembers}}, teamId);
+const leaveResponse = (teamId, username, connectedMembers) => sendTeamMessage({"type": LEAVE, "payload": {username, connectedMembers}}, teamId);
+
 // TODO attendance participant
 
 /* Turn messages */
 // Turn has started
-const startResponse = (turnId) => sendTurnMessage({"type": START, "payload": {}}, turnId);
+const startResponse = (turnId) => {
+    sendTurnMessage({"type": START, "payload": {}}, turnId);
+    sendTurnMessage({"type": START, "payload": {}}, `waiting_${turnId}`);
+};
 // Turn has ended
 const stopResponse = (turnId) => sendTurnMessage({"type": STOP, "payload": {}}, turnId);
 // Broadcast ranking after someone makes progress
@@ -95,6 +106,24 @@ exports.socketAuthenticate = async ({request, handshake}) => {
 };
 
 /**
+ * Get team members connected to ER
+ */
+
+exports.getConnectedMembers = (teamId) => {
+    const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
+    const connectedMembers = new Set();
+
+    if (room) {
+        for (const socketId in room.sockets) {
+            const {username} = global.io.sockets.connected[socketId].handshake;
+
+            connectedMembers.add(username);
+        }
+    }
+    return Array.from(connectedMembers);
+};
+
+/**
  * Check if user has the rights to access ER
  */
 exports.checkAccess = async (user, escapeRoomId, i18n) => {
@@ -127,12 +156,17 @@ exports.checkAccess = async (user, escapeRoomId, i18n) => {
 };
 
 /**
+ * Team member left room
+ */
+exports.leave = (teamId, username) => {
+    leaveResponse(teamId, username, exports.getConnectedMembers(teamId));
+};
+
+/**
  * Team member joined room
  */
-exports.join = (teamId, username, waiting) => {
-    if (!waiting) {
-        joinResponse(teamId, username);
-    }
+exports.join = (teamId, username) => {
+    joinResponse(teamId, username, exports.getConnectedMembers(teamId));
 };
 
 /**
@@ -303,14 +337,18 @@ exports.puzzleResponse = puzzleResponse;
  * Join rooms for team and turn
  */
 exports.initializeListeners = (escapeRoomId, turnId, teamId, user, waiting, i18n, socket) => {
-    if (teamId) {
-        socket.on(SOLVE_PUZZLE, ({puzzleOrder, sol}) => exports.solvePuzzle(escapeRoomId, teamId, user.id, puzzleOrder, sol, i18n));
-        socket.on(REQUEST_HINT, ({status, score, category}) => requestHint(escapeRoomId, teamId, user.id, status, score, category, i18n));
-        socket.on(START_PLAYING, () => exports.startPlaying(user, teamId, turnId, escapeRoomId, i18n));
-        exports.join(teamId, user.username, waiting);
-        socket.join(`teamId_${teamId}`);
-    }
-    if (turnId) {
-        socket.join(`turnId_${turnId}`);
+    if (waiting) {
+        if (teamId) {socket.join(`teamId_waiting_${teamId}`);}
+        if (turnId) {socket.join(`turnId_waiting_${turnId}`);}
+    } else {
+        if (teamId) {
+            socket.on(SOLVE_PUZZLE, ({puzzleOrder, sol}) => exports.solvePuzzle(escapeRoomId, teamId, user.id, puzzleOrder, sol, i18n));
+            socket.on(REQUEST_HINT, ({status, score, category}) => requestHint(escapeRoomId, teamId, user.id, status, score, category, i18n));
+            socket.on(START_PLAYING, () => exports.startPlaying(user, teamId, turnId, escapeRoomId, i18n));
+            socket.on("disconnect", () => exports.leave(teamId, user.username, waiting));
+            socket.join(`teamId_${teamId}`);
+            exports.join(teamId, user.username, waiting);
+        }
+        if (turnId) { socket.join(`turnId_${turnId}`); }
     }
 };

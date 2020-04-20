@@ -95,16 +95,32 @@ p {
 }
 
 .reto-puzzle-li {
+  border: 1px solid var(--secondary);
   margin-bottom: 20px;
   padding: 10px;
-  border-color: transparent;
   opacity: 0.6;
 
+}
+.reto-puzzle-li p {
+  margin-block-end: 0px;
 }
 
 .reto-puzzle-li.reto-puzzle-current {
   opacity: 1;
+  border-color: var(--success);
 }
+
+.hidden-sol {
+  color: var(--info);
+  background-color: var(--info);
+  margin: 5px;
+}
+
+.hidden-sol:hover {
+  background-color: var(--light);
+  color: var(--dark);
+  cursor: help;
+} 
 
 .reto-hint-li.reto-hint-current{
   border-color: var(--success);

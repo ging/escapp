@@ -131,7 +131,6 @@ $(()=>{
 	
 
 	const onJoin = (msg, e) => {
-		console.log(msg, e)
 		if (!startTime && !CLICKED) {
 			$( "#dialog-start" ).dialog( "open" )
 			$('#start-er').html(`<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
@@ -150,9 +149,9 @@ $(()=>{
 			waiting: true  
 		}});
 		myTeamId = teamId;
-		socket.on("START", (msg)=>{console.log(msg);onJoin(msg)}); 
+		socket.on("START", (msg)=>{onJoin(msg)}); 
 		// socket.on("JOIN", onJoin); 
-		socket.on("TEAM_STARTED", (msg)=>{console.log(msg);onJoin(msg)}); 
+		socket.on("TEAM_STARTED", (msg)=>{onJoin(msg)}); 
 	};
 	initSocketServer(<%= escapeRoom.id%>, teamId, <%= turno ? turno.id : "undefined" %>, userId);
 });
