@@ -37,7 +37,7 @@ const sendTurnMessage = (msg, turnId) => {
 
 /* Individual messages */
 // Initial info on connection
-const initialInfo = (socketId, code, authentication, token, participation, msg, erState) => sendIndividualMessage({"type": INITIAL_INFO, "payload": {code, authentication, token, participation, msg, erState}}, socketId);
+const initialInfo = (socketId, code, authentication, token, participation, msg, erState, connectedMembers) => sendIndividualMessage({"type": INITIAL_INFO, "payload": {code, authentication, token, participation, msg, erState, connectedMembers}}, socketId);
 /* Team messages */
 // Response to team attempt to start
 const startTeam = (teamId, code, authentication, participation, msg, erState) => {
@@ -52,7 +52,7 @@ const hintResponse = (teamId, code, authentication, participation, hintOrder, pu
 // Response to puzzle solving attempt
 const puzzleResponse = (teamId, code, correctAnswer, solution, puzzleOrder, participation, authentication, erState, msg, participantMessage) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {code, correctAnswer, solution, puzzleOrder, participation, authentication, erState, msg, participantMessage}}, teamId);
 // Announce that a team member has joined the room
-const joinResponse = (teamId, username,connectedMembers) => sendTeamMessage({"type": JOIN, "payload": {username, connectedMembers}}, teamId);
+const joinResponse = (teamId, username, connectedMembers) => sendTeamMessage({"type": JOIN, "payload": {username, connectedMembers}}, teamId);
 const leaveResponse = (teamId, username, connectedMembers) => sendTeamMessage({"type": LEAVE, "payload": {username, connectedMembers}}, teamId);
 
 // TODO attendance participant
@@ -110,6 +110,9 @@ exports.socketAuthenticate = async ({request, handshake}) => {
  */
 
 exports.getConnectedMembers = (teamId) => {
+    if (!teamId) {
+        return [];
+    }
     const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
     const connectedMembers = new Set();
 
@@ -224,7 +227,9 @@ exports.broadcastRanking = (turnoId, teams, teamId, puzzleOrder) => {
  * Send initial information on connection
  */
 exports.sendInitialInfo = (socket, {code, authentication, token, participation, msg, erState}) => {
-    initialInfo(socket.id, code, authentication, token, participation, msg, erState);
+    const connectedMembers = (erState && erState.teamId) ? exports.getConnectedMembers(erState.teamId) : [];
+
+    initialInfo(socket.id, code, authentication, token, participation, msg, erState, connectedMembers);
 };
 
 /**
