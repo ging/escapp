@@ -13,7 +13,6 @@
             <div class="hints-modal-no-left">
             </div>  
             <div class="hints-modal-main-content">
-                <button class="btn btn-success btn-hints btn-hints-modal" style="float:right;"><%=i18n.hint.need%></button>
                 <h4 id="requested-hints-title" style="<%=reqHintsList.length ? '': 'display: none;' %>">
                     <%=i18n.hint.requestedHints%>
                 </h4>
@@ -22,11 +21,25 @@
                 <% for (var p = escapeRoom.puzzles.length -1; p>=0; p--) { %>
                     <% var categoryIndex = -1%>
                     <% var category = undefined %>
+                    <% var order = escapeRoom.puzzles[p].order%>
                     <% var nCats = (new Set(escapeRoom.puzzles[p].hints.map(h=> h.category))).size %>
                     <% var requested = escapeRoom.puzzles[p].hints.some(h=>reqHintsList.indexOf(h.id) !== -1) %>
-                    <% var show = (pending.indexOf(escapeRoom.puzzles[p].order) === -1 || currentlyWorkingOn === escapeRoom.puzzles[p].order);%>
-                    <li class="card reto-hint-li reto-hint-title-<%=escapeRoom.puzzles[p].order%> <%=currentlyWorkingOn === escapeRoom.puzzles[p].order ? 'reto-hint-current' : ''%>" style="<%=requested ? '':'display: none;'%>" data-puzzle-number="<%=escapeRoom.puzzles[p].order%>">
-                        <h6><b><%=escapeRoom.puzzles[p].title%></b></h6>
+                    <% var isCurrent = currentlyWorkingOn === order;%>
+
+                    <% var show = (pending.indexOf(order) === -1 || currentlyWorkingOn === order);%>
+                    <li class="card reto-hint-li reto-hint-title-<%=order%> <%=isCurrent ? 'reto-hint-current' : ''%>" 
+                        style="<%=(show) ? '':'display: none;'%>" 
+                        data-puzzle-number="<%=order%>">
+
+                        <h6 class="reto-title">
+                            <button class="btn btn-success btn-hints btn-hints-modal" style="float:right;"><%=i18n.hint.need%></button>
+                            <span style="padding:0.375rem 0rem; display: inline-block;"><b><%=escapeRoom.puzzles[p].title%></b> 
+                            <span class="current-pths">(Reto actual) </span>
+                            </span>
+                        </h6>
+                        <%if(!requested) {%>
+                            <p class="no-req-hints"><%=i18n.hint.noReqHints%></p>
+                        <%}%>
                         <ul class="cardList hintList">
                         <% for (var i = escapeRoom.puzzles[p].hints.length -1; i>=0; i--) {
                             var hint = escapeRoom.puzzles[p].hints[i];
@@ -57,6 +70,7 @@
                     </li>
                 <%}%>
                 </ul>
+                
                 <%const someMsg = retosSuperados.some(i=>escapeRoom.puzzles[i].correct);%>
                 <h4 style="<%= someMsg ? '' : 'display: none;'%>" id="puzzle-messages-title">
                     <%=i18n.puzzle.messages%>
@@ -83,9 +97,6 @@
                 <%}%>
                  </ul>
                 <br/>
-                <%if (!reqHintsList.length && !someMsg) {%>
-                    <p id="no-info"><%=i18n.hint.noRelevant%></p>
-                <%}%> 
                 <h4 style="display: none;" id="other-messages-title"><%=i18n.hint.other%></h4>
                 <ul class="cardList otherList">
                 </ul>

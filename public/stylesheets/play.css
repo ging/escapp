@@ -74,6 +74,18 @@ p {
     text-decoration: none;
 }
 
+.navbar .btn .material-icons{
+  vertical-align: middle;
+
+}
+.reto-title {
+  margin-bottom: 0.8rem;
+}
+
+.reto-title span{
+  padding:0.375rem 0rem; 
+  display: inline-block;
+}
 
 .reto-hint-li {
   border: 1px solid var(--secondary);
@@ -109,6 +121,9 @@ p {
 .cardList li {
   width: 100%;
 
+}
+.no-req-hints {
+  margin-bottom: 0px;
 }
 
 #no-info {
@@ -224,6 +239,21 @@ p {
 .hints-modal-cats .customHint {
     padding: 20px;
     font-size: 1.3em;
+}
+
+.btn-hints-modal {
+  visibility: hidden;
+}
+
+.current-pths {
+  visibility: hidden;
+}
+.reto-hint-li.reto-hint-current .btn-hints-modal {
+  visibility: visible;
+}
+.reto-hint-li.reto-hint-current .current-pths {
+  visibility: visible;
+
 }
 
 .btn-hints:disabled {

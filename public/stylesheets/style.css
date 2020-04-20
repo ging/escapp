@@ -2085,6 +2085,7 @@ button, input[type="submit"] {
         border: none;
         color: white;
         -webkit-appearance: menulist;
+        -moz-appearance: none;
         width: 200px;
         text-overflow: ellipsis;
         overflow: hidden;

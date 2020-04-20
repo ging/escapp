@@ -1,3 +1,4 @@
+<!doctype html>
 <html lang="<%=i18n.lang%>">
 <head>
     <title><%=escapeRoom.title%></title>
@@ -144,9 +145,18 @@
                 </li>
           </ul>
       </nav>
-<br/>
+<div class="navbar navbar-expand-md" style="visibility:hidden;">
+<ul class="navbar-nav my-lg-0 ml-auto">
+    <li class="nav-item ">
+        <a class="nav-link" >
+            <button class="btn">
+                <span class="material-icons ">live_help</span>
+            </button>
+        </a>
+    </li>
+    </ul>
+</div>
 <div class="previewContainer">
-    <br/>
     <div class="container-fluid">
         <div class=" row-centered">
             <div class="col-xs-12 text-left ql-editor instructionsShow" id="editor">

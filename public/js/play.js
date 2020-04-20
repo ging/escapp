@@ -9,7 +9,7 @@ const hintTemplate = (hint, category) => `
       <div class="card border-info mb-3">
           <div class="card-body">
               <div class="card-text">
-                  ${category ? `<b>(${category})</b>`:''}${hint}
+                  ${category ? `<b>(${category})</b> `:''} ${hint}
              </div>
           </div>
       </div>
@@ -142,6 +142,8 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
           checkAvailHintsForPuzzle(nextPuzzleOrder);
         }
       }
+      $('.reto-hint-title-'+nextPuzzleOrder).show();
+
     }
   } else {
     $.easyAlert({"message": feedback, "alertType": "danger", "position": "b l", "time": 5000,  "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
@@ -297,6 +299,7 @@ const cleanHintModal = ()=> {
 const appendHint = (message, puzzleOrder, category) => {
   $('#requested-hints-title').show();
   $('.reto-hint-title-'+puzzleOrder).show();
+  $('.reto-hint-title-'+puzzleOrder + ' .no-req-hints').hide();
   $('.reto-hint-title-'+puzzleOrder + ' .hintList').prepend(hintTemplate(message, category))
   $('#no-info').hide();
 };
@@ -554,10 +557,28 @@ $( ()=>{
         return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
       });
       if (auto.length) {
-        auto[0].scrollIntoView();
         setTimeout(()=>{
-          toggleFullScreen(auto[0]);
-        },1000)
+          var el = auto.first();
+          var elOffset = el.offset().top;
+          var elHeight = el.height();
+          var windowHeight = $(window).height();
+          console.log(elOffset, elHeight, windowHeight)
+          var offset;
+          if (elHeight < windowHeight) {
+            offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+          }
+          else {
+            offset = elOffset;
+          }
+          
+          try {
+            toggleFullScreen(auto[0]);
+          } catch(e) {
+          } finally {
+            document.body.scrollTop = offset;
+            document.documentElement.scrollTop = offset;
+          }
+        },100)
         localStorage["escapp_"+escapeRoomId] = true;
       }
     }

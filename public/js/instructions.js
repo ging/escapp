@@ -434,7 +434,19 @@ $(function(){
           items: "h1, h2, h3, h4, h5, h6, p, video, audio, iframe, countdown, progressbar, ranking, :not(div):empty, .ql-cursor, img, .ui-sortable-handle",
         });
     });
-
+    try {
+        $( "[autoplay]" ).each((i,e)=>e.pause());
+      } catch(e){}
+      
+      $("iframe").filter(function(e) {
+        return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
+      }).each((i,e)=>{
+        $(e).attr('allow', $(e).attr("allow").replace(/autoplay/i,""));
+        $(e).attr('src', $(e).attr('src').replace(/autoplay=1/i,"autoplay=0"));
+      });
+      setTimeout(()=>{
+        $('iframe').attr('src', $('iframe').attr('src').replace(/autoplay=1/i,"autoplay=0") )
+      },1000)
 
 });
 

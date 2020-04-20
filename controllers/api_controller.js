@@ -87,7 +87,7 @@ exports.checkPuzzle = async (req, _res, next) => {
         if (!alreadySolved) {
             const updatedTeams = await getRanking(escapeRoom.id, team.turno.id);
 
-            broadcastRanking(team.turno.id, updatedTeams);
+            broadcastRanking(team.turno.id, updatedTeams, team.id, puzzle.order + 1);
         }
     }
     next();
