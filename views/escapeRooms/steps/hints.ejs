@@ -32,6 +32,16 @@
 			<p class="explanation"><%=i18n.escapeRoom.steps.hints.hintLimitExplanation%></p>
 				<input type="number" min="0" max="10000"  class="customInput itemWide" id="hintLimit" name="hintLimit" placeholder="<%=i18n.escapeRoom.steps.hints.hintLimitPlaceholder%>" value="<%= escapeRoom.hintLimit%>" min="0" />
 			</label>
+			<!-- <div class="radio-wrapper">
+				<label class="same-line-radio">
+					<input type="radio" name="hintLimitTime" onclick="$('#hintInterval').attr('disabled', 'disabled')" id="total-hints" value="total" <%=escapeRoom.hintInterval ? "":"checked"%>>en total
+				</label>
+				<label class="same-line-radio">
+					<input type="radio" name="hintLimitTime" onclick="$('#hintInterval').attr('disabled',false)" id="interval-hints" value="interval" <%=escapeRoom.hintInterval ? "checked":""%>>cada 
+					<input type="number" name="hintInterval" onclick="$('#hintInterval').attr('disabled',false)" id="hintInterval" class="mini-num-input" <%=escapeRoom.hintInterval ? "":"disabled"%>
+					 value="<%=escapeRoom.hintInterval || 0%>"> min.
+				</label>
+			</div> -->
 		</div>
 		<div class="inputFormField erFormField animated slideInUp hintConditional" style="<%=hintConditional ? '':'display: none;'%> animation-delay:500ms;" >
 			<label for="allowCustomHints"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.hints.allowCustomHints%>:

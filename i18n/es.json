@@ -642,7 +642,9 @@
         "sureUnjoin": "¿Seguro que deseas desapuntarte?",
         "congrats": "¡Enhorabuena! Has terminado con éxito la escape room",
         "resultsTitle": "Este es el ranking de resultados de la escape room",
-        "unjoin": "desapuntarse"
+        "unjoin": "desapuntarse",
+        "confirmSupport" : "¿Estás seguro de que necesitas ayuda técnica?"
+
     },
     "showTeacher": {
         "actionList": {

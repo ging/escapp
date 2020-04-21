@@ -15,13 +15,17 @@ module.exports = function (sequelize, DataTypes) {
                 "validate": {
                     "notEmpty": {"msg": "La duración no puede estar vacía."},
                     "min": 0,
-                    "max": 24 * 60
+                    "max": 24 * 60 * 60 * 365
                 }
             },
             "description": {"type": DataTypes.STRING},
             "nmax": {
                 "type": DataTypes.INTEGER,
                 "validate": {"max": 10000, "notEmpty": {"msg": "El número de participantes no puede estar vacío."}}
+            },
+            "hintInterval": {
+                "type": DataTypes.FLOAT,
+                "validate": {"max": 24 * 60 * 60 * 365}
             },
             "teamSize": {
                 "type": DataTypes.INTEGER,

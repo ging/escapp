@@ -128,7 +128,7 @@ exports.resetProgress = async (req, res) => {
         const teams = await getRanking(req.escapeRoom.id, req.turn.id);
 
         sendLeaveTeam(req.team.id, req.turn.id, teams);
-        req.flash("error", req.app.locals.i18n.team.resetSuccess);
+        req.flash("success", req.app.locals.i18n.team.resetSuccess);
     } catch (e) {
         console.error(e);
         req.flash("error", req.app.locals.i18n.team.resetFail);

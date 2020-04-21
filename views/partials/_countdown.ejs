@@ -25,10 +25,11 @@
     }
     function chrono(stopQuickCountDown) {
         var seconds = Math.abs(rem_time);
-
+        var max = 24 * 60 * 60;
+        seconds = (seconds < max)  ? seconds : max;
         var secs = Math.floor(seconds % 60);
         var mins = Math.floor((seconds/60) % 60);
-        var hours = Math.floor((seconds/(60*60)) % 24);
+        var hours = seconds === max ? 24 : Math.floor((seconds/(60*60)) % 24);
         function pad(num) {
             return (num < 10 ? "0" + num : num);
         }
@@ -39,9 +40,9 @@
         $('.secs').html(pad(secs));
         $('.secs').attr('data-text', pad(secs));
         if (rem_time > 0 && rem_time < 11) {
-          $(".clockContainer").addClass("animated");
-          $(".clockContainer").addClass("infinite");
-          $(".clockContainer").addClass("pulse");
+        $(".clockContainer").addClass("animated");
+        $(".clockContainer").addClass("infinite");
+        $(".clockContainer").addClass("pulse");
         }
         if (rem_time === 0 || rem_time < 0) {
             $(".clock").addClass("red");
@@ -60,7 +61,6 @@
             $('.time').css("display", "block");
             $('.minus').css("display","inline-block");
         }
-
         rem_time--;
         if( rem_time<stopQuickCountDown){
             clearInterval(countdownChronoQuick);

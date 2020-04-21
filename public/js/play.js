@@ -39,7 +39,7 @@ const quizInstructionsTemplate = () => {
 } 
 
 const quizTemplate = () => {
-  return `<iframe class="hintAppIframe" src="/escapeRooms/${escapeRoomId}/hintAppWrapper"/>`
+  return `<iframe class="hintAppIframe" src="/escapeRooms/${escapeRoomId}/hintAppWrapper" lang="es"/>`
 }
 
 const catsTemplate = (categories, hints) => {
@@ -551,55 +551,52 @@ $( ()=>{
   $('meta:not(:first)').attr('content', rgb2hex($('nav').first().css("background-color") || "#FFFFFF"));
 
   // Autoplay videos
+
+
   setTimeout(()=>{
-  if (!localStorage["escapp_"+escapeRoomId]) {
-    $( "[autoplay]" ).first();
-    if ( $( "[autoplay]" ).length) {
-      toggleFullScreen($( "[autoplay]" )[0]);
-      localStorage["escapp_"+escapeRoomId] = true;
-    } else {
-      const auto = $("iframe").filter(function() {
-        return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
-      });
-      if (auto.length) {
-        setTimeout(()=>{
-          var el = auto.first();
-          var elOffset = el.offset().top;
-          var elHeight = el.height();
-          var windowHeight = $(window).height();
-          var offset;
-          if (elHeight < windowHeight) {
-            offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
-          }
-          else {
-            offset = elOffset;
-          }
-          
-          try {
-            toggleFullScreen(auto[0]);
-          } catch(e) {
-          } finally {
-            document.body.scrollTop = offset;
-            document.documentElement.scrollTop = offset;
-          }
-        },100)
-        localStorage["escapp_"+escapeRoomId] = true;
+    if (!localStorage["escapp_"+escapeRoomId]) { // First time
+      let auto = $( "[autoplay]" );
+      if (!auto.length) { // Video
+        auto = $("iframe").filter(function() {
+          return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
+        });
+      } 
+      if (!auto.length) {
+        auto = $("video").filter(function() {
+          return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
+        });
       }
-    }
-  } else {
-    try {
-      $( "[autoplay]" ).each((i,e)=>e.pause());
-    } catch(e){}
-    
-    $("iframe").filter(function(e) {
-      return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
-    }).each((i,e)=>{
-      $(e).attr('allow', $(e).attr("allow").replace(/autoplay/i,""));
-      $(e).attr('src', $(e).attr('src').replace(/autoplay=1/i,"autoplay=0"));
-    });
-    setTimeout(()=>{
-      $('iframe').attr('src', $('iframe').attr('src').replace(/autoplay=1/i,"autoplay=0") )
-    },500)
+      if (auto.length) {
+          setTimeout(()=>{
+            var el = auto.first();
+            var elOffset = el.offset().top;
+            var elHeight = el.height();
+            var windowHeight = $(window).height();
+            var offset;
+            if (elHeight < windowHeight) {
+              offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+            } else {
+              offset = elOffset;
+            }
+            try {
+              toggleFullScreen(auto[0])
+            } catch(e){
+            } finally {
+              setTimeout(()=>{
+                document.body.scrollTop = offset;
+                document.documentElement.scrollTop = offset;
+              },100)
+            };
+          },100)
+        }
+        setTimeout(()=>{
+          localStorage["escapp_"+escapeRoomId] = true;
+        }, 3000)
+    } else {
+      try {
+        $( "[autoplay]" ).each((i,e)=>e.pause());
+        $( "iframe" ).each((i,e)=>e.src = e.src.replace("autoplay=1","autoplay=0"));
+      } catch (e) {}
   }
 },500)
 

@@ -31,19 +31,27 @@ $(function(){
         const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
         if (youtube && youtube[5]) {
             node = document.createElement("iframe")
-            node.setAttribute('src', "https://www.youtube.com/embed/" + youtube[5]);
+            url = "https://www.youtube.com/embed/" + youtube[5];
+            if(url.match("enablejsapi")) {
+                if (url.match("\\?")){
+                    url += "&enablejsapi=1"
+                } else {
+                    url += "?enablejsapi=1"
+                }
+            }
+            node.setAttribute('src', url);
         } else {
             node = document.createElement("video")
             if (url.match("autoplay=1")) {
                 node.setAttribute('autoplay', '');
             }
             node.setAttribute('src', url);
+            setTimeout(()=>{try{node.pause()}catch(e){console.error}},1000)
         }
         node.setAttribute('class', 'ql-video ui-sortable-handle')
         node.setAttribute('frameborder', '0');
         node.setAttribute('allowfullscreen', true);
         node.setAttribute('allow', 'autoplay; fullscreen');
-        node.setAttribute('src', url);
         node.setAttribute('controls', '');
         
         return node
@@ -425,26 +433,48 @@ $(function(){
 
     $($('.ql-appearance .ql-picker-label')[0]).attr('data-value', $('#appearance').val());
 
-    $( function() {
-        $( ".ql-editor" ).sortable({
-          cancel: "h1, h2, h3, h4, h5, h6, p, countdown *",
-          items: "h1, h2, h3, h4, h5, h6, p, video, audio, iframe, countdown, progressbar, ranking, :not(div):empty, .ql-cursor, img, .ui-sortable-handle",
-        });
+    $( ".ql-editor" ).sortable({
+        cancel: "h1, h2, h3, h4, h5, h6, p, countdown *",
+        items: "h1, h2, h3, h4, h5, h6, p, video, audio, iframe, countdown, progressbar, ranking, :not(div):empty, .ql-cursor, img, .ui-sortable-handle",
     });
-    try {
-        $( "[autoplay]" ).each((i,e)=>e.pause());
-      } catch(e){}
-      
-      $("iframe").filter(function(e) {
-        return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
-      }).each((i,e)=>{
-        $(e).attr('allow', $(e).attr("allow").replace(/autoplay/i,""));
-        $(e).attr('src', $(e).attr('src').replace(/autoplay=1/i,"autoplay=0"));
-      });
-      setTimeout(()=>{
-        $('iframe').attr('src', $('iframe').attr('src').replace(/autoplay=1/i,"autoplay=0") )
-      },1000)
 
+    const stopAutoplay = () => {
+        $( "[autoplay]" ).each((i,e)=> {
+            try {e.pause() } catch(e){}
+        });
+        $('iframe').each((i,e)=> {
+            try {e.pauseVideo() } catch(e){}
+        });
+    }
+    $('.ql-html-popupContainer button').click(stopAutoplay)
+        
+    stopAutoplay();
 });
+
+function onYouTubeIframeAPIReady() {
+    try {
+        $('iframe').each((_i,e) => {
+            var player = null;
+            player = new YT.Player(e, {
+                events: {'onReady': () => player.stopVideo()}
+            });
+        });
+    } catch(e){console.error(e)}
+    // try {
+    //     $('.ql-html-popupContainer button').click(() => {
+    //         $('iframe').each((_i,e) => {
+    //             try {
+    //                 var player = null;
+    //                 player = new YT.Player(e, {
+    //                     events: { 'onReady': () => player.stopVideo(), }
+    //                 });
+    //             } catch (e) {console.error(e)}
+    //         });
+    //     });
+    // } catch(e){console.error(e)}
+
+}
+    
+
 
 

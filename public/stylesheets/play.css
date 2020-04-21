@@ -157,6 +157,10 @@ p {
 
 }
 
+.popover-p {
+  text-align: right;
+}
+
 .sol-input {
     margin: auto;
     max-width: 600px;

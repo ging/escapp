@@ -107,6 +107,7 @@
                     <button class="btn btn-success" >
                         <span class="material-icons ">star</span>
                     </button>
+                    
                 </a>
             </li>
             <% if (endPoint === "team" && hintConditional) {%>
@@ -115,6 +116,7 @@
                         <button class="btn btn-info" data-toggle="modal" data-target="#hintModal" title="<%=i18n.hint.Info%>">
                             <span class="material-icons ">info</span>
                         </button>
+
                     </a>
                 </li>
             <%}%>
@@ -129,11 +131,33 @@
 
             <%if(escapeRoom.supportLink) {%>
                 <li class="nav-item active">
-                    <a class="nav-link" target="_blank" href="<%=escapeRoom.supportLink%>">
-                        <button class="btn btn-danger" title="<%=i18n.showStudent.supportLink%>">
-                            <span class="material-icons ">live_help</span>
+                    <a class="nav-link" href="#">
+                        <button class="btn btn-danger live_support" data-container="body" data-placement="bottom" data-toggle="popover" title="<%=i18n.showStudent.supportLink%>">
+                            <span class="material-icons ">record_voice_over</span>
                         </button>
                     </a>
+                    <script>
+                        $(()=>{
+                            $('.live_support').popover({
+                                html: true,
+                                content: `<p><%=i18n.showStudent.confirmSupport%></p>
+                                    <p class="popover-p">
+                                        <a class="btn btn-primary btn-sm popover-btn" href="#" id="cancelLiveSupport">
+                                            <%=i18n.common.cancel%>
+                                        </a>
+                                        <a class="btn btn-success btn-sm popover-btn" target='_blank' href="<%=escapeRoom.supportLink%>">
+                                            <%=i18n.common.accept%>
+                                        </a>
+                                    </p>
+                                    `
+                                
+                            })
+                            $(document).on("click", "#cancelLiveSupport", ()=>{
+                                $('.live_support').popover('hide');
+                                
+                            })
+                        })
+                    </script>
                 </li>
                 <%}%>
                 <li class="nav-item active">
