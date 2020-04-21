@@ -155,6 +155,7 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
   const hintOrder = hintOrderPlus - 1;
   const puzzleOrder = puzzleOrderPlus - 1;
   if (hintOrderPlus) { // Existing hint
+    latestHintRequestedTime = new Date();
     const currentPuzzle = escapeRoomPuzzles.find(puz => puz.order === puzzleOrder);
     const actualCat = category || currentPuzzle.categories[0];
     if (reqHints[puzzleOrder].indexOf(hintOrder) === -1 ) { // Not hint requested before
@@ -187,6 +188,7 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
     
   } else if(allowCustomHints) {
     if (code == "OK") { // Hint obtained
+      latestHintRequestedTime = new Date();
       if (waitingForHintReply) { // Receive a hint that you requested
         if (hintAppConditional) {  // Modal is open
           $('.hints-modal-no-left').html(`<p>${i18n.dontClose}</p>`);
@@ -317,8 +319,7 @@ const appendExtraInfo = (info) => {
 }
 
 const updatePuzzle = (order, currentPuzzle) => {
-  console.log(order, currentPuzzle)
-  if (order || order === 0) { // TODO automatic
+  if (order || order === 0) {
       currentlyWorkingOn = order;
       // Update title
       $('#puzzle-title').data("puzzleOrder", order);
@@ -352,45 +353,72 @@ const finish = async () => {
   $('#finish').show();
 }
 
+let timerFreq = null;
+let timerTitle = null;
 const checkAvailHintsForPuzzle = (puzzleOrder) => {
+  if (timerFreq) {
+    clearInterval(timerFreq);
+  }
+  if (timerTitle) {
+    clearTimeout(timerTitle);
+  }
+
   if (puzzleOrder === null || puzzleOrder === undefined) {
     $('.btn-hints').attr("disabled", true);
-    $('.btn-hints').attr("title", i18n["cantRequestMore"]);
+    $('.btn-hints-modal-title').attr("data-original-title", i18n["cantRequestMore"]).tooltip('update');
     return;
   }
 
   if (escapeRoomHintLimit !== undefined && escapeRoomHintLimit <= reqHintsListOrder.length){
     $('.btn-hints').attr("disabled", true);
-    $('.btn-hints').attr("title", i18n["cantRequestMore"]);
+    $('.btn-hints-modal-title').attr("data-original-title", i18n["cantRequestMore"]).tooltip('update');
 
     return;
   }
 
   if (allowCustomHints) {
     $('.btn-hints').attr("disabled", false);
-    $('.btn-hints').attr("title", i18n["canRequest"]);
-
-    return;
-  }
-
-  const puzzle = escapeRoomPuzzles.find(p => p.order === puzzleOrder);
-  if (puzzle && puzzle.hints) {
-    var anyHint = false;
-    for (var c in puzzle.hints) {
-      var hints = puzzle.hints[c];
-      if (hints.length) {
-        anyHint = true;
-        break;
+    $('.btn-hints-modal-title').attr("data-original-title", i18n["canRequest"]).tooltip('update');
+  } else {
+    const puzzle = escapeRoomPuzzles.find(p => p.order === puzzleOrder);
+    if (puzzle && puzzle.hints) {
+      var anyHint = false;
+      for (var c in puzzle.hints) {
+        var hints = puzzle.hints[c];
+        if (hints.length) {
+          anyHint = true;
+          break;
+        }
+      }
+      if (anyHint) {
+        $('.btn-hints').attr("disabled", false);
+        $('.btn-hints-modal-title').attr("data-original-title", i18n["canRequest"]).tooltip('update');
+      } else {
+        $('.btn-hints').attr("disabled", true);
+        $('.btn-hints-modal-title').attr("data-original-title", i18n["cantRequestMoreThis"]).tooltip('update');
+        return;
       }
     }
-    if (anyHint) {
-      $('.btn-hints').attr("disabled", false);
-      $('.btn-hints').attr("title", i18n["canRequest"]);
-      
+  }
+  if (hintInterval && latestHintRequestedTime) {
+    const timeSinceLastHint = (new Date() - latestHintRequestedTime)/1000/60;
 
-    } else {
+    if (timeSinceLastHint < hintInterval) {
+      const timeAhead = (hintInterval - timeSinceLastHint) * 60 * 1000 ;
+
+      timerFreq = setTimeout(()=>{
+        checkAvailHintsForPuzzle(currentlyWorkingOn)
+      }, timeAhead);
+
+      timerTitle = setInterval(()=>{
+        const timeSinceLastHint = (new Date() - latestHintRequestedTime)/1000/60;
+        const timeAhead = (hintInterval - timeSinceLastHint) ;
+        const each = timeAhead < 1 ? `${Math.round(timeAhead*60)} s.`:`${Math.round(timeAhead)} min.`;
+        $('.btn-hints-modal-title').attr("data-original-title", i18n["notUntil"] + " " + each).tooltip('update');
+      }, 5000);
+
       $('.btn-hints').attr("disabled", true);
-      $('.btn-hints').attr("title", i18n["cantRequestMoreThis"]);
+      return;
     }
   }
 }
@@ -492,6 +520,8 @@ const initSocketServer = (escapeRoomId, teamId, turnId, username) => {
 };
 
 $( ()=>{
+  $('[data-toggle="tooltip"]').tooltip({placement: "bottom"})
+  
   checkAvailHintsForPuzzle(currentlyWorkingOn);
   /** BTN ACTIONS **/
 

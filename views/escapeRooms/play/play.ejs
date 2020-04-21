@@ -91,19 +91,19 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-div">
           <%if (isStudent && currentlyWorkingOn !== null) {%> 
             <% const puzzle = puzzles[currentlyWorkingOn] %>
-            <div class=" form-inline my-2 my-lg-0 mt-auto" style="flex: 1;flex-wrap: nowrap;<%=puzzle.automatic ? 'display: none;' : ''%>" id="puzzle-form" > 
+            <div class=" form-inline my-2 my-lg-0 ms-auto" style="flex: 1;flex-wrap: nowrap;<%=puzzle.automatic ? 'display: none;' : ''%>" id="puzzle-form" > 
               <label style="flex: 1; justify-content: flex-end;">
                 <span class="navbar-text puzzle-title" id="puzzle-title" data-puzzle-order="<%= puzzle.order %>"><%=puzzle.title%>
                 </span>&nbsp;
             </label>
             <input class="form-control mr-sm-2 puzzle-input" id="puzzle-input" type="text" placeholder="<%=i18n.puzzle.writeSol%>" data-puzzle-order="<%= puzzle.order %>">
-            <button class="btn btn-success my-2 my-sm-0" id="puzzle-check-btn" type="button" data-puzzle-order="<%= puzzle.order %>" title="<%=i18n.puzzle.check%>"><span class="material-icons ">check</span></button>
+            <button class="btn btn-success my-2 my-sm-0" id="puzzle-check-btn" data-toggle="tooltip" type="button" data-puzzle-order="<%= puzzle.order %>" title="<%=i18n.puzzle.check%>"><span class="material-icons ">check</span></button>
           </div>
           <%}%>
           
           <ul class="navbar-nav my-lg-0 ml-auto">
             <li class="nav-item active" id="finish" style="display: none;">
-                <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>/finish" title="<%=i18n.common.Finish%>">
+                <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>/finish" data-toggle="tooltip" title="<%=i18n.common.Finish%>">
                     <button class="btn btn-success" >
                         <span class="material-icons ">star</span>
                     </button>
@@ -112,8 +112,8 @@
             </li>
             <% if (endPoint === "team" && hintConditional) {%>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">
-                        <button class="btn btn-info" data-toggle="modal" data-target="#hintModal" title="<%=i18n.hint.Info%>">
+                    <a class="nav-link" href="#" data-toggle="tooltip" title="<%=i18n.hint.Info%>">
+                        <button class="btn btn-info" data-toggle="modal" data-toggle="tooltip" data-target="#hintModal" title="<%=i18n.hint.Info%>">
                             <span class="material-icons ">info</span>
                         </button>
 
@@ -121,18 +121,17 @@
                 </li>
             <%}%>
             <li class="nav-item active" id="">
-                <a class="nav-link" href="#">
+                <a class="nav-link btn-hints-modal-title" data-toggle="tooltip"" href="#" title="<%=i18n.hint.canRequest%>">
                     <button class="btn btn-warning btn-hints btn-hints-nav" title="<%=i18n.hint.canRequest%>">
                         <span class="material-icons ">search</span>
                     </button>
-                    
                 </a>
             </li>
 
             <%if(escapeRoom.supportLink) {%>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">
-                        <button class="btn btn-danger live_support" data-container="body" data-placement="bottom" data-toggle="popover" title="<%=i18n.showStudent.supportLink%>">
+                    <a class="nav-link" href="#" id="sl-tooltip" data-toggle="tooltip" title="<%=i18n.showStudent.supportLink%>">
+                        <button class="btn btn-danger live_support" data-container="body" data-placement="bottom" onclick="$('#sl-tooltip').tooltip('hide')" data-toggle="popover" title="<%=i18n.showStudent.supportLink%>">
                             <span class="material-icons ">record_voice_over</span>
                         </button>
                     </a>
@@ -152,7 +151,7 @@
                                     `
                                 
                             })
-                            $(document).on("click", "#cancelLiveSupport", ()=>{
+                            $(document).on("click", ".popover-btn", ()=>{
                                 $('.live_support').popover('hide');
                                 
                             })
@@ -161,8 +160,8 @@
                 </li>
                 <%}%>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>">
-                        <button class="btn btn-light" title="<%=i18n.common.Exit%>">
+                    <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>" data-toggle="tooltip" title="<%=i18n.common.Exit%>">
+                        <button class="btn btn-light" >
                             <span class="material-icons ">exit_to_app</span>
                         </button>
                     </a>
@@ -214,6 +213,7 @@
     var latestRetoSuperado =  <%=JSON.stringify(latestRetoSuperado)%>;
     var hintConditional = <%= hintConditional || false %>;
     var hintAppConditional =  <%= hintAppConditional || false%>;
+    var hintInterval =  <%= escapeRoom.hintInterval || 0%>;
     var allowCustomHints = <%= escapeRoom.allowCustomHints ? "true" : "false"%>
     var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
     var reqHints = JSON.parse('<%-JSON.stringify(reqHints)%>');
@@ -223,7 +223,7 @@
     var teamId = <%= team.id || "undefined";%>  
     var waitingForHintReply = false;
     var waitingForPuzzleReply = false;
- 
+    var latestHintRequestedTime = <%if (hints.length) { %> new Date("<%=hints[hints.length-1].createdAt%>") <% } else { %>null <%}%>;
     initSocketServer(<%= escapeRoom.id%>, teamId, <%= team.turno ? team.turno.id : "undefined" %>, username);
     
     var i18n = {
@@ -243,6 +243,8 @@
         "canRequest": "<%= i18n.hint.canRequest %>",
         "finishMsg": "<%=i18n.puzzle.finish%>",
         "dontClose": "<%=i18n.hint.dontClose%>",
+        "tooOften": "<%=i18n.hint.tooOften%>",
+        "notUntil": "<%=i18n.hint.notUntil%>",
         "writeSol": "<%=i18n.puzzle.writeSol%>",
         "timeUp": "<%=i18n.api.timeUp%>",
         "start": "<%=i18n.hint.start%>",

@@ -57,7 +57,7 @@ exports.pistasUpdate = async (req, res) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
-    const {numQuestions, numRight, feedback, hintLimit, allowCustomHints} = body;
+    const {numQuestions, numRight, feedback, hintLimit, allowCustomHints, hintInterval} = body;
     let pctgRight = numRight || 0;
 
     pctgRight = (numRight >= 0 && numRight <= numQuestions ? numRight : numQuestions) * 100 / (numQuestions || 1);
@@ -66,11 +66,12 @@ exports.pistasUpdate = async (req, res) => {
     escapeRoom.numQuestions = numQuestions || 0;
     escapeRoom.numRight = pctgRight || 0;
     escapeRoom.feedback = Boolean(feedback);
+    escapeRoom.hintInterval = hintInterval || null;
     escapeRoom.allowCustomHints = Boolean(allowCustomHints);
     const back = `/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("hints") : progressBar || nextStep("hints")}`;
 
     try {
-        await escapeRoom.save({"fields": ["numQuestions", "hintLimit", "numRight", "feedback", "allowCustomHints"]});
+        await escapeRoom.save({"fields": ["numQuestions", "hintLimit", "numRight", "feedback", "allowCustomHints", "hintInterval"]});
         if (body.keepAttachment === "0") {
             // There is no attachment: Delete old attachment.
             if (!req.file) {

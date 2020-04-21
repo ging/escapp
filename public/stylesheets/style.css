@@ -1331,26 +1331,6 @@ button, input[type="submit"] {
     margin: 0px;
     height: calc(100% - 16px); }
 
-#mainSection .main.step-hints .radio-wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  padding-left: 30px; }
-  #mainSection .main.step-hints .radio-wrapper .same-line-radio {
-    font-family: Lato;
-    display: flex;
-    font-size: 0.8em;
-    justify-content: center;
-    align-items: center;
-    margin-right: 10px; }
-    #mainSection .main.step-hints .radio-wrapper .same-line-radio .mini-num-input {
-      font-family: inherit;
-      font-size: inherit;
-      border-radius: 0;
-      border-width: 0px 0px 2px 0px;
-      background: transparent;
-      width: 100px; }
-
 #mainSection .main.inspiration {
   font-size: 18px; }
   #mainSection .main.inspiration a.resources {

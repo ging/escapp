@@ -56,7 +56,9 @@ p {
 .nav-link button {
   white-space: nowrap;
 }
-
+.nav-link {
+  padding-bottom: 0px !important;
+}
 .navbar-text {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -260,20 +262,39 @@ p {
     padding: 20px;
     font-size: 1.3em;
 }
+.btn-hints:disabled {
+  pointer-events: none;
+}
 
 .btn-hints-modal {
-  visibility: hidden;
+  display: none;
+}
+.btn-hints-modal-title {
+  white-space: nowrap;
 }
 
-.current-pths {
-  visibility: hidden;
+span.btn-hints-modal-title {
+  float:right;
 }
+
+.reto-title span.current-pths {
+  display: none;
+}
+
+.puzzle-title-no-current {
+  padding:0.375rem 0rem; 
+  display: inline-block;
+}
+
+.reto-hint-li.reto-hint-current .puzzle-title-no-current {
+  display: none;
+}
+
 .reto-hint-li.reto-hint-current .btn-hints-modal {
-  visibility: visible;
+  display: inline-block;
 }
 .reto-hint-li.reto-hint-current .current-pths {
-  visibility: visible;
-
+  display: inline-block;
 }
 
 .btn-hints:disabled {
@@ -401,7 +422,9 @@ p {
 
 @media (min-width: 768px){
 .navbar-expand-md .navbar-nav .nav-link {
-    padding-right: 0rem !important;
+    padding-right: 0.05rem !important;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
 }
 }
 

@@ -340,6 +340,8 @@
                 "hintFile": "Fichero de preguntas",
                 "allowCustomHints": "Permitir pistas manuales",
                 "allowCustomHintsExplanation": "Si se marca esta opción, cuando no queden más pistas automáticas se indicará a los alumnos que recurran al profesor. Sino, no se les permitirá seguir pidiendo pistas cuando se acaben las pistas autmáticas.", 
+                "hintInterval": "Frecuencia de pistas",
+                "hintIntervalExplanation": "¿Cada cuántos minutos pueden pedir una pista los alumnos?",
                 "hintLimit": "Límite de pistas",
                 "hintLimitExplanation": "¿Cuántas pistas pueden obtener los alumnos como máximo?",
                 "hintLimitPlaceholder": "No hay límite",
@@ -443,7 +445,9 @@
         "instructionsQuiz3" : "preguntas",        
         "requestedHints": "Pistas recibidas",
         "successMessage": "Enhorabuena! Has conseguido una nueva pista.",
-        "tooMany": "Ya has pedido el número máximo de pistas"
+        "tooMany": "Ya has pedido el número máximo de pistas",
+        "tooOften": "Sólo puedes pedir una pista cada",
+        "notUntil": "No puedes pedir otra pista hasta dentro de"
     },
     "gallery": {
         "insert": "insertar",
@@ -619,6 +623,7 @@
         "Puzzles": "Retos",
         "Msg": "Mensaje",
         "Solution": "Solución",
+        "currentPuzzle": "Reto actual",
         "messages": "Mensajes de los retos",
         "writeSol": "Escribe la solución",
         "retosSuperados": "Retos superados",

@@ -32,9 +32,12 @@
                         data-puzzle-number="<%=order%>">
 
                         <h6 class="reto-title">
-                            <button class="btn btn-success btn-hints btn-hints-modal" style="float:right;"><%=i18n.hint.need%></button>
-                            <span style="padding:0.375rem 0rem; display: inline-block;"><b><%=escapeRoom.puzzles[p].title%></b> 
-                            <span class="current-pths">(Reto actual) </span>
+                            <span class="btn-hints-modal-title" data-toggle="tooltip" title="-">
+                                <button class="btn btn-success btn-hints btn-hints-modal" ><%=i18n.hint.need%></button>
+                            </span>
+                            <span class="current-pths"><b><%=i18n.puzzle.Puzzle%> <%=order+1%></b></span>
+                            <span class="puzzle-title-no-current"><b><%=escapeRoom.puzzles[p].title%></b> </span>
+                            <span class="current-pths"> (<%=i18n.puzzle.currentPuzzle%>) </span>
                             </span>
                         </h6>
                         <%if(!requested) {%>

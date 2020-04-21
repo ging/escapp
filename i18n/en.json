@@ -350,6 +350,8 @@
                 "hintFile": "Battery of questions file",
                 "allowCustomHints": "Allow manual hints",
                 "allowCustomHintsExplanation": "If you check this option, when a team runs out of automatic hints, they will be told to ask the teacher for help instead. If not checked, students will not be able to request hints when they run out.", 
+                "hintInterval": "Hint frequency",
+                "hintIntervalExplanation": "How much time (in minutes) do students need to wait before asking for a new hint?",
                 "hintLimit": "Hint limit",
                 "hintLimitExplanation": "What is the maximum number of hints students can get?",
                 "hintLimitPlaceholder": "No limit",
@@ -467,7 +469,9 @@
         "instructionsQuiz3" : "following questions",
         "requestedHints": "Hints obtained",
         "successMessage": "Congratulations! You've obtained a new hint",
-        "tooMany": "You've obtained the maximum number of hints allowed"
+        "tooMany": "You've obtained the maximum number of hints allowed",
+        "tooOften": "You can only obtain a hint every",
+        "notUntil": "You cannot obtain another hint for another"
     },
     "inspiration": {
         "downloadText": "download",
@@ -629,6 +633,7 @@
         "Puzzles": "Puzzles",
         "Msg": "Message",
         "Solution": "Solution",
+        "currentPuzzle": "Reto actual",
         "writeSol": "Writre here the solution",
         "wrongAnswer": "Sorry! Wrong answer",
         "messages": "Puzzle messages",
