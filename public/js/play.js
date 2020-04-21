@@ -64,6 +64,7 @@ const retoMsg = (puzzle, sol) => {
   </li>`;
 }
 
+
 /** OUTGOING MESSAGES **/
 const error = (msg) => ({type: "ERROR", payload: {msg}});
 
@@ -76,7 +77,7 @@ const onConnect = () => {
   console.info("Connected");
   if (alertMsg) {
     $('.alert').remove();
-    alertMsg = $.easyAlert({"message": i18n["connected"], "alertType": "success", "position": "b l", "showDuration": 5000, time: 3000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
+    alertMsg = createAlert("success", i18n["connected"]);
   }
 }
  
@@ -84,26 +85,26 @@ const onStart = () => {
 }
 
 const onStop = async () => {
-  alertMsg = $.easyAlert({"message": i18n["timeUp"], "alertType": "warning", "position": "b l", "showDuration": 5000, time: 10000,  "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
+  alertMsg = createAlert("warning", i18n["timeUp"]);
   await forMs(10000);
   window.location = `/escapeRooms/${escapeRoomId}/finish`;
 }
 
 const onJoin = () => {
   // console.log("Someone from your team has joined the ER")
-  // alertMsg = $.easyAlert({"message": i18n["teamJoined"], "alertType": "info", "position": "b l", "showDuration": 1000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
+  // alertMsg = createAlert("info", i18n["teamJoined"]);
 }
 
 
 const onDisconnect = () => {
   $('.alert').remove();
-  alertMsg = $.easyAlert({"message": i18n["disconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
+  alertMsg = createAlert("danger", i18n["disconnect"], true);
 };
 
 const onReconnect = () => {
   console.log("Reconnect")
   $('.alert').remove();
-  alertMsg = $.easyAlert({"message": i18n["reconnect"], "alertType":"danger", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
+  alertMsg = createAlert("warning", i18n["reconnect"], true);
 };
 
 const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage}) => {
@@ -113,14 +114,10 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
     let nextPuzzleOrder = null;
     let nextPuzzle = null;
     if (!retosSuperados.some(r => r == puzzleOrder)) {
-      retosSuperados.push(puzzleOrder)
-      const pendingIndex = pending.indexOf(puzzleOrder);
-      if (pendingIndex !== -1 ) {pending.splice(pendingIndex, 1);} 
-      latestRetoSuperado = retosSuperados.length ? Math.max(...retosSuperados) : null;
+      updateSuperados(puzzleOrder)
       updateProgress(Math.round(retosSuperados.length/totalPuzzles*100));
-      $.easyAlert({"message": `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correctAnswer ? '': feedback }`, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
+      createAlert("success", `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correctAnswer ? '': feedback }`);
       appendRetoMsg(escapeRoomPuzzles[puzzleOrder], solution);
-      await forMs(300);
       if (retosSuperados.length === totalPuzzles) {
         await finish();
       } else {
@@ -133,14 +130,15 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
           nextPuzzle = escapeRoomPuzzles[nextPuzzleOrder];
         }
       }
-      updatePuzzle(nextPuzzleOrder, nextPuzzle);
       checkAvailHintsForPuzzle(nextPuzzleOrder);
-      $('.reto-hint-title-'+puzzleOrder).show();
-      $('.reto-hint-title-'+nextPuzzleOrder).show();
+      await forMs(300);
+      updatePuzzle(nextPuzzleOrder, nextPuzzle, puzzleOrder);
+      
     }
   } else {
+    console.log(msg)
     if (msg !== i18n.wrongAnswer) {
-      $.easyAlert({"message": feedback, "alertType": "danger", "position": "b l", "time": 5000,  "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
+      createAlert("danger", feedback);
     }
     if (waitingForPuzzleReply) {
       $('#puzzle-input').addClass('is-invalid');
@@ -155,20 +153,8 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
   const hintOrder = hintOrderPlus - 1;
   const puzzleOrder = puzzleOrderPlus - 1;
   if (hintOrderPlus) { // Existing hint
-    latestHintRequestedTime = new Date();
-    const currentPuzzle = escapeRoomPuzzles.find(puz => puz.order === puzzleOrder);
-    const actualCat = category || currentPuzzle.categories[0];
-    if (reqHints[puzzleOrder].indexOf(hintOrder) === -1 ) { // Not hint requested before
-      reqHints[puzzleOrder].push(hintOrder);
-      reqHintsListOrder.push(hintOrder);
-      if (currentPuzzle) {
-        const hintArr = currentPuzzle.hints[actualCat];
-        const idx = hintArr.indexOf(hintOrder);
-        if (idx !== -1) {
-          hintArr.splice(idx, 1);
-        }
-      }
-    }
+    updateHint(puzzleOrder, hintOrder, category);
+    const moreAvail = checkAvailHintsForPuzzle(puzzleOrder);
 
     if (waitingForHintReply) {  // Receive a hint that you requested
       if (hintAppConditional) {
@@ -181,9 +167,13 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
       await forMs(500);
       $('.reto-hint-title-'+puzzleOrder).first().removeClass('animated')
     } else { // Someone in my team obtained a hint
-      $.easyAlert({"message": `<b>${i18n.newHint}</b><br/>${message}`, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
-      await forMs(500);
+      createAlert("success", `<b>${i18n.newHint}</b><br/>${message}`);
+      await forMs(1000);
       appendHint(message, puzzleOrder, category);
+      if (!moreAvail) {
+        cleanHintModal();
+      }
+      $('.reto-hint-title-'+puzzleOrder).first().removeClass('animated')
     }
     
   } else if(allowCustomHints) {
@@ -196,7 +186,11 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
           $('.hints-modal-no-left').html(`<p>${i18n.noMoreLeft}</p>`);
         }
       } else { // Receive a hint that someone else requested
-        $.easyAlert({"message": message, "alertType": "success", "position": "b l", "hideAnimation": "slide", "showAnimation": "bounce"});
+        const moreAvail = checkAvailHintsForPuzzle(puzzleOrder);
+        if (!moreAvail) {
+          $('.hints-modal-no-left').html(`<p>${i18n.noMoreLeftTeam}</p>`);
+        }
+        createAlert("success", message);
       }
     } else { // Hint not obtained (only quiz strategy)
       if (waitingForHintReply) { // Receive a hint that you requested
@@ -208,17 +202,14 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
     $('html').css('cursor','auto');
 
   } else {
-    
-    if (waitingForHintReply) { 
+    if (waitingForHintReply) {
       await forMs(5000);
-      await cleanHintModal();
+      cleanHintModal();
     }
     waitingForHintReply = false; // Stop waiting for hint response
     $('html').css('cursor','auto');
   }
-  if (code === "OK") {
-    checkAvailHintsForPuzzle(puzzleOrder);
-  }
+  
 };
 
 const onInitialInfo = ({erState}) => {
@@ -317,6 +308,15 @@ const appendExtraInfo = (info) => {
   $('#other-messages-title').show();
 
 }
+const updateHintTooltip = (msg) => {
+  $('.btn-hints-title').attr("data-original-title", msg).tooltip('update');
+  if(showNavT) {
+    $('#btn-hints-nav-tooltip').tooltip("hide").tooltip("show");
+  }
+  if (showModT) {
+    $('#'+showModT).tooltip("hide").tooltip("show");
+  }
+}
 
 const updatePuzzle = (order, currentPuzzle) => {
   if (order || order === 0) {
@@ -344,9 +344,41 @@ const updatePuzzle = (order, currentPuzzle) => {
   } else {
     $('.reto-hint-li').removeClass('reto-hint-current');
     $('#puzzle-form').hide();
-    
   }
+  $('.reto-hint-title-'+prevPuzzleOrder).show();
+  $('.reto-hint-title-'+nextPuzzleOrder).show();
 }
+
+
+const createAlert = (level = "info", msg) => {
+  $.easyAlert({"message": msg, "alertType": level, "position": "b l", "time": 5000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
+};
+
+const updateHint = (puzzleOrder, hintOrder, category) => {
+  latestHintRequestedTime = new Date();
+    const currentPuzzle = escapeRoomPuzzles.find(puz => puz.order === puzzleOrder);
+    const actualCat = category || currentPuzzle.categories[0];
+    if (reqHints[puzzleOrder].indexOf(hintOrder) === -1 ) { // Not hint requested before
+      reqHints[puzzleOrder].push(hintOrder);
+      reqHintsListOrder.push(hintOrder);
+      if (currentPuzzle) {
+        const hintArr = currentPuzzle.hints[actualCat];
+        const idx = hintArr.indexOf(hintOrder);
+        if (idx !== -1) {
+          hintArr.splice(idx, 1);
+        }
+      }
+    }
+}
+
+const updateSuperados = (puzzleOrder) => {
+  retosSuperados.push(puzzleOrder)
+  const pendingIndex = pending.indexOf(puzzleOrder);
+  if (pendingIndex !== -1 ) {pending.splice(pendingIndex, 1);} 
+  latestRetoSuperado = retosSuperados.length ? Math.max(...retosSuperados) : null;
+}
+
+
 const finish = async () => {
   await forMs(1000);
   confetti.start(10000);
@@ -365,20 +397,19 @@ const checkAvailHintsForPuzzle = (puzzleOrder) => {
 
   if (puzzleOrder === null || puzzleOrder === undefined) {
     $('.btn-hints').attr("disabled", true);
-    $('.btn-hints-modal-title').attr("data-original-title", i18n["cantRequestMore"]).tooltip('update');
-    return;
+    updateHintTooltip(i18n["cantRequestMore"]);
+    return false;
   }
 
   if (escapeRoomHintLimit !== undefined && escapeRoomHintLimit <= reqHintsListOrder.length){
     $('.btn-hints').attr("disabled", true);
-    $('.btn-hints-modal-title').attr("data-original-title", i18n["cantRequestMore"]).tooltip('update');
-
-    return;
+    updateHintTooltip(i18n["cantRequestMore"]);
+    return false;
   }
 
   if (allowCustomHints) {
     $('.btn-hints').attr("disabled", false);
-    $('.btn-hints-modal-title').attr("data-original-title", i18n["canRequest"]).tooltip('update');
+    updateHintTooltip(i18n["canRequest"]);
   } else {
     const puzzle = escapeRoomPuzzles.find(p => p.order === puzzleOrder);
     if (puzzle && puzzle.hints) {
@@ -392,11 +423,11 @@ const checkAvailHintsForPuzzle = (puzzleOrder) => {
       }
       if (anyHint) {
         $('.btn-hints').attr("disabled", false);
-        $('.btn-hints-modal-title').attr("data-original-title", i18n["canRequest"]).tooltip('update');
+        updateHintTooltip(i18n["canRequest"]);
       } else {
         $('.btn-hints').attr("disabled", true);
-        $('.btn-hints-modal-title').attr("data-original-title", i18n["cantRequestMoreThis"]).tooltip('update');
-        return;
+        updateHintTooltip(i18n["cantRequestMoreThis"]);
+        return false;
       }
     }
   }
@@ -404,23 +435,26 @@ const checkAvailHintsForPuzzle = (puzzleOrder) => {
     const timeSinceLastHint = (new Date() - latestHintRequestedTime)/1000/60;
 
     if (timeSinceLastHint < hintInterval) {
-      const timeAhead = (hintInterval - timeSinceLastHint) * 60 * 1000 ;
+      const timeAhead = (hintInterval - timeSinceLastHint) ;
+      const each = timeAhead < 1 ? `${Math.round(timeAhead*60)} s.`:`${Math.round(timeAhead)} min.`;
 
       timerFreq = setTimeout(()=>{
         checkAvailHintsForPuzzle(currentlyWorkingOn)
-      }, timeAhead);
+      }, timeAhead * 60 * 1000);
 
       timerTitle = setInterval(()=>{
         const timeSinceLastHint = (new Date() - latestHintRequestedTime)/1000/60;
         const timeAhead = (hintInterval - timeSinceLastHint) ;
         const each = timeAhead < 1 ? `${Math.round(timeAhead*60)} s.`:`${Math.round(timeAhead)} min.`;
-        $('.btn-hints-modal-title').attr("data-original-title", i18n["notUntil"] + " " + each).tooltip('update');
+        updateHintTooltip(i18n["notUntil"] + " " + each);
       }, 5000);
-
+      
+      updateHintTooltip(i18n["notUntil"] + " " + each);
       $('.btn-hints').attr("disabled", true);
-      return;
+      return false;
     }
   }
+  return true;
 }
 
 const yesCat = (categories, hints) => {
@@ -518,10 +552,24 @@ const initSocketServer = (escapeRoomId, teamId, turnId, username) => {
   socket.on("DISCONNECT", onReconnect);
 
 };
-
+let showModT = false;
+let showNavT = false;
 $( ()=>{
   $('[data-toggle="tooltip"]').tooltip({placement: "bottom"})
-  
+  $('.btn-hints-modal-title').tooltip({placement: "bottom"})
+    .on('show.bs.tooltip', function(e) {
+      showModT= e.target.id;  
+    })
+    .on('hide.bs.tooltip', function(e) {
+      showModT= false  
+    });
+  $('#btn-hints-nav-tooltip').tooltip({placement: "bottom"})
+    .on('show.bs.tooltip', function(e) {
+      showNavT= true  
+    })
+    .on('hide.bs.tooltip', function(e) {
+      showNavT= false  
+    });
   checkAvailHintsForPuzzle(currentlyWorkingOn);
   /** BTN ACTIONS **/
 
@@ -546,6 +594,7 @@ $( ()=>{
   });
 
   $(document).on("click", ".btn-hints-nav", function(){
+    $('#btn-hints-nav-tooltip').tooltip("hide")
     hintReq();
     $('#hintModal').modal("show");
   });
@@ -553,6 +602,12 @@ $( ()=>{
   $(document).on("click", ".btn-hints-modal", function(){
     hintReq();
   });
+
+
+  $(document).on("mouseover", ".btn-hints-modal", function(){
+    $('#btn-hints-modal-tooltip').tooltip("show")
+  });
+
 
   $(document).on("click", "#btn-start-quiz", function(){
     $('.hints-modal-quiz').html(quizTemplate());
@@ -584,7 +639,7 @@ $( ()=>{
 
 
   setTimeout(()=>{
-    if (!localStorage["escapp_"+escapeRoomId]) { // First time
+    if (localStorage["escapp_"+escapeRoomId] !== startTime.toString()) { // First time
       let auto = $( "[autoplay]" );
       if (!auto.length) { // Video
         auto = $("iframe").filter(function() {
@@ -620,7 +675,7 @@ $( ()=>{
           },100)
         }
         setTimeout(()=>{
-          localStorage["escapp_"+escapeRoomId] = true;
+          localStorage["escapp_"+escapeRoomId] = startTime.toString();
         }, 3000)
     } else {
       try {

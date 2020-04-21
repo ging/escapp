@@ -426,6 +426,7 @@
         "failMessage": "Lo siento, tendrás que seguir intentándolo",
         "dontClose": "No quedan más pistas automáticas para tu situación. Puedes llamar al profesor para que te dé una personalizada. No cierres este mensaje hasta que venga",
         "noMoreLeft": "No quedan más pistas automáticas para tu situación. Puedes llamar al profesor para que te dé una personalizada. ",
+        "noMoreLeftTeam": "Desde que empezaste el cuestionario alguien de tu equipo ha conseguido una pista por lo que no puedes pedir ninguna más ahora mismo",
         "chooseCat": "¿Con qué necesitas ayuda?",
         "cantRequestMore": "No puedes pedir más pistas",
         "cantRequestMoreThis": "No puedes pedir más pistas para tu situación actual",

@@ -269,11 +269,11 @@ p {
 .btn-hints-modal {
   display: none;
 }
-.btn-hints-modal-title {
+.btn-hints-title {
   white-space: nowrap;
 }
 
-span.btn-hints-modal-title {
+span.btn-hints-title {
   float:right;
 }
 

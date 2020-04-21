@@ -121,7 +121,7 @@
                 </li>
             <%}%>
             <li class="nav-item active" id="">
-                <a class="nav-link btn-hints-modal-title" data-toggle="tooltip"" href="#" title="<%=i18n.hint.canRequest%>">
+                <a class="nav-link btn-hints-title" id="btn-hints-nav-tooltip" data-toggle="tooltip"" href="#" title="<%=i18n.hint.canRequest%>">
                     <button class="btn btn-warning btn-hints btn-hints-nav" title="<%=i18n.hint.canRequest%>">
                         <span class="material-icons ">search</span>
                     </button>
@@ -207,6 +207,7 @@
     var escapeRoomId = "<%= escapeRoom.id%>";
     var escapeRoomPuzzles = <%- JSON.stringify(puzzles)%>;
     var totalPuzzles = <%= escapeRoom.puzzles.length %>;
+    var startTime = new Date("<%=team.startTime%>");
     var currentlyWorkingOn = <%=(currentlyWorkingOn !== undefined && currentlyWorkingOn !== null ) ? currentlyWorkingOn :  "null"%>;
     var retosSuperados = <%-JSON.stringify(retosSuperados)%>;
     var pending =  <%=JSON.stringify(pending)%>;
