@@ -4,8 +4,8 @@ var myUserName;
 var alertMsg;
 
 /** TEMPLATES **/
-const hintTemplate = (hint, category) => `
-  <li class="animated zoomInUp">
+const hintTemplate = (hint, category) => {
+  return `<li class="animated zoomInUp">
       <div class="card border-info mb-3">
           <div class="card-body">
               <div class="card-text">
@@ -14,19 +14,19 @@ const hintTemplate = (hint, category) => `
           </div>
       </div>
   </li>`;
+};
 
-
-const otherMsg = (info) => `
-<li class="animated zoomInUp">
-    <div class="card border-info mb-3">
-        <div class="card-body">
-            <div class="card-text">
-                ${info}
-           </div>
-        </div>
-    </div>
-</li>`;
-
+const otherMsg = (info) => {
+  return `<li class="animated zoomInUp">
+      <div class="card border-info mb-3">
+          <div class="card-body">
+              <div class="card-text">
+                  ${info}
+            </div>
+          </div>
+      </div>
+  </li>`;
+};
 
 const quizInstructionsTemplate = () => {
   return `
@@ -36,34 +36,25 @@ const quizInstructionsTemplate = () => {
       ${i18n.start}
       </button>
     </p>`
-} 
+};
 
 const quizTemplate = () => {
   return `<iframe class="hintAppIframe" src="/escapeRooms/${escapeRoomId}/hintAppWrapper" lang="es"/>`
-}
+};
 
 const catsTemplate = (categories, hints) => {
   return categories ? `<h4>${i18n.chooseCat}</h4><ul class="categories">
-    ${categories.map(c=>`<li class=" card border-success category"><button class="cat-button" ${hints[c].length || allowCustomHints ? "" : "disabled"} data-name="${c}">${c}</button></li>`).join("")}
+    ${categories.map(c=>`<li class=" card border-success category"><button class="cat-button" ${hints[c].length || ER.info.allowCustomHints ? "" : "disabled"} data-name="${c}">${c}</button></li>`).join("")}
   </ul>` : '';
-}
+};
 
 const retoMsg = (puzzle, sol) => {
   return `<li class="card reto-puzzle-li reto-puzzle-current animated zoomInUp"> 
       <h6><b>${puzzle.title}</b></h6>
-      ${puzzle.correct ? `
-      <p>
-        <b>${i18n.msg}:</b> ${puzzle.correct}
-      </p>`:``}
-      ${puzzle.automatic ? '':`<p>
-        <b>${i18n.sol}:</b> <span class="hidden-sol">${sol}</span>
-      </p>
-      `
-      }
-      
+      ${puzzle.correct ? `<p><b>${i18n.msg}:</b> ${puzzle.correct}</p>`:``}
+      ${puzzle.automatic ? '':`<p><b>${i18n.sol}:</b> <span class="hidden-sol">${sol}</span></p>`}
   </li>`;
 }
-
 
 /** OUTGOING MESSAGES **/
 const error = (msg) => ({type: "ERROR", payload: {msg}});
@@ -79,8 +70,20 @@ const onConnect = () => {
     $('.alert').remove();
     alertMsg = createAlert("success", i18n["connected"]);
   }
-}
- 
+};
+
+const onDisconnect = () => {
+  console.log("Disconnect")
+  $('.alert').remove();
+  alertMsg = createAlert("danger", i18n["disconnect"], true);
+};
+
+const onReconnect = () => {
+  console.log("Reconnect")
+  $('.alert').remove();
+  alertMsg = createAlert("warning", i18n["reconnect"], true);
+};
+
 const onStart = () => {
 }
 
@@ -95,76 +98,62 @@ const onJoin = () => {
   // alertMsg = createAlert("info", i18n["teamJoined"]);
 }
 
-
-const onDisconnect = () => {
-  $('.alert').remove();
-  alertMsg = createAlert("danger", i18n["disconnect"], true);
-};
-
-const onReconnect = () => {
-  console.log("Reconnect")
-  $('.alert').remove();
-  alertMsg = createAlert("warning", i18n["reconnect"], true);
-};
-
 const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage}) => {
   const feedback = (msg) + (participantMessage && participation !== "PARTICIPANT" ? `<br/> ${participantMessage}`: "");
   const puzzleOrder = puzzleOrderPlus - 1;
   if (code === "OK") {
     let nextPuzzleOrder = null;
     let nextPuzzle = null;
-    if (!retosSuperados.some(r => r == puzzleOrder)) {
-      updateSuperados(puzzleOrder)
-      updateProgress(Math.round(retosSuperados.length/totalPuzzles*100));
+    if (!ER.erState.retosSuperados.some(r => r == puzzleOrder)) { // Not solved before
+      updateSuperados(puzzleOrder);
+      updateProgress();
+      appendRetoMsg(ER.info.escapeRoomPuzzles[puzzleOrder], solution);
       createAlert("success", `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correctAnswer ? '': feedback }`);
-      appendRetoMsg(escapeRoomPuzzles[puzzleOrder], solution);
-      if (retosSuperados.length === totalPuzzles) {
-        await finish();
-      } else {
-        const puzzleIndex = escapeRoomPuzzles.findIndex(puzzle => puzzle.order == puzzleOrder);
-        if (puzzleIndex > -1  && (puzzleIndex < (escapeRoomPuzzles.length - 1)) && latestRetoSuperado !== totalPuzzles - 1){
-          nextPuzzle = escapeRoomPuzzles[puzzleIndex + 1];
+      const isLast = ER.erState.retosSuperados.length === ER.info.totalPuzzles;
+      if (!isLast) {
+        const puzzleIndex = ER.info.escapeRoomPuzzles.findIndex(puzzle => puzzle.order == puzzleOrder);
+        if (puzzleIndex > -1  && (puzzleIndex < (ER.info.escapeRoomPuzzles.length - 1)) && ER.erState.latestRetoSuperado !== ER.info.totalPuzzles - 1){
+          nextPuzzle = ER.info.escapeRoomPuzzles[puzzleIndex + 1];
           nextPuzzleOrder = nextPuzzle.order;
         } else {
-          nextPuzzleOrder = pending[0];
-          nextPuzzle = escapeRoomPuzzles[nextPuzzleOrder];
+          nextPuzzleOrder = ER.erState.pending[0];
+          nextPuzzle = ER.info.escapeRoomPuzzles[nextPuzzleOrder];
         }
       }
       checkAvailHintsForPuzzle(nextPuzzleOrder);
-      await forMs(300);
+      ER.erState.currentlyWorkingOn = nextPuzzleOrder;
+      await forMs(1000);
       updatePuzzle(nextPuzzleOrder, nextPuzzle, puzzleOrder);
-      
+      if (isLast) {
+        finish();
+      }
     }
   } else {
-    console.log(msg)
     if (msg !== i18n.wrongAnswer) {
       createAlert("danger", feedback);
     }
-    if (waitingForPuzzleReply) {
-      $('#puzzle-input').addClass('is-invalid');
+    if (ER.erState.waitingForPuzzleReply) {
+      $('#puzzle-input').addClass(correctAnswer ? 'is-valid':'is-invalid');
     }
   }
-  waitingForPuzzleReply = false;
-
+  ER.erState.waitingForPuzzleReply = false;
+  $('html').css('cursor','auto');
 };
 
 const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzzleOrderPlus, category, msg}) => {
   const message = msg;
   const hintOrder = hintOrderPlus - 1;
   const puzzleOrder = puzzleOrderPlus - 1;
+  
   if (hintOrderPlus) { // Existing hint
     updateHint(puzzleOrder, hintOrder, category);
     const moreAvail = checkAvailHintsForPuzzle(puzzleOrder);
-
-    if (waitingForHintReply) {  // Receive a hint that you requested
-      if (hintAppConditional) {
+    if (ER.erState.waitingForHintReply) {  // Receive a hint that you requested
+      if (ER.info.hintAppConditional) {
         await forMs(2500);
       }
       cleanHintModal();
       appendHint(message, puzzleOrder, category);
-      waitingForHintReply = false;
-      $('html').css('cursor','auto');
-      await forMs(500);
       $('.reto-hint-title-'+puzzleOrder).first().removeClass('animated')
     } else { // Someone in my team obtained a hint
       createAlert("success", `<b>${i18n.newHint}</b><br/>${message}`);
@@ -176,39 +165,32 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
       $('.reto-hint-title-'+puzzleOrder).first().removeClass('animated')
     }
     
-  } else if(allowCustomHints) {
+  } else if(ER.info.allowCustomHints) {
     if (code == "OK") { // Hint obtained
-      latestHintRequestedTime = new Date();
-      if (waitingForHintReply) { // Receive a hint that you requested
-        if (hintAppConditional) {  // Modal is open
-          $('.hints-modal-no-left').html(`<p>${i18n.dontClose}</p>`);
-        } else { // Free hint
-          $('.hints-modal-no-left').html(`<p>${i18n.noMoreLeft}</p>`);
-        }
+      updateHint(puzzleOrder, null, category);
+      const moreAvail = checkAvailHintsForPuzzle(puzzleOrder);
+      if (ER.erState.waitingForHintReply) { // Receive a hint that you requested
+        $('.hints-modal-no-left').html(`<p>${ER.info.hintAppConditional ? i18n.dontClose : i18n.noMoreLeft}</p>`);
       } else { // Receive a hint that someone else requested
-        const moreAvail = checkAvailHintsForPuzzle(puzzleOrder);
         if (!moreAvail) {
           $('.hints-modal-no-left').html(`<p>${i18n.noMoreLeftTeam}</p>`);
         }
         createAlert("success", message);
       }
     } else { // Hint not obtained (only quiz strategy)
-      if (waitingForHintReply) { // Receive a hint that you requested
+      if (ER.erState.waitingForHintReply) { // Receive a hint that you requested
         await forMs(5000);
         cleanHintModal();
       }
     }
-    waitingForHintReply = false; // Stop waiting for hint response
-    $('html').css('cursor','auto');
-
   } else {
-    if (waitingForHintReply) {
+    if (ER.erState.waitingForHintReply) {
       await forMs(5000);
       cleanHintModal();
     }
-    waitingForHintReply = false; // Stop waiting for hint response
-    $('html').css('cursor','auto');
   }
+  ER.erState.waitingForHintReply = false; // Stop waiting for hint response
+  $('html').css('cursor','auto');
   
 };
 
@@ -239,7 +221,12 @@ const onLeave = ({username, teamId, ranking}) => {
 }
 
 /** HELPERS **/
-const updateProgress = (newProgress) =>  $('.puzzle-progress').attr('aria-valuenow', newProgress).css("width", newProgress + "%")
+const updateProgress = () =>  {
+  if (ER.erState.retosSuperados && ER.erState.retosSuperados.length && ER.info.totalPuzzles) {
+    const progress = Math.round(ER.erState.retosSuperados.length / ER.info.totalPuzzles*100);
+    $('.puzzle-progress').attr('aria-valuenow', progress).css("width", progress + "%")
+  }
+}
 
 const forMs = (delay) => {
   return new Promise(function(resolve) {
@@ -260,7 +247,7 @@ const rgb2hex = orig => {
 
 const hintReq = ()=>{
   $('#modal-title').html('<b>'+i18n.hints+'<b>');
-  let currentReto = escapeRoomPuzzles.find(p=>p.order === currentlyWorkingOn);
+  let currentReto = ER.info.escapeRoomPuzzles.find(p=>p.order === ER.erState.currentlyWorkingOn);
   const categories = currentReto ? currentReto.categories : null;
   const hints = currentReto ? currentReto.hints : null;
   $('#hintModal .animated').removeClass('animated')
@@ -296,7 +283,7 @@ const appendHint = (message, puzzleOrder, category) => {
 };
 
 const appendRetoMsg = (puzzle, sol) => {
-  if (waitingForPuzzleReply) {$('#puzzle-input').addClass('is-valid');}
+  if (ER.erState.waitingForPuzzleReply) {$('#puzzle-input').addClass('is-valid');}
   $('.retoList').append(retoMsg(puzzle, sol));
   $('#puzzle-messages-title').show();
   $('.reto-puzzle-current').removeClass('reto-puzzle-current');
@@ -318,9 +305,8 @@ const updateHintTooltip = (msg) => {
   }
 }
 
-const updatePuzzle = (order, currentPuzzle) => {
+const updatePuzzle = (order, currentPuzzle, prevPuzzleOrder) => {
   if (order || order === 0) {
-      currentlyWorkingOn = order;
       // Update title
       $('#puzzle-title').data("puzzleOrder", order);
       $('#puzzle-title').text(currentPuzzle.title);
@@ -346,22 +332,30 @@ const updatePuzzle = (order, currentPuzzle) => {
     $('#puzzle-form').hide();
   }
   $('.reto-hint-title-'+prevPuzzleOrder).show();
-  $('.reto-hint-title-'+nextPuzzleOrder).show();
+  $('.reto-hint-title-'+order).show();
 }
 
 
-const createAlert = (level = "info", msg) => {
-  $.easyAlert({"message": msg, "alertType": level, "position": "b l", "time": 5000, "autoHide": true, "hideAnimation": "slide", "showAnimation": "bounce"});
+const createAlert = (level = "info", msg, keep = false) => {
+  const config = {"message": msg, "alertType": level, "position": "b l",  "hideAnimation": "slide", "showAnimation": "bounce"};
+  if (!keep) {
+    config.time = 5000;
+    config.autoHide = true;
+  }
+  return $.easyAlert(config);
 };
 
 const updateHint = (puzzleOrder, hintOrder, category) => {
-  latestHintRequestedTime = new Date();
-    const currentPuzzle = escapeRoomPuzzles.find(puz => puz.order === puzzleOrder);
+    ER.erState.latestHintObtained = new Date();
+    if (hintOrder === null) {
+      ER.erState.customHints++;
+    }
+    const currentPuzzle = ER.info.escapeRoomPuzzles.find(puz => puz.order === puzzleOrder);
     const actualCat = category || currentPuzzle.categories[0];
-    if (reqHints[puzzleOrder].indexOf(hintOrder) === -1 ) { // Not hint requested before
-      reqHints[puzzleOrder].push(hintOrder);
-      reqHintsListOrder.push(hintOrder);
-      if (currentPuzzle) {
+    if (ER.erState.reqHints[puzzleOrder].indexOf(hintOrder) === -1 ) { // Not hint requested before
+      ER.erState.reqHints[puzzleOrder].push(hintOrder);
+       ER.erState.automaticHints++;
+      if (currentPuzzle && hintOrder !== null) {
         const hintArr = currentPuzzle.hints[actualCat];
         const idx = hintArr.indexOf(hintOrder);
         if (idx !== -1) {
@@ -372,10 +366,10 @@ const updateHint = (puzzleOrder, hintOrder, category) => {
 }
 
 const updateSuperados = (puzzleOrder) => {
-  retosSuperados.push(puzzleOrder)
-  const pendingIndex = pending.indexOf(puzzleOrder);
-  if (pendingIndex !== -1 ) {pending.splice(pendingIndex, 1);} 
-  latestRetoSuperado = retosSuperados.length ? Math.max(...retosSuperados) : null;
+  ER.erState.retosSuperados.push(puzzleOrder)
+  const pendingIndex = ER.erState.pending.indexOf(puzzleOrder);
+  if (pendingIndex !== -1 ) {ER.erState.pending.splice(pendingIndex, 1);} 
+  ER.erState.latestRetoSuperado = ER.erState.retosSuperados.length ? Math.max(...ER.erState.retosSuperados) : null;
 }
 
 
@@ -401,17 +395,17 @@ const checkAvailHintsForPuzzle = (puzzleOrder) => {
     return false;
   }
 
-  if (escapeRoomHintLimit !== undefined && escapeRoomHintLimit <= reqHintsListOrder.length){
+  if (ER.info.escapeRoomHintLimit !== undefined && ER.info.escapeRoomHintLimit <= ( ER.erState.automaticHints + ER.erState.customHints)){
     $('.btn-hints').attr("disabled", true);
     updateHintTooltip(i18n["cantRequestMore"]);
     return false;
   }
 
-  if (allowCustomHints) {
+  if (ER.info.allowCustomHints) {
     $('.btn-hints').attr("disabled", false);
     updateHintTooltip(i18n["canRequest"]);
   } else {
-    const puzzle = escapeRoomPuzzles.find(p => p.order === puzzleOrder);
+    const puzzle = ER.info.escapeRoomPuzzles.find(p => p.order === puzzleOrder);
     if (puzzle && puzzle.hints) {
       var anyHint = false;
       for (var c in puzzle.hints) {
@@ -431,20 +425,20 @@ const checkAvailHintsForPuzzle = (puzzleOrder) => {
       }
     }
   }
-  if (hintInterval && latestHintRequestedTime) {
-    const timeSinceLastHint = (new Date() - latestHintRequestedTime)/1000/60;
+  if (ER.info.hintInterval && ER.erState.latestHintObtained) {
+    const timeSinceLastHint = (new Date() - ER.erState.latestHintObtained)/1000/60;
 
-    if (timeSinceLastHint < hintInterval) {
-      const timeAhead = (hintInterval - timeSinceLastHint) ;
+    if (timeSinceLastHint < ER.info.hintInterval) {
+      const timeAhead = (ER.info.hintInterval - timeSinceLastHint) ;
       const each = timeAhead < 1 ? `${Math.round(timeAhead*60)} s.`:`${Math.round(timeAhead)} min.`;
 
       timerFreq = setTimeout(()=>{
-        checkAvailHintsForPuzzle(currentlyWorkingOn)
+        checkAvailHintsForPuzzle(ER.erState.currentlyWorkingOn)
       }, timeAhead * 60 * 1000);
 
       timerTitle = setInterval(()=>{
-        const timeSinceLastHint = (new Date() - latestHintRequestedTime)/1000/60;
-        const timeAhead = (hintInterval - timeSinceLastHint) ;
+        const timeSinceLastHint = (new Date() - ER.erState.latestHintObtained)/1000/60;
+        const timeAhead = (ER.info.hintInterval - timeSinceLastHint) ;
         const each = timeAhead < 1 ? `${Math.round(timeAhead*60)} s.`:`${Math.round(timeAhead)} min.`;
         updateHintTooltip(i18n["notUntil"] + " " + each);
       }, 5000);
@@ -464,12 +458,12 @@ const yesCat = (categories, hints) => {
 };
 
 const chooseCat = async (cat) =>  {
-  if (hintAppConditional) {
+  if (ER.info.hintAppConditional) {
     chosenCat = cat;
     $('.hints-modal-cats').html("");
     $('.hints-modal-quiz').html(quizInstructionsTemplate());
   } else {
-    waitingForHintReply = true;
+    ER.erState.waitingForHintReply = true;
     $('html').css('cursor','wait');
     $('.cat-button').attr("disabled", true);
     requestHint(100, "completed", cat);
@@ -477,11 +471,11 @@ const chooseCat = async (cat) =>  {
 }
 
 const noCat = () => {
-  if (hintAppConditional) {
+  if (ER.info.hintAppConditional) {
     $( ".hints-modal-main-content").hide();
     $('.hints-modal-quiz').html(quizInstructionsTemplate());
   } else {
-    waitingForHintReply = true;
+    ER.erState.waitingForHintReply = true;
     $('html').css('cursor','wait');
     requestHint(100, "completed");
   }
@@ -489,7 +483,7 @@ const noCat = () => {
 
 let chosenCat = null
 window.requestHintFinish = (completion, score, status) => {
-  waitingForHintReply = true;
+  ER.erState.waitingForHintReply = true;
   $('html').css('cursor', 'wait');
   requestHint(score, status ? "completed" : "failed", chosenCat);
   chosenCat = null;
@@ -504,7 +498,7 @@ const initSocketServer = (escapeRoomId, teamId, turnId, username) => {
   myTeamId = teamId;
   myUsername = username;
   /*Connect*/
-  socket.on("CONNECT", onConnect);
+  socket.on("connect", onConnect);
 
   /*Error*/
   socket.on("error", console.err);
@@ -546,10 +540,10 @@ const initSocketServer = (escapeRoomId, teamId, turnId, username) => {
   socket.on("LEAVE_TEAM", onLeave);
 
   /*Disconnect*/
-  socket.on("DISCONNECT", onDisconnect);
+  socket.on("disconnect", onDisconnect);
 
   /*Reconnect*/
-  socket.on("DISCONNECT", onReconnect);
+  socket.on("reconnect", onConnect);
 
 };
 let showModT = false;
@@ -570,7 +564,7 @@ $( ()=>{
     .on('hide.bs.tooltip', function(e) {
       showNavT= false  
     });
-  checkAvailHintsForPuzzle(currentlyWorkingOn);
+  checkAvailHintsForPuzzle(ER.erState.currentlyWorkingOn);
   /** BTN ACTIONS **/
 
   $(document).on("keyup", "#puzzle-input", function(ev){
@@ -578,7 +572,7 @@ $( ()=>{
     if (ev.keyCode === 13) {
       const puzzleOrder = $(this).data("puzzleOrder");
       ev.preventDefault();
-      waitingForPuzzleReply = true;
+      ER.erState.waitingForPuzzleReply = true;
       solvePuzzle(puzzleOrder, sol);
     } else {
       $(this).removeClass('is-invalid');
@@ -589,7 +583,7 @@ $( ()=>{
   $(document).on("click", "#puzzle-check-btn", function(){
     const puzzleOrder = $(this).data("puzzleOrder");
     const sol = $(`#puzzle-input`).val();
-    waitingForPuzzleReply = true;
+    ER.erState.waitingForPuzzleReply = true;
     solvePuzzle(puzzleOrder, sol);
   });
 
@@ -625,12 +619,7 @@ $( ()=>{
   });
 
   // Update progress
-  try {
-    if (progress !== undefined) {
-      updateProgress(progress);
-    }
-  } catch (err) {
-  }
+  updateProgress();
 
   // Mobile header
   $('meta:not(:first)').attr('content', rgb2hex($('nav').first().css("background-color") || "#FFFFFF"));
@@ -639,7 +628,7 @@ $( ()=>{
 
 
   setTimeout(()=>{
-    if (localStorage["escapp_"+escapeRoomId] !== startTime.toString()) { // First time
+    if (localStorage["escapp_"+escapeRoomId] !== ER.erState.startTime.toString()) { // First time
       let auto = $( "[autoplay]" );
       if (!auto.length) { // Video
         auto = $("iframe").filter(function() {
@@ -675,7 +664,7 @@ $( ()=>{
           },100)
         }
         setTimeout(()=>{
-          localStorage["escapp_"+escapeRoomId] = startTime.toString();
+          localStorage["escapp_"+escapeRoomId] = ER.erState.startTime.toString();
         }, 3000)
     } else {
       try {

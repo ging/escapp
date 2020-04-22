@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../models");
+const {Op} = Sequelize;
 const {models} = sequelize;
 const {nextStep, prevStep} = require("../helpers/progress");
 const {startTurno, stopTurno} = require("../helpers/sockets");
@@ -177,6 +178,11 @@ exports.destroy = async (req, res, next) => {
         const date = req.turn.date ? `?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}` : "";
         const back = `/escapeRooms/${req.params.escapeRoomId}/turnos${date}`;
 
+        const teams = await req.turn.getTeams({"attributes": ["id"]});
+        const teamIds = teams.map((t) => t.id);
+
+        await models.members.destroy({"where": {"teamId": {[Op.in]: teamIds}}});
+        await models.participants.destroy({"where": {"turnId": req.turn.id}});
         await req.turn.destroy({});
 
         req.flash("success", req.app.locals.i18n.common.flash.successDeletingTurno);

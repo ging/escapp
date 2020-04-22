@@ -64,10 +64,7 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, category, me
             const puzzleOrder = currentPuzzle ? currentPuzzle.order + 1 : null;
 
             if (!currentPuzzle) {
-                return {
-                    "ok": false,
-                    "msg": messages.cantRequestMoreThis
-                };
+                return { "ok": false, "msg": messages.cantRequestMoreThis};
             }
 
             for (const i in currentPuzzle.hints) {
@@ -99,42 +96,17 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, category, me
                 hintOrder = allHints[currentHint].order + 1;
             }
             if (hintOrder || escapeRoom.allowCustomHints) {
-                const reqHint = models.requestedHint.build({
-                    hintId,
-                    teamId,
-                    success,
-                    score
-                });
+                const reqHint = models.requestedHint.build({hintId, teamId, success, score});
 
                 await reqHint.save();
-                return {
-                    "ok": true,
-                    msg,
-                    hintOrder,
-                    puzzleOrder,
-                    category
-                };
+                return {"ok": true, msg, hintOrder, puzzleOrder, category};
             }
-            return {
-                "ok": false,
-                "msg": messages.cantRequestMoreThis,
-                hintOrder,
-                puzzleOrder,
-                category
-            };
+            return {"ok": false, "msg": messages.cantRequestMoreThis, hintOrder, puzzleOrder, category};
         }
-        const reqHint = models.requestedHint.build({
-            "hintId": null,
-            teamId,
-            success,
-            score
-        });
+        const reqHint = models.requestedHint.build({"hintId": null, teamId, success, score});
 
         await reqHint.save();
-        return {
-            "ok": false,
-            "msg": messages.failed
-        };
+        return { "ok": false, "msg": messages.failed};
     } catch (e) {
         return {"ok": false, "msg": e.message};
     }

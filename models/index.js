@@ -99,7 +99,10 @@ escapeRoom.belongsTo(user, {
 turno.belongsToMany(user, {
     "as": "students",
     "through": "participants",
-    "foreignKey": "turnId",
+    "foreignKey": {
+        "name": "turnId",
+        "allowNull": false
+    },
     "onDelete": "CASCADE",
     "otherKey": "userId",
     "constraints": true
@@ -110,7 +113,10 @@ user.belongsToMany(turno, {
     "as": "turnosAgregados",
     "through": "participants",
     "onDelete": "CASCADE",
-    "foreignKey": "userId",
+    "foreignKey": {
+        "name": "userId",
+        "allowNull": false
+    },
     "otherKey": "turnId",
     "constraints": true
 
@@ -123,7 +129,10 @@ user.belongsToMany(turno, {
 team.belongsToMany(user, {
     "as": "teamMembers",
     "through": "members",
-    "foreignKey": "teamId",
+    "foreignKey": {
+        "name": "teamId",
+        "allowNull": false
+    },
     "onDelete": "CASCADE",
     "otherKey": "userId",
     "constraints": true
@@ -133,7 +142,10 @@ team.belongsToMany(user, {
 user.belongsToMany(team, {
     "as": "teamsAgregados",
     "through": "members",
-    "foreignKey": "userId",
+    "foreignKey": {
+        "name": "userId",
+        "allowNull": false
+    },
     "onDelete": "CASCADE",
     "otherKey": "teamId",
     "constraints": true
@@ -158,7 +170,10 @@ escapeRoom.hasOne(hintApp, {
 team.belongsToMany(puzzle, {
     "as": "retos",
     "through": "retosSuperados",
-    "foreignKey": "teamId",
+    "foreignKey": {
+        "name": "teamId",
+        "allowNull": false
+    },
     "onDelete": "CASCADE",
     "otherKey": "puzzleId",
     "constraints": true
@@ -167,7 +182,10 @@ team.belongsToMany(puzzle, {
 puzzle.belongsToMany(team, {
     "as": "superados",
     "through": "retosSuperados",
-    "foreignKey": "puzzleId",
+    "foreignKey": {
+        "name": "puzzleId",
+        "allowNull": false
+    },
     "onDelete": "CASCADE",
     "otherKey": "teamId",
     "constraints": true

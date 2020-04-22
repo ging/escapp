@@ -23,20 +23,30 @@
 <body>
     <% var currentlyWorkingOn = null %>
     <% var latestRetoSuperado =  null %>
+    <% var reqHints = {}; %>
+    <% var customHints = 0; %>
+    <% var reqHintsList = []; %>
+    <% var automaticHints = 0 %>
+    <% var pending = [] %>
 
     <% if (isStudent) { %>
         <% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
         <% var hintAppConditional = hintConditional && Boolean(escapeRoom.hintApp); // Hint app methodology %>
         <% var retosSuperados = team.retos.map(a=>a.order);%>
         <% var retosSuperadosIds = team.retos.map(a=>a.id);%>
-        <% var reqHintsList = hints.map(h=>h.hintId).filter(Boolean); %>
-        <% var reqHintsListOrder = hints.map(h=>h.hint ? h.hint.order : null).filter(a=>!isNaN(a)); %>
-        <% var reqHints = {}; %>
+        <% for (let h in hints) {
+            let hint = hints[h]
+            if (hint && hint.hint) {
+                reqHintsList.push(hint.hintId);
+                automaticHints++;
+            } else {
+                customHints++
+            }
+        } %>
         <% var progress = Math.round(retosSuperados.length / escapeRoom.puzzles.length * 100); %>
         <% var finish = retosSuperados.length === escapeRoom.puzzles.length; %>
         <% latestRetoSuperado = retosSuperados.length ? Math.max(...retosSuperados) : null %>
         <% currentlyWorkingOn = retosSuperados.length ? (Math.max(...retosSuperados) + 1) : 0 %>
-        <% var pending = [] %>
         <% if (finish) { 
             currentlyWorkingOn = null;
         } %>
@@ -44,10 +54,6 @@
     <% } else {%>
         <% var retosSuperados = []%>
         <% var retosSuperadosIds = []%>
-        <% var reqHints = []; %>
-        <% var reqHintsList = []; %>
-        <% var reqHintsListOrder = []; %>
-        <% var pending = []; %>
         <% var progress = 0; %>
     <% } %>
         <% var puzzles = escapeRoom.puzzles.map(({ id, order, title, score, correct, automatic, hints })=>{ 
@@ -205,27 +211,34 @@
 
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
-    var escapeRoomPuzzles = <%- JSON.stringify(puzzles)%>;
-    var totalPuzzles = <%= escapeRoom.puzzles.length %>;
-    var startTime = new Date("<%=team.startTime%>");
-    var currentlyWorkingOn = <%=(currentlyWorkingOn !== undefined && currentlyWorkingOn !== null ) ? currentlyWorkingOn :  "null"%>;
-    var retosSuperados = <%-JSON.stringify(retosSuperados)%>;
-    var pending =  <%=JSON.stringify(pending)%>;
-    var latestRetoSuperado =  <%=JSON.stringify(latestRetoSuperado)%>;
-    var hintConditional = <%= hintConditional || false %>;
-    var hintAppConditional =  <%= hintAppConditional || false%>;
-    var hintInterval =  <%= escapeRoom.hintInterval || 0%>;
-    var allowCustomHints = <%= escapeRoom.allowCustomHints ? "true" : "false"%>
-    var escapeRoomHintLimit = <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>;
-    var reqHints = JSON.parse('<%-JSON.stringify(reqHints)%>');
-    var reqHintsListOrder =  <%=JSON.stringify(reqHintsListOrder)%>;
-    var progress = <%= !isNaN(progress) ? progress : undefined %>;
     var username = "<%= session.user.username %>";
-    var teamId = <%= team.id || "undefined";%>  
-    var waitingForHintReply = false;
-    var waitingForPuzzleReply = false;
-    var latestHintRequestedTime = <%if (hints.length) { %> new Date("<%=hints[hints.length-1].createdAt%>") <% } else { %>null <%}%>;
-    initSocketServer(<%= escapeRoom.id%>, teamId, <%= team.turno ? team.turno.id : "undefined" %>, username);
+    var teamId = <%= team.id || "undefined"%>; 
+    var ER = {
+        "info": {
+            "escapeRoomPuzzles": <%- JSON.stringify(puzzles)%>,
+            "totalPuzzles": <%= escapeRoom.puzzles.length %>,
+            "hintConditional": <%= hintConditional || false %>,
+            "hintAppConditional":  <%= hintAppConditional || false%>,
+            "hintInterval":  <%= escapeRoom.hintInterval || 0%>,
+            "allowCustomHints": <%= escapeRoom.allowCustomHints ? "true" : "false"%>,
+            "escapeRoomHintLimit": <%= (escapeRoom.hintLimit === undefined || escapeRoom.hintLimit === null ) ? "undefined" : escapeRoom.hintLimit %>
+        },
+        "erState": {
+            "startTime": new Date("<%=team.startTime%>"),
+            "currentlyWorkingOn": <%=(currentlyWorkingOn !== undefined && currentlyWorkingOn !== null ) ? currentlyWorkingOn :  "null"%>,
+            "retosSuperados": <%-JSON.stringify(retosSuperados)%>,
+            "pending": <%=JSON.stringify(pending)%>,
+            "latestRetoSuperado": <%=JSON.stringify(latestRetoSuperado)%>,
+            "latestHintObtained":  <%if (hints.length) { %> new Date("<%=hints[hints.length-1].createdAt%>") <% } else { %>null <%}%>,
+            "customHints": <%=customHints%>,
+            "automaticHints":  <%=automaticHints%>,
+            "reqHints": JSON.parse('<%-JSON.stringify(reqHints)%>'),
+            "waitingForHintReply": false,
+            "waitingForPuzzleReply": false,
+        }
+    };
+ 
+    initSocketServer(escapeRoomId, teamId, <%= team.turno ? team.turno.id : "undefined" %>, username);
     
     var i18n = {
         "correctAnswer": "<%=i18n.api.correct%>",
@@ -249,7 +262,7 @@
         "writeSol": "<%=i18n.puzzle.writeSol%>",
         "timeUp": "<%=i18n.api.timeUp%>",
         "start": "<%=i18n.hint.start%>",
-        "instructionsQuiz": "<%=i18n.hint.instructionsQuiz1 + ' ' + (Math.round(escapeRoom.numRight/100*escapeRoom.numQuestions)) + ' ' + i18n.hint.instructionsQuiz2 + ' ' + escapeRoom.numQuestions + ' ' + i18n.hint.instructionsQuiz3%>",
+        "instructionsQuiz": "<%=i18n.hint.instructionsQuiz1 + ' ' + (Math.round(escapeRoom.numRight/100*escapeRoom.numQuestions)) + ' ' + i18n.hint.instructionsQuiz2 + ' ' + (escapeRoom.numQuestions || 1) + ' ' + i18n.hint.instructionsQuiz3%>",
         "teamJoined": "<%=i18n.api.teamJoined%>",
         "disconnect": "<%=i18n.api.disconnect%>",
         "reconnect": "<%=i18n.api.reconnect%>",
