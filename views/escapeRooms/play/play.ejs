@@ -97,7 +97,7 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-div">
           <%if (isStudent && currentlyWorkingOn !== null) {%> 
             <% const puzzle = puzzles[currentlyWorkingOn] %>
-            <div class=" form-inline my-2 my-lg-0 ms-auto" style="flex: 1;flex-wrap: nowrap;<%=puzzle.automatic ? 'display: none;' : ''%>" id="puzzle-form" > 
+            <div class=" form-inline my-2 my-lg-0 ms-auto" style="flex: 1;flex-wrap: nowrap; margin-bottom: 0 !important; <%=puzzle.automatic ? 'display: none;' : ''%>" id="puzzle-form" > 
               <label style="flex: 1; justify-content: flex-end;">
                 <span class="navbar-text puzzle-title" id="puzzle-title" data-puzzle-order="<%= puzzle.order %>"><%=puzzle.title%>
                 </span>&nbsp;
