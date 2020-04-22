@@ -93,7 +93,10 @@ const onStop = async () => {
   window.location = `/escapeRooms/${escapeRoomId}/finish`;
 }
 
-const onJoin = () => {
+const onJoin = ({ranking}) => {
+  if (ranking) {
+    onRanking({ranking});
+  }
   // console.log("Someone from your team has joined the ER")
   // alertMsg = createAlert("info", i18n["teamJoined"]);
 }
