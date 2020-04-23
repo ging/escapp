@@ -133,7 +133,7 @@ exports.edit = (req, res) => {
 };
 
 // PUT /escapeRooms/:escapeRoomId
-exports.update = async (req, res, next) => {
+exports.update = async (req, res) => {
     const {escapeRoom, body} = req;
 
     escapeRoom.title = body.title;
@@ -224,12 +224,12 @@ exports.evaluationUpdate = async (req, res, next) => {
     escapeRoom.automaticAttendance = body.automaticAttendance;
     try {
         await escapeRoom.save({"fields": ["survey", "pretest", "posttest", "scoreParticipation", "hintSuccess", "hintFailed", "automaticAttendance"]});
-        if (!body.scores || body.scores.length !== escapeRoom.puzzles.length) {
+        if (body.scores && body.scores.length !== escapeRoom.puzzles.length) {
             throw new Error("");
         }
         const promises = [];
 
-        for (const p in body.scores) {
+        for (const p in body.scores || []) {
             if (parseFloat(escapeRoom.puzzles[p].score || 0) !== parseFloat(body.scores[p] || 0)) {
                 escapeRoom.puzzles[p].score = body.scores[p];
                 promises.push(escapeRoom.puzzles[p].save({"fields": ["score"]}));

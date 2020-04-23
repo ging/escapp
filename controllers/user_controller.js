@@ -84,20 +84,12 @@ exports.create = (req, res, next) => {
         catch(Sequelize.UniqueConstraintError, (error) => {
             console.error(error);
             req.flash("error", req.app.locals.i18n.common.flash.errorExistingUser);
-            res.render("index", {
-                user,
-                "register": true,
-                redir
-            });
+            res.render("index", {user, "register": true, redir});
         }).
-        catch(Sequelize.ValidationError, (error) => {
+        catch(Sequelize.ValidationError, (/* Error */) => {
             req.flash("error", req.app.locals.i18n.common.validationError);
             // Error.errors.forEach(({message}) => req.flash("error", message));
-            res.render("index", {
-                user,
-                "register": true,
-                redir
-            });
+            res.render("index", {user, "register": true, redir});
         }).
         catch((error) => next(error));
 };
@@ -217,7 +209,7 @@ exports.resetPasswordHash = (req, res, next) => {
 };
 
 // POST /users/password-reset/:hash
-exports.newResetPasswordHash = async (req, res, next) => {
+exports.newResetPasswordHash = async (req, res) => {
     const {code, email} = req.query;
 
     if (req.user && req.user.password === code && req.user.username === email) {

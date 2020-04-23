@@ -43,7 +43,7 @@ exports.retos = (req, res) => {
 };
 
 // POST /escapeRooms/:escapeRoomId/puzzles
-exports.retosUpdate = async (req, res, next) => {
+exports.retosUpdate = async (req, res) => {
     const {escapeRoom, body} = req;
     const {puzzles} = body;
 

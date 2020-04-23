@@ -1,12 +1,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
 <script>
-
+    var submitted = false;
     $.fn.upform = function() {
         var $this = $(this);
         var container = $this.find(".basicConfig");
 
         $(document).ready(function() {
-            $(container).find(".erFormField:not(.disallow))").find("input, select").first().focus();
+            $(container).find(".erFormField:not(.disallow)").find("input, select").first().focus();
         });
 
         $(container)
@@ -17,7 +17,6 @@
             });
 
         $(container).find(".erFormField:not(.disallow) input, .erFormField:not(.disallow) select").keypress(function(e) {
-            console.log(2,e.target)
             if (e.which == 13) {
                 if (!this.checkValidity()) {
                     $('form').find(':submit').click();
@@ -33,15 +32,22 @@
             // moveNext(this);
         });
 
-        $(window).on("scroll", function() {
-            $(container).find(".erFormField:not(.disallow)").each(function() {
-                var etop = $(this).offset().top;
-                var diff = etop - $(window).scrollTop();
-
-                if (diff > 80 && diff < 300) {
-                    reinitState(this);
-                }
-            });
+        $(window).on("scroll", (e)=> {
+            console.log(submitted)
+            if (!submitted) {
+                $(container).find(".erFormField:not(.disallow)").each(function() {
+                    var etop = $(this).offset().top;
+                    
+                    var diff = etop - $(window).scrollTop();
+                    if (diff > 50 && diff < 250) {
+                        reinitState(this);
+                    }
+                });
+            } else {
+                // setTimeout(()=>{
+                //     document.documentElement.scrollTop -= $(window).height()/2;
+                // },200)
+            }
         });
 
         function reinitState(e) {
@@ -55,7 +61,7 @@
         }
 
         function rescroll(e) {
-            $(window).scrollTo($(e), 200, {
+            $(window).scrollTo($(e), 0, {
                 offset: { left: 100, top: -100 },
                 queue: false
             });
@@ -63,12 +69,14 @@
 
         function reinit(e) {
             reinitState(e);
-            rescroll(e);
+            // rescroll(e);
         }
 
         function moveNext(e) {
             let next = $(e).closest('.erFormField').nextAll('.erFormField').first().find('.customInput')[0]
-            if (next) {next.focus();} else {
+            if (next) {
+                next.focus();
+            } else {
                 $("form").submit()
             }
 
@@ -76,11 +84,22 @@
 
         function movePrev(e) {
             let next = $(e).closest('.erFormField').prevAll('.erFormField').first().find('.customInput')[0]
-            if (next) {next.focus();}
+            if (next) {
+                next.focus();
+            }
        
         }
     };
-
+    $(':submit').click(()=>{
+        console.log(2)
+        submitted = true;
+        setTimeout(function(){
+            document.documentElement.scrollTop -= 200;
+        }, 0);
+        setTimeout(function(){
+            submitted = false;
+        }, 500);
+    });
     $(".main").upform();
 
 </script>
