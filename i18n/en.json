@@ -106,12 +106,7 @@
         "participant": "You are a participant of this escape room",
         "notActive": "You are a participant of this escape room but your shift is not active",
         "notStarted": "You are a participant of this escape room but you have not clicked the start button",
-        "tooLate": "You are a participant of this escape room but your time is up",
-        "timeUp": "Time is up!",
-        "teamJoined": "Someone from your team has joined the ER",
-        "disconnect": "Lost connection",
-        "reconnect": "Attempting to reconnect...",
-        "connected": "Connected!"
+        "tooLate": "You are a participant of this escape room but your time is up"
     },
     "apps": {
         "newApp": "New app",
@@ -137,7 +132,6 @@
             "notFound": "It seems like we couldn't find the page you were looking for"
         },
         "exit": "exit",
-        "Exit": "Exit",
         "filter": "filter",
         "finish": "finish",
         "Finish": "Finish",
@@ -266,6 +260,48 @@
                 "false": "The team can NOT request more hints"
             }
 
+        },
+        "play": {
+            "correct": "Correct answer!",
+            "check": "Check",
+            "msg": "Message",
+            "sol": "Solution",
+            "writeSol": "Writre here the solution",
+            "currentPuzzle": "Reto actual",
+            "finish": "Congratulations! You've exited the Escape Room.",
+            "failed": "Too bad! Please try again",
+            "failMessage": "Too bad! Please keep trying",
+            "dontClose": "There aren't any hints left. You may ask your teacher for help now. Don't close this message until they come",
+            "noMoreLeft": "There aren't any hints left. You may ask your teacher for help now. ",
+            "noMoreLeftTeam": "Someone from your team requested a hint but there are no more hints for your current situation. The team can ask the teacher for help",
+            "chooseCat": "What do you need help with?",
+            "cantRequestMore": "You cannot request more hints",
+            "cantRequestMoreThis": "You cannot request more hints in your current situation",
+            "canRequest": "Request a hint",
+            "empty": "Help from the teacher",
+            "Info": "Information",
+            "newHint": "New hint",
+            "newRetoSuperado": "New puzzle solved!",
+            "Hints": "Hints",
+            "noReqHints":"You have not requested any hint for this puzzle",
+            "other": "Other messages",
+            "instructionsQuiz1" : "In order to obtain a hint you must answer correctly at least",
+            "instructionsQuiz2" : "out of the ",
+            "instructionsQuiz3" : "following questions",
+            "need": "Request a hint",
+            "start": "Start",
+            "requestedHints": "Hints obtained",
+            "successMessage": "Congratulations! You've obtained a new hint",
+            "tooMany": "You've obtained the maximum number of hints allowed",
+            "tooOften": "You can only obtain a hint every",
+            "notUntil": "You cannot obtain another hint for another",
+            "timeUp": "Time is up!",
+            "teamJoined": "Someone from your team has joined the ER",
+            "disconnect": "Lost connection",
+            "reconnect": "Attempting to reconnect...",
+            "connected": "Connected!",
+            "confirmSupport" : "Are you sure you need tech support?",
+            "Exit": "Exit"
         },
         "fields": {
 
@@ -402,6 +438,7 @@
                 "clueName": "Clue name",
                 "description": "Description",
                 "failMsg": "Message on fail",
+                "Hint": "Hint",
                 "hints": "Hints",
                 "manual": "Manual",
                 "newCat": "Categoría nueva",
@@ -444,35 +481,6 @@
         "rankingExplanation": "It shows the teams ordered by their level of performance",
         "progress": "Progress bar",
         "progressExplanation": "It shows the percentage of puzzles a team has completed"
-    },
-    "hint": {
-        "failed": "Too bad! Please try again",
-        "failMessage": "Too bad! Please keep trying",
-        "dontClose": "There aren't any hints left. You may ask your teacher for help now. Don't close this message until they come",
-        "noMoreLeft": "There aren't any hints left. You may ask your teacher for help now. ",
-        "noMoreLeftTeam": "Since you started the quiz someone else obtained a hint so you cannot obtain another one right now.",
-        "empty": "Help from the teacher",
-        "chooseCat": "What do you need help with?",
-        "cantRequestMore": "You cannot request more hints",
-        "cantRequestMoreThis": "You cannot request more hints in your current situation",
-        "canRequest": "Request a hint",
-        "newHint": "New hint",
-        "Hint": "Hint",
-        "Hints": "Hints",
-        "noRelevant":"No relevant information",
-        "noReqHints":"You have not requested any hint for this puzzle",
-        "Info": "Information",
-        "need": "Request a hint",
-        "start": "Start",
-        "other": "Other messages",
-        "instructionsQuiz1" : "In order to obtain a hint you must answer correctly at least",
-        "instructionsQuiz2" : "out of the ",
-        "instructionsQuiz3" : "following questions",
-        "requestedHints": "Hints obtained",
-        "successMessage": "Congratulations! You've obtained a new hint",
-        "tooMany": "You've obtained the maximum number of hints allowed",
-        "tooOften": "You can only obtain a hint every",
-        "notUntil": "You cannot obtain another hint for another"
     },
     "inspiration": {
         "downloadText": "download",
@@ -627,21 +635,14 @@
 
     },
     "puzzle": {
-        "check": "Check",
         "puzzle": "puzzle",
         "Puzzle": "Puzzle",
         "puzzles": "puzzles",
         "Puzzles": "Puzzles",
-        "Msg": "Message",
-        "Solution": "Solution",
-        "currentPuzzle": "Reto actual",
-        "writeSol": "Writre here the solution",
         "wrongAnswer": "Sorry! Wrong answer",
         "messages": "Puzzle messages",
         "retosSuperados": "Puzzles solved",
-        "newRetoSuperado": "New puzzle solved!",
         "correctAnswer": "Congratulations! You've completed this puzzle",
-        "finish": "Congratulations! You've exited the Escape Room.",
         "start":"Start"
     },
     "showStudent": {
@@ -658,8 +659,7 @@
         "sureUnjoin": "Are you sure you want to leave the Escape Room?",
         "congrats": "Congratulations! You've successfully exited the Escape Room.",
         "resultsTitle": "This is the escape room's leaderboard",
-        "unjoin": "leave",
-        "confirmSupport" : "Are you sure you need tech support?"
+        "unjoin": "leave"
     },
     "showTeacher": {
         "actionList": {

@@ -102,6 +102,7 @@ const onJoin = ({ranking}) => {
 }
 
 const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage}) => {
+  console.log(msg)
   const feedback = (msg) + (participantMessage && participation !== "PARTICIPANT" ? `<br/> ${participantMessage}`: "");
   const puzzleOrder = puzzleOrderPlus - 1;
   if (code === "OK") {
@@ -111,7 +112,7 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
       updateSuperados(puzzleOrder);
       updateProgress();
       appendRetoMsg(ER.info.escapeRoomPuzzles[puzzleOrder], solution);
-      createAlert("success", `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correctAnswer ? '': feedback }`);
+      createAlert("success", `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correct ? '': feedback }`);
       const isLast = ER.erState.retosSuperados.length === ER.info.totalPuzzles;
       if (!isLast) {
         const puzzleIndex = ER.info.escapeRoomPuzzles.findIndex(puzzle => puzzle.order == puzzleOrder);
@@ -132,7 +133,7 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
       }
     }
   } else {
-    if (msg !== i18n.wrongAnswer) {
+    if (msg !== i18n.wrong) {
       createAlert("danger", feedback);
     }
     if (ER.erState.waitingForPuzzleReply) {
@@ -165,7 +166,7 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
       if (!moreAvail) {
         cleanHintModal();
       }
-      $('.reto-hint-title-'+puzzleOrder).first().removeClass('animated')
+      $('.reto-hint-title-'+puzzleOrder).first().removeClass('animated');
     }
     
   } else if(ER.info.allowCustomHints) {
@@ -173,12 +174,24 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
       updateHint(puzzleOrder, null, category);
       const moreAvail = checkAvailHintsForPuzzle(puzzleOrder);
       if (ER.erState.waitingForHintReply) { // Receive a hint that you requested
-        $('.hints-modal-no-left').html(`<p>${ER.info.hintAppConditional ? i18n.dontClose : i18n.noMoreLeft}</p>`);
+        if (ER.info.hintAppConditional) {
+          try {
+            $(".hintAppIframe")[0].contentWindow.document.getElementsByTagName('iframe')[0].contentWindow.changeModalMsg(i18n.dontClose);
+          } catch(e) {
+            createAlert("warning", i18n.dontClose);
+          }
+        } else {
+          createAlert("warning", i18n.noMoreLeft);
+
+        }
       } else { // Receive a hint that someone else requested
         if (!moreAvail) {
-          $('.hints-modal-no-left').html(`<p>${i18n.noMoreLeftTeam}</p>`);
-        }
-        createAlert("success", message);
+          if (ER.info.hintAppConditional) {
+            cleanHintModal();
+          }
+        } 
+        createAlert("warning", i18n.noMoreLeftTeam);
+        
       }
     } else { // Hint not obtained (only quiz strategy)
       if (ER.erState.waitingForHintReply) { // Receive a hint that you requested
@@ -249,7 +262,7 @@ const rgb2hex = orig => {
 /************************HINT MANAGEMENT***************************/
 
 const hintReq = ()=>{
-  $('#modal-title').html('<b>'+i18n.hints+'<b>');
+  $('#modal-title').html('<b>'+i18n.Hints+'<b>');
   let currentReto = ER.info.escapeRoomPuzzles.find(p=>p.order === ER.erState.currentlyWorkingOn);
   const categories = currentReto ? currentReto.categories : null;
   const hints = currentReto ? currentReto.hints : null;
@@ -271,7 +284,7 @@ const closeHintModal = async () => {
 }
 
 const cleanHintModal = ()=> {
-  $('#modal-title').html('<b>'+i18n.info+'<b>');
+  $('#modal-title').html('<b>'+i18n.Info+'<b>');
   $('.hints-modal-main-content').show();
   $('.hints-modal-cats').html("");
   $('.hints-modal-quiz').html("");
@@ -394,19 +407,19 @@ const checkAvailHintsForPuzzle = (puzzleOrder) => {
 
   if (puzzleOrder === null || puzzleOrder === undefined) {
     $('.btn-hints').attr("disabled", true);
-    updateHintTooltip(i18n["cantRequestMore"]);
+    updateHintTooltip(i18n.cantRequestMore);
     return false;
   }
 
   if (ER.info.escapeRoomHintLimit !== undefined && ER.info.escapeRoomHintLimit <= ( ER.erState.automaticHints + ER.erState.customHints)){
     $('.btn-hints').attr("disabled", true);
-    updateHintTooltip(i18n["cantRequestMore"]);
+    updateHintTooltip(i18n.cantRequestMore);
     return false;
   }
 
   if (ER.info.allowCustomHints) {
     $('.btn-hints').attr("disabled", false);
-    updateHintTooltip(i18n["canRequest"]);
+    updateHintTooltip(i18n.canRequest);
   } else {
     const puzzle = ER.info.escapeRoomPuzzles.find(p => p.order === puzzleOrder);
     if (puzzle && puzzle.hints) {
@@ -420,10 +433,10 @@ const checkAvailHintsForPuzzle = (puzzleOrder) => {
       }
       if (anyHint) {
         $('.btn-hints').attr("disabled", false);
-        updateHintTooltip(i18n["canRequest"]);
+        updateHintTooltip(i18n.canRequest);
       } else {
         $('.btn-hints').attr("disabled", true);
-        updateHintTooltip(i18n["cantRequestMoreThis"]);
+        updateHintTooltip(i18n.cantRequestMoreThis);
         return false;
       }
     }
@@ -434,19 +447,24 @@ const checkAvailHintsForPuzzle = (puzzleOrder) => {
     if (timeSinceLastHint < ER.info.hintInterval) {
       const timeAhead = (ER.info.hintInterval - timeSinceLastHint) ;
       const each = timeAhead < 1 ? `${Math.round(timeAhead*60)} s.`:`${Math.round(timeAhead)} min.`;
-
+      const timeAheadMs = timeAhead * 60 * 1000;
       timerFreq = setTimeout(()=>{
         checkAvailHintsForPuzzle(ER.erState.currentlyWorkingOn)
-      }, timeAhead * 60 * 1000);
+      }, timeAheadMs);
 
-      timerTitle = setInterval(()=>{
-        const timeSinceLastHint = (new Date() - ER.erState.latestHintObtained)/1000/60;
-        const timeAhead = (ER.info.hintInterval - timeSinceLastHint) ;
-        const each = timeAhead < 1 ? `${Math.round(timeAhead*60)} s.`:`${Math.round(timeAhead)} min.`;
-        updateHintTooltip(i18n["notUntil"] + " " + each);
-      }, 5000);
+      const interval = ()=>{
+          const timeSinceLastHint = (new Date() - ER.erState.latestHintObtained)/1000/60;
+          const timeAhead = (ER.info.hintInterval - timeSinceLastHint) ;
+          const each = timeAhead < 0.95 ? `${Math.round(timeAhead*60)} s.`:`${Math.ceil(timeAhead)} min.`;
+          updateHintTooltip(i18n.notUntil + " " + each);
+      }
+
+      setTimeout(()=>{
+        timerTitle = setInterval(interval, 5000);
+        interval();
+      }, timeAheadMs % 5000);
       
-      updateHintTooltip(i18n["notUntil"] + " " + each);
+      updateHintTooltip(i18n.notUntil + " " + each);
       $('.btn-hints').attr("disabled", true);
       return false;
     }

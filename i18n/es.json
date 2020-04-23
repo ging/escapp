@@ -100,12 +100,7 @@
         "participant": "Participas en esta escape room",
         "notActive": "Participas en esta escape room pero tu turno no está activo",
         "notStarted": "Participas en esta escape room pero no le has dado al botón de comenzar",
-        "tooLate": "Participas en esta escape room pero se ha pasado el tiempo",
-        "timeUp": "¡Se ha acabado el tiempo!",
-        "teamJoined": "Alguien de tu equipo se ha conectado",
-        "disconnect": "Se ha perdido la conexión",
-        "reconnect": "Intentando volver a conectar...",
-        "connected": "¡Conexión recuperada!"
+        "tooLate": "Participas en esta escape room pero se ha pasado el tiempo"
     },
     "apps": {
         "newApp": "Nueva app",
@@ -129,7 +124,6 @@
             "notFound": "No hemos encontrado la página que buscas"
         },
         "exit": "salir",
-        "Exit": "Salir",
         "filter": "filtrar",
         "Finish": "Finalizar",
         "finish": "finalizar",
@@ -259,6 +253,49 @@
                 "true": "El equipo puede pedir más pistas",
                 "false": "El equipo NO puede pedir más pistas"
             }        
+        },
+        "play": {
+            "check": "Comprobar",
+            "correct": "¡Respuesta correcta!",
+            "msg": "Mensaje",
+            "sol": "Solución",
+            "currentPuzzle": "Reto actual",
+            "writeSol": "Escribe la solución",
+            "failed": "Lo siento, sigue intentándolo",
+            "failMessage": "Lo siento, tendrás que seguir intentándolo",
+            "finish": "¡Has superado todos los retos!",
+            "dontClose": "No quedan más pistas automáticas para tu situación. Puedes llamar al profesor para que te dé una personalizada. No cierres este mensaje hasta que venga",
+            "noMoreLeft": "No quedan más pistas automáticas para tu situación. Puedes llamar al profesor para que te dé una personalizada. ",
+            "noMoreLeftTeam": "Alguien de tu equipo ha conseguido una pista peor no queda ninguna para vuestra situación actual. Podéis llamar al profesor para que os ayude.",
+            "chooseCat": "¿Con qué necesitas ayuda?",
+            "cantRequestMore": "No puedes pedir más pistas",
+            "cantRequestMoreThis": "No puedes pedir más pistas para tu situación actual",
+            "canRequest": "Pide una pista",
+            "newRetoSuperado": "¡Nuevo reto superado!",
+            "empty": "Ayuda del profesor",
+            "Info": "Información",
+            "newHint": "Nueva pista",
+            "Hints": "Pistas",
+            "Exit": "Salir",
+            "noReqHints":"No has pedido ninguna pista para este reto",
+            "other": "Otros mensajes",
+            "instructionsQuiz1" : "Para obtener una pista deberás responder correctamente al menos",
+            "instructionsQuiz2" : "de las siguientes",
+            "instructionsQuiz3" : "preguntas",        
+            "need": "Pedir pista",
+            "start": "Comenzar",
+            "requestedHints": "Pistas recibidas",
+            "successMessage": "Enhorabuena! Has conseguido una nueva pista.",
+            "tooMany": "Ya has pedido el número máximo de pistas",
+            "tooOften": "Sólo puedes pedir una pista cada",
+            "notUntil": "No puedes pedir otra pista hasta dentro de",
+            "timeUp": "¡Se ha acabado el tiempo!",
+            "teamJoined": "Alguien de tu equipo se ha conectado",
+            "disconnect": "Se ha perdido la conexión",
+            "reconnect": "Intentando volver a conectar...",
+            "connected": "¡Conexión recuperada!",
+             "confirmSupport" : "¿Estás seguro de que necesitas ayuda técnica?"
+
         },
         "invitation": {
             "no": "no",
@@ -393,6 +430,7 @@
                 "clueName": "Nombre de la pista",
                 "description": "Descripción",
                 "failMsg": "Mensaje al fallar",
+                "Hint": "Pista",
                 "hints": "Pistas",
                 "manual": "Manual",
                 "newCat": "New category",
@@ -420,35 +458,6 @@
         "general": {
             "areYouSureDelete": "¿Seguro que deseas eliminar esta escape room?"
         }
-    },
-    "hint": {
-        "failed": "Lo siento, sigue intentándolo",
-        "failMessage": "Lo siento, tendrás que seguir intentándolo",
-        "dontClose": "No quedan más pistas automáticas para tu situación. Puedes llamar al profesor para que te dé una personalizada. No cierres este mensaje hasta que venga",
-        "noMoreLeft": "No quedan más pistas automáticas para tu situación. Puedes llamar al profesor para que te dé una personalizada. ",
-        "noMoreLeftTeam": "Desde que empezaste el cuestionario alguien de tu equipo ha conseguido una pista por lo que no puedes pedir ninguna más ahora mismo",
-        "chooseCat": "¿Con qué necesitas ayuda?",
-        "cantRequestMore": "No puedes pedir más pistas",
-        "cantRequestMoreThis": "No puedes pedir más pistas para tu situación actual",
-        "canRequest": "Pide una pista",
-        "empty": "Ayuda del profesor",
-        "newHint": "Nueva pista",
-        "Hint": "Pista",
-        "Hints": "Pistas",
-        "Info": "Información",
-        "noReqHints":"No has pedido ninguna pista para este reto",
-        "noRelevant":"No hay información relevante",
-        "other": "Otros mensajes",
-        "need": "Pedir pista",
-        "start": "Comenzar",
-        "instructionsQuiz1" : "Para obtener una pista deberás responder correctamente al menos",
-        "instructionsQuiz2" : "de las siguientes",
-        "instructionsQuiz3" : "preguntas",        
-        "requestedHints": "Pistas recibidas",
-        "successMessage": "Enhorabuena! Has conseguido una nueva pista.",
-        "tooMany": "Ya has pedido el número máximo de pistas",
-        "tooOften": "Sólo puedes pedir una pista cada",
-        "notUntil": "No puedes pedir otra pista hasta dentro de"
     },
     "gallery": {
         "insert": "insertar",
@@ -617,21 +626,13 @@
         "wrongToken": "Contraseña de acceso a la escape room incorrecta"
     },
     "puzzle": {
-        "check": "Comprobar",
         "puzzle": "reto",
         "Puzzle": "Reto",
         "puzzles": "retos",
         "Puzzles": "Retos",
-        "Msg": "Mensaje",
-        "Solution": "Solución",
-        "currentPuzzle": "Reto actual",
-        "messages": "Mensajes de los retos",
-        "writeSol": "Escribe la solución",
         "retosSuperados": "Retos superados",
         "wrongAnswer": "Respuesta incorrecta",
-        "newRetoSuperado": "¡Nuevo reto superado!",
         "correctAnswer": "¡Reto superado!",
-        "finish": "¡Has superado todos los retos!",
         "start":"Inicio"
     },
     "showStudent": {
@@ -648,9 +649,7 @@
         "sureUnjoin": "¿Seguro que deseas desapuntarte?",
         "congrats": "¡Enhorabuena! Has terminado con éxito la escape room",
         "resultsTitle": "Este es el ranking de resultados de la escape room",
-        "unjoin": "desapuntarse",
-        "confirmSupport" : "¿Estás seguro de que necesitas ayuda técnica?"
-
+        "unjoin": "desapuntarse"
     },
     "showTeacher": {
         "actionList": {

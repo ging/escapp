@@ -6,6 +6,12 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom.teamAppearance%>.bootstrap.min.css">
+		<style>
+			.finish_screen h5 {
+				text-align:center;
+				margin-top: 20px;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="root"></div>
@@ -27,8 +33,8 @@
 				"scormVersion":"1.2",
 				"showInfoModal":false,
 				"threshold": "<%= escapeRoom.numRight || 50 %>",
-				"successMessage": "<%=i18n.hint.successMessage%>",
-				"failMessage": "<%=i18n.hint.failMessage%>",
+				"successMessage": "<%=i18n.escapeRoom.play.successMessage%>",
+				"failMessage": "<%=i18n.escapeRoom.play.failMessage%>",
 				"moodleXMLPath": "<%=escapeRoom.hintApp.url %>",
 				"finishCallback": (completion, score, status) => {
 					if (window.parent && window.parent.parent && window.parent.parent.requestHintFinish) {

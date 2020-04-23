@@ -3,7 +3,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="modal-title">
-            <%=i18n.hint.Info%>
+            <%=i18n.escapeRoom.play.Info%>
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -13,8 +13,9 @@
             <div class="hints-modal-no-left">
             </div>  
             <div class="hints-modal-main-content">
+                <%if (hintConditional){%>
                 <h4 id="requested-hints-title" >
-                    <%=i18n.hint.requestedHints%>
+                    <%=i18n.escapeRoom.play.requestedHints%>
                 </h4>
                 <br/>
                 <ul class="cardList hintList">
@@ -33,15 +34,15 @@
 
                         <h6 class="reto-title">
                             <span class="btn-hints-title btn-hints-modal-title" id="btn-hints-modal-tooltip-<%=order%>" data-toggle="tooltip" title="-">
-                                <button class="btn btn-success btn-hints btn-hints-modal" ><%=i18n.hint.need%></button>
+                                <button class="btn btn-success btn-hints btn-hints-modal" ><%=i18n.escapeRoom.play.need%></button>
                             </span>
                             <span class="current-pths"><b><%=i18n.puzzle.Puzzle%> <%=order+1%></b></span>
                             <span class="puzzle-title-no-current"><b><%=escapeRoom.puzzles[p].title%></b> </span>
-                            <span class="current-pths"> (<%=i18n.puzzle.currentPuzzle%>) </span>
+                            <span class="current-pths"> (<%=i18n.escapeRoom.play.currentPuzzle%>) </span>
                             </span>
                         </h6>
                         <%if(!requested) {%>
-                            <p class="no-req-hints"><%=i18n.hint.noReqHints%></p>
+                            <p class="no-req-hints"><%=i18n.escapeRoom.play.noReqHints%></p>
                         <%}%>
                         <ul class="cardList hintList">
                         <% for (var i = escapeRoom.puzzles[p].hints.length -1; i>=0; i--) {
@@ -73,7 +74,7 @@
                     </li>
                 <%}%>
                 </ul>
-                
+                <%}%>
                 <%const someMsg = retosSuperados.length;%>
                 <h4 style="<%= someMsg ? '' : 'display: none;'%>" id="puzzle-messages-title">
                     <%=i18n.puzzle.retosSuperados%>
@@ -85,16 +86,16 @@
                     <li class="card reto-puzzle-li <%=(p === (retosSuperados.length -1)) ? 'reto-puzzle-current':'' %>"> 
                         <h6><b><%=found.title%></b></h6>
                         <% if (found && found.correct ) {%>
-                        <p> <b><%=i18n.puzzle.Msg%>:</b> <%=found.correct%></p>
+                        <p> <b><%=i18n.escapeRoom.play.msg%>:</b> <%=found.correct%></p>
                         <%}%>
                         <% if (found && !found.automatic ) {%>
-                            <p> <b><%=i18n.puzzle.Solution%>:</b> <span class="hidden-sol"><%=found.sol%></p></span>
+                            <p> <b><%=i18n.escapeRoom.play.sol%>:</b> <span class="hidden-sol"><%=found.sol%></p></span>
                         <%}%>
                     </li>
                 <%}%>
                  </ul>
                 <br/>
-                <h4 style="display: none;" id="other-messages-title"><%=i18n.hint.other%></h4>
+                <h4 style="display: none;" id="other-messages-title"><%=i18n.escapeRoom.play.other%></h4>
                 <ul class="cardList otherList">
                 </ul>
                 <br/>

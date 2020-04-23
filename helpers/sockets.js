@@ -321,7 +321,7 @@ const requestHint = async (escapeRoomId, teamId, userId, status, score, category
     const team = await models.team.findByPk(teamId, queries.team.puzzlesAndHints(teamId));
 
     if (team && team.turno && team.turno.escapeRoom) {
-        const result = await calculateNextHint(team.turno.escapeRoom, team, status, score, category, i18n.hint);
+        const result = await calculateNextHint(team.turno.escapeRoom, team, status, score, category, i18n.escapeRoom.play);
 
         if (result) { // TODO participation, auth...
             const {msg, ok, hintOrder, puzzleOrder, "category": newCat} = result;

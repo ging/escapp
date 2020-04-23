@@ -39,7 +39,7 @@
     <h3>
         <span class="material-icons">check</span>
         <label for="puzzles[<%=reto%>][correct]"><%=i18n.escapeRoom.steps.puzzles.successMsg%></label>
-        <input type="text" name="puzzles[<%=reto%>][correct]" id="puzzles[<%=reto%>][correct]" maxlength="10000" placeholder="<%=i18n.puzzle.correctAnswer%>" value="<%=puzzle.correct%>"/>
+        <input type="text" name="puzzles[<%=reto%>][correct]" id="puzzles[<%=reto%>][correct]" maxlength="10000" placeholder="<%=i18n.escapeRoom.play.correctAnswer%>" value="<%=puzzle.correct%>"/>
     </h3>
     <h3>
         <span class="material-icons">close</span>
@@ -77,7 +77,7 @@
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][id]" value="<%=hint.id%>"/>
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][category]" class="hint-cat" maxlength="10000" value="<%=categoryIndex || 0%>"/>
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][order]" class="hint-order" maxlength="10000" value="<%=hint.order%>"/>
-                    <input type="text"   name="puzzles[<%=reto%>][hints][<%=h%>][content]" maxlength="10000" placeholder="..." required value="<%=hint.content%>" aria-label="<%=i18n.hint.Hint%> <%=hint.order%>"/>
+                    <input type="text"   name="puzzles[<%=reto%>][hints][<%=h%>][content]" maxlength="10000" placeholder="..." required value="<%=hint.content%>" aria-label="<%=i18n.escapeRoom.steps.puzzles.Hint%> <%=hint.order%>"/>
                     <button type="button" class="delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>">
                         <span class="material-icons">clear</span>
                     </button>
