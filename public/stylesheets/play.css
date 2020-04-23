@@ -12,7 +12,11 @@
     text-align: center;
 }
 .countdown .mins, .countdown .hours, .countdown .secs {
-  width: 3vw;
+  display: inline-block;
+  width: 2ch;
+}
+.countdown .minus, .countdown .colon {
+  display: inline-block;
 }
 
 .container-fluid {

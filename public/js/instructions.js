@@ -1,108 +1,92 @@
 $(function(){
     const Delta = Quill.import("delta");
     const BlockEmbed = Quill.import('blots/block/embed');
+    var Video = Quill.import('formats/video');
+
+    /* video preload='metadata' controls='controls' poster='http://vishub.org/videos/3566.png?style=170x127%23'>
+        <source src='http://vishub.org/videos/3566.flv' type='video/x-flv'>
+        <source src='http://vishub.org/videos/3566.mp4' type='video/mp4'>
+        Your browser does not support HTML5 video.
+        </video> */
+    //https://www.youtube.com/embed/iHOZp6cMyMk?autoplay=1
 
 
-    // class IframeBlot extends BlockEmbed {
-    //     static create(url) {
-    //       let node = super.create();
-    //       node.setAttribute('src', url);
-    //       node.setAttribute('frameborder', '0');
-    //       node.setAttribute('controls', '');
-    //       node.setAttribute('class', 'ql-video ui-sortable-handle');
-    //       node.setAttribute('allow', 'autoplay; fullscreen');
-    //       return node;
-    //     }
-        
-    //     static value(node) {
-    //       return node.getAttribute('src');
-    //     }
-    //   }
-    //   IframeBlot.blotName = 'iframe';
-    //   IframeBlot.tagName = 'iframe';
-    //   Quill.register(IframeBlot);
-    var Video = Quill.import('formats/video')
-
-    //   Video.tagName = 'video';
-
-
-      Video.create = function (url, value) {
-        let node ;
+    const createVideo = (node) => {
+        console.log(node)
+        let url = node.src;
+        if (typeof node === "string") {
+            url = node;
+        }
         const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
         if (youtube && youtube[5]) {
-            node = document.createElement("iframe")
+            // var attributes = $(node).prop("attributes");
+            // node = $("<iframe>")
+
+            // // loop through <select> attributes and apply them on <div>
+            // $.each(attributes, function() {
+            //     node.attr(this.name, this.value);
+            // });
+            if (typeof node === "string") {
+                node = $(`<iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)[0];
+            }
             url = "https://www.youtube.com/embed/" + youtube[5];
-            if(url.match("enablejsapi")) {
+            if(!url.match("enablejsapi")) {
                 if (url.match("\\?")){
                     url += "&enablejsapi=1"
                 } else {
                     url += "?enablejsapi=1"
                 }
             }
-            node.setAttribute('src', url);
-        } else {
-            node = document.createElement("video")
-            if (url.match("autoplay=1")) {
-                node.setAttribute('autoplay', '');
+            if (url) {
+                node.setAttribute('src', url);
+            } else {
+                node.removeAttribute('src')
             }
-            node.setAttribute('src', url);
-            setTimeout(()=>{try{node.pause()}catch(e){console.error}},1000)
-        }
-        node.setAttribute('class', 'ql-video ui-sortable-handle')
-        node.setAttribute('frameborder', '0');
-        node.setAttribute('allowfullscreen', true);
-        node.setAttribute('allow', 'autoplay; fullscreen');
-        node.setAttribute('controls', '');
-        
-        return node
-      }
-
-      Video.format = function(name, value) {
-        if (ATTRIBUTES.indexOf(name) > -1) {
-          if (value) {
-            this.domNode.setAttribute(name, value);
-          } else {
-            this.domNode.removeAttribute(name);
-          }
         } else {
-          BlockEmbed.format(name, value);
+            if (typeof node === "string") {
+                node = $('<video></video>')[0];
+            }
+            if (url.match("autoplay=1")) {
+                node.setAttribute('autoplay', true);
+            }
+            if (url) {
+                node.setAttribute('src', url);
+            } else {
+                node.removeAttribute('src')
+            }            
+            node.setAttribute('class', 'ql-video')
+            node.setAttribute('frameborder', node.frameborder || '0');
+            node.setAttribute('allowfullscreen', true);
+            node.setAttribute('allow', 'autoplay; fullscreen');
+            node.setAttribute('controls', '');
+            // setTimeout(()=>{try{node.pause()}catch(e){console.error}},1000)
         }
-      }
-      /* video preload='metadata' controls='controls' poster='http://vishub.org/videos/3566.png?style=170x127%23'>
-    <source src='http://vishub.org/videos/3566.flv' type='video/x-flv'>
-     <source src='http://vishub.org/videos/3566.mp4' type='video/mp4'>
-     Your browser does not support HTML5 video.
-</video> */
-//https://www.youtube.com/embed/iHOZp6cMyMk?autoplay=1
-    // class VideoBlot extends BlockEmbed {
-    //   static create(url) {
-    //       console.log(url)
-    //     let node = super.create();
-    //     const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
-    //     if (youtube && youtube[5]) {
-    //         node = document.createElement("iframe")
-    //         node.setAttribute('src', "https://www.youtube.com/embed/" + youtube[5]);
-    //     } else {
-    //         node.setAttribute('src', url);
-    //     }
-    //     node.setAttribute('class', 'ql-video ui-sortable-handle')
-    //     node.setAttribute('frameborder', '0');
-    //     node.setAttribute('allowfullscreen', true);
-    //     node.setAttribute('allow', 'autoplay; fullscreen');
-    //     node.setAttribute('src', url);
-    //     node.setAttribute('controls', '');
-        
-    //     console.log(node)
-    //     return node
-    //   }
-      
-    //   static value(node) {
-    //     return node.getAttribute('src');
-    //   }
-    // }
-    // VideoBlot.blotName = 'video';
-    // VideoBlot.tagName = 'video';
-    // Quill.register(VideoBlot);
+        return node;
+    }
+    Video.create = (node) => {
+        return createVideo(node)
+    }
+
+    Video.value = (node) => {
+        return node;
+    }
+    class VideoBlot extends BlockEmbed {
+        static create(node) {
+           return createVideo(node)
+        }
+        static value(node) {
+            return node;
+        }
+    }
+    VideoBlot.blotName = 'video';
+    VideoBlot.tagName = 'video';
+    Quill.register(VideoBlot);
+
+    class IframeBlot extends VideoBlot {}
+    IframeBlot.blotName = 'iframe';
+    IframeBlot.tagName = 'iframe';
+    Quill.register(IframeBlot);
+
 
     class AudioBlot extends BlockEmbed {
       static create(url) {
@@ -243,7 +227,13 @@ $(function(){
 
     var options = {
         modules: {
-            toolbar: { container: toolbarOptions, handlers: {image: imageHandler, appearance: appearanceHandler}},
+            toolbar: { 
+                container: toolbarOptions, 
+                handlers: {
+                    image: imageHandler, 
+                    appearance: appearanceHandler
+                }
+            },
             imageResize: {},
             videoResize: {},
             clipboard: {},
@@ -273,7 +263,9 @@ $(function(){
                 case 'ranking':
                 case 'progress':
                 case 'countdown':
-                    return delta;
+                case 'video':
+                case 'iframe':
+                return delta;
             }
         }
         const attributes = {
@@ -294,12 +286,12 @@ $(function(){
     });
 
     const insertContent = (index, url = "", mime = "", name = "") => {
-        if (mime.match("image")) {
+        if (mime && mime.match("image")) {
             quill.insertEmbed(index, 'image', url, Quill.sources.USER);
             quill.formatText(index, 1, 'width', '30%');
-        } else if (mime.match("video")) {
+        } else if (mime && mime.match("video")) {
             quill.insertEmbed(index, 'video', url, Quill.sources.USER);
-        } else if (mime.match("audio")) {
+        } else if (mime && mime.match("audio")) {
             quill.insertEmbed(index, 'audio', url, Quill.sources.USER);
         } else {
             quill.insertText(index, "");
@@ -337,16 +329,16 @@ $(function(){
             switch (selected) {
                 case "sourceFile":
                     if (fileSelected && fileSelected.mime) {
-                        const mime = fileSelected.mime;
                         insertContent(range.index, fileSelected.url, fileSelected.mime, fileSelected.name);
                     } 
                     break;
                 case "sourceUrl":
-                    let url = $('#urlInput').val();
+                    let url = $('#urlInput').val().replace("http://","https://");
                     if (url) {
                         const youtube = url.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))(.*)/);
                         if (youtube && youtube[5]) {
-                            quill.insertEmbed(range.index, 'video', "https://www.youtube.com/embed/" + youtube[5] , Quill.sources.USER);
+                            quill.insertEmbed(range.index, 'iframe', "https://www.youtube.com/embed/" + youtube[5], Quill.sources.USER);
+                            // insertContent(range.index, "https://www.youtube.com/embed/" + youtube[5] , "video/mp4", "video");
                         } else {
                             var xhttp = new XMLHttpRequest();
                             xhttp.open('HEAD', url);
@@ -434,11 +426,13 @@ $(function(){
     $($('.ql-appearance .ql-picker-label')[0]).attr('data-value', $('#appearance').val());
 
     $( ".ql-editor" ).sortable({
-        cancel: "h1, h2, h3, h4, h5, h6, p, countdown *",
+        cancel: "h1, h2, h3, h4, h5, h6, p, countdown *, video *, source",
         items: "h1, h2, h3, h4, h5, h6, p, video, audio, iframe, countdown, progressbar, ranking, :not(div):empty, .ql-cursor, img, .ui-sortable-handle",
     });
+    $('source').removeClass("ui-sortable-handle")
 
-    const stopAutoplay = () => {
+    /*uncomment*/
+     const stopAutoplay = () => {
         $( "[autoplay]" ).each((i,e)=> {
             try {e.pause() } catch(e){}
         });
@@ -448,7 +442,7 @@ $(function(){
     }
     $('.ql-html-popupContainer button').click(stopAutoplay)
         
-    stopAutoplay();
+    stopAutoplay(); 
 });
 
 function onYouTubeIframeAPIReady() {
@@ -460,21 +454,27 @@ function onYouTubeIframeAPIReady() {
             });
         });
     } catch(e){console.error(e)}
-    // try {
-    //     $('.ql-html-popupContainer button').click(() => {
-    //         $('iframe').each((_i,e) => {
-    //             try {
-    //                 var player = null;
-    //                 player = new YT.Player(e, {
-    //                     events: { 'onReady': () => player.stopVideo(), }
-    //                 });
-    //             } catch (e) {console.error(e)}
-    //         });
-    //     });
-    // } catch(e){console.error(e)}
+    /*uncomment
+    */
+    
 
 }
     
+try {
+    $("document").on("click", '.ql-html-popupContainer button', () => {
+        console.log(2)
+        $('iframe').each((_i,e) => {
+            try {
+                var player = null;
+                try { player.stopVideo()} catch (e) {console.error(e)}
+                player = new YT.Player(e, {
+                    events: { 'onReady': () => player.stopVideo(), }
+                });
+            } catch (e) {console.error(e)}
+
+        });
+    });
+} catch(e){console.error(e, 22222)}
 
 
 

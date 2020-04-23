@@ -35,6 +35,9 @@ const formatDate = function (currentDate) {
             <div class="owl-carousel">
                 <% for (var i in turnos) { %>
                     <% 	var turn = turnos[i];
+                        if (turn.date && new Date(turn.date.getTime() + (escapeRoom.duration||0)*60000) < new Date()){
+                           continue; 
+                        }
                         var date = new Date(turn.date);
                         var dateNoTime = new Date(turn.date);
                         dateNoTime.setHours(0,0,0,0); %>

@@ -37,7 +37,7 @@ exports.checkJoinToken = (req, res, next) => {
 
 exports.checkSomeTurnAvailable = async (req, res, next) => {
     const { escapeRoom } = req;
-    const turnos = await models.turno.findAll({"where": {"escapeRoomId": escapeRoom.id}, "include": [{"model": models.user, "as": "students", "through": "participants"}]});
+    const turnos = await models.turno.findAll({"where": {"escapeRoomId": escapeRoom.id}, "include": [{"model": models.user, "as": "students", "through": "participants"}], "order": [["date", "ASC NULLS LAST"]]});
 
     req.turnos = turnos;
     for (const turno of turnos) {

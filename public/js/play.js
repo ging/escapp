@@ -633,6 +633,7 @@ $( ()=>{
   setTimeout(()=>{
     if (localStorage["escapp_"+escapeRoomId] !== ER.erState.startTime.toString()) { // First time
       let auto = $( "[autoplay]" );
+
       if (!auto.length) { // Video
         auto = $("iframe").filter(function() {
           return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
@@ -644,7 +645,8 @@ $( ()=>{
         });
       }
       if (auto.length) {
-          setTimeout(()=>{
+
+          setTimeout(async ()=>{
             var el = auto.first();
             var elOffset = el.offset().top;
             var elHeight = el.height();
@@ -656,8 +658,17 @@ $( ()=>{
               offset = elOffset;
             }
             try {
-              toggleFullScreen(auto[0])
+              await toggleFullScreen(auto[0])
+
             } catch(e){
+              // try {
+              //   console.log(5)
+              //   setTimeout(()=>$(()=>auto[0].play()),100);
+              // } catch(e){}
+              // try {
+              //   console.log(6)
+              //   setTimeout(()=>$(()=>auto[0].playVideo()),100);
+              // } catch(e){}
             } finally {
               setTimeout(()=>{
                 document.body.scrollTop = offset;

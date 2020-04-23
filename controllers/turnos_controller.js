@@ -95,7 +95,7 @@ exports.indexActivarTurno = async (req, res, next) => {
     const {escapeRoom} = req;
 
     try {
-        const turnos = await models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "order": [["date", "ASC"]]});
+        const turnos = await models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "order": [["date", "ASC NULLS LAST"]]});
 
         res.render("turnos/_indexActivarTurno.ejs", {turnos, escapeRoom});
     } catch (e) {
