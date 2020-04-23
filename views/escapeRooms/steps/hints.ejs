@@ -134,7 +134,7 @@ $(function(){
 	    if (e) {e.preventDefault();}
 	    $('#delete').hide();
 		$('#upload').show();
-		$('.hintAppConditional').hide();
+		// $('.hintAppConditional').hide();
 	    $('#hintsLabel').html("<%=i18n.escapeRoom.steps.hints.noFile%>");
 		$('#keepAttachment').val("0");
 		$('#hints').val("");		
@@ -144,6 +144,8 @@ $(function(){
 
 	$('#hintStrategy').on('change', function(e){
 		var option = e.target.value;
+		const currentVal = $('#hintLimit').val();
+
 		switch(option) {
 			case 'NO_HINTS':
 				$('.hintConditional').hide();
@@ -154,13 +156,16 @@ $(function(){
 			case 'FREE_HINTS':
 				$('.hintConditional').show();
 				$('.hintAppConditional').hide();
-				if ($('#hintLimit').val() === 0) {
+				if (currentVal === "0" || currentVal === 0) {
 					$('#hintLimit').val("");
 				}
 				$('#keepAttachment').val("0");
 				break;
 			case 'QUIZ_HINTS':
 				$('.hintConditional').show();
+				if (currentVal === "0" || currentVal === 0) {
+					$('#hintLimit').val("");
+				}
 				if (!$('#hintsLabel').html().match("<%=i18n.escapeRoom.steps.hints.uploadFile%>")) {
 					$('#keepAttachment').val("1");
 				}
