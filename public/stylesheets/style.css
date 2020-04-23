@@ -2828,6 +2828,8 @@ button, input[type="submit"] {
         border-width: 5px; }
     #mainSection .main.showStudent .flex .flex-er-info {
       flex: 1; }
+  #mainSection .main.showStudent .ql-editor img {
+    max-width: 100%; }
   #mainSection .main.showStudent .desc {
     font-family: Lato, sans-serif; }
   #mainSection .main.showStudent .members {

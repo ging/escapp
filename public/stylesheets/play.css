@@ -202,6 +202,9 @@ p {
     margin-top: 0;
     margin-bottom: 1rem;
 }
+.ql-editor img {
+  max-width: 100%;
+}
 
 .ql-editor iframe {
     pointer-events: all;
