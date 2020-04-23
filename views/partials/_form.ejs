@@ -3,6 +3,7 @@
          name: "title",
          id: "tit",
          i18n: "title",
+         maxlength: 200,
          value: escapeRoom.title,
          required: true
      },
@@ -10,6 +11,7 @@
          name: "subject",
          id: "subj",
          i18n: "subject",
+         maxlength: 200,
          value: escapeRoom.subject,
          required: true
 
@@ -30,6 +32,7 @@
          id: "desc",
          i18n: "description",
          required: true,
+         maxlength: 200,
          value: escapeRoom.description
      },
      {
@@ -52,6 +55,7 @@
      },{
          name: "supportLink",
          id: "supportLink",
+         maxlength: 200,
          i18n: "supportLink",
          value: escapeRoom.supportLink
      }]; %>
@@ -59,7 +63,7 @@
   var field = formFields[f];%>
     <div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*f%>ms;">
         <label for="<%=field.id%>"  class="itemNarrow"><%=parseInt(f)+1%>. <%=i18n.showTeacher.titles[field.i18n]%>:</label>
-        <input <%=field.required ? 'required="required"' : "" %>  type="<%=field.number ? "number" : "text"%>" min="<%=field.min%>" max="<%=field.max%>" class="customInput itemWide" id="<%= field.id %>" name="<%= field.name %>" value="<%= field.value %>"
+        <input <%=field.required ? 'required="required"' : "" %>  type="<%=field.number ? "number" : "text"%>" min="<%=field.min%>" max="<%=field.max%>" class="customInput itemWide" id="<%= field.id %>" name="<%= field.name %>" value="<%= field.value %>" maxlength="<%=field.maxlength%>"
                placeholder="<%=i18n.escapeRoom.steps.edit[field.i18n + "PlaceHolder"]%>" autocomplete="off"/>
     </div>
     <% if (field.name === "duration") { %> 

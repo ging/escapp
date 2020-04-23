@@ -104,21 +104,38 @@ html
       caret-color: white
       font-weight: lighter
       box-shadow: none !important
+      filter: none
+      &:-moz-focusring
+        color: transparent !important
+        text-shadow: 0 0 0 #000
+      &:active, &:focus
+        -webkit-text-fill-color: white !important
+        color: white !important
+        border-color: white !important
       &:-webkit-autofill
-          -webkit-box-shadow: 0 0 0 30px $mainpurple inset !important
-          -webkit-text-fill-color: $textpurple !important
-          font-family: Gugi !important
-          
+        -webkit-box-shadow: 0 0 0 30px $mainpurple inset !important
+        -webkit-text-fill-color: $textpurple !important
+        font-family: Gugi !important
+        &:active, &:focus
+          -webkit-text-fill-color: white !important
+          color: white !important
+          border-color: white !important
+      &:-moz-autofill, &:-moz-autofill-preview
+        filter: none
+        &:hover, &:focus, &:active
+          color: white !important
+          border-color: white !important
+          -webkit-text-fill-color: white !important
       &:focus, &:active, &:-webkit-autofill:hover, &:-webkit-autofill:focus, &:-webkit-autofill:active, &-webkit-autofill::first-line 
         font-family: Gugi !important
         background-color: $bckg
-        color: white
+        color: white !important
         -webkit-text-fill-color: white !important
-        border-color: white
+        border-color: white !important
         & + label
           color: white
     select
-      -webkit-appearance: none;
+      -webkit-appearance: none
     footer
       display: flex
       align-content: space-around

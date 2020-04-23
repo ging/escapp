@@ -688,10 +688,10 @@ $( ()=>{
               //   setTimeout(()=>$(()=>auto[0].playVideo()),100);
               // } catch(e){}
             } finally {
-              setTimeout(()=>{
-                document.body.scrollTop = offset;
-                document.documentElement.scrollTop = offset;
-              },100)
+              // setTimeout(()=>{
+              //   document.body.scrollTop = offset;
+              //   document.documentElement.scrollTop = offset;
+              // },100)
             };
           },100)
         }

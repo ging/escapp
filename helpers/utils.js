@@ -241,7 +241,8 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
             msg = puzzle.fail || i18n.escapeRoom.play.wrong;
         }
         const participationCode = await exports.checkTurnoAccess(teams, user, escapeRoom, puzzleOrder);
-        console.log(msg)
+
+        console.log(msg);
         participation = participationCode;
         alreadySolved = await puzzle.hasSuperado(teams[0].id);
 

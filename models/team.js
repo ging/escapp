@@ -4,7 +4,10 @@ module.exports = function (sequelize, DataTypes) {
         {
             "name": {
                 "type": DataTypes.STRING,
-                "validate": {"notEmpty": {"msg": "El nombre no puede estar vacío."}}
+                "validate": {
+                    "len": [0, 200],
+                    "notEmpty": {"msg": "El nombre no puede estar vacío."}
+                }
             },
             "startTime": {"type": DataTypes.DATE}
         }

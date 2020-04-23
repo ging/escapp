@@ -58,7 +58,9 @@ exports.create = async (req, res, next) => {
     } catch (err) {
         transaction.rollback();
         if (err instanceof Sequelize.ValidationError) {
-            err.errors.forEach(({message}) => req.flash("error", message));
+            // Err.errors.forEach(({message}) => req.flash("error", message));
+            req.flash("error", `${app.locals.i18n.common.flash.errorCreatingTeam}`);
+
             res.redirect("back");
         } else {
             req.flash("error", `${app.locals.i18n.common.flash.errorCreatingTeam}: ${err.message}`);

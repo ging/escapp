@@ -21,13 +21,13 @@
 			<input type="text" class="customInput itemWide" id="survey" name="survey" value="<%= escapeRoom.survey %>" placeholder="<%=i18n.escapeRoom.steps.evaluation.surveyPlaceHolder%>" autocomplete="off"/>
 		</div> -->
 
-		<div class="inputFormField erFormField disallow animated slideInUp" style="animation-delay:0ms;">
+		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:0ms;">
 			<label for="score-participation" class="itemNarrow">
 				1. <%=i18n.escapeRoom.steps.evaluation.justParticipating%>
 			</label>
 			<input autofocus type="number" min="0" max="100" placeholder="0" value="<%=escapeRoom.scoreParticipation || 0%>" name="scoreParticipation" class="customInput scoreInput itemWide"  id="score-participation"/>
 		</div>
-		<div class="inputFormField erFormField disallow animated slideInUp" style="animation-delay:200ms;">
+		<div class="inputFormField erFormField animated slideInUp" style="animation-delay:200ms;">
 			<label for="automaticAttendance"  class="itemNarrow">3. <%=i18n.escapeRoom.steps.evaluation.automaticAttendance%>:</label>
 			<select class="customInput itemWide" id="automaticAttendance" name="automaticAttendance" >
 				<option value="none" <%= (!escapeRoom.automaticAttendance || escapeRoom.automaticAttendance === "none") ? "selected" : "" %> ><%=i18n.escapeRoom.steps.evaluation.automaticAttendanceNone%></option> 

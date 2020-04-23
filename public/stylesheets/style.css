@@ -2424,8 +2424,6 @@ button, input[type="submit"] {
     font-family: Lato, sans-serif; }
   #mainSection .main .puzzle-card label {
     font-size: 18px; }
-    #mainSection .main .puzzle-card label span {
-      font-weight: bold; }
   #mainSection .main .puzzle-card input {
     width: 90%;
     width: calc(100% - 30px);
@@ -2452,7 +2450,7 @@ button, input[type="submit"] {
       background-color: white;
       color: #F47E84;
       -webkit-text-fill-color: #F47E84 !important;
-      border-color: #F47E84; }
+      border-color: #F47E84 !important; }
       #mainSection .main .puzzle-card select:focus:-webkit-autofill, #mainSection .main .puzzle-card select:active:-webkit-autofill, #mainSection .main .puzzle-card input:focus:-webkit-autofill, #mainSection .main .puzzle-card input:active:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 30px white inset !important;
         -webkit-text-fill-color: #F47E84 !important;
@@ -3457,17 +3455,35 @@ html {
       outline: 0;
       caret-color: white;
       font-weight: lighter;
-      box-shadow: none !important; }
+      box-shadow: none !important;
+      filter: none; }
+      html body input:-moz-focusring, html body select:-moz-focusring {
+        color: transparent !important;
+        text-shadow: 0 0 0 #000; }
+      html body input:active, html body input:focus, html body select:active, html body select:focus {
+        -webkit-text-fill-color: white !important;
+        color: white !important;
+        border-color: white !important; }
       html body input:-webkit-autofill, html body select:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 30px #232850 inset !important;
         -webkit-text-fill-color: #656683 !important;
         font-family: Gugi !important; }
+        html body input:-webkit-autofill:active, html body input:-webkit-autofill:focus, html body select:-webkit-autofill:active, html body select:-webkit-autofill:focus {
+          -webkit-text-fill-color: white !important;
+          color: white !important;
+          border-color: white !important; }
+      html body input:-moz-autofill, html body input:-moz-autofill-preview, html body select:-moz-autofill, html body select:-moz-autofill-preview {
+        filter: none; }
+        html body input:-moz-autofill:hover, html body input:-moz-autofill:focus, html body input:-moz-autofill:active, html body input:-moz-autofill-preview:hover, html body input:-moz-autofill-preview:focus, html body input:-moz-autofill-preview:active, html body select:-moz-autofill:hover, html body select:-moz-autofill:focus, html body select:-moz-autofill:active, html body select:-moz-autofill-preview:hover, html body select:-moz-autofill-preview:focus, html body select:-moz-autofill-preview:active {
+          color: white !important;
+          border-color: white !important;
+          -webkit-text-fill-color: white !important; }
       html body input:focus, html body input:active, html body input:-webkit-autofill:hover, html body input:-webkit-autofill:focus, html body input:-webkit-autofill:active, html body input-webkit-autofill::first-line, html body select:focus, html body select:active, html body select:-webkit-autofill:hover, html body select:-webkit-autofill:focus, html body select:-webkit-autofill:active, html body select-webkit-autofill::first-line {
         font-family: Gugi !important;
         background-color: #2A2A52;
-        color: white;
+        color: white !important;
         -webkit-text-fill-color: white !important;
-        border-color: white; }
+        border-color: white !important; }
         html body input:focus + label, html body input:active + label, html body input:-webkit-autofill:hover + label, html body input:-webkit-autofill:focus + label, html body input:-webkit-autofill:active + label, html body input-webkit-autofill::first-line + label, html body select:focus + label, html body select:active + label, html body select:-webkit-autofill:hover + label, html body select:-webkit-autofill:focus + label, html body select:-webkit-autofill:active + label, html body select-webkit-autofill::first-line + label {
           color: white; }
     html body select {

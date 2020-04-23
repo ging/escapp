@@ -6,14 +6,14 @@
         var container = $this.find(".basicConfig");
 
         $(document).ready(function() {
-            $(container).find(".erFormField:not(.disallow)").first().click();
+            $(container).find(".erFormField:not(.disallow))").find("input, select").first().focus();
         });
 
         $(container)
             .find(".erFormField:not(.disallow)")
             .not(".erFormField input, .erFormField select")
             .on("click", function() {
-                rescroll(this);
+                // rescroll(this);
             });
 
         $(container).find(".erFormField:not(.disallow) input, .erFormField:not(.disallow) select").keypress(function(e) {
@@ -51,7 +51,7 @@
                 $(this).blur();
             });
             $(e).addClass("active");
-            $(e).find('input').focus();
+            $(e).find('input, select').focus();
         }
 
         function rescroll(e) {

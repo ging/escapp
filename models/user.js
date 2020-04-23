@@ -7,15 +7,21 @@ module.exports = function (sequelize, DataTypes) {
     const User = sequelize.define("user", {
         "name": {
             "type": DataTypes.STRING,
-            "validate": {"notEmpty": {"msg": "Name must not be empty."}}
+            "validate": {
+                "len": [0, 200],
+                "notEmpty": {"msg": "Name must not be empty."}
+            }
         },
         "surname": {
             "type": DataTypes.STRING,
-            "validate": {"notEmpty": {"msg": "Surname must not be empty."}}
+            "validate": {
+                "len": [0, 200],
+                "notEmpty": {"msg": "Surname must not be empty."}
+            }
         },
         "gender": {
             "type": DataTypes.STRING,
-            "validate": {"notEmpty": {"msg": "Gender must not be empty."}}
+            "validate": {"len": [0, 200], "notEmpty": {"msg": "Gender must not be empty."}}
         },
         "username": {
             "type": DataTypes.STRING,
@@ -24,7 +30,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         "password": {
             "type": DataTypes.STRING,
-            "validate": {"notEmpty": {"msg": "Password must not be empty."}},
+            "validate": {"len": [0, 200], "notEmpty": {"msg": "Password must not be empty."}},
             set (password) {
             // Random String used as salt.
                 this.salt = String(Math.round(new Date().valueOf() * Math.random()));
@@ -39,7 +45,7 @@ module.exports = function (sequelize, DataTypes) {
                 return crypt.generateToken();
             }
         },
-        "dni": {"type": DataTypes.STRING},
+        "dni": {"type": DataTypes.STRING, "validate": {"len": [0, 200]}},
         "isAdmin": {
             "type": DataTypes.BOOLEAN,
             "defaultValue": false

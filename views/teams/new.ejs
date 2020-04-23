@@ -7,7 +7,7 @@
             <div>
                 <form method="POST" id="newForm" action="/escapeRooms/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams?token=<%=token%>">
                     <div>
-                        <input type="text" id="name" class="teamName" required name="name" placeholder="<%=i18n.team.addPlaceHolder%>" autocomplete="off"/>
+                        <input type="text" id="name" class="teamName" required name="name" placeholder="<%=i18n.team.addPlaceHolder%>" autocomplete="off" maxlength="200"/>
                         <p class="centeredSmall"> <%=i18n.team.addMsg%>.</p>
                     </div>
                     <div class="join-button-flex-container">

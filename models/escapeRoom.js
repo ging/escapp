@@ -70,10 +70,22 @@ module.exports = function (sequelize, DataTypes) {
             "feedback": {"type": DataTypes.BOOLEAN},
             "allowCustomHints": {"type": DataTypes.BOOLEAN},
             "forbiddenLateSubmissions": {"type": DataTypes.BOOLEAN, "defaultValue": true},
-            "classInstructions": {"type": DataTypes.TEXT},
-            "teamInstructions": {"type": DataTypes.TEXT},
-            "indicationsInstructions": {"type": DataTypes.TEXT},
-            "supportLink": {"type": DataTypes.TEXT},
+            "classInstructions": {
+                "type": DataTypes.TEXT,
+                "validate": {"len": [0, 20000]}
+            },
+            "teamInstructions": {
+                "type": DataTypes.TEXT,
+                "validate": {"len": [0, 20000]}
+            },
+            "indicationsInstructions": {
+                "type": DataTypes.TEXT,
+                "validate": {"len": [0, 20000]}
+            },
+            "supportLink": {
+                "type": DataTypes.TEXT,
+                "validate": {"len": [0, 20000]}
+            },
             "scoreParticipation": {
                 "type": DataTypes.FLOAT,
                 "defaultValue": 0.0,

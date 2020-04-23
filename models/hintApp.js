@@ -14,7 +14,10 @@ module.exports = function (sequelize, DataTypes) {
             },
             "filename": {
                 "type": DataTypes.STRING,
-                "validate": {"notEmpty": {"msg": "filename must not be empty"}}
+                "validate": {
+                    "len": [0, 5000],
+                    "notEmpty": {"msg": "filename must not be empty"}
+                }
             },
             "mime": {
                 "type": DataTypes.STRING,

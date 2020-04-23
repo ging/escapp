@@ -4,16 +4,31 @@ module.exports = function (sequelize, DataTypes) {
         {
             "title": {
                 "type": DataTypes.STRING,
-                "validate": {"notEmpty": {"msg": "El título no puede estar vacío."}}
+                "validate": {
+                    "len": [0, 5000],
+                    "notEmpty": {"msg": "El título no puede estar vacío."}
+                }
             },
-            "sol": {"type": DataTypes.TEXT},
-            "desc": {"type": DataTypes.TEXT},
+            "sol": {
+                "type": DataTypes.TEXT,
+                "validate": {"len": [0, 5000]}
+            },
+            "desc": {
+                "type": DataTypes.TEXT,
+                "validate": {"len": [0, 5000]}
+            },
             "order": {
                 "type": DataTypes.INTEGER,
                 "allowNull": false
             },
-            "correct": {"type": DataTypes.TEXT},
-            "fail": {"type": DataTypes.TEXT},
+            "correct": {
+                "type": DataTypes.TEXT,
+                "validate": {"len": [0, 5000]}
+            },
+            "fail": {
+                "type": DataTypes.TEXT,
+                "validate": {"len": [0, 5000]}
+            },
             "automatic": {
                 "type": DataTypes.BOOLEAN,
                 "defaultValue": false

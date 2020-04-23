@@ -223,17 +223,20 @@ exports.newResetPasswordHash = async (req, res, next) => {
     if (req.user && req.user.password === code && req.user.username === email) {
         if (req.body.password && req.body.password === req.body.confirm_password) {
             req.user.password = req.body.password.toString();
+            req.flash("success", req.app.locals.i18n.common.flash.passwordChangedSuccessfully);
+            res.redirect("/");
             try {
                 await req.user.save({"fields": ["password", "salt"]});
             } catch (e) {
-                req.flash("error", req.app.locals.i18n.common.flash.passwordChangedSuccessfully);
-                res.redirect("/");
+                req.flash("error", req.app.locals.i18n.common.validationError);
+                res.redirect("back");
             }
         } else {
             req.flash("error", req.app.locals.i18n.common.flash.passwordsDoNotMatch);
             res.redirect("back");
         }
     } else {
-        next();
+        req.flash("error", req.app.locals.i18n.common.validationError);
+        res.redirect("back");
     }
 };

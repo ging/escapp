@@ -4,7 +4,10 @@ module.exports = function (sequelize, DataTypes) {
         {
             "content": {
                 "type": DataTypes.TEXT,
-                "validate": {"notEmpty": {"msg": "El contenido no puede estar vacío."}}
+                "validate": {
+                    "len": [0, 5000],
+                    "notEmpty": {"msg": "El contenido no puede estar vacío."}
+                }
             },
             "order": {
                 "type": DataTypes.INTEGER,
@@ -12,7 +15,8 @@ module.exports = function (sequelize, DataTypes) {
             },
             "category": {
                 "type": DataTypes.STRING,
-                "allowNull": false
+                "allowNull": false,
+                "validate": {"len": [0, 5000]}
             }
         }
     );
