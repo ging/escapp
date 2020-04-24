@@ -811,7 +811,6 @@
             "resetPassword" : "Reset password",
             "save": "save"
         },
-        "dni": "ID number (DNI/NIE...)",
         "role": "Role",
         "teacher": "Teacher",
         "student": "Student",
@@ -819,7 +818,6 @@
         "acceptTerms": "Terms and conditions",
         "terms": "I hereby allow making use of my data in an anonymized way for research purposes exclusively.",
         "inputs": {
-            "dniPlaceHolder": "Please enter your ID number",
             "editUser": "Edit profile",
             "genderPlaceHolder": "Select your gender",
             "namePlaceHolder": "Enter your name",

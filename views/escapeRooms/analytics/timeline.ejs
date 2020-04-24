@@ -18,6 +18,26 @@
     </div>
 
   <h1><%=i18n.analytics.timeline.title%></h1>
+  <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/timeline">
+    <div class="filters">
+        <label for="turnId"><%=i18n.turnos.Turno%>
+            <select name="turnId" id="turnId">
+                <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
+                <% for (t in escapeRoom.turnos) { %>
+                  <% var turno = escapeRoom.turnos[t] %>
+                  <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
+                      <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
+                  </option>
+                <% } %>
+            </select>
+        </label>
+        <button type="submit" class="editButton filter-button" >
+          <%=i18n.common.filter%>
+        </button>
+    </div>
+  </form>
+
+  <%if (teams && teams.length) {%>
   <% let duration = escapeRoom.duration %>
   <% let puzzles = escapeRoom.puzzles %>
   <% let puzzleIds = escapeRoom.puzzles.map(p=>p.id) %>
@@ -30,11 +50,9 @@
       <div class="puzzle-legend-circle progress-puzzle-<%=p%5%>"></div>
         <%= puzzle.title %>
       </div>
-
     <% } %>
   </div>
   <div id="timeline-chart">
-   
     <%
     var calculatePuzzleTime = function(puzzleTime, prevPuzzleTime) {
       return (puzzleTime - prevPuzzleTime)/60000;
@@ -55,7 +73,6 @@
           <%=team.name%>
         </div><img class="door" src="/images/doorclosed.png" alt="<%=i18n.analytics.timeline.closedDoor%>"/>
         <div class="progress">
-          
           <%
             let startTime = team.turno.startTime || team.startTime;
             let prevPuzzleTime = startTime;
@@ -96,7 +113,6 @@
               </div>
           <% } %>
           </div>
-
       </div>
       <div class="requestedHints">
         <% for (let h in requestedHints) { %>
@@ -128,7 +144,10 @@
       </div>
     <% } %>
   </div>
- 
+
+  <%} else {%>
+    <p class="noResults"><%=i18n.team.noResults%></p>
+  <%}%>
 <br/>
 <br/>
 <br/>

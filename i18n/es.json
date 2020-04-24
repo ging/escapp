@@ -805,12 +805,10 @@
         "role": "Rol",
         "teacher": "Profesor",
         "student": "Alumno",
-        "dni": "DNI",
         "gender": "Género",
         "acceptTerms": "Condiciones de uso",
         "terms": "Acepto ceder mis datos de uso de forma anonimizada con fines exclusivamente de investigación",
         "inputs": {
-            "dniPlaceHolder": "Introduce tu DNI",
             "editUser": "Editar usuario",
             "genderPlaceHolder": "Selecciona tu género",
             "namePlaceHolder": "Introduce tu nombre",

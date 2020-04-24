@@ -16,18 +16,35 @@
     </div>
   <h1><%=i18n.analytics.histogram.title%></h1>
 
+  <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/histogram">
+    <div class="filters">
+        <label for="turnId"><%=i18n.turnos.Turno%>
+            <select name="turnId" id="turnId">
+                <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
+                <% for (t in escapeRoom.turnos) { %>
+                <% var turno = escapeRoom.turnos[t] %>
+                <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
+                    <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
+                </option>
+                <% } %>
+            </select>
+        </label>
+        <button type="submit" class="editButton filter-button" ><%=i18n.common.filter%></button>
+    </div>
+  </form>
+  <br/>
+  <%if (puzzles && Object.keys(puzzles).length > 0) {%>
   <div id="chart"></div>
   <script>
     var escapeRoom = <%-JSON.stringify(escapeRoom)%>;
     var duration = escapeRoom.duration;
     var puzzles = escapeRoom.puzzles;
     var nPuzzles = puzzles.length;
-    var retosSuperados =<%-JSON.stringify(puzzles) %>;
+    var retosSuperados = <%-JSON.stringify(puzzles) %>;
     const colors = [green, yellow, orange, red, purple];
     var size = 25;
     var intervals =  Math.ceil(duration/size);
-
-
+    
     function formData(){
       return puzzles.map( puz => {
       	let data = new Array(size).fill(0);
@@ -123,6 +140,9 @@
     chart.render();
 
 </script>
+<% } else {%>
+  <p class="noResults"><%=i18n.team.noResults%></p>
+<% } %>
 <br/>
 <br/>
 <br/>

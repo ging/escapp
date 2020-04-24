@@ -231,6 +231,10 @@ button, input[type="submit"] {
   font-weight: lighter;
   font-size: 25px; }
 
+.main .noResults {
+  text-align: center;
+  font-size: 0.8em; }
+
 @media (max-width: 972px) {
   .main.summary .flex-container.analytics-menu {
     flex-direction: column; }
@@ -2076,7 +2080,7 @@ button, input[type="submit"] {
       align-self: left; }
       #mainSection .main .breadcrumbs-container .breadcrumbs a, #mainSection .main .breadcrumbs-container .breadcrumbs span:not(.material-icons) {
         display: inline-block;
-        font-size: 18px; }
+        font-size: 0.8em; }
       #mainSection .main .breadcrumbs-container .breadcrumbs a:hover {
         text-decoration: underline; }
       #mainSection .main .breadcrumbs-container .breadcrumbs .material-icons {
@@ -2168,20 +2172,14 @@ button, input[type="submit"] {
   #mainSection .main.participants .flex-table-wrapper .flex-table {
     overflow: visible; }
     #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-name {
-      width: 15%; }
-    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-surname {
-      width: 15%; }
+      width: 35%; }
     #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-username {
-      width: 15%;
+      width: 35%;
       text-overflow: ellipsis;
       white-space: pre;
       overflow: hidden; }
-    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-dni {
-      width: 15%; }
-    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-gender {
-      width: 15%; }
     #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-turno {
-      width: 13%; }
+      width: 18%; }
     #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-attendance {
       width: 12%;
       border-right: none; }
@@ -2812,7 +2810,8 @@ button, input[type="submit"] {
     width: 35%; } }
 
 #mainSection .main.showStudent {
-  background-image: none; }
+  background-image: none;
+  background: #2A2A52; }
   #mainSection .main.showStudent .flex {
     display: flex;
     flex-direction: row-reverse; }

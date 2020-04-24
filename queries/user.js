@@ -115,8 +115,7 @@ exports.participantsWithTurnoAndTeam = (escapeRoomId, turnId, orderBy) => {
             "name",
             "surname",
             "gender",
-            "username",
-            "dni"
+            "username"
         ],
         "include": [
             {

@@ -30,7 +30,6 @@
                         <option value="" <%= !orderBy ? "selected": ""%>  disabled></option>
                         <option value="name" <%= orderBy === "name" ? "selected": ""%>><%=i18n.user.name%></option>
                         <option value="surname" <%= orderBy === "surname" ? "selected": ""%>><%=i18n.user.surname%></option>
-                        <option value="dni" <%= orderBy === "dni" ? "selected": ""%>><%=i18n.user.dni%></option>
                         <option value="username" <%= orderBy === "username" ? "selected": ""%>><%=i18n.user.username%></option>
                     </select></label>
             <button type="submit" class="editButton participants-button filter-button" ><%=i18n.common.filter%></button>
@@ -46,21 +45,15 @@
             <div class="flex-table animated jello">
                 <div class="flex-row flex-row-title">
                     <div class="flex-cell flex-name"><span><%=i18n.user.name%></span></div>
-                    <div class="flex-cell flex-surname"><span><%=i18n.user.surname%></span></div>
-                    <div class="flex-cell flex-dni"><span><%=i18n.user.dni%></span></div>
                     <div class="flex-cell flex-username"><span><%=i18n.user.username%></span></div>
-                    <div class="flex-cell flex-gender"><span><%=i18n.user.gender%></span></div>
                     <div class="flex-cell flex-turno"><span><%=i18n.user.turno%></span></div>
                     <div class="flex-cell flex-attendance"><%=i18n.participant.present%></div>
                 </div>
                 <% for (var p in participants) {
                     var participant = participants[p]; %>
                 <div class="flex-row">
-                    <div class="flex-cell flex-name"><span><%= participant.name %></span></div>
-                    <div class="flex-cell flex-surname"><span><%= participant.surname %></span></div>
-                    <div class="flex-cell flex-dni"><span><%= participant.dni %></span></div>
+                    <div class="flex-cell flex-name"><span><%= participant.name %> <%= participant.surname %></span></div>
                     <div class="flex-cell flex-username"><span><%= participant.username %></span></div>
-                    <div class="flex-cell flex-gender"><span><%= participant.gender %></span></div>
                     <div class="flex-cell flex-turno"><span><%= participant.turnDate ? getFullDate(participant.turnDate) : i18n.turnos.alwaysOpen  %></span></div>
                     <div class="flex-cell flex-attendance">
                         <input type="checkbox" class="attendance-checkbox"

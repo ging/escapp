@@ -15,7 +15,23 @@
         </div>
     </div>
   <h1><%=i18n.analytics.progress.title%></h1>
-
+  <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/progress">
+    <div class="filters">
+        <label for="turnId"><%=i18n.turnos.Turno%>
+            <select name="turnId" id="turnId">
+                <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
+                <% for (t in escapeRoom.turnos) { %>
+                <% var turno = escapeRoom.turnos[t] %>
+                <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
+                    <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
+                </option>
+                <% } %>
+            </select>
+        </label>
+        <button type="submit" class="editButton filter-button" ><%=i18n.common.filter%></button>
+    </div>
+  </form>
+  <% if (teams && teams.length) {%>
   <div id="chart"></div>
   <script>
     var escapeRoom = <%-JSON.stringify(escapeRoom)%>
@@ -134,6 +150,9 @@
     chart.render();
 
 </script>
+<%} else {%>
+  <p class="noResults"><%=i18n.team.noResults%></p>
+<%}%>
 <br/>
 <br/>
 <br/>

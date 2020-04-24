@@ -98,14 +98,14 @@ exports.index = async (req, res, next) => {
         const participants = [];
 
         users.forEach((user) => {
-            const {id, name, gender, username, surname, dni, teamsAgregados, turnosAgregados} = user;
+            const {id, name, gender, username, surname, teamsAgregados, turnosAgregados} = user;
             const [{"id": turnoId, "date": turnDate, "participants": parts}] = turnosAgregados;
             const [{"id": teamId}] = teamsAgregados;
             let {attendance} = parts;
 
             attendance = Boolean(attendance);
 
-            participants.push({id, name, surname, gender, username, dni, teamId, turnoId, turnDate, attendance});
+            participants.push({id, name, surname, gender, username, teamId, turnoId, turnDate, attendance});
         });
         if (req.query.csv) {
             createCsvFile(res, participants, "participants");

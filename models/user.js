@@ -21,16 +21,22 @@ module.exports = function (sequelize, DataTypes) {
         },
         "gender": {
             "type": DataTypes.STRING,
-            "validate": {"len": [0, 200], "notEmpty": {"msg": "Gender must not be empty."}}
+            "validate": {
+                "len": [0, 200],
+                "notEmpty": {"msg": "Gender must not be empty."}
+            }
         },
         "username": {
             "type": DataTypes.STRING,
             "unique": true,
-            "isEmail": true
+            "validate": {"isEmail": true}
         },
         "password": {
             "type": DataTypes.STRING,
-            "validate": {"len": [0, 200], "notEmpty": {"msg": "Password must not be empty."}},
+            "validate": {
+                "len": [0, 200],
+                "notEmpty": {"msg": "Password must not be empty."}
+            },
             set (password) {
             // Random String used as salt.
                 this.salt = String(Math.round(new Date().valueOf() * Math.random()));
@@ -45,7 +51,6 @@ module.exports = function (sequelize, DataTypes) {
                 return crypt.generateToken();
             }
         },
-        "dni": {"type": DataTypes.STRING, "validate": {"len": [0, 200]}},
         "isAdmin": {
             "type": DataTypes.BOOLEAN,
             "defaultValue": false
