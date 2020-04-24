@@ -32,7 +32,7 @@
     <br/>
 </div>
 
-<% include ../../partials/_footer %>
+<%- include('../../partials/_footer', {ignoreExtras: true}) %>
 <script src="/js/vendor/dropzone.js"></script>
 <script>
     var assets = <%- JSON.stringify(assets) %>;

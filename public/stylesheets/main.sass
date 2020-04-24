@@ -3,17 +3,30 @@
 	background: none
 	position: relative
 	#mainHeader, #mainFooter
+		text-align: center
+		display: flex
+		justify-content: space-between
+		align-items: center
+		flex-direction: row
+		flex-wrap: nowrap
+		padding-bottom: 5px
 		.navBarIcon
 			@extend %scale-animation-up
 		#logoImg
-			width: 12%
-			margin-top: 0px
-			margin-bottom: 5px
+			width: 8%
+			// margin-top: 0px
+			// margin-bottom: 5px
 		#logoUpm
 			width: 5%
-			margin-top: 0px
-			margin-bottom: 5px
-			float: right
+			// margin-top: 0px
+			// margin-bottom: 5px
+			// float: right
+		.langs
+			width: auto
+			position: relative
+			margin: 0
+			color: $textpurple
+
 	#mainHeader
 		height: 50px
 		display: flex
@@ -140,14 +153,14 @@
 @media (max-width: 768px)
 	#mainHeader, #mainFooter
 		#logoImg
-			width: 22%
+			width: 17%
 		#logoUpm
 			width: 14%
 @media (max-width: 576px)
 	#mainSection
 		#mainHeader, #mainFooter
 			#logoImg
-				width: 32%
+				width: 20%
 			#logoUpm
 				width: 14%
 // Large devices (desktops, 992px and up)

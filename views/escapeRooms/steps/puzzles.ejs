@@ -38,7 +38,7 @@
     <%- include('../../partials/_puzzles_card', {reto: 'new', puzzle: {id: 'new', hints: []}}) %>
 </div>  
 </div>
-<% include ../../partials/_footer %>
+<%- include('../../partials/_footer', {ignoreExtras: true}) %>
 <script src="/js/vendor/jquery.ui.sortable.min.js"></script>
 <script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>
 <script>

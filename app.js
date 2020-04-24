@@ -40,11 +40,22 @@ app.use(cookieParser());
 app.use(i18n({
     "translationsPath": path.join(__dirname, "i18n"),
     "siteLangs": ["en", "es"],
+    "locales": ["en", "es"],
+    "cookieLangName": "locale",
     "defaultLang": "en",
     "textsVarName": "i18n"
 }));
 
 app.use("/api", api);
+
+app.get("/", function (req, res, next) {
+    if (req.query.clang) {
+        res.cookie("locale", req.query.clang);
+        res.redirect(req.headers.referer);
+    } else {
+        next();
+    }
+});
 
 // Configuracion de la session para almacenarla en BBDD usando Sequelize.
 const sequelize = require("./models");

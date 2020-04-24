@@ -64,7 +64,7 @@ const insert = "<%=i18n.gallery.insert%>";
 const cancel = "<%=i18n.gallery.cancel%>";
 </script>
 
-<% include ../../partials/_footer %>
+<%- include('../../partials/_footer', {ignoreExtras: true}) %>
 
 <script src="/js/instructions.js"></script>
 <style>

@@ -1567,7 +1567,7 @@ button, input[type="submit"] {
     #mainSection .main.step-instructions #assetsForm .dz-preview .dz-image img[src] {
       opacity: 1; }
   #mainSection .main.step-instructions #assetsForm .dz-preview .dz-filename span {
-    font-family: Lato; }
+    font-family: Lato, sans-serif; }
   #mainSection .main.step-instructions #assetsForm .dz-preview.file-selected .dz-image {
     border: 2px solid #48C18E; }
 
@@ -1895,7 +1895,7 @@ button, input[type="submit"] {
   color: white;
   font-size: 22px; }
   .indications #editor blockquote {
-    font-family: Lato;
+    font-family: Lato, sans-serif;
     margin-top: 0px;
     margin-bottom: 0px; }
   .indications #editor a, .indications #editor b, .indications #editor i, .indications #editor strong, .indications #editor em, .indications #editor ul, .indications #editor li, .indications #editor span, .indications #editor u {
@@ -2033,15 +2033,23 @@ button, input[type="submit"] {
   min-height: 100%;
   background: none;
   position: relative; }
-  #mainSection #mainHeader #logoImg, #mainSection #mainFooter #logoImg {
-    width: 12%;
-    margin-top: 0px;
-    margin-bottom: 5px; }
-  #mainSection #mainHeader #logoUpm, #mainSection #mainFooter #logoUpm {
-    width: 5%;
-    margin-top: 0px;
-    margin-bottom: 5px;
-    float: right; }
+  #mainSection #mainHeader, #mainSection #mainFooter {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding-bottom: 5px; }
+    #mainSection #mainHeader #logoImg, #mainSection #mainFooter #logoImg {
+      width: 8%; }
+    #mainSection #mainHeader #logoUpm, #mainSection #mainFooter #logoUpm {
+      width: 5%; }
+    #mainSection #mainHeader .langs, #mainSection #mainFooter .langs {
+      width: auto;
+      position: relative;
+      margin: 0;
+      color: #656683; }
   #mainSection #mainHeader {
     height: 50px;
     display: flex;
@@ -2160,13 +2168,13 @@ button, input[type="submit"] {
 
 @media (max-width: 768px) {
   #mainHeader #logoImg, #mainFooter #logoImg {
-    width: 22%; }
+    width: 17%; }
   #mainHeader #logoUpm, #mainFooter #logoUpm {
     width: 14%; } }
 
 @media (max-width: 576px) {
   #mainSection #mainHeader #logoImg, #mainSection #mainFooter #logoImg {
-    width: 32%; }
+    width: 20%; }
   #mainSection #mainHeader #logoUpm, #mainSection #mainFooter #logoUpm {
     width: 14%; } }
 
@@ -2277,6 +2285,7 @@ button, input[type="submit"] {
   .portada .contenedor {
     display: flex;
     min-height: 100%;
+    min-height: 100vh;
     background-color: #161938; }
     .portada .contenedor .loginLeft {
       width: 50%;
@@ -2297,7 +2306,8 @@ button, input[type="submit"] {
       text-align: center;
       width: 50%;
       flex: 3;
-      padding: 3em; }
+      padding: 3em;
+      position: relative; }
       .portada .contenedor .loginRight h2 {
         text-align: left; }
       .portada .contenedor .loginRight input, .portada .contenedor .loginRight select {
@@ -2341,6 +2351,13 @@ button, input[type="submit"] {
       .portada .contenedor .loginRight input:-webkit-autofill::first-line {
         font-size: large;
         font-family: Gugi, sans-serif; }
+      .portada .contenedor .loginRight .langs {
+        position: absolute;
+        bottom: 0px;
+        color: #656683; }
+        .portada .contenedor .loginRight .langs a:hover {
+          color: white;
+          font-weight: bold; }
     .portada .contenedor #imagenPortada {
       width: auto; }
 
@@ -3498,8 +3515,25 @@ html {
       bottom: 0;
       position: absolute;
       width: 100%;
-      margin-left: -15px;
-      padding: 18px; }
+      padding: 18px;
+      font-family: Gugi, Lato, sans-serif; }
+    html body .langs {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      left: 0;
+      right: 0;
+      padding: 0;
+      font-size: 12px;
+      color: #656683; }
+      html body .langs li a {
+        padding-left: 5px;
+        padding-right: 5px;
+        color: #656683; }
+        html body .langs li a:hover {
+          font-weight: bold;
+          color: white; }
 
 .material-icons {
   vertical-align: middle; }
