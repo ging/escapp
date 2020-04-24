@@ -2091,6 +2091,7 @@ button, input[type="submit"] {
         -webkit-appearance: menulist;
         -moz-appearance: none;
         width: 200px;
+        text-align: left;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
@@ -2098,7 +2099,9 @@ button, input[type="submit"] {
         -webkit-text-fill-color: white !important;
         -webkit-text-stroke-color: white;
         background: none;
-        font-family: Lato; }
+        font-family: Lato, sans-serif; }
+        #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select option {
+          font-family: Lato, sans-serif; }
         #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:active, #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:focus, #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:hover {
           font-family: Lato !important; }
         #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select option {
@@ -3361,7 +3364,7 @@ table.mainTable {
     padding-right: 10px !important; } }
 
 .userForm label, .userForm span, .userForm input {
-  font-family: Lato; }
+  font-family: Lato, sans-serif; }
 
 .userForm button {
   font-size: 16px;
