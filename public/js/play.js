@@ -390,6 +390,7 @@ const updateSuperados = (puzzleOrder) => {
 
 
 const finish = async () => {
+  window.stopped = true
   await forMs(1000);
   confetti.start(10000);
   $('#finish').show();

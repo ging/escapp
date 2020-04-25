@@ -28,12 +28,15 @@
     <% var reqHintsList = []; %>
     <% var automaticHints = 0 %>
     <% var pending = [] %>
-
+    <% var retosSuperados = []%>
+    <% var retosSuperadosIds = []%>
+    <% var progress = 0; %>
+    <% var finish = false; %>
     <% if (isStudent) { %>
         <% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
         <% var hintAppConditional = hintConditional && Boolean(escapeRoom.hintApp); // Hint app methodology %>
-        <% var retosSuperados = team.retos.map(a=>a.order);%>
-        <% var retosSuperadosIds = team.retos.map(a=>a.id);%>
+        <% retosSuperados = team.retos.map(a=>a.order);%>
+        <% retosSuperadosIds = team.retos.map(a=>a.id);%>
         <% for (let h in hints) {
             let hint = hints[h]
             if (hint && hint.hint) {
@@ -43,18 +46,13 @@
                 customHints++
             }
         } %>
-        <% var progress = Math.round(retosSuperados.length / escapeRoom.puzzles.length * 100); %>
-        <% var finish = retosSuperados.length === escapeRoom.puzzles.length; %>
+        <% progress = Math.round(retosSuperados.length / escapeRoom.puzzles.length * 100); %>
+        <% finish = retosSuperados.length === escapeRoom.puzzles.length; %>
         <% latestRetoSuperado = retosSuperados.length ? Math.max(...retosSuperados) : null %>
         <% currentlyWorkingOn = retosSuperados.length ? (Math.max(...retosSuperados) + 1) : 0 %>
         <% if (finish) { 
             currentlyWorkingOn = null;
         } %>
-        
-    <% } else {%>
-        <% var retosSuperados = []%>
-        <% var retosSuperadosIds = []%>
-        <% var progress = 0; %>
     <% } %>
         <% var puzzles = escapeRoom.puzzles.map(({ id, order, title, score, correct, automatic, hints })=>{ 
             reqHints[order] = [];

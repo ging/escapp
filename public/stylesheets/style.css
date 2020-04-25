@@ -2037,7 +2037,7 @@ button, input[type="submit"] {
     text-align: center;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     flex-direction: row;
     flex-wrap: nowrap;
     padding-bottom: 5px; }
@@ -2049,7 +2049,8 @@ button, input[type="submit"] {
       width: auto;
       position: relative;
       margin: 0;
-      color: #656683; }
+      color: #656683;
+      margin-bottom: 5px; }
   #mainSection #mainHeader {
     height: 50px;
     display: flex;

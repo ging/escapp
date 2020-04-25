@@ -266,7 +266,7 @@
             "check": "Check",
             "msg": "Message",
             "sol": "Solution",
-            "writeSol": "Writre here the solution",
+            "writeSol": "Write here the solution",
             "currentPuzzle": "Current puzzle",
             "finish": "Congratulations! You've exited the Escape Room.",
             "failed": "Too bad! Please try again",

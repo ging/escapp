@@ -1,76 +1,108 @@
 <script>
-    <%if (team && team.turno && team.turno.status === "active") { %>
-            var countdown = true;
-            var startTime = new Date("<%=team.turno.startTime || team.startTime%>");
-            var duration = <%=escapeRoom.duration || 0%>;
-        <% if (finish) { %>
-            var stopped = true;
-            var now = new Date("<%=team.retos[team.retos.length - 1].retosSuperados.createdAt%>");
+    var countdown = false;
+    var duration = 0;
+    var startTime = undefined;
+    var now = false // new Date("<%=new Date()%>");
+    var max = 24 * 60 * 60;
+    <%if (team && team.turno && team.turno.status === "active") {  %>
+            countdown = true;
+            startTime = new Date("<%=team.turno.startTime || team.startTime%>");
+            duration = <%=escapeRoom.duration || 0%>;
+            <% if (finish) { %>
+            <%var max = Math.max(...team.retos.map(a=>a.retosSuperados.createdAt))%>
+            now = <%-max ? "new Date("+max+")" : "false" %>,
        <% } %>
     <% } else {%>
-        var countdown = false;
-        var duration = 0;
         /**prueba**/ /*  var countdown = true; var startTime = new Date(); var duration = 0.5; *//**prueba**/
     <% } %>
+
     $("countdown").html(`<div class="clockContainer" >
         <p class="clock text-danger text-center explosion" style="display:none"><span class="boom" data-text="BOOOOOM!">BOOOOOM!</span></p>
         <p class="countdown text-danger clock text-center time" >
         <span class="minus" style="display:none;" data-text="-">-</span><span class="hours" data-text="00">00</span><span class="colon" data-text=":">:</span><span class="mins" data-text="00">00</span><span class="colon" data-text=":">:</span><span class="secs" data-text="00">00</span>
         </p>
     </div>`);
-    var stopped = window.stopped;
-    var rem_time = window.duration || 60;
-    if (window.startTime && window.duration) {
-        rem_time = window.duration*60 - Math.round(((window.now || new Date()) - window.startTime)/1000);
+    var rem_time = duration || 60;
+    if (startTime && duration) {
+        rem_time = Math.floor( (duration*60*1000 - ( (now || new Date()) - startTime))/1000);
+    }
+    console.log(startTime, rem_time)
+    function toHHMMSS (secs) {
+        var sec_num = parseInt(secs, 10)
+        var seconds = sec_num % 60
+        var minutes = Math.floor(sec_num / 60) % 60
+        var hours   = seconds === max ? 24 : Math.floor(sec_num / 3600)
+
+        return [hours,minutes,seconds]
+            // .map(v => v < 10 ? "0" + v : v)
+            // .filter((v,i) => v !== "00" || i > 0)
+            // .join(":")
+    }
+    function pad(num) {
+        return (num < 10 ? "0" + num : num);
     }
     function chrono(stopQuickCountDown) {
-        var seconds = Math.abs(rem_time);
-        var max = 24 * 60 * 60;
-        seconds = (seconds < max)  ? seconds : max;
-        var secs = Math.floor(seconds % 60);
-        var mins = Math.floor((seconds/60) % 60);
-        var hours = seconds === max ? 24 : Math.floor((seconds/(60*60)) % 24);
-        function pad(num) {
-            return (num < 10 ? "0" + num : num);
-        }
-        $('.hours').html(pad(hours));
-        $('.hours').attr('data-text', pad(hours));
-        $('.mins').html(pad(mins));
-        $('.mins').attr('data-text', pad(mins));
-        $('.secs').html(pad(secs));
-        $('.secs').attr('data-text', pad(secs));
-        if (rem_time > 0 && rem_time < 11) {
-        $(".clockContainer").addClass("animated");
-        $(".clockContainer").addClass("infinite");
-        $(".clockContainer").addClass("pulse");
-        }
-        if (rem_time === 0 || rem_time < 0) {
-            $(".clock").addClass("red");
-            $(".clockContainer").removeClass("animated");
-            $(".clockContainer").removeClass("infinite");
-            $(".clockContainer").removeClass("pulse");
-        }
-        if (rem_time === 0) {
-            //clearInterval(countdownChrono);
-            $('.explosion').css("display", "block");
-            $('.time').css("display", "none");
-            //$('.boom').html("BOOOOOM!");
-            //$('.boom').attr('data-text', "BOOOOOM!");
-        } else if (rem_time < 0) {
-            $('.explosion').css("display","none");
-            $('.time').css("display", "block");
-            $('.minus').css("display","inline-block");
-        }
-        rem_time--;
-        if( rem_time<stopQuickCountDown){
+        if (!window.stopped) {
+
+            var seconds = Math.abs(rem_time);
+            
+            seconds = (seconds < max)  ? seconds : max;
+            var [hours, mins, secs] = toHHMMSS(seconds);
+            $('.hours').html(pad(hours));
+            $('.hours').attr('data-text', pad(hours));
+            $('.mins').html(pad(mins));
+            $('.mins').attr('data-text', pad(mins));
+            $('.secs').html(pad(secs));
+            $('.secs').attr('data-text', pad(secs));
+            if (rem_time > 0 && rem_time < 11) {
+                $(".clockContainer").addClass("animated");
+                $(".clockContainer").addClass("infinite");
+                $(".clockContainer").addClass("pulse");
+            }
+            if (rem_time === 0 || rem_time < 0) {
+                $(".clock").addClass("red");
+                $(".clockContainer").removeClass("animated");
+                $(".clockContainer").removeClass("infinite");
+                $(".clockContainer").removeClass("pulse");
+            }
+            if (rem_time === 0) {
+                //clearInterval(countdownChrono);
+                $('.explosion').css("display", "block");
+                $('.time').css("display", "none");
+                //$('.boom').html("BOOOOOM!");
+                //$('.boom').attr('data-text', "BOOOOOM!");
+            } else if (rem_time < 0) {
+                $('.explosion').css("display","none");
+                $('.time').css("display", "block");
+                $('.minus').css("display","inline-block");
+            }
+            if (startTime && duration) {
+                rem_time = Math.floor( (duration*60*1000 - ( (now || new Date()) - startTime))/1000);
+            } else { 
+                rem_time--;
+            }
+            if( rem_time<stopQuickCountDown){
+                clearInterval(countdownChronoQuick);
+                countdownChrono = setInterval('chrono()', 1000);
+            }
+            <%if (finish) {%>
+            window.stopped = true;
+            <%}%>
+        } else {
             clearInterval(countdownChronoQuick);
-            countdownChrono = setInterval('chrono()', 1000);
+            clearInterval(countdownChrono);
+            $(".clockContainer").addClass("animated");
+            $(".clockContainer").addClass("infinite");
+            $(".clockContainer").addClass("pulse");
+            setTimeout(()=>{
+                $(".clockContainer").removeClass("infinite");
+            },10000)
         }
 
     }
-    if (window.countdown){
+    if (countdown){
         chrono();
-        if (!stopped ) {
+        if (!window.stopped ) {
             var countdownChrono = setInterval('chrono()', 1000);
         }
         var countdownChronoQuick;
