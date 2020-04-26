@@ -463,6 +463,7 @@
                 "alwaysTitle": "Shift always open",
                 "deleteTitle": "Delete shift",
                 "hourTitle": "Set time"
+                
             }
         },
         "general": {
@@ -799,7 +800,12 @@
         "todayEscapeRoom": "The Escape Room will be celebrated this day",
         "Turno": "Shift",
         "noTurnAvailable": "No turn available for this ER",
-        "turnNotAvailable": "The selected turh is not available"
+        "turnNotAvailable": "The selected turh is not available",
+        "statusMsg": {
+            "pending": "Pending shift",
+            "active": "Active shift",
+            "finished": "Closed shift"
+        }
     },
     "user": {
         "actions": {

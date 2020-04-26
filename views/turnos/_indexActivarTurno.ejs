@@ -55,7 +55,8 @@ const formatDate = function (currentDate) {
         </p>
         <div class="flexBoxTurnos">
             <%}%>
-            <div class="turno turnoProfe <%=turn.status%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
+            <div class="turno turnoProfe <%=turn.status%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>"
+                title="<%=i18n.turnos.statusMsg[turn.status]%>">
 
                 <div class="hora">
                       <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %> 

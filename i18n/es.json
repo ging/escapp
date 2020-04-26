@@ -455,6 +455,7 @@
                 "alwaysTitle": "Turno siempre abierto",
                 "deleteTitle": "Borrar turno",
                 "hourTitle": "Fijar hora"
+                
             }
         },
         "general": {
@@ -790,7 +791,12 @@
         "selectActivate": "Selecciona el turno que quieres activar/desactivar",
         "selectStudent": "Selecciona un turno",
         "todayEscapeRoom": "¡Este día se celebra la Escape Room!",
-        "Turno": "Turno"
+        "Turno": "Turno",
+        "statusMsg": {
+            "pending": "Turno pendiente de comenzar",
+            "active": "Turno activo ahora mismo",
+            "finished": "Turno cerrado"
+        }
     },
     "user": {
         "actions": {

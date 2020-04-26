@@ -144,7 +144,7 @@ exports.checkAccess = async (user, escapeRoomId, i18n) => {
                 const teamId = team.id;
                 const turnId = team.turno.id;
                 const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
-                const erState = await getERState(escapeRoomId, team, escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance);
+                const erState = await getERState(escapeRoomId, team, escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance, true);
 
                 if (participation === "PARTICIPANT") {
                     await automaticallySetAttendance(team, user.id, escapeRoom.automaticAttendance);

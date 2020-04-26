@@ -75,7 +75,9 @@ const onConnect = () => {
 const onDisconnect = () => {
   console.log("Disconnect")
   $('.alert').remove();
-  alertMsg = createAlert("danger", i18n["disconnect"], true);
+  setTimeout(()=>{
+    alertMsg = createAlert("danger", i18n["disconnect"], true);
+  },100)
 };
 
 const onReconnect = () => {
@@ -101,7 +103,9 @@ const onJoin = ({ranking}) => {
   // alertMsg = createAlert("info", i18n["teamJoined"]);
 }
 
-const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage}) => {
+const onPuzzleResponse = async (m) => {
+  console.log(m)
+  const {code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage} = m
   const feedback = (msg) + (participantMessage && participation !== "PARTICIPANT" ? `<br/> ${participantMessage}`: "");
   const puzzleOrder = puzzleOrderPlus - 1;
   if (code === "OK") {

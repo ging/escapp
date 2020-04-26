@@ -23,7 +23,7 @@
 <div class="userField">
     <label for="gender"><span><%=i18n.user.gender%></span>
     <select  required class="customInput" id="gender" name="gender" value="<%= user.gender %>" placeholder="<%=i18n.user.inputs.genderPlaceHolder %>" autocomplete="off">
-        <option value="" disabled <%= !user.id ? "selected" : ""%>> <option>
+        <option value disabled <%= !user.id ? "selected" : ""%>/>
         <option value="Femenino" <%= user.gender === "Femenino" ? "selected" : ""%>>Mujer</option>
         <option value="Masculino" <%= user.gender === "Masculino" ? "selected" : ""%>>Hombre</option>
         <option value="Otro" <%= user.gender === "Otro" ? "selected" : ""%>>Otro</option>

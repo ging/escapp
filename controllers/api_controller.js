@@ -106,7 +106,7 @@ exports.auth = async (req, _res, next) => {
         const {i18n} = req.app.locals;
         const participation = await checkTurnoAccess(teams, user, escapeRoom, true);
         const attendance = participation === PARTICIPANT || participation === TOO_LATE;
-        const erState = teams && teams.length ? await getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance) : undefined;
+        const erState = teams && teams.length ? await getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance, true) : undefined;
 
         if (participation === PARTICIPANT) {
             await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
@@ -138,7 +138,7 @@ exports.startPlaying = async (req, _res, next) => {
         if (participation === PARTICIPANT || participation === NOT_STARTED) {
             const joinTeam = await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
 
-            erState = await getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance);
+            erState = await getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance, true);
             if (joinTeam) {
                 sendStartTeam(joinTeam.id, code, authentication, PARTICIPANT, msg, erState);
                 sendJoinTeam(joinTeam.id, joinTeam.turno.id, erState.ranking);
