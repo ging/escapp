@@ -259,6 +259,8 @@
             "correct": "¡Respuesta correcta!",
             "msg": "Mensaje",
             "sol": "Solución",
+            "autoPlayText": "Haz clic en el botón para empezar a ver el vídeo",
+            "autoPlayButton": "Reproducir",
             "currentPuzzle": "Reto actual",
             "writeSol": "Escribe la solución",
             "failed": "Lo siento, sigue intentándolo",

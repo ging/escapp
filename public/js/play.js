@@ -102,7 +102,6 @@ const onJoin = ({ranking}) => {
 }
 
 const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage}) => {
-  console.log(msg)
   const feedback = (msg) + (participantMessage && participation !== "PARTICIPANT" ? `<br/> ${participantMessage}`: "");
   const puzzleOrder = puzzleOrderPlus - 1;
   if (code === "OK") {
@@ -648,64 +647,83 @@ $( ()=>{
 
   // Autoplay videos
 
-
   setTimeout(()=>{
-    if (localStorage["escapp_"+escapeRoomId] !== ER.erState.startTime.toString()) { // First time
-      let auto = $( "[autoplay]" );
+    localStorage["escapp_"+escapeRoomId] = ER.erState.startTime.toString();
+  }, 3000);
 
-      if (!auto.length) { // Video
-        auto = $("iframe").filter(function() {
-          return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
-        });
-      } 
-      if (!auto.length) {
-        auto = $("video").filter(function() {
-          return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
-        });
-      }
-      if (auto.length) {
+  if (localStorage["escapp_"+escapeRoomId] !== ER.erState.startTime.toString()) { // First time
+    let auto = $( "[autoplay]" );
 
-          setTimeout(async ()=>{
-            var el = auto.first();
-            var elOffset = el.offset().top;
-            var elHeight = el.height();
-            var windowHeight = $(window).height();
-            var offset;
-            if (elHeight < windowHeight) {
-              offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
-            } else {
-              offset = elOffset;
-            }
-            try {
-              await toggleFullScreen(auto[0])
-
-            } catch(e){
-              // try {
-              //   console.log(5)
-              //   setTimeout(()=>$(()=>auto[0].play()),100);
-              // } catch(e){}
-              // try {
-              //   console.log(6)
-              //   setTimeout(()=>$(()=>auto[0].playVideo()),100);
-              // } catch(e){}
-            } finally {
-              // setTimeout(()=>{
-              //   document.body.scrollTop = offset;
-              //   document.documentElement.scrollTop = offset;
-              // },100)
-            };
-          },100)
+    if (!auto.length) { // Iframe
+      auto = $("iframe").filter(function() {
+        return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
+      });
+    } 
+    if (!auto.length) { // Video
+      auto = $("video").filter(function() {
+        return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
+      });
+    }
+    if (auto.length) {
+      const play = async function(el) {
+        try {
+          await openFullScreen(el);
+        } catch(e2){}
+        try {
+          await el.play();
+          return true;
+        } catch(e3){
+          try {
+            await el.playVideo();
+            return true;
+          } catch(e4){
+            return false;
+          }
         }
-        setTimeout(()=>{
-          localStorage["escapp_"+escapeRoomId] = ER.erState.startTime.toString();
-        }, 3000)
-    } else {
-      try {
-        $( "[autoplay]" ).each((i,e)=>e.pause());
-        $( "iframe" ).each((i,e)=>e.src = e.src.replace("autoplay=1","autoplay=0"));
-      } catch (e) {}
-  }
-},500)
+      };
+
+      setTimeout(async ()=>{
+        try {
+          await openFullScreen(auto[0])
+        } catch(e1){
+          const ok = await play(auto[0]);
+          if (!ok) {
+            $('#autoplay-btn').click(async ()=>{
+              $('#autoplay-alert').hide();
+              await play(auto[0])
+            });
+            $('#autoplay-alert').show({"backdrop": true})
+            await play(auto[0]);
+            }
+        } finally {
+          // setTimeout(()=>{
+            // var el = auto.first();
+            // var elOffset = el.offset().top;
+            // var elHeight = el.height();
+            // var windowHeight = $(window).height();
+            // var offset;
+            // if (elHeight < windowHeight) {
+            //   offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+            // } else {
+            //   offset = elOffset;
+            // }
+          //   document.body.scrollTop = offset;
+          //   document.documentElement.scrollTop = offset;
+          // },00)
+        };
+      }, 100)
+    }
+  } else {
+    try {
+      $( "[autoplay]" ).each((i,e)=>e.pause());
+    } catch (e) {}
+    try {
+      $( "video" ).each((i,e)=>e.pause());
+    } catch (e) {}
+    try {
+      $( "iframe" ).each((i,e)=>e.src = e.src.replace("autoplay=1","autoplay=0"));
+    } catch (e) {}
+}
 
 
 });

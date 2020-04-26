@@ -266,6 +266,8 @@
             "check": "Check",
             "msg": "Message",
             "sol": "Solution",
+            "autoPlayText": "Click the button to start playing the video",
+            "autoPlayButton": "Play",
             "writeSol": "Write here the solution",
             "currentPuzzle": "Current puzzle",
             "finish": "Congratulations! You've exited the Escape Room.",

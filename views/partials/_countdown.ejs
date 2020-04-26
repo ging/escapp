@@ -26,7 +26,6 @@
     if (startTime && duration) {
         rem_time = Math.floor( (duration*60*1000 - ( (now || new Date()) - startTime))/1000);
     }
-    console.log(startTime, rem_time)
     function toHHMMSS (secs) {
         var sec_num = parseInt(secs, 10)
         var seconds = sec_num % 60
