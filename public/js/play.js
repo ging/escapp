@@ -684,8 +684,6 @@ $( ()=>{
 
       setTimeout(async ()=>{
         try {
-          await openFullScreen(auto[0])
-        } catch(e1){
           const ok = await play(auto[0]);
           if (!ok) {
             $('#autoplay-btn').click(async ()=>{
@@ -694,7 +692,12 @@ $( ()=>{
             });
             $('#autoplay-alert').show({"backdrop": true})
             await play(auto[0]);
-            }
+          }
+        } catch(e){
+        }
+        try {
+          await openFullScreen(auto[0])
+        } catch(e){
         } finally {
           // setTimeout(()=>{
             // var el = auto.first();
