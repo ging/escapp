@@ -14,7 +14,7 @@ exports.load = async (req, res, next, escapeRoomId) => {
     try {
         const escapeRoom = await models.escapeRoom.findByPk(escapeRoomId, query.escapeRoom.load);
 
-        if (req.session.user && req.session.user.isStudent && escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
+        if (req.session && req.session.user && req.session.user.isStudent && escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
             req.app.locals.i18n = escapeRoom.forceLang === "en" ? en : es;
         }
 
@@ -324,7 +324,7 @@ exports.studentToken = (req, res, next) => {
 exports.clone = async (req, res, next) => {
     try {
         const {"title": oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, forceLang, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment, allowCustomHints, hintInterval} = req.escapeRoom;
-        const authorId = req.session.user && req.session.user.id || 0;
+        const authorId = req.session && req.session.user && req.session.user.id || 0;
         const newTitle = `Copy of ${oldTitle}`;
         const include = [{"model": models.puzzle, "include": [models.hint]}];
 
