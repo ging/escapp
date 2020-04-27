@@ -14,8 +14,12 @@ exports.load = async (req, res, next, escapeRoomId) => {
     try {
         const escapeRoom = await models.escapeRoom.findByPk(escapeRoomId, query.escapeRoom.load);
 
-        if (req.session && req.session.user && req.session.user.isStudent && escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
-            req.app.locals.i18n = escapeRoom.forceLang === "en" ? en : es;
+        if (req.app && req.app.locals) {
+            if (!req.session || req.session && req.session.user && req.session.user.isStudent) {
+                if (escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
+                    req.app.locals.i18n = escapeRoom.forceLang === "es" ? es : en;
+                }
+            }
         }
 
         if (escapeRoom) {
