@@ -44,9 +44,11 @@
                             href += "/join";
                         } 
                     }
-                }
-                 ((user && user.isStudent && !escapeRoom.isSignedUp) ? (disabled ? "":(escapeRoom.id +"/join")) : escapeRoom.id );%>
-                <a href="<%=href%>" class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=100*i%>ms;">
+                }%>
+                <a href="<%=href%>" <%-disabled ? "onclick='return false;'":'' %> class="escapeRoomItemWrapper animated bounceIn" style="animation-delay: <%=100*i%>ms;"
+                    
+                    <%-disabled ? ('title="'+i18n.escapeRoom.main.notAvailable+'"') : ''%>
+                    >
                     <div class="escapeRoomItem <%= disabled ?' disabled':'' %>">
                         <div class="erFoto" style="text-align: center">
                             <div class="bckgFoto" style="background-image: url(<% if (attachment) {%><%=attachment.url%><%} else {%>/images/placeholder.jpg<%}%>)"></div>

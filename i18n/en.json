@@ -318,7 +318,8 @@
             "noERTeacher": "You haven't created any Escape Rooms yet. Manage them from here",
             "noERStudent": "You haven't any active Escape Rooms yet, wait for your teacher's invitation.",
             "yesERStudent": "These are your Escape Rooms",
-            "yesERTeacher": "Manage your Escape Rooms from here"
+            "yesERTeacher": "Manage your Escape Rooms from here",
+            "notAvailable": "Escape Room not available"
         },
         "steps": {
             "appearance": {
@@ -813,7 +814,9 @@
         "statusMsg": {
             "pending": "Pending shift",
             "active": "Active shift",
-            "finished": "Closed shift"
+            "finished": "Closed shift",
+            "canSignUp": "Shift available",
+            "full": "No places left in this shift"
         }
     },
     "user": {

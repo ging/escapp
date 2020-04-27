@@ -309,7 +309,8 @@
             "noERTeacher": "No has creado ninguna escape room, gestiónalas desde aquí...",
             "noERStudent": "No tienes ninguna escape room activa, utiliza en enlace original que te ha proporcionado tu profe para apuntarte.",
             "yesERStudent": "Estas son las escape rooms disponibles",
-            "yesERTeacher": "Gestiona las escape rooms desde aquí..."
+            "yesERTeacher": "Gestiona las escape rooms desde aquí...",
+            "notAvailable": "Escape Room no disponible"
         },
         "steps": {
             "appearance": {
@@ -803,7 +804,9 @@
         "statusMsg": {
             "pending": "Turno pendiente de comenzar",
             "active": "Turno activo ahora mismo",
-            "finished": "Turno cerrado"
+            "finished": "Turno cerrado",
+            "canSignUp": "Turno disponible",
+            "full": "Turno lleno"
         }
     },
     "user": {

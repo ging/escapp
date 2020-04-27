@@ -58,8 +58,17 @@ const formatDate = function (currentDate) {
 
         <div class="flexBoxTurnos">
             <%}%>
-            <% var disabled = ((escapeRoom.nmax && turn.students.length >= escapeRoom.nmax) || turn.status === 'finished');%>
-            <div class="turno turnoAlumno <%= disabled ? "disabled finished":""%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
+            <% var title = i18n.turnos.statusMsg["canSignUp"];
+            var full = (escapeRoom.nmax && turn.students.length >= escapeRoom.nmax);
+            var finished =  turn.status === 'finished';
+            if (finished) {
+                title = i18n.turnos.statusMsg["finished"];
+            } else if (full) {
+                title = i18n.turnos.statusMsg["full"];
+            }
+            %>
+            <% var disabled = (full || finished);%>
+            <div class="turno turnoAlumno <%= disabled ? "disabled finished":""%>" title="<%=title%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
                 <div class="hora">
                     <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %>
                 </div>
