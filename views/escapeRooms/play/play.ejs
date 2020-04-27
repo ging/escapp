@@ -83,7 +83,7 @@
             %>
     <nav class="navbar fixed-top navbar-expand-md justify-content-between navbar-fixed-top navbar-dark bg-primary">
         <a class="navbar-brand" href="#"><%=escapeRoom.title%></a>
-        <%if (isStudent && escapeRoom.teamSize > 1) {%>
+        <%if (isStudent && (!escapeRoom.teamSize || escapeRoom.teamSize > 1)) {%>
             <span class="navbar-text">
                 <b><%=i18n.team.Team%>: </b><%=team.name%>
             </span>

@@ -351,6 +351,7 @@
                 "title": "Escape Room basic configuration",
                 "titlePlaceHolder": "What is the Escape Room's name?",
                 "videoPlaceHolder": "An URL dor the Escape Room's introduction video"
+
             },
             "evaluation": {
                 "eachHint": "Assign a penalty or reward for requesting a hint",
@@ -443,7 +444,7 @@
                 "Hint": "Hint",
                 "hints": "Hints",
                 "manual": "Manual",
-                "newCat": "Categoría nueva",
+                "newCat": "New category",
                 "noCluesYet": "You haven't defined any puzzles yet",
                 "noPuzzlesYet": "You haven't defined any puzzles yet",
                 "notYet": "Please create a new puzzle before assigning it any hints",
@@ -474,6 +475,7 @@
         "insert": "insert",
         "cancel": "cancel",
         "title": "Gallery",
+        "editYourText": "HTML edit",
         "insertURL": "Insert URL",
         "selectFileFromList": "Select file from the list or ",
         "uploadNew": "upload a new one",
@@ -579,6 +581,11 @@
                 "intro": "There are several ways to evaluate if the students have learned doing the activity, one way is through a control group, comparing the notes of the students who made the escape room with those who did not. at the beginning of the escape room and at the end, checking if there has been a significant increase in the knowledge of the students Finally, at the end of the activity it is convenient to conduct a survey to know the opinion of the students about the escape room."
                 }
         }
+    },
+    "langs": {
+        "dontForce": "Do not force",
+        "en": "English",
+        "es": "Spanish"
     },
     "resources": {
         "title": "Resources for creating puzzles",
@@ -688,7 +695,6 @@
             "volver": "back",
             "actions": "Actions",
             "information": "Information"
-            
         },
         "messages": {
             "noHintControl": "This Escape Room does not have any hint system yet",
@@ -726,7 +732,9 @@
             "title": "Title",
             "turnos": "Shifts",
             "video": "Video",
-            "share": "Share"
+            "share": "Share",
+            "forceLang": "Force specific language in escapp for the participants of this escape room"
+
         }
     },
     "team": {
@@ -738,7 +746,8 @@
         "choose": "Pick a team ",
         "emptyER": "There aren't any teams yet",
         "emptyTurno": "There aren't any teams in this shift yet",
-        "fullTeam": "Complete team. Please choose another team.",
+        "fullTeam": "Complete team. Please choose another team",
+        "alreadyFinished": "This team has already finished the escape room. Please choose another team",
         "Members": "Members",
         "noTeamYet": "There aren't any teams yet",
         "noResults": "No results",
@@ -823,6 +832,7 @@
         "teacher": "Teacher",
         "student": "Student",
         "gender": "Gender",
+        "lang": "Language",
         "acceptTerms": "Terms and conditions",
         "terms": "I hereby allow making use of my data in an anonymized way for research purposes exclusively.",
         "inputs": {
@@ -851,6 +861,7 @@
         "name": "Name",
         "password": "Password",
         "passwordConfirm": "Confirm password",
+        "passLeaveBlank": "If you would like to change your password fill in the following fields. Otherwise, leave them blank",
         "roles": {
             "admin": "Admin",
             "student": "student",

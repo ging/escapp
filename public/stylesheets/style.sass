@@ -89,8 +89,12 @@ html
       text-align: center
     label
       color: $textpurple //TODO Generalize
+    option
+      color: $darkerpurple
+      background-color: white
     input, select
-      background-color: $bckg
+      // background-color: $bckg
+      background: transparent
       -webkit-text-fill-color: $textpurple !important
       color: $textpurple
       font-size: large
@@ -113,8 +117,9 @@ html
         color: white !important
         border-color: white !important
       &:-webkit-autofill
-        -webkit-box-shadow: 0 0 0 30px $mainpurple inset !important
+        // -webkit-box-shadow: 0 0 0 30px transparent inset !important
         -webkit-text-fill-color: $textpurple !important
+        transition: background-color 5000s ease-in-out 0s
         font-family: Gugi !important
         &:active, &:focus
           -webkit-text-fill-color: white !important
@@ -128,14 +133,35 @@ html
           -webkit-text-fill-color: white !important
       &:focus, &:active, &:-webkit-autofill:hover, &:-webkit-autofill:focus, &:-webkit-autofill:active, &-webkit-autofill::first-line 
         font-family: Gugi !important
-        background-color: $bckg
+        background-color: transparent
         color: white !important
         -webkit-text-fill-color: white !important
         border-color: white !important
         & + label
           color: white
+    .select-wrapper
+      position: relative
+      &:after 
+        font-family: 'Material Icons'
+        content: '\e5c5'
+        font-size: 24px
+        position: absolute
+        top: 8px
+        right: -5px
+        color: inherit
+        pointer-events: none
     select
       -webkit-appearance: none
+      -moz-appearance: none
+      -ms-appearance: none
+      -o-appearance: none
+      appearance: none
+      background-image: linear-gradient(45deg, transparent 50%, white 50%), linear-gradient(135deg, white 50%, transparent 50%)
+      background-position: calc(100% - 15px) calc(1em + -1px), calc(100% - 10px) calc(1em + -1px), calc(100% - 0px) 0em
+      background-size: 5px 5px, 5px 5px, 1px 0.5em
+      background-repeat: no-repeat
+      -moz-appearance: none
+      padding-right: 1.15em
     footer
       display: flex
       align-content: space-around

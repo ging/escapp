@@ -161,6 +161,7 @@ button, input[type="submit"] {
       flex-direction: row;
       background-color: transparent;
       padding: 9px 18px;
+      padding-left: 0px;
       border-radius: 40px;
       margin: 0px;
       margin-top: 0;
@@ -221,6 +222,9 @@ button, input[type="submit"] {
 
 .main.retosSuperados, .main.grading {
   overflow-x: hidden; }
+
+.main .filters select {
+  padding-right: 1.65em !important; }
 
 .main .filters .filter-button {
   font-size: 16px;
@@ -1283,6 +1287,8 @@ button, input[type="submit"] {
     -webkit-text-fill-color: white !important;
     border-color: white;
     padding: 10px; }
+  .filters select {
+    padding-right: 1.65em !important; }
 
 #flassmessages {
   position: fixed;
@@ -2094,28 +2100,34 @@ button, input[type="submit"] {
         text-decoration: underline; }
       #mainSection .main .breadcrumbs-container .breadcrumbs .material-icons {
         color: #48C18E; }
-      #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select {
-        border: none;
-        color: white;
-        -webkit-appearance: menulist;
-        -moz-appearance: none;
-        width: 200px;
-        text-align: left;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        color: white;
-        -webkit-text-fill-color: white !important;
-        -webkit-text-stroke-color: white;
-        background: none;
-        font-family: Lato, sans-serif; }
-        #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select option {
-          font-family: Lato, sans-serif; }
-        #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:active, #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:focus, #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select:hover {
-          font-family: Lato !important; }
-        #mainSection .main .breadcrumbs-container .breadcrumbs .breadcrumb-select option {
-          background: white;
-          color: #161938; }
+      #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper {
+        position: relative; }
+        #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select {
+          border: none;
+          color: white;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          -ms-appearance: none;
+          -o-appearance: none;
+          appearance: none;
+          width: 200px;
+          text-align: left;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          color: white;
+          -webkit-text-fill-color: white !important;
+          -webkit-text-stroke-color: white;
+          background: none;
+          font-family: Lato, sans-serif;
+          padding-right: 20px; }
+          #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select option {
+            font-family: Lato, sans-serif; }
+          #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select:active, #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select:focus, #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select:hover {
+            font-family: Lato !important; }
+          #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select option {
+            background: white;
+            color: #161938; }
     #mainSection .main footer {
       margin-left: -35px; }
     #mainSection .main .align-right {
@@ -2261,6 +2273,9 @@ button, input[type="submit"] {
   color: #161938;
   border-color: #36A2EB;
   border-style: solid; }
+
+#mainSection .main.participants .filters select {
+  padding-right: 1.65em !important; }
 
 #mainSection .main.participants .no-participants {
   display: block;
@@ -2475,7 +2490,9 @@ button, input[type="submit"] {
         -webkit-text-fill-color: #F47E84 !important;
         font-family: Lato !important; }
     #mainSection .main .puzzle-card select option, #mainSection .main .puzzle-card input option {
-      font-family: Lato !important; }
+      font-family: Lato !important;
+      background: white;
+      color: #161938; }
   #mainSection .main .puzzle-card .hint-list {
     list-style: none;
     padding-left: 5px; }
@@ -2772,6 +2789,8 @@ button, input[type="submit"] {
         max-height: 23vmin; }
   .ranking .filters {
     text-align: left; }
+    .ranking .filters select {
+      padding-right: 1.65em !important; }
   .ranking .ranking-table {
     width: 100%;
     position: relative;
@@ -3207,6 +3226,9 @@ table.mainTable {
   #mainSection .main.teams .filters label:focus-within {
     color: white; }
 
+#mainSection .main.teams .filters select {
+  padding-right: 1.65em !important; }
+
 #mainSection .main.teams .filters input[type=submit], #mainSection .main.teams .filters button {
   outline: 0;
   cursor: pointer;
@@ -3398,11 +3420,16 @@ table.mainTable {
       margin: 20px;
       border: 2px solid white;
       max-width: 70%; }
-  .user-flex-container .user-flex-container-right .editUserForm .userField label input, .user-flex-container .user-flex-container-right .editUserForm .userField label select, .user-flex-container .user-flex-container-right .editUserForm .userField label option {
+  .user-flex-container .editUserForm .userField label:focus-within {
+    color: white; }
+  .user-flex-container .editUserForm .userField label input, .user-flex-container .editUserForm .userField label select, .user-flex-container .editUserForm .userField label option {
     width: 350px;
     text-align: center;
     text-align-last: center; }
-  .user-flex-container .user-flex-container-right .editUserForm .userField label span {
+  .user-flex-container .editUserForm .userField label option {
+    background-color: white;
+    color: #232850; }
+  .user-flex-container .editUserForm .userField label span {
     display: block;
     margin-bottom: 5px; }
 
@@ -3461,8 +3488,11 @@ html {
       text-align: center; }
     html body label {
       color: #656683; }
+    html body option {
+      color: #161938;
+      background-color: white; }
     html body input, html body select {
-      background-color: #2A2A52;
+      background: transparent;
       -webkit-text-fill-color: #656683 !important;
       color: #656683;
       font-size: large;
@@ -3485,8 +3515,8 @@ html {
         color: white !important;
         border-color: white !important; }
       html body input:-webkit-autofill, html body select:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0 30px #232850 inset !important;
         -webkit-text-fill-color: #656683 !important;
+        transition: background-color 5000s ease-in-out 0s;
         font-family: Gugi !important; }
         html body input:-webkit-autofill:active, html body input:-webkit-autofill:focus, html body select:-webkit-autofill:active, html body select:-webkit-autofill:focus {
           -webkit-text-fill-color: white !important;
@@ -3500,14 +3530,35 @@ html {
           -webkit-text-fill-color: white !important; }
       html body input:focus, html body input:active, html body input:-webkit-autofill:hover, html body input:-webkit-autofill:focus, html body input:-webkit-autofill:active, html body input-webkit-autofill::first-line, html body select:focus, html body select:active, html body select:-webkit-autofill:hover, html body select:-webkit-autofill:focus, html body select:-webkit-autofill:active, html body select-webkit-autofill::first-line {
         font-family: Gugi !important;
-        background-color: #2A2A52;
+        background-color: transparent;
         color: white !important;
         -webkit-text-fill-color: white !important;
         border-color: white !important; }
         html body input:focus + label, html body input:active + label, html body input:-webkit-autofill:hover + label, html body input:-webkit-autofill:focus + label, html body input:-webkit-autofill:active + label, html body input-webkit-autofill::first-line + label, html body select:focus + label, html body select:active + label, html body select:-webkit-autofill:hover + label, html body select:-webkit-autofill:focus + label, html body select:-webkit-autofill:active + label, html body select-webkit-autofill::first-line + label {
           color: white; }
+    html body .select-wrapper {
+      position: relative; }
+      html body .select-wrapper:after {
+        font-family: 'Material Icons';
+        content: '\e5c5';
+        font-size: 24px;
+        position: absolute;
+        top: 8px;
+        right: -5px;
+        color: inherit;
+        pointer-events: none; }
     html body select {
-      -webkit-appearance: none; }
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      -o-appearance: none;
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, white 50%), linear-gradient(135deg, white 50%, transparent 50%);
+      background-position: calc(100% - 15px) calc(1em + -1px), calc(100% - 10px) calc(1em + -1px), calc(100% - 0px) 0em;
+      background-size: 5px 5px, 5px 5px, 1px 0.5em;
+      background-repeat: no-repeat;
+      -moz-appearance: none;
+      padding-right: 1.15em; }
     html body footer {
       display: flex;
       align-content: space-around;

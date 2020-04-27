@@ -238,9 +238,9 @@ $(function(){
             videoResize: {},
             clipboard: {},
             htmlEditButton: {
-                msg: "Edit your text",
-                okText: "guardar",
-                cancelText: "descartar"
+                msg: window.editYourText || "Edit your text",
+                okText: window.accept || "guardar",
+                cancelText: window.cancel || "descartar"
             }
         },
         placeholder: window.placeholder || 'Write here your escape room instructions',

@@ -213,7 +213,11 @@ exports.create = async (req, res, next) => {
                 "isStudent": user.isStudent,
                 "expires": Date.now() + maxIdleTime
             };
+
             req.session.save(() => {
+                if (user.lang) {
+                    res.cookie("locale", user.lang);
+                }
                 if (req.body.redir) {
                     res.redirect(req.body.redir);
                 } else {

@@ -435,7 +435,7 @@
                 "Hint": "Pista",
                 "hints": "Pistas",
                 "manual": "Manual",
-                "newCat": "New category",
+                "newCat": "Categoría nueva",
                 "noCluesYet": "No has definido ninguna pista todavía",
                 "noPuzzlesYet": "No has definido ningún reto todavía",
                 "notYet": "Hasta que crees el reto no puedes asignarle pistas",
@@ -466,6 +466,7 @@
         "insert": "insertar",
         "cancel": "cancelar",
         "title": "Galería",
+        "editYourText": "Edita el HTML",
         "insertURL": "Introduce la URL",
         "selectFileFromList": "Selecciona un fichero de la lista o ",
         "uploadNew": "sube un fichero nuevo",
@@ -570,6 +571,11 @@
                 "intro": "Existen varias maneras de evaluar si los alumnos han aprendido realizando la actividad. Una manera es mediante un grupo de control, comparando las notas de los alumnos que realizaron la escape room con los que no. Otra manera es realizando un test al principio de la escape room y al final, comprobando si ha habido un incremento significativo de los conocimientos de los alumnos. Por último, al final de la actividad es conveniente realizar una encuesta para conocer la opinión de los alumnos acerca de la escape room."
             }
         }
+    },
+    "langs": {
+        "dontForce": "No forzar",
+        "en": "Inglés",
+        "es": "Español"
     },
     "resources": {
         "title": "Recursos para crear retos",
@@ -717,7 +723,8 @@
             "title": "Título",
             "turnos": "Turnos",
             "video": "Vídeo",
-            "share": "Compartir"
+            "share": "Compartir",
+            "forceLang": "Forzar el idioma de escapp para los alumnos de esta escape room"
         }
     },
     "team": {
@@ -729,7 +736,8 @@
         "choose": "Selecciona un equipo ",
         "emptyER": "No hay equipos en esta escape room",
         "emptyTurno": "No hay equipos en este turno",
-        "fullTeam": "Equipo completo. Por favor, elige otro equipo.",
+        "fullTeam": "Equipo completo. Por favor, elige otro equipo",
+        "alreadyFinished": "Este equipo ya ha terminado la escape room. Por favor, elige otro equipo",
         "Members": "Integrantes",
         "noTeamYet": "No hay equipos todavía...",
         "notAvailable": "El equipo seleccionado no está disponible",
@@ -814,6 +822,7 @@
         "teacher": "Profesor",
         "student": "Alumno",
         "gender": "Género",
+        "lang": "Idioma",
         "acceptTerms": "Condiciones de uso",
         "terms": "Acepto ceder mis datos de uso de forma anonimizada con fines exclusivamente de investigación",
         "inputs": {
@@ -840,6 +849,7 @@
         },
         "name": "Nombre",
         "password": "Contraseña",
+        "passLeaveBlank": "Si deseas cambiar la contraseña, rellena los siguientes campos, sino déjalos en blanco",
         "passwordConfirm": "Confirmar contraseña",
         "roles": {
             "admin": "Administrador",

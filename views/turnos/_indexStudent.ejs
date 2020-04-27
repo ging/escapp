@@ -82,6 +82,7 @@ const formatDate = function (currentDate) {
     </form>
     <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/turnos/xxxx/select?token=<%=token%>'>
         <input type="hidden" id="turnSelected" name="turnSelected" value="0">
+        <input type="hidden" id="token" name="token" value="<%=token%>">
         <button disabled id="continue" class="rounded acceptButton" type="submit" style="display:none;"><%=i18n.common.continue%></button>
     </form>
 </div>

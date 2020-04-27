@@ -51,12 +51,14 @@ exports.create = (req, res, next) => {
         });
         return;
     }
+    const lang = req.cookies && req.cookies.locale ? req.cookies.locale : null;
     const user = models.user.build({
             name,
             surname,
             gender,
             "username": (username || "").toLowerCase(),
-            password
+            password,
+            lang
         }),
         isStudent = role === "student",
         isTeacher = role === "teacher";
@@ -74,7 +76,7 @@ exports.create = (req, res, next) => {
     user.isStudent = Boolean(isStudent);
 
     // Save into the data base
-    user.save({"fields": ["name", "surname", "gender", "username", "password", "isStudent", "salt", "token"]}).
+    user.save({"fields": ["name", "surname", "gender", "username", "password", "isStudent", "salt", "token", "lang"]}).
         then(() => { // Render the users page
             req.flash("success", req.app.locals.i18n.common.flash.successCreatingUser);
             req.body.login = username;
@@ -106,21 +108,32 @@ exports.update = (req, res, next) => {
     const {user, body} = req;
     // User.username  = body.user.username; // edition not allowed
 
-    user.password = body.password;
     user.name = body.name;
     user.surname = body.surname;
     user.gender = body.gender;
+    let scs = req.app.locals.i18n.common.flash.successEditingUser;
 
-    // Password can not be empty
-    if (!body.password) {
-        req.flash("error", req.app.locals.i18n.common.flash.errorMandatoryPass);
-
-        return res.render("users/edit", {user});
+    if (body.lang === "es" || body.lang === "en") {
+        user.lang = body.lang;
+        if (req.cookies && req.cookies.locale && (user.lang !== body.lang || req.cookies.locale !== body.lang)) {
+            res.cookie("locale", body.lang);
+            scs = body.lang === "es" ? "El usuario se ha actualizado con éxito" : "User successfully updated";
+        }
     }
-    user.save({"fields": ["password", "salt", "name", "surname", "gender"]}).
+    if (body.password && body.confirm_password) {
+        if (body.password === body.confirm_password) {
+            user.password = body.password;
+        } else {
+            req.flash("error", req.app.locals.i18n.common.flash.passwordsDoNotMatch);
+            res.redirect("back");
+            return;
+        }
+    }
+
+    user.save({"fields": ["password", "salt", "name", "surname", "gender", "lang"]}).
         then((user_saved) => {
-            req.flash("success", req.app.locals.i18n.common.flash.successEditingUser);
-            res.redirect(`/users/${user_saved.id}/escapeRooms`);
+            req.flash("success", scs);
+            res.redirect(`/users/${user_saved.id}/edit`);
         }).
         catch(Sequelize.ValidationError, (error) => {
             error.errors.forEach(({message}) => req.flash("error", message));

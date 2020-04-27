@@ -6,11 +6,17 @@ const query = require("../queries");
 const attHelper = require("../helpers/attachments");
 const {nextStep, prevStep} = require("../helpers/progress");
 const {saveInterface} = require("../helpers/utils");
+const es = require("../i18n/es");
+const en = require("../i18n/en");
 
 // Autoload the escape room with id equals to :escapeRoomId
 exports.load = async (req, res, next, escapeRoomId) => {
     try {
         const escapeRoom = await models.escapeRoom.findByPk(escapeRoomId, query.escapeRoom.load);
+
+        if (req.session.user && req.session.user.isStudent && escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
+            req.app.locals.i18n = escapeRoom.forceLang === "en" ? en : es;
+        }
 
         if (escapeRoom) {
             req.escapeRoom = escapeRoom;
@@ -41,7 +47,7 @@ exports.index = async (req, res, next) => {
             escapeRooms = erAll.map((er) => {
                 const {id, title, invitation, attachment, nmax} = er;
                 const isSignedUp = ids.indexOf(er.id) !== -1;
-                const disabled = !isSignedUp && !er.turnos.some((e) => e.status !== "finished" && e.students.length < nmax);
+                const disabled = !isSignedUp && !er.turnos.some((e) => e.status !== "finished" && (!nmax || e.students.length < nmax));
 
                 return { id, title, invitation, attachment, disabled, isSignedUp };
             });
@@ -71,19 +77,19 @@ exports.show = async (req, res) => {
 
 // GET /escapeRooms/new
 exports.new = (_req, res) => {
-    const escapeRoom = {"title": "", "teacher": "", "subject": "", "duration": "", "description": "", "nmax": "", "teamSize": ""};
+    const escapeRoom = {"title": "", "teacher": "", "subject": "", "duration": "", "description": "", "nmax": "", "teamSize": "", "forceLang": ""};
 
     res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
 };
 
 // POST /escapeRooms/create
 exports.create = async (req, res) => {
-    const {title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize, supportLink} = req.body,
-        authorId = req.session.user && req.session.user.id || 0,
-        escapeRoom = models.escapeRoom.build({title, subject, duration, forbiddenLateSubmissions, description, supportLink, "nmax": nmax || 0, "teamSize": teamSize || 0, authorId}); // Saves only the fields question and answer into the DDBB
+    const {title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize, supportLink, forceLang} = req.body,
+        authorId = req.session.user && req.session.user.id || 0;
+    const escapeRoom = models.escapeRoom.build({title, subject, duration, "forbiddenLateSubmissions": forbiddenLateSubmissions === "on", description, supportLink, "nmax": nmax || 0, "teamSize": teamSize || 0, authorId, forceLang}); // Saves only the fields question and answer into the DDBB
 
     try {
-        const er = await escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "supportLink", "invitation"]});
+        const er = await escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "supportLink", "invitation", "forceLang"]});
 
         req.flash("success", req.app.locals.i18n.common.flash.successCreatingER);
 
@@ -144,10 +150,11 @@ exports.update = async (req, res) => {
     escapeRoom.supportLink = body.supportLink;
     escapeRoom.nmax = body.nmax || 0;
     escapeRoom.teamSize = body.teamSize || 0;
+    escapeRoom.forceLang = body.forceLang === "en" || body.forceLang === "es" ? body.forceLang : null;
     const progressBar = body.progress;
 
     try {
-        const er = await escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "nmax", "teamSize", "supportLink"]});
+        const er = await escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "nmax", "teamSize", "supportLink", "forceLang"]});
 
         if (body.keepAttachment === "0") {
             // There is no attachment: Delete old attachment.
@@ -260,6 +267,9 @@ exports.teamInterface = (req, res) => {
 exports.classInterface = (req, res) => {
     const {escapeRoom} = req;
 
+    if (escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
+        req.app.locals.i18n = escapeRoom.forceLang === "en" ? en : es;
+    }
     res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "class", "endPoint": "class"});
 };
 // GET /escapeRooms/:escapeRoomId/indications
@@ -313,7 +323,7 @@ exports.studentToken = (req, res, next) => {
 
 exports.clone = async (req, res, next) => {
     try {
-        const {"title": oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment, allowCustomHints, hintInterval} = req.escapeRoom;
+        const {"title": oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, forceLang, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment, allowCustomHints, hintInterval} = req.escapeRoom;
         const authorId = req.session.user && req.session.user.id || 0;
         const newTitle = `Copy of ${oldTitle}`;
         const include = [{"model": models.puzzle, "include": [models.hint]}];
@@ -334,6 +344,7 @@ exports.clone = async (req, res, next) => {
             description,
             nmax,
             teamSize,
+            forceLang,
             teamAppearance,
             classAppearance,
             allowCustomHints,

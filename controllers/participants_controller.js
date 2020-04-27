@@ -26,6 +26,7 @@ exports.checkIsNotParticipant = async (req, res, next) => {
 exports.checkJoinToken = (req, res, next) => {
     const token = req.query.token || req.body.token;
 
+    console.log(token);
     if (token !== req.escapeRoom.invitation) {
         req.flash("error", req.app.locals.i18n.participant.wrongToken);
         res.redirect(`/escapeRooms/${req.escapeRoom.id}/join`);
@@ -64,8 +65,11 @@ exports.checkTurnAvailable = (req, res, next) => {
 exports.checkTeamAvailable = (req, res, next) => {
     const {team, escapeRoom} = req;
 
-    if (team.teamMembers && team.teamMembers.length >= escapeRoom.teamSize) {
+    if (team.teamMembers && escapeRoom.teamSize && team.teamMembers.length >= escapeRoom.teamSize) {
         req.flash("error", req.app.locals.i18n.team.fullTeam);
+        res.redirect("back");
+    } else if (team.startTime && new Date(team.startTime.getTime() + escapeRoom.duration * 60000) < new Date()) {
+        req.flash("error", req.app.locals.i18n.team.alreadyFinished);
         res.redirect("back");
     } else {
         next();

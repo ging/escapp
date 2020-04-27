@@ -58,6 +58,11 @@ module.exports = function (sequelize, DataTypes) {
         "isStudent": {
             "type": DataTypes.BOOLEAN,
             "defaultValue": false
+        },
+        "lang": {
+            "type": DataTypes.STRING,
+            "allowNull": true,
+            "validate": {"isIn": [["en", "es"]]}
         }
     });
 

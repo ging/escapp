@@ -73,10 +73,17 @@
     <% } %>
     
 <%}%>
-
-
 <div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*formFields.length%>ms;">
-    <label class="itemNarrow">7. <%=i18n.showTeacher.titles.thumbnail%>:</label>
+  <label for="<%=field.id%>"  class="itemNarrow"><%=7%>. <%=i18n.showTeacher.titles["forceLang"]%>:</label>
+  <select class="customInput itemWide" id="forceLang" name="forceLang" autocomplete="off">
+    <option value="" <%=escapeRoom.forceLang  ? "" : "selected" %>><%=i18n.langs["dontForce"]%> </option>
+    <option value="en" <%=escapeRoom.forceLang == "en"  ? "selected" : "" %>><%=i18n.langs["en"]%></option>
+    <option value="es"<%=escapeRoom.forceLang == "es" ? "selected" : "" %>><%=i18n.langs["es"]%></option>
+  </select>
+</div>
+
+<div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*(formFields.length+1)%>ms;">
+    <label class="itemNarrow">8. <%=i18n.showTeacher.titles.thumbnail%>:</label>
     <input class="attach" type="file" id="img" name="image"/>
     <label for="img" class="fileUpload customInput itemWide">
       <span id="imgLabel" >

@@ -25,7 +25,7 @@
 				<h2><%=i18n.turnos.place%></h2>
 				<p><%= turno.place %></p>
 			<% } %>
-			<% if (escapeRoom.teamSize > 1) { %>
+			<% if (!escapeRoom.teamSize || (escapeRoom.teamSize > 1)) { %>
 				<h2><%=i18n.team.Team%> </h2>
 				<h3><%=team.name%></h3>
 				<p class="members">

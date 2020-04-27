@@ -30,10 +30,10 @@
     </select></label>
 </div>
 <br />
+<%if (!user.id) {%>
 <div class="userField">
     <label for="username"><span><%=i18n.user.username%></span>
     <input type="email" <%=user.id?"disabled":""%> class="customInput" id="username" name="username" value="<%= user.username %>" required placeholder="<%=i18n.user.inputs.usernamePlaceHolder %>" autocomplete="off"/></label>
-    <%if (!user.id) {%>
         <div class="roleField">
             
             <label for="teacher" class="roleLabel">
@@ -45,21 +45,37 @@
             <span><%=i18n.user.student%></span>
             </label>
         </div>
-    <%}%>
-</div>
-<br />
-
+    </div>
+    <br />
+<%}%>
+<%if (user.id) {%>
+    <div class="userField">
+        <label for="user_confirm_password"><span><%=i18n.user.lang%></span>
+        <select  class="customInput" id="lang" name="lang" required autocomplete="off">
+            <option value="en" <%=(user.lang == "en" || (!user.lang || (i18n.lang === "en"))) ? "selected" :""%>><%=i18n.langs.en%></option>
+            <option value="es" <%=(user.lang == "es" || (!user.lang || (i18n.lang === "es"))) ? "selected" :""%>><%=i18n.langs.es%></option>
+        </select>
+        </label>
+    </div>
+    <br/>
+<p><%=i18n.user.passLeaveBlank%></p>
+<%}%>
 <div class="userField">
         <label for="user_password"><span><%=i18n.user.password%></span>
-        <input type="password" class="customInput" id="user_password" name="password" required placeholder="<%=i18n.user.inputs.passwordPlaceHolder %>" autocomplete="off"/></label>
+        <input type="password" class="customInput" id="user_password" name="password" 
+       <%if (!user.id) {%>  required <%}%>
+         placeholder="<%=i18n.user.inputs.passwordPlaceHolder %>" autocomplete="nope"/></label>
 </div>
 <br />
 <div class="userField">
         <label for="user_confirm_password"><span><%=i18n.user.passwordConfirm%></span>
-        <input type="password" class="customInput" id="user_confirm_password" name="confirm_password" required placeholder="<%=i18n.user.inputs.passwordConfirmPlaceHolder %>" autocomplete="off"/></label>
+        <input type="password" class="customInput" id="user_confirm_password" name="confirm_password" 
+        <%if (!user.id) {%> required <%}%>
+         placeholder="<%=i18n.user.inputs.passwordConfirmPlaceHolder %>" autocomplete="nope"/></label>
 </div>
-<br />
+<br/>
 <%if (!user.id) {%>
+<br/>
 <div class="userField">
     <label for="accept_terms" ><span><%=i18n.user.acceptTerms%></span>
      <p>
@@ -69,14 +85,16 @@
 </label>
 </div>
 <br/>
-
-    <button class="registro" type="submit" value="Save" onclick="return (confirmPassword() && confirmDNI())"><%=i18n.user.actions.register %></button>
+    <button class="registro" type="submit" value="Save" onclick="return confirmPassword()"><%=i18n.user.actions.register %></button>
     <br />
     <br />
     <a class="login" href="/"><%=i18n.user.actions.alreadyRegistered %></a>
 <%} else {%>
+    
+    <br/>
     <a href="/"><button class="save white rounded" type="button"><%=i18n.common.back %></button></a>
-    <button class="save editButton rounded" type="submit" value="edit" onclick="return confirmPassword()"><%=i18n.user.actions.save %></button>
+    <button class="save editButton rounded" type="submit" value="edit"
+    <%if (!user.id) {%> onclick="return confirmPassword()" <%}%>><%=i18n.user.actions.save %></button>
     <br />
     <br />
     <br />

@@ -118,6 +118,11 @@ module.exports = function (sequelize, DataTypes) {
                     "min": -100,
                     "max": 100
                 }
+            },
+            "forceLang": {
+                "type": DataTypes.STRING,
+                "allowNull": true,
+                "validate": {"isIn": [["en", "es"]]}
             }
         }
     );

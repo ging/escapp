@@ -104,13 +104,13 @@ exports.index = async (req, res, next) => {
 
 // GET /escapeRooms/:escapeRoomId/turnos/:turnoId/teams
 exports.indexTurnos = (req, res) => {
-    const {escapeRoom} = req;
+    const {escapeRoom, token} = req;
     const onlyOneMember = checkTeamSizeOne(escapeRoom);
 
     if (onlyOneMember) {
-        res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams`); // TODO Where?
+        res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams?${token}`); // TODO Where?
     } else {
-        res.render("teams/index", {"turno": req.turn, escapeRoom, "token": req.token});
+        res.render("teams/index", {"turno": req.turn, escapeRoom, token});
     }
 };
 

@@ -67,8 +67,7 @@ exports.isTurnStarted = (req, res, next) => {
 // POST /escapeRooms/:escapeRoomId/join
 exports.indexStudent = async (req, res, next) => {
     try {
-        const {escapeRoom} = req;
-        const token = req.body.token || req.query.token;
+        const {escapeRoom, token} = req;
 
         const onlyOneTurn = checkOnlyOneTurn(escapeRoom);
         const onlyOneMember = checkTeamSizeOne(escapeRoom);

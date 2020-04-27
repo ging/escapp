@@ -74,28 +74,34 @@
 						text-decoration: underline
 				.material-icons
 					color: $brightgreen
-				.breadcrumb-select
-					border: none
-					color: white
-					-webkit-appearance: menulist
-					-moz-appearance: none
-					width: 200px
-					text-align: left
-					text-overflow: ellipsis
-					overflow: hidden
-					white-space: nowrap
-					color: white
-					-webkit-text-fill-color: white !important
-					-webkit-text-stroke-color: white
-					background: none
-					font-family: Lato, sans-serif
-					option
+				.select-wrapper
+					position: relative
+					.breadcrumb-select
+						border: none
+						color: white
+						-webkit-appearance: none
+						-moz-appearance: none
+						-ms-appearance: none
+						-o-appearance: none
+						appearance: none
+						width: 200px
+						text-align: left
+						text-overflow: ellipsis
+						overflow: hidden
+						white-space: nowrap
+						color: white
+						-webkit-text-fill-color: white !important
+						-webkit-text-stroke-color: white
+						background: none
 						font-family: Lato, sans-serif
-					&:active, &:focus, &:hover
-						font-family: Lato !important
-					option
-						background: white
-						color: $darkerpurple
+						padding-right: 20px
+						option
+							font-family: Lato, sans-serif
+						&:active, &:focus, &:hover
+							font-family: Lato !important
+						option
+							background: white
+							color: $darkerpurple
 			align-self: left
 		footer
 			margin-left: -35px
