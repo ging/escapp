@@ -130,7 +130,7 @@ exports.getConnectedMembers = (teamId) => {
 /**
  * Check if user has the rights to access ER
  */
-exports.checkAccess = async (user, escapeRoomId, i18n) => {
+exports.checkAccess = async (user, escapeRoomId, i18n, waiting) => {
     try {
         const escapeRoom = await models.escapeRoom.findByPk(escapeRoomId, queries.escapeRoom.load);
 
@@ -144,14 +144,14 @@ exports.checkAccess = async (user, escapeRoomId, i18n) => {
                 const teamId = team.id;
                 const turnId = team.turno.id;
                 const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
-                const erState = await getERState(escapeRoomId, team, escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance, true);
+                const erState = waiting ? {} : await getERState(escapeRoomId, team, escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance, true);
 
                 if (participation === "PARTICIPANT") {
                     await automaticallySetAttendance(team, user.id, escapeRoom.automaticAttendance);
                 }
-                return {participation, teamId, turnId, erState};
+                return {participation, teamId, turnId, erState, "language": escapeRoom.forceLang};
             }
-            return {participation};
+            return {participation, "language": escapeRoom.forceLang};
         }
         return {"errorMsg": i18n.api.notFound};
     } catch (err) {
@@ -355,9 +355,9 @@ exports.initializeListeners = (escapeRoomId, turnId, teamId, user, waiting, i18n
             socket.on(SOLVE_PUZZLE, ({puzzleOrder, sol}) => exports.solvePuzzle(escapeRoomId, teamId, user.id, puzzleOrder, sol, i18n));
             socket.on(REQUEST_HINT, ({status, score, category}) => requestHint(escapeRoomId, teamId, user.id, status, score, category, i18n));
             socket.on(START_PLAYING, () => exports.startPlaying(user, teamId, turnId, escapeRoomId, i18n));
-            socket.on("disconnect", () => exports.leave(teamId, user.username, waiting));
+            socket.on("disconnect", () => exports.leave(teamId, user.username));
             socket.join(`teamId_${teamId}`);
-            exports.join(teamId, user.username, waiting);
+            exports.join(teamId, user.username);
         }
         if (turnId) {
             socket.join(`turnId_${turnId}`);

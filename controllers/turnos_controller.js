@@ -146,6 +146,8 @@ exports.create = (req, res, next) => {
         "status": date === "always" ? "active" : "pending",
         "escapeRoomId": req.escapeRoom.id
     });
+    const {i18n} = res.locals;
+
     let back = "";
 
     if (date === "always") {
@@ -156,7 +158,7 @@ exports.create = (req, res, next) => {
 
     turn.save().
         then(() => {
-            req.flash("success", req.app.locals.i18n.common.flash.successCreatingTurno);
+            req.flash("success", i18n.common.flash.successCreatingTurno);
             res.redirect(back);
         }).
         catch(Sequelize.ValidationError, (error) => {
@@ -164,7 +166,7 @@ exports.create = (req, res, next) => {
             res.redirect(back);
         }).
         catch((error) => {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorCreatingTurno}: ${error.message}`);
+            req.flash("error", `${i18n.common.flash.errorCreatingTurno}: ${error.message}`);
             next(error);
         });
 };
@@ -172,6 +174,7 @@ exports.create = (req, res, next) => {
 // DELETE /escapeRooms/:escapeRoomId/turnos/:turnoId
 exports.destroy = async (req, res, next) => {
     const modDate = new Date(req.turn.date);
+    const {i18n} = res.locals;
 
     try {
         const date = req.turn.date ? `?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}` : "";
@@ -184,7 +187,7 @@ exports.destroy = async (req, res, next) => {
         await models.participants.destroy({"where": {"turnId": req.turn.id}});
         await req.turn.destroy({});
 
-        req.flash("success", req.app.locals.i18n.common.flash.successDeletingTurno);
+        req.flash("success", i18n.common.flash.successDeletingTurno);
         res.redirect(back);
     } catch (error) {
         next(error);

@@ -8,6 +8,8 @@ const {checkIsTurnAvailable, getRanking} = require("../helpers/utils");
 
 exports.checkIsNotParticipant = async (req, res, next) => {
     const {escapeRoom} = req;
+    const {i18n} = res.locals;
+
     const isParticipant = await models.participants.findOne({
         "where": {
             "userId": req.session.user.id,
@@ -16,7 +18,7 @@ exports.checkIsNotParticipant = async (req, res, next) => {
     });
 
     if (isParticipant) {
-        req.flash("error", req.app.locals.i18n.turnos.alreadyIn);
+        req.flash("error", i18n.turnos.alreadyIn);
         res.redirect("/escapeRooms");
     } else {
         next();
@@ -25,10 +27,10 @@ exports.checkIsNotParticipant = async (req, res, next) => {
 
 exports.checkJoinToken = (req, res, next) => {
     const token = req.query.token || req.body.token;
+    const {i18n} = res.locals;
 
-    console.log(token);
     if (token !== req.escapeRoom.invitation) {
-        req.flash("error", req.app.locals.i18n.participant.wrongToken);
+        req.flash("error", i18n.participant.wrongToken);
         res.redirect(`/escapeRooms/${req.escapeRoom.id}/join`);
     } else {
         req.token = token;
@@ -39,6 +41,7 @@ exports.checkJoinToken = (req, res, next) => {
 exports.checkSomeTurnAvailable = async (req, res, next) => {
     const { escapeRoom } = req;
     const turnos = await models.turno.findAll({"where": {"escapeRoomId": escapeRoom.id}, "include": [{"model": models.user, "as": "students", "through": "participants"}], "order": [["date", "ASC NULLS LAST"]]});
+    const {i18n} = res.locals;
 
     req.turnos = turnos;
     for (const turno of turnos) {
@@ -47,29 +50,31 @@ exports.checkSomeTurnAvailable = async (req, res, next) => {
             return;
         }
     }
-    req.flash("error", req.app.locals.i18n.turnos.noTurnAvailable);
+    req.flash("error", i18n.turnos.noTurnAvailable);
     res.redirect("back");
 };
 
 exports.checkTurnAvailable = (req, res, next) => {
     const {turn, escapeRoom} = req;
+    const {i18n} = res.locals;
 
     if (checkIsTurnAvailable(turn, escapeRoom.nmax, escapeRoom.duration)) {
         next();
         return;
     }
-    req.flash("error", req.app.locals.i18n.turnos.turnNotAvailable);
+    req.flash("error", i18n.turnos.turnNotAvailable);
     res.redirect("back");
 };
 
 exports.checkTeamAvailable = (req, res, next) => {
     const {team, escapeRoom} = req;
+    const {i18n} = res.locals;
 
     if (team.teamMembers && escapeRoom.teamSize && team.teamMembers.length >= escapeRoom.teamSize) {
-        req.flash("error", req.app.locals.i18n.team.fullTeam);
+        req.flash("error", i18n.team.fullTeam);
         res.redirect("back");
     } else if (team.startTime && new Date(team.startTime.getTime() + escapeRoom.duration * 60000) < new Date()) {
-        req.flash("error", req.app.locals.i18n.team.alreadyFinished);
+        req.flash("error", i18n.team.alreadyFinished);
         res.redirect("back");
     } else {
         next();
@@ -140,6 +145,7 @@ exports.confirmAttendance = async (req, res) => {
 exports.studentLeave = async (req, res, next) => {
     let {user} = req;
     const {turn} = req;
+    const {i18n} = res.locals;
     let redirectUrl = `/escapeRooms/${req.escapeRoom.id}/participants`;
 
     try {
@@ -149,7 +155,7 @@ exports.studentLeave = async (req, res, next) => {
             return;
         } else if (!req.user && req.session.user.isStudent) {
             if (turn.status === "finished" || turn.status === "active" && (turn.startTime || req.team.startTime)) {
-                req.flash("error", `${req.app.locals.i18n.common.flash.errorStudentLeave}`);
+                req.flash("error", `${i18n.common.flash.errorStudentLeave}`);
                 res.redirect("/");
                 return;
             }
@@ -163,7 +169,7 @@ exports.studentLeave = async (req, res, next) => {
         const participant = await models.participants.findOne({"where": { turnId, userId}});
 
         if (!participant) {
-            next(new Error(res.app.locals.i18n.api.notAParticipant));
+            next(new Error(i18n.api.notAParticipant));
             return;
         }
         await participant.destroy();

@@ -23,6 +23,7 @@ exports.saveInterface = async (name, req, res, next) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
+    const {i18n} = res.locals;
 
     escapeRoom[`${name}Instructions`] = body.instructions;
     escapeRoom[`${name}Appearance`] = body.appearance;
@@ -34,7 +35,7 @@ exports.saveInterface = async (name, req, res, next) => {
             error.errors.forEach(({message}) => req.flash("error", message));
             res.redirect(`/escapeRooms/${escapeRoom.id}/${name}`);
         } else {
-            req.flash("error", `${req.app.locals.i18n.common.flash.errorEditingER}: ${error.message}`);
+            req.flash("error", `${i18n.common.flash.errorEditingER}: ${error.message}`);
             next(error);
         }
     }
@@ -98,9 +99,9 @@ exports.playInterface = async (name, req, res, next) => {
 
             if (!team.startTime || team.turno.status !== "active" || exports.isTooLate(team, req.escapeRoom.forbiddenLateSubmissions, req.escapeRoom.duration) || team.retos.length === req.escapeRoom.puzzles.length) {
                 res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
-            } else {
-                await exports.automaticallySetAttendance(team, req.session.user.id, req.escapeRoom.automaticAttendance);
+                return;
             }
+            await exports.automaticallySetAttendance(team, req.session.user.id, req.escapeRoom.automaticAttendance);
             const hints = await models.requestedHint.findAll({"where": {"teamId": team.id, "success": true}, "include": [{"model": models.hint, "include": [{"model": models.puzzle, "attributes": ["order"]}]}], "order": [["createdAt", "ASC"]]});
 
             res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom, cloudinary, "teams": req.teams, team, "userId": req.session.user.id, "turnoId": team.turno.id, "teamId": team.id, "isStudent": true, "hints": hints || [], "endPoint": name, "layout": false});

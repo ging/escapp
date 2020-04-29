@@ -58,6 +58,8 @@ exports.results = async (req, res) => {
 
 // POST /escapeRooms/:escapeRoomId/play
 exports.startPlaying = async (req, res) => {
+    const {i18n} = res.locals;
+
     try {
         const {automaticAttendance, duration, hintLimit, puzzles, attendanceScore, scoreHintSuccess, scoreHintFail} = req.escapeRoom;
         const team = await models.team.findOne({
@@ -85,7 +87,7 @@ exports.startPlaying = async (req, res) => {
         if (joinTeam) {
             const erState = await getERState(req.escapeRoom.id, team, duration, hintLimit, puzzles.length, true, attendanceScore, scoreHintSuccess, scoreHintFail, true);
 
-            sendStartTeam(joinTeam.id, "OK", true, "PARTICIPANT", req.app.locals.i18n.escapeRoom.api.participationStart.PARTICIPANT, erState);
+            sendStartTeam(joinTeam.id, "OK", true, "PARTICIPANT", i18n.escapeRoom.api.participationStart.PARTICIPANT, erState);
             sendJoinTeam(joinTeam.id, joinTeam.turno.id, erState.ranking);
         }
     } catch (err) {

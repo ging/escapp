@@ -46,6 +46,11 @@ app.use(i18n({
     "textsVarName": "i18n"
 }));
 
+app.use(function (req, res, next) {
+    res.locals.i18n = req.app.locals.i18n;
+    next();
+});
+
 app.use("/api", api);
 
 app.get("/", function (req, res, next) {

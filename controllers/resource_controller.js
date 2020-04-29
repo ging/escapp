@@ -3,6 +3,8 @@ const {models} = sequelize;
 
 // Autoload the resource with id equals to :resourceId
 exports.load = async (req, res, next, resourceId) => {
+    const {i18n} = res.locals;
+
     try {
         const resource = await models.resource.findByPk(resourceId, {
             "include": [
@@ -19,7 +21,7 @@ exports.load = async (req, res, next, resourceId) => {
             next();
         } else {
             res.status(404);
-            next(new Error(req.app.locals.i18n.api.notFound));
+            next(new Error(i18n.api.notFound));
         }
     } catch (error) {
         console.error(error);

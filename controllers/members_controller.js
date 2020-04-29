@@ -10,12 +10,13 @@ exports.add = async (req, res, next) => {
     const {startTime} = team;
     const {user} = session;
     const transaction = await sequelize.transaction();
+    const {i18n} = res.locals;
 
     try {
         const time = turn.startTime || startTime;
 
         if (time && time + escapeRoom.duration < new Date()) { // Already finished
-            req.flash("error", req.app.locals.i18n.turnos.tooLate);
+            req.flash("error", i18n.turnos.tooLate);
             res.redirect(`/escapeRooms/${escapeRoom.id}/join?token=${token}`);
             return;
         }

@@ -3,6 +3,8 @@ const {models} = sequelize;
 
 // Autoload the resourceApp with id equals to :resourceId
 exports.load = async (req, res, next, appId) => {
+    const {i18n} = res.locals;
+
     try {
         const resourceApp = await models.app.findByPk(appId);
 
@@ -11,7 +13,7 @@ exports.load = async (req, res, next, appId) => {
             next();
         } else {
             res.status(404);
-            next(new Error(req.app.locals.i18n.api.notFound));
+            next(new Error(i18n.api.notFound));
         }
     } catch (error) {
         res.status(500);

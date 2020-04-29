@@ -30,6 +30,7 @@ exports.assetsUpdate = (req, res /* , next*/) => {
 exports.uploadAssets = async (req, res) => {
     const {escapeRoom} = req;
     let uploadResult = null;
+    const {i18n} = res.locals;
 
     try {
         await attHelper.checksCloudinaryEnv();
@@ -46,12 +47,12 @@ exports.uploadAssets = async (req, res) => {
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
             res.status(500);
-            res.send(req.app.locals.i18n.common.flash.errorFile);
+            res.send(i18n.common.flash.errorFile);
             console.error(error);
             attHelper.deleteResource(uploadResult.public_id, models.asset);
         } else {
             res.status(500);
-            res.send(req.app.locals.i18n.common.flash.errorFile);
+            res.send(i18n.common.flash.errorFile);
             console.error(error);
         }
     }
@@ -61,18 +62,19 @@ exports.uploadAssets = async (req, res) => {
 exports.deleteAssets = async (req, res) => {
     const {assetId} = req.params;
     const asset = req.escapeRoom.assets.find((a) => a.id.toString() === assetId.toString());
+    const {i18n} = res.locals;
 
     try {
         if (asset) {
             attHelper.deleteResource(asset.public_id, models.asset);
             await asset.destroy();
-            res.json({"msg": req.app.locals.i18n.api.ok});
+            res.json({"msg": i18n.api.ok});
         } else {
             res.status(404);
-            res.json({"msg": req.app.locals.i18n.api.notFound});
+            res.json({"msg": i18n.api.notFound});
         }
     } catch (err) {
         res.status(500);
-        res.json({"msg": req.app.locals.i18n.api.error});
+        res.json({"msg": i18n.api.error});
     }
 };

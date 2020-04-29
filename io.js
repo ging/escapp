@@ -15,11 +15,23 @@ exports.createServer = (server, sessionMiddleware) => {
             const user = await socketAuthenticate(socket);
             const {escapeRoomId, lang, waiting, "turnId": teacherTurnId} = getInfoFromSocket(socket);
             // eslint-disable-next-line global-require
-            const i18n = require(`./i18n/${lang}`);
+            let forceLanguage = "en";
+
+            if (lang && (lang === "es" || lang === "en")) {
+                forceLanguage = lang;
+            }
+            let i18n = require(`./i18n/${forceLanguage}`);
 
             if (user) {
+                if (user.lang && (user.lang === "es" || user.lang === "en")) {
+                    i18n = require(`./i18n/${user.lang}`);
+                }
                 const {token, username} = user;
-                const {"turnId": studentTurnId, teamId, participation, erState, errorMsg} = await checkAccess(user, escapeRoomId, i18n);
+                const {"turnId": studentTurnId, teamId, participation, erState, errorMsg, language} = await checkAccess(user, escapeRoomId, i18n, waiting);
+
+                if (language && (language === "es" || language === "en")) {
+                    i18n = require(`./i18n/${language}`);
+                }
 
                 socket.handshake.username = username;
                 if (errorMsg) {

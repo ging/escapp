@@ -8,6 +8,7 @@ const {retosSuperadosByWho, getRetosSuperados, getBestTime, getAvgHints, byRanki
 exports.analytics = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId} = query;
+    const {i18n} = res.locals;
 
     try {
         const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId));
@@ -37,8 +38,8 @@ exports.analytics = async (req, res, next) => {
         const hintLabels = escapeRoom.puzzles.map((p) => p.hints.map((h) => h.content)).reduce((x, y) => x.concat(y), []);
         const reqHints = {"-1": 0, "0": 0};
 
-        hintLabels.unshift(req.app.locals.i18n.analytics.hints.customClue);
-        hintLabels.push(req.app.locals.i18n.analytics.hints.failedClue);
+        hintLabels.unshift(i18n.analytics.hints.customClue);
+        hintLabels.push(i18n.analytics.hints.failedClue);
         hintIds.forEach((e) => {
             reqHints[e] = 0;
         });

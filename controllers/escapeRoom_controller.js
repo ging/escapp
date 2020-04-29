@@ -14,20 +14,23 @@ exports.load = async (req, res, next, escapeRoomId) => {
     try {
         const escapeRoom = await models.escapeRoom.findByPk(escapeRoomId, query.escapeRoom.load);
 
-        if (req.app && req.app.locals) {
-            if (!req.session || req.session && req.session.user && req.session.user.isStudent) {
-                if (escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
-                    req.app.locals.i18n = escapeRoom.forceLang === "es" ? es : en;
+        if (escapeRoom) {
+            if (res.locals) {
+                if (!req.session || req.session && req.session.user && req.session.user.isStudent) {
+                    if (escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
+                        res.locals.i18n_texts = escapeRoom.forceLang === "es" ? es : en;
+                        res.locals.i18n_lang = escapeRoom.forceLang === "es" ? "es" : "en";
+                        res.locals.i18n = res.locals.i18n_texts;
+                    }
                 }
             }
-        }
-
-        if (escapeRoom) {
             req.escapeRoom = escapeRoom;
             next();
         } else {
             res.status(404);
-            next(new Error(req.app.locals.i18n.api.notFound));
+            const {i18n} = res.locals;
+
+            next(new Error(i18n.api.notFound));
         }
     } catch (error) {
         res.status(500);
@@ -91,11 +94,12 @@ exports.create = async (req, res) => {
     const {title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize, supportLink, forceLang} = req.body,
         authorId = req.session.user && req.session.user.id || 0;
     const escapeRoom = models.escapeRoom.build({title, subject, duration, "forbiddenLateSubmissions": forbiddenLateSubmissions === "on", description, supportLink, "nmax": nmax || 0, "teamSize": teamSize || 0, authorId, forceLang}); // Saves only the fields question and answer into the DDBB
+    const {i18n} = res.locals;
 
     try {
         const er = await escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "supportLink", "invitation", "forceLang"]});
 
-        req.flash("success", req.app.locals.i18n.common.flash.successCreatingER);
+        req.flash("success", i18n.common.flash.successCreatingER);
 
         if (!req.file) {
             res.redirect(`/escapeRooms/${escapeRoom.id}/turnos`);
@@ -116,22 +120,22 @@ exports.create = async (req, res) => {
                 });
             } catch (error) {
                 console.error(error);
-                req.flash("error", req.app.locals.i18n.common.flash.errorImage);
+                req.flash("error", i18n.common.flash.errorImage);
                 attHelper.deleteResource(uploadResult.public_id, models.attachment);
             }
         } catch (error) {
             console.error(error);
-            req.flash("error", req.app.locals.i18n.common.flash.errorFile);
+            req.flash("error", i18n.common.flash.errorFile);
         }
         res.redirect(`/escapeRooms/${er.id}/${nextStep("edit")}`);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
             console.error(error);
             // Error.errors.forEach(({message}) => req.flash("error", message));
-            req.flash("error", req.app.locals.i18n.common.validationError);
+            req.flash("error", i18n.common.validationError);
         } else {
             console.error(error.message);
-            req.flash("error", req.app.locals.i18n.common.flash.errorCreatingER);
+            req.flash("error", i18n.common.flash.errorCreatingER);
         }
         res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
     }
@@ -145,6 +149,7 @@ exports.edit = (req, res) => {
 // PUT /escapeRooms/:escapeRoomId
 exports.update = async (req, res) => {
     const {escapeRoom, body} = req;
+    const {i18n} = res.locals;
 
     escapeRoom.title = body.title;
     escapeRoom.subject = body.subject;
@@ -192,22 +197,22 @@ exports.update = async (req, res) => {
                     }
                 } catch (error) { // Ignoring image validation errors
                     console.error(error);
-                    req.flash("error", req.app.locals.i18n.common.flash.errorFile);
+                    req.flash("error", i18n.common.flash.errorFile);
                     attHelper.deleteResource(uploadResult.public_id, models.attachment);
                 }
                 res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
             } catch (error) {
                 console.error(error);
-                req.flash("error", req.app.locals.i18n.common.flash.errorFile);
+                req.flash("error", i18n.common.flash.errorFile);
             }
         }
         res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
     } catch (error) {
         console.log(error);
         if (error instanceof Sequelize.ValidationError) {
-            req.flash("error", req.app.locals.i18n.common.validationError);
+            req.flash("error", i18n.common.validationError);
         } else {
-            req.flash("error", req.app.locals.i18n.common.flash.errorEditingER);
+            req.flash("error", i18n.common.flash.errorEditingER);
         }
         res.render("escapeRooms/edit", {escapeRoom, "progress": "edit"});
     }
@@ -225,6 +230,7 @@ exports.evaluationUpdate = async (req, res, next) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
+    const {i18n} = res.locals;
 
     escapeRoom.survey = body.survey;
     escapeRoom.pretest = body.pretest;
@@ -250,11 +256,11 @@ exports.evaluationUpdate = async (req, res, next) => {
         res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("evaluation") : progressBar || nextStep("evaluation")}`);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            req.flash("error", req.app.locals.i18n.common.validationError);
+            req.flash("error", i18n.common.validationError);
             // Error.errors.forEach(({message}) => req.flash("error", message));
             res.redirect(`/escapeRooms/${escapeRoom.id}/evaluation`);
         } else {
-            req.flash("error", req.app.locals.i18n.common.flash.errorEditingER);
+            req.flash("error", i18n.common.flash.errorEditingER);
             next(error);
         }
     }
@@ -272,7 +278,9 @@ exports.classInterface = (req, res) => {
     const {escapeRoom} = req;
 
     if (escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
-        req.app.locals.i18n = escapeRoom.forceLang === "en" ? en : es;
+        res.locals.i18n_texts = escapeRoom.forceLang === "es" ? es : en;
+        res.locals.i18n_lang = escapeRoom.forceLang === "es" ? "es" : "en";
+        res.locals.i18n = res.locals.i18n_texts;
     }
     res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "class", "endPoint": "class"});
 };
@@ -296,6 +304,7 @@ exports.classInterfaceUpdate = (req, res, next) => saveInterface("class", req, r
 // DELETE /escapeRooms/:escapeRoomId
 exports.destroy = async (req, res, next) => {
     const transaction = await sequelize.transaction();
+    const {i18n} = res.locals;
 
     try {
         await req.escapeRoom.destroy({}, {transaction});
@@ -304,11 +313,11 @@ exports.destroy = async (req, res, next) => {
             await attHelper.deleteResource(req.escapeRoom.attachment.public_id, models.attachment);
         }
         await transaction.commit();
-        req.flash("success", req.app.locals.i18n.common.flash.successDeletingER);
+        req.flash("success", i18n.common.flash.successDeletingER);
         res.redirect("/escapeRooms");
     } catch (error) {
         await transaction.rollback();
-        req.flash("error", `${req.app.locals.i18n.common.flash.errorDeletingER}: ${error.message}`);
+        req.flash("error", `${i18n.common.flash.errorDeletingER}: ${error.message}`);
         next(error);
     }
 };

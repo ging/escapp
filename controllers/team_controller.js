@@ -37,11 +37,12 @@ exports.new = (req, res) => {
 
 // POST /escapeRooms/:escapeRoomId/turnos/:turnId/teams
 exports.create = async (req, res, next) => {
-    const {app, params, body} = req;
+    const {params, body} = req;
     const {user} = req.session;
+    const {i18n} = res.locals;
 
     if (!user.isStudent) {
-        req.flash("error", `${app.locals.i18n.common.flash.errorCreatingTeam}`);
+        req.flash("error", `${i18n.common.flash.errorCreatingTeam}`);
         res.redirect("back");
         return;
     }
@@ -52,18 +53,18 @@ exports.create = async (req, res, next) => {
 
         await teamCreated.addTeamMembers(user.id, {transaction});
         await models.participants.create({"attendance": false, "turnId": params.turnoId, "userId": user.id}, {transaction});
-        req.flash("success", app.locals.i18n.common.flash.successCreatingTeam);
+        req.flash("success", i18n.common.flash.successCreatingTeam);
         res.redirect("/escapeRooms");
         transaction.commit();
     } catch (err) {
         transaction.rollback();
         if (err instanceof Sequelize.ValidationError) {
             // Err.errors.forEach(({message}) => req.flash("error", message));
-            req.flash("error", `${app.locals.i18n.common.flash.errorCreatingTeam}`);
+            req.flash("error", `${i18n.common.flash.errorCreatingTeam}`);
 
             res.redirect("back");
         } else {
-            req.flash("error", `${app.locals.i18n.common.flash.errorCreatingTeam}: ${err.message}`);
+            req.flash("error", `${i18n.common.flash.errorCreatingTeam}: ${err.message}`);
             next(err);
         }
     }
@@ -116,6 +117,8 @@ exports.indexTurnos = (req, res) => {
 
 // PUT /escapeRooms/:escapeRoomId/turnos/:turnoId/teams/:teamId/reset
 exports.resetProgress = async (req, res) => {
+    const {i18n} = res.locals;
+
     try {
         const userIds = [];
 
@@ -130,10 +133,10 @@ exports.resetProgress = async (req, res) => {
         const teams = await getRanking(req.escapeRoom.id, req.turn.id);
 
         sendLeaveTeam(req.team.id, req.turn.id, teams);
-        req.flash("success", req.app.locals.i18n.team.resetSuccess);
+        req.flash("success", i18n.team.resetSuccess);
     } catch (e) {
         console.error(e);
-        req.flash("error", req.app.locals.i18n.team.resetFail);
+        req.flash("error", i18n.team.resetFail);
     }
     res.redirect("back");
 };

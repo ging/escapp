@@ -9,7 +9,7 @@ exports.checkParticipant = async (req, res, next) => {
     const {body} = req;
     const {token} = body;
     const where = {};
-    const {i18n} = req.app.locals;
+    const {i18n} = res.locals;
 
     if (token) {
         where.username = token;
@@ -32,7 +32,7 @@ exports.checkParticipant = async (req, res, next) => {
 exports.checkParticipantSafe = async (req, res, next) => {
     const {body} = req;
     const {email, password, token} = body;
-    const {i18n} = req.app.locals;
+    const {i18n} = res.locals;
 
     if (!email || !(password || token)) {
         return res.status(401).json({"code": NOK, "authentication": false, "msg": i18n.api.unauthorized});
@@ -42,6 +42,13 @@ exports.checkParticipantSafe = async (req, res, next) => {
         const user = await authenticate(email, password, token);
 
         if (user) {
+            if (!req.escapeRoom.forceLang && user.lang && i18n.lang !== user.lang && (user.lang === "es" || user.lang === "en")) {
+                // eslint-disable-next-line global-require
+                res.locals.i18n_lang = user.lang === "es" ? "es" : "en";
+                // eslint-disable-next-line global-require
+                res.locals.i18n_texts = require(`../i18n/${res.locals.i18n_lang}`);
+                res.locals.i18n = res.locals.i18n_texts;
+            }
             req.teams = await user.getTeamsAgregados(queries.user.erTeam(req.escapeRoom.id));
             req.user = user;
             next();
@@ -55,7 +62,7 @@ exports.checkParticipantSafe = async (req, res, next) => {
 };
 
 exports.checkParticipantSession = async (req, res, next) => {
-    const {i18n} = req.app.locals;
+    const {i18n} = res.locals;
     const user = await models.user.findByPk(req.session.user.id);
 
 
@@ -69,9 +76,9 @@ exports.checkParticipantSession = async (req, res, next) => {
 };
 
 // POST /api/escapeRooms/:escapeRoomId/puzzles/:puzzleId/check
-exports.checkPuzzle = async (req, _res, next) => {
+exports.checkPuzzle = async (req, res, next) => {
     const {puzzle, body, teams, escapeRoom, user} = req;
-    const {i18n} = req.app.locals;
+    const {i18n} = res.locals;
     const {solution} = body;
 
     req.response = await checkPuzzle(solution, puzzle, escapeRoom, teams, user, i18n, req.params.puzzleOrder);
@@ -97,13 +104,13 @@ exports.checkPuzzle = async (req, _res, next) => {
 };
 
 // POST /api/escapeRooms/:escapeRoomId/auth
-exports.auth = async (req, _res, next) => {
+exports.auth = async (req, res, next) => {
     const {teams, escapeRoom, user} = req;
     const authentication = true;
     const {token} = user;
 
     try {
-        const {i18n} = req.app.locals;
+        const {i18n} = res.locals || req.app.locals;
         const participation = await checkTurnoAccess(teams, user, escapeRoom, true);
         const attendance = participation === PARTICIPANT || participation === TOO_LATE;
         const erState = teams && teams.length ? await getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance, true) : undefined;
@@ -121,12 +128,12 @@ exports.auth = async (req, _res, next) => {
 };
 
 // First time a team clicks the start button
-exports.startPlaying = async (req, _res, next) => {
+exports.startPlaying = async (req, res, next) => {
     const {teams, escapeRoom, user} = req;
     const authentication = true;
     const {token} = user;
 
-    const {i18n} = req.app.locals;
+    const {i18n} = res.locals || req.app.locals;
 
     try {
         let participation = await checkTurnoAccess(teams, user, escapeRoom, true);

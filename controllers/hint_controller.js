@@ -57,6 +57,7 @@ exports.pistasUpdate = async (req, res) => {
     const {escapeRoom, body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
+    const {i18n} = res.locals;
     const {numQuestions, numRight, feedback, hintLimit, allowCustomHints, hintInterval} = body;
     let pctgRight = numRight || 0;
 
@@ -102,12 +103,12 @@ exports.pistasUpdate = async (req, res) => {
                             await attHelper.deleteResource(old_public_id, models.hintApp);
                         }
                     } catch (error) {
-                        req.flash("error", req.app.locals.i18n.common.flash.errorFile);
+                        req.flash("error", i18n.common.flash.errorFile);
                         await attHelper.deleteResource(uploadResult.public_id, models.hintApp);
                     }
                 } catch (e) {
                     console.error(e.message);
-                    req.flash("error", req.app.locals.i18n.common.flash.errorFile);
+                    req.flash("error", i18n.common.flash.errorFile);
                 }
             }
         }
@@ -115,10 +116,10 @@ exports.pistasUpdate = async (req, res) => {
     } catch (error) {
         console.error(error);
         if (error instanceof Sequelize.ValidationError) {
-            req.flash("error", req.app.locals.i18n.common.validationError);
+            req.flash("error", i18n.common.validationError);
             // Error.errors.forEach(({message}) => req.flash("error", message));
         } else {
-            req.flash("error", req.app.locals.i18n.common.flash.errorEditingER);
+            req.flash("error", i18n.common.flash.errorEditingER);
         }
         res.render("escapeRooms/hints", {escapeRoom});
     }

@@ -7,6 +7,8 @@ const {nextStep, prevStep} = require("../helpers/progress");
 
 // Autoload the puzzle with id equals to :puzzleId
 exports.load = (req, res, next, puzzleId) => {
+    const {i18n} = res.locals;
+
     models.puzzle.findByPk(puzzleId, {"include": [{"model": models.hint, "attributes": ["id"]}]}).
         then((puzzle) => {
             if (puzzle) {
@@ -14,7 +16,7 @@ exports.load = (req, res, next, puzzleId) => {
                 next();
             } else {
                 res.status(404);
-                next(new Error(req.app.locals.i18n.api.notFound));
+                next(new Error(i18n.api.notFound));
             }
         }).
         catch((error) => next(error));
@@ -22,6 +24,8 @@ exports.load = (req, res, next, puzzleId) => {
 
 // Autoload the puzzle with order equals to :puzzleOrder for escape room :escapeRoomId
 exports.loadOrder = (req, res, next, puzzleOrder) => {
+    const {i18n} = res.locals;
+
     if (req.escapeRoom) {
         if (puzzleOrder > 0 && puzzleOrder <= req.escapeRoom.puzzles.length) {
             const order = puzzleOrder - 1;
@@ -32,7 +36,7 @@ exports.loadOrder = (req, res, next, puzzleOrder) => {
         }
     }
     res.status(404);
-    next(new Error(req.app.locals.i18n.api.notFound));
+    next(new Error(i18n.api.notFound));
 };
 
 // GET /escapeRooms/:escapeRoomId/puzzles
@@ -46,6 +50,7 @@ exports.retos = (req, res) => {
 exports.retosUpdate = async (req, res) => {
     const {escapeRoom, body} = req;
     const {puzzles} = body;
+    const {i18n} = res.locals;
 
     const transaction = await sequelize.transaction();
 
@@ -133,9 +138,9 @@ exports.retosUpdate = async (req, res) => {
         console.error(error);
         if (error instanceof Sequelize.ValidationError) {
             // Error.errors.forEach(({message}) => req.flash("error", message));
-            req.flash("error", req.app.locals.i18n.common.validationError);
+            req.flash("error", i18n.common.validationError);
         } else {
-            req.flash("error", req.app.locals.i18n.common.flash.errorEditingER);
+            req.flash("error", i18n.common.flash.errorEditingER);
         }
         res.redirect(`/escapeRooms/${req.escapeRoom.id}/puzzles`);
     }

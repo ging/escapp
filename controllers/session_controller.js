@@ -14,10 +14,12 @@ const maxIdleTime = 3 * 60 * 60 * 1000; /* * * Middleware used to destroy the us
 exports.maxIdleTime = maxIdleTime;
 
 exports.deleteExpiredUserSession = (req, res, next) => {
+    const {i18n} = res.locals;
+
     if (req.session.user) { // There exists a user session
         if (req.session.user.expires < Date.now()) { // Expired
             delete req.session.user; // Logout
-            req.flash("info", req.app.locals.i18n.user.sessionExpired);
+            req.flash("info", i18n.user.sessionExpired);
         } else { // Not expired. Reset value.
             req.session.user.expires = Date.now() + maxIdleTime;
         }
@@ -59,12 +61,13 @@ exports.logoutRequired = (req, res, next) => {
 // MW that allows to pass only if the logged user in is admin.
 exports.adminRequired = (req, res, next) => {
     const isAdmin = Boolean(req.session.user.isAdmin);
+    const {i18n} = res.locals;
 
     if (isAdmin) {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.i18n.api.forbidden);
+        throw new Error(i18n.api.forbidden);
     }
 };
 
@@ -72,12 +75,13 @@ exports.adminRequired = (req, res, next) => {
 
 exports.notStudentRequired = (req, res, next) => {
     const isNotStudent = !req.session.user.isStudent;
+    const {i18n} = res.locals;
 
     if (isNotStudent) {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.i18n.api.forbidden);
+        throw new Error(i18n.api.forbidden);
     }
 };
 
@@ -85,12 +89,13 @@ exports.notStudentRequired = (req, res, next) => {
 
 exports.studentRequired = (req, res, next) => {
     const {isStudent} = req.session.user;
+    const {i18n} = res.locals;
 
     if (isStudent) {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.i18n.api.forbidden);
+        throw new Error(i18n.api.forbidden);
     }
 };
 
@@ -99,12 +104,13 @@ exports.studentRequired = (req, res, next) => {
 exports.studentOrAdminRequired = (req, res, next) => {
     const isStudent = Boolean(req.session.user.isStudent),
         isAdmin = Boolean(req.session.user.isAdmin);
+    const {i18n} = res.locals;
 
     if (isStudent || isAdmin) {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.i18n.api.forbidden);
+        throw new Error(i18n.api.forbidden);
     }
 };
 
@@ -116,12 +122,13 @@ exports.studentOrAdminRequired = (req, res, next) => {
 exports.adminOrMyselfRequired = (req, res, next) => {
     const isAdmin = Boolean(req.session.user.isAdmin),
         isMyself = req.user.id === req.session.user.id;
+    const {i18n} = res.locals;
 
     if (isAdmin || isMyself) {
         next();
     } else {
         res.status(403);
-        throw new Error(req.app.locals.i18n.api.forbidden);
+        throw new Error(i18n.api.forbidden);
     }
 };
 
@@ -129,12 +136,13 @@ exports.adminOrMyselfRequired = (req, res, next) => {
 exports.adminOrAuthorRequired = (req, res, next) => {
     const isAdmin = Boolean(req.session.user.isAdmin),
         isAuthor = req.escapeRoom.authorId === req.session.user.id;
+    const {i18n} = res.locals;
 
     if (isAdmin || isAuthor) {
         next();
     } else {
         res.status(403);
-        next(new Error(req.app.locals.i18n.api.forbidden));
+        next(new Error(i18n.api.forbidden));
     }
 };
 
@@ -200,6 +208,7 @@ exports.new = (req, res) => {
 // POST /   -- Create the session if the user authenticates successfully
 exports.create = async (req, res, next) => {
     const {redir, login, password} = req.body;
+    const {i18n} = res.locals;
 
     try {
         const user = await authenticate((login || "").toLowerCase(), password);
@@ -225,7 +234,7 @@ exports.create = async (req, res, next) => {
                 }
             });
         } else {
-            req.flash("error", req.app.locals.i18n.user.wrongCredentials);
+            req.flash("error", i18n.user.wrongCredentials);
             res.render("index", {redir});
         }
     } catch (error) {
