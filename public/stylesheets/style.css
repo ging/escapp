@@ -3516,7 +3516,7 @@ html {
         border-color: white !important; }
       html body input:-webkit-autofill, html body select:-webkit-autofill {
         -webkit-text-fill-color: #656683 !important;
-        transition: background-color 5000s ease-in-out 0s;
+        transition: background-color 5000000s step-end 0s;
         font-family: Gugi !important; }
         html body input:-webkit-autofill:active, html body input:-webkit-autofill:focus, html body select:-webkit-autofill:active, html body select:-webkit-autofill:focus {
           -webkit-text-fill-color: white !important;
