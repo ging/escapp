@@ -810,6 +810,11 @@
         "todayEscapeRoom": "The Escape Room will be celebrated this day",
         "Turno": "Shift",
         "noTurnAvailable": "No turn available for this ER",
+        "theres": "There is",
+        "thereare": "There are",
+        "spot": "open spot",
+        "spots": "open spots",
+        "openSpots": "in this shift",
         "turnNotAvailable": "The selected turh is not available",
         "statusMsg": {
             "pending": "Pending shift",

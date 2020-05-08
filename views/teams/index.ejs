@@ -4,6 +4,7 @@
 <div class="main student">
     <div class="dialog" >
         <h1><%=i18n.team.choose%></h1>
+        
         <div class="findTeam">
             <input type="text" id="findTeam" placeholder="<%= i18n.team.teamSearch %>"/>
             <br/>
@@ -11,7 +12,7 @@
                 <div class="no-results-msg"><%= i18n.team.noResults%></div>
             </div>
         </div>
-
+        <%var nParticipants = 0;%>
         <div>
             <% if (!turno.teams) { %>
                 <br/>
@@ -20,9 +21,11 @@
                 <div class="owl-carousel">
                     <% for (var i in turno.teams) { %>
                         <% var team = turno.teams[i]; %>
-                        <div class="teamCarouselItem <%= (escapeRoom.teamSize && (team.teamMembers.length >= escapeRoom.teamSize)) ? "disabled":""%> " data-id="<%=team.id%>">
+                        <% var fullTeam = escapeRoom.teamSize && (team.teamMembers.length >= escapeRoom.teamSize); %>
+                        <div class="teamCarouselItem <%= fullTeam ? "disabled":""%> " data-id="<%=team.id%>">
                             <%= team.name %>
                             <%for (var m in team.teamMembers) {%>
+                                <%nParticipants++;%>
                             <p><%=team.teamMembers[m].name %> <%=team.teamMembers[m].surname %></p>
                             <%}%>
                         </div>
@@ -30,6 +33,10 @@
                 </div>
             <% } %>
             <br/>
+            <%if(escapeRoom.nmax){%>
+                <%var remaining = escapeRoom.nmax - nParticipants%>
+                <p class="info centered small "><%=remaining === 1 ? i18n.turnos.theres : i18n.turnos.thereare%> <%=remaining%> <%=remaining === 1 ? i18n.turnos.spot : i18n.turnos.spots%> <%=i18n.turnos.openSpots%></p>
+            <%}%>
 
             <div>
             <div id="teamCarouselItems-hidden" class="hide"></div>

@@ -10,7 +10,7 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, category, me
         if (success) {
             const retosSuperados = await team.getRetos();
             const retosSuperadosOrder = retosSuperados.map((r) => r.order);
-            const pending = escapeRoom.puzzles.map((p) => p.order).filter((p) => retosSuperadosOrder.indexOf(p.order) === -1);
+            const pending = escapeRoom.puzzles.map((p) => p.order).filter((p) => retosSuperadosOrder.indexOf(p) === -1);
             let currentlyWorkingOn = retosSuperadosOrder.length ? Math.max(...retosSuperadosOrder) + 1 : 0;
 
             if (retosSuperadosOrder.length === escapeRoom.puzzles.length) {
@@ -18,7 +18,6 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, category, me
             } else if (currentlyWorkingOn >= escapeRoom.puzzles.length) {
                 [currentlyWorkingOn] = pending;
             }
-
 
             const hints = await models.requestedHint.findAll({
                 "where": {

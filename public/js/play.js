@@ -4,24 +4,25 @@ var myUserName;
 var alertMsg;
 
 /** TEMPLATES **/
-const hintTemplate = (hint, category) => {
+const hintTemplate = (hint ="", category) => {
+
   return `<li class="animated zoomInUp">
       <div class="card border-info mb-3">
           <div class="card-body">
               <div class="card-text">
-                  ${category ? `<b>(${category})</b> `:''} ${hint}
+                  ${category ? `<b>(${escapeHtml(category)})</b> `:''} ${escapeHtml(hint)}
              </div>
           </div>
       </div>
   </li>`;
 };
 
-const otherMsg = (info) => {
+const otherMsg = (info = "") => {
   return `<li class="animated zoomInUp">
       <div class="card border-info mb-3">
           <div class="card-body">
               <div class="card-text">
-                  ${info}
+                  ${escapeHtml(info)}
             </div>
           </div>
       </div>
@@ -51,8 +52,8 @@ const catsTemplate = (categories, hints) => {
 const retoMsg = (puzzle, sol) => {
   return `<li class="card reto-puzzle-li reto-puzzle-current animated zoomInUp"> 
       <h6><b>${puzzle.title}</b></h6>
-      ${puzzle.correct ? `<p><b>${i18n.msg}:</b> ${puzzle.correct}</p>`:``}
-      ${puzzle.automatic ? '':`<p><b>${i18n.sol}:</b> <span class="hidden-sol">${sol}</span></p>`}
+      ${puzzle.correct ? `<p><b>${i18n.msg}:</b> ${escapeHtml(puzzle.correct)}</p>`:``}
+      ${puzzle.automatic ? '':`<p><b>${escapeHtml(i18n.sol)}:</b> <span class="hidden-sol">${escapeHtml(sol)}</span></p>`}
   </li>`;
 }
 
@@ -115,7 +116,7 @@ const onPuzzleResponse = async (m) => {
       updateSuperados(puzzleOrder);
       updateProgress();
       appendRetoMsg(ER.info.escapeRoomPuzzles[puzzleOrder], solution);
-      createAlert("success", `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correct ? '': feedback }`);
+      createAlert("success", `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correct ? '': escapeHtml(feedback) }`);
       const isLast = ER.erState.retosSuperados.length === ER.info.totalPuzzles;
       if (!isLast) {
         const puzzleIndex = ER.info.escapeRoomPuzzles.findIndex(puzzle => puzzle.order == puzzleOrder);
@@ -137,7 +138,7 @@ const onPuzzleResponse = async (m) => {
     }
   } else {
     if (msg !== i18n.wrong) {
-      createAlert("danger", feedback);
+      createAlert("danger", escapeHtml(feedback));
     }
     if (ER.erState.waitingForPuzzleReply) {
       $('#puzzle-input').addClass(correctAnswer ? 'is-valid':'is-invalid');
@@ -163,7 +164,7 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
       appendHint(message, puzzleOrder, category);
       $('.reto-hint-title-'+puzzleOrder).first().removeClass('animated')
     } else { // Someone in my team obtained a hint
-      createAlert("success", `<b>${i18n.newHint}</b><br/>${message}`);
+      createAlert("success", `<b>${i18n.newHint}</b><br/>${escapeHtml(message)}`);
       await forMs(1000);
       appendHint(message, puzzleOrder, category);
       if (!moreAvail) {
@@ -240,6 +241,16 @@ const onLeave = ({username, teamId, ranking}) => {
 }
 
 /** HELPERS **/
+const escapeHtml = (unsafe = "") => {
+  return unsafe
+       .replace(/&/g, "&amp;")
+       .replace(/</g, "&lt;")
+       .replace(/>/g, "&gt;")
+       .replace(/"/g, "&quot;")
+       .replace(/'/g, "&#039;");
+}
+
+
 const updateProgress = () =>  {
   if (ER.erState.retosSuperados && ER.erState.retosSuperados.length && ER.info.totalPuzzles) {
     const progress = Math.round(ER.erState.retosSuperados.length / ER.info.totalPuzzles*100);
@@ -657,8 +668,10 @@ $( ()=>{
 
   if (localStorage["escapp_"+escapeRoomId] !== ER.erState.startTime.toString()) { // First time
     let auto = $( "[autoplay]" );
+    let youtube = false;
 
     if (!auto.length) { // Iframe
+      youtube = true;
       auto = $("iframe").filter(function() {
         return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
       });
@@ -673,31 +686,44 @@ $( ()=>{
         try {
           await openFullScreen(el);
         } catch(e2){}
-        try {
-          await el.play();
-          return true;
-        } catch(e3){
+        if (youtube){
           try {
             await el.playVideo();
             return true;
-          } catch(e4){
-            return false;
-          }
+          } catch(e4){return true;}
+        } else {
+          try {
+            await el.play();
+            return true;
+          } catch(e3){return false;}
         }
+          
       };
 
       setTimeout(async ()=>{
-        try {
+        if (youtube) {
           const ok = await play(auto[0]);
-          if (!ok) {
-            $('#autoplay-btn').click(async ()=>{
-              $('#autoplay-alert').hide();
-              await play(auto[0])
-            });
-            $('#autoplay-alert').show({"backdrop": true})
-            await play(auto[0]);
+            if (!ok) {
+              $('#autoplay-btn').click(async ()=>{
+                $('#autoplay-alert').hide();
+                await play(auto[0])
+              });
+              $('#autoplay-alert').show({"backdrop": true})
+              await play(auto[0]);
+            }
+        } else {
+          try {
+            const ok = await play(auto[0]);
+            if (!ok) {
+              $('#autoplay-btn').click(async ()=>{
+                $('#autoplay-alert').hide();
+                await play(auto[0])
+              });
+              $('#autoplay-alert').show({"backdrop": true})
+              await play(auto[0]);
+            }
+          } catch(e){
           }
-        } catch(e){
         }
         try {
           await openFullScreen(auto[0])

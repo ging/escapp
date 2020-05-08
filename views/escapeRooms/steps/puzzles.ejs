@@ -91,22 +91,7 @@
     });
     // $('.handle').disableSelection();
 
-    $('#add-new-puzzle').on('click', ()=>{
-        let newCard = $('.hidden-card .puzzle-card').clone();
-        const order = $('.puzzle-card').length - 1;
-        newCard.find('.order').val(order);
-        newCard.find('.hint-list').data("number", order);
-        newCard.find( "input[name^='puzzles[new]'],select[name^='puzzles[new]']" ).each((i,e)=>{
-            e.name = e.name.replace('puzzles[new]','puzzles['+order+']');
-        });
-
-        newCard.appendTo('#sortable');
-        $('html, body').animate({
-            scrollTop: $(newCard).offset().top
-        }, 100);
-
-        newCard.find('input[type=text]').first().focus();
-    })
+ 
 
     $(document).on('click', '.addHint', (e) => {
         const currentHintList = $(e.target.parentNode.parentNode).find('.hint-list');
@@ -185,7 +170,7 @@
         }
         const nCats = currentHintList.children('.hint-category').length;
         currentHintList.append(catTemplate(null, puzzleOrder, nCats));
-        currentHintList.find('input[type=text]').last().focus();
+        currentHintList.find('.hint-category-name').last().focus();
 
     });
 

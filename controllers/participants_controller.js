@@ -51,7 +51,7 @@ exports.checkSomeTurnAvailable = async (req, res, next) => {
         }
     }
     req.flash("error", i18n.turnos.noTurnAvailable);
-    res.redirect("back");
+    res.redirect("/escapeRooms");
 };
 
 exports.checkTurnAvailable = (req, res, next) => {

@@ -754,7 +754,6 @@
         "teams": "equipos",
         "teamS": "equipo(s)",
         "title": "Equipos",
-        "noTurnAvailable": "No hay ningún turno disponible en esta escape room",
         "turnNotAvailable": "El turno seleccionado no está disponible"
     },
     "turnos": {
@@ -799,6 +798,12 @@
         "notActive": "Esta escape room no está activa para tu usuario",
         "selectActivate": "Selecciona el turno que quieres activar/desactivar",
         "selectStudent": "Selecciona un turno",
+        "noTurnAvailable": "No hay ningún turno disponible en esta escape room",
+        "theres": "Queda",
+        "thereare": "Quedan",
+        "spot": "puesto libre",
+        "spots": "puestos libres",
+        "openSpots": "en este turno",
         "todayEscapeRoom": "¡Este día se celebra la Escape Room!",
         "Turno": "Turno",
         "statusMsg": {
