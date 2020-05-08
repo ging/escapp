@@ -9,6 +9,7 @@ var httpsApp = require('../app');
 var io = require('../io');
 var debug = require('debug')('web:server');
 var http = require('http');
+var https = require('https');
 
 /**
  * Get port from environment and store in Express.

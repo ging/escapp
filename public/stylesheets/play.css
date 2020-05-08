@@ -48,6 +48,15 @@ p {
     max-width: 40%;
 }
 
+#navbar-collapse-div .puzzle-label {
+  flex: 1; 
+  justify-content: flex-end; 
+  text-overflow:ellipsis; 
+  overflow: hidden;
+  padding-left: 10px;
+  max-width: 400px;
+}
+
 .row-centered {
     text-align: center;
     justify-content: center;
@@ -402,7 +411,10 @@ span.btn-hints-title {
       flex-wrap: nowrap;
       align-items: stretch;
       justify-content: stretch;
-  }
+    }
+    #navbar-collapse-div {
+      overflow: hidden;
+    }
     
     #navbar-collapse-div #puzzle-form {
       flex-wrap: wrap !important;
@@ -425,7 +437,10 @@ span.btn-hints-title {
       width: 100%;
     }
   
+  
 }
+
+
 
 @media (min-width: 768px){
 .navbar-expand-md .navbar-nav .nav-link {
@@ -433,5 +448,10 @@ span.btn-hints-title {
     padding-bottom: 0 !important;
     padding-top: 0 !important;
 }
+#navbar-collapse-div #puzzle-form { 
+    flex: 1;
+  justify-content: flex-end;
+  }
+
 }
 

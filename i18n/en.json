@@ -290,6 +290,7 @@
             "instructionsQuiz1" : "In order to obtain a hint you must answer correctly at least",
             "instructionsQuiz2" : "out of the ",
             "instructionsQuiz3" : "following questions",
+            "loading": "Loading",
             "need": "Request a hint",
             "start": "Start",
             "requestedHints": "Hints obtained",

@@ -41,7 +41,6 @@ exports.createServer = (server, sessionMiddleware) => {
                 const {code, msg} = getAuthMessageAndCode(participation, i18n);
 
                 const response = {code, "authentication": true, token, participation, msg, erState};
-
                 const turnId = studentTurnId || teacherTurnId;
 
                 if (participation && participation !== NOT_A_PARTICIPANT) {
@@ -54,7 +53,9 @@ exports.createServer = (server, sessionMiddleware) => {
                 }
             } else {
                 sendInitialInfo(socket, {"code": NOK, "authentication": false, "msg": i18n.api.wrongCredentials});
-                socket.close();
+                if (socket.conn) {
+                    socket.conn.close();
+                }
             }
         } catch (e) {
             console.error(e);

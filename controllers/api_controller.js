@@ -110,7 +110,7 @@ exports.auth = async (req, res, next) => {
     const {token} = user;
 
     try {
-        const {i18n} = res.locals || req.app.locals;
+        const {i18n} = res.locals || req.app.locals;
         const participation = await checkTurnoAccess(teams, user, escapeRoom, true);
         const attendance = participation === PARTICIPANT || participation === TOO_LATE;
         const erState = teams && teams.length ? await getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance, true) : undefined;
@@ -133,7 +133,7 @@ exports.startPlaying = async (req, res, next) => {
     const authentication = true;
     const {token} = user;
 
-    const {i18n} = res.locals || req.app.locals;
+    const {i18n} = res.locals || req.app.locals;
 
     try {
         let participation = await checkTurnoAccess(teams, user, escapeRoom, true);

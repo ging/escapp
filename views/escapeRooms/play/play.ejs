@@ -95,16 +95,16 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-div">
           <%if (isStudent && currentlyWorkingOn !== null) {%> 
             <% const puzzle = puzzles[currentlyWorkingOn] %>
-            <div class=" form-inline mmy-2 mmy-lg-0 ms-auto" style="flex: 1;flex-wrap: nowrap; margin-bottom: 0 !important; <%=puzzle.automatic ? 'display: none;' : ''%>" id="puzzle-form" > 
-              <label style="flex: 1; justify-content: flex-end;">
+            <div class="form-inline mmy-2 my-lg-0 ms-auto" style="margin-bottom: 0 !important; <%=puzzle.automatic ? 'display: none;' : ''%>" id="puzzle-form" > 
+              <label class="puzzle-label">
                 <span class="navbar-text puzzle-title" id="puzzle-title" data-puzzle-order="<%= puzzle.order %>"><%=puzzle.title%>
                 </span>&nbsp;
-            </label>
+                </label>
             <input class="form-control mr-sm-2 puzzle-input" id="puzzle-input" type="text" placeholder="<%=i18n.escapeRoom.play.writeSol%>" data-puzzle-order="<%= puzzle.order %>">
             <button class="btn btn-success my-2 my-sm-0" id="puzzle-check-btn" data-toggle="tooltip" type="button" data-puzzle-order="<%= puzzle.order %>" title="<%=i18n.escapeRoom.play.check%>"><span class="material-icons ">check</span></button>
           </div>
           <%}%>
-          
+        
           <ul class="navbar-nav my-lg-0 ml-auto">
             <li class="nav-item active" id="finish" style="display: none;">
                 <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>/finish" data-toggle="tooltip" title="<%=i18n.escapeRoom.play.Finish%>">
@@ -173,6 +173,7 @@
                     </a>
                 </li>
           </ul>
+        </div>
       </nav>
 <div class="navbar navbar-expand-md" style="visibility:hidden;">
 <ul class="navbar-nav my-lg-0 ml-auto">
