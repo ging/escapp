@@ -238,8 +238,7 @@
             "waitingForPuzzleReply": false,
         }
     };
- 
-    initSocketServer(escapeRoomId, teamId, <%= team.turno ? team.turno.id : "undefined" %>, username);
+    initSocketServer(escapeRoomId, teamId, <%= turnoId || (team.turno ? team.turno.id : "undefined") %>, username);
     
     var i18n =  <%-JSON.stringify(i18n.escapeRoom.play)%>;
     i18n.instructionsQuiz = "<%=i18n.escapeRoom.play.instructionsQuiz1 + ' ' + (Math.round(escapeRoom.numRight/100*escapeRoom.numQuestions)) + ' ' + i18n.escapeRoom.play.instructionsQuiz2 + ' ' + (escapeRoom.numQuestions || 1) + ' ' + i18n.escapeRoom.play.instructionsQuiz3%>";

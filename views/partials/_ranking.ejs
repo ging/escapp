@@ -100,7 +100,7 @@
         return view;
     }
 
-   var teams = JSON.parse('<%-JSON.stringify(teams)%>');
+   var teams = JSON.parse("<%-JSON.stringify(teams).replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t").replace(/\f/g, "\\f").replace(/"/g,"\\\"").replace(/'/g,"\\\'").replace(/\&/g, "\\&")%>");
    
    $(()=>{
        $('ranking').html(rankingTemplate(teams, teamId));
