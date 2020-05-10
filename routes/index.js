@@ -118,7 +118,7 @@ router.get("/escapeRooms/:escapeRoomId(\\d+)/hintAppWrapper", sessionController.
 router.get("/escapeRooms/:escapeRoomId(\\d+)/xml", sessionController.loginRequired, sessionController.adminOrAuthorRequired, hintController.downloadMoodleXML);
 
 // Routes for playing - student
-router.post("/escapeRooms/:escapeRoomId(\\d+)/play", sessionController.loginRequired, sessionController.participantRequired, turnoController.isTurnNotPending, playController.startPlaying);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/play", sessionController.loginRequired, sessionController.participantRequired, turnoController.isTurnNotPending, playController.startPlaying, playController.play);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/play", sessionController.loginRequired, sessionController.participantRequired, turnoController.isTurnNotPending, turnoController.isTurnStarted, playController.play);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/finish", sessionController.loginRequired, sessionController.participantRequired, turnoController.isTurnNotPending, turnoController.isTurnStarted, playController.ranking, playController.finish, playController.results);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/results", sessionController.loginRequired, sessionController.participantRequired, turnoController.isTurnNotPending, turnoController.isTurnStarted, playController.ranking, playController.results);

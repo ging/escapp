@@ -57,7 +57,7 @@ exports.results = async (req, res) => {
 };
 
 // POST /escapeRooms/:escapeRoomId/play
-exports.startPlaying = async (req, res) => {
+exports.startPlaying = async (req, res, next) => {
     const {i18n} = res.locals;
 
     try {
@@ -93,6 +93,9 @@ exports.startPlaying = async (req, res) => {
     } catch (err) {
         console.error(err);
         req.flash("error", err.message);
+        next(err);
+        return;
     }
-    res.redirect(`/escapeRooms/${req.escapeRoom.id}/play`);
+    next();
+    // res.redirect(`/escapeRooms/${req.escapeRoom.id}/play`);
 };
