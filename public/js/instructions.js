@@ -312,7 +312,7 @@ $(function(){
       autoOpen: false,
       resizable: false,
       modal: true,
-      width: screen.width > 1000 ? 900 : screen.width*0.9,
+      width: window.innerWidth > 1000 ? 900 : window.innerWidth*0.9,
       height: "auto",
       show: {
         effect: "fade",

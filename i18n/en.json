@@ -410,18 +410,41 @@
             },
             "team": {
                 "explanation": "Here you can customize the interface that students will see on their computers when they are playing. You can add any information they need in order to participate: links, images, messages, the first clue, etc.",
-                "placeholder": "You can add a custom message, images, links...",
+                "placeholder": "You can add a custom message, images, links... Do not forget to setup when you want to display this information by clicking in the eye icon on the left.",
                 "title": "Team interface"
             },
             "class": {
                 "explanation": "Here you can customize the interface that you'll be able to screen in the classroom for all students to see. It can include the introductory video, the countdown, the leaderboard, etc. If students are participating in the escape room remotely, they will never see the class interface, so you can skip this step.",
-                "placeholder": "You can choose to project the countdown, an introductory video, etc.",
+                "placeholder": "Add the information you want to project in the classroom",
                 "title": "Classroom interface"
             },
             "indications": {
                 "explanation": "Here you can customize the information students will see prior to the start of the escape room since the moment the sign up. For instance, you can remind them to bring certain material, tell them to review the course content, or provide them a video to watch.",
                 "placeholder": "Add custom instructions",
-                "title": "Pre-activity instructions"
+                "title": "Pre-activity instructions",
+                "front": {
+                    "countdown": "Countdown",
+                    "ranking": "Leaderboard",
+                    "progress": "Progress bar",
+                    "textAndMedia": "Text and multimedia",
+                    "reorder": "Drag to reorder",
+                    "delete": "Delete",
+                    "areYouSureDelete":"Are you sure you want to delete this content block? This action cannot be reverted",
+                    "setupVisualization": "Visualization",
+                    "visualizationIntro": "When do you wish to display this content block?",
+                    "visualizationStart": "Right at the beginning",
+                    "visualizationSucceed": "After solving the following puzzles",
+                    "accept": "accept",
+                    "cancel": "cancel",
+                    "dropHere": "Drop now to place the content here",
+                    "theme": "Theme",
+                    "Team": "Team",
+                    "Members":"Members",
+                    "Progress": "Progress",
+                    "Time": "Time",
+                    "Student": "Student"
+
+                }
             },
             "list": {
                 "edit":"Basic configuration",

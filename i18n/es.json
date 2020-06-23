@@ -400,18 +400,40 @@
             },
             "team": {
                 "explanation": "En este apartado puedes personalizar la interfaz que los estudiantes verán en sus pantallas mientras jueguen a la escape room. Puedes añadir una pista inicial, enlaces, imágenes, etc.",
-                "placeholder": "Añade un mensaje personalizado, imágenes, links...",
+                "placeholder": "Añade un mensaje personalizado, imágenes, links... No te olvides de configurar cuándo quieres que sea visible esta información haciendo click en el icono del ojo a la izquierda",
                 "title": "Interfaz de equipo"
             },
             "class": {
                 "explanation": "En este apartado puedes personalizar la interfaz que proyectarás en el aula. Puedes añadir elementos como la cuenta atrás, el video introductorio o el ranking. Si los alumnos van a participar en la escape room de forma remota nunca verán esta interfaz, por lo que puedes saltarte este paso.",
-                "placeholder": "Añade la cuenta atrás, un ranking, el vídeo de presentación, etc.",
+                "placeholder": "Añade la información que quieras proyectar a los alumnos",
                 "title": "Interfaz de clase"
             },
             "indications": {
                 "explanation": "En este apartado puedes personalizar las instrucciones que los alumnos recibirán antes de que comience la escape room desde el momento en el que se apunten. Por ejemplo, puedes recordarles que traigan algún material, indicarles que repasen parte del contenido de la asignatura o proporcionarles un vídeo para que visualicen.",
                 "placeholder": "Añade instrucciones previas personalizadas",
-                "title": "Instrucciones previas"
+                "title": "Instrucciones previas",
+                "front": {
+                    "countdown": "Cuenta atrás",
+                    "ranking": "Ranking",
+                    "progress": "Barra de progreso",
+                    "textAndMedia": "Texto y multimedia",
+                    "reorder": "Comienza a arrastrar para reordenar",
+                    "delete": "Borrar",
+                    "areYouSureDelete":"¿Seguro que deseas borrar este contenido? Esta acción es irreversible",
+                    "setupVisualization": "Visualización",
+                    "visualizationIntro": "¿Cuándo deseas mostrar este bloque de contenido?",
+                    "visualizationStart": "Nada más empezar",
+                    "visualizationSucceed": "Al superar los retos",
+                    "accept": "aceptar",
+                    "cancel": "cancelar",
+                    "dropHere": "Suelta para colocarlo aquí",
+                    "theme": "Tema",
+                    "Team": "Equipo",
+                    "Members":"Miembros",
+                    "Progress": "Progreso",
+                    "Time": "Tiempo",
+                    "Student": "Alumno"
+                }
             },
             "list": {
             	"edit":"Configuración básica",

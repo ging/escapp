@@ -1,15 +1,13 @@
-<head><link rel="stylesheet" href="/stylesheets/vendor/dropzone.css">
+<head>
+  <link rel="stylesheet" href="/stylesheets/vendor/dropzone.css">
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
 <% if (endPoint !== "indications") {%>
   <link rel="stylesheet" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"] || "litera"%>.editor.bootstrap.min.css">
 <%}%>
-<script src="/js/vendor/quill.min.js"></script>
 <script src="/js/vendor/jquery.ui.sortable.min.js"></script>
-<script src="/js/vendor/image-resize.min.js"></script>
-<script src="/js/vendor/video-resize.min.js"></script>
-<script src="/js/vendor/quill.htmlEditButton.min.js"></script>
-<script src="https://www.youtube.com/iframe_api"></script>
-
+<script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>
+<!-- <script src="https://www.youtube.com/iframe_api"></script> -->
+<%var theme = escapeRoom[endPoint + "Appearance"] || "litera" %>
 </head>
 <!-- Theme included stylesheets -->
  <% include ../../partials/_header.ejs %>
@@ -17,20 +15,16 @@
 	<%- include ../../partials/_breadcrumbStep %>
   <h1><%=i18n.escapeRoom.steps[endPoint].title%></h1>
     <p class="intro-paragraph">
-       <%=i18n.escapeRoom.steps[endPoint].explanation%>
+      <%=i18n.escapeRoom.steps[endPoint].explanation%>
     </p>
+    <%- include('../../partials/_instructionsMenu', {theme, endPoint, escapeRoom}) %>
+    <br/>
     <form method='POST' id="instructionsForm" action='/escapeRooms/<%= escapeRoom.id %>/<%=endPoint%>'  >
-      <input type="hidden" id="appearance" name="appearance" 
-      value="<%=escapeRoom[endPoint + "Appearance"] || "litera" %>" />
-    	<div class="editor-wrapper  <%=endPoint === 'indications' ? 'indications':''%>">
-          <div id="editor" class="" spellcheck="false" style="visibility: hidden;">
-            <%if (escapeRoom[endPoint + "Instructions"]) {%>
-                <%- escapeRoom[endPoint + "Instructions"] %>
-              <%}%>
-    		</div>
-    	</div>
+      <input type="hidden" id="appearance" name="appearance" value="<%=theme%>" />
+      <div id="custom-content">
+      </div>
+    <br/>
       <div class="align-right flex-buttons">
-          <input id="instructions" name="instructions" type="hidden" value=""/>
           <button class="progress-buttons" type="submit" value="<%=progress%>" id="progress-save" name="progress"><%=i18n.common.save%></button>
           <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
           <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
@@ -62,17 +56,54 @@ window.placeholder = "<%=i18n.escapeRoom.steps[endPoint].placeholder%>"
 window.insert = "<%=i18n.gallery.insert%>";
 window.cancel = "<%=i18n.gallery.cancel%>";
 window.accept = "<%=i18n.common.accept%>";
-window.editYourText = "<%=i18n.gallery.editYourText%>";
+window.lang = "<%=i18n.lang%>";
+window.puzzleLength = <%=escapeRoom.puzzles.length + 1%>;
+window.i18n = <%-JSON.stringify(i18n.escapeRoom.steps.indications.front)%>
+window.getTheme = theme => "/stylesheets/vendor/bootswatch/"+theme+".bootstrap.min.css";
+window.theme = endPoint === "indications" ? "/stylesheets/style.css" : window.getTheme("<%=theme || 'litera' %>");
+window.themeName = "<%=theme || 'litera' %>";
+window.content = <%- JSON.stringify(JSON.parse(escapeRoom[endPoint + "Instructions"] || "[{\"type\":\"text\",\"payload\":{\"text\":\""+i18n.escapeRoom.steps[endPoint].placeholder+"\"}, \"puzzles\":[0]}]") )%>
 </script>
+<%if (endPoint !== "indications"){%>
+  <div id="dialog-themes" title="<%=i18n.escapeRoom.steps.indications.front.theme%>" style="display: none;">
+    <div class="theme-list">
+      <%var themes = ["litera", "cerulean", "journal", "sketchy", "darkly", "cyborg", "cosmo", "flatly", "lumen", "lux", "materia", "minty", "pulse", "sandstone", "simplex", "slate", "solar", "spacelab", "united", "yeti", "superhero"];%>
+      <%for (var iTheme of themes) {%>
+        <span tabindex="0" role="button" class="theme-item <%=theme === iTheme ? 'selected-theme':''%>" data-value="<%=iTheme%>">
+          <img src="/images/bootswatch/<%=iTheme%>.png"/>
+        </span>
+      <%}%>
+    </div>
+  </div>
+<%}%>
+<%if (endPoint === "team"){%>
+
+<div id="dialog-config" title="<%=i18n.escapeRoom.steps.indications.front.setupVisualization%>" style="display: none;">
+  <div class="config-list">
+    <p class="config-paragraph"><%=i18n.escapeRoom.steps.indications.front.visualizationIntro%></p>
+    <label class="puzzle-preview-select"><input type="checkbox" id="puzzle-0"><%=i18n.escapeRoom.steps.indications.front.visualizationStart%></label>
+    <p class="config-paragraph" style="color: var(--info);font-size: 16px;"><%=i18n.escapeRoom.steps.indications.front.visualizationSucceed%>:</p>
+    <%for (var p in escapeRoom.puzzles) {
+      var puzzle= escapeRoom.puzzles[p];%>
+      <label class="puzzle-preview-select"><input type="checkbox" id="puzzle-<%=(p+1)%>"><%=puzzle.title%></label>
+    <%}%>
+  </div>
+</div>
+<%}%>
 
 <%- include('../../partials/_footer', {ignoreExtras: true}) %>
+</div>
+<script src="/ckeditor/ckeditor4/ckeditor.js"></script>
+<script src="/ckeditor/ckeditor4/editor.js"></script>
 
-<script src="/js/instructions.js"></script>
 <style>
   @font-face {
       font-family: 'Digital';
       src: url('/fonts/ds-digib.ttf') format('truetype');
       font-weight: bold;
       font-style: normal;
+  }
+  :root {
+    --placeholder-text: "<%=i18n.escapeRoom.steps.indications.front.dropHere%>";
   }
 </style>

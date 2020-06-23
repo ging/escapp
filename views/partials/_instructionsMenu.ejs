@@ -1,0 +1,38 @@
+<%if (endPoint !== "indications"){%>
+    <div class="building-block-bar">
+        <button class="building-block-bar-button add-content" title="<%=i18n.escapeRoom.steps.indications.front.textAndMedia%>" data-content="text" >
+            <span class="building-block-icon material-icons" 
+                    style="color: var(--brightblue);">
+                    text_format
+            </span>
+            <%=i18n.escapeRoom.steps.indications.front.textAndMedia%>
+        </button>
+        <!-- <button class="building-block-bar-button add-content" title="<%=i18n.escapeRoom.steps.indications.front.video%>" data-content="video">
+            <span class="building-block-icon material-icons" style="color: var(--success);">movie</span>
+            Video
+        </button>           -->
+        <button class="building-block-bar-button add-content" title="<%=i18n.escapeRoom.steps.indications.front.countdown%>" data-content="countdown">
+            <img class="building-block-img" src="/images/countdown.png"/>
+            <%=i18n.escapeRoom.steps.indications.front.countdown%>
+        </button>
+        <button class="building-block-bar-button add-content" title="<%=i18n.escapeRoom.steps.indications.front.ranking%>" data-content="ranking">
+            <img class="building-block-img" src="/images/ranking.png"/>
+            <%=i18n.escapeRoom.steps.indications.front.ranking%>
+        </button>
+        <%if (endPoint === "team"){%>
+        <button class="building-block-bar-button add-content" title="<%=i18n.escapeRoom.steps.indications.front.progress%>" data-content="progress">
+            <!-- <img class="building-block-img" src="/images/progress.png"/> -->
+            <span class="building-block-icon material-icons" 
+                style="color: var(--lightred);">
+                show_chart
+            </span>
+            <%=i18n.escapeRoom.steps.indications.front.progress%>
+        </button>
+        <%}%>
+        <span class="building-block-bar-separator"></span>
+        <button class="building-block-bar-button theme-btn">
+            <span class="building-block-icon material-icons" style="color: var(--info);">color_lens</span>
+            <span class="theme-text"><%=i18n.escapeRoom.steps.indications.front.theme%>: <span id="theme-title"><%=theme[0].toUpperCase() +  theme.slice(1)%></span></span>
+        </button>
+    </div>
+  <%}%>
