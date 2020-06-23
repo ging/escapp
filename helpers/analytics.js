@@ -8,7 +8,7 @@ exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
         if (idx > -1) {
             retosSuperados[idx] = showDate ? reto.retosSuperados.createdAt : 1;
             if (turno) {
-                retosSuperadosMin[idx] = showDate ? (reto.retosSuperados.createdAt - turno) / 1000 / 60 : 1;
+                retosSuperadosMin[idx] = showDate ? Math.floor((reto.retosSuperados.createdAt - turno) / 600) / 100 : 1;
             }
         }
         return showDate ? " " : 0;
@@ -28,7 +28,7 @@ exports.getRetosSuperados = (teams, nPuzzles, ignoreTurno = false) => teams.
         const count = retos.length;
         const result = `${retos.length}/${nPuzzles}`;
         const participants = teamMembers.map((member) => `${member.name} ${member.surname}`).join(", ");
-        const finishTime = nPuzzles === parseInt(count, 10) && startTime ? (new Date(latestRetoSuperado) - new Date(startTime)) / 1000 : null;
+        const finishTime = nPuzzles === parseInt(count, 10) && startTime ? Math.floor((new Date(latestRetoSuperado) - new Date(startTime)) / 10) / 100 : null;
 
         return { id, name, puzzlesSolved, "turno": ignoreTurno ? undefined : turno, startTime, latestRetoSuperado, finishTime, count, result, teamMembers, participants };
     });
@@ -36,7 +36,7 @@ exports.getRetosSuperados = (teams, nPuzzles, ignoreTurno = false) => teams.
 exports.getRetosSuperadosIdTime = (retos, actualStartTime) => retos.map((reto) => {
     const {retosSuperados} = reto;
     const {createdAt} = retosSuperados;
-    const time = actualStartTime ? (createdAt - actualStartTime) / 1000 : null;
+    const time = actualStartTime ? Math.floor((createdAt - actualStartTime) / 10) / 100 : null;
 
     return {"id": reto.id, time};
 });
@@ -76,7 +76,7 @@ exports.countHintsByPuzzle = (requestedHints, retosSuperados, startTime) => {
 
     for (const h in requestedHints) {
         const hint = requestedHints[h];
-        const minute = Math.floor((hint.createdAt - startTime) / 60000);
+        const minute = Math.floor((hint.createdAt - startTime) / 600) / 100;
 
         let retoPos = 0;
 

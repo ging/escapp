@@ -96,6 +96,8 @@ exports.create = async (req, res) => {
     const escapeRoom = models.escapeRoom.build({title, subject, duration, "forbiddenLateSubmissions": forbiddenLateSubmissions === "on", description, supportLink, "nmax": nmax || 0, "teamSize": teamSize || 0, authorId, forceLang}); // Saves only the fields question and answer into the DDBB
     const {i18n} = res.locals;
 
+    escapeRoom.forceLang = forceLang === "en" || forceLang === "es" ? forceLang : null;
+
     try {
         const er = await escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "supportLink", "invitation", "forceLang"]});
 

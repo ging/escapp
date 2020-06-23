@@ -204,7 +204,7 @@ exports.hintsByParticipants = async (req, res, next) => {
                     const reqHint = requestedHints[h];
                     const {success, score, createdAt} = reqHint;
                     const hint = reqHint.hint && reqHint.hint.content ? reqHint.hint.content : "";
-                    const minute = Math.floor((createdAt - startTime) / 60000);
+                    const minute = Math.floor((createdAt - startTime) / 600) / 100;
 
                     resultsCsv.push({id, name, surname, username, teamId, teamName, teamAttendance, success, score, hint, minute, createdAt});
                 }
@@ -252,7 +252,7 @@ exports.hintsByTeams = async (req, res, next) => {
                 for (const h in requestedHints) {
                     const hint = requestedHints[h];
                     const {success, score, createdAt} = hint;
-                    const minute = Math.floor((hint.createdAt - startTime) / 60000);
+                    const minute = Math.floor((hint.createdAt - startTime) / 600) / 100;
                     const hintContent = hint.hint && hint.hint.content ? hint.hint.content : "";
 
                     resultsCsv.push({"id": teamId, teamName, score, teamAttendance, "hint": hintContent, success, minute, "createdAt": new Date(createdAt)});
