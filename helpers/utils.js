@@ -3,7 +3,6 @@ const {Op} = Sequelize;
 const sequelize = require("../models");
 const {models} = sequelize;
 const {nextStep, prevStep} = require("./progress");
-const {areHintsAllowedForTeam} = require("./hint");
 const cloudinary = require("cloudinary");
 const ejs = require("ejs");
 const queries = require("../queries");
@@ -158,7 +157,7 @@ exports.renderEJS = (view, query = {}, options = {}) => new Promise((resolve, re
 exports.getERState = async (escapeRoomId, team, duration, hintLimit, nPuzzles, attendance, attendanceScore, scoreHintSuccess, scoreHintFail, includeRanking = false) => {
     const {puzzlesSolved, puzzleData} = await getPuzzleOrderSuperados(team);
     const teamMembers = team.teamMembers.map((member) => member.username);
-    const {hintsAllowed, successHints, failHints} = await areHintsAllowedForTeam(team.id, hintLimit);
+    const {hintsAllowed, successHints, failHints} = await exports.areHintsAllowedForTeam(team.id, hintLimit);
     const progress = exports.getProgress(puzzlesSolved, nPuzzles);
     const score = exports.getScore(puzzlesSolved, puzzleData, successHints, failHints, attendance, attendanceScore, scoreHintSuccess, scoreHintFail);
     const ranking = includeRanking ? await exports.getRanking(escapeRoomId, team.turno.id) : undefined;
@@ -315,3 +314,39 @@ exports.checkIsTurnAvailable = (turn, nmax, duration) => {
     }
     return turn.students && (!nmax || turn.students.length < nmax);
 };
+
+exports.getCurrentPuzzle = async (team, puzzles) => {
+    const retosSuperados = await team.getRetos();
+    const retosSuperadosOrder = retosSuperados.map((r) => r.order);
+    const pending = puzzles.map((p) => p.order).filter((p) => retosSuperadosOrder.indexOf(p) === -1);
+    let currentlyWorkingOn = retosSuperadosOrder.length ? Math.max(...retosSuperadosOrder) + 1 : 0;
+
+    if (retosSuperadosOrder.length === puzzles.length) {
+        currentlyWorkingOn = null;
+    } else if (currentlyWorkingOn >= puzzles.length) {
+        [currentlyWorkingOn] = pending;
+    }
+    return currentlyWorkingOn;
+};
+
+
+exports.areHintsAllowedForTeam = async (teamId, hintLimit) => {
+    const reqHints = await models.requestedHint.findAll({"where": { teamId}});
+    let successHints = 0;
+    let failHints = 0;
+    let hintsAllowed = false;
+
+    for (const h in reqHints) {
+        if (reqHints[h].success) {
+            successHints++;
+        } else {
+            failHints++;
+        }
+    }
+    if (!hintLimit && hintLimit !== 0 || hintLimit >= successHints) {
+        hintsAllowed = true;
+    }
+    return {hintsAllowed, successHints, failHints};
+};
+
+exports.getContentForPuzzle = (content = [], currentlyWorkingOn) => JSON.parse(content).map((block, index) => ({...block, index})).filter((block) => block.puzzles.indexOf(currentlyWorkingOn.toString()) !== -1);

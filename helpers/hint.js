@@ -1,5 +1,6 @@
 const sequelize = require("../models");
 const {models} = sequelize;
+const {getCurrentPuzzle} = require("./utils");
 
 exports.calculateNextHint = async (escapeRoom, team, status, score, category, messages) => {
     const success = status === "completed" || status === "passed";
@@ -8,16 +9,7 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, category, me
         const teamId = team.id;
 
         if (success) {
-            const retosSuperados = await team.getRetos();
-            const retosSuperadosOrder = retosSuperados.map((r) => r.order);
-            const pending = escapeRoom.puzzles.map((p) => p.order).filter((p) => retosSuperadosOrder.indexOf(p) === -1);
-            let currentlyWorkingOn = retosSuperadosOrder.length ? Math.max(...retosSuperadosOrder) + 1 : 0;
-
-            if (retosSuperadosOrder.length === escapeRoom.puzzles.length) {
-                currentlyWorkingOn = null;
-            } else if (currentlyWorkingOn >= escapeRoom.puzzles.length) {
-                [currentlyWorkingOn] = pending;
-            }
+            const currentlyWorkingOn = await getCurrentPuzzle(team, escapeRoom.puzzles);
 
             const hints = await models.requestedHint.findAll({
                 "where": {
@@ -109,23 +101,4 @@ exports.calculateNextHint = async (escapeRoom, team, status, score, category, me
     } catch (e) {
         return {"ok": false, "msg": e.message};
     }
-};
-
-exports.areHintsAllowedForTeam = async (teamId, hintLimit) => {
-    const reqHints = await models.requestedHint.findAll({"where": { teamId}});
-    let successHints = 0;
-    let failHints = 0;
-    let hintsAllowed = false;
-
-    for (const h in reqHints) {
-        if (reqHints[h].success) {
-            successHints++;
-        } else {
-            failHints++;
-        }
-    }
-    if (!hintLimit && hintLimit !== 0 || hintLimit >= successHints) {
-        hintsAllowed = true;
-    }
-    return {hintsAllowed, successHints, failHints};
 };

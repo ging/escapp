@@ -27,7 +27,7 @@ exports.createServer = (server, sessionMiddleware) => {
                     i18n = require(`./i18n/${user.lang}`);
                 }
                 const {token, username} = user;
-                const {"turnId": studentTurnId, teamId, participation, erState, errorMsg, language} = await checkAccess(user, escapeRoomId, i18n, waiting);
+                const {"turnId": studentTurnId, teamId, participation, erState, errorMsg, language, teamInstructions} = await checkAccess(user, escapeRoomId, i18n, waiting);
 
                 if (language && (language === "es" || language === "en")) {
                     i18n = require(`./i18n/${language}`);
@@ -44,7 +44,7 @@ exports.createServer = (server, sessionMiddleware) => {
                 const turnId = studentTurnId || teacherTurnId;
 
                 if (user.isAdmin || (participation && participation !== NOT_A_PARTICIPANT)) {
-                    initializeListeners(escapeRoomId, turnId, teamId, user, waiting, i18n, socket);
+                    initializeListeners(escapeRoomId, turnId, teamId, user, waiting, i18n, teamInstructions, socket);
                     if (turnId) {
                         sendInitialInfo(socket, response);
                     }

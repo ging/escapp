@@ -2,31 +2,20 @@
 <link rel="stylesheet" href="/stylesheets/vendor/dropzone.css">
 <!-- Theme included stylesheets -->
 <% include ../../partials/_header.ejs %>
-<div class="main steps step-assets">
-	<%- include ../../partials/_breadcrumbStep %>
+<div class="main steps step-assets step-instructions">
 
     <h1><%=i18n.escapeRoom.steps.assets.title%></h1>
     <p class="intro-paragraph">
         <%=i18n.escapeRoom.steps.assets.explanation%>
     </p>
 
-    <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone animated zoomIn" >
+    <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone animated zoomIn" style="border:none;margin:0;" >
         <input type="file" name="file" style="display:none;"/>
     </form>
     <br/>
-    <br/>
-    <br/>
-    <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/assets' >
-        <div class="align-right flex-buttons">
-            <input id="assets" name="assets" type="hidden" value=""/>
-            <button class="progress-buttons" type="submit" value="<%=progress%>" id="progress-save" name="progress"><%=i18n.common.save%></button>
-            <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
-            <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
-        </div>
-        <%- include('../../partials/_progress', {progress}) %>
 
-    </form>
-    <br/>
+    <button disabled class="rounded editButton" id="selectFile" onclick="returnFileUrl()">Select File</button>
+
     <br/>
     <br/>
     <br/>
@@ -40,5 +29,30 @@
     var i18nMsg = <%- JSON.stringify(i18n.escapeRoom.steps.assets)%>
 </script>
 <script src="/js/assets.js"></script>
+<script>
+    // Helper function to get parameters from the query string.
+    function getUrlParam( paramName ) {
+        var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' );
+        var match = window.location.search.match( reParam );
 
+        return ( match && match.length > 1 ) ? match[1] : null;
+    }
+    // Simulate user action of selecting a file to be returned to CKEditor.
+    function returnFileUrl() {
+
+        var funcNum = getUrlParam( 'CKEditorFuncNum' );
+        var fileUrl = fileSelected.url
+        window.opener.CKEDITOR.tools.callFunction( funcNum, fileUrl );
+        window.close();
+    }
+        /* Click on file from gallery */
+    $(document).on('click','.dz-preview *', function(){
+        $(".file-selected").removeClass("file-selected");
+        let parent = $(this).parent('.dz-preview');
+        const idx = $('.dz-preview').index(parent);
+        fileSelected = Dropzone.instances[0].files[idx];
+        parent.addClass("file-selected");
+        $('#selectFile').attr("disabled",false)
+    });
+</script>
 

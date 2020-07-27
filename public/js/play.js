@@ -30,7 +30,7 @@ const otherMsg = (info = "") => {
 };
 
 const quizInstructionsTemplate = () => {
-  return `
+  return ` 
     <h4 class="instructions-button">
     ${i18n.instructionsQuiz}<br/><br/>
       <button class="btn btn-success" id="btn-start-quiz">
@@ -56,6 +56,43 @@ const retoMsg = (puzzle, sol) => {
       ${puzzle.automatic ? '':`<p><b>${escapeHtml(i18n.sol)}:</b> <span class="hidden-sol">${escapeHtml(sol)}</span></p>`}
   </li>`;
 }
+
+const blockTemplate = (content) => `<div>${content}</div>`;
+const rankingEmptyTemplate = ()=>`
+    <ranking>
+        <div class="ranking-table table" style="height: 229px; ">
+            <div class="ranking-row ranking-header table-primary" style="top: 0px;" >
+                <div class="ranking-pos">#</div>
+                <div class="ranking-team">Team</div>
+                <div class="ranking-members">Members</div>
+                <div class="ranking-res">Progress</div>
+                <div class="ranking-time">Time</div>
+            </div>
+            <div class="ranking-row " style="top: 75px;">
+                <div class="ranking-pos">1</div>
+                <div class="ranking-team">Team 1</div>
+                <div class="ranking-members">Student A, Student B</div>
+                <div class="ranking-res">3/3</div>
+                <div class="ranking-time">1h 2min</div>
+            </div>
+            <div class="ranking-row " style="top: 150px;">
+                <div class="ranking-pos">2</div>
+                <div class="ranking-members">Student C, Student D</div>
+                <div class="ranking-res">2/3</div>
+                <div class="ranking-time">---</div>
+            </div>
+        </div>
+    </ranking>
+`
+var countdownTemplate = ()=> `<countdown/>`;
+var progressBarTemplate = ()=> `<progressbar>
+    <div class="col-xs-12 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3"  style="margin:auto;">
+        <div class="progress">
+            <div class="progress-bar puzzle-progress bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+</progressbar>
+`;
 
 /** OUTGOING MESSAGES **/
 const error = (msg) => ({type: "ERROR", payload: {msg}});
@@ -104,9 +141,7 @@ const onJoin = ({ranking}) => {
   // alertMsg = createAlert("info", i18n["teamJoined"]);
 }
 
-const onPuzzleResponse = async (m) => {
-  console.log(m)
-  const {code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage} = m
+const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage, content, teamInstructions }) => {
   const feedback = (msg) + (participantMessage && participation !== "PARTICIPANT" ? `<br/> ${participantMessage}`: "");
   const puzzleOrder = puzzleOrderPlus - 1;
   if (code === "OK") {
@@ -114,7 +149,9 @@ const onPuzzleResponse = async (m) => {
     let nextPuzzle = null;
     if (!ER.erState.retosSuperados.some(r => r == puzzleOrder)) { // Not solved before
       updateSuperados(puzzleOrder);
-      updateProgress();
+      window.ER.erState.content = content || window.ER.erState.content;
+      updateContent(window.ER.erState.content);
+
       appendRetoMsg(ER.info.escapeRoomPuzzles[puzzleOrder], solution);
       createAlert("success", `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correct ? '': escapeHtml(feedback) }`);
       const isLast = ER.erState.retosSuperados.length === ER.info.totalPuzzles;
@@ -130,6 +167,10 @@ const onPuzzleResponse = async (m) => {
       }
       checkAvailHintsForPuzzle(nextPuzzleOrder);
       ER.erState.currentlyWorkingOn = nextPuzzleOrder;
+      let blockIndexes =  (window.ER.erState.content || []).map(b=>b.index);
+      autoPlay(blockIndexes);
+      setPuzzleLS(blockIndexes);
+
       await forMs(1000);
       updatePuzzle(nextPuzzleOrder, nextPuzzle, puzzleOrder);
       if (isLast) {
@@ -248,6 +289,11 @@ const escapeHtml = (unsafe = "") => {
        .replace(/>/g, "&gt;")
        .replace(/"/g, "&quot;")
        .replace(/'/g, "&#039;");
+}
+
+const escapeUnsafeHtml = (unsafe = "") => {
+  return unsafe
+       .replace(/(<\s*script[^>]*>.*?<\s*\/\s*script>)/g, "")
 }
 
 
@@ -402,6 +448,37 @@ const updateSuperados = (puzzleOrder) => {
   ER.erState.latestRetoSuperado = ER.erState.retosSuperados.length ? Math.max(...ER.erState.retosSuperados) : null;
 }
 
+var insertContent = (type, payload, puzzles, index) => {
+  var content = "";
+  switch(type){
+      case "countdown":
+          content = countdownTemplate();
+          break;
+      case "ranking":
+          content = rankingEmptyTemplate();
+          break;
+      case "text":
+          content = `<div class="cke_editable" id="block-${index}">${escapeUnsafeHtml(payload.text)}</div>`;
+          break;
+      case "progress":
+          content = progressBarTemplate();
+          break;
+      default:
+  }
+  var htmlContent = $(blockTemplate(content, type, puzzles));
+  $('#editor').append(htmlContent);
+};
+
+const updateContent = (content) => {
+  $('#editor').html("");
+  for (var i in content) {
+    var block = content[i];
+    insertContent(block.type, block.payload, block.puzzles, block.index);
+  }
+  window.initCountdown();
+  $('ranking').html(rankingTemplate(teams, myTeamId));
+  updateProgress();
+}
 
 const finish = async () => {
   window.stopped = true
@@ -524,6 +601,116 @@ window.requestHintFinish = (completion, score, status) => {
   requestHint(score, status ? "completed" : "failed", chosenCat);
   chosenCat = null;
 };
+
+
+const setPuzzleLS = (newBlocks = []) => setTimeout(()=>{
+    localStorage["escapp_"+escapeRoomId] =  ER.erState.startTime.toString() + "_" + newBlocks.join(",");
+}, 3000);
+
+const autoPlay = (newBlocks = []) => {
+    let ls = localStorage["escapp_" + escapeRoomId];
+    let erSt = null;
+    let previousBlocks = [];
+    try {
+      [erSt, previousBlocks] = localStorage["escapp_"+escapeRoomId].split("_");
+      previousBlocks = previousBlocks.split(",");
+    } catch(e) {}
+
+    for (let b in newBlocks) {
+      let block = newBlocks[b].toString();
+      if (erSt !== ER.erState.startTime.toString() || (previousBlocks.indexOf(block) === -1)) { // First time
+        let auto = $( `#block-${block} [autoplay]` );
+        let youtube = false;
+
+        if (!auto.length) { // Iframe
+          youtube = true;
+          auto = $(`#block-${block} iframe`).filter(function() {
+            return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
+          });
+        } 
+        if (!auto.length) { // Video
+          auto = $(`#block-${block} video`).filter(function() {
+            return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
+          });
+        }
+        if (auto.length) {
+          const play = async function(el) {
+            try {
+              await openFullScreen(el);
+            } catch(e2){}
+            if (youtube){
+              try {
+                await el.playVideo();
+                return true;
+              } catch(e4){return true;}
+            } else {
+              try {
+                await el.play();
+                return true;
+              } catch(e3){return false;}
+            }
+              
+          };
+
+          setTimeout(async ()=>{
+            if (youtube) {
+              const ok = await play(auto[0]);
+                if (!ok) {
+                  $('#autoplay-btn').click(async ()=>{
+                    $('#autoplay-alert').hide();
+                    await play(auto[0])
+                  });
+                  $('#autoplay-alert').show({"backdrop": true})
+                  await play(auto[0]);
+                }
+            } else {
+              try {
+                const ok = await play(auto[0]);
+                if (!ok) {
+                  $('#autoplay-btn').click(async ()=>{
+                    $('#autoplay-alert').hide();
+                    await play(auto[0])
+                  });
+                  $('#autoplay-alert').show({"backdrop": true})
+                  await play(auto[0]);
+                }
+              } catch(e){
+              }
+            }
+            try {
+              await openFullScreen(auto[0])
+            } catch(e){
+            } finally {
+              // setTimeout(()=>{
+                // var el = auto.first();
+                // var elOffset = el.offset().top;
+                // var elHeight = el.height();
+                // var windowHeight = $(window).height();
+                // var offset;
+                // if (elHeight < windowHeight) {
+                //   offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+                // } else {
+                //   offset = elOffset;
+                // }
+              //   document.body.scrollTop = offset;
+              //   document.documentElement.scrollTop = offset;
+              // },00)
+            };
+          }, 100)
+        }
+      } else {
+        try {
+          $( `#block-${block} [autoplay]`).each((i,e)=>e.pause());
+        } catch (e) {}
+        try {
+          $( `#block-${block} video` ).each((i,e)=>e.pause());
+        } catch (e) {}
+        try {
+          $( `#block-${block} iframe` ).each((i,e)=>e.src = e.src.replace("autoplay=1","autoplay=0"));
+        } catch (e) {}
+    }
+  }
+}
 /*******************************************************************/
 
 const initSocketServer = (escapeRoomId, teamId, turnId, username) => {
@@ -655,108 +842,13 @@ $( ()=>{
   });
 
   // Update progress
-  updateProgress();
-
+  updateContent(window.ER.erState.content);
   // Mobile header
   $('meta:not(:first)').attr('content', rgb2hex($('nav').first().css("background-color") || "#FFFFFF"));
 
   // Autoplay videos
-
-  setTimeout(()=>{
-    localStorage["escapp_"+escapeRoomId] = ER.erState.startTime.toString();
-  }, 3000);
-
-  if (localStorage["escapp_"+escapeRoomId] !== ER.erState.startTime.toString()) { // First time
-    let auto = $( "[autoplay]" );
-    let youtube = false;
-
-    if (!auto.length) { // Iframe
-      youtube = true;
-      auto = $("iframe").filter(function() {
-        return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
-      });
-    } 
-    if (!auto.length) { // Video
-      auto = $("video").filter(function() {
-        return $(this).attr("src").toLowerCase().indexOf("autoplay".toLowerCase()) != -1;
-      });
-    }
-    if (auto.length) {
-      const play = async function(el) {
-        try {
-          await openFullScreen(el);
-        } catch(e2){}
-        if (youtube){
-          try {
-            await el.playVideo();
-            return true;
-          } catch(e4){return true;}
-        } else {
-          try {
-            await el.play();
-            return true;
-          } catch(e3){return false;}
-        }
-          
-      };
-
-      setTimeout(async ()=>{
-        if (youtube) {
-          const ok = await play(auto[0]);
-            if (!ok) {
-              $('#autoplay-btn').click(async ()=>{
-                $('#autoplay-alert').hide();
-                await play(auto[0])
-              });
-              $('#autoplay-alert').show({"backdrop": true})
-              await play(auto[0]);
-            }
-        } else {
-          try {
-            const ok = await play(auto[0]);
-            if (!ok) {
-              $('#autoplay-btn').click(async ()=>{
-                $('#autoplay-alert').hide();
-                await play(auto[0])
-              });
-              $('#autoplay-alert').show({"backdrop": true})
-              await play(auto[0]);
-            }
-          } catch(e){
-          }
-        }
-        try {
-          await openFullScreen(auto[0])
-        } catch(e){
-        } finally {
-          // setTimeout(()=>{
-            // var el = auto.first();
-            // var elOffset = el.offset().top;
-            // var elHeight = el.height();
-            // var windowHeight = $(window).height();
-            // var offset;
-            // if (elHeight < windowHeight) {
-            //   offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
-            // } else {
-            //   offset = elOffset;
-            // }
-          //   document.body.scrollTop = offset;
-          //   document.documentElement.scrollTop = offset;
-          // },00)
-        };
-      }, 100)
-    }
-  } else {
-    try {
-      $( "[autoplay]" ).each((i,e)=>e.pause());
-    } catch (e) {}
-    try {
-      $( "video" ).each((i,e)=>e.pause());
-    } catch (e) {}
-    try {
-      $( "iframe" ).each((i,e)=>e.src = e.src.replace("autoplay=1","autoplay=0"));
-    } catch (e) {}
-}
-
+  let blockIndexes  = (window.ER.erState.content || []).map(b=>b.index);
+  autoPlay(blockIndexes);
+  setPuzzleLS(blockIndexes);
 
 });

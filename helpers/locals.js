@@ -1,4 +1,5 @@
 const {steps} = require("./progress");
+const {getContentForPuzzle} = require("./utils");
 
 module.exports = function (app) {
     const zeroPadding = (d) => {
@@ -63,4 +64,5 @@ module.exports = function (app) {
     };
 
     app.locals.steps = steps;
+    app.locals.getContentForPuzzle = getContentForPuzzle;
 };

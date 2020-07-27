@@ -16,7 +16,7 @@ button, input[type="submit"] {
   cursor: pointer; }
   button:disabled, button.disabled, input[type="submit"]:disabled, input[type="submit"].disabled {
     cursor: not-allowed; }
-  button.disabled, input[type="submit"].disabled {
+  button.disabled, button:disabled, input[type="submit"].disabled, input[type="submit"]:disabled {
     opacity: 0.3; }
   button.rounded, input[type="submit"].rounded {
     border-radius: 25px !important;
@@ -1519,6 +1519,20 @@ button, input[type="submit"] {
   #mainSection .main.step-instructions .editor-wrapper #editor {
     min-height: 300px; }
 
+#mainSection .main.step-instructions .editor {
+  box-sizing: border-box;
+  line-height: 1.42;
+  height: 100%;
+  outline: none;
+  overflow-y: auto;
+  padding: 12px 15px;
+  padding-top: 0px;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  text-align: left;
+  white-space: inherit;
+  word-wrap: break-word; }
+
 #mainSection .main.step-instructions #dialog-gallery {
   padding: 0;
   background-color: white;
@@ -1714,7 +1728,7 @@ button, input[type="submit"] {
 
 #mainSection .main.step-instructions ranking {
   display: block;
-  margin-top: 5px; }
+  margin-top: 15px; }
   #mainSection .main.step-instructions ranking .ranking-table {
     width: 100%;
     position: relative;
@@ -1839,6 +1853,10 @@ button, input[type="submit"] {
 
 .cke_panel_block {
   background: white; }
+
+.ql-video {
+  margin: auto;
+  display: block; }
 
 #mainSection .main.student {
   background-image: url("../images/puzzle_bg.png");
@@ -2796,7 +2814,7 @@ button, input[type="submit"] {
         border-width: 5px; }
     #mainSection .main.showStudent .flex .flex-er-info {
       flex: 1; }
-  #mainSection .main.showStudent .ql-editor img {
+  #mainSection .main.showStudent .editor img {
     max-width: 100%; }
   #mainSection .main.showStudent .desc {
     font-family: Lato, sans-serif; }

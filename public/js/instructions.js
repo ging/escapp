@@ -12,7 +12,6 @@ $(function(){
 
 
     const createVideo = (node) => {
-        console.log(node)
         let url = node.src;
         if (typeof node === "string") {
             url = node;
@@ -249,7 +248,7 @@ $(function(){
     };
 
     var editor = new Quill('#editor', options);
-             $('#editor').css("visibility", "visible");
+    $('#editor').css("visibility", "visible");
 
     $('#instructionsForm').on("submit", e => {
         let content = document.getElementsByClassName('ql-editor')[0].innerHTML;
@@ -462,7 +461,6 @@ function onYouTubeIframeAPIReady() {
     
 try {
     $("document").on("click", '.ql-html-popupContainer button', () => {
-        console.log(2)
         $('iframe').each((_i,e) => {
             try {
                 var player = null;

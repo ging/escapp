@@ -16,8 +16,8 @@ var config = {
     "appendTo": '.main'
 };
 
-var blockTemplate = (content, type, puzzles) => {
-    var id = 'block-'+type+'-'+Date.now();
+var blockTemplate = (index, content, type, puzzles) => {
+    var id = 'block-'+type+'-'+index+'-'+Date.now();
     return`
 <div class="building-block" data-content-type="${type}" id="${id}" data-puzzles="${puzzles.join(",")}">
     ${content}
@@ -37,10 +37,10 @@ var blockTemplate = (content, type, puzzles) => {
 `;}
 var textEditorTemplate = (id, text) => `<div class="editor-wrapper 
 ${window.endPoint === 'indications' ? 'indications' : '' }">
-    <div id="${id}" name="${id}" class="ql-editor editor" spellcheck="false">${text}</div>
+    <div id="${id}" name="${id}" class="editor" spellcheck="false">${text}</div>
 </div>`;
 
-var rankingTemplate = ()=>`<div class="ql-editor editor">
+var rankingTemplate = ()=>`<div class="editor">
     <ranking>
         <div class="ranking-table table" style="height: 229px; ">
             <div class="ranking-row ranking-header table-primary" style="top: 0px;" >
@@ -67,8 +67,8 @@ var rankingTemplate = ()=>`<div class="ql-editor editor">
         </div>
     </ranking>
 </div>`
-var countdownTemplate = ()=> `<div class="ql-editor editor" ><countdown/></div>`;
-var progressBarTemplate = ()=> `<div class="ql-editor editor" >
+var countdownTemplate = ()=> `<div class="editor" ><countdown/></div>`;
+var progressBarTemplate = ()=> `<div class="editor" >
 <progressbar>
     <div class="col-xs-12 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3"  style="margin:auto;">
         <div class="progress">
@@ -78,17 +78,9 @@ var progressBarTemplate = ()=> `<div class="ql-editor editor" >
 </progressbar>
 </div>
 `;
-var videoTemplate = () => `<div class="ql-editor editor" >
-    <video preload='metadata' controls='controls' poster='http://vishub.org/videos/8489.png?style=170x127%23'>
-        <source src='http://vishub.org/videos/8489.flv' type='video/x-flv'>
-        <source src='http://vishub.org/videos/8489.mp4' type='video/mp4'>
-        Your browser does not support HTML5 video.
-    </video>
-</div>
-`;
-var insertContent = (type, payload, puzzles) => {
+var insertContent = (index, type, payload, puzzles) => {
     var content = "";
-    var id = "ck-" + Date.now();
+    var id = "ck-" + index + "-" + Date.now();
     switch(type){
         case "countdown":
             content = countdownTemplate();
@@ -99,15 +91,12 @@ var insertContent = (type, payload, puzzles) => {
         case "text":
             content = textEditorTemplate(id, payload.text);
             break;
-        case "video":
-            content = videoTemplate();
-            break;
         case "progress":
             content = progressBarTemplate();
             break;
         default:
     }
-    var htmlContent = $(blockTemplate(content, type, puzzles));
+    var htmlContent = $(blockTemplate(index, content, type, puzzles));
     $('#custom-content').append(htmlContent);
     if (type === "text") {
         CKEDITOR.replace(id);
@@ -135,7 +124,8 @@ $(()=>{
 
     for (var i in window.content) {
         var block = window.content[i];
-        insertContent(block.type, block.payload, block.puzzles)
+        console.log(block)
+        insertContent(i, block.type, block.payload, block.puzzles)
     }
 
     $(".theme-item").on("click", (ev)=>{
@@ -173,11 +163,11 @@ $(()=>{
         "buttons": {
             [window.accept] : ()=>{
                 $( "#dialog-config" ).dialog("close");
-
                 var result = []
+                var l = $(".puzzle-preview-select input").length - 1;
                 $(".puzzle-preview-select input").each((i,e)=>{
                     if ($(e).prop('checked')){
-                        result.push(i);
+                        result.push(i < l ? i : "all");
                     }
                 });
                 $('#'+window.blockId).data("puzzles", result.join(","));
@@ -199,8 +189,11 @@ $(()=>{
         var parent = $(this).parent().parent();
         window.blockId = parent.attr("id");
         var puzzleIds = parent.data("puzzles").toString().split(",");
-        $(".puzzle-preview-select input").each((i,e)=>{
-            if (puzzleIds.indexOf(i.toString()) !== -1) {
+        console.log(puzzleIds)
+        var puzzleInputs = $(".puzzle-preview-select input");
+        puzzleInputs.each((i,e)=>{
+            console.log(i)
+            if ((puzzleIds.indexOf(i.toString()) !== -1) || (i.toString() == (puzzleInputs.length -1) && puzzleIds.indexOf("all") !== -1)) {
                 $(e).prop('checked', true);
             }
         });
@@ -217,13 +210,12 @@ $(()=>{
     $( ".add-content").on("click", function(){
         var type = this.dataset.content;
         var text = `<p>${window.placeholder}</p>`; 
-        insertContent(type, {text}, [...Array(window.puzzleLength).keys()]);
+        insertContent(0, type, {text}, puzzleList);
         window.scrollTo(0, $('.building-block').children().last().offset().top);
     });
 
     $('#custom-content').sortable({
         "items": ".building-block",
-        // tolerance: 'touch',
         "handle": '.reorder-btn',
         "cancel": '',
         "placeholder": "ui-sortable-placeholder",
@@ -237,6 +229,7 @@ $(()=>{
            }
         }
     });
+
     $( ".block-config" ).disableSelection();
     $('#instructionsForm').submit(()=>{
         var results = [];
@@ -258,5 +251,30 @@ $(()=>{
 
     });
 
-});
+    var videoCallback = (win) => {
+        var iDoc = win.document;
+        try {
+            for (var vid of iDoc.getElementsByTagName('video')){
+                vid.pause();
+            }
+            for (var ifr of iDoc.getElementsByTagName('iframe')){
+                var win2 = ifr.contentWindow;
+                try {
+                    if (ifr.src.match("youtube")) {
+                        if (!ifr.src.match("enablejsapi=1")){
+                            ifr.src += ifr.src.match("\\?") ? "&enablejsapi=1":"?enablejsapi=1";
+                        }
+                        setTimeout(()=>{
+                            win2.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+                        },800);
+                    }
+                 } catch(e){}
+                videoCallback(win2);
+            }
+        } catch(e){}
+    };
 
+    CKEDITOR.on("instanceReady", ()=>videoCallback(window));
+    videoCallback(window);
+    
+});

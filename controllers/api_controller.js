@@ -1,5 +1,5 @@
 const {models} = require("../models");
-const { authenticate, checkPuzzle, checkTurnoAccess, getERState, automaticallySetAttendance, getRanking} = require("../helpers/utils");
+const { authenticate, checkPuzzle, checkTurnoAccess, getERState, automaticallySetAttendance, getRanking, getCurrentPuzzle, getContentForPuzzle} = require("../helpers/utils");
 const {puzzleResponse, broadcastRanking, sendJoinTeam, sendStartTeam} = require("../helpers/sockets");
 const queries = require("../queries");
 const {OK, PARTICIPANT, NOK, NOT_STARTED, TOO_LATE, getAuthMessageAndCode} = require("../helpers/apiCodes");
@@ -89,7 +89,12 @@ exports.checkPuzzle = async (req, res, next) => {
         const [team] = teams;
 
         if (code === OK) {
-            puzzleResponse(team.id, code, correctAnswer, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
+            let currentlyWorkingOn = await getCurrentPuzzle(teams[0], escapeRoom.puzzles);
+
+            currentlyWorkingOn = currentlyWorkingOn === null ? "all" : currentlyWorkingOn;
+            const content = alreadySolved ? undefined : getContentForPuzzle(escapeRoom.teamInstructions, currentlyWorkingOn);
+
+            puzzleResponse(team.id, code, correctAnswer, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation], content);
             if (!alreadySolved) {
                 const updatedTeams = await getRanking(escapeRoom.id, team.turno.id);
 

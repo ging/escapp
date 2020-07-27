@@ -58,14 +58,16 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
 		{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent',
 		'-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' /*,'-','BidiLtr','BidiRtl' */] },
-		{ name: 'links', items : [ 'Link','Unlink'] },
-		{ name: 'insert', items : [ 'Image','Html5video','Youtube','Audio','Table'/*,'HorizontalRule','Smiley','SpecialChar', 'EqnEditor' ,'Iframe' */ ] },
+		{ name: 'links', items : [ 'Link','Unlink','-'] },
+		{ name: 'insert', items : [ 'Image','Html5video','Youtube','Html5audio','Table'/*,'HorizontalRule','Smiley','SpecialChar', 'EqnEditor' ,'Iframe' */ ] },
 	];
 	config.removePlugins = 'elementspath,resize,iframe,image' ;
-	config.extraPlugins = 'autogrow,html5video,youtube,widget,widgetselection,clipboard,lineutils';
+	config.extraPlugins = 'autogrow,html5video,youtube,html5audio,widget,widgetselection,clipboard,lineutils';
 	config.extraAllowedContent = 'iframe[*]';
+	config.autoGrow_onStartup = true;
+	config.autoGrow_minHeight = 20;
+	config.toolbarCanCollapse = true;
 
-	config.autoGrow_minHeight = 200;
 	// config.autoGrow_maxHeight = 600;
 	// config.autoGrow_bottomSpace = 50;
 	config.language = window.lang;
@@ -77,13 +79,17 @@ CKEDITOR.editorConfig = function( config ) {
 	// 	element: 'span',
 	// 	attributes: { 'style': 'var(--#(color))' }
 	// };
-	config.filebrowserBrowseUrl = '/browser/browse.php';
-    config.filebrowserUploadUrl = '/uploader/upload.php';
+	config.toolbarCanCollapse = false;
+    config.filebrowserUploadMethod = 'form';
+	config.filebrowserImageBrowseUrl =  '/escapeRooms/'+window.escapeRoomId+'/browse';
+	config.filebrowserBrowseUrl =  '/escapeRooms/'+window.escapeRoomId+'/browse';
+    config.filebrowserUploadUrl = '/escapeRooms/'+window.escapeRoomId+'/uploadAssets';
+    config.filebrowserImageUploadUrl = '/escapeRooms/'+window.escapeRoomId+'/uploadAssets';
     config.filebrowserWindowWidth = '640';
     config.filebrowserWindowHeight = '480';
 };
 
-CKEDITOR.addCss(`body {font-size: 22px;}`);
+CKEDITOR.addCss(window.endPoint === "indications" ? `body {font-size: 22px;}` : `body {font-size: 1rem;}`);
 CKEDITOR.addCss(`#cke_bottom_detail,.cke_bottom{display:none}`);
 CKEDITOR.addCss(`.cke_combo_button{border: 1px solid white !important;}`);
 CKEDITOR.addCss(`.cke_editable{padding: 12px;}`);
@@ -92,3 +98,4 @@ CKEDITOR.addCss(`.cke_editable img{ max-width: 100%; height: auto !important;}`)
 CKEDITOR.addCss(`.cke_editable * { outline: none !important; }`);
 // CKEDITOR.addCss(`*{font-family: Lato, sans-serif;}`);
 CKEDITOR.addCss(`input.cke_dialog_ui_input_text:active,input.cke_dialog_ui_input_text:focus,{border-color: var(--primary) !important;}`);
+CKEDITOR.addCss(`.ql-video{margin: auto;display: block;}`);

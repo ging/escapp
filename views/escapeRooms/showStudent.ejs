@@ -38,9 +38,11 @@
 		<h2><%=i18n.turnos.Description%></h2>
 		<p class="desc "><%=escapeRoom.description%></p>
 		<div class="col-xs-12 indications text-left instructionsShow ">
-			<div id="editor" class="ql-editor" style="padding: 0px;">
+			<div id="editor" class="editor" style="padding: 0px;">
 				<% if (escapeRoom["indicationsInstructions"]) {%>
-					<%-escapeRoom["indicationsInstructions"] %>
+					<% var instructions = "";try {instructions = escapeRoom["indicationsInstructions"] || '[{"payload":{"text":""}}]'%>
+					<%-JSON.parse(instructions)[0].payload.text %>
+					<%}catch(e){}%>
 				<% } %>
 			</div>
 		</div>
