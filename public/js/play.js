@@ -700,13 +700,13 @@ const autoPlay = (newBlocks = []) => {
         }
       } else {
         try {
-          $( `#block-${block} [autoplay]`).each((i,e)=>e.pause());
+          $(`#block-${block} [autoplay]`).each((i,e)=>e.pause());
         } catch (e) {}
         try {
-          $( `#block-${block} video` ).each((i,e)=>e.pause());
+          $(`#block-${block} video`).each((i,e)=>e.pause());
         } catch (e) {}
         try {
-          $( `#block-${block} iframe` ).each((i,e)=>e.src = e.src.replace("autoplay=1","autoplay=0"));
+          $(`#block-${block} iframe`).each((i,e)=>e.src = e.src.replace("autoplay=1","autoplay=0"));
         } catch (e) {}
     }
   }

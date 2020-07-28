@@ -463,7 +463,7 @@
                 "addNewHint": "add hint",
                 "addNewCategory": "add category",
                 "addNewPuzzles": "add puzzle",
-            	"automatic": "automatic",
+            	"automatic": "Automatic",
                 "clueName": "Clue name",
                 "description": "Description",
                 "failMsg": "Message on fail",

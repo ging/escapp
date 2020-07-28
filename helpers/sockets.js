@@ -198,7 +198,7 @@ exports.solvePuzzle = async (escapeRoomId, teamId, userId, puzzleOrderMinus, sol
         const puzzleOrder = puzzleOrderMinus - 1;
         const puzzle = await models.puzzle.findOne({"where": {"order": puzzleOrder, escapeRoomId}});
         const team = await models.team.findByPk(teamId, queries.team.teamInfo(escapeRoomId));
-        const puzzles = await models.puzzle.findAll({"where":{escapeRoomId}});
+        const puzzles = await models.puzzle.findAll({"where": {escapeRoomId}});
 
         if (!team && !puzzle) {
             throw new Error(i18n.api.notFound);

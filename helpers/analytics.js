@@ -8,7 +8,7 @@ exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
         if (idx > -1) {
             retosSuperados[idx] = showDate ? reto.retosSuperados.createdAt : 1;
             if (turno) {
-                retosSuperadosMin[idx] = showDate ? Math.round(100*(reto.retosSuperados.createdAt - turno) / 1000 / 60 ) / 100 : 1;
+                retosSuperadosMin[idx] = showDate ? Math.round(100 * (reto.retosSuperados.createdAt - turno) / 1000 / 60) / 100 : 1;
             }
         }
         return showDate ? " " : 0;

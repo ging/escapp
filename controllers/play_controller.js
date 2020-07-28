@@ -97,5 +97,5 @@ exports.startPlaying = async (req, res, next) => {
         return;
     }
     next();
-    // res.redirect(`/escapeRooms/${req.escapeRoom.id}/play`);
+    // Res.redirect(`/escapeRooms/${req.escapeRoom.id}/play`);
 };

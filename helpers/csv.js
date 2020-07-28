@@ -9,7 +9,7 @@ exports.createCsvFile = (res, content, title = `results-${Date.now()}`, field = 
             }
             res.setHeader("Content-Type", "text/csv; charset=utf-8");
             res.setHeader("Content-Disposition", `attachment; filename=${title}.csv`);
-            res.write(csvText);
+            res.write("\uFEFF" + csvText);
             res.end();
         },
         {"delimiter": {field}}

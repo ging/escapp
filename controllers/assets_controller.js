@@ -43,8 +43,8 @@ exports.uploadAssets = async (req, res) => {
     try {
         const saved = await models.asset.build({ "escapeRoomId": escapeRoom.id, "public_id": uploadResult.public_id, "url": uploadResult.url, "filename": req.file.originalname, "mime": req.file.mimetype}).save();
 
-        // res.json({"id": saved.id, "url": uploadResult.url});
-        const html= `<script type='text/javascript'>
+        // Res.json({"id": saved.id, "url": uploadResult.url});
+        const html = `<script type='text/javascript'>
             var funcNum = ${req.query.CKEditorFuncNum};
             var url     = "${uploadResult.url}";
             var message = "Uploaded file successfully";
@@ -94,6 +94,7 @@ exports.browse = async (req, res) => {
 
         return {id, public_id, url, mime, "name": filename};
     });
-    res.render("escapeRooms/steps/assets", {escapeRoom: req.escapeRoom, assets});
-}
- 
+
+    res.render("escapeRooms/steps/assets", {"escapeRoom": req.escapeRoom, assets});
+};
+

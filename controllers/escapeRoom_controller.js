@@ -280,10 +280,10 @@ exports.teamInterface = (req, res) => {
 exports.classInterface = (req, res) => {
     const {escapeRoom} = req;
 
-    // if (escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
-    //     res.locals.i18n_texts = escapeRoom.forceLang === "es" ? es : en;
-    //     res.locals.i18n_lang = escapeRoom.forceLang === "es" ? "es" : "en";
-    //     res.locals.i18n = res.locals.i18n_texts;
+    // If (escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
+    //     Res.locals.i18n_texts = escapeRoom.forceLang === "es" ? es : en;
+    //     Res.locals.i18n_lang = escapeRoom.forceLang === "es" ? "es" : "en";
+    //     Res.locals.i18n = res.locals.i18n_texts;
     // }
     res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "class", "endPoint": "class"});
 };

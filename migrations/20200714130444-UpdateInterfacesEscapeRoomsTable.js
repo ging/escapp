@@ -44,6 +44,7 @@ module.exports = {
         for (const ert of ers || []) {
             const er = JSON.parse(JSON.stringify(ert));
             const puzzles = Array(er.puzzles.length + 1).fill(0).map((_e, i) => `${i}`);
+
             puzzles.push("all");
             let classInstructions = er.classInstructions ? er.classInstructions : "";
             let teamInstructions = er.teamInstructions ? er.teamInstructions : "";
@@ -73,7 +74,7 @@ module.exports = {
             classInstructions = unconvert(classInstructions);
             teamInstructions = unconvert(teamInstructions);
             indicationsInstructions = unconvert(indicationsInstructions);
-            //promises.push(models.escapeRoom.update({classInstructions, teamInstructions, indicationsInstructions}, {"where": {"id": er.id}}));
+            // Promises.push(models.escapeRoom.update({classInstructions, teamInstructions, indicationsInstructions}, {"where": {"id": er.id}}));
         }
 
         await Promise.all(promises);
