@@ -80,12 +80,10 @@ exports.puzzlesByTeam = (escapeRoomId, turnId) => {
             {
                 "model": models.user,
                 "as": "teamMembers",
-                "through": {
-                    "attributes": [
-                        "name",
-                        "surname"
-                    ]
-                }
+                "attributes": [
+                    "name",
+                    "surname"
+                ]
             }
         ],
         "order": [Sequelize.literal("lower(team.name) ASC"), [{"model": models.puzzle, "as": "retos"}, {"model": models.retosSuperados}, "createdAt", "ASC"]]
