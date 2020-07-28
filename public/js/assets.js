@@ -1,8 +1,8 @@
 
     Dropzone.options.assetsForm = {
-        "paramName": "assets", // The name that will be used to transfer the file
+        "paramName": "upload", // The name that will be used to transfer the file
         "maxFilesize": 10, // MB
-        clickable: "#uploadNew, .dropzone",
+        "clickable": "#uploadNew, .dropzone",
         "addRemoveLinks": true,
         "accept": function(file, done) {
             done();
@@ -48,7 +48,7 @@
 $(function(){
     var dropzone = $("#assetsForm").get(0).dropzone;
     for (let a of assets) {
-        let mockFile = { name: a.name, id: a.id, url: a.url, mime: a.mime, status: "success"};
+        let mockFile = { "name": a.name, "id": a.id, "url": a.url, "mime": a.mime, "status": "success"};
         dropzone.files.push(mockFile)
         dropzone.options.addedfile.call(dropzone, mockFile);
         if (a.mime.match("image")) {

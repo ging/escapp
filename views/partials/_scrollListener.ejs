@@ -33,7 +33,6 @@
         });
 
         $(window).on("scroll", (e)=> {
-            console.log(submitted)
             if (!submitted) {
                 $(container).find(".erFormField:not(.disallow)").each(function() {
                     var etop = $(this).offset().top;
@@ -91,7 +90,6 @@
         }
     };
     $(':submit').click(()=>{
-        console.log(2)
         submitted = true;
         setTimeout(function(){
             document.documentElement.scrollTop -= 200;

@@ -206,7 +206,7 @@ exports.hintsByParticipants = async (req, res, next) => {
                     const hint = reqHint.hint && reqHint.hint.content ? reqHint.hint.content : "";
                     const minute = Math.floor((createdAt - startTime) / 600) / 100;
 
-                    resultsCsv.push({id, name, surname, username, teamId, teamName, teamAttendance, success, score, hint, minute, createdAt});
+                    resultsCsv.push({id, name, surname, username, teamId, teamName, teamAttendance, success, "score": Math.round(score * 100) / 100, hint, minute, createdAt});
                 }
             }
 
@@ -255,7 +255,7 @@ exports.hintsByTeams = async (req, res, next) => {
                     const minute = Math.floor((hint.createdAt - startTime) / 600) / 100;
                     const hintContent = hint.hint && hint.hint.content ? hint.hint.content : "";
 
-                    resultsCsv.push({"id": teamId, teamName, score, teamAttendance, "hint": hintContent, success, minute, "createdAt": new Date(createdAt)});
+                    resultsCsv.push({"id": teamId, teamName, "score": Math.round(score * 100) / 100, teamAttendance, "hint": hintContent, success, minute, "createdAt": new Date(createdAt)});
                 }
             }
 

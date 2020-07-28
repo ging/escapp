@@ -1,4 +1,5 @@
 const {steps} = require("./progress");
+const {getContentForPuzzle} = require("./utils");
 
 module.exports = function (app) {
     const zeroPadding = (d) => {
@@ -14,7 +15,6 @@ module.exports = function (app) {
 
         return `${zeroPadding(d.getDate())}-${zeroPadding(d.getMonth() + 1)}-${d.getFullYear()} ${zeroPadding(d.getHours())}:${zeroPadding(d.getMinutes())}`;
     };
-
 
     app.locals.formatTime = function (currentDate) {
         currentDate.setMinutes(currentDate.getMinutes() + currentDate.getTimezoneOffset());
@@ -64,4 +64,5 @@ module.exports = function (app) {
     };
 
     app.locals.steps = steps;
+    app.locals.getContentForPuzzle = getContentForPuzzle;
 };

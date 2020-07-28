@@ -1,37 +1,97 @@
 #mainSection
   .main
     &.step-instructions
-      .editor-wrapper
+      video, iframe
+        max-width: 100%
+      .building-block-bar
+        // background-color: white
+        display: inline-block
+        padding: 0px
+        width: 100%
+        .building-block-bar-button
+          background: none
+          border: none
+          line-height: 20px
+          padding: 2px 8px
+          border: 0.1em solid #ffffff
+          border-radius: 5px
+          color: white
+          font-size: 16px
+          &:hover
+            background: white
+            color: $darkerpurple
+          .building-block-img
+            height: 25px
+            vertical-align: middle
+          .building-block-icon.material-icons
+            font-size: 28px
+            width: 24px
+            color: $darkerpurple
+            vertical-align: middle
+            line-height: 25px
+          &.theme-btn
+            background: white
+            color: $darkerpurple
+            .theme-text
+              color: $darkerpurple
+        .building-block-bar-separator
+          height: 40px
+          width: 0px
+          display: none
+          background-color: white
+          display: inline-block
+          vertical-align: middle
+          margin-right: 0px
+          margin-left: 0px
+      
+      .building-block
+        position: relative
+        border: 5px solid white
+        margin: 20px 0px
+        min-height: 100px
         background-color: white
-        margin-bottom: 20px
+        .block-config
+          width: 30px
+          background-color: $brightyellow
+          top: 5px
+          left: -35px
+          position: absolute
+          border-radius: 0px
+          text-align: center
+          border-radius: 5px 0px 0px 5px
+          .block-config-button
+            padding: 2px
+            width: 20px
+            height: 30px
+            background: none
+            border: none
+            display: inline-block
+            position: relative
+            .material-icons
+              font-size: 18px
+              color: $darkerpurple
+              display: inline-block
+
+      .editor-wrapper
+        background-color: var(--bckg)
         color: black
-        &.indications #editor
+        &.indications .editor
           background-color: $bckg
-          .ql-container
-            font-size: 22px
-        & > *
-            font-family: Lato, sans-serif
-        .ql-toolbar > *
-            font-family: Gugi
         #editor
           min-height: 300px
-          &.ql-container
-            font-size: 18px
-            .ql-blank
-              text-align: center
-          
-          .ql-active, .ql-snow.ql-toolbar button:hover
-            color: $lightred
-            *
-              stroke: $lightred
-        .ql-video
-          margin: auto
-        .ql-image
-          fill: #444
-          &:hover
-            fill: #F47E84
-          svg
-            stroke-width: 0.5
+      .editor
+        box-sizing: border-box
+        line-height: 1.42
+        height: 100%
+        outline: none
+        overflow-y: auto
+        padding: 12px 15px
+        padding-top: 0px
+        tab-size: 4
+        -moz-tab-size: 4
+        text-align: left
+        white-space: inherit
+        word-wrap: break-word
       #dialog-gallery
         padding: 0
         background-color: white
@@ -51,7 +111,16 @@
         float: right
         width: 50px
       .ui-sortable-placeholder
-        display: none
+        margin: 20px 0px
+        height: 100px
+        border: 5px dashed var(--brightyellow)
+        &::after
+          content: var(--placeholder-text)
+          display: block
+          line-height: 100px
+          vertical-align: middle
+          color: var(--brightyellow)
+          text-align: center
       .ui-button-icon-space
         visibility: visible
         &:after
@@ -186,10 +255,13 @@
             content: "00:00:00"
       progressbar
         width: 100% !important
+        padding: 38px
+        display: block
         .puzzle-progress
             width: 60% !important
       ranking
         display: block
+        margin-top: 15px
         .ranking-table
           width: 100%
           position: relative
@@ -227,104 +299,51 @@
               width: 15%
             .ranking-pos
               transform: scale(1.5)
-      [draggable] 
-        -moz-user-select: none
-        -khtml-user-select: none
-        -webkit-user-select: none
-        user-select: none
-        /* Required to make elements draggable in old WebKit */
-        -khtml-user-drag: element
-        -webkit-user-drag: element
-      
-.ql-picker
-  &.ql-appearance
-    .ql-picker-label
-      padding-right: 18px
-      color: var(--primary)
-    .ql-picker-label:before
-      text-transform: capitalize
-      content: "Theme: "  attr(data-value)
-      color: var(--primary)
-    .ql-picker-item
-      width: 140px
-      height: 84px
-      margin: 3px
-      background-position: center
-      background-size: contain
-      display: inline-block !important
-
-    $theme-list:  "cerulean" "journal" "sketchy" "darkly" "cyborg" "cosmo" "flatly" "lumen" "litera" "lux" "materia" "minty" "pulse" "sandstone" "simplex" "slate" "solar" "spacelab" "superhero" "united" "yeti"
-
-    @each $current-theme in $theme-list
-      .ql-picker-item[data-value="#{$current-theme}"]
-       background-image: url(/images/bootswatch/#{$current-theme}.png)
-    .ql-picker-options
-      width: 456px
-      white-space: normal
-  &.ql-color-picker.ql-color
-
-    $theme-color-list: "primary" "secondary" "success" "info" "warning" "danger" "light" "dark"
-
-    @each $current-theme-color in $theme-color-list
-      .ql-picker-item[data-value="#{$current-theme-color}"]
-        content: ''
-        background-color: var(--#{$current-theme-color})
-      .ql-picker-options
-        width: 92px
-.ql-html-overlayContainer
-  .ql-html-popupContainer
-    border-radius: 0
-    background-color: white
-    i
-      font-family: Gugi
-      font-style: normal
-      margin-bottom: 10px
-      font-size: 20px
-      color: $lightred
-    .ql-html-textContainer
-      width: 100%
-      height: calc(100% - 64px)
-    .ql-html-textArea
-      font-family: monospace
-      position: relative
-      width: 100%
-      height: 100%
-      left: 0
-      padding: 20px
-      background: #eaeaea
-      border: navajowhite
-    .ql-html-buttonGroup
-      position: relative
-      text-align: right
-      left: 0
-      bottom: 0
-      transform: none
-      padding: 4px
-      button
-        @include common-button
-        background: yellow
-        border-radius: 20px
-        text-transform: lowercase
-        border-radius: 20px
-        text-align: center
-        height: 42px
-        outline: 0
-        background-color: $brightgreen
-        color: $darkerpurple
-        border: $brightgreen
-        border-radius: 25px !important
-        padding: 8px 25px !important
-        font-size: 18px
-        &.ql-html-buttonCancel
-          background-color: $lightred
-          border: $lightred
-          margin-right: 10px
-// #editor, .ql-editor
-//   font-family: Lato, sans-serif
-//   h1, h2, h3, h4, h5, h6
-//     font-family: Gugi, sans-serif
-//   & > *
-//     font-family: Lato, sans-serif
+      #dialog-config
+        display: none  
+        .config-list
+          padding: 15px
+          .config-paragraph
+            color: $brightgreen
+          .puzzle-preview-select
+            font-family: Lato !important
+            font-size: 18px
+            display: flex
+            flex-direction: row
+            justify-content: flex-start
+            align-items: center
+            input
+              vertical-align: middle
+              height: 30px
+      #dialog-themes
+        display: none
+        .theme-list
+          padding: 5px
+          .theme-label
+            padding-right: 18px
+            color: var(--primary)
+          .theme-label:before
+            text-transform: capitalize
+            content: "Theme: "  attr(data-value)
+            color: var(--primary)
+          .theme-item
+            width: 19.2%
+            height: auto
+            margin: 0.2%
+            background-position: center
+            background-size: contain
+            display: inline-block !important
+            border: 3px solid white
+            outline: none
+            padding: 5px
+            padding-bottom: 0px
+            &.selected-theme
+              border-color: $brightgreen
+            img
+              width: 100%
+              height: auto
+   
+ 
 .indications
   #editor
     color: white
@@ -337,3 +356,30 @@
       font-family: inherit
     pre
       font-family: monospace
+.cke_editor
+  .cke_editable
+    padding: 12px
+.cke_reset_all.cke_dialog_container *
+  font-family: Lato, sans-serif
+.cke_dialog_contents
+  *
+    font-family: Lato, sans-serif !important
+    font: Lato, sans-serif
+  input.cke_dialog_ui_input_text, select.cke_dialog_ui_input_select
+    border-radius: 0
+    height: 30px
+    &:active ,&:focus
+      border-color: var(--primary) !important
+.cke_dialog_ui_button
+  border-radius: 0 !important
+.cke_toolbar_separator
+  background-color: black !important
+.cke_combo_button
+  border: 1px solid white !important
+#cke_bottom_detail,.cke_bottom
+  display: none
+.cke_panel_block
+  background: white
+.ql-video
+  margin: auto
+  display: block

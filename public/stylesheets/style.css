@@ -16,7 +16,7 @@ button, input[type="submit"] {
   cursor: pointer; }
   button:disabled, button.disabled, input[type="submit"]:disabled, input[type="submit"].disabled {
     cursor: not-allowed; }
-  button.disabled, input[type="submit"].disabled {
+  button.disabled, button:disabled, input[type="submit"].disabled, input[type="submit"]:disabled {
     opacity: 0.3; }
   button.rounded, input[type="submit"].rounded {
     border-radius: 25px !important;
@@ -616,7 +616,7 @@ button, input[type="submit"] {
     border: 2px solid white;
     border-radius: 5px;
     position: relative;
-    z-index: 9999;
+    z-index: 999;
     overflow: hidden; }
     #mainSection .progressBar .outterBar .innerBar {
       background-color: white;
@@ -1440,36 +1440,98 @@ button, input[type="submit"] {
     height: 47px;
     font-size: 10px; } }
 
+#mainSection .main.step-instructions video, #mainSection .main.step-instructions iframe {
+  max-width: 100%; }
+
+#mainSection .main.step-instructions .building-block-bar {
+  display: inline-block;
+  padding: 0px;
+  width: 100%; }
+  #mainSection .main.step-instructions .building-block-bar .building-block-bar-button {
+    background: none;
+    border: none;
+    line-height: 20px;
+    padding: 2px 8px;
+    border: 0.1em solid #ffffff;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px; }
+    #mainSection .main.step-instructions .building-block-bar .building-block-bar-button:hover {
+      background: white;
+      color: #161938; }
+    #mainSection .main.step-instructions .building-block-bar .building-block-bar-button .building-block-img {
+      height: 25px;
+      vertical-align: middle; }
+    #mainSection .main.step-instructions .building-block-bar .building-block-bar-button .building-block-icon.material-icons {
+      font-size: 28px;
+      width: 24px;
+      color: #161938;
+      vertical-align: middle;
+      line-height: 25px; }
+    #mainSection .main.step-instructions .building-block-bar .building-block-bar-button.theme-btn {
+      background: white;
+      color: #161938; }
+      #mainSection .main.step-instructions .building-block-bar .building-block-bar-button.theme-btn .theme-text {
+        color: #161938; }
+  #mainSection .main.step-instructions .building-block-bar .building-block-bar-separator {
+    height: 40px;
+    width: 0px;
+    display: none;
+    background-color: white;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0px;
+    margin-left: 0px; }
+
+#mainSection .main.step-instructions .building-block {
+  position: relative;
+  border: 5px solid white;
+  margin: 20px 0px;
+  min-height: 100px;
+  background-color: white; }
+  #mainSection .main.step-instructions .building-block .block-config {
+    width: 30px;
+    background-color: #FAC855;
+    top: 5px;
+    left: -35px;
+    position: absolute;
+    border-radius: 0px;
+    text-align: center;
+    border-radius: 5px 0px 0px 5px; }
+    #mainSection .main.step-instructions .building-block .block-config .block-config-button {
+      padding: 2px;
+      width: 20px;
+      height: 30px;
+      background: none;
+      border: none;
+      display: inline-block;
+      position: relative; }
+      #mainSection .main.step-instructions .building-block .block-config .block-config-button .material-icons {
+        font-size: 18px;
+        color: #161938;
+        display: inline-block; }
+
 #mainSection .main.step-instructions .editor-wrapper {
-  background-color: white;
-  margin-bottom: 20px;
+  background-color: var(--bckg);
   color: black; }
-  #mainSection .main.step-instructions .editor-wrapper.indications #editor {
+  #mainSection .main.step-instructions .editor-wrapper.indications .editor {
     background-color: #2A2A52; }
-    #mainSection .main.step-instructions .editor-wrapper.indications #editor .ql-container {
-      font-size: 22px; }
-  #mainSection .main.step-instructions .editor-wrapper > * {
-    font-family: Lato, sans-serif; }
-  #mainSection .main.step-instructions .editor-wrapper .ql-toolbar > * {
-    font-family: Gugi; }
   #mainSection .main.step-instructions .editor-wrapper #editor {
     min-height: 300px; }
-    #mainSection .main.step-instructions .editor-wrapper #editor.ql-container {
-      font-size: 18px; }
-      #mainSection .main.step-instructions .editor-wrapper #editor.ql-container .ql-blank {
-        text-align: center; }
-    #mainSection .main.step-instructions .editor-wrapper #editor .ql-active, #mainSection .main.step-instructions .editor-wrapper #editor .ql-snow.ql-toolbar button:hover {
-      color: #F47E84; }
-      #mainSection .main.step-instructions .editor-wrapper #editor .ql-active *, #mainSection .main.step-instructions .editor-wrapper #editor .ql-snow.ql-toolbar button:hover * {
-        stroke: #F47E84; }
-  #mainSection .main.step-instructions .editor-wrapper .ql-video {
-    margin: auto; }
-  #mainSection .main.step-instructions .editor-wrapper .ql-image {
-    fill: #444; }
-    #mainSection .main.step-instructions .editor-wrapper .ql-image:hover {
-      fill: #F47E84; }
-    #mainSection .main.step-instructions .editor-wrapper .ql-image svg {
-      stroke-width: 0.5; }
+
+#mainSection .main.step-instructions .editor {
+  box-sizing: border-box;
+  line-height: 1.42;
+  height: 100%;
+  outline: none;
+  overflow-y: auto;
+  padding: 12px 15px;
+  padding-top: 0px;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  text-align: left;
+  white-space: inherit;
+  word-wrap: break-word; }
 
 #mainSection .main.step-instructions #dialog-gallery {
   padding: 0;
@@ -1494,7 +1556,16 @@ button, input[type="submit"] {
   width: 50px; }
 
 #mainSection .main.step-instructions .ui-sortable-placeholder {
-  display: none; }
+  margin: 20px 0px;
+  height: 100px;
+  border: 5px dashed var(--brightyellow); }
+  #mainSection .main.step-instructions .ui-sortable-placeholder::after {
+    content: var(--placeholder-text);
+    display: block;
+    line-height: 100px;
+    vertical-align: middle;
+    color: var(--brightyellow);
+    text-align: center; }
 
 #mainSection .main.step-instructions .ui-button-icon-space {
   visibility: visible; }
@@ -1649,12 +1720,15 @@ button, input[type="submit"] {
     content: "00:00:00"; }
 
 #mainSection .main.step-instructions progressbar {
-  width: 100% !important; }
+  width: 100% !important;
+  padding: 38px;
+  display: block; }
   #mainSection .main.step-instructions progressbar .puzzle-progress {
     width: 60% !important; }
 
 #mainSection .main.step-instructions ranking {
-  display: block; }
+  display: block;
+  margin-top: 15px; }
   #mainSection .main.step-instructions ranking .ranking-table {
     width: 100%;
     position: relative;
@@ -1692,210 +1766,50 @@ button, input[type="submit"] {
       #mainSection .main.step-instructions ranking .ranking-table .ranking-row .ranking-pos {
         transform: scale(1.5); }
 
-#mainSection .main.step-instructions [draggable] {
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-  /* Required to make elements draggable in old WebKit */
-  -khtml-user-drag: element;
-  -webkit-user-drag: element; }
+#mainSection .main.step-instructions #dialog-config {
+  display: none; }
+  #mainSection .main.step-instructions #dialog-config .config-list {
+    padding: 15px; }
+    #mainSection .main.step-instructions #dialog-config .config-list .config-paragraph {
+      color: #48C18E; }
+    #mainSection .main.step-instructions #dialog-config .config-list .puzzle-preview-select {
+      font-family: Lato !important;
+      font-size: 18px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center; }
+      #mainSection .main.step-instructions #dialog-config .config-list .puzzle-preview-select input {
+        vertical-align: middle;
+        height: 30px; }
 
-.ql-picker.ql-appearance .ql-picker-label {
-  padding-right: 18px;
-  color: var(--primary); }
-
-.ql-picker.ql-appearance .ql-picker-label:before {
-  text-transform: capitalize;
-  content: "Theme: " attr(data-value);
-  color: var(--primary); }
-
-.ql-picker.ql-appearance .ql-picker-item {
-  width: 140px;
-  height: 84px;
-  margin: 3px;
-  background-position: center;
-  background-size: contain;
-  display: inline-block !important; }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="cerulean"] {
-  background-image: url(/images/bootswatch/cerulean.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="journal"] {
-  background-image: url(/images/bootswatch/journal.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="sketchy"] {
-  background-image: url(/images/bootswatch/sketchy.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="darkly"] {
-  background-image: url(/images/bootswatch/darkly.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="cyborg"] {
-  background-image: url(/images/bootswatch/cyborg.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="cosmo"] {
-  background-image: url(/images/bootswatch/cosmo.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="flatly"] {
-  background-image: url(/images/bootswatch/flatly.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="lumen"] {
-  background-image: url(/images/bootswatch/lumen.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="litera"] {
-  background-image: url(/images/bootswatch/litera.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="lux"] {
-  background-image: url(/images/bootswatch/lux.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="materia"] {
-  background-image: url(/images/bootswatch/materia.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="minty"] {
-  background-image: url(/images/bootswatch/minty.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="pulse"] {
-  background-image: url(/images/bootswatch/pulse.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="sandstone"] {
-  background-image: url(/images/bootswatch/sandstone.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="simplex"] {
-  background-image: url(/images/bootswatch/simplex.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="slate"] {
-  background-image: url(/images/bootswatch/slate.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="solar"] {
-  background-image: url(/images/bootswatch/solar.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="spacelab"] {
-  background-image: url(/images/bootswatch/spacelab.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="superhero"] {
-  background-image: url(/images/bootswatch/superhero.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="united"] {
-  background-image: url(/images/bootswatch/united.png); }
-
-.ql-picker.ql-appearance .ql-picker-item[data-value="yeti"] {
-  background-image: url(/images/bootswatch/yeti.png); }
-
-.ql-picker.ql-appearance .ql-picker-options {
-  width: 456px;
-  white-space: normal; }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="primary"] {
-  content: '';
-  background-color: var(--primary); }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-options {
-  width: 92px; }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="secondary"] {
-  content: '';
-  background-color: var(--secondary); }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-options {
-  width: 92px; }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="success"] {
-  content: '';
-  background-color: var(--success); }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-options {
-  width: 92px; }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="info"] {
-  content: '';
-  background-color: var(--info); }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-options {
-  width: 92px; }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="warning"] {
-  content: '';
-  background-color: var(--warning); }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-options {
-  width: 92px; }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="danger"] {
-  content: '';
-  background-color: var(--danger); }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-options {
-  width: 92px; }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="light"] {
-  content: '';
-  background-color: var(--light); }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-options {
-  width: 92px; }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-item[data-value="dark"] {
-  content: '';
-  background-color: var(--dark); }
-
-.ql-picker.ql-color-picker.ql-color .ql-picker-options {
-  width: 92px; }
-
-.ql-html-overlayContainer .ql-html-popupContainer {
-  border-radius: 0;
-  background-color: white; }
-  .ql-html-overlayContainer .ql-html-popupContainer i {
-    font-family: Gugi;
-    font-style: normal;
-    margin-bottom: 10px;
-    font-size: 20px;
-    color: #F47E84; }
-  .ql-html-overlayContainer .ql-html-popupContainer .ql-html-textContainer {
-    width: 100%;
-    height: calc(100% - 64px); }
-  .ql-html-overlayContainer .ql-html-popupContainer .ql-html-textArea {
-    font-family: monospace;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    padding: 20px;
-    background: #eaeaea;
-    border: navajowhite; }
-  .ql-html-overlayContainer .ql-html-popupContainer .ql-html-buttonGroup {
-    position: relative;
-    text-align: right;
-    left: 0;
-    bottom: 0;
-    transform: none;
-    padding: 4px; }
-    .ql-html-overlayContainer .ql-html-popupContainer .ql-html-buttonGroup button {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
-      border-radius: 5px;
-      border-style: solid;
-      padding: 10px;
-      text-align: center;
-      outline: 0;
-      background: yellow;
-      border-radius: 20px;
-      text-transform: lowercase;
-      border-radius: 20px;
-      text-align: center;
-      height: 42px;
-      outline: 0;
-      background-color: #48C18E;
-      color: #161938;
-      border: #48C18E;
-      border-radius: 25px !important;
-      padding: 8px 25px !important;
-      font-size: 18px; }
-      .ql-html-overlayContainer .ql-html-popupContainer .ql-html-buttonGroup button.ql-html-buttonCancel {
-        background-color: #F47E84;
-        border: #F47E84;
-        margin-right: 10px; }
+#mainSection .main.step-instructions #dialog-themes {
+  display: none; }
+  #mainSection .main.step-instructions #dialog-themes .theme-list {
+    padding: 5px; }
+    #mainSection .main.step-instructions #dialog-themes .theme-list .theme-label {
+      padding-right: 18px;
+      color: var(--primary); }
+    #mainSection .main.step-instructions #dialog-themes .theme-list .theme-label:before {
+      text-transform: capitalize;
+      content: "Theme: " attr(data-value);
+      color: var(--primary); }
+    #mainSection .main.step-instructions #dialog-themes .theme-list .theme-item {
+      width: 19.2%;
+      height: auto;
+      margin: 0.2%;
+      background-position: center;
+      background-size: contain;
+      display: inline-block !important;
+      border: 3px solid white;
+      outline: none;
+      padding: 5px;
+      padding-bottom: 0px; }
+      #mainSection .main.step-instructions #dialog-themes .theme-list .theme-item.selected-theme {
+        border-color: #48C18E; }
+      #mainSection .main.step-instructions #dialog-themes .theme-list .theme-item img {
+        width: 100%;
+        height: auto; }
 
 .indications #editor {
   color: white;
@@ -1908,6 +1822,41 @@ button, input[type="submit"] {
     font-family: inherit; }
   .indications #editor pre {
     font-family: monospace; }
+
+.cke_editor .cke_editable {
+  padding: 12px; }
+
+.cke_reset_all.cke_dialog_container * {
+  font-family: Lato, sans-serif; }
+
+.cke_dialog_contents * {
+  font-family: Lato, sans-serif !important;
+  font: Lato, sans-serif; }
+
+.cke_dialog_contents input.cke_dialog_ui_input_text, .cke_dialog_contents select.cke_dialog_ui_input_select {
+  border-radius: 0;
+  height: 30px; }
+  .cke_dialog_contents input.cke_dialog_ui_input_text:active, .cke_dialog_contents input.cke_dialog_ui_input_text:focus, .cke_dialog_contents select.cke_dialog_ui_input_select:active, .cke_dialog_contents select.cke_dialog_ui_input_select:focus {
+    border-color: var(--primary) !important; }
+
+.cke_dialog_ui_button {
+  border-radius: 0 !important; }
+
+.cke_toolbar_separator {
+  background-color: black !important; }
+
+.cke_combo_button {
+  border: 1px solid white !important; }
+
+#cke_bottom_detail, .cke_bottom {
+  display: none; }
+
+.cke_panel_block {
+  background: white; }
+
+.ql-video {
+  margin: auto;
+  display: block; }
 
 #mainSection .main.student {
   background-image: url("../images/puzzle_bg.png");
@@ -2865,7 +2814,7 @@ button, input[type="submit"] {
         border-width: 5px; }
     #mainSection .main.showStudent .flex .flex-er-info {
       flex: 1; }
-  #mainSection .main.showStudent .ql-editor img {
+  #mainSection .main.showStudent .editor img {
     max-width: 100%; }
   #mainSection .main.showStudent .desc {
     font-family: Lato, sans-serif; }

@@ -43,7 +43,16 @@ exports.uploadAssets = async (req, res) => {
     try {
         const saved = await models.asset.build({ "escapeRoomId": escapeRoom.id, "public_id": uploadResult.public_id, "url": uploadResult.url, "filename": req.file.originalname, "mime": req.file.mimetype}).save();
 
-        res.json({"id": saved.id, "url": uploadResult.url});
+        // Res.json({"id": saved.id, "url": uploadResult.url});
+        const html = `<script type='text/javascript'>
+            var funcNum = ${req.query.CKEditorFuncNum};
+            var url     = "${uploadResult.url}";
+            var message = "Uploaded file successfully";
+        
+            window.parent.CKEDITOR.tools.callFunction(funcNum, url, message);
+        </script>`;
+
+        res.send(html);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
             res.status(500);
@@ -78,3 +87,14 @@ exports.deleteAssets = async (req, res) => {
         res.json({"msg": i18n.api.error});
     }
 };
+
+exports.browse = async (req, res) => {
+    const assets = req.escapeRoom.assets.map((a) => {
+        const {id, public_id, url, mime, filename} = a;
+
+        return {id, public_id, url, mime, "name": filename};
+    });
+
+    res.render("escapeRooms/steps/assets", {"escapeRoom": req.escapeRoom, assets});
+};
+

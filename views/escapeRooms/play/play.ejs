@@ -12,7 +12,6 @@
     <script src="/js/vendor/fullscreen.js"></script>
     <script src="/js/play.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
     <link rel="stylesheet" href="/stylesheets/vendor/easy-alert.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"] || "litera" %>.bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/play.css">
@@ -32,6 +31,7 @@
     <% var retosSuperadosIds = []%>
     <% var progress = 0; %>
     <% var finish = false; %>
+    <% var content = JSON.parse(escapeRoom[endPoint + "Instructions"] || "[]") %>
     <% if (isStudent) { %>
         <% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
         <% var hintAppConditional = hintConditional && Boolean(escapeRoom.hintApp); // Hint app methodology %>
@@ -50,10 +50,10 @@
         <% finish = retosSuperados.length === escapeRoom.puzzles.length; %>
         <% latestRetoSuperado = retosSuperados.length ? Math.max(...retosSuperados) : null %>
         <% currentlyWorkingOn = retosSuperados.length ? (Math.max(...retosSuperados) + 1) : 0 %>
-        <% if (finish) { 
-            currentlyWorkingOn = null;
-        } %>
+        <% if (finish) { currentlyWorkingOn = null;} %>
+        <% content = getContentForPuzzle(escapeRoom[endPoint + "Instructions"], currentlyWorkingOn === null ? "all": currentlyWorkingOn)%>
     <% } %>
+
         <% var puzzles = escapeRoom.puzzles.map(({ id, order, title, score, correct, automatic, hints })=>{ 
             reqHints[order] = [];
             var noSuperado = retosSuperados.indexOf(order) === -1;
@@ -111,13 +111,12 @@
                     <button class="btn btn-success" >
                         <span class="material-icons ">star</span>
                     </button>
-                    
                 </a>
             </li>
             <% if (endPoint === "team") {%>
                 <li class="nav-item active">
                     <a class="nav-link" href="#" data-toggle="tooltip" title="<%=i18n.escapeRoom.play.Info%>">
-                        <button class="btn btn-info" data-toggle="modal" data-toggle="tooltip" data-target="#hintModal" title="<%=i18n.escapeRoom.play.Info%>">
+                        <button class="btn btn-info" data-toggle="modal" data-toggle="tooltip"  data-target="#hintModal" title="<%=i18n.escapeRoom.play.Info%>">
                             <span class="material-icons ">info</span>
                         </button>
 
@@ -189,10 +188,8 @@
 <div class="previewContainer">
     <div class="container-fluid">
         <div class=" row-centered">
-            <div class="col-xs-12 text-left ql-editor instructionsShow" id="editor">
-                <% if (escapeRoom[endPoint + "Instructions"]) {%>
-                    <%-escapeRoom[endPoint + "Instructions"] %>
-                <% } %>
+            <div class="col-xs-12 text-left editor instructionsShow" id="editor">
+                
             </div>
         </div>
         <br/>
@@ -236,6 +233,7 @@
             "reqHints": JSON.parse('<%-JSON.stringify(reqHints)%>'),
             "waitingForHintReply": false,
             "waitingForPuzzleReply": false,
+            "content": <%- JSON.stringify( content )%>
         }
     };
     initSocketServer(escapeRoomId, teamId, <%= turnoId || (team.turno ? team.turno.id : "undefined") %>, username);

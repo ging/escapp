@@ -94,8 +94,8 @@ router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles", sessionController.loginR
 router.get("/escapeRooms/:escapeRoomId(\\d+)/hints", sessionController.loginRequired, sessionController.adminOrAuthorRequired, hintController.pistas);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/hints", sessionController.loginRequired, sessionController.adminOrAuthorRequired, upload.single("hints"), hintController.pistasUpdate);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/assets", sessionController.loginRequired, sessionController.adminOrAuthorRequired, assetsController.assets);
-router.post("/escapeRooms/:escapeRoomId(\\d+)/assets", sessionController.loginRequired, sessionController.adminOrAuthorRequired, upload.single("assets"), assetsController.assetsUpdate);
-router.post("/escapeRooms/:escapeRoomId(\\d+)/uploadAssets", sessionController.loginRequired, sessionController.adminOrAuthorRequired, upload.single("assets"), assetsController.uploadAssets);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/assets", sessionController.loginRequired, sessionController.adminOrAuthorRequired, upload.single("upload"), assetsController.assetsUpdate);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/uploadAssets", sessionController.loginRequired, sessionController.adminOrAuthorRequired, upload.single("upload"), assetsController.uploadAssets);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/deleteAssets/:assetId(\\d+)", sessionController.loginRequired, sessionController.adminOrAuthorRequired, assetsController.deleteAssets);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/evaluation", sessionController.loginRequired, sessionController.adminOrAuthorRequired, escapeRoomController.evaluation);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/evaluation", sessionController.loginRequired, sessionController.adminOrAuthorRequired, escapeRoomController.evaluationUpdate);
@@ -175,4 +175,6 @@ router.get("/resources/:resourceId/edit", sessionController.loginRequired, sessi
 router.put("/resources/:resourceId", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.update);
 router.delete("/resources/:resourceId", sessionController.loginRequired, sessionController.notStudentRequired, resourceController.destroy);
 
+
+router.get("/escapeRooms/:escapeRoomId/browse", sessionController.loginRequired, sessionController.adminOrAuthorRequired, assetsController.browse);
 module.exports = router;
