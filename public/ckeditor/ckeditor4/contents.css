@@ -210,3 +210,11 @@ a > img {
 video,iframe,img{
 	max-width: 100%;
 }
+
+.ql-align-center {
+	text-align: center;
+}
+
+.ql-align-right {
+	text-align: right;
+}

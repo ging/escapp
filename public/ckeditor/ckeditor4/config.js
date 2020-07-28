@@ -99,3 +99,4 @@ CKEDITOR.addCss(`.cke_editable * { outline: none !important; }`);
 // CKEDITOR.addCss(`*{font-family: Lato, sans-serif;}`);
 CKEDITOR.addCss(`input.cke_dialog_ui_input_text:active,input.cke_dialog_ui_input_text:focus,{border-color: var(--primary) !important;}`);
 CKEDITOR.addCss(`.ql-video{margin: auto;display: block;}`);
+CKEDITOR.addCss(`.ql-align-center {text-align: center;} .ql-align-right {text-align: right;}`);
