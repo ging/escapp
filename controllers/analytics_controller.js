@@ -123,11 +123,8 @@ exports.puzzlesByTeams = async (req, res, next) => {
 
     const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
     const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
-    console.log("******************************")
     try {
         const teams = await models.team.findAll(queries.team.puzzlesByTeam(escapeRoom.id, turnId));
-        console.log(teams)
-
         const results = teams.map((team) => {
             const {id, name} = team;
             const {retosSuperados} = retosSuperadosByWho(team, puzzles);
