@@ -2884,7 +2884,8 @@ button, input[type="submit"] {
       padding: 0px; } }
 
 table.mainTable {
-  display: table !important;
+  display: block !important;
+  overflow: auto;
   margin: auto;
   color: #161938;
   border-spacing: 0px;

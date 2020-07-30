@@ -68,7 +68,9 @@ window.i18n = <%-JSON.stringify(i18n.escapeRoom.steps.indications.front)%>
 window.getTheme = theme => "/stylesheets/vendor/bootswatch/"+theme+".bootstrap.min.css";
 window.theme = endPoint === "indications" ? "/stylesheets/style.css" : window.getTheme("<%=theme || 'litera' %>");
 window.themeName = "<%=theme || 'litera' %>";
-window.content = <%- JSON.stringify(JSON.parse(escapeRoom[endPoint + "Instructions"] || "[{\"type\":\"text\",\"payload\":{\"text\":\""+i18n.escapeRoom.steps[endPoint].placeholder+"\"}, \"puzzles\":["+window.puzzleList.join(",")+"]}]") )%>
+<%var content =  (!escapeRoom[endPoint + "Instructions"] || (endPoint === "indications" && escapeRoom[endPoint + "Instructions"] === "[]")) ? 
+[{"type":"text","payload":{"text": i18n.escapeRoom.steps[endPoint].placeholder }, "puzzles":puzzleArr}] : JSON.parse( escapeRoom[endPoint + "Instructions"]);%>
+window.content = <%- JSON.stringify( content )%>
 </script>
 <%if (endPoint !== "indications"){%>
   <div id="dialog-themes" title="<%=i18n.escapeRoom.steps.indications.front.theme%>" style="display: none;">
