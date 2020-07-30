@@ -9,6 +9,8 @@
 <!-- <script src="https://www.youtube.com/iframe_api"></script> -->
 <%var theme = escapeRoom[endPoint + "Appearance"] || "litera" %>
 </head>
+<h1>a<%="*******"+escapeRoom[endPoint + "Instructions"]%></h1>
+
 <!-- Theme included stylesheets -->
  <% include ../../partials/_header.ejs %>
 <div class="main steps step-instructions">
@@ -49,7 +51,8 @@
     $('#sourceFile').prop('checked', true);
   }
 </script>
-<%- include('../../partials/_gallery', {endPoint}) %>
+
+<%escapeRoom.puzzles = escapeRoom.puzzles||[];%>
 <% var puzzleArr = Array(escapeRoom.puzzles.length).fill(0).map((_i,e)=>e);
 puzzleArr.push("all")%> 
 <script>

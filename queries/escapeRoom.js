@@ -1,6 +1,49 @@
 const {models} = require("../models");
 
+
 exports.load = {
+    "include": [
+        {
+            "model": models.user,
+            "as": "author"
+        }
+    ]
+};
+
+
+exports.loadShow = {
+    "include": [
+        {
+            "model": models.turno,
+        },
+        {
+            "model": models.puzzle,
+            "include": [{"model": models.hint}]
+        },
+        models.attachment,
+        models.hintApp
+    ],
+    "order": [
+        [
+            {"model": models.turno},
+            "date",
+            "asc"
+        ],
+        [
+            {"model": models.puzzle},
+            "order",
+            "asc"
+        ],
+        [
+            {"model": models.puzzle},
+            {"model": models.hint},
+            "order",
+            "asc"
+        ]
+    ]
+};
+
+exports.loadComplete = {
     "include": [
         {
             "model": models.turno,
@@ -40,6 +83,9 @@ exports.load = {
         ]
     ]
 };
+
+
+
 
 exports.all = (user) => {
     const findOptions = {

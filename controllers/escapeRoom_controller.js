@@ -68,7 +68,9 @@ exports.index = async (req, res, next) => {
 
 // GET /escapeRooms/:escapeRoomId
 exports.show = async (req, res) => {
-    const {escapeRoom, participant} = req;
+    const escapeRoom = await models.escapeRoom.findByPk(req.escapeRoom.id, query.escapeRoom.loadShow);
+
+    const {participant} = req;
     const hostName = process.env.APP_NAME ? `https://${process.env.APP_NAME}` : "http://localhost:3000";
 
     if (participant) {
@@ -145,8 +147,13 @@ exports.create = async (req, res) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/edit
-exports.edit = (req, res) => {
-    res.render("escapeRooms/edit", {"escapeRoom": req.escapeRoom, "progress": "edit"});
+exports.edit = async (req, res) => {
+    try {
+        req.escapeRoom.attachment = await models.attachment.findOne({"where":{"escapeRoomId": req.escapeRoom.id}});
+        res.render("escapeRooms/edit", {"escapeRoom": req.escapeRoom, "progress": "edit"});
+    } catch (error) {
+        next(error);
+    }
 };
 
 // PUT /escapeRooms/:escapeRoomId
@@ -270,21 +277,15 @@ exports.evaluationUpdate = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/team
-exports.teamInterface = (req, res) => {
+exports.teamInterface = async (req, res) => {
     const {escapeRoom} = req;
-
+    escapeRoom.puzzles = await models.puzzle.findAll({where:{escapeRoomId: req.escapeRoom.id}, order:[[ "order","asc"]]});
     res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "team", "endPoint": "team"});
 };
 
 // GET /escapeRooms/:escapeRoomId/class
 exports.classInterface = (req, res) => {
     const {escapeRoom} = req;
-
-    // If (escapeRoom.forceLang && req.cookies && req.cookies.locale !== escapeRoom.forceLang) {
-    //     Res.locals.i18n_texts = escapeRoom.forceLang === "es" ? es : en;
-    //     Res.locals.i18n_lang = escapeRoom.forceLang === "es" ? "es" : "en";
-    //     Res.locals.i18n = res.locals.i18n_texts;
-    // }
     res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "class", "endPoint": "class"});
 };
 // GET /escapeRooms/:escapeRoomId/indications
