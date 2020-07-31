@@ -109,8 +109,8 @@ exports.getBestTime = (finished) => `${finished.map((t) => t.retos.
 exports.getAvgHints = (teams, reqHints) => teams.length > 0 ? Math.round(teams.map((team) => team.requestedHints.filter((h) => {
     if (h.hintId) {
         reqHints[h.hintId]++;
-    } else {
-        reqHints[h.success ? 0 : -1]++;
+    } else if (h.success) {
+        reqHints[0]++;
     }
 
     return h.success;

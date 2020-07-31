@@ -4,12 +4,12 @@
 <% if (endPoint !== "indications") {%>
   <link rel="stylesheet" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"] || "litera"%>.editor.bootstrap.min.css">
 <%}%>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/js/vendor/jquery.ui.sortable.min.js"></script>
 <script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>
 <!-- <script src="https://www.youtube.com/iframe_api"></script> -->
 <%var theme = escapeRoom[endPoint + "Appearance"] || "litera" %>
 </head>
-<h1>a<%="*******"+escapeRoom[endPoint + "Instructions"]%></h1>
 
 <!-- Theme included stylesheets -->
  <% include ../../partials/_header.ejs %>

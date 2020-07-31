@@ -36,7 +36,7 @@
   <script>
     var escapeRoom = <%-JSON.stringify(escapeRoom)%>
     var duration = escapeRoom.duration;
-    var nPuzzles = escapeRoom.puzzles.length;
+    var nPuzzles = <%=(escapeRoom.puzzles||[]).length%>;
     var teams = <%-JSON.stringify(teams) %>
     var nTeams = teams.length;
     const colors = [green, yellow, orange, red, purple];

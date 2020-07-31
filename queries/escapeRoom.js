@@ -13,9 +13,7 @@ exports.load = {
 
 exports.loadShow = {
     "include": [
-        {
-            "model": models.turno,
-        },
+        {"model": models.turno},
         {
             "model": models.puzzle,
             "include": [{"model": models.hint}]
@@ -42,6 +40,30 @@ exports.loadShow = {
         ]
     ]
 };
+
+
+exports.loadPuzzles = {
+    "include": [
+        {
+            "model": models.puzzle,
+            "include": [{"model": models.hint}]
+        }
+    ],
+    "order": [
+        [
+            {"model": models.puzzle},
+            "order",
+            "asc"
+        ],
+        [
+            {"model": models.puzzle},
+            {"model": models.hint},
+            "order",
+            "asc"
+        ]
+    ]
+};
+
 
 exports.loadComplete = {
     "include": [
@@ -83,8 +105,6 @@ exports.loadComplete = {
         ]
     ]
 };
-
-
 
 
 exports.all = (user) => {

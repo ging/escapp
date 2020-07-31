@@ -5,7 +5,7 @@ const cloudinary = require("cloudinary");
 const query = require("../queries");
 const attHelper = require("../helpers/attachments");
 const {nextStep, prevStep} = require("../helpers/progress");
-const {saveInterface} = require("../helpers/utils");
+const {saveInterface, getERPuzzles} = require("../helpers/utils");
 const es = require("../i18n/es");
 const en = require("../i18n/en");
 
@@ -147,9 +147,9 @@ exports.create = async (req, res) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/edit
-exports.edit = async (req, res) => {
+exports.edit = async (req, res, next) => {
     try {
-        req.escapeRoom.attachment = await models.attachment.findOne({"where":{"escapeRoomId": req.escapeRoom.id}});
+        req.escapeRoom.attachment = await models.attachment.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
         res.render("escapeRooms/edit", {"escapeRoom": req.escapeRoom, "progress": "edit"});
     } catch (error) {
         next(error);
@@ -229,27 +229,35 @@ exports.update = async (req, res) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/evaluation
-exports.evaluation = (req, res) => {
-    const {escapeRoom} = req;
+exports.evaluation = async (req, res, next) => {
+    try {
+        const escapeRoom = await models.escapeRoom.findByPk(req.escapeRoom.id, query.escapeRoom.loadPuzzles);
 
-    res.render("escapeRooms/steps/evaluation", {escapeRoom, "progress": "evaluation"});
+        escapeRoom.hintApp = await models.hintApp.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
+
+        res.render("escapeRooms/steps/evaluation", {escapeRoom, "progress": "evaluation"});
+    } catch (e) {
+        next(e);
+    }
 };
 
 // POST /escapeRooms/:escapeRoomId/evaluation
 exports.evaluationUpdate = async (req, res, next) => {
-    const {escapeRoom, body} = req;
+    const {body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
     const {i18n} = res.locals;
 
-    escapeRoom.survey = body.survey;
-    escapeRoom.pretest = body.pretest;
-    escapeRoom.posttest = body.posttest;
-    escapeRoom.scoreParticipation = body.scoreParticipation;
-    escapeRoom.hintSuccess = body.hintSuccess;
-    escapeRoom.hintFailed = body.hintFailed;
-    escapeRoom.automaticAttendance = body.automaticAttendance;
     try {
+        const escapeRoom = await models.escapeRoom.findByPk(req.escapeRoom.id, query.escapeRoom.loadPuzzles);
+
+        escapeRoom.survey = body.survey;
+        escapeRoom.pretest = body.pretest;
+        escapeRoom.posttest = body.posttest;
+        escapeRoom.scoreParticipation = body.scoreParticipation;
+        escapeRoom.hintSuccess = body.hintSuccess;
+        escapeRoom.hintFailed = body.hintFailed;
+        escapeRoom.automaticAttendance = body.automaticAttendance;
         await escapeRoom.save({"fields": ["survey", "pretest", "posttest", "scoreParticipation", "hintSuccess", "hintFailed", "automaticAttendance"]});
         if (body.scores && body.scores.length !== escapeRoom.puzzles.length) {
             throw new Error("");
@@ -268,7 +276,7 @@ exports.evaluationUpdate = async (req, res, next) => {
         if (error instanceof Sequelize.ValidationError) {
             req.flash("error", i18n.common.validationError);
             // Error.errors.forEach(({message}) => req.flash("error", message));
-            res.redirect(`/escapeRooms/${escapeRoom.id}/evaluation`);
+            res.redirect(`/escapeRooms/${req.escapeRoom.id}/evaluation`);
         } else {
             req.flash("error", i18n.common.flash.errorEditingER);
             next(error);
@@ -277,15 +285,22 @@ exports.evaluationUpdate = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/team
-exports.teamInterface = async (req, res) => {
-    const {escapeRoom} = req;
-    escapeRoom.puzzles = await models.puzzle.findAll({where:{escapeRoomId: req.escapeRoom.id}, order:[[ "order","asc"]]});
-    res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "team", "endPoint": "team"});
+exports.teamInterface = async (req, res, next) => {
+    try {
+        const {escapeRoom} = req;
+
+        escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
+        res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "team", "endPoint": "team"});
+    } catch (e) {
+        req.flash("error", res.locals.i18n.common.flash.errorEditingER);
+        next(e);
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/class
 exports.classInterface = (req, res) => {
     const {escapeRoom} = req;
+
     res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "class", "endPoint": "class"});
 };
 // GET /escapeRooms/:escapeRoomId/indications
@@ -297,7 +312,6 @@ exports.indicationsInterface = (req, res) => {
 
 // POST /escapeRooms/:escapeRoomId/class
 exports.indicationsInterfaceUpdate = (req, res, next) => saveInterface("indications", req, res, next);
-
 
 // POST /escapeRooms/:escapeRoomId/team
 exports.teamInterfaceUpdate = (req, res, next) => saveInterface("team", req, res, next);

@@ -124,7 +124,6 @@ $(()=>{
 
     for (var i in window.content) {
         var block = window.content[i];
-        console.log(block)
         insertContent(i, block.type, block.payload, block.puzzles)
     }
 
@@ -134,55 +133,55 @@ $(()=>{
         $(ev.currentTarget).addClass("selected-theme");
     });
     
-    if ($("#dialog-themes").length) {
+    if ($("#dialog-themes").length){
         $("#dialog-themes").dialog({...config,
-        buttons: {
-            [window.accept] : ()=>{
-                if (selectedTheme && $('#appearance').val() !== selectedTheme) {
-                    window.theme = window.getTheme(selectedTheme);
-                    $('#appearance').val(selectedTheme);
-                    $('#theme-title').html(selectedTheme[0].toUpperCase() +  selectedTheme.slice(1));
-                    for (var instance of Object.keys(CKEDITOR.instances)){
-                        CKEDITOR.instances[instance].destroy();
-                        CKEDITOR.replace(instance)
+            buttons: {
+                [window.accept] : ()=>{
+                    if (selectedTheme && $('#appearance').val() !== selectedTheme) {
+                        window.theme = window.getTheme(selectedTheme);
+                        $('#appearance').val(selectedTheme);
+                        $('#theme-title').html(selectedTheme[0].toUpperCase() +  selectedTheme.slice(1));
+                        for (var instance of Object.keys(CKEDITOR.instances)){
+                            CKEDITOR.instances[instance].destroy();
+                            CKEDITOR.replace(instance)
+                        }
+                        $('body link')[2].href = `/stylesheets/vendor/bootswatch/${selectedTheme || "cerulean"}.editor.bootstrap.min.css`;
+                        $('#appearance').val(selectedTheme);
                     }
-                    $('body link')[2].href = `/stylesheets/vendor/bootswatch/${selectedTheme || "cerulean"}.editor.bootstrap.min.css`;
-                    $('#appearance').val(selectedTheme);
+                    selectedTheme = null;
+                    $( "#dialog-themes" ).dialog("close");
+                    
+                },
+                [window.cancel] : ()=> {
+                    selectedTheme = null;
+                    $( "#dialog-themes" ).dialog("close");
                 }
-                selectedTheme = null;
-                $( "#dialog-themes" ).dialog("close");
-                
-            },
-            [window.cancel] : ()=> {
-                selectedTheme = null;
-                $( "#dialog-themes" ).dialog("close");
             }
-        }
-    });
+        });
     }
     
     if ($("#dialog-config").length) {
         $("#dialog-config").dialog({...config,
-            "buttons": {
-                [window.accept] : ()=>{
-                    $( "#dialog-config" ).dialog("close");
-                    var result = []
-                    var l = $(".puzzle-preview-select input").length - 1;
-                    $(".puzzle-preview-select input").each((i,e)=>{
-                        if ($(e).prop('checked')){
-                            result.push(i < l ? i : "all");
-                        }
-                    });
-                    $('#'+window.blockId).data("puzzles", result.join(","));
-                    $(".puzzle-preview-select input").prop('checked', false);
-                },
-                [window.cancel] : ()=> {
-                    $( "#dialog-config" ).dialog("close");
-                    window.blockId = null;
-                    $(".puzzle-preview-select input").prop('checked', false);
-                }
+        "buttons": {
+            [window.accept] : ()=>{
+                $( "#dialog-config" ).dialog("close");
+                var result = []
+                var l = $(".puzzle-preview-select input").length - 1;
+                $(".puzzle-preview-select input").each((i,e)=>{
+                    if ($(e).prop('checked')){
+                        result.push(i < l ? i : "all");
+                    }
+                });
+                $('#'+window.blockId).data("puzzles", result.join(","));
+                $(".puzzle-preview-select input").prop('checked', false);
+            },
+            [window.cancel] : ()=> {
+                $( "#dialog-config" ).dialog("close");
+                window.blockId = null;
+                $(".puzzle-preview-select input").prop('checked', false);
             }
-        });
+        }
+    });
     }
 
     $( ".theme-btn" ).on("click",() => {
@@ -192,10 +191,8 @@ $(()=>{
         var parent = $(this).parent().parent();
         window.blockId = parent.attr("id");
         var puzzleIds = parent.data("puzzles").toString().split(",");
-        console.log(puzzleIds)
         var puzzleInputs = $(".puzzle-preview-select input");
         puzzleInputs.each((i,e)=>{
-            console.log(i)
             if ((puzzleIds.indexOf(i.toString()) !== -1) || (i.toString() == (puzzleInputs.length -1) && puzzleIds.indexOf("all") !== -1)) {
                 $(e).prop('checked', true);
             }

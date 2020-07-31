@@ -69,6 +69,8 @@ exports.indexStudent = async (req, res, next) => {
     try {
         const {escapeRoom, token} = req;
 
+        escapeRoom.turnos = await models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "order": [["date", "ASC NULLS LAST"]]});
+
         const onlyOneTurn = checkOnlyOneTurn(escapeRoom);
         const onlyOneMember = checkTeamSizeOne(escapeRoom);
 
@@ -195,11 +197,18 @@ exports.destroy = async (req, res, next) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/turnos
-exports.turnos = (req, res) => {
+exports.turnos = async (req, res, next) => {
     const {escapeRoom} = req;
-    const {turnos} = escapeRoom;
 
-    res.render("escapeRooms/steps/turnos", {escapeRoom, turnos, "progress": "turnos"});
+    try {
+        escapeRoom.turnos = await models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "order": [["date", "ASC NULLS LAST"]]});
+
+        const {turnos} = escapeRoom;
+
+        res.render("escapeRooms/steps/turnos", {escapeRoom, turnos, "progress": "turnos"});
+    } catch (e) {
+        next(e);
+    }
 };
 
 // POST /escapeRooms/:escapeRoomId/turnos

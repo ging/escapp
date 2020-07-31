@@ -38,7 +38,7 @@
   <script>
     var escapeRoom = <%-JSON.stringify(escapeRoom)%>;
     var duration = escapeRoom.duration;
-    var puzzles = escapeRoom.puzzles;
+    var puzzles = <%-JSON.stringify(escapeRoom.puzzles)%>;
     var nPuzzles = puzzles.length;
     var retosSuperados = <%-JSON.stringify(puzzles) %>;
     const colors = [green, yellow, orange, red, purple];

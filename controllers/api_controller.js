@@ -1,5 +1,5 @@
 const {models} = require("../models");
-const { authenticate, checkPuzzle, checkTurnoAccess, getERState, automaticallySetAttendance, getRanking, getCurrentPuzzle, getContentForPuzzle} = require("../helpers/utils");
+const { authenticate, checkPuzzle, checkTurnoAccess, getERState, automaticallySetAttendance, getRanking, getCurrentPuzzle, getContentForPuzzle, getERPuzzles} = require("../helpers/utils");
 const {puzzleResponse, broadcastRanking, sendJoinTeam, sendStartTeam} = require("../helpers/sockets");
 const queries = require("../queries");
 const {OK, PARTICIPANT, NOK, NOT_STARTED, TOO_LATE, getAuthMessageAndCode} = require("../helpers/apiCodes");
@@ -33,7 +33,7 @@ exports.checkParticipantSafe = async (req, res, next) => {
     const {body} = req;
     const {email, password, token} = body;
     const {i18n} = res.locals;
-
+    
     if (!email || !(password || token)) {
         return res.status(401).json({"code": NOK, "authentication": false, "msg": i18n.api.unauthorized});
     }
@@ -51,6 +51,7 @@ exports.checkParticipantSafe = async (req, res, next) => {
             }
             req.teams = await user.getTeamsAgregados(queries.user.erTeam(req.escapeRoom.id));
             req.user = user;
+
             next();
         } else {
             res.status(401).json({"code": NOK, "authentication": false, "msg": password ? i18n.api.wrongCredentials : i18n.api.wrongCredentialsToken});
@@ -81,31 +82,38 @@ exports.checkPuzzle = async (req, res, next) => {
     const {i18n} = res.locals;
     const {solution} = body;
 
-    req.response = await checkPuzzle(solution, puzzle, escapeRoom, teams, user, i18n, req.params.puzzleOrder);
-    const {code, correctAnswer, participation, authentication, msg, alreadySolved, erState} = req.response.body;
-
-    if (participation === PARTICIPANT) {
-        await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
-        const [team] = teams;
-
-        if (code === OK) {
-            let currentlyWorkingOn = await getCurrentPuzzle(teams[0], escapeRoom.puzzles);
-
-            currentlyWorkingOn = currentlyWorkingOn === null ? "all" : currentlyWorkingOn;
-            const content = alreadySolved ? undefined : getContentForPuzzle(escapeRoom.teamInstructions, currentlyWorkingOn);
-
-            puzzleResponse(team.id, code, correctAnswer, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation], content);
-            if (!alreadySolved) {
-                const updatedTeams = await getRanking(escapeRoom.id, team.turno.id);
-
-                broadcastRanking(team.turno.id, updatedTeams, team.id, puzzle.order + 1);
-            }
-        } else {
-            puzzleResponse(team.id, code, correctAnswer, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
+    try {
+        if (!escapeRoom.puzzles) {
+            escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
         }
-    }
 
-    next();
+        req.response = await checkPuzzle(solution, puzzle, escapeRoom, teams, user, i18n, req.params.puzzleOrder);
+        const {code, correctAnswer, participation, authentication, msg, alreadySolved, erState} = req.response.body;
+
+        if (participation === PARTICIPANT) {
+            await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
+            const [team] = teams;
+
+            if (code === OK) {
+                let currentlyWorkingOn = await getCurrentPuzzle(teams[0], escapeRoom.puzzles);
+
+                currentlyWorkingOn = currentlyWorkingOn === null ? "all" : currentlyWorkingOn;
+                const content = alreadySolved ? undefined : getContentForPuzzle(escapeRoom.teamInstructions, currentlyWorkingOn);
+
+                puzzleResponse(team.id, code, correctAnswer, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation], content);
+                if (!alreadySolved) {
+                    const updatedTeams = await getRanking(escapeRoom.id, team.turno.id);
+
+                    broadcastRanking(team.turno.id, updatedTeams, team.id, puzzle.order + 1);
+                }
+            } else {
+                puzzleResponse(team.id, code, correctAnswer, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
+            }
+        }
+        next();
+    } catch (e) {
+        next(e);
+    }
 };
 
 // POST /api/escapeRooms/:escapeRoomId/auth
@@ -115,6 +123,8 @@ exports.auth = async (req, res, next) => {
     const {token} = user;
 
     try {
+        escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
+
         const {i18n} = res.locals || req.app.locals;
         const participation = await checkTurnoAccess(teams, user, escapeRoom, true);
         const attendance = participation === PARTICIPANT || participation === TOO_LATE;
@@ -150,6 +160,7 @@ exports.startPlaying = async (req, res, next) => {
         if (participation === PARTICIPANT || participation === NOT_STARTED) {
             const joinTeam = await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
 
+            escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
             erState = await getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance, true);
             if (joinTeam) {
                 sendStartTeam(joinTeam.id, code, authentication, PARTICIPANT, msg, erState);

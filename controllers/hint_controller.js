@@ -20,18 +20,30 @@ exports.load = (req, res, next, hintId) => {
 };
 
 // GET /escapeRooms/:escapeRoomId/hints/hintapp
-exports.hintApp = (req, res) => {
-    res.render("escapeRooms/hintApp/hintApp", {"layout": false, "escapeRoom": req.escapeRoom });
+exports.hintApp = async (req, res, next) => {
+    try {
+        req.escapeRoom.hintApp = await models.hintApp.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
+        res.render("escapeRooms/hintApp/hintApp", {"layout": false, "escapeRoom": req.escapeRoom });
+    } catch (e) {
+        next(e);
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/hints/hintappwrapper
-exports.hintAppWrapper = (req, res) => {
-    res.render("escapeRooms/hintApp/hintAppScormWrapper", {"layout": false, "escapeRoom": req.escapeRoom});
+exports.hintAppWrapper = async (req, res, next) => {
+    try {
+        req.escapeRoom.hintApp = await models.hintApp.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
+        res.render("escapeRooms/hintApp/hintAppScormWrapper", {"layout": false, "escapeRoom": req.escapeRoom});
+    } catch (e) {
+        next(e);
+    }
 };
 
 // GET /escapeRooms/:escapeRoomId/xml
-exports.downloadMoodleXML = (req, res) => {
+exports.downloadMoodleXML = async (req, res) => {
     try {
+        req.escapeRoom.hintApp = await models.hintApp.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
+
         if (req.escapeRoom.hintApp.url) {
             http.get(req.escapeRoom.hintApp.url, (resp) => {
                 res.setHeader("content-disposition", "attachment; filename=\"quiz.xml\"");
@@ -46,10 +58,15 @@ exports.downloadMoodleXML = (req, res) => {
 
 
 // GET /escapeRooms/:escapeRoomId/hints
-exports.pistas = (req, res) => {
-    const {escapeRoom} = req;
+exports.pistas = async (req, res, next) => {
+    try {
+        const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/hints", { escapeRoom, "progress": "hints" });
+        req.escapeRoom.hintApp = await models.hintApp.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
+        res.render("escapeRooms/steps/hints", { escapeRoom, "progress": "hints" });
+    } catch (e) {
+        next(e);
+    }
 };
 
 // POST /escapeRooms/:escapeRoomId/hints
@@ -75,6 +92,8 @@ exports.pistasUpdate = async (req, res) => {
         await escapeRoom.save({"fields": ["numQuestions", "hintLimit", "numRight", "feedback", "allowCustomHints", "hintInterval"]});
         if (body.keepAttachment === "0") {
             // There is no attachment: Delete old attachment.
+            escapeRoom.hintApp = await models.hintApp.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
+
             if (!req.file) {
                 if (escapeRoom.hintApp) {
                     await attHelper.deleteResource(escapeRoom.hintApp.public_id, models.hintApp);

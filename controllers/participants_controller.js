@@ -103,6 +103,7 @@ exports.index = async (req, res, next) => {
     const {turnId, orderBy} = query;
 
     try {
+        const turnos = await models.turno.findAll({"where": {"escapeRoomId": escapeRoom.id}});
         const users = await models.user.findAll(queries.user.participantsWithTurnoAndTeam(escapeRoom.id, turnId, orderBy));
         const participants = [];
 
@@ -119,7 +120,7 @@ exports.index = async (req, res, next) => {
         if (req.query.csv) {
             createCsvFile(res, participants, "participants");
         } else {
-            res.render("escapeRooms/participants", {escapeRoom, participants, turnId, orderBy});
+            res.render("escapeRooms/participants", {escapeRoom, participants, turnos, turnId, orderBy});
         }
     } catch (e) {
         next(e);
@@ -128,9 +129,9 @@ exports.index = async (req, res, next) => {
 
 // POST /escapeRooms/:escapeRoomId/confirm
 exports.confirmAttendance = async (req, res) => {
-    const turnos = req.escapeRoom.turnos.map((t) => t.id);
-
     try {
+        const turnos = (await models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}})).map((t) => t.id);
+
         await models.participants.update({"attendance": true}, { "where": {[Op.and]: [{"turnId": {[Op.in]: turnos}}, {"userId": {[Op.in]: req.body.attendance.yes}}]} });
         await models.participants.update({"attendance": false}, { "where": {[Op.and]: [{"turnId": {[Op.in]: turnos}}, {"userId": {[Op.in]: req.body.attendance.no}}]}});
         await res.end();

@@ -5,15 +5,20 @@ const attHelper = require("../helpers/attachments");
 const {nextStep, prevStep} = require("../helpers/progress");
 
 // GET /escapeRooms/:escapeRoomId/assets
-exports.assets = (req, res) => {
+exports.assets = async (req, res, next) => {
     const {escapeRoom} = req;
-    const assets = escapeRoom.assets.map((a) => {
-        const {id, public_id, url, mime, filename} = a;
 
-        return {id, public_id, url, mime, "name": filename};
-    });
+    try {
+        const assets = (await models.asset.findAll({"where": { "escapeRoomId": escapeRoom.id }})).map((a) => {
+            const {id, public_id, url, mime, filename} = a;
 
-    res.render("escapeRooms/steps/assets", {escapeRoom, assets, "progress": "assets"});
+            return {id, public_id, url, mime, "name": filename};
+        });
+
+        res.render("escapeRooms/steps/assets", {escapeRoom, assets, "progress": "assets"});
+    } catch (e) {
+        next(e);
+    }
 };
 
 // POST /escapeRooms/:escapeRoomId/assets
@@ -41,7 +46,7 @@ exports.uploadAssets = async (req, res) => {
         res.send(err);
     }
     try {
-        const saved = await models.asset.build({ "escapeRoomId": escapeRoom.id, "public_id": uploadResult.public_id, "url": uploadResult.url, "filename": req.file.originalname, "mime": req.file.mimetype}).save();
+        await models.asset.build({ "escapeRoomId": escapeRoom.id, "public_id": uploadResult.public_id, "url": uploadResult.url, "filename": req.file.originalname, "mime": req.file.mimetype}).save();
 
         // Res.json({"id": saved.id, "url": uploadResult.url});
         const html = `<script type='text/javascript'>
@@ -70,10 +75,12 @@ exports.uploadAssets = async (req, res) => {
 // POST /escapeRooms/:escapeRoomId/deleteAssets/:assetId
 exports.deleteAssets = async (req, res) => {
     const {assetId} = req.params;
-    const asset = req.escapeRoom.assets.find((a) => a.id.toString() === assetId.toString());
     const {i18n} = res.locals;
 
     try {
+        const assets = await models.asset.findAll({"where": { "escapeRoomId": req.escapeRoom.id }});
+        const asset = assets.find((a) => a.id.toString() === assetId.toString());
+
         if (asset) {
             attHelper.deleteResource(asset.public_id, models.asset);
             await asset.destroy();
@@ -88,13 +95,17 @@ exports.deleteAssets = async (req, res) => {
     }
 };
 
-exports.browse = async (req, res) => {
-    const assets = req.escapeRoom.assets.map((a) => {
-        const {id, public_id, url, mime, filename} = a;
+exports.browse = async (req, res, next) => {
+    try {
+        const assets = (await models.asset.findAll({"where": { "escapeRoomId": req.escapeRoom.id }})).map((a) => {
+            const {id, public_id, url, mime, filename} = a;
 
-        return {id, public_id, url, mime, "name": filename};
-    });
+            return {id, public_id, url, mime, "name": filename};
+        });
 
-    res.render("escapeRooms/steps/assets", {"escapeRoom": req.escapeRoom, assets});
+        res.render("escapeRooms/steps/assets", {"escapeRoom": req.escapeRoom, assets});
+    } catch (err) {
+        next(err);
+    }
 };
 

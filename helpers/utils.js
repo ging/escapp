@@ -45,6 +45,9 @@ exports.playInterface = async (name, req, res, next) => {
     const isAdmin = Boolean(req.session.user.isAdmin),
         isAuthor = req.escapeRoom.authorId === req.session.user.id;
 
+    req.escapeRoom = await models.escapeRoom.findByPk(req.escapeRoom.id, queries.escapeRoom.loadPuzzles);
+    req.escapeRoom.hintApp = await models.hintApp.findOne({"where": { "escapeRoomId": req.escapeRoom.id }});
+
     if (isAdmin || isAuthor) {
         res.render("escapeRooms/play/play", {
             "escapeRoom": req.escapeRoom,
@@ -153,6 +156,24 @@ exports.renderEJS = (view, query = {}, options = {}) => new Promise((resolve, re
         resolve(str);
     });
 });
+
+exports.getERTurnos = (escapeRoomId) => models.turno.findAll({"where": {escapeRoomId}});
+
+exports.getERPuzzles = (escapeRoomId) => models.puzzle.findAll({"where": {escapeRoomId}, "order": [["order", "asc"]]});
+
+exports.getERPuzzlesAndHints = (escapeRoomId) => models.puzzle.findAll({
+    "where": {escapeRoomId},
+    "include": [{"model": models.hint}],
+    "order": [
+        ["order", "asc"],
+        [
+            {"model": models.hint},
+            "order",
+            "asc"
+        ]
+    ]
+});
+
 
 exports.getERState = async (escapeRoomId, team, duration, hintLimit, nPuzzles, attendance, attendanceScore, scoreHintSuccess, scoreHintFail, includeRanking = false) => {
     const {puzzlesSolved, puzzleData} = await getPuzzleOrderSuperados(team);

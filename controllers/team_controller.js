@@ -94,6 +94,8 @@ exports.index = async (req, res, next) => {
         where.include[0].where.id = turnId;
     }
     try {
+        escapeRoom.turnos = await models.turno.findAll({"where": {"escapeRoomId": escapeRoom.id}});
+
         const teams = await models.team.findAll(where);
 
         res.render("escapeRooms/teams", {teams, escapeRoom, turnId});

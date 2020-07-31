@@ -19,8 +19,8 @@
                 <%=i18n.turnos.Turno%>
                 <select name="turnId" id="turnId">
                     <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
-                    <% for (t in escapeRoom.turnos) { %>
-                    <% var turno = escapeRoom.turnos[t] %>
+                    <% for (t in turnos) { %>
+                    <% var turno = turnos[t] %>
                     <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
                         <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
                     </option>
@@ -48,7 +48,7 @@
             <th><%=i18n.user.name%></th>
             <th><%=i18n.turnos.Turno%></th>
             <th><%=i18n.analytics.grading.attendance%></th>
-            <% for (var p in escapeRoom.puzzles) { var puzzle = escapeRoom.puzzles[p]; %>
+            <% for (var p in puzzles) { var puzzle = puzzles[p]; %>
                 <th><%=puzzle.title%></th>
             <% } %>
             <% if (hintConditional) { %><th><%=i18n.analytics.grading.hintSuccess%></th><%}%>

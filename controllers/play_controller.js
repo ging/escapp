@@ -1,4 +1,4 @@
-const {playInterface, automaticallySetAttendance, getERState} = require("../helpers/utils");
+const {playInterface, automaticallySetAttendance, getERState, getERPuzzles} = require("../helpers/utils");
 const {getRetosSuperados, byRanking} = require("../helpers/analytics");
 const {models} = require("../models");
 const queries = require("../queries");
@@ -25,8 +25,9 @@ exports.ranking = async (req, _res, next) => {
         }
 
         const teams = await models.team.findAll(queries.team.ranking(req.escapeRoom.id, turnoId));
+        const puzzles = await getERPuzzles(req.escapeRoom.id);
 
-        req.teams = getRetosSuperados(teams, req.escapeRoom.puzzles.length).sort(byRanking);
+        req.teams = getRetosSuperados(teams, puzzles.length).sort(byRanking);
         next();
     } catch (e) {
         console.error(e);
@@ -61,7 +62,8 @@ exports.startPlaying = async (req, res, next) => {
     const {i18n} = res.locals;
 
     try {
-        const {automaticAttendance, duration, hintLimit, puzzles, attendanceScore, scoreHintSuccess, scoreHintFail} = req.escapeRoom;
+        const {automaticAttendance, duration, hintLimit, attendanceScore, scoreHintSuccess, scoreHintFail} = req.escapeRoom;
+        const puzzles = await getERPuzzles(req.escapeRoom.id);
         const team = await models.team.findOne({
             "attributes": ["name", "id", "startTime"],
             "include": [

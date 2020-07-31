@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
 const {sanitizePuzzles, sanitizeHints} = require("../helpers/sanitize");
+const {getERPuzzlesAndHints, getERPuzzles} = require("../helpers/utils");
 const {nextStep, prevStep} = require("../helpers/progress");
 
 
@@ -23,32 +24,41 @@ exports.load = (req, res, next, puzzleId) => {
 };
 
 // Autoload the puzzle with order equals to :puzzleOrder for escape room :escapeRoomId
-exports.loadOrder = (req, res, next, puzzleOrder) => {
+exports.loadOrder = async (req, res, next, puzzleOrder) => {
     const {i18n} = res.locals;
 
-    if (req.escapeRoom) {
-        if (puzzleOrder > 0 && puzzleOrder <= req.escapeRoom.puzzles.length) {
-            const order = puzzleOrder - 1;
+    try {
+        if (req.escapeRoom) {
+            req.escapeRoom.puzzles = await getERPuzzles(req.escapeRoom.id);
+            if (puzzleOrder > 0 && puzzleOrder <= req.escapeRoom.puzzles.length) {
+                const order = puzzleOrder - 1;
 
-            req.puzzle = req.escapeRoom.puzzles[order];
-            next();
-            return;
+                req.puzzle = req.escapeRoom.puzzles[order];
+                next();
+                return;
+            }
         }
+        res.status(404);
+        next(new Error(i18n.api.notFound));
+    } catch (e) {
+        next(e);
     }
-    res.status(404);
-    next(new Error(i18n.api.notFound));
 };
 
 // GET /escapeRooms/:escapeRoomId/puzzles
-exports.retos = (req, res) => {
-    const {escapeRoom} = req;
+exports.retos = async (req, res, next) => {
+    try {
+        req.escapeRoom.puzzles = await getERPuzzlesAndHints(req.escapeRoom.id);
 
-    res.render("escapeRooms/steps/puzzles", {escapeRoom, "progress": "puzzles" });
+        res.render("escapeRooms/steps/puzzles", {"escapeRoom": req.escapeRoom, "progress": "puzzles" });
+    } catch (e) {
+        next(e);
+    }
 };
 
 // POST /escapeRooms/:escapeRoomId/puzzles
 exports.retosUpdate = async (req, res) => {
-    const {escapeRoom, body} = req;
+    const {body, escapeRoom} = req;
     const {puzzles} = body;
     const {i18n} = res.locals;
 
@@ -58,6 +68,8 @@ exports.retosUpdate = async (req, res) => {
         const promises = [];
 
         const retos = sanitizePuzzles(puzzles);
+
+        escapeRoom.puzzles = await getERPuzzlesAndHints(escapeRoom.id);
 
         for (const reto of retos) {
             if (reto.id) {
@@ -132,7 +144,7 @@ exports.retosUpdate = async (req, res) => {
         const isPrevious = Boolean(body.previous);
         const progressBar = body.progress;
 
-        res.redirect(`/escapeRooms/${req.escapeRoom.id}/${isPrevious ? prevStep("puzzles") : progressBar || nextStep("puzzles")}`);
+        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("puzzles") : progressBar || nextStep("puzzles")}`);
     } catch (error) {
         await transaction.rollback();
         console.error(error);
@@ -142,6 +154,6 @@ exports.retosUpdate = async (req, res) => {
         } else {
             req.flash("error", i18n.common.flash.errorEditingER);
         }
-        res.redirect(`/escapeRooms/${req.escapeRoom.id}/puzzles`);
+        res.redirect(`/escapeRooms/${escapeRoom.id}/puzzles`);
     }
 };
