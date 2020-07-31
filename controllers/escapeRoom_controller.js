@@ -5,7 +5,7 @@ const cloudinary = require("cloudinary");
 const query = require("../queries");
 const attHelper = require("../helpers/attachments");
 const {nextStep, prevStep} = require("../helpers/progress");
-const {saveInterface, getERPuzzles} = require("../helpers/utils");
+const {saveInterface, getERPuzzles, paginate} = require("../helpers/utils");
 const es = require("../i18n/es");
 const en = require("../i18n/en");
 
@@ -41,14 +41,21 @@ exports.load = async (req, res, next, escapeRoomId) => {
 // GET /escapeRooms
 exports.index = async (req, res, next) => {
     const user = req.user || req.session.user;
+    let page = parseInt(req.query.page || 1, 10);
+
+    page = isNaN(page) || page < 1 ? 1 : page;
+    const limit = 3;
     let escapeRooms = [];
+    let count = 0;
 
     try {
         if (user && !user.isStudent) {
-            escapeRooms = await models.escapeRoom.findAll(query.escapeRoom.forTeacher(user.id));
+            ({count, "rows": escapeRooms} = await models.escapeRoom.findAndCountAll(query.escapeRoom.forTeacher(user.id, page, limit)));
         } else {
-            const erAll = await models.escapeRoom.findAll(query.escapeRoom.all());
-            const erFiltered = await models.escapeRoom.findAll(query.escapeRoom.all(user.id));
+            let erAll = [];
+
+            ({count, "rows": erAll} = await models.escapeRoom.findAndCountAll(query.escapeRoom.all(undefined, page, limit)));
+            const erFiltered = await models.escapeRoom.findAll(query.escapeRoom.all(user.id, null));
             const ids = erFiltered.map((e) => e.id);
 
             escapeRooms = erAll.map((er) => {
@@ -59,8 +66,14 @@ exports.index = async (req, res, next) => {
                 return { id, title, invitation, attachment, disabled, isSignedUp };
             });
         }
+        const pages = Math.ceil(count / limit);
 
-        res.render("escapeRooms/index.ejs", {escapeRooms, cloudinary, user});
+        if (page > pages) {
+            res.redirect(`/escapeRooms?page=${pages}`);
+        }
+        const pageArray = paginate(page, pages, 5);
+
+        res.render("escapeRooms/index.ejs", {escapeRooms, cloudinary, user, count, page, pages, pageArray});
     } catch (error) {
         next(error);
     }
@@ -218,7 +231,7 @@ exports.update = async (req, res) => {
         }
         res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         if (error instanceof Sequelize.ValidationError) {
             req.flash("error", i18n.common.validationError);
         } else {

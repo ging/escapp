@@ -1,6 +1,5 @@
 const {models} = require("../models");
 
-
 exports.load = {
     "include": [
         {
@@ -107,7 +106,7 @@ exports.loadComplete = {
 };
 
 
-exports.all = (user) => {
+exports.all = (user, page = 1, limit = 10) => {
     const findOptions = {
         "attributes": [
             "id",
@@ -115,19 +114,18 @@ exports.all = (user) => {
             "invitation",
             "nmax"
         ],
+        "distinct": true,
         "include": [
             {
                 "model": models.turno,
                 "attributes": ["status"],
-                "duplicating": false,
                 "required": true,
                 "include": [
                     {
                         "model": models.user,
                         "attributes": ["id"],
                         "as": "students",
-                        "duplicating": false,
-                        "required": false
+                        "required": false,
                     }
                 ]
             },
@@ -139,11 +137,16 @@ exports.all = (user) => {
         findOptions.include[0].include[0].where = {"id": user};
         findOptions.include[0].include[0].required = true;
         findOptions.attributes = ["id"];
+        findOptions.distinct = false;
+    }
+    if (page !== null) {
+        findOptions.limit = limit;
+        findOptions.offset = (page - 1) * limit;
     }
     return findOptions;
 };
 
-exports.forTeacher = (id) => ({
+exports.forTeacher = (id, page = 1, limit = 10) => ({
     "attributes": ["id", "title", "invitation"],
     "include": [
         models.attachment,
@@ -152,5 +155,7 @@ exports.forTeacher = (id) => ({
             "as": "author",
             "where": {id}
         }
-    ]
+    ],
+    limit,
+    "offset": (page - 1) * limit
 });

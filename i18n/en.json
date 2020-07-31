@@ -196,6 +196,11 @@
         "guide": "User guide",
         "ideas": "Puzzle ideas",
         "mainPage": "Main page",
+        "pagination": {
+            "first": "First page",
+            "last": "Last page",
+            "page": "Page"
+        },
         "next": "next",
         "save": "save",
         "orderBy": "Order by",
@@ -316,6 +321,7 @@
             "yes": "yes"
         },
         "main": {
+            "createER": "Create new escape room",
             "noERTeacher": "You haven't created any Escape Rooms yet. Manage them from here",
             "noERStudent": "You haven't any active Escape Rooms yet, wait for your teacher's invitation.",
             "yesERStudent": "These are your Escape Rooms",

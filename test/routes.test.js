@@ -32,10 +32,9 @@ beforeAll(() => {
 });
 
 afterAll(() => {
-    setTimeout(()=>{
+    setTimeout(() => {
         execSync(`npx sequelize db:drop --url ${dbName}`);
     }, 15000);
-
 });
 
 beforeEach(async function () {

@@ -190,6 +190,11 @@
         "guide": "Manual de usuario",
         "ideas": "Ideas para retos",
         "mainPage": "Pág. principal",
+        "pagination": {
+            "first": "Primera página",
+            "last": "Última página",
+            "page": "Página"
+        },
         "next": "siguiente",
         "orderBy": "Ordenar por",
         "previous": "anterior",
@@ -307,6 +312,7 @@
             "yes": "sí"
         },
         "main": {
+            "createER": "Crear nueva escape room",
             "noERTeacher": "No has creado ninguna escape room, gestiónalas desde aquí...",
             "noERStudent": "No tienes ninguna escape room activa, utiliza en enlace original que te ha proporcionado tu profe para apuntarte.",
             "yesERStudent": "Estas son las escape rooms disponibles",

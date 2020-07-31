@@ -9,22 +9,19 @@ const {checkIsTurnAvailable, getRanking} = require("../helpers/utils");
 exports.checkIsNotParticipant = async (req, res, next) => {
     const {escapeRoom} = req;
     const {i18n} = res.locals;
-    try {
 
+    try {
         const isParticipant = await models.user.findOne({
-            "where": {
-                "id": req.session.user.id
-            },
+            "where": {"id": req.session.user.id},
             "include": {
                 "model": models.turno,
                 "through": "participants",
                 "as": "turnosAgregados",
-                "where": {
-                    "escapeRoomId": escapeRoom.id
-                }
+                "where": {"escapeRoomId": escapeRoom.id}
             }
         });
-        console.log(isParticipant)
+
+        console.log(isParticipant);
         if (isParticipant) {
             req.flash("error", i18n.turnos.alreadyIn);
             res.redirect("/escapeRooms");

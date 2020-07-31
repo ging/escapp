@@ -916,6 +916,15 @@ button, input[type="submit"] {
   .smallHidden {
     display: none !important; } }
 
+.escapeRooms .pagination span {
+  width: 24px;
+  font-size: 20px;
+  text-align: center;
+  display: inline-block; }
+  .escapeRooms .pagination span.material-icons {
+    font-size: 24px;
+    vertical-align: text-bottom; }
+
 .escapeRooms .flexBoxEscapeRooms {
   display: flex;
   justify-content: space-around;
