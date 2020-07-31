@@ -16,6 +16,7 @@ const turnoId = 1;
 const puzzleId = 1;
 
 const routes = require("./routes");
+const dbName = process.env.DATABASE_URL;
 
 const teacherRoutes = routes.teacherRoutes(escapeRoomId, teacherId, puzzleId, turnoId);
 const studentRoutes = routes.studentRoutes(escapeRoomId, studentId, puzzleId, turnoId);
@@ -25,20 +26,24 @@ let authenticatedSession = null;
 let testSession = null;
 
 beforeAll(() => {
-    execSync(`sequelize db:migrate --url ${process.env.DATABASE_URL}`);
-    execSync(`sequelize db:seed:all --url ${process.env.DATABASE_URL}`);
+    execSync(`npx sequelize db:create --url ${dbName}`);
+    execSync(`npx sequelize db:migrate --url ${dbName}`);
+    execSync(`npx sequelize db:seed:all --url ${dbName}`);
 });
 
 afterAll(() => {
-    execSync("rm test.sqlite");
+    setTimeout(()=>{
+        execSync(`npx sequelize db:drop --url ${dbName}`);
+    }, 15000);
+
 });
 
-beforeEach(function () {
-    testSession = session(app);
+beforeEach(async function () {
+    testSession = await session(app);
 });
 
-describe("Unauthenticated routes", () => {
-    publicRoutes.forEach(({route, statusCode}) => {
+describe("Unauthenticated routes", async () => {
+    publicRoutes.forEach(async ({route, statusCode}) => {
         it(`should display route ${route} correctly`, async (done) => {
             const res = await request(app).get(route);
 
@@ -48,7 +53,7 @@ describe("Unauthenticated routes", () => {
     });
 });
 
-describe("Teacher routes", () => {
+describe("Teacher routes", async () => {
     beforeAll((done) => {
         testSession.post("/").
             send({"login": "admin@upm.es", "password": "1234"}).
@@ -61,7 +66,7 @@ describe("Teacher routes", () => {
                 return done();
             });
     });
-    teacherRoutes.forEach(({route, statusCode}) => {
+    teacherRoutes.forEach(async ({route, statusCode}) => {
         it(`should display route ${route} correctly`, async (done) => {
             const res = await authenticatedSession.get(route);
 
@@ -71,7 +76,7 @@ describe("Teacher routes", () => {
     });
 });
 
-describe("Student routes", () => {
+describe("Student routes", async () => {
     beforeAll((done) => {
         testSession.post("/").
             send({"login": "pepe@alumnos.upm.es", "password": "5678"}).
@@ -85,7 +90,7 @@ describe("Student routes", () => {
             });
     });
 
-    studentRoutes.forEach(({route, statusCode}) => {
+    studentRoutes.forEach(async ({route, statusCode}) => {
         it(`should display route ${route} correctly`, async (done) => {
             const res = await authenticatedSession.get(route);
 

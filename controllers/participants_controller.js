@@ -9,19 +9,30 @@ const {checkIsTurnAvailable, getRanking} = require("../helpers/utils");
 exports.checkIsNotParticipant = async (req, res, next) => {
     const {escapeRoom} = req;
     const {i18n} = res.locals;
+    try {
 
-    const isParticipant = await models.participants.findOne({
-        "where": {
-            "userId": req.session.user.id,
-            "turnId": {[Sequelize.Op.or]: [escapeRoom.turnos.map((t) => t.id)]}
+        const isParticipant = await models.user.findOne({
+            "where": {
+                "id": req.session.user.id
+            },
+            "include": {
+                "model": models.turno,
+                "through": "participants",
+                "as": "turnosAgregados",
+                "where": {
+                    "escapeRoomId": escapeRoom.id
+                }
+            }
+        });
+        console.log(isParticipant)
+        if (isParticipant) {
+            req.flash("error", i18n.turnos.alreadyIn);
+            res.redirect("/escapeRooms");
+        } else {
+            next();
         }
-    });
-
-    if (isParticipant) {
-        req.flash("error", i18n.turnos.alreadyIn);
-        res.redirect("/escapeRooms");
-    } else {
-        next();
+    } catch (err) {
+        next(err);
     }
 };
 

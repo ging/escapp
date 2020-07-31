@@ -33,7 +33,7 @@ exports.checkParticipantSafe = async (req, res, next) => {
     const {body} = req;
     const {email, password, token} = body;
     const {i18n} = res.locals;
-    
+
     if (!email || !(password || token)) {
         return res.status(401).json({"code": NOK, "authentication": false, "msg": i18n.api.unauthorized});
     }

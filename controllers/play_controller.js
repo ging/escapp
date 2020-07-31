@@ -40,20 +40,25 @@ exports.finish = (req, res, next) => {
     next();
 };
 
-exports.results = async (req, res) => {
+exports.results = async (req, res, next) => {
     let {turnoId} = req.params;
     const {teamId} = req;
 
-    if (!turnoId) {
-        const turno = await models.turno.findOne(queries.turno.myTurno(req.escapeRoom.id, req.session.user.id));
+    try {
+        if (!turnoId) {
+            const turno = await models.turno.findOne(queries.turno.myTurno(req.escapeRoom.id, req.session.user.id));
 
-        turnoId = turno.id;
-    }
+            turnoId = turno.id;
+        }
+        req.escapeRoom.puzzles = await getERPuzzles(req.escapeRoom.id);
 
-    if (turnoId) {
-        res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom, "teams": req.teams, turnoId, teamId, "userId": req.session.user.id, "finish": req.finish});
-    } else {
-        res.redirect("back");
+        if (turnoId) {
+            res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom, "teams": req.teams, turnoId, teamId, "userId": req.session.user.id, "finish": req.finish});
+        } else {
+            res.redirect("back");
+        }
+    } catch (e) {
+        next(e);
     }
 };
 
