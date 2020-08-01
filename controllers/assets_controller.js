@@ -3,6 +3,7 @@ const sequelize = require("../models");
 const {models} = sequelize;
 const attHelper = require("../helpers/attachments");
 const {nextStep, prevStep} = require("../helpers/progress");
+const {ckeditorResponse} = require("../helpers/utils");
 
 // GET /escapeRooms/:escapeRoomId/assets
 exports.assets = async (req, res, next) => {
@@ -49,13 +50,7 @@ exports.uploadAssets = async (req, res) => {
         await models.asset.build({ "escapeRoomId": escapeRoom.id, "public_id": uploadResult.public_id, "url": uploadResult.url, "filename": req.file.originalname, "mime": req.file.mimetype}).save();
 
         // Res.json({"id": saved.id, "url": uploadResult.url});
-        const html = `<script type='text/javascript'>
-            var funcNum = ${req.query.CKEditorFuncNum};
-            var url     = "${uploadResult.url}";
-            var message = "Uploaded file successfully";
-        
-            window.parent.CKEDITOR.tools.callFunction(funcNum, url, message);
-        </script>`;
+        const html = ckeditorResponse(req.query.CKEditorFuncNum, uploadResult.url);
 
         res.send(html);
     } catch (error) {

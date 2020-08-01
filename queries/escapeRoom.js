@@ -125,7 +125,7 @@ exports.all = (user, page = 1, limit = 10) => {
                         "model": models.user,
                         "attributes": ["id"],
                         "as": "students",
-                        "required": false,
+                        "required": false
                     }
                 ]
             },

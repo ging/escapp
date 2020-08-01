@@ -78,6 +78,7 @@
         <% } %>
 
         <%if (pages > 1){%>
+            </br>
             <%page = parseInt(page)%>
             <div class="pagination align-right">
                 <a href="?page=1" title="<%=i18n.common.pagination.first%>"><span class="material-icons">first_page</span></a>
@@ -87,6 +88,7 @@
                 <a href="?page=<%=pages%>" title="<%=i18n.common.pagination.last%>"><span class="material-icons">last_page</span></a>
             </div>
         <% } %>
+    </br>
     </br>
     <% include ../partials/_footer %>
     </div>

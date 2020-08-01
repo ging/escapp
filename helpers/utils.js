@@ -372,18 +372,25 @@ exports.areHintsAllowedForTeam = async (teamId, hintLimit) => {
 
 exports.getContentForPuzzle = (content = [], currentlyWorkingOn) => JSON.parse(content).map((block, index) => ({...block, index})).filter((block) => block.puzzles.indexOf(currentlyWorkingOn.toString()) !== -1);
 
-exports.paginate =  (page = 1, pages, limit= 5) => {
-    let from,
-        to = 0;
+exports.paginate = (page = 1, pages, limit = 5) => {
+    let from = 0;
+    let to = 0;
 
     if (pages < limit) {
-        to = limit
+        to = limit;
     } else {
         const positions = Math.floor(limit / 2);
 
-        from = Math.min(pages - limit, Math.max(0, page - positions - 1 ));
-        to = Math.max(Math.min(pages, page  + positions),limit);
-
+        from = Math.min(pages - limit, Math.max(0, page - positions - 1));
+        to = Math.max(Math.min(pages, page + positions), limit);
     }
-    return Array(pages).fill(0).map((e,i)=>i+1).slice(from, to);
-}
+    return Array(pages).fill(0).map((_e, i) => i + 1).slice(from, to);
+};
+
+exports.ckeditorResponse = (funcNum, url) => `<script type='text/javascript'>
+    var funcNum = ${funcNum};
+    var url     = "${url}";
+    var message = "Uploaded file successfully";
+
+    window.parent.CKEDITOR.tools.callFunction(funcNum, url, message);
+</script>`;
