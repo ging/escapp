@@ -1,0 +1,182 @@
+<script type="text/javascript" src="/js/vendor/moment.min.js"></script>
+<script type="text/javascript" src="/js/vendor/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/vendor/daterangepicker.css" />
+
+<%turnos.push({date: new Date()})%>
+<%for (let t in turnos){%>
+	<%let turno = turnos[t];%>
+	<%let id = turno.id || "new"; %>
+	<%let title = turno.id ? i18n.escapeRoom.steps.turnos.editTitle : i18n.escapeRoom.steps.turnos.addTitle%>
+	<div class="dialog-turno" id="dialog-turno-<%=id%>" title="<%=title%>" style="display:none; height: auto;">
+		<form action="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=turno.id ? (turno.id + '?_method=put') : 'new'%>" method="POST" class="turno-form">
+			<div class="turno-form-group">
+				<span class="material-icons">label</span>
+				<label class="light" for="place"> <%= i18n.escapeRoom.steps.turnos.name %></label>
+				<input name="place" type="text" value="<%=turno.place%>" class="light" placeholder="<%= i18n.escapeRoom.steps.turnos.namePlaceholder %>">
+				<br/><br/>
+			</div>
+			<div class="turno-form-group">
+				<span class="material-icons">alarm_off</span>
+				<label class="light" for="always"><%= i18n.escapeRoom.steps.turnos.autonomous %></label>
+				<input name="always" class="light" onclick="$('#turno-date-<%=id%>').toggleClass('hide');$('#turno-date-<%=id%> input').prop('disabled', (_, val) => !val);" type="checkbox"  <%=turno.date ? '': 'checked="checked"' %> >
+				<br/><br/>
+			</div>
+            <div class="turno-form-group <%=turno.date ? '': 'hide' %>" id="turno-date-<%=id%>">
+				<span class="material-icons">today</span>
+				<label class="light" for="celebrationDate"><%= i18n.escapeRoom.steps.turnos.date %></label>
+				<input name="celebrationDate" type="text" value="<%=turno.date ? getFullDateY(turno.date) : ''%>" <%=turno.date ? '': 'disabled="disabled"' %> class="light" placeholder="<%= i18n.escapeRoom.steps.turnos.datePlaceholder %>">
+				<br/><br/>
+			</div>
+			<div class="turno-form-group" >
+				<span class="material-icons">date_range</span>
+				<label class="light" for="time"><%= i18n.escapeRoom.steps.turnos.enrollmentPeriod %></label>
+				<input name="enrollment" type="text" value="<%= (turno.from && turno.to) ? `${getFullDateY(turno.from)} - ${getFullDateY(turno.to)}`:''%>" class="light"  placeholder="<%= i18n.escapeRoom.steps.turnos.enrollmentPeriodPlaceholder %>">
+				<br/><br/>
+			</div>
+			<div class="turno-form-group">
+				<span class="material-icons">vpn_key</span>
+				<label class="light" for="password"><%= i18n.escapeRoom.steps.turnos.password %></label>
+				<input name="password" type="text" value="<%=turno.password%>" class="light" placeholder="<%= i18n.escapeRoom.steps.turnos.passwordPlaceholder %>">
+				<br/><br/>
+			</div>
+			<div class="turno-form-group">
+				<span class="material-icons">group</span>
+				<label class="light" for="capacity"><%= i18n.escapeRoom.steps.turnos.capacity %></label>
+				<input name="capacity" type="number" value="<%=turno.capacity%>" class="light" placeholder="<%= i18n.escapeRoom.steps.turnos.capacityPlaceholder %>">
+				<br/><br/>
+			</div>
+			<div class="align-right">
+				<button data-turno-id="<%=id%>" type="button" class="gugi rounded deleteButton cancelTurno"><%= i18n.common.cancel %></button>
+				<button type="" class="gugi rounded acceptButton"><%= i18n.common.save %></button>
+			</div>
+		</form>
+	</div>
+<%}%>
+<script>
+	$(function(){
+        const zeroPadding = (d) => {
+            if (d < 10) {
+                return `0${d}`;
+            }
+            return d;
+        };
+
+        const getFullDate = (d) => {
+            d.setMinutes(d.getMinutes() /* + d.getTimezoneOffset() */);
+
+            return `${d.getFullYear()}-${zeroPadding(d.getMonth() + 1)}-${zeroPadding(d.getDate())} ${zeroPadding(d.getHours())}:${zeroPadding(d.getMinutes())}`;
+        };
+
+        const dateSubmitted = (str) =>  {
+            const split = str.split(" ");
+            const date = new Date(split[0]);
+            const time = split[1].split(":");
+            const res =  new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), time[0], time[1]));
+            // res.setMinutes(res.getMinutes());
+            return res;
+        }
+
+
+		var dialogOptions = {
+			autoOpen: false,
+			resizable: false,
+			width: window.innerWidth > 800 ? 860 : window.innerWidth*0.9,
+			height: "auto",
+			minHeight: 'auto',
+			modal: true,
+			show: {
+				effect: "scale",
+				duration: 400
+			},
+			hide: {
+				effect: "scale",
+				duration: 400
+			},
+			appendTo: '.main'
+		};
+		
+		$(".dialog-turno").dialog({...dialogOptions, height: screen.height * 0.8});
+
+		$( ".edit-turno" ).on( "click", function() {
+			var id = $( this).data( "turnoId" );
+			$( "#dialog-turno-" + id ).dialog( "open" );
+		}); 
+
+        $( ".addTurno" ).on( "click", function() {
+            const d = new Date($("#datepicker").datepicker("getDate"));
+            d.setHours(9,0,0,0);
+            const fullDate = getFullDate(d);
+            $( "#turno-date-new input" ).val(fullDate);
+            $('#turno-date-new input').data('daterangepicker').setStartDate(fullDate);
+            $('#turno-date-new input').data('daterangepicker').setEndDate(fullDate);
+			$( "#dialog-turno-new" ).dialog( "open" );
+		}); 
+
+		$( ".cancelTurno" ).on( "click", function() {
+			var id = $( this).data( "turnoId" );
+			$( "#dialog-turno-" + id ).dialog( "close" );
+		});
+
+        $('input[name="celebrationDate"]').daterangepicker({
+            "opens": "left",
+            "autoUpdateInput": false,
+            "singleDatePicker": true,
+            "timePicker": true,
+            "timePicker24Hour": true,
+            "locale": {
+                "format": "YYYY-MM-DD HH:mm",
+                "separator": " - ",
+                "applyLabel": "<%=i18n.turnos.apply%>",
+                "cancelLabel": "<%=i18n.turnos.cancel%>",
+                "fromLabel": "<%=i18n.turnos.from%>",
+                "toLabel": "<%=i18n.turnos.to%>", 
+                "customRangeLabel": "<%=i18n.turnos.customRange%>", 
+                "weekLabel": "W",
+                "daysOfWeek": dayArray.map(a=>a.slice(0,1)),
+                "monthNames": monthArray,
+                "firstDay": 1
+            }
+        }, function(start, end, label) {});
+
+        $('input[name="enrollment"]').daterangepicker({
+            "opens": "left",
+            "autoUpdateInput": false,
+            "timePicker": true,
+            "timePicker24Hour": true,
+            "locale": {
+                "format": "YYYY-MM-DD HH:mm",
+                "separator": " - ",
+                "applyLabel": "<%=i18n.turnos.apply%>",
+                "cancelLabel": "<%=i18n.turnos.cancel%>",
+                "fromLabel": "<%=i18n.turnos.from%>",
+                "toLabel": "<%=i18n.turnos.to%>", 
+                "customRangeLabel": "<%=i18n.turnos.customRange%>",
+                "weekLabel": "W",
+                "daysOfWeek": dayArray.map(a=>a.slice(0,1)),
+                "monthNames": monthArray,
+                "firstDay": 1
+            }
+        }, function(start, end, label) {});
+        $('input[name="celebrationDate"]').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm'));
+        });
+
+        $('input[name="enrollment"]').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm') + ' - ' + picker.endDate.format('YYYY-MM-DD HH:mm'));
+        });
+
+        $('input[name="celebrationDate"],input[name="enrollment"]').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
+
+        $( '.turno-form' ).submit(function(){
+            var celDate = $(this).find('input[name="celebrationDate"]').prop("disabled") ? null : $(this).find('input[name="celebrationDate"]').val();
+            var enrPer = $(this).find('input[name="enrollment"]').val();
+            var [from, to] = enrPer.split(" - ");
+            $(this).append($(`<input type="hidden" name="date" value="${celDate ? dateSubmitted(celDate):"always"}">`));
+            if (from) $(this).append($(`<input type="hidden" name="from" value="${dateSubmitted(from)}">`));
+            if (to) $(this).append($(`<input type="hidden" name="to" value="${dateSubmitted(to)}">`));
+        });
+    });
+</script>
+	

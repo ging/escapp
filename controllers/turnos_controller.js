@@ -140,11 +140,15 @@ exports.activar = async (req, res, next) => {
 
 // POST /escapeRooms/:escapeRoomId/turnos
 exports.create = (req, res, next) => {
-    const {date, place} = req.body;
+    const {date, place, from, to, capacity, password} = req.body;
     const modDate = date === "always" ? null : new Date(date);
     const turn = models.turno.build({
-        "date": modDate,
         place,
+        password,
+        "date": modDate,
+        "capacity": parseInt(capacity || 0, 10),
+        "from": from ? new Date(from) : null,
+        "to": to ? new Date(to) : null,
         "status": date === "always" ? "active" : "pending",
         "escapeRoomId": req.escapeRoom.id
     });
@@ -172,6 +176,46 @@ exports.create = (req, res, next) => {
             next(error);
         });
 };
+
+
+// PUT /escapeRooms/:escapeRoomId/turno/:turnoId
+exports.update = (req, res, next) => {
+    const {date, place, from, to, capacity, password} = req.body;
+    const {turn} = req;
+    const modDate = date === "always" ? null : new Date(date);
+    const {i18n} = res.locals;
+
+    turn.date = modDate;
+    turn.place = place;
+    turn.capacity = parseInt(capacity || 0, 10);
+    turn.from = from ? new Date(from) : null;
+    turn.to = to ? new Date(to) : null;
+    turn.password = password;
+    turn.status = (date === "always" && turn.status === "pending") ? "active" : turn.status;
+
+    let back = "";
+
+    if (date === "always") {
+        back = `/escapeRooms/${req.escapeRoom.id}/turnos`;
+    } else {
+        back = `/escapeRooms/${req.escapeRoom.id}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
+    }
+
+    turn.save().
+        then(() => {
+            req.flash("success", i18n.common.flash.successEditingTurno);
+            res.redirect(back);
+        }).
+        catch(Sequelize.ValidationError, (error) => {
+            error.errors.forEach(({message}) => req.flash("error", message));
+            res.redirect(back);
+        }).
+        catch((error) => {
+            req.flash("error", `${i18n.common.flash.errorEdittingTurno}: ${error.message}`);
+            next(error);
+        });
+};
+
 
 // DELETE /escapeRooms/:escapeRoomId/turnos/:turnoId
 exports.destroy = async (req, res, next) => {

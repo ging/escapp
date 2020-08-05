@@ -27,6 +27,47 @@
 							border-radius: 50%
 							color: black
 				.ui-datepicker-header 
+					
+					.ui-datepicker-prev, .ui-datepicker-next
+						color: white
+						border-radius: 0px
+						cursor: pointer
+						&.ui-state-hover
+							border: none
+							background: #fff
+						span
+							background-image: none !important
+							&::before
+								position: relative
+								display: inline-block
+								content: ''
+								width: 0
+								height: 0
+								border: 10px solid transparent
+								border-right-color: $brightorange
+								content: ''
+							&.ui-icon
+								height: 20px
+								width: 20px
+								display: block
+								text-indent: 0
+								overflow: hidden
+								background-repeat: no-repeat
+								line-height: 14px
+								font-size: 19px
+						&.ui-datepicker-prev-hover
+							top: 2px
+							left: 2px
+							cursor: pointer
+						 
+					.ui-datepicker-next
+						&.ui-datepicker-next-hover
+							top: 2px
+							right: 2px
+							cursor: pointer
+						span::before
+							border-right-color: transparent
+							border-left-color: $brightorange
 					&.ui-widget-header
 						background-color: white
 						border-color: white

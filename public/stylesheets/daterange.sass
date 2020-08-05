@@ -1,0 +1,34 @@
+body
+    .daterangepicker 
+        border-radius: 0
+        border: 0
+        box-shadow: 0px 0px 10px #ddd
+        color: $darkerpurple
+        font-family: Lato
+        z-index: 9999
+        td
+            &.active
+                background-color: $brightorange
+                color: white
+                &:hover,&:active,&:focus
+                    background-color: $brightorange
+                    color: white
+            &.in-range:not(.active)
+                background-color: rgba($brightorange,0.4)
+            &.off
+                visibility: hidden
+        .applyBtn
+            color: $brightgreen
+        .calendar-time
+            width: auto
+            .hourselect, .minuteselect
+                background-color: white !important
+                height: 26px
+                text-align: center
+                border: none
+                border-radius: 0
+                box-shadow: 0px 0px 10px #fafafa !important
+                width: auto
+                padding: 0px 10px
+                option
+                    text-align: center

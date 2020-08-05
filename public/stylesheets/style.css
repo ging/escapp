@@ -377,6 +377,44 @@ button, input[type="submit"] {
       background-color: #FAC855;
       border-radius: 50%;
       color: black; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next {
+    color: white;
+    border-radius: 0px;
+    cursor: pointer; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev.ui-state-hover, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next.ui-state-hover {
+      border: none;
+      background: #fff; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev span, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span {
+      background-image: none !important; }
+      .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev span::before, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span::before {
+        position: relative;
+        display: inline-block;
+        content: '';
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-right-color: #F3945E;
+        content: ''; }
+      .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev span.ui-icon, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span.ui-icon {
+        height: 20px;
+        width: 20px;
+        display: block;
+        text-indent: 0;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        line-height: 14px;
+        font-size: 19px; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev.ui-datepicker-prev-hover, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next.ui-datepicker-prev-hover {
+      top: 2px;
+      left: 2px;
+      cursor: pointer; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next.ui-datepicker-next-hover {
+    top: 2px;
+    right: 2px;
+    cursor: pointer; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span::before {
+    border-right-color: transparent;
+    border-left-color: #F3945E; }
   .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header.ui-widget-header {
     background-color: white;
     border-color: white; }
@@ -430,6 +468,39 @@ button, input[type="submit"] {
   .apexcharts-menu .apexcharts-menu-itemss {
     color: #656683;
     font-family: Lato, sans-serif; }
+
+body .daterangepicker {
+  border-radius: 0;
+  border: 0;
+  box-shadow: 0px 0px 10px #ddd;
+  color: #161938;
+  font-family: Lato;
+  z-index: 9999; }
+  body .daterangepicker td.active {
+    background-color: #F3945E;
+    color: white; }
+    body .daterangepicker td.active:hover, body .daterangepicker td.active:active, body .daterangepicker td.active:focus {
+      background-color: #F3945E;
+      color: white; }
+  body .daterangepicker td.in-range:not(.active) {
+    background-color: rgba(243, 148, 94, 0.4); }
+  body .daterangepicker td.off {
+    visibility: hidden; }
+  body .daterangepicker .applyBtn {
+    color: #48C18E; }
+  body .daterangepicker .calendar-time {
+    width: auto; }
+    body .daterangepicker .calendar-time .hourselect, body .daterangepicker .calendar-time .minuteselect {
+      background-color: white !important;
+      height: 26px;
+      text-align: center;
+      border: none;
+      border-radius: 0;
+      box-shadow: 0px 0px 10px #fafafa !important;
+      width: auto;
+      padding: 0px 10px; }
+      body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .calendar-time .minuteselect option {
+        text-align: center; }
 
 .main .no-close .ui-dialog-titlebar {
   display: none; }
@@ -537,7 +608,10 @@ button, input[type="submit"] {
   color: #F47E84; }
 
 .main .ui-dialog {
-  z-index: 1; }
+  z-index: 9998; }
+  .main .ui-dialog.ui-corner-all {
+    border-radius: 0 !important;
+    border-color: transparent !important; }
 
 .main .ui-widget-overlay {
   z-index: 0;
@@ -986,14 +1060,6 @@ button, input[type="submit"] {
           font-size: 16px;
           margin: 0px; }
       .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.addEscapeRoom {
-        background-color: #9196A9;
-        color: #D2D4DC;
-        font-size: 100px;
-        padding: 10px 20px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: #D2D4DC;
-        outline: 0;
         display: flex;
         flex-direction: column;
         justify-content: center; }
@@ -2130,6 +2196,15 @@ button, input[type="submit"] {
         border-width: 2px;
         border-style: solid;
         color: #161938; }
+    #mainSection .main .addItem {
+      background-color: #9196A9;
+      color: #D2D4DC;
+      font-size: 100px;
+      padding: 10px 20px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #D2D4DC;
+      outline: 0; }
 
 @media (min-width: 1200px) {
   #mainSection .main {
@@ -2416,41 +2491,6 @@ button, input[type="submit"] {
     font-family: Lato, sans-serif; }
   #mainSection .main .puzzle-card label {
     font-size: 18px; }
-  #mainSection .main .puzzle-card input {
-    width: 90%;
-    width: calc(100% - 30px);
-    caret-color: #656683 !important; }
-  #mainSection .main .puzzle-card select, #mainSection .main .puzzle-card input {
-    height: 32px;
-    box-sizing: border-box;
-    font-size: 16px;
-    padding: 1px;
-    font-weight: normal;
-    font-family: Lato, sans-serif;
-    background-color: white;
-    border-radius: 0px;
-    border-width: 0px;
-    border-bottom-width: 1px;
-    text-align: left;
-    margin-left: 30px; }
-    #mainSection .main .puzzle-card select:-webkit-autofill, #mainSection .main .puzzle-card input:-webkit-autofill {
-      -webkit-box-shadow: 0 0 0 30px white inset !important;
-      -webkit-text-fill-color: #656683 !important;
-      font-family: Lato !important; }
-    #mainSection .main .puzzle-card select:focus, #mainSection .main .puzzle-card select:active, #mainSection .main .puzzle-card input:focus, #mainSection .main .puzzle-card input:active {
-      font-family: Lato !important;
-      background-color: white;
-      color: #F47E84;
-      -webkit-text-fill-color: #F47E84 !important;
-      border-color: #F47E84 !important; }
-      #mainSection .main .puzzle-card select:focus:-webkit-autofill, #mainSection .main .puzzle-card select:active:-webkit-autofill, #mainSection .main .puzzle-card input:focus:-webkit-autofill, #mainSection .main .puzzle-card input:active:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0 30px white inset !important;
-        -webkit-text-fill-color: #F47E84 !important;
-        font-family: Lato !important; }
-    #mainSection .main .puzzle-card select option, #mainSection .main .puzzle-card input option {
-      font-family: Lato !important;
-      background: white;
-      color: #161938; }
   #mainSection .main .puzzle-card .hint-list {
     list-style: none;
     padding-left: 5px; }
@@ -3277,7 +3317,8 @@ table.mainTable {
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button .material-icons {
           font-size: 16px; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.more {
-          background: #FAC855; }
+          background: #FAC855;
+          right: 30px; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.less {
           background: #F47E84; }
         #mainSection .main.step-turnos .contenedor .turnosRight .flexBoxTurnos .turno .little-button.always {
@@ -3290,6 +3331,16 @@ table.mainTable {
       padding: 10px 20px;
       background-color: #48C18E;
       border: 2px solid #48C18E; }
+  #mainSection .main.step-turnos .ui-dialog-title {
+    padding-left: 0;
+    font-size: 28px; }
+  #mainSection .main.step-turnos .dialog-turno {
+    height: auto !important; }
+    #mainSection .main.step-turnos .dialog-turno .turno-form-group .material-icons {
+      vertical-align: top;
+      color: #48C18E; }
+    #mainSection .main.step-turnos .dialog-turno .turno-form-group ::-webkit-calendar-picker-indicator {
+      filter: invert(1); }
 
 #mainSection .main .flexBoxTurnos {
   display: flex;
@@ -3297,17 +3348,22 @@ table.mainTable {
   flex-wrap: wrap;
   margin-bottom: 20px; }
   #mainSection .main .flexBoxTurnos .turno {
-    background-color: white;
-    border: 3px solid transparent;
     width: 100px;
     height: 100px;
     position: relative;
     margin: 5px;
-    color: #161938;
     text-align: center;
     padding: 12px;
     border-radius: 20px;
     font-family: Gugi; }
+    #mainSection .main .flexBoxTurnos .turno:not(.addTurno) {
+      background-color: white;
+      border: 3px solid transparent;
+      color: #161938; }
+    #mainSection .main .flexBoxTurnos .turno.addTurno {
+      line-height: 1em;
+      font-size: 3em;
+      cursor: pointer; }
     #mainSection .main .flexBoxTurnos .turno.disabled {
       opacity: 0.4;
       cursor: not-allowed; }
@@ -3562,3 +3618,47 @@ html {
 
 .align-right {
   text-align: right; }
+
+.hide {
+  display: none; }
+
+input.light[type='checkbox'] {
+  height: auto; }
+
+input.light:not([type='checkbox']) {
+  width: 90%;
+  width: calc(100% - 30px);
+  caret-color: #656683 !important;
+  font-family: Lato !important; }
+
+select.light, input.light:not([type='checkbox']) {
+  height: 32px;
+  box-sizing: border-box;
+  font-size: 16px;
+  padding: 1px;
+  font-weight: normal;
+  font-family: Lato, sans-serif;
+  background-color: white;
+  border-radius: 0px;
+  border-width: 0px;
+  border-bottom-width: 1px;
+  text-align: left;
+  margin-left: 30px; }
+  select.light:-webkit-autofill, input.light:not([type='checkbox']):-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: #656683 !important;
+    font-family: Lato !important; }
+  select.light:focus, select.light:active, input.light:not([type='checkbox']):focus, input.light:not([type='checkbox']):active {
+    font-family: Lato !important;
+    background-color: white;
+    color: #F47E84;
+    -webkit-text-fill-color: #F47E84 !important;
+    border-color: #F47E84 !important; }
+    select.light:focus:-webkit-autofill, select.light:active:-webkit-autofill, input.light:not([type='checkbox']):focus:-webkit-autofill, input.light:not([type='checkbox']):active:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+      -webkit-text-fill-color: #F47E84 !important;
+      font-family: Lato !important; }
+  select.light option, input.light:not([type='checkbox']) option {
+    font-family: Lato !important;
+    background: white;
+    color: #161938; }

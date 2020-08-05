@@ -495,8 +495,19 @@
                 "addTitle": "Add new shift",
                 "alwaysTitle": "Shift always open",
                 "deleteTitle": "Delete shift",
-                "hourTitle": "Set time"
-                
+                "editTitle": "Edit shift",
+                "hourTitle": "Set time",
+                "name": "Name",
+                "namePlaceholder": "Name to identify the shift",
+                "autonomous": "Autonomous",
+                "date": "Celebration date",
+                "datePlaceholder": "Date in which the escape room will take place",
+                "enrollmentPeriod": "Enrollment period",
+                "enrollmentPeriodPlaceholder": "Period in which students can sign up for this shift",
+                "password": "Password",
+                "passwordPlaceholder": "Password to access the shift (leave it blank if you want the shift to be open to anyone)",
+                "capacity": "Capacity",             
+                "capacityPlaceholder": "Maximum people allowed in this shift"             
             }
         },
         "general": {
@@ -816,7 +827,12 @@
 			"j": "Thursday",
 			"v": "Friday",
 			"s": "Saturday"
-	    },
+        },
+        "from": "From",
+        "to": "To",
+        "apply": "Apply",
+        "cancel": "Cancel",
+        "customRange": "Custom range",
         "Description": "Description",
         "months": {
         	"jan": "January",

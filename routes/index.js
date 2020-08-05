@@ -110,6 +110,7 @@ router.post("/escapeRooms/:escapeRoomId(\\d+)/class", sessionController.loginReq
 router.get("/escapeRooms/:escapeRoomId(\\d+)/activarTurno", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.indexActivarTurno);
 router.put("/escapeRooms/:escapeRoomId(\\d+)/activar", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.activar);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/turnos/new", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.create);
+router.put("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.update);
 router.delete("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.destroy);
 
 // Routes for hint app

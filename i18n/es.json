@@ -485,8 +485,19 @@
                 "addTitle": "Añadir turno",
                 "alwaysTitle": "Turno siempre abierto",
                 "deleteTitle": "Borrar turno",
-                "hourTitle": "Fijar hora"
-                
+                "editTitle": "Editar turno",
+                "hourTitle": "Fijar hora",
+                "name": "Nombre",
+                "namePlaceholder": "Nombre para identificar el turno",
+                "autonomous": "Autónomo",
+                "date": "Fecha de celebración",
+                "datePlaceholder": "Fecha en la que tendrá lugar el turno",
+                "enrollmentPeriod": "Periodo de matriculación",
+                "enrollmentPeriodPlaceholder": "Periodo en el que los alumnos se podrán matricular en este turno",
+                "password": "Contraseña",
+                "passwordPlaceholder": "Contraseña para acceder al turno (déjala en blanco si quieres que el turno sea abierto)",
+                "capacity": "Aforo",
+                "capacityPlaceholder": "Máximo número de personas admitidas en este turno"    
             }
         },
         "general": {
@@ -806,7 +817,12 @@
 			"j": "Jueves",
 			"v": "Viernes",
 			"s": "Sábado"
-	    },
+        },
+        "from": "Desde",
+        "to": "Hasta",
+        "apply": "Aplicar",
+        "cancel": "Cancelar",
+        "customRange": "Intervalo personalizado",
         "Description": "Descripción",
         "months": {
         	"jan": "Enero",

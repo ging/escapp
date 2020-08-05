@@ -8,6 +8,10 @@ module.exports = function (sequelize, DataTypes) {
             },
             "place": {"type": DataTypes.STRING, "validate": {"len": [0, 200]}},
             "startTime": {"type": DataTypes.DATE},
+            "from": {"type": DataTypes.DATE},
+            "to": {"type": DataTypes.DATE},
+            "password": {"type": DataTypes.TEXT},
+            "capacity": {"type": DataTypes.INTEGER},
             "status": {
                 "type": DataTypes.STRING,
                 "defaultValue": "pending"

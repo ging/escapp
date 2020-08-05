@@ -6,20 +6,20 @@
     <input type="hidden" name="puzzles[<%=reto%>][id]" value="<%=puzzle.id%>"/>
     <h2 class="showAlways">
         <span class="material-icons">extension</span>
-        <input type="text" name="puzzles[<%=reto%>][title]" maxlength="10000" autocomplete="off" required value="<%=puzzle.title%>" aria-label="<%=i18n.puzzle.Puzzle%> <%=reto%>"/>
+        <input type="text" class="light" name="puzzles[<%=reto%>][title]" maxlength="10000" autocomplete="off" required value="<%=puzzle.title%>" aria-label="<%=i18n.puzzle.Puzzle%> <%=reto%>"/>
     </h2>
     <h3>
         <span class="material-icons">description</span>
         <label for="puzzles[<%=reto%>][desc]"><%=i18n.escapeRoom.steps.puzzles.description%></label>
     </h3>
-    <input type="text" name="puzzles[<%=reto%>][desc]" maxlength="10000" autocomplete="off" required value="<%=puzzle.desc%>" id="puzzles[<%=reto%>][desc]"/>
+    <input type="text" class="light" name="puzzles[<%=reto%>][desc]" maxlength="10000" autocomplete="off" required value="<%=puzzle.desc%>" id="puzzles[<%=reto%>][desc]"/>
     <div class="flex-puzzle-card">
         <div>
             <h3>
                 <span class="material-icons">search</span>
                 <label for="puzzles[<%=reto%>][sol]"><%=i18n.escapeRoom.steps.puzzles.solution%></label>
             </h3>
-            <input type="text" name="puzzles[<%=reto%>][sol]" maxlength="10000" autocomplete="off" required value="<%=puzzle.sol%>" id="puzzles[<%=reto%>][sol]"/>
+            <input type="text" class="light" name="puzzles[<%=reto%>][sol]" maxlength="10000" autocomplete="off" required value="<%=puzzle.sol%>" id="puzzles[<%=reto%>][sol]"/>
         </div>
         <div>
             <h3>
@@ -30,7 +30,7 @@
                     </span>
                 </label>
             </h3>
-            <select  required  id="puzzles[<%=reto%>][automatic]" name="puzzles[<%=reto%>][automatic]" value="<%= puzzle.automatic %>" placeholder="<%i18n.escapeRoom.steps.puzzles.placeholder%>" autocomplete="off">
+            <select class="light" required  id="puzzles[<%=reto%>][automatic]" name="puzzles[<%=reto%>][automatic]" value="<%= puzzle.automatic %>" placeholder="<%i18n.escapeRoom.steps.puzzles.placeholder%>" autocomplete="off">
                 <option value="0" <%= puzzle.automatic ? "" : "selected"%>><%=i18n.escapeRoom.steps.puzzles.manual%></option>
                 <option value="1" <%= puzzle.automatic ? "selected" : ""%>><%=i18n.escapeRoom.steps.puzzles.automatic%></option>
             </select>
@@ -39,12 +39,12 @@
     <h3>
         <span class="material-icons">check</span>
         <label for="puzzles[<%=reto%>][correct]"><%=i18n.escapeRoom.steps.puzzles.successMsg%></label>
-        <input type="text" name="puzzles[<%=reto%>][correct]" id="puzzles[<%=reto%>][correct]" maxlength="10000" placeholder="<%=i18n.escapeRoom.play.correctAnswer%>" value="<%=puzzle.correct%>"/>
+        <input class="light" type="text" name="puzzles[<%=reto%>][correct]" id="puzzles[<%=reto%>][correct]" maxlength="10000" placeholder="<%=i18n.escapeRoom.play.correctAnswer%>" value="<%=puzzle.correct%>"/>
     </h3>
     <h3>
         <span class="material-icons">close</span>
         <label for="puzzles[<%=reto%>][fail]"> <%=i18n.escapeRoom.steps.puzzles.failMsg%></label>
-        <input type="text" name="puzzles[<%=reto%>][fail]" id="puzzles[<%=reto%>][fail]" maxlength="10000" placeholder="<%=i18n.puzzle.wrongAnswer%>" value="<%=puzzle.fail%>"/>
+        <input class="light" type="text" name="puzzles[<%=reto%>][fail]" id="puzzles[<%=reto%>][fail]" maxlength="10000" placeholder="<%=i18n.puzzle.wrongAnswer%>" value="<%=puzzle.fail%>"/>
     </h3>
     <h3>
         <span class="material-icons">search</span>
@@ -63,7 +63,7 @@
                 %>
                 <li class="hint-category" data-id="<%=categoryIndex%>">
                     <span class="material-icons handle-cat">call_split</span>
-                    <input class="hint-category-name" value="<%=category%>" placeholder="<%=i18n.escapeRoom.steps.puzzles.newCat%>" name="puzzles[<%=reto%>][categories][<%=categoryIndex%>]"/>
+                    <input class="light hint-category-name" value="<%=category%>" placeholder="<%=i18n.escapeRoom.steps.puzzles.newCat%>" name="puzzles[<%=reto%>][categories][<%=categoryIndex%>]"/>
                     <%if(categoryIndex){%>
                         <button type="button" class="delete-cat" title="<%=i18n.escapeRoom.steps.puzzles.delete%>">
                             <span class="material-icons">clear</span>
@@ -77,7 +77,7 @@
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][id]" value="<%=hint.id%>"/>
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][category]" class="hint-cat" maxlength="10000" value="<%=categoryIndex || 0%>"/>
                     <input type="hidden" name="puzzles[<%=reto%>][hints][<%=h%>][order]" class="hint-order" maxlength="10000" value="<%=hint.order%>"/>
-                    <input type="text"   name="puzzles[<%=reto%>][hints][<%=h%>][content]" maxlength="10000" placeholder="..." required value="<%=hint.content%>" aria-label="<%=i18n.escapeRoom.steps.puzzles.Hint%> <%=hint.order%>"/>
+                    <input type="text" class="light"  name="puzzles[<%=reto%>][hints][<%=h%>][content]" maxlength="10000" placeholder="..." required value="<%=hint.content%>" aria-label="<%=i18n.escapeRoom.steps.puzzles.Hint%> <%=hint.order%>"/>
                     <button type="button" class="delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>">
                         <span class="material-icons">clear</span>
                     </button>

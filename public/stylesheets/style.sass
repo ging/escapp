@@ -7,6 +7,7 @@
 @import 'apps'
 @import 'calendar'
 @import 'charts'
+@import 'daterange'
 @import 'dialogs'
 @import 'escapeRoomCustomization'
 @import 'escapeRoomForm'
@@ -203,3 +204,44 @@ html
   text-align: center
 .align-right
   text-align: right
+.hide
+  display: none
+input.light[type='checkbox']
+  height: auto
+
+input.light:not([type='checkbox'])
+  width: 90%
+  width: calc(100% - 30px)
+  caret-color: $textpurple !important
+  font-family: Lato !important
+select.light, input.light:not([type='checkbox'])
+  height: 32px
+  box-sizing: border-box
+  font-size: 16px
+  padding: 1px
+  font-weight: normal
+  font-family: Lato, sans-serif
+  background-color: white
+  border-radius: 0px
+  border-width: 0px
+  border-bottom-width: 1px
+  text-align: left
+  margin-left: 30px
+  &:-webkit-autofill
+    -webkit-box-shadow: 0 0 0 30px white inset !important
+    -webkit-text-fill-color: $textpurple !important
+    font-family: Lato !important
+  &:focus, &:active
+    font-family: Lato !important
+    background-color: white
+    color: $lightred 
+    -webkit-text-fill-color: $lightred !important
+    border-color: $lightred !important
+    &:-webkit-autofill
+      -webkit-box-shadow: 0 0 0 30px white inset !important
+      -webkit-text-fill-color: $lightred !important
+      font-family: Lato !important
+  option
+    font-family: Lato !important
+    background: white
+    color: $darkerpurple

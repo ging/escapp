@@ -98,7 +98,10 @@
         border-color: white !important
         color: $lightred
     .ui-dialog
-        z-index: 1
+        z-index: 9998
+        &.ui-corner-all
+            border-radius: 0 !important
+            border-color: transparent !important
     .ui-widget-overlay
         z-index: 0
         width: 100%

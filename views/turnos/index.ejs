@@ -19,9 +19,14 @@
         		<button type="submit" class="little-button less" title="<%=i18n.escapeRoom.steps.turnos.deleteTitle%>" >
         			<span class="material-icons">delete</span>
         		</button>
-        	</form>
+			</form>
+			<button type="button" class="little-button more edit-turno" title="<%=i18n.escapeRoom.steps.turnos.editTitle%>" data-turno-id="<%=turn.id%>" >
+				<span class="material-icons">edit</span>
+			</button>
 		</div>
 <%}%>
-<% include ./new %>
+<div class="turno always addItem addTurno"  >
+		<span>+</span>
 </div>
-
+<!-- <% include ./new %> -->
+</div>

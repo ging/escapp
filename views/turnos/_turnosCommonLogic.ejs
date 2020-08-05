@@ -36,7 +36,11 @@ const updateDate = (date) => {
 };
 
 const getQueryStringValue = (key) => decodeURIComponent(window.location.search.replace(new RegExp(`^(?:.*[&\\?]${encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&")}(?:\\=([^&]*))?)?.*$`, "i"), "$1"));
+let myDate = new Date(getQueryStringValue("date"));
 
+const date = (myDate && !isNaN(myDate.getDate())) ? myDate : new Date();
+
+updateDate(date);
 
 $(function () {
 
@@ -97,37 +101,6 @@ $(function () {
     const date = $("#datepicker").datepicker("getDate");
 
     updateDate(date);
-
-    $("#newForm").on("submit", function () {
-
-        const dateSubmitted = new Date($("#date").val());
-        const time = $("#start").val().
-            split(":");
-
-        const res = new Date(Date.UTC(dateSubmitted.getUTCFullYear(), dateSubmitted.getUTCMonth(), dateSubmitted.getUTCDate()+1, time[0], time[1]));
-        $("#date").val(res);
-
-        return true;
-
-    });
-
-    $('button.always').on('click', function(e) {
-        const hora = $(this).parent().find('.hora');
-        if ($(this).hasClass("off")) {
-            $(hora).html('<input autofocus class="turnos-picker turnos-time-picker" type="time" id="start" required name="start" value="09:00" placeholder="00:00" autocomplete="off"/>');
-            $(this).removeClass('off');
-            $(this).attr('title', '<%=i18n.escapeRoom.steps.turnos.alwaysTitle%>');
-            $(this).html('<span class="material-icons">alarm_off</span>')
-            $('#date').val(new Date());
-        } else {
-            $(hora).html('<span class="always"><%=i18n.turnos.always%></span>');
-            $(this).addClass('off');
-            $(this).attr('title', '<%=i18n.escapeRoom.steps.turnos.hourTitle%>');
-            $(this).html('<span class="material-icons">alarm_on</span>')
-            $('#date').val("always");
-        }
-
-    });
 
 
 });

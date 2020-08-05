@@ -16,6 +16,12 @@ module.exports = function (app) {
         return `${zeroPadding(d.getDate())}-${zeroPadding(d.getMonth() + 1)}-${d.getFullYear()} ${zeroPadding(d.getHours())}:${zeroPadding(d.getMinutes())}`;
     };
 
+    app.locals.getFullDateY = (d) => {
+        d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+
+        return `${d.getFullYear()}-${zeroPadding(d.getMonth() + 1)}-${zeroPadding(d.getDate())} ${zeroPadding(d.getHours())}:${zeroPadding(d.getMinutes())}`;
+    };
+
     app.locals.formatTime = function (currentDate) {
         currentDate.setMinutes(currentDate.getMinutes() + currentDate.getTimezoneOffset());
         return `${zeroPadding(currentDate.getHours())}:${zeroPadding(currentDate.getMinutes())}`;

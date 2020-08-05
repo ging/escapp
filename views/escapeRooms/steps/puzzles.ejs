@@ -106,7 +106,7 @@
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][id]" value=""/>
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][category]" class="hint-cat" value="${lastCat}"/>
                 <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][order]" class="hint-order" value="${hintOrder}"/>
-                <input type="text" name="puzzles[${order}][hints][${hintOrder}][content]" maxlength="10000" placeholder="" required value=""/>
+                <input type="text" class="light" name="puzzles[${order}][hints][${hintOrder}][content]" maxlength="10000" placeholder="" required value=""/>
                 <button type="button" class="delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>" >
                   <span class="material-icons">clear</span> 
                 </button>
@@ -152,7 +152,7 @@
     const catTemplate = (name, puzzle, cat) => {
         return `<li class="hint-category" data-id="${cat}">
             <span class="material-icons handle-cat">call_split</span>
-            <input class="hint-category-name" value="${name || ""}" placeholder="<%=i18n.escapeRoom.steps.puzzles.newCat%>" name="puzzles[${puzzle}][categories][${cat}]"/>
+            <input class="light hint-category-name" value="${name || ""}" placeholder="<%=i18n.escapeRoom.steps.puzzles.newCat%>" name="puzzles[${puzzle}][categories][${cat}]"/>
             ${cat === 0 ? "":`<button type="button" class="delete-cat" title="<%=i18n.escapeRoom.steps.puzzles.delete%>">
                 <span class="material-icons">clear</span>
             </button>`}
