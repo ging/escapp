@@ -44,7 +44,7 @@ exports.index = async (req, res, next) => {
     let page = parseInt(req.query.page || 1, 10);
 
     page = isNaN(page) || page < 1 ? 1 : page;
-    const limit = 20;
+    const limit = user.isStudent ? 20 : 19;
     let escapeRooms = [];
     let count = 0;
 
@@ -367,9 +367,9 @@ exports.studentToken = (req, res, next) => {
 
 exports.clone = async (req, res, next) => {
     try {
-        const {"title": oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, forceLang, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment, allowCustomHints, hintInterval} = req.escapeRoom;
+        const {"title": oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, forceLang, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, indicationsInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment, allowCustomHints, hintInterval, supportLink, automaticAttendance} = await models.escapeRoom.findByPk(req.escapeRoom.id, query.escapeRoom.loadComplete);
         const authorId = req.session && req.session.user && req.session.user.id || 0;
-        const newTitle = `Copy of ${oldTitle}`;
+        const newTitle = `${res.locals.i18n.escapeRoom.main.copyOf} ${oldTitle}`;
         const include = [{"model": models.puzzle, "include": [models.hint]}];
 
         if (hintApp) {
@@ -402,11 +402,14 @@ exports.clone = async (req, res, next) => {
             forbiddenLateSubmissions,
             classInstructions,
             teamInstructions,
+            indicationsInstructions,
             scoreParticipation,
             hintLimit,
             hintSuccess,
             hintFailed,
             authorId,
+            supportLink,
+            automaticAttendance,
             "puzzles": [...puzzles].map(({title, sol, desc, order, correct, fail, automatic, score, hints}) => ({
                 title,
                 sol,

@@ -36,12 +36,12 @@
                     <div class="flex-cell flex-name"><%=i18n.team.Team%></div>
                     <div class="flex-cell flex-turno"><%=i18n.turnos.Turno%></div>
                     <div class="flex-cell flex-participants"><%=i18n.participant.title%></div>
+                    <div class="flex-cell flex-started"><%=i18n.team.hasStarted%></div>
                 </div>
                 <% for (var p in teams) {
                     var team = teams[p]; %>
                 <div class="flex-row">
                     <div class="flex-cell flex-name">
-                        
                         <span><%= team.name %></span>
                     </div>
                     <div class="flex-cell flex-turno">
@@ -49,6 +49,9 @@
                     </div>
                     <div class="flex-cell flex-participants">
                         <%=team.teamMembers.map(m=>m.name + " " + m.surname).join(", ") %>
+                    </div>
+                    <div class="flex-cell flex-started">
+                        <span class="material-icons"><%=team.startTime ? "done" : "clear"  %></span>
                     </div>
                     <div class="operations-team">
                         <button class="reset-team" title="<%=i18n.team.resetProgress%>" onclick="overlayTrigger('reset-<%=team.id%>')">
@@ -75,7 +78,7 @@
                         </div>
                         <a href="mailto:<%=team.teamMembers.map(m=>m.username).join(';') %>">
                             <button class="reset-team" title="<%=i18n.team.email%>">
-                                <span class="material-icons" style="font-family: Material Icons;">email</span>
+                                <span class="material-icons">email</span>
                             </button>
                         </a>
                     </div>
@@ -95,8 +98,9 @@
         <div class="total-number">
             <b><%=i18n.common.Total%>:</b> <%= teams.length %> <%=i18n.team.teamS%>
         </div>
+        <br/><br/><br/>
 </div>
-<br/><br/><br/>
+
 <script>
     const overlayTrigger = (id, close) => {
         $('.overlay-trigger').hide();

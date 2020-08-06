@@ -6,14 +6,19 @@
       .flex-row
         .flex-cell
           &.flex-name
-            width: 35%
+            width: 30%
           &.flex-username
-            width: 35%
+            width: 25%
             text-overflow: ellipsis
             white-space: pre
             overflow: hidden
+            a
+              color: $darkerpurple
+              font-weight: normal
           &.flex-turno
             width: 18%
+          &.flex-team
+            width: 15%
           &.flex-attendance
             width: 12%
             border-right: none
@@ -30,6 +35,8 @@
               text-overflow: ellipsis
               overflow: hidden
               font-family: 'Lato', sans-serif
+              &.material-icons
+                font-family: 'Material Icons'
       .operations-participant
         position: absolute
         left: 0

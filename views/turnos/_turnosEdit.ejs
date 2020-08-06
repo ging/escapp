@@ -114,7 +114,8 @@
 
 		$( ".cancelTurno" ).on( "click", function() {
 			var id = $( this).data( "turnoId" );
-			$( "#dialog-turno-" + id ).dialog( "close" );
+            $( "#dialog-turno-" + id ).dialog( "close" );
+            $("#dialog-turno-" + id  + " form")[0].reset()
 		});
 
         $('input[name="celebrationDate"]').daterangepicker({

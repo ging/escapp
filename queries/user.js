@@ -138,7 +138,7 @@ exports.participantsWithTurnoAndTeam = (escapeRoomId, turnId, orderBy) => {
                 "as": "teamsAgregados",
                 "duplicating": false,
                 "required": true,
-                "attributes": ["id"],
+                "attributes": ["id", "name"],
                 "include": {
                     "model": models.turno,
                     "where": {escapeRoomId}
@@ -154,7 +154,17 @@ exports.participantsWithTurnoAndTeam = (escapeRoomId, turnId, orderBy) => {
     if (orderBy) {
         const isPg = process.env.DATABASE_URL;
 
-        options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
+        if (orderBy === "team") {
+            options.order = [
+                [
+                    { "model": models.team, "as": "teamsAgregados"},
+                    "name",
+                    "asc"
+                ]
+            ];
+        } else {
+            options.order = Sequelize.literal(isPg ? `lower("user"."${orderBy}") ASC` : `lower(user.${orderBy}) ASC`);
+        }
     }
     return options;
 };

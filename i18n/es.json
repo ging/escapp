@@ -312,6 +312,7 @@
             "yes": "sí"
         },
         "main": {
+            "copyOf": "Copia de",
             "createER": "Crear nueva escape room",
             "noERTeacher": "No has creado ninguna escape room, gestiónalas desde aquí...",
             "noERStudent": "No tienes ninguna escape room activa, utiliza en enlace original que te ha proporcionado tu profe para apuntarte.",
@@ -450,7 +451,7 @@
                 "assets": "Galería de ficheros",
                 "team": "Interfaz de equipo",
             	"class": "Interfaz de clase",
-            	"instructions": "Instrucciones",
+            	"indications": "Instrucciones",
             	"appearance": "Apariencia",
             	"evaluation": "Evaluación"
             },
@@ -781,6 +782,7 @@
         "emptyER": "No hay equipos en esta escape room",
         "emptyTurno": "No hay equipos en este turno",
         "fullTeam": "Equipo completo. Por favor, elige otro equipo",
+        "hasStarted": "¿Han comenzado?",
         "alreadyFinished": "Este equipo ya ha terminado la escape room. Por favor, elige otro equipo",
         "Members": "Integrantes",
         "noTeamYet": "No hay equipos todavía...",

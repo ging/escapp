@@ -2235,14 +2235,19 @@ body .daterangepicker {
   #mainSection .main.participants .flex-table-wrapper .flex-table {
     overflow: visible; }
     #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-name {
-      width: 35%; }
+      width: 30%; }
     #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-username {
-      width: 35%;
+      width: 25%;
       text-overflow: ellipsis;
       white-space: pre;
       overflow: hidden; }
+      #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-username a {
+        color: #161938;
+        font-weight: normal; }
     #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-turno {
       width: 18%; }
+    #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-team {
+      width: 15%; }
     #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-attendance {
       width: 12%;
       border-right: none; }
@@ -2258,6 +2263,8 @@ body .daterangepicker {
         text-overflow: ellipsis;
         overflow: hidden;
         font-family: 'Lato', sans-serif; }
+        #mainSection .main.participants .flex-table-wrapper .flex-table .flex-row:not(.flex-row-title) .flex-cell span.material-icons {
+          font-family: 'Material Icons'; }
     #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant {
       position: absolute;
       left: 0;
@@ -2572,6 +2579,8 @@ body .daterangepicker {
       #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell {
         text-align: center;
         border-right: 3px solid white; }
+        #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .material-icons {
+          font-family: 'Material Icons'; }
         #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-cell-retos {
           width: 20%; }
         #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-cell-sol {
@@ -3195,11 +3204,15 @@ table.mainTable {
   #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-turno {
     width: 20%; }
   #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-participants {
-    width: 60%;
+    width: 50%; }
+  #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-started {
+    width: 10%;
     border-right: none; }
   #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row:not(.flex-row-title) .flex-cell {
     font-family: 'Lato', sans-serif;
     padding: 5px; }
+    #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row:not(.flex-row-title) .flex-cell .material-icons {
+      font-family: 'Material Icons'; }
   #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team {
     position: absolute;
     left: 0;

@@ -31,6 +31,7 @@
                         <option value="name" <%= orderBy === "name" ? "selected": ""%>><%=i18n.user.name%></option>
                         <option value="surname" <%= orderBy === "surname" ? "selected": ""%>><%=i18n.user.surname%></option>
                         <option value="username" <%= orderBy === "username" ? "selected": ""%>><%=i18n.user.username%></option>
+                        <option value="team" <%= orderBy === "team" ? "selected": ""%>><%=i18n.team.Team%></option>
                     </select></label>
             <button type="submit" class="editButton participants-button filter-button" ><%=i18n.common.filter%></button>
             <button type="submit" id="csv-button" class="participants-button download-button" name="csv" value="csv"><%=i18n.participant.download%></button>
@@ -47,14 +48,16 @@
                     <div class="flex-cell flex-name"><span><%=i18n.user.name%></span></div>
                     <div class="flex-cell flex-username"><span><%=i18n.user.username%></span></div>
                     <div class="flex-cell flex-turno"><span><%=i18n.user.turno%></span></div>
+                    <div class="flex-cell flex-team"><span><%=i18n.team.Team%></span></div>
                     <div class="flex-cell flex-attendance"><%=i18n.participant.present%></div>
                 </div>
                 <% for (var p in participants) {
                     var participant = participants[p]; %>
                 <div class="flex-row">
                     <div class="flex-cell flex-name"><span><%= participant.name %> <%= participant.surname %></span></div>
-                    <div class="flex-cell flex-username"><span><%= participant.username %></span></div>
+                    <div class="flex-cell flex-username"><span><a href="mailto:<%=participant.username%>"><%= participant.username %></a></span></div>
                     <div class="flex-cell flex-turno"><span><%= participant.turnDate ? getFullDate(participant.turnDate) : i18n.turnos.alwaysOpen  %></span></div>
+                    <div class="flex-cell flex-team"><span><%= participant.teamName%></span></div>
                     <div class="flex-cell flex-attendance">
                         <input type="checkbox" class="attendance-checkbox"
                                data-id="<%=participant.id%>"

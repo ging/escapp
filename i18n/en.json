@@ -321,6 +321,7 @@
             "yes": "yes"
         },
         "main": {
+            "copyOf": "Copy of",
             "createER": "Create new escape room",
             "noERTeacher": "You haven't created any Escape Rooms yet. Manage them from here",
             "noERStudent": "You haven't any active Escape Rooms yet, wait for your teacher's invitation.",
@@ -459,6 +460,7 @@
                 "hints": "Hint management",
                 "assets": "Asset upload",
                 "team": "Team Interface",
+                "indications": "Pre-activity instructions",
                 "class": "Classroom Interface",
                 "participants": "Participants",
                 "puzzles": "Puzzles",
@@ -794,6 +796,7 @@
         "emptyER": "There aren't any teams yet",
         "emptyTurno": "There aren't any teams in this shift yet",
         "fullTeam": "Complete team. Please choose another team",
+        "hasStarted": "Have they started?",
         "alreadyFinished": "This team has already finished the escape room. Please choose another team",
         "Members": "Members",
         "noTeamYet": "There aren't any teams yet",
