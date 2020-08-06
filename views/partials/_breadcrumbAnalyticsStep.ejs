@@ -1,0 +1,24 @@
+<div class="breadcrumbs-container">
+    <div class="breadcrumbs">
+        <a href="/escapeRooms"><%=i18n.common.my%></a>
+        <span class="material-icons">chevron_right</span>
+        <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+        <span class="material-icons">chevron_right</span>
+        <a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
+        <span class="material-icons">chevron_right</span>
+        <span class="select-wrapper">
+            <select class="breadcrumb-select" onchange="change(this)">
+                <% for (var i in labels) { %>
+                    <option value="<%=labels[i].url%>" <%=i === current ? "selected" : "" %> >
+                        <%=i18n.analytics.main[i]%>
+                    </option>
+                <% } %>
+            </select>
+        </span>
+    </div>
+</div>
+<script>
+    function change (ev) {
+       window.location.href = "/escapeRooms/<%=escapeRoom.id%>/analytics"+$(ev).val() + window.location.search;
+    }
+</script>

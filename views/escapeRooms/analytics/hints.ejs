@@ -2,17 +2,7 @@
 <script src="/js/vendor/apexcharts.js"></script>
 <% include ../../partials/_header.ejs %>
 <div class="main retosSuperados hintAnalytics">
-	<div class="breadcrumbs-container">
-		<div class="breadcrumbs">
-            <a href="/escapeRooms"><%=i18n.common.my%></a>
-            <span class="material-icons">chevron_right</span>
-			<a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
-			<span class="material-icons">chevron_right</span>
-			<a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
-			<span class="material-icons">chevron_right</span>
-			<span><%=i18n.analytics.hints.title%></span>
-		</div>
-	</div>
+    <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "hints"}) %>
     <h1><%=i18n.analytics.hints.title%></h1>
     <form method="get" class="" action="/escapeRooms/<%= escapeRoom.id %>/analytics/hints/<%=single?"participants":"teams"%>" style="text-align: left;">
         <div class="filters">
@@ -42,13 +32,13 @@
                 <%=i18n.analytics.main.download%>
             </button>
             <% if (single) { %> 
-                <a href="teams">
+                <a href="teams?turnId=<%=turnId%>">
                     <button type="button" class="filter-button">
                         <%=i18n.team.seeByTeam%>
                     </button>
                 </a>
             <% } else {%>    
-                <a href="participants">
+                <a href="participants?turnId=<%=turnId%>">
                     <button type="button" class="filter-button">
                         <%=i18n.participant.seeByParticipant%>
                     </button>

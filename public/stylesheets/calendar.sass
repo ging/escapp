@@ -1,6 +1,10 @@
 .main
 	&.step-turnos
 		#datepicker
+			user-select: none
+			-moz-user-select: none
+			-webkit-user-select: none
+			-ms-user-select: none
 			.ui-datepicker-inline.ui-datepicker
 				width: 20em
 				padding-left: 75px
@@ -17,7 +21,7 @@
 					font-family: 'Lato', sans-serif
 					font-size: 16px
 				td, a
-					color: #92A3AB
+					color: $textpurple
 					text-align: center
 					font-weight: bold
 					&.turn-day-highlight

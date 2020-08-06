@@ -71,4 +71,34 @@ module.exports = function (app) {
 
     app.locals.steps = steps;
     app.locals.getContentForPuzzle = getContentForPuzzle;
+    app.locals.analyticsSections = () => ({
+        "ranking": {
+            "url": "/ranking",
+            "icon": "event_seat"
+        },
+        "retosSuperados": {
+            "url": "/puzzles/teams",
+            "icon": "check"
+        },
+        "progress": {
+            "url": "/progress",
+            "icon": "timelapse"
+        },
+        "timeline": {
+            "url": "/timeline",
+            "icon": "timeline"
+        },
+        "hints": {
+            "url": "/hints/teams",
+            "icon": "search"
+        },
+        "histogram": {
+            "url": "/histogram",
+            "icon": "equalizer"
+        },
+        "grading": {
+            "url": "/grading",
+            "icon": "school"
+        }
+    });
 };

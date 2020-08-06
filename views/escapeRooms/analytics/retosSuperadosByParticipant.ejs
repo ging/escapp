@@ -1,17 +1,8 @@
 <% include ../../partials/_header.ejs %>
 
 <div class="main retosSuperados">
-    <div class="breadcrumbs-container">
-        <div class="breadcrumbs">
-            <a href="/escapeRooms"><%=i18n.common.my%></a>
-            <span class="material-icons">chevron_right</span>
-            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
-            <span class="material-icons">chevron_right</span>
-            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
-            <span class="material-icons">chevron_right</span>
-            <span><%=i18n.analytics.retosSuperados.title%></span>
-        </div>
-    </div>
+    <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "retosSuperados"}) %>
+
     <h1><%=i18n.analytics.retosSuperados.title%></h1>
     <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/puzzles/participants">
         <div class="filters">
@@ -34,7 +25,7 @@
                 </select></label>
             <button type="submit" class="editButton filter-button" ><%=i18n.common.filter%></button>
             <button type="submit" name="csv" value="1" class="acceptButton filter-button" ><%=i18n.analytics.main.download%></button>
-            <a href="teams"><button type="button" class="buttonTab filter-button"><%=i18n.team.seeByTeam%></button></a>
+            <a href="teams?turnId=<%=turnId%>"><button type="button" class="buttonTab filter-button"><%=i18n.team.seeByTeam%></button></a>
 
         </div>
     </form>

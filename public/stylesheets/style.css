@@ -353,82 +353,87 @@ button, input[type="submit"] {
   height: auto;
   min-height: 0px; }
 
-.main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker {
-  width: 20em;
-  padding-left: 75px;
-  padding-right: 75px;
-  padding-bottom: 25px;
-  padding-top: 25px;
-  border-radius: 20px;
-  line-height: 30px; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th {
-    color: #333; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th:nth-child(6), .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th:nth-child(7) {
-    color: #F47E84; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker * {
-    font-family: 'Lato', sans-serif;
-    font-size: 16px; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker td, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker a {
-    color: #92A3AB;
-    text-align: center;
-    font-weight: bold; }
-    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker td.turn-day-highlight .ui-state-default, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker a.turn-day-highlight .ui-state-default {
-      color: blue;
-      background-color: #FAC855;
+.main.step-turnos #datepicker {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none; }
+  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker {
+    width: 20em;
+    padding-left: 75px;
+    padding-right: 75px;
+    padding-bottom: 25px;
+    padding-top: 25px;
+    border-radius: 20px;
+    line-height: 30px; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th {
+      color: #333; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th:nth-child(6), .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker th:nth-child(7) {
+      color: #F47E84; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker * {
+      font-family: 'Lato', sans-serif;
+      font-size: 16px; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker td, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker a {
+      color: #656683;
+      text-align: center;
+      font-weight: bold; }
+      .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker td.turn-day-highlight .ui-state-default, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker a.turn-day-highlight .ui-state-default {
+        color: blue;
+        background-color: #FAC855;
+        border-radius: 50%;
+        color: black; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next {
+      color: white;
+      border-radius: 0px;
+      cursor: pointer; }
+      .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev.ui-state-hover, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next.ui-state-hover {
+        border: none;
+        background: #fff; }
+      .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev span, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span {
+        background-image: none !important; }
+        .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev span::before, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span::before {
+          position: relative;
+          display: inline-block;
+          content: '';
+          width: 0;
+          height: 0;
+          border: 10px solid transparent;
+          border-right-color: #F3945E;
+          content: ''; }
+        .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev span.ui-icon, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span.ui-icon {
+          height: 20px;
+          width: 20px;
+          display: block;
+          text-indent: 0;
+          overflow: hidden;
+          background-repeat: no-repeat;
+          line-height: 14px;
+          font-size: 19px; }
+      .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev.ui-datepicker-prev-hover, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next.ui-datepicker-prev-hover {
+        top: 2px;
+        left: 2px;
+        cursor: pointer; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next.ui-datepicker-next-hover {
+      top: 2px;
+      right: 2px;
+      cursor: pointer; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span::before {
+      border-right-color: transparent;
+      border-left-color: #F3945E; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header.ui-widget-header {
+      background-color: white;
+      border-color: white; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-title span {
+      font-size: 20px; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-default {
+      background-color: transparent;
+      border-color: transparent; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-highlight:not(.ui-state-active) {
+      color: #F47E84; }
+    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-active {
+      background-color: #48C18E !important;
       border-radius: 50%;
       color: black; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next {
-    color: white;
-    border-radius: 0px;
-    cursor: pointer; }
-    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev.ui-state-hover, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next.ui-state-hover {
-      border: none;
-      background: #fff; }
-    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev span, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span {
-      background-image: none !important; }
-      .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev span::before, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span::before {
-        position: relative;
-        display: inline-block;
-        content: '';
-        width: 0;
-        height: 0;
-        border: 10px solid transparent;
-        border-right-color: #F3945E;
-        content: ''; }
-      .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev span.ui-icon, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span.ui-icon {
-        height: 20px;
-        width: 20px;
-        display: block;
-        text-indent: 0;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        line-height: 14px;
-        font-size: 19px; }
-    .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-prev.ui-datepicker-prev-hover, .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next.ui-datepicker-prev-hover {
-      top: 2px;
-      left: 2px;
-      cursor: pointer; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next.ui-datepicker-next-hover {
-    top: 2px;
-    right: 2px;
-    cursor: pointer; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-next span::before {
-    border-right-color: transparent;
-    border-left-color: #F3945E; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header.ui-widget-header {
-    background-color: white;
-    border-color: white; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-datepicker-header .ui-datepicker-title span {
-    font-size: 20px; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-default {
-    background-color: transparent;
-    border-color: transparent; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-highlight:not(.ui-state-active) {
-    color: #F47E84; }
-  .main.step-turnos #datepicker .ui-datepicker-inline.ui-datepicker .ui-state-active {
-    background-color: #48C18E !important;
-    border-radius: 50%;
-    color: black; }
 
 .apexcharts-canvas * {
   font-family: "Lato", sans-serif !important;
@@ -2144,7 +2149,8 @@ body .daterangepicker {
           -webkit-text-stroke-color: white;
           background: none;
           font-family: Lato, sans-serif;
-          padding-right: 20px; }
+          padding-right: 20px;
+          font-weight: 400; }
           #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select option {
             font-family: Lato, sans-serif; }
           #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select:active, #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select:focus, #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select:hover {
@@ -3380,7 +3386,7 @@ table.mainTable {
       display: none; }
     #mainSection .main .flexBoxTurnos .turno .hora {
       font-size: 25px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       overflow: hidden; }
     #mainSection .main .flexBoxTurnos .turno .place {
       color: #161938;
@@ -3388,7 +3394,11 @@ table.mainTable {
       line-height: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
-      word-break: normal; }
+      word-break: normal;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      max-height: 40px; }
       #mainSection .main .flexBoxTurnos .turno .place .no-place {
         color: #a1a3af;
         font-size: 10px; }

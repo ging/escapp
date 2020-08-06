@@ -3,17 +3,8 @@
 
 <% include ../../partials/_header.ejs %>
 <div class="main">
-    <div class="breadcrumbs-container">
-        <div class="breadcrumbs">
-            <a href="/escapeRooms"><%=i18n.common.my%></a>
-            <span class="material-icons">chevron_right</span>
-            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
-            <span class="material-icons">chevron_right</span>
-            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
-            <span class="material-icons">chevron_right</span>
-            <span><%=i18n.analytics.progress.title%></span>
-        </div>
-    </div>
+  <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "progress"}) %>
+
   <h1><%=i18n.analytics.progress.title%></h1>
   <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/progress">
     <div class="filters">

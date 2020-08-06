@@ -13,51 +13,13 @@
         </div>
     </div>
     <h1><%=i18n.analytics.main.title%></h1>
-<%
-    var sections = [
-        {
-            url:"/ranking",
-            icon:"event_seat",
-            title: i18n.analytics.main.ranking
-        },
-        {
-            url:"/puzzles/teams",
-            icon:"check",
-            title: i18n.analytics.main.retosSuperados
-        },
-        {
-            url:"/progress",
-            icon:"timelapse",
-            title: i18n.analytics.main.progress
-        },
-        {
-            url:"/timeline",
-            icon:"timeline",
-            title: i18n.analytics.main.timeline
-        },
-        {
-            url:"/hints/teams",
-            icon:"search",
-            title: i18n.analytics.main.hints
-        },
-        {
-            url:"/histogram",
-            icon:"equalizer",
-            title: i18n.analytics.main.histogram
-        },
-        {
-            url:"/grading",
-            icon:"school",
-            title: i18n.analytics.main.grading
-        },
-    ]
-
- %>
+<%var sections = analyticsSections()%>
     <div class="flex-container analytics-menu">
         <div class="flex-container-left animated slideInLeft">
-            <%for (let i in sections) {
-            let {url, icon, title} = sections[i];%>
-            <%- include('_analytics_link', {url, icon, title, escapeRoom, i}) %>
+            <%var i = 0;
+            for (let title in sections) {
+            let {url, icon} = sections[title];%>
+            <%- include('_analytics_link', {url, icon, title: i18n.analytics.main[title], escapeRoom, i: i++}) %>
             <%}%>
         </div>
         <div class="flex-container-right">

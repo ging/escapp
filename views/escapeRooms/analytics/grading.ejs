@@ -1,17 +1,7 @@
 <% include ../../partials/_header.ejs %>
 
 <div class="main grading">
-    <div class="breadcrumbs-container">
-        <div class="breadcrumbs">
-            <a href="/escapeRooms"><%=i18n.common.my%></a>
-            <span class="material-icons">chevron_right</span>
-            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
-            <span class="material-icons">chevron_right</span>
-            <a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
-            <span class="material-icons">chevron_right</span>
-            <span><%=i18n.analytics.grading.title%></span>
-        </div>
-    </div>
+    <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "grading"}) %>
     <h1><%=i18n.analytics.grading.title%></h1>
     <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/grading">
         <div class="filters">
@@ -55,7 +45,7 @@
             <% if (hintAppConditional) { %><th><%=i18n.analytics.grading.hintFailed%></th><%}%>
             <th><%=i18n.common.Total%></th>
         </tr>
-        <%for (var p in results) { var result = results[p]; console.log(result)%>
+        <%for (var p in results) { var result = results[p];%>
         <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(p)+(0.3)%>s;">
             <td class="align-left"><%=result.name%> <%= result.surname%></td>
             <td><%= result.turno ? getFullDate(result.turno) : i18n.turnos.alwaysOpen%></td>
