@@ -191,7 +191,7 @@ exports.update = (req, res, next) => {
     turn.from = from ? new Date(from) : null;
     turn.to = to ? new Date(to) : null;
     turn.password = password;
-    turn.status = (date === "always" && turn.status === "pending") ? "active" : turn.status;
+    turn.status = date === "always" && turn.status === "pending" ? "active" : turn.status;
 
     let back = "";
 

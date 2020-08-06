@@ -4,7 +4,7 @@
         <span class="material-icons">chevron_right</span>
         <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
         <span class="material-icons">chevron_right</span>
-        <a href="/escapeRooms/<%=escapeRoom.id%>/analytics"><%=i18n.analytics.main.title%></a>
+        <a href="/escapeRooms/<%=escapeRoom.id%>/analytics<%=turnId? `?turnId=${turnId}`: ''%>"><%=i18n.analytics.main.title%></a>
         <span class="material-icons">chevron_right</span>
         <span class="select-wrapper">
             <select class="breadcrumb-select" onchange="change(this)">

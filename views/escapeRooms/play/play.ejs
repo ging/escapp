@@ -164,6 +164,16 @@
                     </script>
                 </li>
                 <%}%>
+                <% if (endPoint === "class") {%>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>/analytics?turnId=<%=turnoId%>" data-toggle="tooltip" title="<%=i18n.escapeRoom.play.Analytics%>">
+                        <button class="btn btn-warning" >
+                            <span class="material-icons ">timeline</span>
+                        </button>
+                    </a>
+                </li>
+                <%}%>
                 <li class="nav-item active">
                     <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>" data-toggle="tooltip" title="<%=i18n.escapeRoom.play.Exit%>">
                         <button class="btn btn-light" >

@@ -23,6 +23,8 @@
         width: 62px
         text-align: right
         color: white
+        &.operations-team-bis
+          margin-left: -95px
         .overlay-trigger
           left: 30px
           top: 35px
@@ -38,7 +40,12 @@
           @extend %scale-animation-up
           &.hidden
             display: none
-
+      @media (max-width:1388px)
+        .operations-team-bis  
+          right: 0
+          left: auto
+          margin-left: 0 !important
+          margin-right: -60px
   .filters
     *
       font-size: 16px
@@ -81,4 +88,5 @@
     text-align: center
     width: 100%
     padding: 15px
-    
+
+  

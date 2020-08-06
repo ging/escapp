@@ -3208,6 +3208,8 @@ table.mainTable {
     width: 62px;
     text-align: right;
     color: white; }
+    #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team.operations-team-bis {
+      margin-left: -95px; }
     #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .overlay-trigger {
       left: 30px;
       top: 35px; }
@@ -3222,6 +3224,12 @@ table.mainTable {
         color: white; }
       #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team.hidden {
         display: none; }
+  @media (max-width: 1388px) {
+    #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team-bis {
+      right: 0;
+      left: auto;
+      margin-left: 0 !important;
+      margin-right: -60px; } }
 
 #mainSection .main.teams .filters * {
   font-size: 16px; }

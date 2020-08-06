@@ -83,7 +83,7 @@ exports.index = async (req, res, next) => {
             {
                 "model": models.user,
                 "as": "teamMembers",
-                "attributes": ["name", "surname"]
+                "attributes": ["name", "surname", "username"]
 
             }
         ],
@@ -139,6 +139,24 @@ exports.resetProgress = async (req, res) => {
     } catch (e) {
         console.error(e);
         req.flash("error", i18n.team.resetFail);
+    }
+    res.redirect("back");
+};
+
+// DELETE /escapeRooms/:escapeRoomId/turnos/:turnoId/teams/:teamId
+exports.delete = async (req, res) => {
+    const {i18n} = res.locals;
+
+    try {
+        await req.team.destroy();
+
+        const teams = await getRanking(req.escapeRoom.id, req.turn.id);
+
+        sendLeaveTeam(req.team.id, req.turn.id, teams);
+        req.flash("success", i18n.team.deleteSuccess);
+    } catch (e) {
+        console.error(e);
+        req.flash("error", i18n.team.deleteFail);
     }
     res.redirect("back");
 };
