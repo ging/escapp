@@ -36,13 +36,13 @@
 			<div class="turno-form-group">
 				<span class="material-icons">vpn_key</span>
 				<label class="light" for="password"><%= i18n.escapeRoom.steps.turnos.password %></label>
-				<input name="password" type="text" value="<%=turno.password%>" class="light" placeholder="<%= i18n.escapeRoom.steps.turnos.passwordPlaceholder %>">
+				<input name="password" type="text" value="<%=turno.password%>" class="light" placeholder="<%= i18n.escapeRoom.steps.turnos.passwordPlaceholder + ' (' + (escapeRoom.invitation || i18n.escapeRoom.steps.turnos.passwordEmpty) + ')'%>">
 				<br/><br/>
 			</div>
 			<div class="turno-form-group">
 				<span class="material-icons">group</span>
 				<label class="light" for="capacity"><%= i18n.escapeRoom.steps.turnos.capacity %></label>
-				<input name="capacity" type="number" value="<%=turno.capacity%>" class="light" placeholder="<%= i18n.escapeRoom.steps.turnos.capacityPlaceholder %>">
+				<input name="capacity" type="number" value="<%=turno.capacity || null%>" class="light" placeholder="<%= i18n.escapeRoom.steps.turnos.capacityPlaceholder %>">
 				<br/><br/>
 			</div>
 			<div class="align-right">

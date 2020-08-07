@@ -19,10 +19,6 @@ module.exports = function (sequelize, DataTypes) {
                 }
             },
             "description": {"type": DataTypes.STRING},
-            "nmax": {
-                "type": DataTypes.INTEGER,
-                "validate": {"max": 10000, "notEmpty": {"msg": "El número de participantes no puede estar vacío."}}
-            },
             "hintInterval": {
                 "type": DataTypes.FLOAT,
                 "validate": {"max": 24 * 60 * 60 * 365}
@@ -31,14 +27,15 @@ module.exports = function (sequelize, DataTypes) {
                 "type": DataTypes.INTEGER,
                 "validate": {"max": 10000, "notEmpty": {"msg": "El tamaño de los equipos no puede estar vacío."}}
             },
+            "scope": {"type": DataTypes.BOOLEAN},
             "invitation": {
-                "type": DataTypes.STRING,
-                "allowNull": false,
+                "type": DataTypes.STRING
+                /* "allowNull": false,
                 "defaultValue" () {
                     return Math.random().toString(36).
                         substr(2);
                 },
-                "validate": {"notEmpty": {"msg": "La URL de la invitación no puede estar vacía."}}
+                "validate": {"notEmpty": {"msg": "La URL de la invitación no puede estar vacía."}}*/
             },
             "teamAppearance": {
                 "type": DataTypes.TEXT,

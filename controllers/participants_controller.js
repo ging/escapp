@@ -21,7 +21,6 @@ exports.checkIsNotParticipant = async (req, res, next) => {
             }
         });
 
-        console.log(isParticipant);
         if (isParticipant) {
             req.flash("error", i18n.turnos.alreadyIn);
             res.redirect("/escapeRooms");
@@ -33,27 +32,33 @@ exports.checkIsNotParticipant = async (req, res, next) => {
     }
 };
 
-exports.checkJoinToken = (req, res, next) => {
-    const token = req.query.token || req.body.token;
-    const {i18n} = res.locals;
-
-    if (token !== req.escapeRoom.invitation) {
-        req.flash("error", i18n.participant.wrongToken);
-        res.redirect(`/escapeRooms/${req.escapeRoom.id}/join`);
-    } else {
-        req.token = token;
-        next();
-    }
-};
-
 exports.checkSomeTurnAvailable = async (req, res, next) => {
     const { escapeRoom } = req;
-    const turnos = await models.turno.findAll({"where": {"escapeRoomId": escapeRoom.id}, "include": [{"model": models.user, "as": "students", "through": "participants"}], "order": [["date", "ASC NULLS LAST"]]});
+    const turnos = await models.turno.findAll({
+        "where": {
+            "escapeRoomId": req.escapeRoom.id,
+            "status": {[Op.not]: "finished"},
+            "from": {
+                [Op.or]: {
+                    [Op.eq]: null,
+                    [Op.lt]: new Date()
+                }
+            },
+            "to": {
+                [Op.or]: {
+                    [Op.eq]: null,
+                    [Op.gt]: new Date()
+                }
+            }
+        },
+        "include": [{"model": models.user, "as": "students", "through": "participants"}],
+        "order": [["date", "ASC NULLS LAST"]]
+    });
     const {i18n} = res.locals;
 
     req.turnos = turnos;
     for (const turno of turnos) {
-        if (checkIsTurnAvailable(turno, escapeRoom.nmax, escapeRoom.duration)) {
+        if (checkIsTurnAvailable(turno, escapeRoom.duration)) {
             next();
             return;
         }
@@ -66,7 +71,7 @@ exports.checkTurnAvailable = (req, res, next) => {
     const {turn, escapeRoom} = req;
     const {i18n} = res.locals;
 
-    if (checkIsTurnAvailable(turn, escapeRoom.nmax, escapeRoom.duration)) {
+    if (checkIsTurnAvailable(turn, escapeRoom.duration)) {
         next();
         return;
     }
@@ -89,21 +94,6 @@ exports.checkTeamAvailable = (req, res, next) => {
     }
 };
 
-
-// POST  /escapeRooms/:escapeRoomId/turnos/:turnId/select
-exports.selectTurno = (req, res, next) => {
-    const {escapeRoom} = req;
-
-    if (escapeRoom.teamSize === 1) {
-        req.body.name = req.session.user.name;
-        req.params.turnoId = req.body.turnSelected;
-        next();
-    } else {
-        const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.body.turnSelected}/teams?token=${req.token}`;
-
-        res.redirect(direccion);
-    }
-};
 
 // GET /escapeRooms/:escapeRoomId/participants
 exports.index = async (req, res, next) => {

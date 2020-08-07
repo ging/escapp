@@ -4,7 +4,6 @@ const {Op} = Sequelize;
 const {models} = sequelize;
 const {nextStep, prevStep} = require("../helpers/progress");
 const {startTurno, stopTurno} = require("../helpers/sockets");
-const {checkOnlyOneTurn, checkTeamSizeOne} = require("../helpers/utils");
 
 
 // Autoload the turn with id equals to :turnId
@@ -64,32 +63,6 @@ exports.isTurnStarted = (req, res, next) => {
     next();
 };
 
-// POST /escapeRooms/:escapeRoomId/join
-exports.indexStudent = async (req, res, next) => {
-    try {
-        const {escapeRoom, token} = req;
-
-        escapeRoom.turnos = await models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "order": [["date", "ASC NULLS LAST"]]});
-
-        const onlyOneTurn = checkOnlyOneTurn(escapeRoom);
-        const onlyOneMember = checkTeamSizeOne(escapeRoom);
-
-        if (onlyOneTurn) {
-            if (onlyOneMember) {
-                req.params.turnoId = escapeRoom.turnos[0].id;
-                req.body.name = req.session.user.name;
-                req.user = await models.user.findByPk(req.session.user.id);
-                next();
-            } else {
-                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}`);
-            }
-        } else {
-            res.render("turnos/_indexStudent.ejs", {"turnos": req.turnos, escapeRoom, token});
-        }
-    } catch (e) {
-        next(e);
-    }
-};
 
 // GET /escapeRooms/:escapeRoomId/activarTurno
 exports.indexActivarTurno = async (req, res, next) => {

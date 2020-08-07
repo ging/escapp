@@ -17,32 +17,23 @@
 
      },
      {
-         name: "duration",
-         id: "dur",
-         i18n: "duration",
-         number: true,
-         min: 1,
-         max: 24 * 60 * 60 * 365,
-         value: escapeRoom.duration,
-         required: true
+        name: "description",
+        id: "desc",
+        i18n: "description",
+        required: true,
+        maxlength: 200,
+        value: escapeRoom.description
+    },
+     {
+        name: "duration",
+        id: "dur",
+        i18n: "duration",
+        number: true,
+        min: 1,
+        max: 24 * 60 * 60 * 365,
+        value: escapeRoom.duration,
+        required: true
 
-     },
-     {
-         name: "description",
-         id: "desc",
-         i18n: "description",
-         required: true,
-         maxlength: 200,
-         value: escapeRoom.description
-     },
-     {
-         name: "nmax",
-         id: "nm",
-         i18n: "nmax",
-         number: true,
-         min: 1,
-         max: 10000,
-         value: escapeRoom.nmax || null
      },
      {
          name: "teamSize",
@@ -58,7 +49,8 @@
          maxlength: 200,
          i18n: "supportLink",
          value: escapeRoom.supportLink
-     }]; %>
+     }
+    ]; %>
 <% for (let f in formFields) {
   var field = formFields[f];%>
     <div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*f%>ms;">
@@ -74,16 +66,30 @@
     
 <%}%>
 <div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*formFields.length%>ms;">
-  <label for="<%=field.id%>"  class="itemNarrow"><%=7%>. <%=i18n.showTeacher.titles["forceLang"]%>:</label>
+  <label for="<%=field.id%>"  class="itemNarrow">7. <%=i18n.showTeacher.titles["forceLang"]%>:</label>
   <select class="customInput itemWide" id="forceLang" name="forceLang" autocomplete="off">
     <option value="" <%=escapeRoom.forceLang  ? "" : "selected" %>><%=i18n.langs["dontForce"]%> </option>
     <option value="en" <%=escapeRoom.forceLang == "en"  ? "selected" : "" %>><%=i18n.langs["en"]%></option>
     <option value="es"<%=escapeRoom.forceLang == "es" ? "selected" : "" %>><%=i18n.langs["es"]%></option>
   </select>
 </div>
+ 
+<div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*(formFields.length+1).length%>ms;">
+  <label for="scope"  class="itemNarrow">8. <%=i18n.showTeacher.titles["scope"]%>:</label>
+  <select class="customInput itemWide" id="scope" name="scope" autocomplete="off">
+    <option value="public" <%=!Boolean(escapeRoom.scope)  ? "" : "selected" %>><%=i18n.escapeRoom.invitation.scopes["public"]%> </option>
+    <option value="private" <%=Boolean(escapeRoom.scope) ? "selected" : "" %>><%=i18n.escapeRoom.invitation.scopes["private"]%></option>
+  </select>
+</div>
+
+<div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*(formFields.length+2)%>ms;">
+  <label for="invitation"  class="itemNarrow">9. <%=i18n.showTeacher.titles.password%>:</label>
+  <input  type="text" class="customInput itemWide" id="<%= field.id %>" name="invitation" value="<%= escapeRoom.invitation %>"  
+         placeholder="<%=i18n.escapeRoom.steps.edit.passwordPlaceHolder%>" autocomplete="off"/>
+</div>
 
 <div class="inputFormField erFormField animated slideInUp" style="animation-delay: <%=200*(formFields.length+1)%>ms;">
-    <label class="itemNarrow">8. <%=i18n.showTeacher.titles.thumbnail%>:</label>
+    <label class="itemNarrow">10. <%=i18n.showTeacher.titles.thumbnail%>:</label>
     <input class="attach" type="file" id="img" name="image"/>
     <label for="img" class="fileUpload customInput itemWide">
       <span id="imgLabel" >

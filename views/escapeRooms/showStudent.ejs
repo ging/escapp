@@ -20,11 +20,8 @@
 		<div class="flex-er-info animated fadeIn">
 			<h1><%=escapeRoom.title%></h1>
 			<h2><%=i18n.turnos.Turno%></h2>
-			<p><%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%></p>
-			<% if (turno.place) { %> 
-				<h2><%=i18n.turnos.place%></h2>
-				<p><%= turno.place %></p>
-			<% } %>
+			<p><%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%> <% if (turno.place) { %>(<%= turno.place %>)<% } %></p>
+			
 			<% if (!escapeRoom.teamSize || (escapeRoom.teamSize > 1)) { %>
 				<h2><%=i18n.team.Team%> </h2>
 				<h3><%=team.name%></h3>
@@ -32,7 +29,13 @@
 					<%=team.teamMembers.map(m=>m.name + " " + m.surname).join(", ")%>
 				</p>
 			<% } %>
+			<% if (escapeRoom.supportLink) { %>
+				<h2><%=i18n.showStudent.supportLink%></h2>
+				<p><a href="<%=escapeRoom.supportLink%>"><%=escapeRoom.supportLink%></a></p>
+			<% } %>
 		</div>
+		
+
 	</div>
 	<div class="animated fadeIn">
 		<h2><%=i18n.turnos.Description%></h2>

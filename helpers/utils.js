@@ -326,14 +326,20 @@ exports.checkOnlyOneTurn = (escapeRoom) => escapeRoom.turnos && escapeRoom.turno
 
 exports.checkTeamSizeOne = (escapeRoom) => escapeRoom.teamSize === 1;
 
-exports.checkIsTurnAvailable = (turn, nmax, duration) => {
+exports.checkIsTurnAvailable = (turn, duration) => {
     if (turn.status === "finished") {
+        return false;
+    }
+    if (turn.from && turn.from > new Date()) {
+        return false;
+    }
+    if (turn.to && turn.to < new Date()) {
         return false;
     }
     if (turn.startTime && new Date(turn.startTime.getTime() + duration * 60000) < new Date()) {
         return false;
     }
-    return turn.students && (!nmax || turn.students.length < nmax);
+    return turn.students && (!turn.capacity || turn.students.length < turn.capacity);
 };
 
 exports.getCurrentPuzzle = async (team, puzzles) => {

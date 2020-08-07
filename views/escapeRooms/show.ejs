@@ -87,17 +87,6 @@
                         </div>
                     </div>
                 <% } %>
-                <% if (escapeRoom.nmax) { %>
-                <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
-                    <% delay += 50 %>
-                    <div class="flexShowLeft">
-                        <%=i18n.showTeacher.titles.nmax%>:
-                    </div>
-                    <div class="flexShowRight">
-                        <%= escapeRoom.nmax %>
-                    </div>
-                </div>
-                <%}%>
                 <% if (escapeRoom.teamSize) { %>
                 <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
                     <% delay += 50 %>
@@ -235,26 +224,37 @@
 
 <div id="dialog-share" title="<%=i18n.showTeacher.titles.share%>">
     <div>
-        <% var invitationLink = hostName + "/escapeRooms/" + escapeRoom.id +"/join?token=" + escapeRoom.invitation; %>
+        <% var invitationLink = hostName + "/escapeRooms/" + escapeRoom.id + "/join" + (escapeRoom.invitation ? ("?token=" + escapeRoom.invitation):"") %>
         <h4><%=i18n.showTeacher.actionList.join%></h4>
         <p class=join-instructions>
             <%=i18n.showTeacher.messages.join.intro%>
         </p>
-        <a class="show_link" href="<%= invitationLink %>"><%= invitationLink %></a>
-        <input id="joinUrl" value="<%= invitationLink %>" aria-label="<%=i18n.showTeacher.messages.copyAria%>"/>
-        <button title="<%=i18n.showTeacher.messages.copyTitle%>" class="copy" id="copyButton">
-        <span class="material-icons">file_copy</span></button>
-        <a class="show_link" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=/<%= invitationLink %>"> 
-            <button class="qr" id="qrButton" title="<%=i18n.showTeacher.messages.qrTitle%>">
-                <span class="material-icons">camera_enhance</span>
-            </button>
-        </a>
-        <p class=join-instructions>
+        <%-include("../partials/_copyLink",{invitationLink,key:"main"})%>
+        <p class="join-instructions">
             <%=i18n.showTeacher.messages.join.also%> <a><%=hostName%></a>
             <%=i18n.showTeacher.messages.join.register%>
             "<span class="hl"><%=escapeRoom.title%></span>" 
-            <%=i18n.showTeacher.messages.join.password%>
-            "<span class="hl"><%=escapeRoom.invitation%></span>"</p>
+            <%if (escapeRoom.invitation){%>
+                <%=i18n.showTeacher.messages.join.password%> "<span class="hl"><%=escapeRoom.invitation%></span>"
+            <%}%>
+        </p>
+        <%if (escapeRoom.turnos.some(t=>t.password)){%>
+        <h5>Turnos especiales</h5>
+            <%for(let turno of escapeRoom.turnos){%>
+                <%if (turno.password) {%>
+                    <% var invitationLink = hostName + "/escapeRooms/" + escapeRoom.id + "/join?token=" + turno.password %>
+                    <p class="join-instructions join-turno" style="color: var(--lightred);"><b><%= turno.date ? getFullDate(turno.turnDate) : i18n.turnos.alwaysOpen  %> <%if(turno.place){%>(<%=turno.place%>)<%}%></b></p>
+                    <ul class="join-turno-list">
+                        <li>
+                            <%-include("../partials/_copyLink",{invitationLink,key: turno.id})%>
+                        </li>
+                        <li><b>Password:</b> <%=turno.password%></li>
+
+                    </ul>
+                    
+                <%}%>
+            <%}%>
+        <%}%>
     </div>
 </div>
 
@@ -307,12 +307,6 @@
 
         $( "#share-button" ).on( "click", function() {
             $( "#dialog-share" ).dialog( "open" );
-        });
-
-        $('#copyButton').on('click', function() {
-            var copyText = $("#joinUrl");
-            copyText.select();
-            document.execCommand("copy");
         });
         
     });

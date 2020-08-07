@@ -1,4 +1,5 @@
 const {models} = require("../models");
+const {Op} = require("sequelize");
 
 exports.load = {
     "include": [
@@ -105,6 +106,36 @@ exports.loadComplete = {
     ]
 };
 
+exports.ids = (ids) => {
+    const findOptions = {
+        "attributes": [
+            "id",
+            "title",
+            "invitation",
+            "scope"
+        ],
+        "distinct": true,
+        "where": {"id": {[Op.in]: ids}},
+        "include": [
+            {
+                "model": models.turno,
+                "attributes": ["status", "capacity"],
+                "required": true,
+                "include": [
+                    {
+                        "model": models.user,
+                        "attributes": ["id"],
+                        "as": "students",
+                        "required": false
+                    }
+                ]
+            },
+            models.attachment
+        ]
+    };
+
+    return findOptions;
+};
 
 exports.all = (user, page = 1, limit = 10) => {
     const findOptions = {
@@ -112,13 +143,13 @@ exports.all = (user, page = 1, limit = 10) => {
             "id",
             "title",
             "invitation",
-            "nmax"
+            "scope"
         ],
         "distinct": true,
         "include": [
             {
                 "model": models.turno,
-                "attributes": ["status"],
+                "attributes": ["status", "capacity", "from", "to"],
                 "required": true,
                 "include": [
                     {

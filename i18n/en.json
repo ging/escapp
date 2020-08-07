@@ -317,8 +317,12 @@
         "invitation": {
             "no": "no",
             "wannaJoin": "Would you like to join this Escape Room?",
-            "typePasscode": "Type the access passcode",
-            "yes": "yes"
+            "typePasscode": "Type the access passcode for",
+            "yes": "yes",
+            "scopes": {
+                "public": "Visible to all users in the home page",
+                "private": "Only accessable through direct link"
+            }
         },
         "main": {
             "copyOf": "Copy of",
@@ -351,7 +355,8 @@
                 "descriptionPlaceHolder": "Write the Escape Room's description here. This information will be given to your students",
                 "durationPlaceHolder": "¿What time do students have to complete de Escape Room?",
                 "forbiddenLateSubmissionsPlaceHolder": "Do not allow to solve puzzles once the time is up",
-                "nmaxPlaceHolder": "How many participants will have each shift? Leave it blank if you do not want to limit it",
+                "passwordPlaceHolder": "Provide a password to restrict access to the escape room",
+                "invitationPlaceHolder": "Provide a password to restrict access to the escape room",
                 "noFileUploaded": "No files have been uploaded yet",
                 "noImageUploaded": "No pictures have been uploaded yet",
                 "subjectPlaceHolder": "What subject does this activity belong to?",
@@ -507,9 +512,10 @@
                 "enrollmentPeriod": "Enrollment period",
                 "enrollmentPeriodPlaceholder": "Period in which students can sign up for this shift",
                 "password": "Password",
-                "passwordPlaceholder": "Password to access the shift (leave it blank if you want the shift to be open to anyone)",
+                "passwordPlaceholder": "Password to access the shift. By default it is the same you provided for the escape room",
+                "passwordEmpty": "none",
                 "capacity": "Capacity",             
-                "capacityPlaceholder": "Maximum people allowed in this shift"             
+                "capacityPlaceholder": "Maximum people allowed in this shift. Leave it blank if you do not want to limit it"             
             }
         },
         "general": {
@@ -765,13 +771,14 @@
             "hints": "Hints",
             "instructions": "Instructions",
             "invitation": "Invitation",
-            "nmax": "Shift capacity",
+            "password": "Escape room password",
             "posttest": "Post-quiz",
             "pretest": "Pre-quiz",
             "puzzles": "Puzzles",
             "subject": "Subject",
             "survey": "Survey",
             "teamSize": "Team capacity",
+            "scope": "Privacy",
             "supportLink": "Link to get support during the escape room",
             "thumbnail": "Thumbnail",
             "title": "Title",

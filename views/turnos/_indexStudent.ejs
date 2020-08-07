@@ -59,7 +59,7 @@ const formatDate = function (currentDate) {
         <div class="flexBoxTurnos">
             <%}%>
             <% var title = i18n.turnos.statusMsg["canSignUp"];
-            var full = (escapeRoom.nmax && turn.students.length >= escapeRoom.nmax);
+            var full = (turn.capacity && turn.students.length >= turn.capacity);
             var finished =  turn.status === 'finished';
             if (finished) {
                 title = i18n.turnos.statusMsg["finished"];

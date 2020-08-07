@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const {QueryTypes} = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
 const cloudinary = require("cloudinary");
@@ -53,27 +54,34 @@ exports.index = async (req, res, next) => {
             ({count, "rows": escapeRooms} = await models.escapeRoom.findAndCountAll(query.escapeRoom.forTeacher(user.id, page, limit)));
         } else {
             let erAll = [];
+            // ({count, "rows": erAll} = await models.escapeRoom.findAndCountAll(query.escapeRoom.all(user.id, page, limit, "scope")));
 
-            ({count, "rows": erAll} = await models.escapeRoom.findAndCountAll(query.escapeRoom.all(undefined, page, limit)));
+            count = await sequelize.query(`SELECT count(distinct "escapeRooms"."id") AS "count" FROM "escapeRooms" INNER JOIN turnos ON "turnos"."escapeRoomId" = "escapeRooms".id  JOIN participants ON  "participants"."turnId" = "turnos"."id" WHERE NOT scope = TRUE OR scope IS NULL OR "participants"."userId"  = ${user.id}`, {"raw": true, "type": QueryTypes.SELECT});
+            erAll = await sequelize.query(`SELECT DISTINCT "escapeRoom"."id" FROM "escapeRooms" AS "escapeRoom" INNER JOIN turnos ON "turnos"."escapeRoomId" = "escapeRoom".id  JOIN participants ON  "participants"."turnId" = "turnos"."id" WHERE NOT scope = TRUE OR scope IS NULL OR "participants"."userId" =  ${user.id}  ORDER BY "escapeRoom"."id" DESC LIMIT ${limit} OFFSET ${(page - 1) * limit}`, {"raw": false, "type": QueryTypes.SELECT});
+            count = parseInt(count[0].count, 10);
+            const orIds = erAll.map((e) => e.id);
+
+            erAll = await models.escapeRoom.findAll(query.escapeRoom.ids(orIds));
             const erFiltered = await models.escapeRoom.findAll(query.escapeRoom.all(user.id, null));
             const ids = erFiltered.map((e) => e.id);
 
             escapeRooms = erAll.map((er) => {
-                const {id, title, invitation, attachment, nmax} = er;
+                const {id, title, invitation, attachment} = er;
                 const isSignedUp = ids.indexOf(er.id) !== -1;
-                const disabled = !isSignedUp && !er.turnos.some((e) => e.status !== "finished" && (!nmax || e.students.length < nmax));
+                const disabled = !isSignedUp && !er.turnos.some((e) => e.status !== "finished" && (!e.capacity || e.students.length < e.capacity));
 
                 return { id, title, invitation, attachment, disabled, isSignedUp };
             });
         }
         const pages = Math.ceil(count / limit);
 
-        if (page > pages) {
+        if (page > pages && pages !== 0) {
             res.redirect(`/escapeRooms?page=${pages}`);
-        }
-        const pageArray = paginate(page, pages, 5);
+        } else {
+            const pageArray = paginate(page, pages, 5);
 
-        res.render("escapeRooms/index.ejs", {escapeRooms, cloudinary, user, count, page, pages, pageArray});
+            res.render("escapeRooms/index.ejs", {escapeRooms, cloudinary, user, count, page, pages, pageArray});
+        }
     } catch (error) {
         next(error);
     }
@@ -99,23 +107,23 @@ exports.show = async (req, res) => {
 
 // GET /escapeRooms/new
 exports.new = (_req, res) => {
-    const escapeRoom = {"title": "", "teacher": "", "subject": "", "duration": "", "description": "", "nmax": "", "teamSize": "", "forceLang": ""};
+    const escapeRoom = {"title": "", "teacher": "", "subject": "", "duration": "", "description": "", "scope": false, "teamSize": "", "forceLang": ""};
 
     res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
 };
 
 // POST /escapeRooms/create
 exports.create = async (req, res) => {
-    const {title, subject, duration, forbiddenLateSubmissions, description, nmax, teamSize, supportLink, forceLang} = req.body,
+    const {title, subject, duration, forbiddenLateSubmissions, description, scope, teamSize, supportLink, forceLang, invitation} = req.body,
         authorId = req.session.user && req.session.user.id || 0;
 
-    const escapeRoom = models.escapeRoom.build({title, subject, duration, "forbiddenLateSubmissions": forbiddenLateSubmissions === "on", description, supportLink, "nmax": nmax || 0, "teamSize": teamSize || 0, authorId, forceLang}); // Saves only the fields question and answer into the DDBB
+    const escapeRoom = models.escapeRoom.build({title, subject, duration, "forbiddenLateSubmissions": forbiddenLateSubmissions === "on", invitation, description, supportLink, "scope": scope === "private", "teamSize": teamSize || 0, authorId, forceLang}); // Saves only the fields question and answer into the DDBB
     const {i18n} = res.locals;
 
     escapeRoom.forceLang = forceLang === "en" || forceLang === "es" ? forceLang : null;
 
     try {
-        const er = await escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "nmax", "teamSize", "authorId", "supportLink", "invitation", "forceLang"]});
+        const er = await escapeRoom.save({"fields": ["title", "teacher", "subject", "duration", "description", "forbiddenLateSubmissions", "scope", "teamSize", "authorId", "supportLink", "invitation", "forceLang"]});
 
         req.flash("success", i18n.common.flash.successCreatingER);
 
@@ -180,13 +188,14 @@ exports.update = async (req, res) => {
     escapeRoom.forbiddenLateSubmissions = body.forbiddenLateSubmissions === "on";
     escapeRoom.description = body.description;
     escapeRoom.supportLink = body.supportLink;
-    escapeRoom.nmax = body.nmax || 0;
+    escapeRoom.invitation = body.invitation;
+    escapeRoom.scope = body.scope === "private";
     escapeRoom.teamSize = body.teamSize || 0;
     escapeRoom.forceLang = body.forceLang === "en" || body.forceLang === "es" ? body.forceLang : null;
     const progressBar = body.progress;
 
     try {
-        const er = await escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "nmax", "teamSize", "supportLink", "forceLang"]});
+        const er = await escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "scope", "teamSize", "supportLink", "forceLang", "invitation"]});
 
         if (body.keepAttachment === "0") {
             // There is no attachment: Delete old attachment.
@@ -353,21 +362,9 @@ exports.destroy = async (req, res, next) => {
     }
 };
 
-// GET /escapeRooms/:escapeRoomId/join
-exports.studentToken = (req, res, next) => {
-    const {escapeRoom} = req;
-
-    if (req.session.user.isStudent) {
-        res.render("escapeRooms/indexInvitation", {escapeRoom, "token": req.query.token});
-    } else {
-        res.status(403);
-        next(new Error(403));
-    }
-};
-
 exports.clone = async (req, res, next) => {
     try {
-        const {"title": oldTitle, subject, duration, description, nmax, teamSize, teamAppearance, classAppearance, forceLang, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, indicationsInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment, allowCustomHints, hintInterval, supportLink, automaticAttendance} = await models.escapeRoom.findByPk(req.escapeRoom.id, query.escapeRoom.loadComplete);
+        const {"title": oldTitle, subject, duration, description, scope, teamSize, teamAppearance, classAppearance, forceLang, survey, pretest, posttest, numQuestions, numRight, feedback, forbiddenLateSubmissions, classInstructions, teamInstructions, indicationsInstructions, scoreParticipation, hintLimit, hintSuccess, hintFailed, puzzles, hintApp, assets, attachment, allowCustomHints, hintInterval, supportLink, automaticAttendance} = await models.escapeRoom.findByPk(req.escapeRoom.id, query.escapeRoom.loadComplete);
         const authorId = req.session && req.session.user && req.session.user.id || 0;
         const newTitle = `${res.locals.i18n.escapeRoom.main.copyOf} ${oldTitle}`;
         const include = [{"model": models.puzzle, "include": [models.hint]}];
@@ -386,7 +383,7 @@ exports.clone = async (req, res, next) => {
             subject,
             duration,
             description,
-            nmax,
+            scope,
             teamSize,
             forceLang,
             teamAppearance,
