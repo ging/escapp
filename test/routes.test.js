@@ -34,17 +34,17 @@ beforeAll(() => {
 afterAll(() => {
     setTimeout(() => {
         execSync(`npx sequelize db:drop --url ${dbName}`);
-    }, 15000);
+    }, 5000);
 });
 
-beforeEach(() => {
-    testSession = session(app);
+beforeEach(async function () {
+    testSession = await session(app);
 });
 
-describe("Unauthenticated routes", () => {
-    publicRoutes.forEach(({route, statusCode}) => {
-        it(`should display route ${route} correctly`, (done) => {
-            const res = request(app).get(route);
+describe("Unauthenticated routes", async () => {
+    publicRoutes.forEach(async ({route, statusCode}) => {
+        it(`should display route ${route} correctly`, async (done) => {
+            const res = await request(app).get(route);
 
             expect(res.statusCode).toEqual(statusCode);
             done();
@@ -52,7 +52,7 @@ describe("Unauthenticated routes", () => {
     });
 });
 
-describe("Teacher routes", () => {
+describe("Teacher routes", async () => {
     beforeAll((done) => {
         testSession.post("/").
             send({"login": "admin@upm.es", "password": "1234"}).
@@ -65,9 +65,9 @@ describe("Teacher routes", () => {
                 return done();
             });
     });
-    teacherRoutes.forEach(({route, statusCode}) => {
-        it(`should display route ${route} correctly`, (done) => {
-            const res = authenticatedSession.get(route);
+    teacherRoutes.forEach(async ({route, statusCode}) => {
+        it(`should display route ${route} correctly`, async (done) => {
+            const res = await authenticatedSession.get(route);
 
             expect(res.statusCode).toEqual(statusCode);
             done();
@@ -75,7 +75,7 @@ describe("Teacher routes", () => {
     });
 });
 
-describe("Student routes", () => {
+describe("Student routes", async () => {
     beforeAll((done) => {
         testSession.post("/").
             send({"login": "pepe@alumnos.upm.es", "password": "5678"}).
@@ -89,9 +89,9 @@ describe("Student routes", () => {
             });
     });
 
-    studentRoutes.forEach(({route, statusCode}) => {
-        it(`should display route ${route} correctly`, (done) => {
-            const res = authenticatedSession.get(route);
+    studentRoutes.forEach(async ({route, statusCode}) => {
+        it(`should display route ${route} correctly`, async (done) => {
+            const res = await authenticatedSession.get(route);
 
             expect(res.statusCode).toEqual(statusCode);
             done();
