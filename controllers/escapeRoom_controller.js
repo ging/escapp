@@ -44,7 +44,7 @@ exports.index = async (req, res, next) => {
     let page = parseInt(req.query.page || 1, 10);
 
     page = isNaN(page) || page < 1 ? 1 : page;
-    const limit = user.isStudent ? 20 : 19;
+    const limit = user.isStudent ? 10 : 9;
     let escapeRooms = [];
     let count = 0;
 

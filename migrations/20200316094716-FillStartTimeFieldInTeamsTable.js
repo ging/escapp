@@ -1,21 +1,17 @@
-const {models} = require("../models");
+const { QueryTypes } = require("sequelize");
 
 module.exports = {
 
-    "up": async () => {
-        const teams = await models.team.findAll({
-            "include": [{ "model": models.turno, "attributes": ["startTime", "date"], "where": {"status": "finished"} }],
-            "raw": true
-        });
+    "up": async (queryInterface) => {
+        const teams = await queryInterface.sequelize.query("SELECT \"teams\".\"id\" AS \"id\", \"teams\".\"startTime\" AS \"startTime\", \"teams\".\"id\" AS teamid, \"turnoId\", \"turnos\".\"startTime\" AS turnostart, \"turnos\".\"date\" AS turnodate FROM \"teams\"  INNER JOIN \"turnos\"  ON \"teams\".\"turnoId\" = \"turnos\".\"id\" WHERE status = 'finished' OR status = 'active'", { "type": QueryTypes.SELECT });
         const promises = [];
 
-        for (const team of teams || []) {
-            const startTime = team.startTime || team["turno.startTime"] || team["turno.date"];
+        for (const t of teams || []) {
+            const team = JSON.parse(JSON.stringify(t));
+            const startTime = team.startTime || team.turnostart || team.turnodate;
+            const prom = queryInterface.sequelize.query(`UPDATE "teams" SET "startTime" =  '${startTime}' WHERE "id" = ${team.id}`, { "type": QueryTypes.UPDATE });
 
-            promises.push(models.team.update(
-                {startTime},
-                {"where": {"id": team.id}}
-            ));
+            promises.push(prom);
         }
 
         await Promise.all(promises);

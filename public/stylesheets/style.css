@@ -2954,7 +2954,7 @@ table.mainTable {
   color: #161938;
   border-spacing: 0px;
   width: 100%;
-    width-font-size: 18px; }
+  font-size: 18px; }
   table.mainTable tr {
     background-color: #9091A6;
     border-left: 1px solid white; }
@@ -3223,6 +3223,8 @@ table.mainTable {
     color: white; }
     #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team.operations-team-bis {
       margin-left: -95px; }
+      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team.operations-team-bis .overlay-trigger {
+        left: 0px; }
     #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .overlay-trigger {
       left: 30px;
       top: 35px; }
@@ -3242,7 +3244,11 @@ table.mainTable {
       right: 0;
       left: auto;
       margin-left: 0 !important;
-      margin-right: -60px; } }
+      margin-right: -60px; }
+      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team-bis .overlay-trigger {
+        left: -261px !important; }
+        #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team-bis .overlay-trigger::after {
+          left: 270px; } }
 
 #mainSection .main.teams .filters * {
   font-size: 16px; }

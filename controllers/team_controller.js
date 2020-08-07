@@ -148,6 +148,14 @@ exports.delete = async (req, res) => {
     const {i18n} = res.locals;
 
     try {
+        const userIds = [];
+
+        for (const member of req.team.teamMembers) {
+            userIds.push(member.id);
+        }
+
+        await models.participants.destroy({"where": {"userId": {[Op.in]: userIds}}});
+
         await req.team.destroy();
 
         const teams = await getRanking(req.escapeRoom.id, req.turn.id);

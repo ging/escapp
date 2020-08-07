@@ -1,3 +1,4 @@
-const {models} = require("../models");
+const { QueryTypes } = require("sequelize");
 
-module.exports = {"up": () => models.hint.update({ "category": "General" }, {"where": {}})};
+module.exports = {"up": (queryInterface) => queryInterface.sequelize.query("UPDATE \"hints\" SET category =  'General'", { "type": QueryTypes.UPDATE })};
+

@@ -1,27 +1,17 @@
-const {models} = require("../models");
+const { QueryTypes } = require("sequelize");
 
 module.exports = {
 
     "up": async (queryInterface, Sequelize) => {
-        const escapeRooms = await models.escapeRoom.findAll({
-            "attributes": [
-                "id",
-                "automatic"
-            ],
-            "include": [
-                {
-                    "model": models.puzzle,
-                    "attributes": ["id"]
-                }
-            ]
-        });
+        const escapeRooms = await queryInterface.sequelize.query("SELECT id, automatic FROM \"escapeRooms\" AS \"escapeRoom\" ", { "type": QueryTypes.SELECT });
         const promises = [];
 
         for (const ert of escapeRooms || []) {
             const er = JSON.parse(JSON.stringify(ert));
-            const {automatic} = er;
+            const {automatic, id} = er;
+            const prom = queryInterface.sequelize.query(`UPDATE "puzzles" SET automatic =  ${automatic ? "TRUE" : "FALSE"} WHERE "escapeRoomId" = ${id}`, { "type": QueryTypes.UPDATE });
 
-            (er.puzzles || []).map(({id}) => promises.push(models.puzzle.update({automatic}, {"where": {id}})));
+            promises.push(prom);
         }
         await Promise.all(promises);
         await queryInterface.removeColumn("escapeRooms", "automatic", Sequelize.BOOLEAN);

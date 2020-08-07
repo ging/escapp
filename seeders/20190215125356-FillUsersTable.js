@@ -6,7 +6,7 @@ module.exports = {
     up (queryInterface) {
         return queryInterface.bulkInsert("users", [
             {
-                "name": "Sonsoles ¡",
+                "name": "Sonsoles",
                 "surname": "López Pernas",
                 "gender": "Femenino",
                 "username": "admin@upm.es",

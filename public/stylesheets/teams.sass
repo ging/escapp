@@ -29,6 +29,8 @@
         color: white
         &.operations-team-bis
           margin-left: -95px
+          .overlay-trigger
+            left: 0px
         .overlay-trigger
           left: 30px
           top: 35px
@@ -50,6 +52,11 @@
           left: auto
           margin-left: 0 !important
           margin-right: -60px
+          .overlay-trigger
+            left: -261px !important
+            &::after
+              left: 270px
+            
   .filters
     *
       font-size: 16px
