@@ -131,7 +131,8 @@ exports.ids = (ids) => {
                 ]
             },
             models.attachment
-        ]
+        ],
+        "order": [["id", "desc"]]
     };
 
     return findOptions;

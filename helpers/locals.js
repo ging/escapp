@@ -25,7 +25,7 @@ module.exports = function (app) {
     };
 
     app.locals.getDashDate = function (currentDate) {
-        // currentDate.setMinutes(currentDate.getMinutes() + currentDate.getTimezoneOffset());
+        // CurrentDate.setMinutes(currentDate.getMinutes() + currentDate.getTimezoneOffset());
         return `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
     };
 

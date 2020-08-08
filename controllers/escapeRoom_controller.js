@@ -54,22 +54,23 @@ exports.index = async (req, res, next) => {
             ({count, "rows": escapeRooms} = await models.escapeRoom.findAndCountAll(query.escapeRoom.forTeacher(user.id, page, limit)));
         } else {
             let erAll = [];
-            count = await sequelize.query(`SELECT count(distinct "escapeRooms"."id") AS "count" FROM "escapeRooms" INNER JOIN turnos ON "turnos"."escapeRoomId" = "escapeRooms".id  JOIN participants ON  "participants"."turnId" = "turnos"."id" WHERE NOT scope = TRUE OR scope IS NULL OR "participants"."userId"  = ${user.id}`, {"raw": true, "type": QueryTypes.SELECT});
-            erAll = await sequelize.query(`SELECT DISTINCT "escapeRoom"."id" FROM "escapeRooms" AS "escapeRoom" INNER JOIN turnos ON "turnos"."escapeRoomId" = "escapeRoom".id  JOIN participants ON  "participants"."turnId" = "turnos"."id" WHERE NOT scope = TRUE OR scope IS NULL OR "participants"."userId" =  ${user.id}  ORDER BY "escapeRoom"."id" DESC LIMIT ${limit} OFFSET ${(page - 1) * limit}`, {"raw": false, "type": QueryTypes.SELECT});
+
+            count = await sequelize.query(`SELECT count(distinct "escapeRooms"."id") AS "count" FROM "escapeRooms" INNER JOIN turnos ON "turnos"."escapeRoomId" = "escapeRooms".id  LEFT JOIN participants ON  "participants"."turnId" = "turnos"."id" WHERE NOT scope = TRUE OR scope IS NULL OR "participants"."userId"  = ${user.id}`, {"raw": true, "type": QueryTypes.SELECT});
+            erAll = await sequelize.query(`SELECT DISTINCT "escapeRoom"."id" FROM "escapeRooms" AS "escapeRoom" INNER JOIN turnos ON "turnos"."escapeRoomId" = "escapeRoom".id  LEFT JOIN participants ON  "participants"."turnId" = "turnos"."id" WHERE NOT scope = TRUE OR scope IS NULL OR "participants"."userId" =  ${user.id}  ORDER BY "escapeRoom"."id" DESC LIMIT ${limit} OFFSET ${(page - 1) * limit}`, {"raw": false, "type": QueryTypes.SELECT});
             count = parseInt(count[0].count, 10);
             const orIds = erAll.map((e) => e.id);
 
             erAll = await models.escapeRoom.findAll(query.escapeRoom.ids(orIds));
             const erFiltered = await models.escapeRoom.findAll(query.escapeRoom.all(user.id, null));
             const ids = erFiltered.map((e) => e.id);
-            var now = new Date();
+            const now = new Date();
 
-            now.setHours(now.getHours() - (now.getTimezoneOffset() / 60));
+            now.setHours(now.getHours() - now.getTimezoneOffset() / 60);
             escapeRooms = erAll.map((er) => {
-                console.log(er.id)
                 const {id, title, invitation, attachment} = er;
                 const isSignedUp = ids.indexOf(er.id) !== -1;
                 const disabled = !isSignedUp && !er.turnos.some((e) => (!e.from || e.from < now) && (!e.to || e.to > now) && e.status !== "finished" && (!e.capacity || e.students.length < e.capacity));
+
                 return { id, title, invitation, attachment, disabled, isSignedUp };
             });
         }

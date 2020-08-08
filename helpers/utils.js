@@ -327,9 +327,9 @@ exports.checkOnlyOneTurn = (escapeRoom) => escapeRoom.turnos && escapeRoom.turno
 exports.checkTeamSizeOne = (escapeRoom) => escapeRoom.teamSize === 1;
 
 exports.checkIsTurnAvailable = (turn, duration) => {
-    var now = new Date();
+    const now = new Date();
 
-    now.setHours(now.getHours() - (now.getTimezoneOffset() / 60));
+    now.setHours(now.getHours() - now.getTimezoneOffset() / 60);
     if (turn.status === "finished") {
         return false;
     }

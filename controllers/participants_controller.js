@@ -37,25 +37,14 @@ exports.checkSomeTurnAvailable = async (req, res, next) => {
     const turnos = await models.turno.findAll({
         "where": {
             "escapeRoomId": req.escapeRoom.id,
-            "status": {[Op.not]: "finished"},
-            /* "from": {
-                [Op.or]: {
-                    [Op.eq]: null,
-                    [Op.lt]: new Date()
-                }
-            },
-            "to": {
-                [Op.or]: {
-                    [Op.eq]: null,
-                    [Op.gt]: new Date()
-                }
-            } */
+            "status": {[Op.not]: "finished"}
         },
         "include": [{"model": models.user, "as": "students", "through": "participants"}],
         "order": [["date", "ASC NULLS LAST"]]
     });
 
     const {i18n} = res.locals;
+
     req.turnos = turnos;
     for (const turno of turnos) {
         if (checkIsTurnAvailable(turno, escapeRoom.duration)) {
