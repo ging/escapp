@@ -748,7 +748,9 @@
                 "intro": "Para que tus alumnos puedan acceder a la escape room comparte con ellos el siguiente enlace:",
                 "also": "También pueden acceder a ",
                 "register": " y, tras registrarse e iniciar sesión, seleccionar la escape room ",
-                "password": " e introducir la contraseña "
+                "password": " e introducir la contraseña ",
+                "specialShifts": "Turnos especiales"
+
             }
             
         },

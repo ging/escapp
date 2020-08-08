@@ -761,7 +761,8 @@
                 "intro": "Share the following link with yout students so they can access the escape room:",
                 "also": "They can also access ",
                 "register": " and, after signing up and login in, they can select the escape room entitled ",
-                "password": " and introduce the following password "
+                "password": " and introduce the following password ",
+                "specialShifts": "Special shifts"
             }
         },
         "titles": {

@@ -165,7 +165,6 @@ exports.update = (req, res, next) => {
     turn.to = to ? new Date(to) : null;
     turn.password = password;
     turn.status = date === "always" && turn.status === "pending" ? "active" : turn.status;
-
     let back = "";
 
     if (date === "always") {

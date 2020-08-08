@@ -239,11 +239,11 @@
             <%}%>
         </p>
         <%if (escapeRoom.turnos.some(t=>t.password)){%>
-        <h5>Turnos especiales</h5>
+        <h5><%=i18n.showTeacher.messages.join.specialShifts%></h5>
             <%for(let turno of escapeRoom.turnos){%>
                 <%if (turno.password) {%>
-                    <% var invitationLink = hostName + "/escapeRooms/" + escapeRoom.id + "/join?token=" + turno.password %>
-                    <p class="join-instructions join-turno" style="color: var(--lightred);"><b><%= turno.date ? getFullDate(turno.turnDate) : i18n.turnos.alwaysOpen  %> <%if(turno.place){%>(<%=turno.place%>)<%}%></b></p>
+                    <% var invitationLink = hostName + "/escapeRooms/" + escapeRoom.id + "/turnos/" + turno.id + "/select?token=" + turno.password %>
+                    <p class="join-instructions join-turno" style="color: var(--lightred);"><b><%= turno.date ? getFullDate(turno.date) : i18n.turnos.alwaysOpen  %> <%if(turno.place){%>(<%=turno.place%>)<%}%></b></p>
                     <ul class="join-turno-list">
                         <li>
                             <%-include("../partials/_copyLink",{invitationLink,key: turno.id})%>

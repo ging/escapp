@@ -18,3 +18,4 @@ const red = cp('--lightred').trim();
 const purple = cp('--textpurple').trim();
 const orange = cp('--brightorange').trim();
 const yellow = cp('--brightyellow').trim();
+const blue = cp('--brightblue').trim();

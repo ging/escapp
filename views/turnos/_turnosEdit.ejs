@@ -62,18 +62,23 @@
         };
 
         const getFullDate = (d) => {
-            d.setMinutes(d.getMinutes() /* + d.getTimezoneOffset() */);
+            // d.setMinutes(d.getMinutes() + d.getTimezoneOffset() );
 
             return `${d.getFullYear()}-${zeroPadding(d.getMonth() + 1)}-${zeroPadding(d.getDate())} ${zeroPadding(d.getHours())}:${zeroPadding(d.getMinutes())}`;
         };
 
         const dateSubmitted = (str) =>  {
+           /*  console.log(str)
             const split = str.split(" ");
             const date = new Date(split[0]);
-            const time = split[1].split(":");
+            const time = split[1].split(":"); 
             const res =  new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), time[0], time[1]));
-            // res.setMinutes(res.getMinutes());
-            return res;
+            res.setMinutes(res.getMinutes() - date.getTimezoneOffset()); 
+            return res;*/
+            var d = new Date(str);
+            // d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+
+            return d;
         }
 
 
@@ -177,6 +182,7 @@
             $(this).append($(`<input type="hidden" name="date" value="${celDate ? dateSubmitted(celDate):"always"}">`));
             if (from) $(this).append($(`<input type="hidden" name="from" value="${dateSubmitted(from)}">`));
             if (to) $(this).append($(`<input type="hidden" name="to" value="${dateSubmitted(to)}">`));
+            return true;
         });
     });
 </script>

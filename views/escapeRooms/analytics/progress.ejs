@@ -30,7 +30,7 @@
     var nPuzzles = <%=(escapeRoom.puzzles||[]).length%>;
     var teams = <%-JSON.stringify(teams) %>
     var nTeams = teams.length;
-    const colors = [green, yellow, orange, red, purple];
+    const colors = [green, yellow, orange, red, purple, blue];
     var size = 25;
     var intervals =  Math.ceil(duration/size);
     function currentPuzzle(team) {
