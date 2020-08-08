@@ -38,7 +38,7 @@ exports.checkSomeTurnAvailable = async (req, res, next) => {
         "where": {
             "escapeRoomId": req.escapeRoom.id,
             "status": {[Op.not]: "finished"},
-            "from": {
+            /* "from": {
                 [Op.or]: {
                     [Op.eq]: null,
                     [Op.lt]: new Date()
@@ -49,16 +49,13 @@ exports.checkSomeTurnAvailable = async (req, res, next) => {
                     [Op.eq]: null,
                     [Op.gt]: new Date()
                 }
-            }
+            } */
         },
         "include": [{"model": models.user, "as": "students", "through": "participants"}],
         "order": [["date", "ASC NULLS LAST"]]
     });
 
-    console.log((await models.turno.findAll({ "where": {"escapeRoomId": req.escapeRoom.id}})).map(({from, date, id, status, to}) => ({from, date, id, status, to})));
     const {i18n} = res.locals;
-
-    console.log(new Date());
     req.turnos = turnos;
     for (const turno of turnos) {
         if (checkIsTurnAvailable(turno, escapeRoom.duration)) {

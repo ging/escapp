@@ -119,7 +119,7 @@ exports.ids = (ids) => {
         "include": [
             {
                 "model": models.turno,
-                "attributes": ["status", "capacity"],
+                "attributes": ["status", "capacity", "from", "to"],
                 "required": true,
                 "include": [
                     {
@@ -143,6 +143,7 @@ exports.all = (user, page = 1, limit = 10) => {
             "id",
             "title",
             "invitation",
+            "duration",
             "scope"
         ],
         "distinct": true,

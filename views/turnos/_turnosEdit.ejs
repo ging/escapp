@@ -68,17 +68,22 @@
         };
 
         const dateSubmitted = (str) =>  {
-           /*   
+           
+
+
             const split = str.split(" ");
             const date = new Date(split[0]);
             const time = split[1].split(":"); 
             const res =  new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), time[0], time[1]));
-            res.setMinutes(res.getMinutes() - date.getTimezoneOffset()); 
-            return res;*/
-            var d = new Date(str);
+            // res.setMinutes(res.getMinutes() - date.getTimezoneOffset()); 
+            // res.setHours(res.getHours() + (new Date().getTimezoneOffset() / 60));
+
+            console.log(str, res)
+            return res;
+            /* var d = new Date(str);
             d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
 
-            return d;
+            return d; */
         }
 
 

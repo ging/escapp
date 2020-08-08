@@ -327,16 +327,19 @@ exports.checkOnlyOneTurn = (escapeRoom) => escapeRoom.turnos && escapeRoom.turno
 exports.checkTeamSizeOne = (escapeRoom) => escapeRoom.teamSize === 1;
 
 exports.checkIsTurnAvailable = (turn, duration) => {
+    var now = new Date();
+
+    now.setHours(now.getHours() - (now.getTimezoneOffset() / 60));
     if (turn.status === "finished") {
         return false;
     }
-    if (turn.from && turn.from > new Date()) {
+    if (turn.from && turn.from > now) {
         return false;
     }
-    if (turn.to && turn.to < new Date()) {
+    if (turn.to && turn.to < now) {
         return false;
     }
-    if (turn.startTime && new Date(turn.startTime.getTime() + duration * 60000) < new Date()) {
+    if (turn.startTime && new Date(turn.startTime.getTime() + duration * 60000) < now) {
         return false;
     }
     return turn.students && (!turn.capacity || turn.students.length < turn.capacity);
