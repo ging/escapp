@@ -76,7 +76,7 @@
             res.setMinutes(res.getMinutes() - date.getTimezoneOffset()); 
             return res;*/
             var d = new Date(str);
-            // d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+            d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
 
             return d;
         }
