@@ -1,0 +1,92 @@
+<% include ../partials/_header.ejs %>
+<div class="main participants teams turnos">
+    <div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/escapeRooms"><%=i18n.common.my%></a>
+            <span class="material-icons">chevron_right</span>
+            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+            <span class="material-icons">chevron_right</span>
+            <span><%=i18n.turno.activateTurnosBC%></span>
+        </div>
+    </div>
+    <h1><%=i18n.turno.activateTurnos%></h1>
+    <div class="flex-table-wrapper">
+        <div class="flex-table animated jello">
+            <div class="flex-row flex-row-title">
+                <div class="flex-cell flex-turno"><%=i18n.turno.Turno%></div>
+                <div class="flex-cell flex-status"><%=i18n.turno.status%></div>
+                <div class="flex-cell flex-links"><%=i18n.turno.Links%></div>
+                <div class="flex-cell flex-actions"><%=i18n.turno.Actions%></div>
+            </div>
+            <% for (var t in turnos) {
+                var turno = turnos[t]; %>
+            <div class="flex-row <%= (turno.status === "active" && turno.date) ? "active-turno":"" %>">
+                <div class="flex-cell flex-turno">
+                    <%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%> <%if(turno.place){%>(<%= turno.place %>)<%}%>
+                </div>
+                <div class="flex-cell flex-status"><b><%=turno.status.toUpperCase()%></b></div>
+
+                <div class="flex-cell flex-links">
+                    <a href="/escapeRooms/<%=escapeRoom.id%>/analytics?turnId=<%=turno.id%>">
+                        <button class="turno-btn" title="<%=i18n.analytics.main.title%>" >
+                            <span class="material-icons">timeline</span>
+                        </button>
+                    </a>
+                    <a href="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=turno.id%>/play">
+                        <button class="turno-btn" title="<%=i18n.showTeacher.actionList.classInterface%>" style="color: var(--mainpurple);">
+                            <span class="material-icons">cast_for_education</span>
+                        </button>
+                    </a>
+                </div>
+                <div class="flex-cell flex-actions">
+                    <%if (turno.status !== "pending"){%>
+                        <div class="overlay-wrapper">
+                            <button class="turno-btn" onclick="overlayTrigger('reset-<%=turno.id%>')" title="<%=i18n.turno.resetProgress%>" style="color:var(--brightyellow);">
+                                <span class="material-icons">settings_backup_restore</span>
+                            </button>
+                            <div class="overlay-trigger" data-id="reset-<%=turno.id%>">
+                                <form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=turno.id%>/reset">
+                                    <p><%=i18n.turno.areYouSureReset%></p>
+                                    <button class="deleteButton" type="button" onclick="overlayTrigger('reset-<%=turno.id%>', true)"><%=i18n.common.cancel%></button>
+                                    <button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
+                                </form>
+                            </div>
+                        </div>
+                    <%}%>
+                    <%if (turno.status !== "finished"){%>
+                        <div class="overlay-wrapper">
+                            <button class="turno-btn" onclick="overlayTrigger('activate-<%=turno.id%>')" style="color:var(--<%= turno.status === "active"? "lightred" : "brightgreen"%>);" >
+                                <span class="material-icons"><%= turno.status === "active"? "stop" : "play_arrow"%></span>
+                            </button>
+                            <div class="overlay-trigger" data-id="activate-<%=turno.id%>">
+                                <form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/activate?_method=put">
+                                    <p><%=i18n.turno[turno.status === "active"? "areYouSureStop": "areYouSureStart"]%></p>
+                                    <input type="hidden" id="turnSelected" name="turnSelected" value="<%=turno.id%>">
+                                    <button class="deleteButton" type="button" onclick="overlayTrigger('reset-<%=turno.id%>', true)"><%=i18n.common.cancel%></button>
+                                    <button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
+                                </form>
+                            </div>
+                        </div>
+                    <%}%>
+                </div>
+            </div>
+            <% } %>
+            <% if (!turnos || turnos.length === 0) { %>
+            <div class="flex-row">
+                    <em class="no-teams"><%=i18n.team.emptyER%></em>
+            </div>
+            <% } %>
+        </div>
+    </div>
+    <br/><br/><br/>
+</div>
+
+<script>
+    const overlayTrigger = (id, close) => {
+        $('.overlay-trigger').hide();
+        if (!close) {
+            $('.overlay-trigger[data-id="' + id + '"]').show();
+        }
+    };
+</script> 
+<% include ../partials/_footer %>

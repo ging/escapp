@@ -6,13 +6,13 @@
     <h1><%=i18n.analytics.hints.title%></h1>
     <form method="get" class="" action="/escapeRooms/<%= escapeRoom.id %>/analytics/hints/<%=single?"participants":"teams"%>" style="text-align: left;">
         <div class="filters">
-            <label for="turnId"><%=i18n.turnos.Turno%>
+            <label for="turnId"><%=i18n.turno.Turno%>
                 <select name="turnId" id="turnId">
-                    <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
+                    <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turno.all%></option>
                     <% for (t in escapeRoom.turnos) { %>
                         <% var turno = escapeRoom.turnos[t] %>
                         <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
-                            <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
+                            <%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%>
                         </option>
                     <% } %>
                 </select>

@@ -7,15 +7,15 @@
 	    	<br/>
 	    	<form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/ranking">
 	    	    <div class="filters">
-	    	        <label for="turnId"><%=i18n.turnos.Turno%>
+	    	        <label for="turnId"><%=i18n.turno.Turno%>
 	    	            <select name="turnId" id="turnId">
-	    	                <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
+	    	                <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turno.all%></option>
 	    	                <% for (t in escapeRoom.turnos) { 
 	    	                	var turno = escapeRoom.turnos[t] ;
 	    	                // if (turno.status !== "pending" ) {
 							%>
 	    	                <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
-	    	                    <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
+	    	                    <%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%>
 	    	                </option>
 	    	                <% // }
 	    	            } %>
@@ -26,7 +26,10 @@
 	    	    </div>
 	    	</form>
 	    	<br/>
-	    	<br/>
+			<br/>
+			<% if (teams.length === 0) { %>
+				<p class="noResults"><%=i18n.team.noResults%></p>
+			<% } else { %>
 		    <table class="mainTable">
 			    <tr>
 			    	<th><%=i18n.analytics.ranking.team%></th>
@@ -36,15 +39,6 @@
 			    	<th><%=i18n.analytics.ranking.time%></th>
 
 			    </tr>
-			    <% if (teams.length === 0) { %>
-			    	<tr>
-			    		<td></td>
-			    		<td></td>
-			    		<td></td>
-			    		<td></td>
-			    		<td></td>
-			    	</tr>
-			    <% } %>
 			    <% for (var t in teams) { 
 			    	var team = teams[t];
 			    	let { count,
@@ -57,14 +51,14 @@
 				    <tr>
 				    	<td><b><%=team.name%></b></td>
 				    	<td><%= team.teamMembers.map(member=> member.name + " " + member.surname).join(", ") %></td>
-				    	<td><%=turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%></td>
+				    	<td><%=turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%></td>
 				    	<td><%=result%></td>
 				    	<td><%=finishTime ? secondsToDhms(finishTime) : "--" %></td>
-
 				    </tr>
 			    <% } %>
 
 			</table>
+			<%}%>
 		</div>
     	<br/>
     	<br/>

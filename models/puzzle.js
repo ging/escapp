@@ -35,7 +35,11 @@ module.exports = function (sequelize, DataTypes) {
             },
             "score": {
                 "type": DataTypes.FLOAT,
-                "defaultValue": 0.0
+                "defaultValue": 0.0,
+                "validate": {
+                    "min": 0,
+                    "max": 100
+                }
             }
         }
     );

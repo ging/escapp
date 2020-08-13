@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
 const {sanitizePuzzles, sanitizeHints} = require("../helpers/sanitize");
-const {getERPuzzlesAndHints, getERPuzzles} = require("../helpers/utils");
+const {getERPuzzlesAndHints, getERPuzzles, validationError} = require("../helpers/utils");
 const {nextStep, prevStep} = require("../helpers/progress");
 
 
@@ -61,13 +61,13 @@ exports.retosUpdate = async (req, res) => {
     const {body, escapeRoom} = req;
     const {puzzles} = body;
     const {i18n} = res.locals;
-
     const transaction = await sequelize.transaction();
+    let retos = [];
 
     try {
         const promises = [];
 
-        const retos = sanitizePuzzles(puzzles);
+        retos = sanitizePuzzles(puzzles);
 
         escapeRoom.puzzles = await getERPuzzlesAndHints(escapeRoom.id);
 
@@ -147,13 +147,14 @@ exports.retosUpdate = async (req, res) => {
         res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("puzzles") : progressBar || nextStep("puzzles")}`);
     } catch (error) {
         await transaction.rollback();
-        console.error(error);
         if (error instanceof Sequelize.ValidationError) {
-            // Error.errors.forEach(({message}) => req.flash("error", message));
-            req.flash("error", i18n.common.validationError);
+            error.errors.forEach((err) => {
+                req.flash("error", validationError(err, i18n));
+            });
         } else {
             req.flash("error", i18n.common.flash.errorEditingER);
         }
-        res.redirect(`/escapeRooms/${escapeRoom.id}/puzzles`);
+        escapeRoom.puzzles = retos;
+        res.render("escapeRooms/steps/puzzles", {escapeRoom, "progress": "puzzles" });
     }
 };

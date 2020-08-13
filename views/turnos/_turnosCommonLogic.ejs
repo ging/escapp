@@ -1,8 +1,8 @@
 <script>
 const {$} = window;
-const monthArray = JSON.parse('<%-JSON.stringify(Object.values(i18n.turnos.months))%>');
+const monthArray = JSON.parse('<%-JSON.stringify(Object.values(i18n.turno.months))%>');
 
-const dayArray =  JSON.parse('<%-JSON.stringify(Object.values(i18n.turnos.days))%>');
+const dayArray =  JSON.parse('<%-JSON.stringify(Object.values(i18n.turno.days))%>');
 
 const formatDate = (currentDate) => `${currentDate.getDate()} ${monthArray[currentDate.getMonth()]}`; // + " de " + currentDate.getFullYear();
 
@@ -55,10 +55,10 @@ $(function () {
         "showMonthAfterYear": false,
         "yearSuffix": "",
         "dateFormat": "dd/mm/yy",
-        "closeText": "<%=i18n.turnos.arrows.closeText%>",
-        "prevText": "<%=i18n.turnos.arrows.prevText%>",
-        "nextText": "<%=i18n.turnos.arrows.nextText%>",
-        "currentText": "<%=i18n.turnos.arrows.currentText%>"
+        "closeText": "<%=i18n.turno.arrows.closeText%>",
+        "prevText": "<%=i18n.turno.arrows.prevText%>",
+        "nextText": "<%=i18n.turno.arrows.nextText%>",
+        "currentText": "<%=i18n.turno.arrows.currentText%>"
     });
 
     $.datepicker.setDefaults($.datepicker.regional.es);
@@ -77,7 +77,7 @@ $(function () {
                 return [
                     true,
                     "turn-day-highlight",
-                    "<%=i18n.turnos.todayEscapeRoom%>"
+                    "<%=i18n.turno.todayEscapeRoom%>"
                 ];
 
             }

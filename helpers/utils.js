@@ -403,3 +403,20 @@ exports.ckeditorResponse = (funcNum, url) => `<script type='text/javascript'>
 
     window.parent.CKEDITOR.tools.callFunction(funcNum, url, message);
 </script>`;
+
+
+exports.validationError = ({instance, path, validatorKey}, i18n) => {
+    try {
+        if (i18n[instance.constructor.name] &&
+            i18n[instance.constructor.name].attributes &&
+            i18n[instance.constructor.name].attributes[path] &&
+            i18n.common.error[validatorKey]) {
+            return `${i18n[instance.constructor.name].attributes[path]} ${i18n.common.error[validatorKey]}`;
+        }
+    } catch (e) {
+        return i18n.common.validationError;
+    }
+};
+
+exports.isValidDate = (d) => d === null || d instanceof Date && !isNaN(d);
+

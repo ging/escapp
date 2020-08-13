@@ -121,7 +121,11 @@
         "edit": "editar",
         "error": {
             "whoops": "Ups!",
-            "notFound": "No hemos encontrado la página que buscas"
+            "notFound": "No hemos encontrado la página que buscas",
+            "notEmpty": "no puede estar vací@",
+            "len": "es demasiado larg@",
+            "min": "es demasiado bajo",
+            "max": "es demasiado elevado"
         },
         "exit": "salir",
         "filter": "filtrar",
@@ -176,6 +180,7 @@
             "successDeletingPuzzle": "Reto borrado con éxito",
             "successDeletingTeam": "Equipo borrado con éxito",
             "successDeletingTurno": "Turno borrado con éxito",
+            "successResetingTurno": "Turno reiniciado con éxito",
             "successDeletingUser": "Usuario borrado con éxito",
             "successEditingER": "Escape room editada con éxito",
             "successEditingHint": "Pista editada con éxito",
@@ -508,6 +513,36 @@
         },
         "general": {
             "areYouSureDelete": "¿Seguro que deseas eliminar esta escape room?"
+        },
+        "attributes": {
+            "title": "El título",
+            "subject": "La asignatura",
+            "duration": "La duración",
+            "description": "La descripción",
+            "hintInterval": "El tiempo entre pistas",
+            "teamSize": "El tamaño de los equipos",
+            "scope": "La visibilidad",
+            "invitation": "La contraseña",
+            "teamAppearance": "El tema de la interfaz de equipo",
+            "classAppearance": "El tema de la interfaz de clase",
+            "survey": "La encuesta",
+            "pretest": "El pretest",
+            "posttest": "El posttest",
+            "numQuestions": "El nº de preguntas",
+            "numRight": "El nº de preguntas que hay que acertar",
+            "feedback": "El feedback",
+            "allowCustomHints": "Las pistas personalizadas",
+            "forbiddenLateSubmissions": "La opción de permitir pasarse de tiempo",
+            "classInstructions": "La interfaz de clase",
+            "teamInstructions": "La interfaz de equipo",
+            "indicationsInstructions": "Las instrucciones previas",
+            "supportLink": "El link de soporte",
+            "scoreParticipation": "La nota por asistencia",
+            "automaticAttendance": "El modo de tomar asistencia",
+            "hintLimit": "El límite de pistas",
+            "hintSuccess": "La nota por pista obtenida",
+            "hintFailed": "La nota por pista no obtenida",
+            "forceLang": "El idioma"
         }
     },
     "gallery": {
@@ -690,7 +725,17 @@
         "retosSuperados": "Retos superados",
         "wrongAnswer": "Respuesta incorrecta",
         "correctAnswer": "¡Reto superado!",
-        "start":"Inicio"
+        "start":"Inicio",
+        "attributes": {
+            "title": "El nombre del reto",
+            "sol": "La solución",
+            "desc": "La descripción ",
+            "order": "El orden",
+            "correct": "El mensaje de reto correcto",
+            "fail": "El mensaje de reto incorrecto",
+            "automatic": "La opción de reto automático",
+            "score": "La puntuación del reto"
+        }
     },
     "showStudent": {
         "access": "acceder",
@@ -715,7 +760,9 @@
             "appearance": "Apariencia",
             "basic": "Configuración básica",
             "puzzles": "Retos y pistas",
+            "setup": "Configuración",
             "hintStrategy": "Gestión de pistas",
+            "management": "Administración",
             "indications": "Instrucciones previas",
             "teamInterface": "Interfaz de equipo",
             "classInterface": "Interfaz de clase",
@@ -729,6 +776,8 @@
             "shifts": "Turnos",
             "turnos": "Turnos",
             "share": "compartir",
+            "stop": "detener",
+            "shift": "turno",
             "volver": "volver",
             "actions": "Acciones",
             "information": "Información"
@@ -811,7 +860,8 @@
         "title": "Equipos",
         "turnNotAvailable": "El turno seleccionado no está disponible"
     },
-    "turnos": {
+    "turno": {
+        "Actions": "Acciones",
         "all": "Todos los turnos",
         "alreadyIn": "Ya estas dentro de un turno.",
         "tooLate": "Es demasiado tarde para unirte a este equipo",
@@ -835,6 +885,8 @@
         "from": "Desde",
         "to": "Hasta",
         "apply": "Aplicar",
+        "activated": "Turno comenzado",
+        "deactivated": "Turno finalizado",
         "cancel": "Cancelar",
         "customRange": "Intervalo personalizado",
         "Description": "Descripción",
@@ -854,10 +906,17 @@
         },
         "noPlace": "Lugar no indicado",
         "place": "Lugar",
+        "activateTurnos": "Administrar los turnos de la escape room",
+        "areYouSureStop": "¿Seguro que deseas detener este turno?",
+        "areYouSureStart": "¿Seguro que deseas comenzar este turno?",
+        "activateTurnosBC": "Administrar turnos",
+        "status": "Estado",
         "fullTurno": "El turno seleccionado está lleno. Elige otro.",
         "notActive": "Esta escape room no está activa para tu usuario",
         "selectActivate": "Selecciona el turno que quieres activar/desactivar",
         "selectStudent": "Selecciona un turno",
+        "areYouSureReset": "¿Seguro que quieres reiniciar este turno? Todo el progreso de los alumnos se perderá",
+        "resetProgress": "Reinicia el turno",
         "noTurnAvailable": "No hay ningún turno disponible en esta escape room",
         "theres": "Queda",
         "thereare": "Quedan",
@@ -866,12 +925,22 @@
         "openSpots": "en este turno",
         "todayEscapeRoom": "¡Este día se celebra la Escape Room!",
         "Turno": "Turno",
+        "Links": "Enlaces",
         "statusMsg": {
             "pending": "Turno pendiente de comenzar",
             "active": "Turno activo ahora mismo",
             "finished": "Turno cerrado",
             "canSignUp": "Turno disponible",
             "full": "Turno lleno"
+        },
+        "attributes": {
+            "date": "La fecha de celebración",
+            "place": "El título",
+            "from": "La fecha de comienzo de matriculación",
+            "to": "La fecha de fin de matriculación",
+            "password": "La contraseña del turno",
+            "capacity": "El aforo del turno",
+            "status": "El estado"
         }
     },
     "user": {
@@ -931,5 +1000,12 @@
         "username": "E-mail",
         "wrongCredentials": "Error al iniciar sesión",
         "turno": "Turno"
+    },
+    "hint": {
+        "attributes": {
+            "content": "El contenido de la pista",
+            "order": "El orden",
+            "category": "La categoría de la pista"
+        }
     }
 }

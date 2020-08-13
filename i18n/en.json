@@ -129,7 +129,11 @@
         "my": "My escape rooms",
         "error": {
             "whoops": "Whoops!",
-            "notFound": "It seems like we couldn't find the page you were looking for"
+            "notFound": "It seems like we couldn't find the page you were looking for",
+            "notEmpty": "cannot be empty",
+            "len": "is too long",
+            "min": "is too low",
+            "max": "is too high"
         },
         "exit": "exit",
         "filter": "filter",
@@ -182,6 +186,7 @@
             "successDeletingPuzzle": "Puzzle successfully deleted",
             "successDeletingTeam": "Team successfully deleted",
             "successDeletingTurno": "Shift successfully deleted",
+            "successResetingTurno": "Shift successfully reset",
             "successDeletingUser": "User successfully deleted",
             "successEditingER": "Escape Room successfully edited",
             "successEditingHint": "Hint successfully edited",
@@ -499,7 +504,7 @@
             "turnos": {
                 "title": "Shifts",
                 "indicacion": "Add a comment",
-                "addTitle": "Add new shift",
+                "addTitle": "Add a new shift",
                 "alwaysTitle": "Shift always open",
                 "deleteTitle": "Delete shift",
                 "editTitle": "Edit shift",
@@ -520,6 +525,36 @@
         },
         "general": {
             "areYouSureDelete": "Are you sure you want to delete this escape room?"
+        },
+        "attributes": {
+            "title": "The title",
+            "subject": "The subject",
+            "duration": "The duration",
+            "description": "The description",
+            "hintInterval": "The time between hints",
+            "teamSize": "The team size",
+            "scope": "The visibility",
+            "invitation": "The password",
+            "teamAppearance": "The team interface theme",
+            "classAppearance": "The class interface theme",
+            "survey": "The survey",
+            "pretest": "The pretest",
+            "posttest": "The posttest",
+            "numQuestions": "The number of questions",
+            "numRight": "The number of questions to pass",
+            "feedback": "The feedback option",
+            "allowCustomHints": "The custom hints opion",
+            "forbiddenLateSubmissions": "The option to forbid late submissions",
+            "classInstructions": "The class interface",
+            "teamInstructions": "The team interface",
+            "indicationsInstructions": "The pre-activity instrucionts",
+            "supportLink": "The support link",
+            "scoreParticipation": "The attendance score",
+            "automaticAttendance": "The attendance method",
+            "hintLimit": "The hint limit",
+            "hintSuccess": "The score per hint obtained",
+            "hintFailed": "The score per hint failed to obtain",
+            "forceLang": "The language"
         }
     },
     "gallery": {
@@ -704,7 +739,17 @@
         "messages": "Puzzle messages",
         "retosSuperados": "Puzzles solved",
         "correctAnswer": "Congratulations! You've completed this puzzle",
-        "start":"Start"
+        "start":"Start",
+        "attributes": {
+            "title": "The puzzle name",
+            "sol": "The puzzle solution",
+            "desc": "The puzzle description ",
+            "order": "The order",
+            "correct": "The puzzle solved message",
+            "fail": "The puzzle incorrect message",
+            "automatic": "The automatic option",
+            "score": "The puzzle score"
+        }
     },
     "showStudent": {
         "access": "access",
@@ -730,6 +775,8 @@
             "basic": "Basic configuration",
             "puzzles": "Puzzles & hints",
             "hintStrategy": "Hint management",
+            "management": "Management",
+            "setup": "Setup",
             "indications": "Pre-activity instructions",
             "teamInterface": "Team interface",
             "classInterface": "Class interface",
@@ -742,6 +789,8 @@
             "teams": "Teams",
             "share": "share",
             "shifts": "Shifts",
+            "stop": "stop",
+            "shift": "shift",
             "turnos": "Shifts",
             "volver": "back",
             "actions": "Actions",
@@ -822,7 +871,8 @@
         "teamS": "team(s)",
         "title": "Teams"
     },
-    "turnos": {
+    "turno": {
+        "Actions": "Actions",
         "all": "All shifts",
         "alreadyIn": "You're already assigned to a shift",
         "always": "always",
@@ -846,6 +896,8 @@
         "from": "From",
         "to": "To",
         "apply": "Apply",
+        "activated": "Shift started",
+        "deactivated": "Shift stopped",
         "cancel": "Cancel",
         "customRange": "Custom range",
         "Description": "Description",
@@ -869,21 +921,40 @@
         "notActive": "This Escape Room isn't available for you right now",
         "selectActivate": "Select the shift you want to activate/deactivate",
         "selectStudent": "Select a shift",
+        "areYouSureReset": "Are you sure you want to reset this shift? All of the students' progress will be lost",
         "todayEscapeRoom": "The Escape Room will be celebrated this day",
         "Turno": "Shift",
+        "Links": "Links",
+        "activateTurnos": "Manage the escape room shifts",
+        "areYouSureStop": "Are you sure you want to stop this shift?",
+        "areYouSureStopScheduledFor": "Are you sure you want to stop the shift scheduled for",
+        "areYouSureStart": "Are you sure you want to start this shift?",
+        "areYouSureStartScheduledFor": "Are you sure you want to start the shift scheduled for",
+        "activateTurnosBC": "Manage shifts",
+        "resetProgress": "Reset this shift",
+        "status": "Status",
         "noTurnAvailable": "No turn available for this ER",
         "theres": "There is",
         "thereare": "There are",
         "spot": "open spot",
         "spots": "open spots",
         "openSpots": "in this shift",
-        "turnNotAvailable": "The selected turh is not available",
+        "turnNotAvailable": "The selected turn is not available",
         "statusMsg": {
             "pending": "Pending shift",
             "active": "Active shift",
             "finished": "Closed shift",
             "canSignUp": "Shift available",
             "full": "No places left in this shift"
+        },
+        "attributes": {
+            "date": "The celebration date",
+            "place": "The title",
+            "from": "The enrollment period starting date",
+            "to": "The enrollment period finish date",
+            "password": "The shift password",
+            "capacity": "The shift capacity",
+            "status": "The status"
         }
     },
     "user": {
@@ -944,5 +1015,12 @@
         "username": "E-mail",
         "wrongCredentials": "Login error. Please check your credentials",
         "turno": "Shift"
+    },
+    "hint": {
+        "attributes": {
+            "content": "The hint content",
+            "order": "The order",
+            "category": "The hint category"
+        }
     }
 }

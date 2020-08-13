@@ -19,8 +19,8 @@
 		</div>
 		<div class="flex-er-info animated fadeIn">
 			<h1><%=escapeRoom.title%></h1>
-			<h2><%=i18n.turnos.Turno%></h2>
-			<p><%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%> <% if (turno.place) { %>(<%= turno.place %>)<% } %></p>
+			<h2><%=i18n.turno.Turno%></h2>
+			<p><%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%> <% if (turno.place) { %>(<%= turno.place %>)<% } %></p>
 			
 			<% if (!escapeRoom.teamSize || (escapeRoom.teamSize > 1)) { %>
 				<h2><%=i18n.team.Team%> </h2>
@@ -34,11 +34,9 @@
 				<p><a href="<%=escapeRoom.supportLink%>"><%=escapeRoom.supportLink%></a></p>
 			<% } %>
 		</div>
-		
-
 	</div>
 	<div class="animated fadeIn">
-		<h2><%=i18n.turnos.Description%></h2>
+		<h2><%=i18n.turno.Description%></h2>
 		<p class="desc "><%=escapeRoom.description%></p>
 		<div class="col-xs-12 indications text-left instructionsShow ">
 			<div id="editor" class="editor" style="padding: 0px;">

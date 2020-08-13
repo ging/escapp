@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models");
 const {models} = sequelize;
 const mailer = require("../helpers/mailer");
-const {renderEJS} = require("../helpers/utils");
+const {renderEJS, validationError} = require("../helpers/utils");
 
 // Autoload the user with id equals to :userId
 exports.load = (req, res, next, userId) => {
@@ -91,9 +91,11 @@ exports.create = (req, res, next) => {
             req.flash("error", i18n.common.flash.errorExistingUser);
             res.render("index", {user, "register": true, redir});
         }).
-        catch(Sequelize.ValidationError, (/* Error */) => {
+        catch(Sequelize.ValidationError, (error) => {
             req.flash("error", i18n.common.validationError);
-            // Error.errors.forEach(({message}) => req.flash("error", message));
+            error.errors.forEach((err) => {
+                req.flash("error", validationError(err, i18n));
+            });
             res.render("index", {user, "register": true, redir});
         }).
         catch((error) => next(error));

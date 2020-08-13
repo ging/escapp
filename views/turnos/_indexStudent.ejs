@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/stylesheets/vendor/owl.theme.default.css">
 <% include ../partials/_header.ejs %>
 <%
-const monthArray = Object.values(i18n.turnos.months);
+const monthArray = Object.values(i18n.turno.months);
 const formatDate = function (currentDate) {
     if (i18n.lang === "es") { 
         return `${currentDate.getDate()} de ${monthArray[currentDate.getMonth()]} de ${currentDate.getFullYear()}`;
@@ -25,7 +25,7 @@ const formatDate = function (currentDate) {
 <div class="main student" style="display: flex; justify-content: center; align-items: center;">
     <div class="dialog" >
         <h1 style="font-size: xx-large;">
-            <%=i18n.turnos.selectStudent%>:
+            <%=i18n.turno.selectStudent%>:
         </h1>
         <%
         var pastDates = [];
@@ -54,29 +54,27 @@ const formatDate = function (currentDate) {
     <div class="day-wrapper">
         <p class="turno-date-title-show centeredSmall">
 
-        <%= turn.date ? formatDate(dateNoTime) : i18n.turnos.alwaysOpen %>
+        <%= turn.date ? formatDate(dateNoTime) : i18n.turno.alwaysOpen %>
 
         <div class="flexBoxTurnos">
             <%}%>
-            <% var title = i18n.turnos.statusMsg["canSignUp"];
+            <% var title = i18n.turno.statusMsg["canSignUp"];
             var full = (turn.capacity && turn.students.length >= turn.capacity);
             var finished =  turn.status === 'finished';
             if (finished) {
-                title = i18n.turnos.statusMsg["finished"];
+                title = i18n.turno.statusMsg["finished"];
             } else if (full) {
-                title = i18n.turnos.statusMsg["full"];
+                title = i18n.turno.statusMsg["full"];
             }
             %>
             <% var disabled = (full || finished);%>
             <div class="turno turnoAlumno <%= disabled ? "disabled finished":""%>" title="<%=title%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
                 <div class="hora">
-                    <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %>
+                    <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turno.always}</span>` %>
                 </div>
                 <div class="place">
                     <% if (turn.place) { %>
                         <%= turn.place %> <br/>
-                    <% } else { %>
-                            <span class="no-place"><%=i18n.turnos.noPlace%></span>
                     <% } %>
                 </div>
             </div>

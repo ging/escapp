@@ -2,7 +2,7 @@
 <script type="text/javascript" src="/js/vendor/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/daterangepicker.css" />
 
-<%turnos.push({date: new Date()})%>
+<%locals.error === "new" || turnos.push({date: new Date()})%>
 <%for (let t in turnos){%>
 	<%let turno = turnos[t];%>
 	<%let id = turno.id || "new"; %>
@@ -68,18 +68,20 @@
         };
 
         const dateSubmitted = (str) =>  {
-           
+            try {
 
+                const split = str.split(" ");
+                const date = new Date(split[0]);
+                const time = split[1].split(":"); 
+                const res =  new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), time[0], time[1]));
+                // res.setMinutes(res.getMinutes() - date.getTimezoneOffset()); 
+                // res.setHours(res.getHours() + (new Date().getTimezoneOffset() / 60));
+                return res;
 
-            const split = str.split(" ");
-            const date = new Date(split[0]);
-            const time = split[1].split(":"); 
-            const res =  new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), time[0], time[1]));
-            // res.setMinutes(res.getMinutes() - date.getTimezoneOffset()); 
-            // res.setHours(res.getHours() + (new Date().getTimezoneOffset() / 60));
+                } catch(e) {
+                    return null;
+                }
 
-            console.log(str, res)
-            return res;
             /* var d = new Date(str);
             d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
 
@@ -120,7 +122,10 @@
             $('#turno-date-new input').data('daterangepicker').setStartDate(fullDate);
             $('#turno-date-new input').data('daterangepicker').setEndDate(fullDate);
 			$( "#dialog-turno-new" ).dialog( "open" );
-		}); 
+        }); 
+        <%if (locals.error) {%>
+            $( "#dialog-turno-<%=locals.error%>" ).dialog( "open" );
+        <%}%>
 
 		$( ".cancelTurno" ).on( "click", function() {
 			var id = $( this).data( "turnoId" );
@@ -137,11 +142,11 @@
             "locale": {
                 "format": "YYYY-MM-DD HH:mm",
                 "separator": " - ",
-                "applyLabel": "<%=i18n.turnos.apply%>",
-                "cancelLabel": "<%=i18n.turnos.cancel%>",
-                "fromLabel": "<%=i18n.turnos.from%>",
-                "toLabel": "<%=i18n.turnos.to%>", 
-                "customRangeLabel": "<%=i18n.turnos.customRange%>", 
+                "applyLabel": "<%=i18n.turno.apply%>",
+                "cancelLabel": "<%=i18n.turno.cancel%>",
+                "fromLabel": "<%=i18n.turno.from%>",
+                "toLabel": "<%=i18n.turno.to%>", 
+                "customRangeLabel": "<%=i18n.turno.customRange%>", 
                 "weekLabel": "W",
                 "daysOfWeek": dayArray.map(a=>a.slice(0,1)),
                 "monthNames": monthArray,
@@ -157,11 +162,11 @@
             "locale": {
                 "format": "YYYY-MM-DD HH:mm",
                 "separator": " - ",
-                "applyLabel": "<%=i18n.turnos.apply%>",
-                "cancelLabel": "<%=i18n.turnos.cancel%>",
-                "fromLabel": "<%=i18n.turnos.from%>",
-                "toLabel": "<%=i18n.turnos.to%>", 
-                "customRangeLabel": "<%=i18n.turnos.customRange%>",
+                "applyLabel": "<%=i18n.turno.apply%>",
+                "cancelLabel": "<%=i18n.turno.cancel%>",
+                "fromLabel": "<%=i18n.turno.from%>",
+                "toLabel": "<%=i18n.turno.to%>", 
+                "customRangeLabel": "<%=i18n.turno.customRange%>",
                 "weekLabel": "W",
                 "daysOfWeek": dayArray.map(a=>a.slice(0,1)),
                 "monthNames": monthArray,

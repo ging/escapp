@@ -6,13 +6,13 @@
     <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/grading">
         <div class="filters">
             <label for="turnId">
-                <%=i18n.turnos.Turno%>
+                <%=i18n.turno.Turno%>
                 <select name="turnId" id="turnId">
-                    <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turnos.all%></option>
+                    <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turno.all%></option>
                     <% for (t in turnos) { %>
                     <% var turno = turnos[t] %>
                     <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
-                        <%= turno.date ? getFullDate(turno.date): i18n.turnos.alwaysOpen%>
+                        <%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%>
                     </option>
                     <% } %>
                 </select>
@@ -22,7 +22,8 @@
                     <option value="" <%= !orderBy ? "selected": ""%>  disabled></option>
                     <option value="name" <%= orderBy === "name" ? "selected": ""%>><%=i18n.user.name%></option>
                     <option value="surname" <%= orderBy === "surname" ? "selected": ""%>><%=i18n.user.surname%></option>
-                </select></label>
+                </select>
+            </label>
             <button type="submit" class="editButton filter-button" ><%=i18n.common.filter%></button>
             <button type="submit" name="csv" value="1" class="acceptButton filter-button" >
                 <%=i18n.analytics.main.download%>
@@ -36,7 +37,7 @@
     <table class="mainTable">
         <tr class="animated fadeInRight">
             <th><%=i18n.user.name%></th>
-            <th><%=i18n.turnos.Turno%></th>
+            <th><%=i18n.turno.Turno%></th>
             <th><%=i18n.analytics.grading.attendance%></th>
             <% for (var p in puzzles) { var puzzle = puzzles[p]; %>
                 <th><%=puzzle.title%></th>
@@ -48,7 +49,7 @@
         <%for (var p in results) { var result = results[p];%>
         <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(p)+(0.3)%>s;">
             <td class="align-left"><%=result.name%> <%= result.surname%></td>
-            <td><%= result.turno ? getFullDate(result.turno) : i18n.turnos.alwaysOpen%></td>
+            <td><%= result.turno ? getFullDate(result.turno) : i18n.turno.alwaysOpen%></td>
             <td><%=result.attendance%></td>
             <% for (var r in result.grades) {
                 var grade = result.grades[r]; %>

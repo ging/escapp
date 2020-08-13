@@ -4,6 +4,7 @@ const {models} = sequelize;
 const http = require("https");
 const attHelper = require("../helpers/attachments");
 const {nextStep, prevStep} = require("../helpers/progress");
+const {validationError} = require("../helpers/utils");
 
 // Autoload the hint with id equals to :hintId
 exports.load = (req, res, next, hintId) => {
@@ -135,8 +136,9 @@ exports.pistasUpdate = async (req, res) => {
     } catch (error) {
         console.error(error);
         if (error instanceof Sequelize.ValidationError) {
-            req.flash("error", i18n.common.validationError);
-            // Error.errors.forEach(({message}) => req.flash("error", message));
+            error.errors.forEach((err) => {
+                req.flash("error", validationError(err, i18n));
+            });
         } else {
             req.flash("error", i18n.common.flash.errorEditingER);
         }

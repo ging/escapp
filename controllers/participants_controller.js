@@ -22,7 +22,7 @@ exports.checkIsNotParticipant = async (req, res, next) => {
         });
 
         if (isParticipant) {
-            req.flash("error", i18n.turnos.alreadyIn);
+            req.flash("error", i18n.turno.alreadyIn);
             res.redirect("/escapeRooms");
         } else {
             next();
@@ -52,7 +52,7 @@ exports.checkSomeTurnAvailable = async (req, res, next) => {
             return;
         }
     }
-    req.flash("error", i18n.turnos.noTurnAvailable);
+    req.flash("error", i18n.turno.noTurnAvailable);
     res.redirect("/escapeRooms");
 };
 
@@ -64,7 +64,7 @@ exports.checkTurnAvailable = (req, res, next) => {
         next();
         return;
     }
-    req.flash("error", i18n.turnos.turnNotAvailable);
+    req.flash("error", i18n.turno.turnNotAvailable);
     res.redirect("back");
 };
 

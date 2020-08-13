@@ -10,16 +10,21 @@ module.exports = function (app) {
     };
 
     app.locals.zeroPadding = zeroPadding;
-    app.locals.getFullDate = (d) => {
+    app.locals.getFullDate = (date) => {
+        const d = new Date(date.getTime());
+
         d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
         return `${zeroPadding(d.getDate())}-${zeroPadding(d.getMonth() + 1)}-${d.getFullYear()} ${zeroPadding(d.getHours())}:${zeroPadding(d.getMinutes())}`;
     };
-    app.locals.getFullDateY = (d) => {
-        d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+    app.locals.getFullDateY = (date) => {
+        const d = new Date(date.getTime());
 
+        d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
         return `${d.getFullYear()}-${zeroPadding(d.getMonth() + 1)}-${zeroPadding(d.getDate())} ${zeroPadding(d.getHours())}:${zeroPadding(d.getMinutes())}`;
     };
-    app.locals.formatTime = function (currentDate) {
+    app.locals.formatTime = function (date) {
+        const currentDate = new Date(date.getTime());
+
         currentDate.setMinutes(currentDate.getMinutes() + currentDate.getTimezoneOffset());
         return `${zeroPadding(currentDate.getHours())}:${zeroPadding(currentDate.getMinutes())}`;
     };

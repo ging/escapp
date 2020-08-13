@@ -1,6 +1,6 @@
 
 <%
-const monthArray = Object.values(i18n.turnos.months);
+const monthArray = Object.values(i18n.turno.months);
 const formatDate = function (currentDate) {
     if (i18n.lang === "es") { 
         return `${currentDate.getDate()} de ${monthArray[currentDate.getMonth()]} de ${currentDate.getFullYear()}`;
@@ -31,22 +31,18 @@ var pastDates = [];
   		pastDates.push(dateNoTime.getTime()); %>
 		</div>
 		<p class="turno-date-title-show centeredSmall">
-			<%= turn.date ? formatDate(dateNoTime) : i18n.turnos.alwaysOpen %>
+			<%= turn.date ? formatDate(dateNoTime) : i18n.turno.alwaysOpen %>
 		</p>
 		<div class="flexBoxTurnos">
 	<%}%>
-	<a href="<%=turn.status === 'active' ? '/escapeRooms/'+escapeRoom.id+'/turnos/'+turn.id+'/play' : ''%>" <%- turn.status === 'active' ? '':'onclick="return false"'%>  title="<%=i18n.turnos.statusMsg[turn.status]%>">
+	<a href="<%=turn.status === 'active' ? '/escapeRooms/'+escapeRoom.id+'/turnos/'+turn.id+'/play' : ''%>" <%- turn.status === 'active' ? '':'onclick="return false"'%>  title="<%=i18n.turno.statusMsg[turn.status]%>">
 		<div class="turno turno-play turnoProfe <%=turn.status === "active" ? "active" : "finished" %>" data-date="<%=dateNoTime.getTime()%>">
 			<div class="hora">
-				<%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>`%>
+				<%- turn.date ? formatTime(date) : `<span class="always">${i18n.turno.always}</span>`%>
 			</div>
 			<div class="place">
 				<% if (turn.place) { %>
 					<%= turn.place %> <br/>
-				<% } else { %>
-						<span class="no-place">
-							<%=i18n.turnos.noPlace%>
-						</span>
 				<% } %>
 			</div>
 		</div>

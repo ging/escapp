@@ -16,7 +16,7 @@ exports.add = async (req, res, next) => {
         const time = turn.startTime || startTime;
 
         if (time && time + escapeRoom.duration < new Date()) { // Already finished
-            req.flash("error", i18n.turnos.tooLate);
+            req.flash("error", i18n.turno.tooLate);
             res.redirect(`/escapeRooms/${escapeRoom.id}/join?token=${token}`);
             return;
         }

@@ -8,7 +8,7 @@
 	%> 
 		<div class="turno <%= turn.date ? '' : 'always' %>" data-date="<%=getDashDate(dateNoTime)%>">
 			<div class="hora">
-				<%- turn.date ? formatTime(date) : `<span class="always">${i18n.turnos.always}</span>` %>
+				<%- turn.date ? formatTime(date) : `<span class="always">${i18n.turno.always}</span>` %>
 			</div>
 			<div class="place">
 				<% if (turn.place) { %>

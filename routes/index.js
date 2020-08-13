@@ -108,9 +108,10 @@ router.get("/escapeRooms/:escapeRoomId(\\d+)/class", sessionController.loginRequ
 router.post("/escapeRooms/:escapeRoomId(\\d+)/class", sessionController.loginRequired, sessionController.adminOrAuthorRequired, escapeRoomController.classInterfaceUpdate);
 
 // Routes for starting/stopping shifts
-router.get("/escapeRooms/:escapeRoomId(\\d+)/activarTurno", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.indexActivarTurno);
-router.put("/escapeRooms/:escapeRoomId(\\d+)/activar", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.activar);
+router.get("/escapeRooms/:escapeRoomId(\\d+)/activate", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.indexActivate);
+router.put("/escapeRooms/:escapeRoomId(\\d+)/activate", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.activate);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/turnos/new", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.create);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/reset", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.reset);
 router.put("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.update);
 router.delete("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)", sessionController.loginRequired, sessionController.adminOrAuthorRequired, turnoController.destroy);
 

@@ -85,7 +85,7 @@ exports.publicRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "statusCode": 302
     },
     {
-        "route": `/escapeRooms/${escapeRoomId}/activarTurno`,
+        "route": `/escapeRooms/${escapeRoomId}/activate`,
         "statusCode": 302
     },
     {
@@ -280,7 +280,7 @@ exports.teacherRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "statusCode": 403
     },
     {
-        "route": `/escapeRooms/${escapeRoomId}/activarTurno`,
+        "route": `/escapeRooms/${escapeRoomId}/activate`,
         "statusCode": 200
     },
     {
@@ -471,7 +471,7 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "statusCode": 302
     },
     {
-        "route": `/escapeRooms/${escapeRoomId}/activarTurno`,
+        "route": `/escapeRooms/${escapeRoomId}/activate`,
         "statusCode": 403
     },
     {

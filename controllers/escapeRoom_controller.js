@@ -6,7 +6,7 @@ const cloudinary = require("cloudinary");
 const query = require("../queries");
 const attHelper = require("../helpers/attachments");
 const {nextStep, prevStep} = require("../helpers/progress");
-const {saveInterface, getERPuzzles, paginate, checkIsTurnAvailable} = require("../helpers/utils");
+const {saveInterface, getERPuzzles, paginate, validationError} = require("../helpers/utils");
 const es = require("../i18n/es");
 const en = require("../i18n/en");
 
@@ -158,8 +158,9 @@ exports.create = async (req, res) => {
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
             console.error(error);
-            // Error.errors.forEach(({message}) => req.flash("error", message));
-            req.flash("error", i18n.common.validationError);
+            error.errors.forEach((err) => {
+                req.flash("error", validationError(err, i18n));
+            });
         } else {
             console.error(error.message);
             req.flash("error", i18n.common.flash.errorCreatingER);
@@ -241,9 +242,11 @@ exports.update = async (req, res) => {
         }
         res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
     } catch (error) {
-        console.error(error);
+        // Console.error(error);
         if (error instanceof Sequelize.ValidationError) {
-            req.flash("error", i18n.common.validationError);
+            error.errors.forEach((err) => {
+                req.flash("error", validationError(err, i18n));
+            });
         } else {
             req.flash("error", i18n.common.flash.errorEditingER);
         }
@@ -265,14 +268,15 @@ exports.evaluation = async (req, res, next) => {
 };
 
 // POST /escapeRooms/:escapeRoomId/evaluation
-exports.evaluationUpdate = async (req, res, next) => {
+exports.evaluationUpdate = async (req, res) => {
     const {body} = req;
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
     const {i18n} = res.locals;
+    let {escapeRoom} = req;
 
     try {
-        const escapeRoom = await models.escapeRoom.findByPk(req.escapeRoom.id, query.escapeRoom.loadPuzzles);
+        escapeRoom = await models.escapeRoom.findByPk(req.escapeRoom.id, query.escapeRoom.loadPuzzles);
 
         escapeRoom.survey = body.survey;
         escapeRoom.pretest = body.pretest;
@@ -297,13 +301,13 @@ exports.evaluationUpdate = async (req, res, next) => {
         res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("evaluation") : progressBar || nextStep("evaluation")}`);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            req.flash("error", i18n.common.validationError);
-            // Error.errors.forEach(({message}) => req.flash("error", message));
-            res.redirect(`/escapeRooms/${req.escapeRoom.id}/evaluation`);
+            error.errors.forEach((err) => {
+                req.flash("error", validationError(err, i18n));
+            });
         } else {
             req.flash("error", i18n.common.flash.errorEditingER);
-            next(error);
         }
+        res.render("escapeRooms/steps/evaluation", {escapeRoom, "progress": "evaluation"});
     }
 };
 

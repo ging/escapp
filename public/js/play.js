@@ -57,7 +57,7 @@ const retoMsg = (puzzle, sol) => {
   </li>`;
 }
 
-const blockTemplate = (content) => `<div>${content}</div>`;
+const blockTemplate = (content, index) => `<div class="content-block" data-id="${index}" id="content-${index}">${content}</div>`;
 const rankingEmptyTemplate = ()=>`
     <ranking>
         <div class="ranking-table table" style="height: 229px; ">
@@ -465,15 +465,46 @@ var insertContent = (type, payload, puzzles, index) => {
           break;
       default:
   }
-  var htmlContent = $(blockTemplate(content, type, puzzles));
+  var htmlContent = $(blockTemplate(content, index));
   $('#editor').append(htmlContent);
 };
 
+
+const scrollToTargetAdjusted = (element) => {
+  const offset = 60;
+  const bodyRect = document.body.getBoundingClientRect().top;
+  const elementRect = element.getBoundingClientRect().top;
+  const elementPosition = elementRect - bodyRect;
+  const offsetPosition = elementPosition - offset;
+
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth'
+  });
+}
+
 const updateContent = (content) => {
-  $('#editor').html("");
+  var newIndexes = [];
+  var first = null;
+
   for (var i in content) {
     var block = content[i];
-    insertContent(block.type, block.payload, block.puzzles, block.index);
+    if ($(`#content-${block.index}`).length){ // It was already there
+      $('#editor').append($(`#content-${block.index}`));
+    } else {
+      first = block.index;
+      insertContent(block.type, block.payload, block.puzzles, block.index);
+    }
+    newIndexes.push(block.index);
+  }
+  $('.content-block').each((_i,e)=>{
+    var id = $(e).data("id");
+    if (newIndexes.indexOf(parseInt(id, 10)) === -1) {
+      $(e).remove();
+    }
+  });
+  if (first !== null && document.getElementById(`content-${first}`)) {
+    scrollToTargetAdjusted(document.getElementById(`content-${first}`));
   }
   window.initCountdown();
   $('ranking').html(rankingTemplate(teams, myTeamId));
