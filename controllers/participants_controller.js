@@ -3,7 +3,7 @@ const {createCsvFile} = require("../helpers/csv");
 const Sequelize = require("sequelize");
 const {Op} = Sequelize;
 const queries = require("../queries");
-const {sendLeaveTeam, sendLeaveParticipant} = require("../helpers/sockets");
+const {sendLeaveTeam, sendLeaveParticipant, isParticipantTeamConnected, isParticipantTeamConnectedWaiting} = require("../helpers/sockets");
 const {checkIsTurnAvailable, getRanking} = require("../helpers/utils");
 
 exports.checkIsNotParticipant = async (req, res, next) => {
@@ -98,11 +98,12 @@ exports.index = async (req, res, next) => {
             const {id, name, gender, username, surname, teamsAgregados, turnosAgregados} = user;
             const [{"id": turnoId, "date": turnDate, "participants": parts}] = turnosAgregados;
             const [{"id": teamId, "name": teamName}] = teamsAgregados;
+            const connected = isParticipantTeamConnected(id, teamId);
+            const waiting = connected ? false : isParticipantTeamConnectedWaiting(id, teamId);
             let {attendance} = parts;
 
             attendance = Boolean(attendance);
-
-            participants.push({id, name, surname, gender, username, teamId, teamName, turnoId, turnDate, attendance});
+            participants.push({id, name, surname, gender, username, teamId, teamName, turnoId, turnDate, attendance, connected, waiting});
         });
         if (req.query.csv) {
             createCsvFile(res, participants, "participants");

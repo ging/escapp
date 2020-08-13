@@ -32,7 +32,8 @@
                         <option value="surname" <%= orderBy === "surname" ? "selected": ""%>><%=i18n.user.surname%></option>
                         <option value="username" <%= orderBy === "username" ? "selected": ""%>><%=i18n.user.username%></option>
                         <option value="team" <%= orderBy === "team" ? "selected": ""%>><%=i18n.team.Team%></option>
-                    </select></label>
+                    </select>
+                </label>
             <button type="submit" class="editButton participants-button filter-button" ><%=i18n.common.filter%></button>
             <button type="submit" id="csv-button" class="participants-button download-button" name="csv" value="csv"><%=i18n.participant.download%></button>
             <button type="button" id="attendance-all-button" class="participants-button attendance-all-button"  ><%=i18n.participant.select%></button>
@@ -54,7 +55,7 @@
                 <% for (var p in participants) {
                     var participant = participants[p]; %>
                 <div class="flex-row">
-                    <div class="flex-cell flex-name"><span><%= participant.name %> <%= participant.surname %></span></div>
+                    <div class="flex-cell flex-name"><span><%- include("../partials/_connected",{participant})%> <%= participant.name %> <%= participant.surname %> </span></div>
                     <div class="flex-cell flex-username"><span><a href="mailto:<%=participant.username%>"><%= participant.username %></a></span></div>
                     <div class="flex-cell flex-turno"><span><%= participant.turnDate ? getFullDate(participant.turnDate) : i18n.turno.alwaysOpen  %></span></div>
                     <div class="flex-cell flex-team"><span><%= participant.teamName%></span></div>
@@ -124,7 +125,7 @@
           'Content-Type': 'application/json'
         }
       }).then(res => $.easyAlert({message: "<%=i18n.participant.attendanceSaved%>", alertType: 'info', position: 'b l', time: 3000, autoHide: true}))
-        .catch(error => $.easyAlert({message: "<%=i18n.participant.errorSaving%>", alertType: 'error', position: 'b l', time: 3000, autoHide: true}))
+        .catch(error => $.easyAlert({message: "<%=i18n.participant.errorSaving%>", alertType: 'danger', position: 'b l', time: 3000, autoHide: true}))
     });
     var selected = true;
     $('#attendance-all-button').on('click', ()=>{

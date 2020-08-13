@@ -1,6 +1,7 @@
 const NOK = "NOK";
 const PARTICIPANT = "PARTICIPANT";
 const OK = "OK";
+const MESSAGE = "MESSAGE";
 const NOT_ACTIVE = "NOT_ACTIVE";
 const NOT_STARTED = "NOT_STARTED";
 const TOO_LATE = "TOO_LATE";
@@ -27,6 +28,7 @@ const TEAM_STARTED = "TEAM_STARTED";
 
 exports.RIGHT_ANSWER = OK;
 exports.NOK = NOK;
+exports.MESSAGE = MESSAGE;
 exports.PARTICIPANT = PARTICIPANT;
 exports.OK = OK;
 exports.NOT_ACTIVE = NOT_ACTIVE;

@@ -261,6 +261,10 @@ const onInitialInfo = ({erState}) => {
   }
 };
 
+const onMessage = ({msg}) => {
+  alertMsg = createAlert("warning", msg, true);
+}
+
 const onRanking = ({ranking}) => {
   if (ranking) {
     teams = ranking;
@@ -783,6 +787,9 @@ const initSocketServer = (escapeRoomId, teamId, turnId, username) => {
 
   /*New ranking */
   socket.on("TEAM_PROGRESS", onRanking);
+
+  /*Message */
+  socket.on("MESSAGE", onMessage);
 
   /*Join*/
   // socket.on("LEAVE", onLeave); 

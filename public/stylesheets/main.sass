@@ -161,6 +161,15 @@
 			border-style: solid
 			border-color: #D2D4DC
 			outline: 0
+		.connection
+			cursor: help
+			&.connected
+				color: $brightgreen
+			&.disconnected
+				color: $lightred
+			&.waiting
+				color: $brightyellow
+
 @media (min-width: 1200px)
 	#mainSection
 		.main

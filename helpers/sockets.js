@@ -105,6 +105,114 @@ exports.socketAuthenticate = async ({request, handshake}) => {
 };
 
 /**
+ * Check team connected
+ */
+exports.isTeamConnected = (teamId) => {
+    if (!teamId) {
+        return false;
+    }
+    const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
+
+    if (room) {
+        for (const socketId in room.sockets) {
+            if (global.io.sockets.connected[socketId]) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
+/**
+ * Check team in waiting room
+ */
+exports.isTeamConnectedWaiting = (teamId) => {
+    if (!teamId) {
+        return false;
+    }
+    const room = global.io.sockets.adapter.rooms[`teamId_waiting_${teamId}`];
+
+    if (room) {
+        for (const socketId in room.sockets) {
+            if (global.io.sockets.connected[socketId]) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
+/**
+ * Check participant from turn connected
+ */
+exports.isParticipantTurnConnected = (userId, turnId) => {
+    if (!userId) {
+        return false;
+    }
+    const room = global.io.sockets.adapter.rooms[`turnId_${turnId}`];
+
+    if (room) {
+        for (const socketId in room.sockets) {
+            if (global.io.sockets.connected[socketId]) {
+                const {id} = global.io.sockets.connected[socketId].handshake;
+
+                if (id === userId) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+};
+
+/**
+ * Check participant from team connected
+ */
+exports.isParticipantTeamConnected = (participantId, teamId) => {
+    if (!participantId) {
+        return false;
+    }
+    const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
+
+    if (room) {
+        for (const socketId in room.sockets) {
+            if (global.io.sockets.connected[socketId]) {
+                const {userId} = global.io.sockets.connected[socketId].handshake;
+
+                if (participantId === userId) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+};
+
+/**
+ * Check participant from team connected to waiting room
+ */
+exports.isParticipantTeamConnectedWaiting = (participantId, teamId) => {
+    if (!participantId) {
+        return false;
+    }
+    const room = global.io.sockets.adapter.rooms[`teamId_waiting_${teamId}`];
+
+    if (room) {
+        for (const socketId in room.sockets) {
+            if (global.io.sockets.connected[socketId]) {
+                const {userId} = global.io.sockets.connected[socketId].handshake;
+
+                if (participantId === userId) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+};
+
+
+/**
  * Get team members connected to ER
  */
 
@@ -349,6 +457,8 @@ exports.requestHint = requestHint;
  */
 exports.puzzleResponse = puzzleResponse;
 
+exports.sendTeamMessage = sendTeamMessage;
+exports.sendTurnMessage = sendTurnMessage;
 
 /**
  * Join rooms for team and turn

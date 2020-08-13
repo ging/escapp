@@ -727,8 +727,10 @@
         "seeByTeam": "see by team",
         "select": "select/deselect all ",
         "title": "Participants",
-        "wrongToken": "Wrong password to access the escape room"
-
+        "wrongToken": "Wrong password to access the escape room",
+        "connected": "Connected",
+        "waiting": "Waiting",
+        "disconnected": "Disconnected"
     },
     "puzzle": {
         "puzzle": "puzzle",
@@ -775,6 +777,7 @@
             "basic": "Basic configuration",
             "puzzles": "Puzzles & hints",
             "hintStrategy": "Hint management",
+            "message": "Messages",
             "management": "Management",
             "setup": "Setup",
             "indications": "Pre-activity instructions",
@@ -1022,5 +1025,17 @@
             "order": "The order",
             "category": "The hint category"
         }
+    },
+    "message": {
+        "title": "Send a message",
+        "ok": "Message sent",
+        "nok": "Message could not be sent",
+        "everyone": "Everyone connected to this escape room",
+        "shift": "Everyone connected that belongs to the shift",
+        "team": "Everyone connected that belongs to the team",
+        "participant": "Just one person (if connected)",
+        "waiting": "Include participants waiting to enter the escape room as well",
+        "msgPlaceholder": "Write here your message"
+
     }
 }

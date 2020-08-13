@@ -42,7 +42,7 @@
                     var team = teams[p]; %>
                 <div class="flex-row">
                     <div class="flex-cell flex-name">
-                        <span><%= team.name %></span>
+                        <%- include("../partials/_connected",{participant: team})%> <span><%= team.name %></span>
                     </div>
                     <div class="flex-cell flex-turno">
                         <%= team.turno.date ? getFullDate(team.turno.date): i18n.turno.alwaysOpen%>

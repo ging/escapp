@@ -34,6 +34,7 @@ exports.createServer = (server, sessionMiddleware) => {
                 }
 
                 socket.handshake.username = username;
+                socket.handshake.userId = user.id;
                 if (errorMsg) {
                     sendInitialInfo(socket, {"code": NOK, "authentication": true, token, "msg": errorMsg});
                     return;

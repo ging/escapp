@@ -2,7 +2,8 @@ const {models} = require("../models");
 const {createCsvFile} = require("../helpers/csv");
 const queries = require("../queries");
 const {flattenObject, getERPuzzles, getERTurnos} = require("../helpers/utils");
-const {retosSuperadosByWho, getRetosSuperados, getBestTime, getAvgHints, byRanking, pctgRetosSuperados, getRetosSuperadosIdTime, countHints, countHintsByPuzzle } = require("../helpers/analytics");
+const {isTeamConnected, isTeamConnectedWaiting} = require("../helpers/sockets");
+const {retosSuperadosByWho, getRetosSuperados, getBestTime, getAvgHints, byRanking, pctgRetosSuperados, getRetosSuperadosIdTime, countHints, countHintsByPuzzle} = require("../helpers/analytics");
 
 // GET /escapeRooms/:escapeRoomId/analytics
 exports.analytics = async (req, res, next) => {
@@ -312,7 +313,10 @@ exports.timeline = async (req, res, next) => {
         escapeRoom.turnos = await getERTurnos(escapeRoom.id);
         escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
         escapeRoom.teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId, "lower(team.name) ASC"));
-
+        for (const team of escapeRoom.teams) {
+            team.connected = isTeamConnected(team.id);
+            team.waiting = team.connected ? false : isTeamConnectedWaiting(team.id);
+        }
         res.render("escapeRooms/analytics/timeline", {"escapeRoom": req.escapeRoom, "teams": escapeRoom.teams, turnId});
     } catch (e) {
         console.error(e);

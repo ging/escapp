@@ -2235,6 +2235,14 @@ body .daterangepicker {
       border-style: solid;
       border-color: #D2D4DC;
       outline: 0; }
+    #mainSection .main .connection {
+      cursor: help; }
+      #mainSection .main .connection.connected {
+        color: #48C18E; }
+      #mainSection .main .connection.disconnected {
+        color: #F47E84; }
+      #mainSection .main .connection.waiting {
+        color: #FAC855; }
 
 @media (min-width: 1200px) {
   #mainSection .main {
@@ -2253,6 +2261,40 @@ body .daterangepicker {
     width: 20%; }
   #mainSection #mainHeader #logoUpm, #mainSection #mainFooter #logoUpm {
     width: 14%; } }
+
+#mainSection .main.messages label {
+  color: #656683;
+  vertical-align: middle;
+  font-family: Lato; }
+
+#mainSection .main.messages #msg {
+  width: 100%;
+  resize: none;
+  border: none;
+  padding: 10px;
+  font-family: Lato;
+  font-size: 20px;
+  color: #161938; }
+  #mainSection .main.messages #msg:hover, #mainSection .main.messages #msg:active, #mainSection .main.messages #msg:focus {
+    outline: none; }
+
+#mainSection .main.messages #msg::-webkit-input-placeholder, #mainSection .main.messages #msg:-moz-placeholder, #mainSection .main.messages #msg::-moz-placeholder, #mainSection .main.messages #msg:-ms-input-placeholder, #mainSection .main.messages #msg::placeholder {
+  color: #656683; }
+
+#mainSection .main.messages input {
+  vertical-align: middle;
+  color: #656683;
+  margin-left: 20px; }
+  #mainSection .main.messages input:checked + label {
+    color: white; }
+    #mainSection .main.messages input:checked + label select {
+      color: white !important;
+      border-color: white !important;
+      -webkit-text-fill-color: white !important; }
+
+#mainSection .main.messages select {
+  font-family: Lato !important;
+  padding: 0px 10px; }
 
 #mainSection .main.participants .flex-table-wrapper {
   margin: 10px 0px;
@@ -3044,8 +3086,6 @@ table.mainTable {
       text-align: left;
       margin: 5px;
       margin-bottom: -15px; }
-      .timeline #timeline-chart #team * {
-        font-family: 'Lato'; }
       .timeline #timeline-chart #team .team-name {
         width: 10%;
         line-height: 63px;

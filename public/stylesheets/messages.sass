@@ -1,0 +1,32 @@
+#mainSection
+    .main.messages
+        label
+            color: $textpurple
+            vertical-align: middle
+            font-family: Lato
+
+        #msg
+            width: 100%
+            resize: none
+            border: none
+            padding: 10px
+            font-family: Lato
+            font-size: 20px
+            color: $darkerpurple
+            &:hover, &:active, &:focus
+                outline: none
+        #msg::-webkit-input-placeholder, #msg:-moz-placeholder, #msg::-moz-placeholder, #msg:-ms-input-placeholder, #msg::placeholder
+                color: $textpurple
+        input
+            vertical-align: middle
+            color: $textpurple
+            margin-left: 20px 
+            &:checked + label
+                color: white
+                select
+                    color: white !important
+                    border-color: white !important
+                    -webkit-text-fill-color: white !important
+        select
+            font-family: Lato !important
+            padding: 0px 10px

@@ -142,6 +142,9 @@ $(()=>{
 		}
 	};
 
+	const onMessage = ({msg}) => {
+		$.easyAlert({message: msg, alertType: 'warning', position: 'b l', time: 30000, autoHide: true})
+	}
 
 
 	const initSocketServer = (escapeRoomId, teamId, turnId, userId) => {
@@ -155,6 +158,7 @@ $(()=>{
 		socket.on("START", (msg)=>{onJoin(msg)}); 
 		// socket.on("JOIN", onJoin); 
 		socket.on("TEAM_STARTED", (msg)=>{onJoin(msg)}); 
+		socket.on("MESSAGE", (msg)=>{onMessage(msg)}); 
 	};
 	initSocketServer(<%= escapeRoom.id%>, teamId, <%= turno ? turno.id : "undefined" %>, userId);
 });

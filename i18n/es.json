@@ -715,7 +715,10 @@
         "seeByTeam": "ver por equipo",
         "select": "marcar/desmarcar todos",
         "title": "Participantes",
-        "wrongToken": "Contraseña de acceso a la escape room incorrecta"
+        "wrongToken": "Contraseña de acceso a la escape room incorrecta",
+        "connected": "Conectado",
+        "waiting": "En espera",
+        "disconnected": "Desonectado"
     },
     "puzzle": {
         "puzzle": "reto",
@@ -762,6 +765,7 @@
             "puzzles": "Retos y pistas",
             "setup": "Configuración",
             "hintStrategy": "Gestión de pistas",
+            "message": "Mensajes",
             "management": "Administración",
             "indications": "Instrucciones previas",
             "teamInterface": "Interfaz de equipo",
@@ -1007,5 +1011,17 @@
             "order": "El orden",
             "category": "La categoría de la pista"
         }
+    },
+    "message": {
+        "title": "Envía un mensaje",
+        "ok": "Mensaje enviado",
+        "nok": "Envío fallido",
+        "everyone": "Todos los conectados a esta escape room",
+        "shift": "Todos los conectados que pertenezcan al turno",
+        "team": "Todos los conectados que pertenezcan al equipo",
+        "participant": "Sólo a una persona (si está conectada)",
+        "waiting": "Enviar también a los participantes esperando para acceder a la escape room",
+        "msgPlaceholder": "Escribe aquí tu mensaje"
+
     }
 }

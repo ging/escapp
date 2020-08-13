@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const {Op} = Sequelize;
 const sequelize = require("../models");
 const {models} = sequelize;
-const {sendLeaveTeam} = require("../helpers/sockets");
+const {sendLeaveTeam, isTeamConnected, isTeamConnectedWaiting} = require("../helpers/sockets");
 const {checkTeamSizeOne, getRanking} = require("../helpers/utils");
 
 // Autoload the team with id equals to :teamId
@@ -98,6 +98,10 @@ exports.index = async (req, res, next) => {
 
         const teams = await models.team.findAll(where);
 
+        for (const team of teams) {
+            team.connected = isTeamConnected(team.id);
+            team.waiting = team.connected ? false : isTeamConnectedWaiting(team.id);
+        }
         res.render("escapeRooms/teams", {teams, escapeRoom, turnId});
     } catch (e) {
         console.error(e);

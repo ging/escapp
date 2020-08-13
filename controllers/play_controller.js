@@ -1,8 +1,9 @@
 const {playInterface, automaticallySetAttendance, getERState, getERPuzzles} = require("../helpers/utils");
 const {getRetosSuperados, byRanking} = require("../helpers/analytics");
 const {models} = require("../models");
+const {MESSAGE} = require("../helpers/apiCodes");
 const queries = require("../queries");
-const {sendJoinTeam, sendStartTeam} = require("../helpers/sockets");
+const {sendJoinTeam, sendStartTeam, sendTurnMessage, sendTeamMessage} = require("../helpers/sockets");
 
 
 // GET /escapeRooms/:escapeRoomId/play
@@ -106,3 +107,65 @@ exports.startPlaying = async (req, res, next) => {
     next();
     // Res.redirect(`/escapeRooms/${req.escapeRoom.id}/play`);
 };
+
+
+// GET /escapeRooms/:escapeRoomId/messages
+exports.writeMessage = async (req, res) => {
+    const {escapeRoom} = req;
+    const turnos = await models.turno.findAll({"where": {"escapeRoomId": escapeRoom.id}, "order": [["date", "ASC NULLS LAST"]]});
+    const participants = await models.user.findAll(queries.user.participantsWithTurnoAndTeam(escapeRoom.id, undefined, "name"));
+    const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, undefined, "name"));
+
+    res.render("escapeRooms/messages", {escapeRoom, turnos, participants, teams});
+};
+
+// GET /escapeRooms/:escapeRoomId/messages
+exports.sendMessage = async (req, res) => {
+    const {to, turnId, teamId, msg, waiting} = req.body;
+    const message = {"type": MESSAGE, "payload": {msg}};
+
+    try {
+        switch (to) {
+        case "everyone":
+            // eslint-disable-next-line no-case-declarations
+            const turnos = await models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "attributes": ["id"]});
+
+            for (const turno of turnos) {
+                sendTurnMessage(message, turno.id);
+                if (waiting) {
+                    sendTurnMessage(message, `waiting_${turno.id}`);
+                }
+            }
+            break;
+        case "shift":
+            // eslint-disable-next-line no-case-declarations
+            const turno = await models.turno.findOne({"where": {"id": turnId, "escapeRoomId": req.escapeRoom.id}, "attributes": []});
+
+            if (turno) {
+                sendTurnMessage(message, turnId);
+                if (waiting) {
+                    sendTurnMessage(message, `waiting_${turnId}`);
+                }
+            } else {
+                res.status(500);
+            }
+            break;
+        case "team":
+            if (teamId) {
+                sendTeamMessage(message, teamId);
+                if (waiting) {
+                    sendTeamMessage(message, `waiting_${teamId}`);
+                }
+            } else {
+                res.status(500);
+            }
+            break;
+        default:
+            res.status(500);
+        }
+    } catch (e) {
+        res.status(500);
+    }
+    res.end();
+};
+

@@ -58,6 +58,7 @@
       %>
       <div id="team">
         <div class="team-name">
+          <%- include("../../partials/_connected",{participant:team})%>
           <%=team.name%>
         </div><img class="door" src="/images/doorclosed.png" alt="<%=i18n.analytics.timeline.closedDoor%>"/>
         <div class="progress">
