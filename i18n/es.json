@@ -1016,12 +1016,14 @@
         "title": "Envía un mensaje",
         "ok": "Mensaje enviado",
         "nok": "Envío fallido",
+        "send": "enviar",
         "everyone": "Todos los conectados a esta escape room",
         "shift": "Todos los conectados que pertenezcan al turno",
         "team": "Todos los conectados que pertenezcan al equipo",
         "participant": "Sólo a una persona (si está conectada)",
         "waiting": "Enviar también a los participantes esperando para acceder a la escape room",
-        "msgPlaceholder": "Escribe aquí tu mensaje"
+        "msgPlaceholder": "Escribe aquí tu mensaje",
+        "msgPlaceholder2": "Escribe aquí tu mensaje. Todos los usuarios de esta lista que estén conectados ahora mismo lo recibirán."
 
     }
 }

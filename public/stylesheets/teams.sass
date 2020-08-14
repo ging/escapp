@@ -1,4 +1,54 @@
 #mainSection .main.teams
+  .overlay-trigger
+    z-index: 99999
+  .overlay-menu
+    color: $textpurple
+    button
+      &.team-button
+        padding: 0
+      &.reset-team
+        color: $brightorange
+      &.delete-team
+        color: $lightred
+      &.email-team
+        color: $brightyellow
+      &.msg-team
+        color: $brightgreen
+    .subtext
+      text-align: left
+      font-family: Lato
+      font-size: 12px
+      padding-left: 5px
+      label
+        display: inline
+        font-family: Lato
+      input
+        display: inline
+        vertical-align: middle
+        height: auto
+    .team-msg
+      width: calc(100% - 10px)
+      margin: 5px
+      resize: none
+      border: 1px solid $textpurple
+      color: $darkerpurple
+      font-family: Lato
+
+      &::placeholder
+        color: $textpurple
+  #teams-msg
+    float: right
+    position: relative
+    .overlay-trigger
+      left: auto
+      right: 0
+      top: 60px
+      &::after
+        right: 16px
+        left: auto
+    .msg-button
+      border-radius: 50%
+
   .flex-table-wrapper
     margin: 10px 0px
     .flex-table
@@ -13,8 +63,7 @@
           &.flex-started
             width: 10%
             border-right: none
-            .material-icons
-              text-shadow: 0px 0px 6px #222
+            text-shadow: 0px 0px 6px #222
         &:not(.flex-row-title)
           .flex-cell
             font-family: 'Lato', sans-serif
@@ -29,14 +78,15 @@
         width: 62px
         text-align: right
         color: white
-        &.operations-team-bis
-          margin-left: -95px
-          .overlay-trigger
-            left: 0px
         .overlay-trigger
-          left: 30px
-          top: 35px
-        .reset-team
+          left: 6px
+          top: 60px
+          width: 300px
+          &.overlay-menu
+            left: 30px
+            top: 35px
+            width: 144px
+        .actions-team
           background: transparent
           border: none
           color: white
@@ -48,17 +98,6 @@
           @extend %scale-animation-up
           &.hidden
             display: none
-      @media (max-width:1388px)
-        .operations-team-bis  
-          right: 0
-          left: auto
-          margin-left: 0 !important
-          margin-right: -60px
-          .overlay-trigger
-            left: -261px !important
-            &::after
-              left: 270px
-            
   .filters
     *
       font-size: 16px

@@ -1030,12 +1030,14 @@
         "title": "Send a message",
         "ok": "Message sent",
         "nok": "Message could not be sent",
+        "send": "send",
         "everyone": "Everyone connected to this escape room",
         "shift": "Everyone connected that belongs to the shift",
         "team": "Everyone connected that belongs to the team",
         "participant": "Just one person (if connected)",
         "waiting": "Include participants waiting to enter the escape room as well",
-        "msgPlaceholder": "Write here your message"
+        "msgPlaceholder": "Write here your message",
+        "msgPlaceholder2": "Write here your message. All the users in this list that are currently connected will receive it."
 
     }
 }

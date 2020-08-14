@@ -135,9 +135,9 @@ button, input[type="submit"] {
   button[type=submit], input[type="submit"][type=submit] {
     cursor: pointer; }
 
-#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto, #mainSection .main #add-reto, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team {
+#mainSection #mainHeader .navBarIcon, #mainSection #mainFooter .navBarIcon, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto, #mainSection .main #add-reto, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .actions-team {
   transition: 0.1s all ease-in; }
-  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant:hover, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant:active, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant:focus, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team:focus {
+  #mainSection #mainHeader .navBarIcon:hover, #mainSection #mainFooter .navBarIcon:hover, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant:hover, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:hover, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i:hover, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto:hover, #mainSection .main #add-reto:hover, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .actions-team:hover, #mainSection #mainHeader .navBarIcon:active, #mainSection #mainFooter .navBarIcon:active, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant:active, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:active, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i:active, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto:active, #mainSection .main #add-reto:active, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .actions-team:active, #mainSection #mainHeader .navBarIcon:focus, #mainSection #mainFooter .navBarIcon:focus, #mainSection .main.participants .flex-table-wrapper .flex-table .operations-participant .delete-participant:focus, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .edit-hints .hint-li .button-hint:focus, #mainSection .main .flex-table-wrapper .flex-table .flex-row .flex-cell .retoTextArea.hints-cell .add-hint:hover i:focus, #mainSection .main .flex-table-wrapper .flex-table .operations-reto form .delete-reto:focus, #mainSection .main #add-reto:focus, #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .actions-team:focus {
     -webkit-transform: scale(1.2);
     -ms-transform: scale(1.2);
     transform: scale(1.2); }
@@ -2236,7 +2236,9 @@ body .daterangepicker {
       border-color: #D2D4DC;
       outline: 0; }
     #mainSection .main .connection {
-      cursor: help; }
+      cursor: help;
+      width: 20px;
+      font-size: 16px; }
       #mainSection .main .connection.connected {
         color: #48C18E; }
       #mainSection .main .connection.disconnected {
@@ -2385,6 +2387,12 @@ body .daterangepicker {
   background-color: #36A2EB;
   color: #161938;
   border-color: #36A2EB;
+  border-style: solid; }
+
+#mainSection .main.participants .filters input[type=submit].participants-button.msg-button, #mainSection .main.participants .filters button.participants-button.msg-button {
+  background-color: #FAC855;
+  color: #161938;
+  border-color: #FAC855;
   border-style: solid; }
 
 #mainSection .main.participants .filters select {
@@ -3269,6 +3277,56 @@ table.mainTable {
     transform: translate(-50%, -50%);
     text-align: center; }
 
+#mainSection .main.teams .overlay-trigger {
+  z-index: 99999; }
+
+#mainSection .main.teams .overlay-menu {
+  color: #656683; }
+  #mainSection .main.teams .overlay-menu button.team-button {
+    padding: 0; }
+  #mainSection .main.teams .overlay-menu button.reset-team {
+    color: #F3945E; }
+  #mainSection .main.teams .overlay-menu button.delete-team {
+    color: #F47E84; }
+  #mainSection .main.teams .overlay-menu button.email-team {
+    color: #FAC855; }
+  #mainSection .main.teams .overlay-menu button.msg-team {
+    color: #48C18E; }
+  #mainSection .main.teams .overlay-menu .subtext {
+    text-align: left;
+    font-family: Lato;
+    font-size: 12px;
+    padding-left: 5px; }
+    #mainSection .main.teams .overlay-menu .subtext label {
+      display: inline;
+      font-family: Lato; }
+    #mainSection .main.teams .overlay-menu .subtext input {
+      display: inline;
+      vertical-align: middle;
+      height: auto; }
+  #mainSection .main.teams .overlay-menu .team-msg {
+    width: calc(100% - 10px);
+    margin: 5px;
+    resize: none;
+    border: 1px solid #656683;
+    color: #161938;
+    font-family: Lato; }
+    #mainSection .main.teams .overlay-menu .team-msg::placeholder {
+      color: #656683; }
+
+#mainSection .main.teams #teams-msg {
+  float: right;
+  position: relative; }
+  #mainSection .main.teams #teams-msg .overlay-trigger {
+    left: auto;
+    right: 0;
+    top: 60px; }
+    #mainSection .main.teams #teams-msg .overlay-trigger::after {
+      right: 16px;
+      left: auto; }
+  #mainSection .main.teams #teams-msg .msg-button {
+    border-radius: 50%; }
+
 #mainSection .main.teams .flex-table-wrapper {
   margin: 10px 0px; }
   #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-name {
@@ -3279,9 +3337,8 @@ table.mainTable {
     width: 50%; }
   #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-started {
     width: 10%;
-    border-right: none; }
-    #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-started .material-icons {
-      text-shadow: 0px 0px 6px #222; }
+    border-right: none;
+    text-shadow: 0px 0px 6px #222; }
   #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row:not(.flex-row-title) .flex-cell {
     font-family: 'Lato', sans-serif;
     padding: 5px; }
@@ -3295,34 +3352,25 @@ table.mainTable {
     width: 62px;
     text-align: right;
     color: white; }
-    #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team.operations-team-bis {
-      margin-left: -95px; }
-      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team.operations-team-bis .overlay-trigger {
-        left: 0px; }
     #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .overlay-trigger {
-      left: 30px;
-      top: 35px; }
-    #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team {
+      left: 6px;
+      top: 60px;
+      width: 300px; }
+      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .overlay-trigger.overlay-menu {
+        left: 30px;
+        top: 35px;
+        width: 144px; }
+    #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .actions-team {
       background: transparent;
       border: none;
       color: white;
       padding: 2px; }
-      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team .material-icons {
+      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .actions-team .material-icons {
         background: transparent;
         border: none;
         color: white; }
-      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .reset-team.hidden {
+      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team .actions-team.hidden {
         display: none; }
-  @media (max-width: 1388px) {
-    #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team-bis {
-      right: 0;
-      left: auto;
-      margin-left: 0 !important;
-      margin-right: -60px; }
-      #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team-bis .overlay-trigger {
-        left: -261px !important; }
-        #mainSection .main.teams .flex-table-wrapper .flex-table .operations-team-bis .overlay-trigger::after {
-          left: 270px; } }
 
 #mainSection .main.teams .filters * {
   font-size: 16px; }
