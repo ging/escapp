@@ -3328,7 +3328,8 @@ table.mainTable {
     border-radius: 50%; }
 
 #mainSection .main.teams .flex-table-wrapper {
-  margin: 10px 0px; }
+  margin: 10px 0px;
+  z-index: 1; }
   #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-name {
     width: 20%; }
   #mainSection .main.teams .flex-table-wrapper .flex-table .flex-row .flex-cell.flex-turno {

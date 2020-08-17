@@ -115,6 +115,7 @@
         "accept": "aceptar",
         "back": "volver",
         "cancel": "cancelar",
+        "confirm": "confirmar",
         "continue": "continuar",
         "delete": "borrar",
         "download": "descargar",
@@ -297,6 +298,7 @@
             "loading": "Cargando",
             "need": "Pedir pista",
             "start": "Comenzar",
+            "stop": "Detener",
             "requestedHints": "Pistas recibidas",
             "successMessage": "Enhorabuena! Has conseguido una nueva pista.",
             "tooMany": "Ya has pedido el número máximo de pistas",
@@ -862,7 +864,9 @@
         "teams": "equipos",
         "teamS": "equipo(s)",
         "title": "Equipos",
-        "turnNotAvailable": "El turno seleccionado no está disponible"
+        "turnNotAvailable": "El turno seleccionado no está disponible",
+        "message": "Envía un mensaje",
+        "email": "Contacta por e-mail"
     },
     "turno": {
         "Actions": "Acciones",

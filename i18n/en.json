@@ -121,6 +121,7 @@
         "accept": "accept",
         "back": "back",
         "cancel": "cancel",
+        "confirm": "confirm",
         "completado": "completed",
         "continue": "next",
         "delete": "delete",
@@ -303,6 +304,7 @@
             "loading": "Loading",
             "need": "Request a hint",
             "start": "Start",
+            "stop": "Stop",
             "requestedHints": "Hints obtained",
             "successMessage": "Congratulations! You have obtained a new hint",
             "tooMany": "You have obtained the maximum number of hints allowed",
@@ -872,7 +874,10 @@
         "team": "team",
         "teams": "teams",
         "teamS": "team(s)",
-        "title": "Teams"
+        "title": "Teams",
+        "turnNotAvailable": "The selected shift is not available",
+        "message": "Send a message",
+        "email": "Contact via e-mail"
     },
     "turno": {
         "Actions": "Actions",
