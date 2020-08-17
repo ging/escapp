@@ -60,6 +60,7 @@ exports.playInterface = async (name, req, res, next) => {
             "hints": [],
             "turnoId": req.params.turnoId,
             "isStudent": false,
+            "status": req.turn.status,
             "endPoint": name,
             "layout": false
         });

@@ -15,14 +15,14 @@
         <form id="messages-form" action="/escapeRooms/<%=escapeRoom.id%>/message" method="POST">
             <textarea name="msg" id="msg" rows="5" minlength="1" placeholder="<%=i18n.message.msgPlaceholder%>"></textarea><br>
             <h2>To:</h2>
-            <input type="radio" id="everyone" name="to" value="everyone" checked>
+            <input type="radio" id="everyone" name="to" value="everyone" <%if(!turnId){%>checked<%}%>>
             <label for="everyone"><%=i18n.message.everyone%></label><br>
-            <input type="radio" id="shift" name="to" value="shift">
+            <input type="radio" id="shift" name="to" value="shift"  <%if(turnId){%>checked<%}%>>
             <label for="shift"><%=i18n.message.shift%> &nbsp;&nbsp;
                 <select name="turnId" id="shift-id" onclick="$('#shift').prop('checked', true)">
                     <option value=""></option>
                     <% for (let turno of turnos){%>
-                        <option value="<%=turno.id%>"><%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%> <% if (turno.place) { %>(<%= turno.place %>)<% } %></option>
+                        <option value="<%=turno.id%>" <%if(turnId == turno.id){%>selected<%}%>><%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%> <% if (turno.place) { %>(<%= turno.place %>)<% } %></option>
                     <%}%>
                 </select>
             </label><br>
@@ -31,7 +31,7 @@
                 <select name="teamId" id="team-id" onclick="$('#team').prop('checked', true)">
                     <option value=""></option>
                     <% for (let team of teams){%>
-                        <option value="<%=team.id%>"><%=team.name%></option>
+                        <option value="<%=team.id%>" ><%=team.name%></option>
                     <%}%>
                 </select>
             </label><br>

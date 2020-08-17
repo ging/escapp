@@ -80,8 +80,47 @@
             color: $brightgreen
         .hl
             color: $brightblue
+    .dialog-turno
+        background: white
+        padding: 10px
+        max-width: 100%
+        .flex-dialog-container
+            position: relative
+            display: flex
+            flex-direction: row
+            flex-wrap: wrap
+            .flex-block
+                width: 33.33%
+                padding: 10px
+                a
+                    width: 100%
+                button
+                    width: 100%
+                    border: 2px solid rgba($textpurple, 0.3)
+                    border-radius: 0px
+                    .material-icons
+                        color: var(--brightorange)
+                        display: block
+                        font-size: 60px
+                        margin-bottom: 15px
+                .overlay-trigger
+                    box-shadow: 0px 0px 5px #999 !important
+                    .flex-buttons
+                        text-align: right
+                        button
+                            border: none !important
+                            width: auto
+
+        @media (max-width: 992px)
+            .flex-block
+                width: 50% !important
+        @media (max-width: 700px)
+            .flex-block
+                width: 100% !important
     .ui-dialog
         outline: none !important
+        max-width: 90% !important
+        width: 850px !important
     .ui-dialog-title
         line-height: 50px
         padding-left: 15px

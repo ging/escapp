@@ -35,8 +35,8 @@ var pastDates = [];
 		</p>
 		<div class="flexBoxTurnos">
 	<%}%>
-	<a href="<%=turn.status === 'active' ? '/escapeRooms/'+escapeRoom.id+'/turnos/'+turn.id+'/play' : ''%>" <%- turn.status === 'active' ? '':'onclick="return false"'%>  title="<%=i18n.turno.statusMsg[turn.status]%>">
-		<div class="turno turno-play turnoProfe <%=turn.status === "active" ? "active" : "finished" %>" data-date="<%=dateNoTime.getTime()%>">
+	<a href="" title="<%=i18n.turno.statusMsg[turn.status]%>" onclick="return false;">
+		<div class="turno turno-play turnoProfe <%=turn.status === "active" ? "active" : "finished" %>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>">
 			<div class="hora">
 				<%- turn.date ? formatTime(date) : `<span class="always">${i18n.turno.always}</span>`%>
 			</div>
@@ -47,5 +47,80 @@ var pastDates = [];
 			</div>
 		</div>
 	</a>
+	<div id="dialog-turno-<%=turn.id%>" class="dialog-turno hidden" title="<%=i18n.turno.Turno%> <%= turn.date ? getFullDate(turn.date) : i18n.turno.alwaysOpen  %> <%if(turn.place){%>(<%=turn.place%>)<%}%>">
+		<div class="flex-dialog-container">
+			<div class="flex-block">
+				<button class="turno-btn" title="<%=i18n.turno[turn.status === "active"? "stop" : "start"]%>"  <%=turn.status === "finished" ? "disabled":`onclick="overlayTrigger('activate-'+turn.id)"`%>>
+					<span class="material-icons"  style="color: var(--brightgreen);" ><%= turn.status === "active"? "stop" : "play_arrow"%></span>
+					<span><%=i18n.escapeRoom.play[turn.status === "active"? "stop" : "start"]%></span>
+				</button>
+				<div class="overlay-trigger" data-id="activate-<%=turn.id%>" >
+					<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/activate?_method=put">
+						<p><%=i18n.turno[turn.status === "active"? "areYouSureStop": "areYouSureStart"]%></p>
+						<input type="hidden" id="turnSelected" name="turnSelected" value="<%=turn.id%>">
+						<div class="flex-buttons">
+							<button class="deleteButton" type="button" onclick="overlayTrigger('reset-<%=turn.id%>', true)"><%=i18n.common.cancel%></button>
+							<button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="flex-block">
+				<button class="turno-btn" title="<%=i18n.turno.resetProgress%>" onclick="overlayTrigger('reset-<%=turn.id%>')" title="<%=i18n.turno.resetProgress%>" >
+					<span class="material-icons" style="color: var(--brightyellow);" >settings_backup_restore</span>
+					<span><%=i18n.turno.resetProgress%></span>
+				</button>
+				<div class="overlay-trigger" data-id="reset-<%=turn.id%>">
+					<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=turn.id%>/reset">
+						<p><%=i18n.turno.areYouSureReset%></p>
+						<div class="flex-buttons">
+							<button class="deleteButton" type="button" onclick="overlayTrigger('reset-<%=turn.id%>', true)"><%=i18n.common.cancel%></button>
+							<button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="flex-block">
+				<a href="/escapeRooms/<%=escapeRoom.id%>/participants?turnId=<%=turn.id%>">
+					<button class="turno-btn" title="<%=i18n.analytics.grading.attendance%>" >
+						<span class="material-icons" style="color: var(--brightorange);" >fact_check</span>
+						<span><%=i18n.analytics.grading.attendance%></span>
+					</button>
+				</a>
+			</div>
+			<div class="flex-block">
+				<a href="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=turn.id%>/play">
+					<button class="turno-btn" title="<%=i18n.showTeacher.actionList.classInterface%>" >
+						<span class="material-icons" style="color: var(--brightblue);">cast_for_education</span>
+						<span><%=i18n.showTeacher.actionList.classInterface%></span>
+					</button>
+				</a>
+			</div>
+			<div class="flex-block">
+				<a href="/escapeRooms/<%=escapeRoom.id%>/message?turnId=<%=turn.id%>">
+					<button class="turno-btn" title="<%=i18n.message.title%>" >
+						<span class="material-icons" style="color: var(--lightred);">message</span>
+						<span><%=i18n.message.title%></span>
+					</button>
+				</a>
+			</div>
+			<div class="flex-block">
+				<a href="/escapeRooms/<%=escapeRoom.id%>/analytics?turnId=<%=turn.id%>">
+					<button class="turno-btn" title="<%=i18n.analytics.main.title%>" >
+						<span class="material-icons" style="color: var(--textpurple);">timeline</span>
+						<span><%=i18n.analytics.main.title%></span>
+					</button>
+				</a>
+			</div>
+		</div>
+	</div>
+	<script>
+		$( function() {
+			$("#dialog-turno-<%=turn.id%>").dialog({...dialogOptions, height: "auto"});
+			$( "#turno-<%=turn.id%>" ).on( "click", function() {
+				$( "#dialog-turno-<%=turn.id%>" ).dialog( "open" );
+			});
+		});
+	</script>
 <%}%>
 </div>

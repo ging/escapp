@@ -602,8 +602,47 @@ body .daterangepicker {
   .main #dialog-preview-api .hl, .main #dialog-share .hl, .main #dialog-start .hl {
     color: #36A2EB; }
 
+.main .dialog-turno {
+  background: white;
+  padding: 10px;
+  max-width: 100%; }
+  .main .dialog-turno .flex-dialog-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; }
+    .main .dialog-turno .flex-dialog-container .flex-block {
+      width: 33.33%;
+      padding: 10px; }
+      .main .dialog-turno .flex-dialog-container .flex-block a {
+        width: 100%; }
+      .main .dialog-turno .flex-dialog-container .flex-block button {
+        width: 100%;
+        border: 2px solid rgba(101, 102, 131, 0.3);
+        border-radius: 0px; }
+        .main .dialog-turno .flex-dialog-container .flex-block button .material-icons {
+          color: var(--brightorange);
+          display: block;
+          font-size: 60px;
+          margin-bottom: 15px; }
+      .main .dialog-turno .flex-dialog-container .flex-block .overlay-trigger {
+        box-shadow: 0px 0px 5px #999 !important; }
+        .main .dialog-turno .flex-dialog-container .flex-block .overlay-trigger .flex-buttons {
+          text-align: right; }
+          .main .dialog-turno .flex-dialog-container .flex-block .overlay-trigger .flex-buttons button {
+            border: none !important;
+            width: auto; }
+  @media (max-width: 992px) {
+    .main .dialog-turno .flex-block {
+      width: 50% !important; } }
+  @media (max-width: 700px) {
+    .main .dialog-turno .flex-block {
+      width: 100% !important; } }
+
 .main .ui-dialog {
-  outline: none !important; }
+  outline: none !important;
+  max-width: 90% !important;
+  width: 850px !important; }
 
 .main .ui-dialog-title {
   line-height: 50px;
@@ -990,7 +1029,7 @@ body .daterangepicker {
     border-color: white !important;
     color: #F47E84; }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   #mainSection .main.escapeRoomShow .flexRow {
     flex-direction: column; }
   #mainSection .main.escapeRoomShow .menuERShow {
@@ -1404,7 +1443,8 @@ body .daterangepicker {
   padding: 15px;
   opacity: 0.9;
   padding-top: 0px;
-  left: 0px; }
+  left: 0px;
+  z-index: 99999; }
   #flassmessages .close {
     content: '\2716';
     top: 0;
@@ -3554,9 +3594,10 @@ table.mainTable {
         font-size: 10px; }
         #mainSection .main .flexBoxTurnos .turno .place .no-place em {
           opacity: 0.8; }
+    #mainSection .main .flexBoxTurnos .turno:not(.finished) .always {
+      color: #48C18E; }
     #mainSection .main .flexBoxTurnos .turno .always {
       font-size: 17px;
-      color: #48C18E;
       line-height: 25px;
       vertical-align: top; }
 

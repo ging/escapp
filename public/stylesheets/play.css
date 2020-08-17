@@ -468,7 +468,8 @@ ranking {
 
 @media (min-width: 768px){
 .navbar-expand-md .navbar-nav .nav-link {
-    padding-right: 0.05rem !important;
+    margin-right: 0.05rem !important;
+    padding-right: 0rem !important;
     padding-bottom: 0 !important;
     padding-top: 0 !important;
 }

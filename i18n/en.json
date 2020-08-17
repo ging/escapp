@@ -944,6 +944,8 @@
         "noTurnAvailable": "No turn available for this ER",
         "theres": "There is",
         "thereare": "There are",
+        "start": "Start shift",
+        "stop": "Stop shift",
         "spot": "open spot",
         "spots": "open spots",
         "openSpots": "in this shift",

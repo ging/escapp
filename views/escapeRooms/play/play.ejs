@@ -156,58 +156,62 @@
                                     </p>
                                     `
                                 
-                            })
+                            });
                             $(document).on("click", ".live-support-popover .popover-btn", ()=>{
                                 $('.live_support').popover('hide');
                                 
-                            })
-                        })
+                            });
+                        });
                     </script>
                 </li>
                 <%}%>
                 <% if (endPoint === "class") {%>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#" id="stop-tooltip" data-toggle="tooltip" title="<%=i18n.escapeRoom.play.stop%>">
-                        <button class="btn btn-warning stop-turno" data-container="body" data-placement="bottom" onclick="$('#stop-tooltip').tooltip('hide')" data-toggle="popover" title="<%=i18n.escapeRoom.play.stop%>">
-                            <span class="material-icons ">stop</span>
-                        </button>
-                    </a>
-                    <form id="stop-turno" method="POST" action="/escapeRooms/<%=escapeRoom.id%>/activate?_method=put">
-                        <input type="hidden" id="turnSelected" name="turnSelected" value="<%=turnoId%>"></input>
-                    </form>
-                    <script>
-                        $(()=>{
-                            $('.stop-turno').popover({
-                                html: true,
-                                content: `<p stop-popover">
-                                    <%=i18n.turno.areYouSureStop%>
-                                    </p>
-                                    <p class="popover-p stop-popover">
-                                            <a class="btn btn-primary btn-sm popover-btn" href="#">
-                                                <%=i18n.common.cancel%>
-                                            </a>
-                                            <a class="btn btn-success btn-sm popover-btn stop-turno-confirm" href="#">
-                                                <%=i18n.common.confirm%>
-                                            </a>
+                    <% if (status === "active") {%>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#" id="stop-tooltip" data-toggle="tooltip" title="<%=i18n.escapeRoom.play.stop%>">
+                            <button class="btn btn-warning stop-turno" data-container="body" data-placement="bottom" onclick="$('#stop-tooltip').tooltip('hide')" data-toggle="popover" title="<%=i18n.escapeRoom.play.stop%>">
+                                <span class="material-icons ">stop</span>
+                            </button>
+                        </a>
+                        <form id="stop-turno" method="POST" action="/escapeRooms/<%=escapeRoom.id%>/activate?_method=put">
+                            <input type="hidden" id="turnSelected" name="turnSelected" value="<%=turnoId%>"></input>
+                        </form>
+                        <script>
+                            $(()=>{
+                                $('.stop-turno').popover({
+                                    html: true,
+                                    content: `<p stop-popover">
+                                        <%=i18n.turno.areYouSureStop%>
                                         </p>
-                                    `
+                                        <p class="popover-p stop-popover">
+                                                <a class="btn btn-primary btn-sm popover-btn" href="#">
+                                                    <%=i18n.common.cancel%>
+                                                </a>
+                                                <a class="btn btn-success btn-sm popover-btn stop-turno-confirm" href="#">
+                                                    <%=i18n.common.confirm%>
+                                                </a>
+                                            </p>
+                                        `
+                                });
+                                $(document).on("click", ".stop-popover .popover-btn", ()=>{
+                                    $('.stop-turno').popover('hide');
+                                });
+                                $(document).on("click", ".stop-turno-confirm", ()=>{
+                                    $('#stop-turno').submit();
+                                });
                             })
-                            $(document).on("click", ".stop-popover .popover-btn", ()=>{
-                                $('.stop-turno').popover('hide');
-                            })
-                            $(document).on("click", ".stop-turno-confirm", ()=>{
-                                $('#stop-turno').submit();
-                            })
-                        })
-                    </script>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>/analytics?turnId=<%=turnoId%>" data-toggle="tooltip" title="<%=i18n.escapeRoom.play.Analytics%>">
-                        <button class="btn btn-success" >
-                            <span class="material-icons ">timeline</span>
-                        </button>
-                    </a>
-                </li>
+                        </script>
+                    </li>
+                    <%}%>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>/analytics?turnId=<%=turnoId%>" data-toggle="tooltip" title="<%=i18n.escapeRoom.play.Analytics%>">
+                            <button class="btn btn-success" >
+                                <span class="material-icons ">timeline</span>
+                            </button>
+                        </a>
+                    </li>
+                   
+
                 <%}%>
                 <li class="nav-item active">
                     <a class="nav-link" href="/escapeRooms/<%=escapeRoom.id%>" data-toggle="tooltip" title="<%=i18n.escapeRoom.play.Exit%>">

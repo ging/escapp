@@ -928,6 +928,8 @@
         "noTurnAvailable": "No hay ningún turno disponible en esta escape room",
         "theres": "Queda",
         "thereare": "Quedan",
+        "start": "Comenzar turno",
+        "stop": "Detener turno",
         "spot": "puesto libre",
         "spots": "puestos libres",
         "openSpots": "en este turno",

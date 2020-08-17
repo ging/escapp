@@ -115,11 +115,12 @@ exports.writeMessage = async (req, res) => {
     const turnos = await models.turno.findAll({"where": {"escapeRoomId": escapeRoom.id}, "order": [["date", "ASC NULLS LAST"]]});
     const participants = await models.user.findAll(queries.user.participantsWithTurnoAndTeam(escapeRoom.id, undefined, "name"));
     const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, undefined, "name"));
-
-    res.render("escapeRooms/messages", {escapeRoom, turnos, participants, teams});
+    const {turnId} = req.query;
+    console.log(turnId)
+    res.render("escapeRooms/messages", {escapeRoom, turnos, participants, teams, turnId});
 };
 
-// GET /escapeRooms/:escapeRoomId/messages
+// POST /escapeRooms/:escapeRoomId/messages
 exports.sendMessage = async (req, res) => {
     const {to, turnId, teamId, msg, waiting} = req.body;
     const message = {"type": MESSAGE, "payload": {msg}};
