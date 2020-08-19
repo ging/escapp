@@ -2,7 +2,7 @@
 <script src="/js/extractColor.js"></script>
 
 <% include ../../partials/_header.ejs %>
-<div class="main">
+<div role="main" class="main">
   <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "histogram"}) %>
 
   <h1><%=i18n.analytics.histogram.title%></h1>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>API WS</title>
+ </head>
+<body>
+	<ul id="myList"></ul>
+<!--Client socket.io. CDN or self-hosted-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
+<script>
+	// ER constants
+	const PROD = false;
+	const SERVER_URL = PROD ? 'wss://escapp.dit.upm.es':'ws://localhost:3000';
+	const ESCAPE_ROOM_ID = 1;
+	const TURN_ID = 1 // Optional: Only for teacher
+
+
+	// Socket connection function. Works with email + token or email + password
+	const connect = (email, token, pass) => io(SERVER_URL, {query: {
+	    "escapeRoom": ESCAPE_ROOM_ID,
+	    //"turn": TURN_ID,
+	    email,
+	    token,
+	    // password: pass
+	 }});
+
+	// Add socket msg to HTML
+	const append = (msgType, msg = "") => {
+		var node = document.createElement("LI");
+		node.appendChild(document.createTextNode(msgType));
+		document.getElementById("myList").appendChild(node);
+		console.log({type: msgType, payload: msg})
+	}
+
+	//Initialize connection passing credentials (similar to Auth request in API REST)
+	const socket = PROD ?  connect("student@school.edu", "paste_token_here", undefined) : connect("admin@upm.es", undefined, '1234');
+
+	/*********************SENT_MESSAGES*********************/
+	/* Solve puzzle (similar to puzzle submit request in API REST)*/
+	const solvePuzzle = (puzzleOrder, sol) => {
+		socket.emit("SOLVE_PUZZLE", {puzzleOrder, sol});
+	};
+
+	/* Request hint */
+	const requestHint = (status, score, category) => {
+		socket.emit("REQUEST_HINT", {status, score, category});
+	}
+
+	/* Start playing (similar to start request in API REST) */
+	const startPlaying = () => {
+		socket.emit("START_PLAYING");
+	}
+	/**********************************************************/
+
+
+	/****************** RECEIVED MESSAGES *********************/
+	
+	/**************** Automatic messages **********************/
+	/*Connect*/
+	socket.on("connect", ()=>{
+		append("connect", "Connected!");
+	});
+
+	/*Disconnect*/
+	socket.on("disconnect", (msg)=>{
+		append("disconnect", msg);
+	});
+
+		/*Connection Error*/
+	socket.on("error", (err)=>{
+		append("error", err);
+	});
+		/*Connection Error*/
+
+	socket.on('connect_error', (err) => {
+		append("connect_error", err);
+    });
+    
+    /******************* Generic messages **********************/
+
+    /* Custom message (sometimes it's private and sometimes it's for everyone) */
+	socket.on("MESSAGE", ({msg})=>{
+		append("MESSAGE", {msg});
+	});
+
+
+	/******************* Individual messages **********************/
+
+
+	/*Initial info (similar to Auth response in API REST)*/
+	socket.on('INITIAL_INFO', ({code, authentication, token, participation, msg, erState, connectedMembers}) => {
+		append("INITIAL_INFO", {code, authentication, token, participation, msg, erState, connectedMembers});
+	});
+
+	/*Connection Error*/
+	socket.on("ERROR", (err)=>{
+		append("ERROR", err);
+	});
+
+
+	/******************* Team messages **********************/
+
+	/*Team member joined room*/
+	socket.on('JOIN', ({username, connectedMembers}) => {
+		append("JOIN", {username, connectedMembers});
+	});
+
+	/*Team left room*/
+	socket.on('LEAVE', ({username, connectedMembers}) => {
+		append("LEAVE", {username, connectedMembers});
+	});
+
+	/*My team attempted to start the ER (similar to start response in API REST)*/
+	socket.on('TEAM_STARTED', ({code, authentication, participation, msg, erState}) => {
+		append("TEAM_STARTED", {code, authentication, participation, msg, erState});
+	});
+
+	/*Team received a hint*/
+	socket.on('HINT_RESPONSE', ({code, authentication, participation, hintOrder, puzzleOrder, category, msg}) => {
+		append("HINT_RESPONSE", {code, authentication, participation, hintOrder, puzzleOrder, category, msg});
+	});
+
+	/*Team solved a puzzle (similar to puzzle submit response in API REST)*/
+	socket.on('PUZZLE_RESPONSE', ({code, correctAnswer, solution, puzzleOrder, participation, authentication, msg, erState, content}) => {
+		append("PUZZLE_RESPONSE", {code, correctAnswer, solution, puzzleOrder, participation, authentication, msg, erState, content});
+	});
+
+	/******************* Turn messages **********************/
+
+
+	/*Team joined ER*/
+	socket.on('JOIN_TEAM', ({teamId, ranking}) => {
+		append("JOIN_TEAM", {teamId, ranking});
+	});
+
+	/*Participant joined team*/
+	socket.on('JOIN_PARTICIPANT', ({username, teamId, ranking}) => {
+		append("JOIN_PARTICIPANT", {username, teamId, ranking});
+	});
+
+	/*Participant left team*/
+	socket.on('LEAVE_PARTICIPANT', ({username, teamId, ranking}) => {
+		append("LEAVE_PARTICIPANT", {username, teamId, ranking});
+	});
+
+	/*Team left ER*/
+	socket.on('LEAVE_TEAM', ({teamId, ranking}) => {
+		append("LEAVE_TEAM", {teamId, ranking});
+	});
+
+	/*Turn start*/
+	socket.on('START', () => {
+		append("START");
+	});
+
+	/*Turn stop*/
+	socket.on('STOP', () => {
+		append("STOP");
+	});
+
+	/*Some team has solved a puzzle*/
+	socket.on('TEAM_PROGRESS', ({teamId, puzzleOrder, ranking}) => {
+		append("TEAM_PROGRESS", {teamId, puzzleOrder, ranking});
+	});
+
+	/**********************************************************/
+
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 <% include ../../partials/_header.ejs %>
 
-<div class="main grading">
+<div role="main" class="main grading">
     <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "grading"}) %>
     <h1><%=i18n.analytics.grading.title%></h1>
     <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/grading">

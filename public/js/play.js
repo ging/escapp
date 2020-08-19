@@ -255,7 +255,11 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
   
 };
 
-const onInitialInfo = ({erState}) => {
+const onInitialInfo = ({code, erState}) => {
+  if (code && code === "NOK") {
+    window.location = `/escapeRooms/${escapeRoomId}/`;
+  }
+
   if (erState && erState.ranking) {
     onRanking({ranking: erState.ranking})
   }

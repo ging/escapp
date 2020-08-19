@@ -1,5 +1,5 @@
 <% include partials/_header.ejs %>
-<div class="main errorPage">
+<div role="main" class="main errorPage">
 	<% if (!error.status || error.status !== 404) { %>
 		<h1><%= message %></h1>
 		<h2><%= error.status %></h2>

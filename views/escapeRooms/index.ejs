@@ -1,8 +1,8 @@
 <% include ../partials/_header.ejs %>
-<div class="main escapeRooms">
+<div role="main" class="main escapeRooms" >
     <div class="escapeRoomList">
         <% if (escapeRooms.length==0) { %>
-        <h1>
+        <h1 role="title">
             <% if (user && user.isStudent) { %>
                 <%=i18n.escapeRoom.main.noERStudent%>
             <% } else { %>
@@ -19,7 +19,7 @@
             <% } %>
         </div>
         <% } else {  %>
-        <h1>
+        <h1 role="title">
             <% if (user && user.isStudent) { %>
                 <%=i18n.escapeRoom.main.yesERStudent%>
             <% } else { %>

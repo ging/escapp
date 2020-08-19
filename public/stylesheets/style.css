@@ -1940,7 +1940,7 @@ body .daterangepicker {
     #mainSection .main.step-instructions #dialog-themes .theme-list .theme-item {
       width: 19.2%;
       height: auto;
-      margin: 0.2%;
+      margin: 0.1%;
       background-position: center;
       background-size: contain;
       display: inline-block !important;
@@ -2267,8 +2267,8 @@ body .daterangepicker {
         border-style: solid;
         color: #161938; }
     #mainSection .main .addItem {
-      background-color: #9196A9;
-      color: #D2D4DC;
+      background-color: #8994A7;
+      color: #fff;
       font-size: 100px;
       padding: 10px 20px;
       border-width: 5px;

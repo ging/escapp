@@ -10,7 +10,7 @@
 <% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
 <% var hintAppConditional = hintConditional && escapeRoom.hintApp; // Hint app methodology %>
 
-<div class="main steps step-hints">
+<div role="main" class="main steps step-hints">
 	<%- include ../../partials/_breadcrumbStep %>
 	<h1><%=i18n.escapeRoom.steps.hints.title%></h1>  
 	<p class="intro-paragraph">
