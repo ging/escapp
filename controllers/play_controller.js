@@ -116,7 +116,8 @@ exports.writeMessage = async (req, res) => {
     const participants = await models.user.findAll(queries.user.participantsWithTurnoAndTeam(escapeRoom.id, undefined, "name"));
     const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, undefined, "name"));
     const {turnId} = req.query;
-    console.log(turnId)
+
+    console.log(turnId);
     res.render("escapeRooms/messages", {escapeRoom, turnos, participants, teams, turnId});
 };
 
