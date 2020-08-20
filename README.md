@@ -1,7 +1,7 @@
 # Escapp
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
 [![Build Status](https://travis-ci.com/ging/escapp.svg?branch=master)](https://travis-ci.com/ging/escapp)
+
 Escapp is a web platform for managing educational escape rooms. Below is a list of all of escapp's features:
 
 * [x] Teacher and student registration
