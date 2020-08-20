@@ -104,10 +104,10 @@ exports.publicRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "route": `/escapeRooms/${escapeRoomId}/play`,
         "statusCode": 302
     },
-    {
+/*     {
         "route": `/escapeRooms/${escapeRoomId}/project`,
         "statusCode": 302
-    },
+    }, */
     {
         "route": `/escapeRooms/${escapeRoomId}/results`,
         "statusCode": 302
@@ -299,10 +299,10 @@ exports.teacherRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "route": `/escapeRooms/${escapeRoomId}/play`,
         "statusCode": 403
     },
-    {
+    /* {
         "route": `/escapeRooms/${escapeRoomId}/project`,
         "statusCode": 200
-    },
+    }, */
     {
         "route": `/escapeRooms/${escapeRoomId}/results`,
         "statusCode": 403
@@ -490,10 +490,10 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "route": `/escapeRooms/${escapeRoomId}/play`,
         "statusCode": 302
     },
-    {
+/*     {
         "route": `/escapeRooms/${escapeRoomId}/project`,
         "statusCode": 403
-    },
+    }, */
     {
         "route": `/escapeRooms/${escapeRoomId}/results`,
         "statusCode": 200

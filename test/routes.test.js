@@ -27,15 +27,13 @@ let authenticatedSession = null;
 let testSession = null;
 
 beforeAll(() => {
+    try{execSync(`npx sequelize db:drop --url ${dbName}`);}catch(e){}
     try{execSync(`npx sequelize db:create --url ${dbName}`);}catch(e){}
     execSync(`npx sequelize db:migrate --url ${dbName}`);
     execSync(`npx sequelize db:seed:all --url ${dbName}`);
 });
 
 afterAll(() => {
-    setTimeout(() => {
-        execSync(`npx sequelize db:drop --url ${dbName}`);
-    }, 5000);
 });
 
 beforeEach(async function () {

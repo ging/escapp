@@ -111,16 +111,18 @@ exports.isTeamConnected = (teamId) => {
     if (!teamId) {
         return false;
     }
-    const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
+    try {
+        const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
 
-    if (room) {
-        for (const socketId in room.sockets) {
-            if (global.io.sockets.connected[socketId]) {
-                return true;
+        if (room) {
+            for (const socketId in room.sockets) {
+                if (global.io.sockets.connected[socketId]) {
+                    return true;
+                }
             }
         }
-    }
-    return false;
+    } catch(e){
+    }finally {return false;}
 };
 
 /**
@@ -130,6 +132,8 @@ exports.isTeamConnectedWaiting = (teamId) => {
     if (!teamId) {
         return false;
     }
+    try {
+
     const room = global.io.sockets.adapter.rooms[`teamId_waiting_${teamId}`];
 
     if (room) {
@@ -139,7 +143,8 @@ exports.isTeamConnectedWaiting = (teamId) => {
             }
         }
     }
-    return false;
+} catch(e){
+}finally {return false;}
 };
 
 /**
@@ -149,6 +154,8 @@ exports.isParticipantTurnConnected = (userId, turnId) => {
     if (!userId) {
         return false;
     }
+    try {
+
     const room = global.io.sockets.adapter.rooms[`turnId_${turnId}`];
 
     if (room) {
@@ -162,7 +169,8 @@ exports.isParticipantTurnConnected = (userId, turnId) => {
             }
         }
     }
-    return false;
+} catch(e){
+}finally {return false;}
 };
 
 /**
@@ -172,6 +180,8 @@ exports.isParticipantTeamConnected = (participantId, teamId) => {
     if (!participantId) {
         return false;
     }
+    try {
+
     const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
 
     if (room) {
@@ -185,7 +195,8 @@ exports.isParticipantTeamConnected = (participantId, teamId) => {
             }
         }
     }
-    return false;
+} catch(e){
+}finally {return false;}
 };
 
 /**
@@ -195,6 +206,8 @@ exports.isParticipantTeamConnectedWaiting = (participantId, teamId) => {
     if (!participantId) {
         return false;
     }
+    try {
+
     const room = global.io.sockets.adapter.rooms[`teamId_waiting_${teamId}`];
 
     if (room) {
@@ -208,7 +221,8 @@ exports.isParticipantTeamConnectedWaiting = (participantId, teamId) => {
             }
         }
     }
-    return false;
+} catch(e){
+}finally {return false;}
 };
 
 
@@ -220,6 +234,8 @@ exports.getConnectedMembers = (teamId) => {
     if (!teamId) {
         return [];
     }
+    try {
+
     const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
     const connectedMembers = new Set();
 
@@ -233,6 +249,9 @@ exports.getConnectedMembers = (teamId) => {
         }
     }
     return Array.from(connectedMembers);
+} catch(e){
+    return []
+}
 };
 
 /**
