@@ -27,7 +27,7 @@ let authenticatedSession = null;
 let testSession = null;
 
 beforeAll(() => {
-    execSync(`npx sequelize db:create --url ${dbName}`);
+    try{execSync(`npx sequelize db:create --url ${dbName}`);}catch(e){}
     execSync(`npx sequelize db:migrate --url ${dbName}`);
     execSync(`npx sequelize db:seed:all --url ${dbName}`);
 });
