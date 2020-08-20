@@ -13,7 +13,6 @@ Escapp is a web platform for managing educational escape rooms. Below is a list 
 * [x] Multimedia upload and insertion
 * [x] Custom themes
 * [x] Team management
-* [x] Countdown
 * [x] Roll call
 * [x] Student progress tracking
 * [x] Automatic hint delivery
