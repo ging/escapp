@@ -8,7 +8,7 @@
     "start_production_forever": "sudo forever start -c 'sudo npm run start_production' ./",
     "dev": "DEBUG=escapp  nodemon bin/www -e sass,js,json --ignore 'public/js/*,public/apps/*,migrations/*,seeders/*,test/*' --exec \"npm run css && npm run lint && node\" && xdg-open http://localhost:3000 ",
     "dev-windows": "nodemon bin/www -e sass,scss,js,json --ignore 'public/js/*,public/apps/*,migrations/*,seeders/*,test/*' --exec \"npm run css && npm run lint && node\" && start http://localhost:3000",
-    "test": "DATABASE_URL=postgres://loguser:password@localhost/er_jest TEST=true jest",
+    "test": "DATABASE_URL=postgres://loguser:password@localhost/er_jest TEST=true jest --forceExit",
     "test:watch": "DATABASE_URL=postgres://loguser:password@localhost/er_jest TEST=true jest --watchAll",
     "create_local": "sequelize db:create --url $(grep DATABASE_URL  .env | cut -d '=' -f2)",
     "create_local_sqlite": "sequelize db:create --url sqlite://$(pwd)/escaperoom.sqlite",

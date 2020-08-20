@@ -33,22 +33,21 @@ beforeAll(() => {
     execSync(`npx sequelize db:seed:all --url ${dbName}`);
 });
 
-afterAll(() => {
-});
-
 beforeEach(async function () {
     testSession = await session(app);
 });
 
 describe("Unauthenticated routes", async () => {
-    publicRoutes.forEach(async ({route, statusCode}) => {
+    for (const r in publicRoutes) {
+        const {route, statusCode} = publicRoutes[r];
+
         it(`should display route ${route} correctly`, async (done) => {
             const res = await request(app).get(route);
 
             expect(res.statusCode).toEqual(statusCode);
             done();
         });
-    });
+    }
 });
 
 describe("Teacher routes", async () => {
@@ -64,14 +63,16 @@ describe("Teacher routes", async () => {
                 return done();
             });
     });
-    teacherRoutes.forEach(async ({route, statusCode}) => {
+    for (const r in teacherRoutes) {
+        const {route, statusCode} = teacherRoutes[r];
+
         it(`should display route ${route} correctly`, async (done) => {
             const res = await authenticatedSession.get(route);
 
             expect(res.statusCode).toEqual(statusCode);
             done();
         });
-    });
+    }
 });
 
 describe("Student routes", async () => {
@@ -87,13 +88,14 @@ describe("Student routes", async () => {
                 return done();
             });
     });
+    for (const r in studentRoutes) {
+        const {route, statusCode} = studentRoutes[r];
 
-    studentRoutes.forEach(async ({route, statusCode}) => {
         it(`should display route ${route} correctly`, async (done) => {
             const res = await authenticatedSession.get(route);
 
             expect(res.statusCode).toEqual(statusCode);
             done();
         });
-    });
+    }
 });
