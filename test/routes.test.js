@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+/* eslint-disable require-await */
 const request = require("supertest");
 const session = require("supertest-session");
 const {execSync} = require("child_process");

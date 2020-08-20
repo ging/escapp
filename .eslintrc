@@ -146,7 +146,7 @@
 		"no-native-reassign": 1,
 		"no-negated-condition": 0,
 		"no-negated-in-lhs": 1,
-		"no-nested-ternary": 1,
+		"no-nested-ternary": 0,
 		"no-new": 1,
 		"no-new-func": 1,
 		"no-new-object": 1,

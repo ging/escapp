@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+
 const socketio = require("socket.io");
 const {checkAccess, getInfoFromSocket, socketAuthenticate, sendInitialInfo, initializeListeners } = require("./helpers/sockets");
 const {getAuthMessageAndCode, NOT_A_PARTICIPANT, NOK} = require("./helpers/apiCodes");
@@ -14,7 +16,6 @@ exports.createServer = (server, sessionMiddleware) => {
         try {
             const user = await socketAuthenticate(socket);
             const {escapeRoomId, lang, waiting, "turnId": teacherTurnId} = getInfoFromSocket(socket);
-            // eslint-disable-next-line global-require
             let forceLanguage = "en";
 
             if (lang && (lang === "es" || lang === "en")) {

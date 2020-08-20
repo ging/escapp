@@ -211,6 +211,7 @@ exports.update = async (req, res, next) => {
             req.escapeRoom.turnos = await models.turno.findAll({"where": {"escapeRoomId": req.escapeRoom.id}, "order": [["date", "ASC NULLS LAST"]]});
             req.escapeRoom.turnos.forEach((t) => {
                 if (t.id === turn.id) {
+                    // eslint-disable-next-line no-param-reassign
                     t = turn;
                 }
             });
