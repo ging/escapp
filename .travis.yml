@@ -1,3 +1,7 @@
 language: node_js
+services:
+  - postgresql
+before_script:
+  - psql -c "create user loguser with encrypted password 'password';" -U postgres
 node_js:
   - 12.16.1
