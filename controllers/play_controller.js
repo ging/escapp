@@ -114,7 +114,7 @@ exports.writeMessage = async (req, res) => {
     const {escapeRoom} = req;
     const turnos = await models.turno.findAll({"where": {"escapeRoomId": escapeRoom.id}, "order": [["date", "ASC NULLS LAST"]]});
     const participants = await models.user.findAll(queries.user.participantsWithTurnoAndTeam(escapeRoom.id, undefined, "name"));
-    const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, undefined, "name"));
+    const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, undefined, "name", true));
     const {turnId} = req.query;
 
     console.log(turnId);

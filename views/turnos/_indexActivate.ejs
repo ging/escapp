@@ -61,7 +61,7 @@
                     <%}%>
                     <%if (turno.status !== "finished"){%>
                         <div class="overlay-wrapper">
-                            <button class="turno-btn" onclick="overlayTrigger('activate-<%=turno.id%>')" style="color:var(--<%= turno.status === "active"? "lightred" : "brightgreen"%>);" >
+                            <button class="turno-btn" onclick="overlayTrigger('activate-<%=turno.id%>')" style="color:var(--<%= turno.status === "active"? "lightred" : "brightgreen"%>);" title="<%=i18n.turno[turno.status === 'active' ? 'stop' : 'start']%>" >
                                 <span class="material-icons"><%= turno.status === "active"? "stop" : "play_arrow"%></span>
                             </button>
                             <div class="overlay-trigger" data-id="activate-<%=turno.id%>">

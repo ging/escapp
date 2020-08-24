@@ -916,6 +916,8 @@
         "place": "Lugar",
         "activateTurnos": "Administrar los turnos de la escape room",
         "areYouSureStop": "¿Seguro que deseas detener este turno?",
+        "areYouSureStartScheduledFor": "¿Seguro que deseas comenzar el turno programado para",
+        "areYouSureStopScheduledFor": "¿Seguro que deseas detener el turno programado para",
         "areYouSureStart": "¿Seguro que deseas comenzar este turno?",
         "activateTurnosBC": "Administrar turnos",
         "status": "Estado",

@@ -108,6 +108,7 @@ exports.socketAuthenticate = async ({request, handshake}) => {
  * Check team connected
  */
 exports.isTeamConnected = (teamId) => {
+    console.log({teamId});
     if (!teamId) {
         return false;
     }
@@ -121,8 +122,10 @@ exports.isTeamConnected = (teamId) => {
                 }
             }
         }
-    } catch(e){
-    }finally {return false;}
+        return false;
+    } catch (e) {
+        return false;
+    }
 };
 
 /**
@@ -133,18 +136,19 @@ exports.isTeamConnectedWaiting = (teamId) => {
         return false;
     }
     try {
+        const room = global.io.sockets.adapter.rooms[`teamId_waiting_${teamId}`];
 
-    const room = global.io.sockets.adapter.rooms[`teamId_waiting_${teamId}`];
-
-    if (room) {
-        for (const socketId in room.sockets) {
-            if (global.io.sockets.connected[socketId]) {
-                return true;
+        if (room) {
+            for (const socketId in room.sockets) {
+                if (global.io.sockets.connected[socketId]) {
+                    return true;
+                }
             }
         }
+        return false;
+    } catch (e) {
+        return false;
     }
-} catch(e){
-}finally {return false;}
 };
 
 /**
@@ -155,22 +159,23 @@ exports.isParticipantTurnConnected = (userId, turnId) => {
         return false;
     }
     try {
+        const room = global.io.sockets.adapter.rooms[`turnId_${turnId}`];
 
-    const room = global.io.sockets.adapter.rooms[`turnId_${turnId}`];
+        if (room) {
+            for (const socketId in room.sockets) {
+                if (global.io.sockets.connected[socketId]) {
+                    const {id} = global.io.sockets.connected[socketId].handshake;
 
-    if (room) {
-        for (const socketId in room.sockets) {
-            if (global.io.sockets.connected[socketId]) {
-                const {id} = global.io.sockets.connected[socketId].handshake;
-
-                if (id === userId) {
-                    return true;
+                    if (id === userId) {
+                        return true;
+                    }
                 }
             }
         }
+        return false;
+    } catch (e) {
+        return false;
     }
-} catch(e){
-}finally {return false;}
 };
 
 /**
@@ -181,22 +186,23 @@ exports.isParticipantTeamConnected = (participantId, teamId) => {
         return false;
     }
     try {
+        const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
 
-    const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
+        if (room) {
+            for (const socketId in room.sockets) {
+                if (global.io.sockets.connected[socketId]) {
+                    const {userId} = global.io.sockets.connected[socketId].handshake;
 
-    if (room) {
-        for (const socketId in room.sockets) {
-            if (global.io.sockets.connected[socketId]) {
-                const {userId} = global.io.sockets.connected[socketId].handshake;
-
-                if (participantId === userId) {
-                    return true;
+                    if (participantId === userId) {
+                        return true;
+                    }
                 }
             }
         }
+        return false;
+    } catch (e) {
+        return false;
     }
-} catch(e){
-}finally {return false;}
 };
 
 /**
@@ -207,22 +213,23 @@ exports.isParticipantTeamConnectedWaiting = (participantId, teamId) => {
         return false;
     }
     try {
+        const room = global.io.sockets.adapter.rooms[`teamId_waiting_${teamId}`];
 
-    const room = global.io.sockets.adapter.rooms[`teamId_waiting_${teamId}`];
+        if (room) {
+            for (const socketId in room.sockets) {
+                if (global.io.sockets.connected[socketId]) {
+                    const {userId} = global.io.sockets.connected[socketId].handshake;
 
-    if (room) {
-        for (const socketId in room.sockets) {
-            if (global.io.sockets.connected[socketId]) {
-                const {userId} = global.io.sockets.connected[socketId].handshake;
-
-                if (participantId === userId) {
-                    return true;
+                    if (participantId === userId) {
+                        return true;
+                    }
                 }
             }
         }
+        return false;
+    } catch (e) {
+        return false;
     }
-} catch(e){
-}finally {return false;}
 };
 
 
@@ -235,23 +242,22 @@ exports.getConnectedMembers = (teamId) => {
         return [];
     }
     try {
+        const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
+        const connectedMembers = new Set();
 
-    const room = global.io.sockets.adapter.rooms[`teamId_${teamId}`];
-    const connectedMembers = new Set();
+        if (room) {
+            for (const socketId in room.sockets) {
+                if (global.io.sockets.connected[socketId]) {
+                    const {username} = global.io.sockets.connected[socketId].handshake;
 
-    if (room) {
-        for (const socketId in room.sockets) {
-            if (global.io.sockets.connected[socketId]) {
-                const {username} = global.io.sockets.connected[socketId].handshake;
-
-                connectedMembers.add(username);
+                    connectedMembers.add(username);
+                }
             }
         }
+        return Array.from(connectedMembers);
+    } catch (e) {
+        return [];
     }
-    return Array.from(connectedMembers);
-} catch(e){
-    return []
-}
 };
 
 /**

@@ -2336,7 +2336,7 @@ body .daterangepicker {
 
 #mainSection .main.messages select {
   font-family: Lato !important;
-  padding: 0px 10px; }
+  padding: 0px 27px 0px 10px; }
 
 #mainSection .main.participants .flex-table-wrapper {
   margin: 10px 0px;
@@ -2997,7 +2997,8 @@ body .daterangepicker {
     #mainSection .main.showStudent .flex .flex-er-info {
       flex: 1; }
   #mainSection .main.showStudent .editor img {
-    max-width: 100%; }
+    max-width: 100%;
+    height: auto; }
   #mainSection .main.showStudent .desc {
     font-family: Lato, sans-serif; }
   #mainSection .main.showStudent .members {

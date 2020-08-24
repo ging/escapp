@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable require-await */
+/* eslint-disable no-loop-func */
 const request = require("supertest");
 const session = require("supertest-session");
 const {execSync} = require("child_process");
@@ -27,8 +28,16 @@ let authenticatedSession = null;
 let testSession = null;
 
 beforeAll(() => {
-    try{execSync(`npx sequelize db:drop --url ${dbName}`);}catch(e){}
-    try{execSync(`npx sequelize db:create --url ${dbName}`);}catch(e){}
+    try {
+        execSync(`npx sequelize db:drop --url ${dbName}`);
+    } catch (e) {
+        console.log("Test db could not be deleted");
+    }
+    try {
+        execSync(`npx sequelize db:create --url ${dbName}`);
+    } catch (e) {
+        console.log("Test db could not be created");
+    }
     execSync(`npx sequelize db:migrate --url ${dbName}`);
     execSync(`npx sequelize db:seed:all --url ${dbName}`);
 });

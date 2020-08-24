@@ -1,10 +1,10 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
 
-exports.teamComplete = (escapeRoomId, turnId, order) => {
+exports.teamComplete = (escapeRoomId, turnId, order, waiting = false) => {
     const where = {
         // "attributes": [],
-        "where": {"startTime": {[Sequelize.Op.ne]: null}},
+        "where": {},
         "include": [
             {
                 "model": models.turno,
@@ -51,6 +51,9 @@ exports.teamComplete = (escapeRoomId, turnId, order) => {
         ]
     };
 
+    if (!waiting) {
+        where.where.startTime = {[Sequelize.Op.ne]: null};
+    }
     if (turnId) {
         where.include[0].where.id = turnId;
     }

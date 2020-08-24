@@ -104,7 +104,7 @@ exports.publicRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "route": `/escapeRooms/${escapeRoomId}/play`,
         "statusCode": 302
     },
-/*     {
+    /*     {
         "route": `/escapeRooms/${escapeRoomId}/project`,
         "statusCode": 302
     }, */
@@ -490,7 +490,7 @@ exports.studentRoutes = (escapeRoomId, userId, puzzleId, turnoId) => [
         "route": `/escapeRooms/${escapeRoomId}/play`,
         "statusCode": 302
     },
-/*     {
+    /*     {
         "route": `/escapeRooms/${escapeRoomId}/project`,
         "statusCode": 403
     }, */
