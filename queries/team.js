@@ -60,14 +60,16 @@ exports.teamComplete = (escapeRoomId, turnId, order, waiting = false) => {
 
     if (order) {
         if (order === "order") {
-            where.order = [[
-                {
-                    "model": models.puzzle,
-                    "as": "retos"
-                },
-                "order",
-                "ASC"
-            ]];
+            where.order = [
+                [
+                    {
+                        "model": models.puzzle,
+                        "as": "retos"
+                    },
+                    "order",
+                    "ASC"
+                ]
+            ];
         } else {
             where.order = [
                 Sequelize.literal(order),
@@ -105,8 +107,8 @@ exports.puzzlesByTeam = (escapeRoomId, turnId, hints = false) => {
 
     if (hints) {
         options.include.push({
-            model: models.requestedHint,
-            include: [{model: models.hint}]
+            "model": models.requestedHint,
+            "include": [{"model": models.hint}]
         });
     }
     if (turnId) {

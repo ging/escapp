@@ -547,7 +547,8 @@ exports.download = async (req, res) => {
 exports.downloadRaw = async (req, res) => {
     const {escapeRoom, query} = req;
     const {turnId} = query;
-    console.log(req.query)
+
+    console.log(req.query);
     try {
         escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
         const puzzleIdToOrder = {};
@@ -568,8 +569,8 @@ exports.downloadRaw = async (req, res) => {
                 teamSize,
                 "turnoId": team.turno.id,
                 "startTime": convertDate(startTime),
-                "timestamp": '',
-                "minute": '',
+                "timestamp": "",
+                "minute": "",
                 "event": "",
                 "hintId": "",
                 "hintContent": "",
@@ -602,7 +603,7 @@ exports.downloadRaw = async (req, res) => {
                     "timestamp": convertDate(hintTS),
                     "minute": Math.round(100 * (hintTS - startTime) / 1000 / 60) / 100,
                     "hintId": h.hint ? `${puzzleIdToOrder[h.hint.puzzleId]}.${h.hint.order + 1}` : "",
-                    "hintCategory": h.hint ? (h.hint.category || "") : "",
+                    "hintCategory": h.hint ? h.hint.category || "" : "",
                     "hintContent": h.hint ? h.hint.content : "",
                     "hintQuizScore": parseInt(h.score, 10)
                 });
