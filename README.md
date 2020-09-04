@@ -37,6 +37,12 @@ Escapp has been used to host several educational escape rooms both in-class and 
 
 - S. López-Pernas, A. Gordillo, E. Barra and J. Quemada, "Analyzing Learning Effectiveness and Students’ Perceptions of an Educational Escape Room in a Programming Course in Higher Education," in IEEE Access, vol. 7, pp. 184221-184234, 2019, doi: [10.1109/ACCESS.2019.2960312](https://ieeexplore.ieee.org/document/8936344).
 
+Moreover, Escapp is being developed in the scope of two Educational Innovation Projects (PIE, in their Spanish acronym):
+* **[Propuesta y validación de una metodología para el uso de escape rooms educativas mediante una plataforma web](https://innovacioneducativa.upm.es/proyectosIE/informacion?anyo=2018-2019&id=2782)**
+* **[Desarrollo y validación de una plataforma web para la gestión de escape rooms educativas en la UPM
+](https://innovacioneducativa.upm.es/proyectosIE/informacion?anyo=2019-2020&id=3099)**
+
+
 ## Related projects
 
 Take a look at the [projects](https://github.com/ging/escapp/wiki/Related-projects) that have emerged from Escapp.
