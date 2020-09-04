@@ -12,6 +12,6 @@ exports.createCsvFile = (res, content, title = `results-${Date.now()}`, field = 
             res.write(`\uFEFF${csvText}`);
             res.end();
         },
-        {"delimiter": {field}}
+        {"delimiter": {field}, defaultValue: ''}
     );
 };

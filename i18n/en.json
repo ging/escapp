@@ -24,16 +24,20 @@
             "title": "Hints"
         },
         "histogram": {
-            "title": "Histogram"
+            "title": "Histogram",
+            "statsPuzzlesCumulative": "Puzzle statistics"
         },
         "main": {
             "download": "download",
+            "downloadRaw": "download raw",
             "grading": "Grading",
             "hints": "Hints",
             "histogram":"Histogram",
             "progress":"Progress",
             "ranking": "Leaderboard",
             "retosSuperados": "Solved puzzles",
+            "puzzleStats": "Puzzle stats",
+            "puzzleTimes": "Puzzle times",
             "summary": "Summary",
             "timeline": "Timeline",
             "title": "Learning analytics",
@@ -62,27 +66,39 @@
             "title": "Leaderboard",
             "turno": "Shift"
         },
-        "retosSuperados": {
-            "title": "Solved puzzles"
+        "puzzleTimes": {
+            "title": "Puzzle times"
+        },
+        "puzzleStats": {
+            "title": "Puzzle statistics",
+            "cumulative": "Cumulative times",
+            "nonCumulative": "Non-cumulative times"
         },
         "summary": {
             "title": "Summary"
         },
         "timeline": {
             "customHint": "Help from the teacher",
-            "openDoor": "Open Door",
-            "closedDoor": "Closed Door",
+            "openDoor": "The team has successfully finished the escape room",
+            "closedDoor": "The team has started the escape room",
             "nTeamsPuzzle": "Number of teams that completed each puzzle",
             "nTeamsPuzzleButton": "see by team",
             "nPuzzlesTeam": "Number of puzzles completed by each team",
             "nPuzzlesTeamButton": "see by puzzle",
             "failed": "Failed hint request",
+            "legendMsg": "Scroll to the right to see events that took place after the offical end of the countdown. Hover on the puzzles or hints to see more information about them.",
             "hint": "Hint",
             "score": "Score",
             "solved": "Solved",
             "title": "Timeline",
+            "showLegend": "Show legend",
             "time": "Time",
-            "unsolved": "Not solved"
+            "puzzleExplanation": "The timeline shows the puzzles each team of students were working on at every instant of the escape room. For each solved puzzle, the number of minutes it took each team to solve it is displayed. If a puzzle does not have a number on top, it means that students did not manage to solve it.",
+            "unsolved": "Not solved",
+            "now": "Current moment",
+            "end": "End of the escape room",
+            "hintFailed": "Hint failed to obtain",
+            "hintSucceeded": "Hint obtained"
         }
     },
     "api": {
@@ -1027,6 +1043,7 @@
         "turno": "Shift"
     },
     "hint": {
+        "Hints": "Hints",
         "attributes": {
             "content": "The hint content",
             "order": "The order",

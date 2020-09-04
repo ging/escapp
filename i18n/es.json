@@ -21,10 +21,12 @@
             "title": "Pistas"
         },
         "histogram": {
-            "title": "Histograma"
+            "title": "Histograma",
+            "statsPuzzlesCumulative": "Estadísticas de retos"
         },
         "main": {
             "download": "descargar",
+            "downloadRaw": "descargar en crudo",
             "grading": "Calificaciones",
             "hints": "Pistas",
             "histogram":"Histograma",
@@ -32,6 +34,8 @@
             "ranking": "Ranking",
             "retosSuperados": "Retos superados",
             "summary": "Resumen",
+            "puzzleStats": "Estadísticas de retos",
+            "puzzleTimes": "Tiempo de cada reto",
             "timeline": "Cronograma",
             "title": "Analíticas de aprendizaje",
             "chart": {
@@ -58,8 +62,13 @@
             "title": "Ranking",
             "turno": "Turno"
         },
-        "retosSuperados": {
-            "title": "Retos superados"
+        "puzzleStats": {
+            "title": "Estadísticas de retos",
+            "cumulative": "Tiempos acumuladis",
+            "nonCumulative": "Tiempos no acumulados"
+        },
+        "puzzleTimes": {
+            "title": "Tiempo empleado en cada reto"
         },
         "summary": {
             "title": "Resumen"
@@ -72,11 +81,18 @@
             "nPuzzlesTeam": "Nº de retos que ha superado cada equipo",
             "nPuzzlesTeamButton": "ver por reto",
             "failed": "Intento fallido",
+            "legendMsg": "Desplázate a la derecha para ver eventos que ocurrieron después de que acabase la cuenta atrás de la escape room. Pon el ratón encima de los retos o pistas para ver más información acerca de ellos.",
             "hint": "Pista",
             "score": "Puntuación",
             "solved": "Resuelto",
             "time": "Tiempo",
-            "unsolved": "No resuelto"
+            "unsolved": "No resuelto",
+            "showLegend": "Mostrar leyenda",
+            "puzzleExplanation": "La línea te tiempo muestra los retos en los que cada equipo estaba trabajando en cada momento de la escape room. Para cada reto resuelto, puedes consultar los minutos que tardaron en hacerlo. Si no aparecen los minutos es que no resolvieron el reto.",
+            "now": "Momento actual",
+            "end": "Fin de la escape room",
+            "hintFailed": "Pista no obtenida",
+            "hintSucceeded": "Pista obtenida"
         }
     },
     "api": {
@@ -1014,6 +1030,7 @@
         "turno": "Turno"
     },
     "hint": {
+        "Hints": "Pistas",
         "attributes": {
             "content": "El contenido de la pista",
             "order": "El orden",

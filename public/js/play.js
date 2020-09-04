@@ -142,7 +142,7 @@ const onJoin = ({ranking}) => {
 }
 
 const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": puzzleOrderPlus, participation, authentication, erState, msg, participantMessage, content, teamInstructions }) => {
-  const feedback = (msg) + (participantMessage && participation !== "PARTICIPANT" ? `<br/> ${participantMessage}`: "");
+  const feedback = (msg) + (participantMessage && participation !== "PARTICIPANT" ? `. ${participantMessage}`: "");
   const puzzleOrder = puzzleOrderPlus - 1;
   if (code === "OK") {
     let nextPuzzleOrder = null;

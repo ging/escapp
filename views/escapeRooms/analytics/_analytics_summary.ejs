@@ -14,10 +14,11 @@
             </select>
         </label>
         <button type="submit" class=" editButton filter-button" ><%=i18n.common.filter%></button>
-        <a href="/escapeRooms/<%= escapeRoom.id %>/analytics/download">
-            <button type="button" class="acceptButton filter-button" ><%=i18n.common.download%></button>
-            <%=i18n.analytics.charts.titles[0]%>
-            <%=i18n.analytics.charts.titles["0"]%>
+        <a href="/escapeRooms/<%= escapeRoom.id %>/analytics/download<%if(turnId){%>?turnId=<%=turnId%><%}%>">
+            <button type="button" class="acceptButton filter-button" ><%=i18n.analytics.main.download%></button>
+        </a>
+        <a href="/escapeRooms/<%= escapeRoom.id %>/analytics/download_raw<%if(turnId){%>?turnId=<%=turnId%><%}%>">
+            <button type="button" class="deleteButton filter-button" ><%=i18n.analytics.main.downloadRaw%></button>
         </a>
     </div>
 </form>

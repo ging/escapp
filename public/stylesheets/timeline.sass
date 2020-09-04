@@ -1,15 +1,33 @@
-.timeline
+#mainSection > .main.timeline
 	overflow: hidden
+	background-image: none
+	padding-right: 40px
+	height: auto
+
+	.timelineForm
+		display: flex
+		align-items: center
+		align-content: flex-start
+		justify-content: space-between
+		font-family: Gugi
+		font-size: 16px
+		&.hide
+			display: none
+		#legend-click
+			cursor: pointer
 	#timeline-chart
 		text-align: right
-		#team
-			display: flex
-			flex-wrap: nowrap
-			flex-direction: row
+		overflow-x: auto
+		overflow-y: visible
+		height: auto
+		.team
+			display: inline-block
 			width: 100%
 			text-align: left
 			margin: 5px
-			margin-bottom: -15px
+			margin-bottom: 25px
+			position: relative
+			white-space: nowrap
 			.team-name
 				width: 10%
 				line-height: 63px
@@ -18,18 +36,59 @@
 				overflow: hidden
 				word-break: keep-all
 				white-space: nowrap
+				display: inline-block
 			.door
 				width: 28px
 				height: 56px
 				margin: 4px
+				vertical-align: middle
 			.progress
-				display: flex
-				flex-wrap: nowrap
-				flex-direction: row
-				width: 90%
+				display: inline-block
+				width:  calc(90% - 60px)
 				align-items: center
+				white-space: nowrap
+				position: relative
+				font-size: 0
+				min-height: 48px
+				.now-mark
+					position: absolute
+					width: 0px
+					height: 0px
+					background: transparent
+					z-index: 1
+					top: 0
+					position: absolute
+					margin-top: 3px
+					box-shadow: 0px 0px 10px $darkerpurple
+					.tooltip
+						left: -140px
+					&:hover 
+						.tooltip
+							visibility: visible
+							opacity: 1
+					&::before
+						border: 8px solid transparent
+						border-top-color: white
+						content: ''
+						left: -7px
+						position: absolute
+						top: -14px
+					&.now-mark-long
+						height: 100%
+						border-right: 2px dashed white
+						width: 0px
+					&.now-mark-end
+						&::before
+							border-top-color: $textpurple
+						&.now-mark-long
+							border-right: 2px solid $textpurple
+					&.now-mark-now
+						.tooltip
+							left: auto
+					
 				.step
-					margin: 3px
+					border: 1px solid $bckg
+					display: inline-block
 					text-align: center
 					text-overflow: ellipsis
 					overflow: hidden
@@ -39,23 +98,27 @@
 					vertical-align: middle
 					position: relative
 					overflow: visible
+					min-width: 1.3%
+					border-width: 0px 3px 0px 3px
+					&:hover
+						filter: brightness(1.1)
 					.tooltip
 						left: 55%
 					&:hover 
 						.tooltip
 							visibility: visible
 							opacity: 1
-
-
 				.step-flex
-					flex: 1
+					//flex: 1
 		.requestedHints
-			position: relative
-			width: calc(90% - 40px)
+			position: absolute
+			width: 100%
 			display: inline-block
-			margin-bottom: 35px
 			height: 13px
+			left: 0px
+			bottom: 0px
 			display: inline-block
+			overflow: visible
 			.requestedHint
 				position: absolute
 				width: 12px
@@ -77,22 +140,55 @@
 	#legend
 		display: flex
 		flex-direction: row
-		justify-content: center
+		flex-wrap: wrap
+		justify-content: flex-start
 		margin-top: 30px
-		.puzzle-legend
+		padding: 16px
+		border: 2px solid white
+		height: auto
+		max-height: 0
+		transition:  max-height 0.5s ease-in
+		visibility: hidden
+		overflow: hidden
+			
+		h2
+			width: 100%
+			margin: 0
+			margin-bottom: 10px
+			font-size: 1em
+		p
+			font-size: 16px
+			width: 100%
+			display: flex
+			font-family: 'Lato'
+		.puzzle-legend, .hint-legend,.door-legend
 			font-family: 'Lato'
 			display: flex
 			flex-direction: row
 			flex-wrap: nowrap
 			align-items: center
-			padding: 5px 10px
+			padding: 5px 10px 5px 0px
 			font-size: 14px
 			justify-content: center
-			.puzzle-legend-circle
-				border-radius: 7px
+			height: 30px
+			.puzzle-legend-square, .hint-legend-circle
 				width: 14px
 				height: 14px
 				margin: 2px
+			.hint-legend-circle
+				border-radius: 7px
+				border: 2px solid white
+				&.hint-legend-success
+					background-color: $brightgreen
+				&.hint-legend-failed
+					background-color: $lightred
+		.door-legend
+			height: 55px
+			margin-bottom: 10px
+			img
+				width: 20px
+				margin-right: 5px
+
 	.tooltip
 		display: inline-block
 		visibility: hidden

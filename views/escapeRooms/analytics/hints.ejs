@@ -28,9 +28,9 @@
             <button type="submit" class="editButton filter-button" >
                 <%=i18n.common.filter%>
             </button>
-            <button type="submit" name="csv" value="1" class="acceptButton filter-button" >
+            <!-- <button type="submit" name="csv" value="1" class="acceptButton filter-button" >
                 <%=i18n.analytics.main.download%>
-            </button>
+            </button> -->
             <% if (single) { %> 
                 <a href="teams?turnId=<%=turnId%>">
                     <button type="button" class="filter-button">
@@ -38,11 +38,11 @@
                     </button>
                 </a>
             <% } else {%>    
-                <a href="participants?turnId=<%=turnId%>">
+               <!--  <a href="participants?turnId=<%=turnId%>">
                     <button type="button" class="filter-button">
                         <%=i18n.participant.seeByParticipant%>
                     </button>
-                </a>
+                </a> -->
             <% } %>    
         </div>
     </form>
@@ -84,11 +84,12 @@
             series: [{
                 name: "<%=i18n.analytics.hints.succeeded%>",
                 data:  <%-JSON.stringify(results.map(user => user.hintsSucceeded))%>
-            },
+            }<%if (escapeRoom.numQuestions){%>,
             {
                 name: "<%=i18n.analytics.hints.failed%>",
                 data:  <%-JSON.stringify(results.map(user => -user.hintsFailed))%>
-            }],
+            }<%}%>
+            ],
             grid: {
                 xaxis: {
                     showLines: false

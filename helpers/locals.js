@@ -79,9 +79,13 @@ module.exports = function (app) {
             "url": "/ranking",
             "icon": "event_seat"
         },
-        "retosSuperados": {
+        "puzzleTimes": {
             "url": "/puzzles/teams",
-            "icon": "check"
+            "icon": "timer"
+        },
+        "puzzleStats": {
+            "url": "/puzzles",
+            "icon": "table_chart"
         },
         "progress": {
             "url": "/progress",

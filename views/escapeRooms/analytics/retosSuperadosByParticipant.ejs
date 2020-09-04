@@ -3,7 +3,7 @@
 <div role="main" class="main retosSuperados">
     <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "retosSuperados"}) %>
 
-    <h1><%=i18n.analytics.retosSuperados.title%></h1>
+    <h1><%=i18n.analytics.puzzleTimes.title%></h1>
     <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/puzzles/participants">
         <div class="filters">
             <label for="turnId"><%=i18n.turno.Turno%>
@@ -24,7 +24,7 @@
                     <option value="surname" <%= orderBy === "surname" ? "selected": ""%>><%=i18n.user.surname%></option>
                 </select></label>
             <button type="submit" class="editButton filter-button" ><%=i18n.common.filter%></button>
-            <button type="submit" name="csv" value="1" class="acceptButton filter-button" ><%=i18n.analytics.main.download%></button>
+            <!-- <button type="submit" name="csv" value="1" class="acceptButton filter-button" ><%=i18n.analytics.main.download%></button> -->
             <a href="teams?turnId=<%=turnId%>"><button type="button" class="buttonTab filter-button"><%=i18n.team.seeByTeam%></button></a>
 
         </div>

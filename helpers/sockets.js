@@ -108,7 +108,6 @@ exports.socketAuthenticate = async ({request, handshake}) => {
  * Check team connected
  */
 exports.isTeamConnected = (teamId) => {
-    console.log({teamId});
     if (!teamId) {
         return false;
     }

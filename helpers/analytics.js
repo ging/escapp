@@ -139,3 +139,5 @@ exports.byRanking = (a, b) => {
     }
     return 1;
 };
+
+exports.convertDate = (ts) => new Date(ts.getTime() - ts.getTimezoneOffset() * 60000).toISOString().split(".")[0].replace("T", " ");

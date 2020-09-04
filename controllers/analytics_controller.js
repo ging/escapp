@@ -3,7 +3,8 @@ const {createCsvFile} = require("../helpers/csv");
 const queries = require("../queries");
 const {flattenObject, getERPuzzles, getERTurnos} = require("../helpers/utils");
 const {isTeamConnected, isTeamConnectedWaiting} = require("../helpers/sockets");
-const {retosSuperadosByWho, getRetosSuperados, getBestTime, getAvgHints, byRanking, pctgRetosSuperados, getRetosSuperadosIdTime, countHints, countHintsByPuzzle} = require("../helpers/analytics");
+const {convertDate, retosSuperadosByWho, getRetosSuperados, getBestTime, getAvgHints, byRanking, pctgRetosSuperados, getRetosSuperadosIdTime, countHints, countHintsByPuzzle} = require("../helpers/analytics");
+const stats = require("../helpers/stats");
 
 // GET /escapeRooms/:escapeRoomId/analytics
 exports.analytics = async (req, res, next) => {
@@ -91,11 +92,11 @@ exports.puzzlesByParticipants = async (req, res, next) => {
         const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy));
         const results = users.map((u) => {
             const {id, name, surname, username} = u;
-            const {retosSuperados} = retosSuperadosByWho(u.teamsAgregados[0], puzzles);
+            const {retosSuperados, retosSuperadosMin} = retosSuperadosByWho(u.teamsAgregados[0], puzzles);
             const total = pctgRetosSuperados(retosSuperados);
             const [{"id": teamId, "name": teamName}] = u.teamsAgregados;
 
-            return {id, name, surname, username, teamId, teamName, retosSuperados, total};
+            return {id, name, surname, username, teamId, teamName, retosSuperados, retosSuperadosMin, total};
         });
 
         if (!csv) {
@@ -128,17 +129,21 @@ exports.puzzlesByTeams = async (req, res, next) => {
     try {
         escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
         escapeRoom.turnos = await getERTurnos(escapeRoom.id);
+        escapeRoom.turnosMap = {};
+        for (const turno of escapeRoom.turnos) {
+            escapeRoom.turnosMap[turno.id] = turno.startTime;
+        }
         const puzzles = escapeRoom.puzzles.map((puz) => puz.id);
         const puzzleNames = escapeRoom.puzzles.map((puz) => puz.title);
         const teams = await models.team.findAll(queries.team.puzzlesByTeam(escapeRoom.id, turnId));
         const results = teams.map((team) => {
             const {id, name} = team;
-            const {retosSuperados} = retosSuperadosByWho(team, puzzles);
+            const {retosSuperados, retosSuperadosMin} = retosSuperadosByWho(team, puzzles, true, team.turno.startTime || team.startTime);
             const total = pctgRetosSuperados(retosSuperados);
             const members = team.teamMembers.map((member) => `${member.name} ${member.surname}`);
             const teamAttendance = Boolean(team.startTime);
 
-            return {id, name, members, teamAttendance, retosSuperados, turnId, total};
+            return {id, name, members, teamAttendance, retosSuperados, retosSuperadosMin, turnId, total};
         });
 
         if (!csv) {
@@ -324,33 +329,92 @@ exports.timeline = async (req, res, next) => {
     }
 };
 
-// GET /escapeRooms/:escapeRoomId/analytics/histogram
-exports.histogram = async (req, res, next) => {
+// GET /escapeRooms/:escapeRoomId/analytics/puzzles
+exports.puzzleStats = async (req, res, next) => {
     const {escapeRoom, query} = req;
     const {turnId} = query;
+    const resultSingle = {};
+    const result = {};
+    const summary = {};
+    const summarySingle = {};
 
     try {
         escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
         escapeRoom.turnos = await getERTurnos(escapeRoom.id);
-        const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId)).
+        await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId, "order")).
             map((team) => {
                 const {turno, startTime} = team;
                 const actualStartTime = turno.startTime || startTime;
                 const retosSuperados = getRetosSuperadosIdTime(team.retos, actualStartTime);
+                let lastTime = 0;
+
+                for (const r in retosSuperados) {
+                    const reto = retosSuperados[r];
+                    const puzzleId = reto.id;
+
+                    result[puzzleId] = [...result[puzzleId] || [], reto.time];
+                    resultSingle[puzzleId] = [...resultSingle[puzzleId] || [], Math.max(0, reto.time - lastTime)];
+                    lastTime = Math.max(lastTime, reto.time);
+                }
 
                 return {"id": team.id, retosSuperados};
             });
-        const result = {};
 
-        for (const t in teams) {
-            const team = teams[t];
+        for (const p of escapeRoom.puzzles) {
+            const puzzleId = p.id;
+            const resultSinglePuzzle = resultSingle[puzzleId] || [];
+            const resultPuzzle = result[puzzleId] || [];
 
-            for (const r in team.retosSuperados) {
-                const reto = team.retosSuperados[r];
-
-                result[reto.id] = [...result[reto.id] || [], reto.time];
-            }
+            summarySingle[puzzleId] = {
+                "min": stats.min(resultSinglePuzzle),
+                "max": stats.max(resultSinglePuzzle),
+                "mean": stats.mean(resultSinglePuzzle),
+                "median": stats.median(resultSinglePuzzle),
+                "std": stats.std(resultSinglePuzzle)
+            };
+            summary[puzzleId] = {
+                "count": stats.count(resultPuzzle),
+                "min": stats.min(resultPuzzle),
+                "max": stats.max(resultPuzzle),
+                "mean": stats.mean(resultPuzzle),
+                "median": stats.median(resultPuzzle),
+                "std": stats.std(resultPuzzle)
+            };
         }
+        res.render("escapeRooms/analytics/puzzleStats", {"escapeRoom": req.escapeRoom, "puzzles": result, turnId, summary, summarySingle});
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+};
+
+// GET /escapeRooms/:escapeRoomId/analytics/histogram
+exports.histogram = async (req, res, next) => {
+    const {escapeRoom, query} = req;
+    const {turnId} = query;
+    const resultSingle = {};
+    const result = {};
+
+    try {
+        escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
+        escapeRoom.turnos = await getERTurnos(escapeRoom.id);
+        await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId)).
+            map((team) => {
+                const {turno, startTime} = team;
+                const actualStartTime = turno.startTime || startTime;
+                const retosSuperados = getRetosSuperadosIdTime(team.retos, actualStartTime);
+                let lastTime = 0;
+
+                for (const r in retosSuperados) {
+                    const reto = retosSuperados[r];
+                    const puzzleId = reto.id;
+
+                    result[puzzleId] = [...result[puzzleId] || [], reto.time];
+                    resultSingle[puzzleId] = [...resultSingle[puzzleId] || [], reto.time - lastTime];
+                    lastTime = reto.time;
+                }
+                return {"id": team.id, retosSuperados};
+            });
 
         res.render("escapeRooms/analytics/histogram", {"escapeRoom": req.escapeRoom, "puzzles": result, turnId});
     } catch (e) {
@@ -358,6 +422,7 @@ exports.histogram = async (req, res, next) => {
         next(e);
     }
 };
+
 
 // GET /escapeRooms/:escapeRoomId/analytics/grading
 exports.grading = async (req, res, next) => {
@@ -455,6 +520,7 @@ exports.download = async (req, res) => {
         const results = users.map((user) => {
             const {name, surname, username} = user;
             const turno = user.turnosAgregados[0].startTime || user.teamsAgregados[0].startTime;
+            const turnoTag = user.turnosAgregados[0].place;
             const teamAttendance = Boolean(user.teamsAgregados[0].startTime);
             const [{"name": teamName, "id": teamId, requestedHints}] = user.teamsAgregados;
 
@@ -467,10 +533,83 @@ exports.download = async (req, res) => {
             const hs = flattenObject(hintsSucceeded, puzzleNames.map((p) => `Hints succeeded for ${p}`));
             const attendance = Boolean(user.turnosAgregados[0].participants.attendance);
 
-            return {name, surname, username, teamId, teamName, attendance, teamAttendance, ...rs, ...rsMin, turno, hintsFailedTotal, ...hf, hintsSucceededTotal, ...hs};
+            return {name, surname, username, teamId, teamName, attendance, teamAttendance, ...rs, ...rsMin, turnoTag, turno, hintsFailedTotal, ...hf, hintsSucceededTotal, ...hs};
         });
 
         createCsvFile(res, results);
+    } catch (e) {
+        console.error(e);
+        res.send("Error");
+    }
+};
+
+// GET /escapeRooms/:escapeRoomId/analytics/download_raw
+exports.downloadRaw = async (req, res) => {
+    const {escapeRoom, query} = req;
+    const {turnId} = query;
+    console.log(req.query)
+    try {
+        escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
+        const puzzleIdToOrder = {};
+
+        for (const p of escapeRoom.puzzles) {
+            puzzleIdToOrder[p.id] = p.order + 1;
+        }
+        const logs = [];
+        const teams = await models.team.findAll(queries.team.puzzlesByTeam(escapeRoom.id, turnId, true));
+
+        for (const team of teams) {
+            const {id, name, teamMembers, requestedHints, retos} = team;
+            const startTime = team.turno.startTime || team.startTime;
+            const teamSize = teamMembers.length;
+            const logBase = {
+                "teamId": id,
+                "teamName": name,
+                teamSize,
+                "turnoId": team.turno.id,
+                "startTime": convertDate(startTime),
+                "timestamp": '',
+                "minute": '',
+                "event": "",
+                "hintId": "",
+                "hintContent": "",
+                "hintCategory": "",
+                "hintQuizScore": "",
+                "puzzleId": "",
+                "puzzleName": ""
+            };
+
+
+            for (const r in retos) {
+                const retoTS = retos[r].retosSuperados.createdAt;
+
+                logs.push({
+                    ...logBase,
+                    "event": "PUZZLE_SOLVED",
+                    "timestamp": convertDate(retoTS),
+                    "minute": Math.round(100 * (retoTS - startTime) / 1000 / 60) / 100,
+                    "puzzleId": retos[r].order + 1,
+                    "puzzleName": retos[r].title
+                });
+            }
+
+            for (const h of requestedHints) {
+                const hintTS = h.createdAt;
+
+                logs.push({
+                    ...logBase,
+                    "event": h.success ? "HINT_OBTAINED" : "HINT_FAILED_TO_OBTAIN",
+                    "timestamp": convertDate(hintTS),
+                    "minute": Math.round(100 * (hintTS - startTime) / 1000 / 60) / 100,
+                    "hintId": h.hint ? `${puzzleIdToOrder[h.hint.puzzleId]}.${h.hint.order + 1}` : "",
+                    "hintCategory": h.hint ? (h.hint.category || "") : "",
+                    "hintContent": h.hint ? h.hint.content : "",
+                    "hintQuizScore": parseInt(h.score, 10)
+                });
+            }
+        }
+
+        createCsvFile(res, logs);
     } catch (e) {
         console.error(e);
         res.send("Error");

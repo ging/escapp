@@ -1,8 +1,8 @@
 <% include ../../partials/_header.ejs %>
 
 <div role="main" class="main retosSuperados">
-    <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "retosSuperados"}) %>
-    <h1><%=i18n.analytics.retosSuperados.title%></h1>
+    <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "puzzleTimes"}) %>
+    <h1><%=i18n.analytics.puzzleTimes.title%></h1>
     <form method="get" class="participantsList" action="/escapeRooms/<%= escapeRoom.id %>/analytics/puzzles/teams">
         <div class="filters">
             <label for="turnId"><%=i18n.turno.Turno%>
@@ -17,19 +17,19 @@
                 </select>
             </label>
             <button type="submit" class="editButton filter-button" ><%=i18n.common.filter%></button>
-            <button type="submit" name="csv" value="1" class="acceptButton filter-button" >    
+            <!-- <button type="submit" name="csv" value="1" class="acceptButton filter-button" >    
                 <%=i18n.analytics.main.download%>
-            </button>
-            <a href="participants?turnId=<%=turnId%>">
+            </button> -->
+           <!--  <a href="participants?turnId=<%=turnId%>">
                 <button  type="button" class="buttonTab filter-button">
                     <%=i18n.participant.seeByParticipant%>
                 </button>  
-            </a>
+            </a> -->
 
         </div>
     </form>
     <br/>
-    <table class="mainTable">
+    <table class="mainTable" style="font-size: 14px;">
         <tr>
             <th><%=i18n.team.Team%></th>
             <th><%=i18n.team.Members%></th>
@@ -54,16 +54,21 @@
                     totalRetosSuperados[r] += 1;
                 }
             %>
-                <td class="<%= superado ? "complete":"incomplete"%>">
-                    <span class="icon"></span>
+                <td>
+                <!-- <td class="<%= superado ? "complete":"incomplete"%>"> -->
+                    <!-- <span class="icon"></span> -->
+                    <%if (result.retosSuperadosMin[r]){%>
+                    <%=secondsToDhms(result.retosSuperadosMin[r]*60)%>
+                    <%}else{%>
+                        -
+                    <%}%>
                 </td>
             <% } %>
-            <td><%=Math.round(result.retosSuperados.filter(r=>r==1).length*10000/result.retosSuperados.length)/100%>%</td>
+            <td><b><%=Math.round(result.retosSuperados.filter(Boolean).length*10000/result.retosSuperados.length)/100%>%</b></td>
         </tr>
         <%} %>
         <tr>
-            <td class="align-left"><b>Total:</b> <%=results.length%></td>
-            <td/>
+            <td colspan="2"><b>Total:</b> <%=results.length%></td>
             <% for (var s in totalRetosSuperados) { %>
                 <td>
                     <b><%=totalRetosSuperados[s]%></b>

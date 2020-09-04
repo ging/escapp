@@ -6,12 +6,19 @@ table.mainTable
 	border-spacing: 0px
 	width: 100%
 	font-size: 18px
+	&.mainTableCentered
+		width: auto
+		margin: auto
+		display: inline-block !important
+
 	tr
 		background-color: $purpleedit
 		border-left: 1px solid white
-		&:first-child
+		&:first-child, &.first
 			background-color: $darkerpurple
 			color: white
+			th, td
+				font-family: Gugi
 			th
 				border-bottom-width: 0px
 				&:first-child

@@ -47,7 +47,7 @@
             <th><%=i18n.common.Total%></th>
         </tr>
         <%for (var p in results) { var result = results[p];%>
-        <tr class="animated fadeInRight" style="animation-delay: <%=0.2*(p)+(0.3)%>s;">
+        <tr class="animated fadeInRight" style="animation-delay: <%=0.02*(p)+(0.3)%>s;">
             <td class="align-left"><%=result.name%> <%= result.surname%></td>
             <td><%= result.turno ? getFullDate(result.turno) : i18n.turno.alwaysOpen%></td>
             <td><%=result.attendance%></td>

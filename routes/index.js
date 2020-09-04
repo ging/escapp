@@ -167,8 +167,10 @@ router.get("/escapeRooms/:escapeRoomId/analytics/hints/participants", sessionCon
 router.get("/escapeRooms/:escapeRoomId/analytics/hints/teams", sessionController.loginRequired, sessionController.adminOrAuthorRequired, analyticsController.hintsByTeams);
 router.get("/escapeRooms/:escapeRoomId/analytics/puzzles/participants", sessionController.loginRequired, sessionController.adminOrAuthorRequired, analyticsController.puzzlesByParticipants);
 router.get("/escapeRooms/:escapeRoomId/analytics/puzzles/teams", sessionController.loginRequired, sessionController.adminOrAuthorRequired, analyticsController.puzzlesByTeams);
+router.get("/escapeRooms/:escapeRoomId/analytics/puzzles", sessionController.loginRequired, sessionController.adminOrAuthorRequired, analyticsController.puzzleStats);
 router.get("/escapeRooms/:escapeRoomId/analytics/grading", sessionController.loginRequired, sessionController.adminOrAuthorRequired, analyticsController.grading);
 router.get("/escapeRooms/:escapeRoomId/analytics/download", sessionController.loginRequired, sessionController.adminOrAuthorRequired, analyticsController.download);
+router.get("/escapeRooms/:escapeRoomId/analytics/download_raw", sessionController.loginRequired, sessionController.adminOrAuthorRequired, analyticsController.downloadRaw);
 
 // Routes for guide/apps/resources
 router.get("/inspiration", resourceController.showGuide);

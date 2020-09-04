@@ -59,15 +59,26 @@ exports.teamComplete = (escapeRoomId, turnId, order, waiting = false) => {
     }
 
     if (order) {
-        where.order = [
-            Sequelize.literal(order),
-            ...where.order
-        ];
+        if (order === "order") {
+            where.order = [[
+                {
+                    "model": models.puzzle,
+                    "as": "retos"
+                },
+                "order",
+                "ASC"
+            ]];
+        } else {
+            where.order = [
+                Sequelize.literal(order),
+                ...where.order
+            ];
+        }
     }
     return where;
 };
 
-exports.puzzlesByTeam = (escapeRoomId, turnId) => {
+exports.puzzlesByTeam = (escapeRoomId, turnId, hints = false) => {
     const options = {
         "where": {"startTime": {[Sequelize.Op.ne]: null}},
         "include": [
@@ -92,6 +103,12 @@ exports.puzzlesByTeam = (escapeRoomId, turnId) => {
         "order": [Sequelize.literal("lower(team.name) ASC"), [{"model": models.puzzle, "as": "retos"}, {"model": models.retosSuperados}, "createdAt", "ASC"]]
     };
 
+    if (hints) {
+        options.include.push({
+            model: models.requestedHint,
+            include: [{model: models.hint}]
+        });
+    }
     if (turnId) {
         options.include[0].where.id = turnId;
     }
