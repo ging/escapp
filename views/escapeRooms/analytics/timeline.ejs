@@ -32,9 +32,7 @@
         $('.legend_shown').toggle();
         $('#legend').css('max-height', hidden ?0:"999999px");
         setTimeout(()=>{$('#legend').css('visibility', hidden ? 'hidden':'visible'); },hidden? 400:0)
-        
-
-      })
+      });
     </script>
   </form>
 
@@ -105,8 +103,8 @@
       var time = calculatePuzzleTime(puzzleTime, prevPuzzleTime);
       return (time/duration)*100;
     }
-    
-    var latest =Math.max(duration,Math.max(duration, ...teams.map(team => Math.max(duration,...team.retos.map(r=> (r.retosSuperados.createdAt-(team.turno.startTime || team.startTime))/60000)))))
+    var counter = teams.length;
+    var latest = Math.max(duration,Math.max(duration, ...teams.map(team => Math.max(duration,...team.retos.map(r=> (r.retosSuperados.createdAt-(team.turno.startTime || team.startTime))/60000)))))
     %>
 
     <% for (let t in teams) { 
@@ -115,7 +113,8 @@
 
       
       %>
-      <div class="team">
+      <div class="team" style="z-index: <%=counter%>;">
+        <%counter= counter-1%>
         <div class="team-name">
           <%- include("../../partials/_connected",{participant:team})%>
           <%=team.name%>
@@ -130,13 +129,14 @@
           %>
           
           <% for (let r in team.retos) { 
+            let teamRetosLen = team.retos.length;
             let reto = team.retos[r];
             let puzzleTime = reto.retosSuperados.createdAt;
             let perc = puzzlePosition(puzzleTime, prevPuzzleTime);
             prevPuzzleTime = puzzleTime;
             %>
             
-              <div class="step progress-puzzle-<%=reto.order % 6 %>" style="width:<%=perc%>%;">
+              <div class="step progress-puzzle-<%=reto.order % 6 %>" style="width:<%=perc%>%;z-index:<%=teamRetosLen + 1 - reto.order%>;">
                 <%= Math.round(perc*duration/100)%>'
                 <div class="tooltip">
                   <div class="tooltip-info">

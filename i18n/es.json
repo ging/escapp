@@ -75,6 +75,8 @@
         },
         "timeline": {
             "customHint": "Ayuda del profesor",
+            "openDoor": "El equipo ha conseguido finalizar la escape room",
+            "closedDoor": "El equipo ha comenzado la  escape room",
             "title": "Cronograma",
             "nTeamsPuzzle": "Nº de equipos que han superado cada reto",
             "nTeamsPuzzleButton": "ver por equipo",

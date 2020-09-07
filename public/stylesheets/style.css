@@ -3231,6 +3231,7 @@ table.mainTable {
           #mainSection > .main.timeline #timeline-chart .team .progress .step .tooltip {
             left: 55%; }
           #mainSection > .main.timeline #timeline-chart .team .progress .step:hover .tooltip {
+            z-index: 9999;
             visibility: visible;
             opacity: 1; }
     #mainSection > .main.timeline #timeline-chart .requestedHints {
@@ -3241,7 +3242,8 @@ table.mainTable {
       left: 0px;
       bottom: 0px;
       display: inline-block;
-      overflow: visible; }
+      overflow: visible;
+      z-index: 0; }
       #mainSection > .main.timeline #timeline-chart .requestedHints .requestedHint {
         position: absolute;
         width: 12px;
