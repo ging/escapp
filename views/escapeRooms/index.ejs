@@ -44,9 +44,8 @@
                         } 
                     }
                 }%>
-                <a href="<%=href%>" <%-disabled ? "onclick='return false;'":'' %> class="escapeRoomItemWrapper animated bounceIn" title="<%=escapeRoom.title.replace("\"","'")%>"style="animation-delay: <%=100*i%>ms;"
+                <a href="<%=href%>" <%-disabled ? "onclick='return false;'":'' %> class="escapeRoomItemWrapper animated bounceIn" title="<%=disabled ? i18n.escapeRoom.main.notAvailable :  escapeRoom.title.replace("\"","'")%>"style="animation-delay: <%=100*i%>ms;"
                     
-                    <%-disabled ? ('title="'+i18n.escapeRoom.main.notAvailable+'"') : ''%>
                     >
                     <div class="escapeRoomItem <%= disabled ?' disabled':'' %>">
                         <div class="erFoto" style="text-align: center">

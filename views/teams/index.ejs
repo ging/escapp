@@ -20,9 +20,23 @@
             <% } else { %>
                 <div class="owl-carousel">
                     <% for (var i in turno.teams) { %>
-                        <% var team = turno.teams[i]; %>
-                        <% var fullTeam = escapeRoom.teamSize && (team.teamMembers.length >= escapeRoom.teamSize); %>
-                        <div class="teamCarouselItem <%= fullTeam ? "disabled":""%> " data-id="<%=team.id%>">
+                        <% 
+                        var team = turno.teams[i];
+                        var fullTeam = escapeRoom.teamSize && (team.teamMembers.length >= escapeRoom.teamSize);
+                        const now = new Date();
+                        //now.setHours(now.getHours() - now.getTimezoneOffset() / 60);
+                        var finishedTime = team.startTime ? new Date(team.startTime) : false;
+                        if (finishedTime){ finishedTime.setMinutes(team.startTime.getMinutes() + escapeRoom.duration); }
+                        var alreadyFinished = finishedTime && (finishedTime < now);
+
+                        var title = "";
+                        if (alreadyFinished) {
+                            title = i18n.team.alreadyFinished;
+                        } else if (fullTeam) {
+                            title = i18n.team.fullTeam;
+                        }
+                        %>
+                        <div class="teamCarouselItem <%= (fullTeam || alreadyFinished) ? "disabled":""%> " data-id="<%=team.id%>" title="<%=title%>">
                             <%= team.name %>
                             <%for (var m in team.teamMembers) {%>
                                 <%nParticipants++;%>

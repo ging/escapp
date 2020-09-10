@@ -35,7 +35,7 @@ const formatDate = function (currentDate) {
             <div class="owl-carousel">
                 <% for (var i in turnos) { %>
                     <% 	var turn = turnos[i];
-                        if (turn.date && new Date(turn.date.getTime() + (escapeRoom.duration||0)*60000) < new Date()){
+                        if (turn.date && turn.status === "finished" && new Date(turn.date.getTime() + (escapeRoom.duration||0)*60000) < new Date()){
                            continue; 
                         }
                         var date = new Date(turn.date);
@@ -58,16 +58,23 @@ const formatDate = function (currentDate) {
 
         <div class="flexBoxTurnos">
             <%}%>
-            <% var title = i18n.turno.statusMsg["canSignUp"];
+            <%  
+            
+            const now = new Date();
+            now.setHours(now.getHours() - now.getTimezoneOffset() / 60);
+            var title = i18n.turno.statusMsg["canSignUp"];
             var full = (turn.capacity && turn.students.length >= turn.capacity);
             var finished =  turn.status === 'finished';
+            var enrollmentNotAllowed = (turn.from && turn.from > now) || (turn.to && turn.to < now);
             if (finished) {
                 title = i18n.turno.statusMsg["finished"];
             } else if (full) {
                 title = i18n.turno.statusMsg["full"];
+            } else if (enrollmentNotAllowed) {
+                title = i18n.turno.statusMsg["finished"];
             }
             %>
-            <% var disabled = (full || finished);%>
+            <% var disabled = (full || finished || enrollmentNotAllowed);%>
             <div class="turno turnoAlumno <%= disabled ? "disabled finished":""%>" title="<%=title%>" data-date="<%=dateNoTime.getTime()%>" id="turno-<%=turn.id%>" data-id="<%=turn.id%>">
                 <div class="hora">
                     <%- turn.date ? formatTime(date) : `<span class="always">${i18n.turno.always}</span>` %>

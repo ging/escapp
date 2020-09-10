@@ -572,6 +572,7 @@ exports.downloadRaw = async (req, res) => {
                 "timestamp": "",
                 "minute": "",
                 "event": "",
+                "eventComplete": "",
                 "hintId": "",
                 "hintContent": "",
                 "hintCategory": "",
@@ -590,22 +591,25 @@ exports.downloadRaw = async (req, res) => {
                     "timestamp": convertDate(retoTS),
                     "minute": Math.round(100 * (retoTS - startTime) / 1000 / 60) / 100,
                     "puzzleId": retos[r].order + 1,
-                    "puzzleName": retos[r].title
+                    "puzzleName": retos[r].title,
+                    "eventComplete": `PUZZLE_SOLVED_${retos[r].order + 1}`
                 });
             }
 
             for (const h of requestedHints) {
                 const hintTS = h.createdAt;
+                const hintId = h.hint ? `${puzzleIdToOrder[h.hint.puzzleId]}.${h.hint.order + 1}` : "";
 
                 logs.push({
                     ...logBase,
                     "event": h.success ? "HINT_OBTAINED" : "HINT_FAILED_TO_OBTAIN",
                     "timestamp": convertDate(hintTS),
                     "minute": Math.round(100 * (hintTS - startTime) / 1000 / 60) / 100,
-                    "hintId": h.hint ? `${puzzleIdToOrder[h.hint.puzzleId]}.${h.hint.order + 1}` : "",
+                    hintId,
                     "hintCategory": h.hint ? h.hint.category || "" : "",
                     "hintContent": h.hint ? h.hint.content : "",
-                    "hintQuizScore": parseInt(h.score, 10)
+                    "hintQuizScore": parseInt(h.score, 10),
+                    "eventComplete": h.success ? `HINT_OBTAINED_${hintId || "CUSTOM"}` : "HINT_FAILED_TO_OBTAIN"
                 });
             }
         }

@@ -8,7 +8,9 @@ exports.checkJoinToken = (req, res, next) => {
     const password = (req.turn ? req.turn.password || req.escapeRoom.invitation : req.escapeRoom.invitation) || "";
 
     if (token !== password) {
-        req.flash("error", i18n.participant.wrongToken);
+        if (req.query.nocheck != 1) {
+            req.flash("error", i18n.participant.wrongToken);
+        }
         res.redirect(`/escapeRooms/${req.escapeRoom.id}/${req.turn ? `turnos/${req.turn.id}/select` : "/join"}`);
     } else {
         req.token = token;
@@ -52,7 +54,7 @@ exports.indexTurnos = async (req, res, next) => {
                 req.user = await models.user.findByPk(req.session.user.id);
                 next();
             } else {
-                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}`);
+                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}&nocheck=1`);
             }
         } else {
             res.render("turnos/_indexStudent.ejs", {"turnos": escapeRoom.turnos, escapeRoom, token});
@@ -74,7 +76,7 @@ exports.mainTurnos = (req, res, next) => {
             req.params.turnoId = req.body.turnSelected;
             next();
         } else {
-            const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams?token=${token}`;
+            const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams?token=${token}&nocheck=1`;
 
             res.redirect(direccion);
         }
@@ -92,7 +94,7 @@ exports.selectTurno = (req, res, next) => {
         req.body.name = req.session.user.name;
         next();
     } else {
-        const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams?token=${token}`;
+        const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams?token=${token}&nocheck=1`;
 
         res.redirect(direccion);
     }
