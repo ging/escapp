@@ -24,7 +24,7 @@
                 <div class="flex-cell flex-turno">
                     <%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%> <%if(turno.place){%>(<%= turno.place %>)<%}%>
                 </div>
-                <div class="flex-cell flex-status"><b><%=turno.status.toUpperCase()%></b></div>
+                <div class="flex-cell flex-status"><b><%=i18n.turno.statuses[turno.status]%></b></div>
 
                 <div class="flex-cell flex-links">
                     <a href="/escapeRooms/<%=escapeRoom.id%>/analytics?turnId=<%=turno.id%>">

@@ -957,6 +957,11 @@
         "activateTurnosBC": "Manage shifts",
         "resetProgress": "Reset this shift",
         "status": "Status",
+        "statuses": {
+            "active": "Active",
+            "finished": "Finished",
+            "pending": "Pending"
+        },
         "noTurnAvailable": "No turn available for this ER",
         "theres": "There is",
         "thereare": "There are",

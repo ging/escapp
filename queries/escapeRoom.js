@@ -119,7 +119,7 @@ exports.ids = (ids) => {
         "include": [
             {
                 "model": models.turno,
-                "attributes": ["id","date","status", "capacity", "from", "to"],
+                "attributes": ["id", "date", "status", "capacity", "from", "to"],
                 "required": true,
                 "include": [
                     {

@@ -12,19 +12,20 @@ const methodOverride = require("method-override");
 const dotenv = require("dotenv");
 const i18n = require("i18n-express");
 const cors = require("cors");
-const compression = require('compression');
-//const helmet =  require('helmet');
+const compression = require("compression");
+// Const helmet =  require('helmet');
 
 dotenv.config();
 const api = require("./routes/api");
 const index = require("./routes/index"),
 
     app = express();// View engine setup
-    //to compress all routes
-    app.use(compression());
-    //security headers, commented because it fails with CSP
-    //TODO, study options and configure accordingly
-    //app.use(helmet());
+    // To compress all routes
+
+app.use(compression());
+// Security headers, commented because it fails with CSP
+// TODO, study options and configure accordingly
+// App.use(helmet());
 
 
 app.set("views", path.join(__dirname, "views"));

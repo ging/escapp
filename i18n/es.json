@@ -939,6 +939,11 @@
         "areYouSureStart": "¿Seguro que deseas comenzar este turno?",
         "activateTurnosBC": "Administrar turnos",
         "status": "Estado",
+        "statuses": {
+            "active": "Activo",
+            "finished": "Finalizado",
+            "pending": "Pendiente"
+        },
         "fullTurno": "El turno seleccionado está lleno. Elige otro.",
         "notActive": "Esta escape room no está activa para tu usuario",
         "selectActivate": "Selecciona el turno que quieres activar/desactivar",
