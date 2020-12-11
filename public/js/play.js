@@ -500,7 +500,7 @@ const updateContent = (content) => {
     if ($(`#content-${block.index}`).length){ // It was already there
       $('#editor').append($(`#content-${block.index}`));
     } else {
-      first = block.index;
+      first = first === null ? block.index : first;
       insertContent(block.type, block.payload, block.puzzles, block.index);
     }
     newIndexes.push(block.index);
