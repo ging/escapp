@@ -28,15 +28,7 @@ module.exports = function (sequelize, DataTypes) {
                 "validate": {"max": 10000, "notEmpty": {"msg": "El tamaño de los equipos no puede estar vacío."}}
             },
             "scope": {"type": DataTypes.BOOLEAN},
-            "invitation": {
-                "type": DataTypes.STRING
-                /* "allowNull": false,
-                "defaultValue" () {
-                    return Math.random().toString(36).
-                        substr(2);
-                },
-                "validate": {"notEmpty": {"msg": "La URL de la invitación no puede estar vacía."}}*/
-            },
+            "invitation": {"type": DataTypes.STRING},
             "teamAppearance": {
                 "type": DataTypes.TEXT,
                 "defaultValue": "litera",

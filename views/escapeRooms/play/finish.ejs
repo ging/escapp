@@ -18,7 +18,7 @@
 		<br/><br/>
 		<% if (teams.length > 0) { %>
 			<ranking/>
-			<% include ../../partials/_ranking %>
+			<%- include("../../partials/_ranking") %>
 		<% } %>
 	</div>
 <br/>
@@ -36,3 +36,4 @@
     initSocketServer(<%= escapeRoom.id%>, teamId, <%=turnoId || "undefined" %>, userId);*/
 </script>
 <% include ../../partials/_footer %>
+

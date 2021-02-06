@@ -153,7 +153,13 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
       updateContent(window.ER.erState.content);
 
       appendRetoMsg(ER.info.escapeRoomPuzzles[puzzleOrder], solution);
-      createAlert("success", `<b>${i18n.newRetoSuperado}</b><br/> ${msg === i18n.correct ? '': escapeHtml(feedback) }`);
+
+      let correct = msg === i18n.correct ? '': escapeHtml(feedback);
+      let time = 5000;
+      try {
+        time = correct.split(" ").length*700;
+      } catch(e){}
+      createAlert("success", `<b>${i18n.newRetoSuperado}</b><br/> ${correct}`, false, time);
       const isLast = ER.erState.retosSuperados.length === ER.info.totalPuzzles;
       if (!isLast) {
         const puzzleIndex = ER.info.escapeRoomPuzzles.findIndex(puzzle => puzzle.order == puzzleOrder);
@@ -179,7 +185,12 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
     }
   } else {
     if (msg !== i18n.wrong) {
-      createAlert("danger", escapeHtml(feedback));
+      let incorrect = escapeHtml(feedback);
+      let time = 5000;
+      try {
+        time = incorrect.split(" ").length*1000;
+      } catch(e){}
+      createAlert("danger", incorrect, false, time);
     }
     if (ER.erState.waitingForPuzzleReply) {
       $('#puzzle-input').addClass(correctAnswer ? 'is-valid':'is-invalid');
@@ -205,7 +216,11 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
       appendHint(message, puzzleOrder, category);
       $('.reto-hint-title-'+puzzleOrder).first().removeClass('animated')
     } else { // Someone in my team obtained a hint
-      createAlert("success", `<b>${i18n.newHint}</b><br/>${escapeHtml(message)}`);
+      let time = 10000;
+      try {
+        time = message.split(" ").length*700;
+      } catch(e){}
+      createAlert("success", `<b>${i18n.newHint}</b><br/>${escapeHtml(message)}`, false, time);
       await forMs(1000);
       appendHint(message, puzzleOrder, category);
       if (!moreAvail) {
@@ -266,7 +281,8 @@ const onInitialInfo = ({code, erState, participation}) => {
 };
 
 const onMessage = ({msg}) => {
-  alertMsg = createAlert("warning", msg, true);
+  let time = 5000;
+  alertMsg = createAlert("warning", msg, true, time);
 }
 
 const onRanking = ({ranking}) => {
@@ -342,7 +358,6 @@ const hintReq = ()=>{
   }
 }
 
-
 const closeHintModal = async () => {
   // Close hint modal
   $('#hintModal').addClass('zoomOut'); 
@@ -377,8 +392,8 @@ const appendRetoMsg = (puzzle, sol) => {
 const appendExtraInfo = (info) => {
   $('.otherList').prepend(otherMsg(info));
   $('#other-messages-title').show();
-
 }
+
 const updateHintTooltip = (msg) => {
   $('.btn-hints-title').attr("data-original-title", msg).tooltip('update');
   if(showNavT) {
@@ -391,26 +406,26 @@ const updateHintTooltip = (msg) => {
 
 const updatePuzzle = (order, currentPuzzle, prevPuzzleOrder) => {
   if (order || order === 0) {
-      // Update title
-      $('#puzzle-title').data("puzzleOrder", order);
-      $('#puzzle-title').text(currentPuzzle.title);
-      // Update input
-      $('#puzzle-input').val("");
-      $('#puzzle-input').focus();
-      $('#puzzle-input').data("puzzleOrder", order);
-      $('#puzzle-input').removeClass('is-invalid');
-      $('#puzzle-input').removeClass('is-valid');
-      // Update button
-      $('#puzzle-check-btn').data("puzzleOrder", order);
-      // Update currentReto in modal
-      $('.reto-hint-li').removeClass('reto-hint-current');
-      $('.reto-hint-title-'+order).addClass('reto-hint-current');
-    
-      if (currentPuzzle.automatic) {
-        $('#puzzle-form').hide()
-      } else {
-        $('#puzzle-form').show()
-      }
+    // Update title
+    $('#puzzle-title').data("puzzleOrder", order);
+    $('#puzzle-title').text(currentPuzzle.title);
+    // Update input
+    $('#puzzle-input').val("");
+    $('#puzzle-input').focus();
+    $('#puzzle-input').data("puzzleOrder", order);
+    $('#puzzle-input').removeClass('is-invalid');
+    $('#puzzle-input').removeClass('is-valid');
+    // Update button
+    $('#puzzle-check-btn').data("puzzleOrder", order);
+    // Update currentReto in modal
+    $('.reto-hint-li').removeClass('reto-hint-current');
+    $('.reto-hint-title-'+order).addClass('reto-hint-current');
+  
+    if (currentPuzzle.automatic) {
+      $('#puzzle-form').hide()
+    } else {
+      $('#puzzle-form').show()
+    }
   } else {
     $('.reto-hint-li').removeClass('reto-hint-current');
     $('#puzzle-form').hide();
@@ -420,33 +435,33 @@ const updatePuzzle = (order, currentPuzzle, prevPuzzleOrder) => {
 }
 
 
-const createAlert = (level = "info", msg, keep = false) => {
+const createAlert = (level = "info", msg, keep = false, time = 5000) => {
   const config = {"message": msg, "alertType": level, "position": "b l",  "hideAnimation": "slide", "showAnimation": "bounce"};
   if (!keep) {
-    config.time = 5000;
+    config.time = time;
     config.autoHide = true;
   }
   return $.easyAlert(config);
 };
 
 const updateHint = (puzzleOrder, hintOrder, category) => {
-    ER.erState.latestHintObtained = new Date();
-    if (hintOrder === null) {
-      ER.erState.customHints++;
-    }
-    const currentPuzzle = ER.info.escapeRoomPuzzles.find(puz => puz.order === puzzleOrder);
-    const actualCat = category || currentPuzzle.categories[0];
-    if (ER.erState.reqHints[puzzleOrder].indexOf(hintOrder) === -1 ) { // Not hint requested before
-      ER.erState.reqHints[puzzleOrder].push(hintOrder);
-       ER.erState.automaticHints++;
-      if (currentPuzzle && hintOrder !== null) {
-        const hintArr = currentPuzzle.hints[actualCat];
-        const idx = hintArr.indexOf(hintOrder);
-        if (idx !== -1) {
-          hintArr.splice(idx, 1);
-        }
+  ER.erState.latestHintObtained = new Date();
+  if (hintOrder === null) {
+    ER.erState.customHints++;
+  }
+  const currentPuzzle = ER.info.escapeRoomPuzzles.find(puz => puz.order === puzzleOrder);
+  const actualCat = category || currentPuzzle.categories[0];
+  if (ER.erState.reqHints[puzzleOrder].indexOf(hintOrder) === -1 ) { // Not hint requested before
+    ER.erState.reqHints[puzzleOrder].push(hintOrder);
+     ER.erState.automaticHints++;
+    if (currentPuzzle && hintOrder !== null) {
+      const hintArr = currentPuzzle.hints[actualCat];
+      const idx = hintArr.indexOf(hintOrder);
+      if (idx !== -1) {
+        hintArr.splice(idx, 1);
       }
     }
+  }
 }
 
 const updateSuperados = (puzzleOrder) => {
@@ -459,19 +474,19 @@ const updateSuperados = (puzzleOrder) => {
 var insertContent = (type, payload, puzzles, index) => {
   var content = "";
   switch(type){
-      case "countdown":
-          content = countdownTemplate();
-          break;
-      case "ranking":
-          content = rankingEmptyTemplate();
-          break;
-      case "text":
-          content = `<div class="cke_editable" id="block-${index}">${escapeUnsafeHtml(payload.text)}</div>`;
-          break;
-      case "progress":
-          content = progressBarTemplate();
-          break;
-      default:
+    case "countdown":
+      content = countdownTemplate();
+      break;
+    case "ranking":
+      content = rankingEmptyTemplate();
+      break;
+    case "text":
+      content = `<div class="cke_editable" id="block-${index}">${escapeUnsafeHtml(payload.text)}</div>`;
+      break;
+    case "progress":
+      content = progressBarTemplate();
+      break;
+    default:
   }
   var htmlContent = $(blockTemplate(content, index));
   $('#editor').append(htmlContent);

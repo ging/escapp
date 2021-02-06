@@ -299,19 +299,22 @@ span.btn-hints-title {
   display: none;
 }
 
-.puzzle-title-no-current {
+.automatic-puzzle .puzzle-title-no-current {
   padding:0.375rem 0rem; 
   display: inline-block;
 }
 
-.reto-hint-li.reto-hint-current .puzzle-title-no-current {
+.automatic-puzzle.reto-hint-li.reto-hint-current .puzzle-title-no-current {
   display: none;
 }
 
 .reto-hint-li.reto-hint-current .btn-hints-modal {
   display: inline-block;
 }
-.reto-hint-li.reto-hint-current .current-pths {
+.automatic-puzzle.reto-hint-li.reto-hint-current .current-pths {
+  display: inline-block;
+}
+.reto-hint-li.reto-hint-current .current-pths-number {
   display: inline-block;
 }
 
@@ -411,6 +414,19 @@ ranking {
 .ranking-table .ranking-row .ranking-pos {
   transform: scale(1.5);
 }
+.ranking-table.singleTeam .ranking-row .ranking-team {
+  flex: 1;
+}
+.ranking-table.singleTeam .ranking-row .ranking-members {
+  display: none; flex: 0
+}
+.ranking-table.singleTeam .ranking-row .ranking-res {
+  width: 15%;
+}
+.ranking-table.singleTeam .ranking-row .ranking-time {
+  width: 20%;
+}
+
 @media (max-width: 700px) {
   .ranking-table .ranking-row .ranking-team {
     width: 30%;

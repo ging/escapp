@@ -5,8 +5,8 @@ const {getRanking} = require("../helpers/utils");
 
 // PUT /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnoId/teams/:teamId
 exports.add = async (req, res, next) => {
-    const direccion = req.body.redir || "/escapeRooms";
     const {escapeRoom, turn, team, session, token} = req;
+    const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}`;
     const {startTime} = team;
     const {user} = session;
     const transaction = await sequelize.transaction();

@@ -53,9 +53,10 @@ exports.create = async (req, res, next) => {
 
         await teamCreated.addTeamMembers(user.id, {transaction});
         await models.participants.create({"attendance": false, "turnId": params.turnoId, "userId": user.id}, {transaction});
-        req.flash("success", i18n.common.flash.successCreatingTeam);
-        res.redirect("/escapeRooms");
+
         transaction.commit();
+        req.flash("success", req.escapeRoom.teamSize === 1 ? i18n.common.flash.successCreatingTeamSingle : i18n.common.flash.successCreatingTeam);
+        res.redirect(`/escapeRooms/${params.escapeRoomId}`);
     } catch (err) {
         transaction.rollback();
         if (err instanceof Sequelize.ValidationError) {

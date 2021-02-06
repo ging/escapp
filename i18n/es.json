@@ -192,6 +192,7 @@
             "successCreatingHint": "Pista creada con éxito",
             "successCreatingPuzzle": "Reto creado con éxito",
             "successCreatingTeam": "Equipo creado con éxito",
+            "successCreatingTeamSingle": "Te has unido con éxito a la escape room",
             "successCreatingTurno": "Turno creado con éxito",
             "successCreatingUser": "Usuario creado con éxito",
             "successDeletingER": "Escape room borrada con éxito",

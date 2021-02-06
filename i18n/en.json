@@ -196,6 +196,7 @@
             "successCreatingHint": "Hint successfully created",
             "successCreatingPuzzle": "Puzzle successfully created",
             "successCreatingTeam": "Team successfully created",
+            "successCreatingTeamSingle": "You have successfully joined the escape room",
             "successCreatingTurno": "Shift successfully created",
             "successCreatingUser": "User successfully created",
             "successDeletingER": "Escape Room successfully deleted",

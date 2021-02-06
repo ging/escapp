@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
 <script src="/js/vendor/socket.io.js"></script>
 <script src="/js/vendor/jquery-ui.min.js"></script>
+
 <div role="main" class="main showStudent">
 	<div class="breadcrumbs-container">
         <div class="breadcrumbs">
@@ -26,18 +27,16 @@
 				<h2><%=i18n.team.Team%> </h2>
 				<h3><%=team.name%></h3>
 				<p class="members">
-					<%=team.teamMembers.map(m=>m.name + " " + m.surname).join(", ")%>
+					<%=team.teamMembers.map(m => m.name + " " + m.surname).join(", ")%>
 				</p>
 			<% } %>
 			<% if (escapeRoom.supportLink) { %>
 				<h2><%=i18n.showStudent.supportLink%></h2>
-				<p><a href="<%=escapeRoom.supportLink%>"><%=escapeRoom.supportLink%></a></p>
+				<p><a target="_blank" href="<%=escapeRoom.supportLink%>"><%=escapeRoom.supportLink%></a></p>
 			<% } %>
 		</div>
 	</div>
 	<div class="animated fadeIn">
-		<h2><%=i18n.turno.Description%></h2>
-		<p class="desc "><%=escapeRoom.description%></p>
 		<div class="col-xs-12 indications text-left instructionsShow ">
 			<div id="editor" class="editor" style="padding: 0px;">
 				<% if (escapeRoom["indicationsInstructions"]) {%>

@@ -161,27 +161,33 @@ $(()=>{
     }
     
     if ($("#dialog-config").length) {
-        $("#dialog-config").dialog({...config,
-        "buttons": {
-            [window.accept] : ()=>{
-                $( "#dialog-config" ).dialog("close");
-                var result = []
-                var l = $(".puzzle-preview-select input").length - 1;
-                $(".puzzle-preview-select input").each((i,e)=>{
-                    if ($(e).prop('checked')){
-                        result.push(i < l ? i : "all");
-                    }
-                });
-                $('#'+window.blockId).data("puzzles", result.join(","));
-                $(".puzzle-preview-select input").prop('checked', false);
-            },
-            [window.cancel] : ()=> {
-                $( "#dialog-config" ).dialog("close");
-                window.blockId = null;
-                $(".puzzle-preview-select input").prop('checked', false);
+        $("#dialog-config").dialog({...config,// "closeOnEscape": false,
+            "buttons": {
+                [window.accept] : ()=>{
+                    $( "#dialog-config" ).dialog("close");
+                    var result = []
+                    var l = $(".puzzle-preview-select input").length - 1;
+                    $(".puzzle-preview-select input").each((i,e)=>{
+                        if ($(e).prop('checked')){
+                            result.push(i < l ? i : "all");
+                        }
+                    });
+                    
+                    $('#'+window.blockId).data("puzzles", result.join(","));
+                    $(".puzzle-preview-select input").prop('checked', false);
+                },
+                [window.cancel] : ()=> {
+                    $( "#dialog-config" ).dialog("close");
+                    window.blockId = null;
+                    $(".puzzle-preview-select input").prop('checked', false);
+                }
             }
-        }
-    });
+        });
+        $('#dialog-config').on('dialogclose', function(event) {
+            $( "#dialog-config" ).dialog("close");
+            window.blockId = null;
+            $(".puzzle-preview-select input").prop('checked', false);
+        });    
     }
 
     $( ".theme-btn" ).on("click",() => {
@@ -190,9 +196,11 @@ $(()=>{
     $("body").on("click", ".config-btn", function(){
         var parent = $(this).parent().parent();
         window.blockId = parent.attr("id");
-        var puzzleIds = parent.data("puzzles").toString().split(",");
+        var puzzleIds = parent.data("puzzles").toString()
+        puzzleIds = puzzleIds === "" ? [] : puzzleIds.split(",");
         var puzzleInputs = $(".puzzle-preview-select input");
         puzzleInputs.each((i,e)=>{
+
             if ((puzzleIds.indexOf(i.toString()) !== -1) || (i.toString() == (puzzleInputs.length -1) && puzzleIds.indexOf("all") !== -1)) {
                 $(e).prop('checked', true);
             }
@@ -235,7 +243,7 @@ $(()=>{
         var results = [];
         $('.building-block').each((_i,e)=>{
             var type = $(e).data("content-type");
-            var puzzles = $(e).data("puzzles") ? $(e).data("puzzles").toString().split(",") : [];
+            var puzzles = $(e).data("puzzles") !== "" ? $(e).data("puzzles").toString().split(",") : [];
             var obj = {type,puzzles};
             if ( type === "text") {
                 var id = $(e).find(".editor").attr("id");

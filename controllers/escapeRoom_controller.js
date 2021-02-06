@@ -190,12 +190,13 @@ exports.update = async (req, res) => {
     escapeRoom.forbiddenLateSubmissions = body.forbiddenLateSubmissions === "on";
     escapeRoom.description = body.description;
     escapeRoom.supportLink = body.supportLink;
-    escapeRoom.invitation = body.invitation;
+    escapeRoom.invitation = body.invitation != undefined ? body.invitation.toString() : undefined;
     escapeRoom.scope = body.scope === "private";
     escapeRoom.teamSize = body.teamSize || 0;
     escapeRoom.forceLang = body.forceLang === "en" || body.forceLang === "es" ? body.forceLang : null;
     const progressBar = body.progress;
 
+    console.log(body);
     try {
         const er = await escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "scope", "teamSize", "supportLink", "forceLang", "invitation"]});
 
@@ -242,6 +243,7 @@ exports.update = async (req, res) => {
         }
         res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
     } catch (error) {
+        console.error(error);
         // Console.error(error);
         if (error instanceof Sequelize.ValidationError) {
             error.errors.forEach((err) => {

@@ -2969,6 +2969,15 @@ body .daterangepicker {
         width: 15%; }
       .ranking .ranking-table .ranking-row .ranking-pos {
         transform: scale(1.5); }
+    .ranking .ranking-table.singleTeam .ranking-members {
+      display: none;
+      flex: 0; }
+    .ranking .ranking-table.singleTeam .ranking-team {
+      flex: 1; }
+    .ranking .ranking-table.singleTeam .ranking-res {
+      width: 15%; }
+    .ranking .ranking-table.singleTeam .ranking-time {
+      width: 20%; }
 
 @media (max-width: 600px) {
   .ranking .content .ranking-table .ranking-row .ranking-team {
@@ -2976,7 +2985,7 @@ body .daterangepicker {
   .ranking .content .ranking-table .ranking-row .ranking-members {
     display: none; }
   .ranking .content .ranking-table .ranking-row .ranking-res {
-    width: 35%; }
+    width: 39%; }
   .ranking .content .ranking-table .ranking-row .ranking-time {
     width: 35%; } }
 

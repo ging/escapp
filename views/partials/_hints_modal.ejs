@@ -27,7 +27,7 @@
                     <% var isCurrent = currentlyWorkingOn === order;%>
 
                     <% var show = (pending.indexOf(order) === -1 || currentlyWorkingOn === order);%>
-                    <li class="card reto-hint-li reto-hint-title-<%=order%> <%=isCurrent ? 'reto-hint-current' : ''%>" 
+                    <li class="card reto-hint-li reto-hint-title-<%=order%> <%=isCurrent ? 'reto-hint-current' : ''%>  <%=escapeRoom.puzzles[p].automatic ? 'automatic-puzzle':''%>" 
                         style="<%=(show) ? '':'display: none;'%>" 
                         data-puzzle-number="<%=order%>">
 
@@ -35,9 +35,10 @@
                             <span class="btn-hints-title btn-hints-modal-title" id="btn-hints-modal-tooltip-<%=order%>" data-toggle="tooltip" title="-">
                                 <button class="btn btn-success btn-hints btn-hints-modal" ><%=i18n.escapeRoom.play.need%></button>
                             </span>
-                            <span class="current-pths"><b><%=i18n.puzzle.Puzzle%> <%=order+1%></b></span>
+                            <span class="current-pths"><b>
+                            <%=i18n.puzzle.Puzzle%> <%=order+1%></b></span>
                             <span class="puzzle-title-no-current"><b><%=escapeRoom.puzzles[p].title%></b> </span>
-                            <span class="current-pths"> (<%=i18n.escapeRoom.play.currentPuzzle%>) </span>
+                            <span class="current-pths current-pths-number"> (<%=i18n.escapeRoom.play.currentPuzzle%>) </span>
                             </span>
                         </h6>
                         <%if(!requested) {%>
