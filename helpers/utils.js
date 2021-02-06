@@ -257,7 +257,7 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
 
     try {
         correctAnswer = removeDiacritics(answer.toString().toLowerCase().trim()) === removeDiacritics(puzzleSol.toString().toLowerCase().trim());
-        console.log(removeDiacritics(answer.toString().toLowerCase().trim()))
+        console.log(removeDiacritics(answer.toString().toLowerCase().trim()));
         if (correctAnswer) {
             msg = puzzle.correct || i18n.escapeRoom.play.correct;
         } else {
