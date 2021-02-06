@@ -12,7 +12,8 @@
                     <% for (t in turnos) { %>
                     <% var turno = turnos[t] %>
                     <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
-                        <%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%>
+
+                        <%if (turno.place) {%> <%=turno.place %> (<%}%><%= (turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen)%><%if (turno.place) {%>)<%}%>
                     </option>
                     <% } %>
                 </select>

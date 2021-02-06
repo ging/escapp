@@ -22,7 +22,7 @@
                 var turno = turnos[t]; %>
             <div class="flex-row <%= (turno.status === "active" && turno.date) ? "active-turno":"" %>">
                 <div class="flex-cell flex-turno">
-                    <%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%> <%if(turno.place){%>(<%= turno.place %>)<%}%>
+                    <%if (turno.place) {%> <%=turno.place %> (<%}%><%= (turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen)%><%if (turno.place) {%>)<%}%>
                 </div>
                 <div class="flex-cell flex-status"><b><%=i18n.turno.statuses[turno.status]%></b></div>
 

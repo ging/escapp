@@ -22,7 +22,9 @@
                 <select name="turnId" id="shift-id" onclick="$('#shift').prop('checked', true)">
                     <option value=""></option>
                     <% for (let turno of turnos){%>
-                        <option value="<%=turno.id%>" <%if(turnId == turno.id){%>selected<%}%>><%= turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen%> <% if (turno.place) { %>(<%= turno.place %>)<% } %></option>
+                        <option value="<%=turno.id%>" <%if(turnId == turno.id){%>selected<%}%>>
+                        <%if (turno.place) {%> <%=turno.place %> (<%}%><%= (turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen)%><%if (turno.place) {%>)<%}%>
+                        </option>
                     <%}%>
                 </select>
             </label><br>

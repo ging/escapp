@@ -8,6 +8,7 @@ const ejs = require("ejs");
 const queries = require("../queries");
 const {OK, NOT_A_PARTICIPANT, PARTICIPANT, NOK, NOT_ACTIVE, NOT_STARTED, TOO_LATE, AUTHOR, ERROR} = require("../helpers/apiCodes");
 const {getRetosSuperados, byRanking, getPuzzleOrderSuperados} = require("./analytics");
+const {removeDiacritics} = require("./diacritics.js");
 
 exports.flattenObject = (obj, labels, min = false) => {
     const rs = {};
@@ -255,7 +256,8 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
     let alreadySolved = false;
 
     try {
-        correctAnswer = answer.toString().toLowerCase().trim() === puzzleSol.toString().toLowerCase().trim();
+        correctAnswer = removeDiacritics(answer.toString().toLowerCase().trim()) === removeDiacritics(puzzleSol.toString().toLowerCase().trim());
+        console.log(removeDiacritics(answer.toString().toLowerCase().trim()))
         if (correctAnswer) {
             msg = puzzle.correct || i18n.escapeRoom.play.correct;
         } else {
