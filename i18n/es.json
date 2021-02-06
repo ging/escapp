@@ -60,7 +60,8 @@
             "team": "Equipo",
             "time": "Tiempo",
             "title": "Ranking",
-            "turno": "Turno"
+            "turno": "Turno",
+            "user": "Participante"
         },
         "puzzleStats": {
             "title": "Estadísticas de retos",

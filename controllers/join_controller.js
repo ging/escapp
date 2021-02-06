@@ -8,6 +8,7 @@ exports.checkJoinToken = (req, res, next) => {
     const password = (req.turn ? req.turn.password || req.escapeRoom.invitation : req.escapeRoom.invitation) || "";
 
     if (token !== password) {
+        // eslint-disable-next-line eqeqeq
         if (req.query.nocheck != 1) {
             req.flash("error", i18n.participant.wrongToken);
         }

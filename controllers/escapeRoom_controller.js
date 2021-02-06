@@ -190,7 +190,7 @@ exports.update = async (req, res) => {
     escapeRoom.forbiddenLateSubmissions = body.forbiddenLateSubmissions === "on";
     escapeRoom.description = body.description;
     escapeRoom.supportLink = body.supportLink;
-    escapeRoom.invitation = body.invitation != undefined ? body.invitation.toString() : undefined;
+    escapeRoom.invitation = body.invitation !== undefined ? body.invitation.toString() : undefined;
     escapeRoom.scope = body.scope === "private";
     escapeRoom.teamSize = body.teamSize || 0;
     escapeRoom.forceLang = body.forceLang === "en" || body.forceLang === "es" ? body.forceLang : null;
