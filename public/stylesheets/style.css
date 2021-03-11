@@ -3677,6 +3677,8 @@ table.mainTable {
       #mainSection .main .flexBoxTurnos .turno.turnoAlumno.finished, #mainSection .main .flexBoxTurnos .turno.turnoProfe.finished {
         opacity: 0.8;
         cursor: not-allowed; }
+    #mainSection .main .flexBoxTurnos .turno.turnoProfe.finished {
+      cursor: pointer; }
     #mainSection .main .flexBoxTurnos .turno.turnoProfe.active {
       color: #48C18E; }
     #mainSection .main .flexBoxTurnos .turno.hidden:not(.always) {

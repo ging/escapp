@@ -50,7 +50,7 @@ var pastDates = [];
 	<div id="dialog-turno-<%=turn.id%>" class="dialog-turno hidden" title="<%=i18n.turno.Turno%> <%= turn.date ? getFullDate(turn.date) : i18n.turno.alwaysOpen  %> <%if(turn.place){%>(<%=turn.place%>)<%}%>">
 		<div class="flex-dialog-container">
 			<div class="flex-block">
-				<button class="turno-btn" title="<%=i18n.turno[turn.status === "active"? "stop" : "start"]%>"  <%=turn.status === "finished" ? "disabled":`onclick="overlayTrigger('activate-'+turn.id)"`%>>
+				<button class="turno-btn" title="<%=i18n.turno[turn.status === "active"? "stop" : "start"]%>"  <%if (turn.status === "finished") {%>   disabled <% } else { %> onclick="overlayTrigger('activate-<%=turn.id%>')"` <% } %>>
 					<span class="material-icons"  style="color: var(--brightgreen);" ><%= turn.status === "active"? "stop" : "play_arrow"%></span>
 					<span><%=i18n.escapeRoom.play[turn.status === "active"? "stop" : "start"]%></span>
 				</button>
@@ -117,7 +117,7 @@ var pastDates = [];
 	<script>
 		$( function() {
 			$("#dialog-turno-<%=turn.id%>").dialog({...dialogOptions, height: "auto"});
-			$( "#turno-<%=turn.id%>" ).on( "click", function() {
+			$( "#turno-<%=turn.id%>:not(:disabled)" ).on( "click", function() {
 				$( "#dialog-turno-<%=turn.id%>" ).dialog( "open" );
 			});
 		});
