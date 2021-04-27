@@ -382,8 +382,9 @@ exports.areHintsAllowedForTeam = async (teamId, hintLimit) => {
     return {hintsAllowed, successHints, failHints};
 };
 
-exports.getContentForPuzzle = (content = [], currentlyWorkingOn) => JSON.parse(content).map((block, index) => ({...block, index})).filter((block) => block.puzzles.indexOf(currentlyWorkingOn.toString()) !== -1);
-
+exports.getContentForPuzzle = (content = "[]", currentlyWorkingOn) => {
+    return JSON.parse(content || "[]").map((block, index) => ({...block, index})).filter((block) => block.puzzles.indexOf(currentlyWorkingOn.toString()) !== -1);
+}
 exports.paginate = (page = 1, pages, limit = 5) => {
     let from = 0;
     let to = 0;

@@ -548,7 +548,6 @@ exports.downloadRaw = async (req, res) => {
     const {escapeRoom, query} = req;
     const {turnId} = query;
 
-    console.log(req.query);
     try {
         escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
         const puzzleIdToOrder = {};
@@ -562,12 +561,12 @@ exports.downloadRaw = async (req, res) => {
         for (const team of teams) {
             const {id, name, teamMembers, requestedHints, retos} = team;
             const startTime = team.turno.startTime || team.startTime;
-            const teamSize = teamMembers.length;
             const logBase = {
                 "teamId": id,
                 "teamName": name,
-                teamSize,
+                "teamSize": teamMembers.length,
                 "turnoId": team.turno.id,
+                "turnoTag": team.turno.place,
                 "startTime": convertDate(startTime),
                 "timestamp": "",
                 "minute": "",

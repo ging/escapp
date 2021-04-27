@@ -136,6 +136,7 @@
     },
     "common": {
         "accept": "accept",
+        "author": "author",
         "back": "back",
         "cancel": "cancel",
         "confirm": "confirm",
@@ -227,6 +228,7 @@
         },
         "next": "next",
         "save": "save",
+        "see": "see",
         "orderBy": "Order by",
         "previous": "back",
         "profile": "Profile",

@@ -132,6 +132,7 @@
     },
     "common": {
         "accept": "aceptar",
+        "author": "autor",
         "back": "volver",
         "cancel": "cancelar",
         "confirm": "confirmar",
@@ -225,6 +226,7 @@
         "orderBy": "Ordenar por",
         "previous": "anterior",
         "profile": "Mi perfil",
+        "see": "ver",
         "total": "total",
         "Total": "Total",
         "save": "guardar"

@@ -22,8 +22,7 @@ module.exports = function (sequelize, DataTypes) {
         "gender": {
             "type": DataTypes.STRING,
             "validate": {
-                "len": [0, 200],
-                "notEmpty": {"msg": "Gender must not be empty."}
+                "len": [0, 200]
             }
         },
         "username": {

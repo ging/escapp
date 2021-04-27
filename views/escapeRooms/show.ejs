@@ -10,6 +10,9 @@
     </div>
     <br class="escapeRoomItem">
     <h1><%=i18n.escapeRoom.steps.edit.title%>:</h1>
+    <%if (session.user.isAdmin){%>
+    <h2 class="by-author"><%=i18n.common.see%> <a href="/users/<%=escapeRoom.authorId%>"><%=i18n.common.author%></a></h2>
+    <%}%>
 
     <div class="menuERShow">
         <div class="menuERShowLeft">
