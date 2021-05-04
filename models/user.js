@@ -21,9 +21,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         "gender": {
             "type": DataTypes.STRING,
-            "validate": {
-                "len": [0, 200]
-            }
+            "validate": {"len": [0, 200]}
         },
         "username": {
             "type": DataTypes.STRING,

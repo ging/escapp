@@ -34,16 +34,21 @@
 }
 %>
 <br/>
-<div class="centered">
+<div class="centered" style="overflow-x: auto;">
   <table class="mainTable mainTableCentered" style="font-size: 14px;">
     <tr>
       <th rowspan="2"><%=i18n.puzzle.Puzzle%></th>
       <th rowspan="2">N</th>
       <th colspan="5"><%=i18n.analytics.puzzleStats.cumulative%></th>
       <th colspan="5"><%=i18n.analytics.puzzleStats.nonCumulative%></th>
-
+      <th colspan="5">Nº de intentos fallidos</th>
     </tr>
     <tr class="first">
+        <td>M</td>
+        <td>MED</td>
+        <td>SD</td>
+        <td>MIN</td>
+        <td>MAX</td>
         <td>M</td>
         <td>MED</td>
         <td>SD</td>
@@ -69,6 +74,11 @@
       <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].std)){%><%=secondsToDhms(summarySingle[p.id].std)%><%}else{%>-<%}%></td>
       <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].min)){%><%=secondsToDhms(summarySingle[p.id].min) || '0s'%><%}else{%>-<%}%></td>
       <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].max)){%><%=secondsToDhms(summarySingle[p.id].max)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].mean)){%><%=(summaryNo[p.id].mean)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].median)){%><%=(summaryNo[p.id].median)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].std)){%><%=(summaryNo[p.id].std)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].min)){%><%=(summaryNo[p.id].min) || '0s'%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].max)){%><%=(summaryNo[p.id].max)%><%}else{%>-<%}%></td>
     </tr>
   <%}%>
   </table>

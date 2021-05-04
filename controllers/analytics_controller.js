@@ -1,7 +1,7 @@
 const {models} = require("../models");
 const {createCsvFile} = require("../helpers/csv");
 const queries = require("../queries");
-const {flattenObject, getERPuzzles, getERTurnos} = require("../helpers/utils");
+const {flattenObject, getERPuzzles, getERTurnos, groupByTeamRetos} = require("../helpers/utils");
 const {isTeamConnected, isTeamConnectedWaiting} = require("../helpers/sockets");
 const {convertDate, retosSuperadosByWho, getRetosSuperados, getBestTime, getAvgHints, byRanking, pctgRetosSuperados, getRetosSuperadosIdTime, countHints, countHintsByPuzzle} = require("../helpers/analytics");
 const stats = require("../helpers/stats");
@@ -317,7 +317,9 @@ exports.timeline = async (req, res, next) => {
     try {
         escapeRoom.turnos = await getERTurnos(escapeRoom.id);
         escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
-        escapeRoom.teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId, "lower(team.name) ASC"));
+        escapeRoom.teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId, "lower(team.name) ASC", false, true));
+        escapeRoom.retosNoSuperados = groupByTeamRetos(await models.team.findAll(queries.team.teamRetosNoSuperados(escapeRoom.id, turnId)));
+
         for (const team of escapeRoom.teams) {
             team.connected = isTeamConnected(team.id);
             team.waiting = team.connected ? false : isTeamConnectedWaiting(team.id);
@@ -335,8 +337,10 @@ exports.puzzleStats = async (req, res, next) => {
     const {turnId} = query;
     const resultSingle = {};
     const result = {};
+    const resultNo = {};
     const summary = {};
     const summarySingle = {};
+    const summaryNo = {};
 
     try {
         escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
@@ -359,11 +363,21 @@ exports.puzzleStats = async (req, res, next) => {
 
                 return {"id": team.id, retosSuperados};
             });
+        const retosNoSuperados = groupByTeamRetos(await models.team.findAll(queries.team.teamRetosNoSuperados(escapeRoom.id, turnId)), true);
+
+        for (const t in retosNoSuperados) {
+            const team = retosNoSuperados[t];
+
+            for (const p in team) {
+                resultNo[p] = [...resultNo[p] || [], team[p].length];
+            }
+        }
 
         for (const p of escapeRoom.puzzles) {
             const puzzleId = p.id;
             const resultSinglePuzzle = resultSingle[puzzleId] || [];
             const resultPuzzle = result[puzzleId] || [];
+            const resultNoPuzzle = resultNo[puzzleId] || [];
 
             summarySingle[puzzleId] = {
                 "min": stats.min(resultSinglePuzzle),
@@ -380,8 +394,17 @@ exports.puzzleStats = async (req, res, next) => {
                 "median": stats.median(resultPuzzle),
                 "std": stats.std(resultPuzzle)
             };
+
+            summaryNo[puzzleId] = {
+                "count": stats.count(resultNoPuzzle),
+                "min": stats.min(resultNoPuzzle),
+                "max": stats.max(resultNoPuzzle),
+                "mean": stats.mean(resultNoPuzzle),
+                "median": stats.median(resultNoPuzzle),
+                "std": stats.std(resultNoPuzzle)
+            };
         }
-        res.render("escapeRooms/analytics/puzzleStats", {"escapeRoom": req.escapeRoom, "puzzles": result, turnId, summary, summarySingle});
+        res.render("escapeRooms/analytics/puzzleStats", {"escapeRoom": req.escapeRoom, "puzzles": result, turnId, summary, summarySingle, summaryNo});
     } catch (e) {
         console.error(e);
         next(e);
@@ -516,6 +539,7 @@ exports.download = async (req, res) => {
         const puzzleIds = puzzles.map((puz) => puz.id);
         const puzzleNames = puzzles.map((puz) => puz.title);
         const users = await models.user.findAll(queries.user.puzzlesByParticipant(escapeRoom.id, turnId, orderBy, true, true));
+        const retosNoSuperados = groupByTeamRetos(await models.team.findAll(queries.team.teamRetosNoSuperados(escapeRoom.id, turnId)));
 
         const results = users.map((user) => {
             const {name, surname, username} = user;
@@ -523,8 +547,14 @@ exports.download = async (req, res) => {
             const turnoTag = user.turnosAgregados[0].place;
             const teamAttendance = Boolean(user.teamsAgregados[0].startTime);
             const [{"name": teamName, "id": teamId, requestedHints}] = user.teamsAgregados;
-
+            const teamNoSuperados = [];
             const {retosSuperados, retosSuperadosMin} = retosSuperadosByWho(user.teamsAgregados[0], puzzleIds, true, turno);
+
+            for (let i = 0; i < puzzleIds.length; i++) {
+                teamNoSuperados.push(((retosNoSuperados[teamId] || [])[i] || []).length);
+            }
+
+            const rns = flattenObject(teamNoSuperados, puzzleNames.map((p) => `Failed attempts to solve ${p}`));
             const rs = flattenObject(retosSuperados, puzzleNames);
             const rsMin = flattenObject(retosSuperadosMin, puzzleNames, true);
 
@@ -533,7 +563,7 @@ exports.download = async (req, res) => {
             const hs = flattenObject(hintsSucceeded, puzzleNames.map((p) => `Hints succeeded for ${p}`));
             const attendance = Boolean(user.turnosAgregados[0].participants.attendance);
 
-            return {name, surname, username, teamId, teamName, attendance, teamAttendance, ...rs, ...rsMin, turnoTag, turno, hintsFailedTotal, ...hf, hintsSucceededTotal, ...hs};
+            return {name, surname, username, teamId, teamName, attendance, teamAttendance, ...rns, ...rs, ...rsMin, turnoTag, turno, hintsFailedTotal, ...hf, hintsSucceededTotal, ...hs};
         });
 
         createCsvFile(res, results);
@@ -557,8 +587,10 @@ exports.downloadRaw = async (req, res) => {
         }
         const logs = [];
         const teams = await models.team.findAll(queries.team.puzzlesByTeam(escapeRoom.id, turnId, true));
+        const retosNoSuperados = groupByTeamRetos(await models.team.findAll(queries.team.teamRetosNoSuperados(escapeRoom.id, turnId)));
 
-        for (const team of teams) {
+        for (const t in teams) {
+            const team = teams[t];
             const {id, name, teamMembers, requestedHints, retos} = team;
             const startTime = team.turno.startTime || team.startTime;
             const logBase = {
@@ -577,13 +609,31 @@ exports.downloadRaw = async (req, res) => {
                 "hintCategory": "",
                 "hintQuizScore": "",
                 "puzzleId": "",
-                "puzzleName": ""
+                "puzzleName": "",
+                "puzzleSol": "",
+                "puzzleSubmittedAnswer": ""
             };
 
 
             for (const r in retos) {
                 const retoTS = retos[r].retosSuperados.createdAt;
+                const submittedAnswer = retos[r].retosSuperados.answer === "" ? retos[r].sol : retos[r].retosSuperados.answer;
 
+                if (retosNoSuperados[id] && retosNoSuperados[id][retos[r].order]) {
+                    for (const rns of retosNoSuperados[id][retos[r].order]) {
+                        logs.push({
+                            ...logBase,
+                            "timestamp": convertDate(rns.when),
+                            "minute": Math.round(100 * (rns.when - startTime) / 1000 / 60) / 100,
+                            "event": "PUZZLE_FAILED_TO_SOLVE",
+                            "puzzleId": retos[r].order + 1,
+                            "puzzleName": retos[r].title,
+                            "puzzleSol": retos[r].sol,
+                            "puzzleSubmittedAnswer": rns.answer,
+                            "eventComplete": `PUZZLE_FAILED_TO_SOLVE_${retos[r].order + 1}`
+                        });
+                    }
+                }
                 logs.push({
                     ...logBase,
                     "event": "PUZZLE_SOLVED",
@@ -591,13 +641,16 @@ exports.downloadRaw = async (req, res) => {
                     "minute": Math.round(100 * (retoTS - startTime) / 1000 / 60) / 100,
                     "puzzleId": retos[r].order + 1,
                     "puzzleName": retos[r].title,
+                    "puzzleSol": retos[r].sol,
+                    "puzzleSubmittedAnswer": submittedAnswer,
                     "eventComplete": `PUZZLE_SOLVED_${retos[r].order + 1}`
                 });
             }
 
             for (const h of requestedHints) {
                 const hintTS = h.createdAt;
-                const hintId = h.hint ? `${puzzleIdToOrder[h.hint.puzzleId]}.${h.hint.order + 1}` : "";
+                const puzId = puzzleIdToOrder[h.hint.puzzleId];
+                const hintId = h.hint ? `${puzId}.${h.hint.order + 1}` : "";
 
                 logs.push({
                     ...logBase,
@@ -608,7 +661,9 @@ exports.downloadRaw = async (req, res) => {
                     "hintCategory": h.hint ? h.hint.category || "" : "",
                     "hintContent": h.hint ? h.hint.content : "",
                     "hintQuizScore": parseInt(h.score, 10),
-                    "eventComplete": h.success ? `HINT_OBTAINED_${hintId || "CUSTOM"}` : "HINT_FAILED_TO_OBTAIN"
+                    "eventComplete": h.success ? `HINT_OBTAINED_${hintId || "CUSTOM"}` : "HINT_FAILED_TO_OBTAIN",
+                    "puzzleId": puzId,
+                    "puzzleName": escapeRoom.puzzles[puzId].title
                 });
             }
         }

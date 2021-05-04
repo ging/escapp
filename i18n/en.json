@@ -91,6 +91,8 @@
             "hint": "Hint",
             "score": "Score",
             "solved": "Solved",
+            "failedToSolve": "Failed attempt to solve the puzzle",
+            "providedAnswer": "Provided answer",
             "title": "Timeline",
             "showLegend": "Show legend",
             "time": "Time",
@@ -1053,6 +1055,8 @@
     },
     "hint": {
         "Hints": "Hints",
+        "hintFailedToObtain": "Hint failed to obtain",
+        "hintObtained": "Hint obtained",
         "attributes": {
             "content": "The hint content",
             "order": "The order",

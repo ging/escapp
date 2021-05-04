@@ -65,7 +65,7 @@
         },
         "puzzleStats": {
             "title": "Estadísticas de retos",
-            "cumulative": "Tiempos acumuladis",
+            "cumulative": "Tiempos acumulados",
             "nonCumulative": "Tiempos no acumulados"
         },
         "puzzleTimes": {
@@ -88,6 +88,8 @@
             "hint": "Pista",
             "score": "Puntuación",
             "solved": "Resuelto",
+            "failedToSolve": "Intento fallido de resolver el reto",
+            "providedAnswer": "Respuesta introducida",
             "time": "Tiempo",
             "unsolved": "No resuelto",
             "showLegend": "Mostrar leyenda",
@@ -1042,6 +1044,8 @@
     },
     "hint": {
         "Hints": "Pistas",
+        "hintFailedToObtain": "Pista no obtenida",
+        "hintObtained": "Pista obtenida",
         "attributes": {
             "content": "El contenido de la pista",
             "order": "El orden",

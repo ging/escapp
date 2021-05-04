@@ -97,7 +97,7 @@ exports.show = async (req, res) => {
 
     if (participant) {
         const [team] = participant.teamsAgregados;
-        const howManyRetos = await team.countRetos();
+        const howManyRetos = await models.retosSuperados.count({"where": {"success": true, "teamId": team.id }});
         const finished = howManyRetos === escapeRoom.puzzles.length;
 
         res.render("escapeRooms/showStudent", {escapeRoom, cloudinary, participant, team, finished});
@@ -196,7 +196,6 @@ exports.update = async (req, res) => {
     escapeRoom.forceLang = body.forceLang === "en" || body.forceLang === "es" ? body.forceLang : null;
     const progressBar = body.progress;
 
-    console.log(body);
     try {
         const er = await escapeRoom.save({"fields": ["title", "subject", "duration", "forbiddenLateSubmissions", "description", "scope", "teamSize", "supportLink", "forceLang", "invitation"]});
 

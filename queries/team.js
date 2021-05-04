@@ -1,6 +1,52 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
 
+
+exports.teamRetosNoSuperados = (escapeRoomId, turnId) => {
+    const where = {
+        "attributes": ["id"],
+        "raw": true,
+        "where": {"startTime": {[Sequelize.Op.ne]: null}},
+        "include": [
+            {
+                "model": models.turno,
+                "attributes": [],
+                "where": {escapeRoomId}
+            },
+            {
+                "model": models.retosSuperados,
+                "as": "puzzlesSolved",
+                "attributes": ["puzzleId", "success", "createdAt", "answer"],
+                "where": {"success": false},
+                "required": false,
+                "duplicating": true,
+                "include": [
+                    {
+                        "model": models.puzzle,
+                        "attributes": ["order"]
+                    }
+                ]
+            }
+        ],
+        "order": [
+            Sequelize.literal("lower(team.name) ASC"),
+            [
+                {
+                    "model": models.retosSuperados,
+                    "as": "puzzlesSolved"
+                },
+                "createdAt",
+                "ASC"
+            ]
+        ]
+    };
+
+    if (turnId) {
+        where.include[0].where.id = turnId;
+    }
+    return where;
+};
+
 exports.teamComplete = (escapeRoomId, turnId, order, waiting = false) => {
     const where = {
         // "attributes": [],
@@ -22,7 +68,10 @@ exports.teamComplete = (escapeRoomId, turnId, order, waiting = false) => {
             {
                 "model": models.puzzle,
                 "as": "retos",
-                "through": {"model": models.retosSuperados}
+                "through": {
+                    "model": models.retosSuperados,
+                    "where": {"success": true}
+                }
             },
             {
                 "model": models.requestedHint,
@@ -33,7 +82,6 @@ exports.teamComplete = (escapeRoomId, turnId, order, waiting = false) => {
                     "score",
                     "createdAt"
                 ],
-                // "where": {"success": true},
                 "required": false,
                 "include": [{"model": models.hint}]
             }
@@ -91,7 +139,10 @@ exports.puzzlesByTeam = (escapeRoomId, turnId, hints = false) => {
             {
                 "model": models.puzzle,
                 "as": "retos",
-                "through": {"model": models.retosSuperados}
+                "through": {
+                    "model": models.retosSuperados,
+                    "where": {"success": true}
+                }
             },
             {
                 "model": models.user,
@@ -173,6 +224,7 @@ exports.ranking = (escapeRoomId, turnId) => {
                 "duplicating": true,
                 "through": {
                     "model": models.retosSuperados,
+                    "where": {"success": true},
                     "attributes": ["createdAt"],
                     "required": true
                 }
@@ -249,6 +301,7 @@ exports.rankingShort = (escapeRoomId, turnId) => {
                 "duplicating": true,
                 "through": {
                     "model": models.retosSuperados,
+                    "where": {"success": true},
                     "attributes": ["createdAt"],
                     "required": true
                 }

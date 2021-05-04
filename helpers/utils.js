@@ -91,6 +91,7 @@ exports.playInterface = async (name, req, res, next) => {
                         "through": {
                             "model": models.retosSuperados,
                             "required": false,
+                            "where": {"success": true},
                             "attributes": ["createdAt"]
                         }
                     }
@@ -257,7 +258,6 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
 
     try {
         correctAnswer = removeDiacritics(answer.toString().toLowerCase().trim()) === removeDiacritics(puzzleSol.toString().toLowerCase().trim());
-        console.log(removeDiacritics(answer.toString().toLowerCase().trim()));
         if (correctAnswer) {
             msg = puzzle.correct || i18n.escapeRoom.play.correct;
         } else {
@@ -267,15 +267,20 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
         const participationCode = await exports.checkTurnoAccess(teams, user, escapeRoom, puzzleOrder);
 
         participation = participationCode;
-        alreadySolved = await puzzle.hasSuperado(teams[0].id);
-
-        if (participation === PARTICIPANT && correctAnswer) {
+        alreadySolved = Boolean(await models.retosSuperados.findOne({"where": {"puzzleId": puzzle.id, "teamId": teams[0].id, "success": true}}));
+        if (participation === PARTICIPANT) {
             try {
-                code = OK;
-                if (!alreadySolved) {
-                    await puzzle.addSuperados(teams[0].id);
+                if (correctAnswer) {
+                    code = OK;
+                    if (!alreadySolved) {
+                        await models.retosSuperados.create({"puzzleId": puzzle.id, "teamId": teams[0].id, "success": true, answer});
+                    }
+                } else {
+                    await models.retosSuperados.create({"puzzleId": puzzle.id, "teamId": teams[0].id, "success": false, answer});
+                    status = 423;
                 }
             } catch (e) {
+                console.error(e);
                 code = ERROR;
                 status = 500;
                 msg = e.message;
@@ -349,7 +354,23 @@ exports.checkIsTurnAvailable = (turn, duration) => {
 };
 
 exports.getCurrentPuzzle = async (team, puzzles) => {
-    const retosSuperados = await team.getRetos();
+    const retosSuperados = await models.puzzle.findAll({
+        "attributes": ["order", "title", "correct", "sol", "score"],
+        "include": [
+            {
+                "model": models.team,
+                "as": "superados",
+                "where": {"id": team.id},
+                "through": {
+                    "model": models.retosSuperados,
+                    "where": {"success": true},
+                    "required": true
+                }
+            }
+        ],
+        "order": [["order", "ASC"]]
+    });
+
     const retosSuperadosOrder = retosSuperados.map((r) => r.order);
     const pending = puzzles.map((p) => p.order).filter((p) => retosSuperadosOrder.indexOf(p) === -1);
     let currentlyWorkingOn = retosSuperadosOrder.length ? Math.max(...retosSuperadosOrder) + 1 : 0;
@@ -382,9 +403,7 @@ exports.areHintsAllowedForTeam = async (teamId, hintLimit) => {
     return {hintsAllowed, successHints, failHints};
 };
 
-exports.getContentForPuzzle = (content = "[]", currentlyWorkingOn) => {
-    return JSON.parse(content || "[]").map((block, index) => ({...block, index})).filter((block) => block.puzzles.indexOf(currentlyWorkingOn.toString()) !== -1);
-}
+exports.getContentForPuzzle = (content = "[]", currentlyWorkingOn) => JSON.parse(content || "[]").map((block, index) => ({...block, index})).filter((block) => block.puzzles.indexOf(currentlyWorkingOn.toString()) !== -1);
 exports.paginate = (page = 1, pages, limit = 5) => {
     let from = 0;
     let to = 0;
@@ -424,3 +443,19 @@ exports.validationError = ({instance, path, validatorKey}, i18n) => {
 
 exports.isValidDate = (d) => d === null || d instanceof Date && !isNaN(d);
 
+exports.groupByTeamRetos = (retos, useIdInsteadOfOrder = false) => retos.reduce((acc, val) => {
+    const {id} = val;
+    const success = val["puzzlesSolved.success"];
+    const when = val["puzzlesSolved.createdAt"];
+    const answer = val["puzzlesSolved.answer"];
+    const order = useIdInsteadOfOrder ? val["puzzlesSolved.puzzle.id"] : val["puzzlesSolved.puzzle.order"];
+
+    if (!acc[id]) {
+        acc[id] = {[order]: [{success, when, answer}] };
+    } else if (!acc[id][order]) {
+        acc[id][order] = [{success, when, answer}];
+    } else {
+        acc[id][order].push({success, when, answer});
+    }
+    return acc;
+}, {});

@@ -1,3 +1,6 @@
+const sequelize = require("../models");
+const {models} = sequelize;
+
 exports.retosSuperadosByWho = (who, puzzles, showDate = false, turno) => {
     const retosSuperados = new Array(puzzles.length).fill(0);
     const retosSuperadosMin = new Array(puzzles.length).fill(0);
@@ -35,13 +38,30 @@ exports.getRetosSuperados = (teams, nPuzzles, ignoreTurno = false) => teams.
 
 exports.getRetosSuperadosIdTime = (retos, actualStartTime) => retos.map((reto) => {
     const {retosSuperados} = reto;
-    const {createdAt} = retosSuperados;
+    const {createdAt, success} = retosSuperados;
     const time = actualStartTime ? Math.floor((createdAt - actualStartTime) / 10) / 100 : null;
 
-    return {"id": reto.id, time};
+    return {"id": reto.id, time, success};
 });
+
 exports.getPuzzleOrderSuperados = async (team) => {
-    const retosSuperados = await team.getRetos({ "attributes": ["order", "title", "correct", "sol", "score"], "order": [["order", "ASC"]]});
+    const retosSuperados = await models.puzzle.findAll({
+        "attributes": ["order", "title", "correct", "sol", "score"],
+        "include": [
+            {
+                "model": models.team,
+                "as": "superados",
+                "where": {"id": team.id},
+                "through": {
+                    "model": models.retosSuperados,
+                    "where": {"success": true},
+                    "required": true
+                }
+            }
+        ],
+        "order": [["order", "ASC"]]
+    });
+
     const puzzleData = {};
     const puzzlesSolved = retosSuperados.length ? retosSuperados.map((r) => {
         const order = r.order + 1;

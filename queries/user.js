@@ -52,7 +52,10 @@ exports.puzzlesByParticipant = (escapeRoomId, turnId, orderBy, includeReqHints, 
                         "model": models.puzzle,
                         // "attributes": ["id"],
                         "as": "retos",
-                        "through": {"model": models.retosSuperados}
+                        "through": {
+                            "model": models.retosSuperados,
+                            "where": {"success": true}
+                        }
                     }
 
                 ]

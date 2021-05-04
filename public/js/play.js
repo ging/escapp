@@ -271,6 +271,7 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
 };
 
 const onInitialInfo = ({code, erState, participation}) => {
+  console.log(code, erState, participation)
   if (participation != "AUTHOR" && (code && code === "NOK")) {
     window.location = `/escapeRooms/${escapeRoomId}/`;
   }

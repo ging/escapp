@@ -47,8 +47,12 @@ sequelize.import(path.join(__dirname, "app"));
 // Import the definition of the Resource Table from app.js
 sequelize.import(path.join(__dirname, "resource"));
 
+// Import the definition of the RetosSuperados Table from retosSuperados.js
+sequelize.import(path.join(__dirname, "retosSuperados"));
+
+
 // Relation between models
-const {escapeRoom, turno, attachment, user, puzzle, hint, hintApp, team, requestedHint, asset, app, resource} = sequelize.models;// Relation 1-to-N between Escape Room and Turn:
+const {escapeRoom, turno, attachment, user, puzzle, hint, hintApp, team, requestedHint, retosSuperados, asset, app, resource} = sequelize.models;// Relation 1-to-N between Escape Room and Turn:
 
 // Relation 1-to-N between Escape Room and Turno:
 
@@ -182,6 +186,7 @@ team.belongsToMany(puzzle, {
 puzzle.belongsToMany(team, {
     "as": "superados",
     "through": "retosSuperados",
+    "unique": false,
     "foreignKey": {
         "name": "puzzleId",
         "allowNull": false
@@ -191,10 +196,23 @@ puzzle.belongsToMany(team, {
     "constraints": true
 });
 
+// Relation N-to-M between Team and Puzzle:
+retosSuperados.belongsTo(team, {"unique": false, "foreignKey": "teamId"});
+retosSuperados.belongsTo(puzzle, {"unique": false, "foreignKey": "puzzleId"});
+
+team.hasMany(retosSuperados, {
+    "as": "puzzlesSolved",
+    "foreignKey": {
+        "name": "teamId",
+        "unique": false,
+        "allowNull": false
+    }
+});
+
 // Relation N-to-M between Team and Hint:
 requestedHint.belongsTo(hint, {});
-
 requestedHint.belongsTo(team, {});
+
 
 team.hasMany(requestedHint, {
     "onDelete": "CASCADE",

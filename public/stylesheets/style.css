@@ -3267,12 +3267,36 @@ table.mainTable {
         background-color: white;
         border-radius: 6px;
         border: 2px solid white;
-        cursor: crosshair; }
+        cursor: crosshair;
+        transform: translateX(-6px); }
         #mainSection > .main.timeline #timeline-chart .requestedHints .requestedHint.success {
           background-color: #48C18E; }
         #mainSection > .main.timeline #timeline-chart .requestedHints .requestedHint.fail {
           background-color: #F47E84; }
         #mainSection > .main.timeline #timeline-chart .requestedHints .requestedHint:hover .tooltip {
+          visibility: visible;
+          opacity: 1; }
+    #mainSection > .main.timeline #timeline-chart .retosNoSuperados {
+      position: absolute;
+      width: 100%;
+      display: inline-block;
+      height: 24px;
+      left: 0px;
+      bottom: 0px;
+      display: inline-block;
+      overflow: visible;
+      z-index: 99999;
+      bottom: 5px;
+      color: white; }
+      #mainSection > .main.timeline #timeline-chart .retosNoSuperados .failedPuzzle {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        cursor: crosshair;
+        transform: translateX(-6px); }
+        #mainSection > .main.timeline #timeline-chart .retosNoSuperados .failedPuzzle .material-icons {
+          font-size: 12px; }
+        #mainSection > .main.timeline #timeline-chart .retosNoSuperados .failedPuzzle:hover .tooltip {
           visibility: visible;
           opacity: 1; }
   #mainSection > .main.timeline #legend {
@@ -3336,17 +3360,25 @@ table.mainTable {
     font-size: 12px;
     width: auto;
     min-width: 150px;
+    max-width: 600px;
     padding: 10px;
     line-height: 15px;
     opacity: 0;
     transition: 0.3s opacity ease-in;
     z-index: 1;
     text-align: left; }
+    #mainSection > .main.timeline .tooltip .tooltip-info {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; }
     #mainSection > .main.timeline .tooltip b {
       font-weight: 700;
       color: #161938; }
     #mainSection > .main.timeline .tooltip * {
       font-family: 'Lato'; }
+  #mainSection > .main.timeline .progress-puzzle-no .material-icons {
+    font-size: 12px;
+    vertical-align: initial; }
   #mainSection > .main.timeline .progress-puzzle-0 {
     background-color: var(--lightred); }
     #mainSection > .main.timeline .progress-puzzle-0.step-flex {
