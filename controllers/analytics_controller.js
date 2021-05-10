@@ -380,8 +380,7 @@ exports.puzzleStats = async (req, res, next) => {
         for (const p in escapeRoom.puzzles) {
             const pId = escapeRoom.puzzles[p].id;
             const missing = (resultSingle[pId] || []).length - (resultNo[pId] || []).length;
-
-            if (missing) {
+            if (missing > 0) {
                 resultNo[pId] = [...resultNo[pId] || [], ...Array(missing).fill(0)];
             }
         }
