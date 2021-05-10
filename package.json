@@ -61,7 +61,7 @@
     "node-fetch": "^2.6.0",
     "node-sass": "^4.14.1",
     "node-sass-middleware": "0.11.0",
-    "nodemailer": "^6.4.11",
+    "nodemailer": "^6.4.16",
     "nodemon": "^1.18.11",
     "pg": "7.10.0",
     "revalidator": "^0.3.1",
