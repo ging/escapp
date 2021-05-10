@@ -367,20 +367,23 @@ exports.puzzleStats = async (req, res, next) => {
 
         for (const t in retosNoSuperados) {
             const team = retosNoSuperados[t];
+
             for (const p in escapeRoom.puzzles) {
                 const pId = escapeRoom.puzzles[p].id;
 
                 if (team[pId]) {
-                    resultNo[pId] = [...(resultNo[pId] || []), team[pId].length];
+                    resultNo[pId] = [...resultNo[pId] || [], team[pId].length];
                 }
             }
         }
 
         for (const p in escapeRoom.puzzles) {
             const pId = escapeRoom.puzzles[p].id;
-            const missing = (resultSingle[pId] || []).length - (resultNo[pId]|| []).length;
+            const missing = (resultSingle[pId] || []).length - (resultNo[pId] || []).length;
 
-            if (missing) resultNo[pId] = [...(resultNo[pId] || []), ...Array(missing).fill(0)];
+            if (missing) {
+                resultNo[pId] = [...resultNo[pId] || [], ...Array(missing).fill(0)];
+            }
         }
 
         for (const p of escapeRoom.puzzles) {

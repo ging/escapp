@@ -227,7 +227,6 @@
           <div class="retosNoSuperados">
             <% for (let rt in retosNoSuperadosTeam) { %>
               <% if (rt !== null && rt != "null"){ %>
-                <% console.log(retosNoSuperadosTeam) %>
                 <% for (let rn of retosNoSuperadosTeam[rt]) { %>
                   <%let rnTime = calculatePuzzleTime(rn.when, startTime); %>
                   <div class="failedPuzzle" style="left: <%=puzzlePosition(rn.when, startTime)%>%;">
