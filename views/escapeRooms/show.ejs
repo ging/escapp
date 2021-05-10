@@ -33,7 +33,7 @@
                     <li><a href="/escapeRooms/<%= escapeRoom.id %>/message"><%=i18n.showTeacher.actionList.message%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
                     <li><a href="/escapeRooms/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
                 <li class="actionTitle"><%=i18n.showTeacher.actionList.actions%></li>
-                    <li><button id="share-button" class="showMenuButton acceptButton" <%- (escapeRoom.turnos && escapeRoom.turnos.length) ? '' : (' title=\"' + i18n.showTeacher.messages.noShiftsShare + '\" disabled') %> ><%=i18n.showTeacher.actionList.share%></button></li>
+                    <li><button id="compartir-button" class="showMenuButton acceptButton" <%- (escapeRoom.turnos && escapeRoom.turnos.length) ? '' : (' title=\"' + i18n.showTeacher.messages.noShiftsShare + '\" disabled') %> ><%=i18n.showTeacher.actionList.share%></button></li>
                     <% const now = new Date();
                     now.setHours(now.getHours() - now.getTimezoneOffset() / 60);%>
                     <%let pendingShifts = escapeRoom.turnos.filter(turn=>turn.status === "pending" &&  (turn.date - now)/1000/60 < 60)%>
@@ -346,7 +346,7 @@
         // Share ER link
         $("#dialog-share").dialog(dialogOptions);
 
-        $( "#share-button" ).on( "click", function() {
+        $( "#compartir-button" ).on( "click", function() {
             $( "#dialog-share" ).dialog( "open" );
         });
         

@@ -12,7 +12,7 @@
     <iframe id="visor" class="embeddedResource" src="/resources/<%=resource.id%>?full=1&email=<%=(session && session.user) ? session.user.username : null%>&token"></iframe>
     <% if (isAuthor) { %>
         <div class="buttons">
-            <button class="rounded acceptButton" id="share-button">
+            <button class="rounded acceptButton" id="compartir-button">
                 <%=i18n.resources.share%>
             </button>
             <a href="/resources/<%=resource.id%>/edit">
@@ -74,7 +74,7 @@
             
         $("#dialog-share").dialog(dialogOptions);
 
-        $( "#share-button" ).on( "click", function() {
+        $( "#compartir-button" ).on( "click", function() {
             $( "#dialog-share" ).dialog( "open" );
         });
 

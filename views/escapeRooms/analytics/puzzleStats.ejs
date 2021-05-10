@@ -60,6 +60,7 @@
         <td>MIN</td>
         <td>MAX</td>
     </tr>
+  <% Math.round2 = (num) => Math.round(num * 100) / 100  %>
   <% for (let p of escapeRoom.puzzles) {%>
     <tr>
       <td><strong><%=p.title%></strong></td>
@@ -74,11 +75,11 @@
       <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].std)){%><%=secondsToDhms(summarySingle[p.id].std)%><%}else{%>-<%}%></td>
       <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].min)){%><%=secondsToDhms(summarySingle[p.id].min) || '0s'%><%}else{%>-<%}%></td>
       <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].max)){%><%=secondsToDhms(summarySingle[p.id].max)%><%}else{%>-<%}%></td>
-      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].mean)){%><%=(summaryNo[p.id].mean)%><%}else{%>-<%}%></td>
-      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].median)){%><%=(summaryNo[p.id].median)%><%}else{%>-<%}%></td>
-      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].std)){%><%=(summaryNo[p.id].std)%><%}else{%>-<%}%></td>
-      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].min)){%><%=(summaryNo[p.id].min) || '0s'%><%}else{%>-<%}%></td>
-      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].max)){%><%=(summaryNo[p.id].max)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].mean)){%><%=Math.round2(summaryNo[p.id].mean)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].median)){%><%=Math.round2(summaryNo[p.id].median)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].std)){%><%=Math.round2(summaryNo[p.id].std)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].min)){%><%=Math.round2(summaryNo[p.id].min) || '0'%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].max)){%><%=Math.round2(summaryNo[p.id].max)%><%}else{%>-<%}%></td>
     </tr>
   <%}%>
   </table>

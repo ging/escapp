@@ -255,6 +255,7 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
     let erState;
     let correctAnswer = false;
     let alreadySolved = false;
+    const transaction = await sequelize.transaction();
 
     try {
         correctAnswer = removeDiacritics(answer.toString().toLowerCase().trim()) === removeDiacritics(puzzleSol.toString().toLowerCase().trim());
@@ -267,16 +268,18 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
         const participationCode = await exports.checkTurnoAccess(teams, user, escapeRoom, puzzleOrder);
 
         participation = participationCode;
-        alreadySolved = Boolean(await models.retosSuperados.findOne({"where": {"puzzleId": puzzle.id, "teamId": teams[0].id, "success": true}}));
+        alreadySolved = Boolean(await models.retosSuperados.findOne({"where": {"puzzleId": puzzle.id, "teamId": teams[0].id, "success": true}}, {transaction}));
         if (participation === PARTICIPANT) {
             try {
                 if (correctAnswer) {
                     code = OK;
                     if (!alreadySolved) {
-                        await models.retosSuperados.create({"puzzleId": puzzle.id, "teamId": teams[0].id, "success": true, answer});
+                        await models.retosSuperados.create({"puzzleId": puzzle.id, "teamId": teams[0].id, "success": true, answer}, {transaction});
                     }
                 } else {
-                    await models.retosSuperados.create({"puzzleId": puzzle.id, "teamId": teams[0].id, "success": false, answer});
+                    if (!alreadySolved) {
+                        await models.retosSuperados.create({"puzzleId": puzzle.id, "teamId": teams[0].id, "success": false, answer}, {transaction});
+                    }
                     status = 423;
                 }
             } catch (e) {
@@ -288,12 +291,14 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
         } else {
             status = correctAnswer ? 202 : 423;
         }
+        await transaction.commit();
         if (teams && teams.length) {
             const attendance = participation === "PARTICIPANT" || participation === "TOO_LATE";
 
             erState = await exports.getERState(escapeRoom.id, teams[0], escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed);
         }
     } catch (e) {
+        await transaction.rollback();
         status = 500;
         code = ERROR;
         msg = e;

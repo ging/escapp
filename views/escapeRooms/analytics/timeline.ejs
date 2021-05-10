@@ -115,8 +115,6 @@
     <% for (let t in teams) { 
       let team = teams[t];
       let requestedHints = team.requestedHints;
-
-      
       %>
       <div class="team" style="z-index: <%=counter%>;">
         <%counter= counter-1%>
@@ -133,7 +131,8 @@
             end.setTime(startTime.getTime() + (duration*60*1000));
             let retosNoSuperadosTeam = retosNoSuperadosAll[team.id]
           %>
-          <% for (let r in team.retos) { 
+          <% 
+          for (let r in team.retos) { 
             let teamRetosLen = team.retos.length;
             let reto = team.retos[r];
             let puzzleTime = reto.retosSuperados.createdAt;
@@ -154,13 +153,13 @@
                 </div>
               </div>
           <% } %>
-          <%if (  (!turnId || !turno.startTime || t==0)){%>
-            <%if (now < end) {%>
+          <%if ((!turnId || !turno.startTime || t==0)){%>
+            <%if (now < end && (turno.startTime || team.retos.length !== puzzles.length)) {%>
               <span class="now-mark now-mark-now <%if (turnId && t==0 && turno.startTime) {%>now-mark-long<%}%>" 
               style="left: <%=puzzlePosition(now,startTime)%>%; <%if (turnId && t==0 && turno.startTime) {%>height: <%=teams.length*100 %>px<%}%>">
                 <div class="tooltip">
                   <div class="tooltip-info">
-                  <b><%= i18n.analytics.timeline.now %></b>
+                  <b><%= i18n.analytics.timeline.now %></b> (<%=Math.round(calculatePuzzleTime(now, startTime))%>')
                   </div>
                 </div>
               </span>
@@ -228,10 +227,9 @@
           <div class="retosNoSuperados">
             <% for (let rt in retosNoSuperadosTeam) { %>
               <% if (rt !== null && rt != "null"){ %>
+                <% console.log(retosNoSuperadosTeam) %>
                 <% for (let rn of retosNoSuperadosTeam[rt]) { %>
-                  <% 
-                  let rnTime = calculatePuzzleTime(rn.when, startTime);
-                  %>
+                  <%let rnTime = calculatePuzzleTime(rn.when, startTime); %>
                   <div class="failedPuzzle" style="left: <%=puzzlePosition(rn.when, startTime)%>%;">
                     <span class="material-icons">close</span>
                     <div class="tooltip">

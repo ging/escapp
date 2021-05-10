@@ -117,7 +117,7 @@ button, input[type="submit"] {
     padding: 10px;
     text-align: center;
     outline: 0; }
-  button.shareButton, input[type="submit"].shareButton {
+  button.compartirButton, input[type="submit"].compartirButton {
     background-color: #36A2EB;
     color: #161938;
     font: 22px 'Gugi', "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -3241,7 +3241,7 @@ table.mainTable {
           position: relative;
           overflow: visible;
           min-width: 1.3%;
-          border-width: 0px 3px 0px 3px; }
+          border-width: 0px 2px 0px 2px; }
           #mainSection > .main.timeline #timeline-chart .team .progress .step:hover {
             filter: brightness(1.1); }
           #mainSection > .main.timeline #timeline-chart .team .progress .step .tooltip {
