@@ -3168,7 +3168,7 @@ table.mainTable {
     height: auto; }
     #mainSection > .main.timeline #timeline-chart .team {
       display: inline-block;
-      width: 100%;
+      width: 99%;
       text-align: left;
       margin: 5px;
       margin-bottom: 25px;
@@ -3382,27 +3382,36 @@ table.mainTable {
   #mainSection > .main.timeline .progress-puzzle-0 {
     background-color: var(--lightred); }
     #mainSection > .main.timeline .progress-puzzle-0.step-flex {
-      background-image: linear-gradient(to right, var(--lightred) 80%, var(--mainpurple) 100%); }
+      background-image: linear-gradient(to right, var(--lightred) 90%, var(--mainpurple) 100%); }
   #mainSection > .main.timeline .progress-puzzle-1 {
     background-color: var(--brightorange); }
     #mainSection > .main.timeline .progress-puzzle-1.step-flex {
-      background-image: linear-gradient(to right, var(--brightorange) 80%, var(--mainpurple) 100%); }
+      background-image: linear-gradient(to right, var(--brightorange) 90%, var(--mainpurple) 100%); }
   #mainSection > .main.timeline .progress-puzzle-2 {
     background-color: var(--brightyellow); }
     #mainSection > .main.timeline .progress-puzzle-2.step-flex {
-      background-image: linear-gradient(to right, var(--brightyellow) 80%, var(--mainpurple) 100%); }
+      background-image: linear-gradient(to right, var(--brightyellow) 90%, var(--mainpurple) 100%); }
   #mainSection > .main.timeline .progress-puzzle-3 {
     background-color: var(--brightgreen); }
     #mainSection > .main.timeline .progress-puzzle-3.step-flex {
-      background-image: linear-gradient(to right, var(--brightgreen) 80%, var(--mainpurple) 100%); }
+      background-image: linear-gradient(to right, var(--brightgreen) 90%, var(--mainpurple) 100%); }
   #mainSection > .main.timeline .progress-puzzle-4 {
     background-color: var(--brightblue); }
     #mainSection > .main.timeline .progress-puzzle-4.step-flex {
-      background-image: linear-gradient(to right, var(--brightblue) 80%, var(--mainpurple) 100%); }
+      background-image: linear-gradient(to right, var(--brightblue) 90%, var(--mainpurple) 100%); }
   #mainSection > .main.timeline .progress-puzzle-5 {
     background-color: var(--textpurple); }
     #mainSection > .main.timeline .progress-puzzle-5.step-flex {
-      background-image: linear-gradient(to right, var(--textpurple) 80%, var(--mainpurple) 100%); }
+      background-image: linear-gradient(to right, var(--textpurple) 90%, var(--mainpurple) 100%); }
+  #mainSection > .main.timeline ::-webkit-scrollbar {
+    width: 10px;
+    height: 5px; }
+  #mainSection > .main.timeline ::-webkit-scrollbar-track {
+    background: #656683; }
+  #mainSection > .main.timeline ::-webkit-scrollbar-thumb {
+    background: #161938; }
+  #mainSection > .main.timeline ::-webkit-scrollbar-thumb:hover {
+    background: #161938; }
 
 .main.resources {
   font-size: 18px;
