@@ -661,7 +661,7 @@ exports.downloadRaw = async (req, res) => {
 
             for (const h of requestedHints) {
                 const hintTS = h.createdAt;
-                const puzId = puzzleIdToOrder[h.hint.puzzleId];
+                const puzId = h.hint ? puzzleIdToOrder[h.hint.puzzleId] : "";
                 const hintId = h.hint ? `${puzId}.${h.hint.order + 1}` : "";
 
                 logs.push({
@@ -674,8 +674,8 @@ exports.downloadRaw = async (req, res) => {
                     "hintContent": h.hint ? h.hint.content : "",
                     "hintQuizScore": parseInt(h.score, 10),
                     "eventComplete": h.success ? `HINT_OBTAINED_${hintId || "CUSTOM"}` : "HINT_FAILED_TO_OBTAIN",
-                    "puzzleId": puzId,
-                    "puzzleName": escapeRoom.puzzles[puzId].title
+                    "puzzleId": h.hint ? puzId : "",
+                    "puzzleName": h.hint ? escapeRoom.puzzles[puzId-1].title : ""
                 });
             }
         }
