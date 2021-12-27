@@ -260,11 +260,11 @@
     <% include ../../partials/_hints_modal %>
 
 <%}%>
-
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
     var username = "<%= session.user.username %>";
     var teamId = <%= team.id || "undefined"%>; 
+    var token = "<%= token%>";
     var ER = {
         "info": {
             "escapeRoomPuzzles": <%- JSON.stringify(puzzles)%>,
@@ -298,7 +298,6 @@
 </script>
 <%- include("../../partials/_flash",{bs:true}) %>
 <%- include("../../partials/_autoplay") %>
-
 
 </body>
 </html>

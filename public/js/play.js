@@ -147,8 +147,11 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
   if (code === "OK") {
     let nextPuzzleOrder = null;
     let nextPuzzle = null;
+    let blockIndexes =  (window.ER.erState.content || []).map(b=>b.index);
+
     if (!ER.erState.retosSuperados.some(r => r == puzzleOrder)) { // Not solved before
       updateSuperados(puzzleOrder);
+
       window.ER.erState.content = content || window.ER.erState.content;
       updateContent(window.ER.erState.content);
 
@@ -173,7 +176,6 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
       }
       checkAvailHintsForPuzzle(nextPuzzleOrder);
       ER.erState.currentlyWorkingOn = nextPuzzleOrder;
-      let blockIndexes =  (window.ER.erState.content || []).map(b=>b.index);
       autoPlay(blockIndexes);
       setPuzzleLS(blockIndexes);
 
@@ -271,7 +273,6 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
 };
 
 const onInitialInfo = ({code, erState, participation}) => {
-  console.log(code, erState, participation)
   if (participation != "AUTHOR" && (code && code === "NOK")) {
     window.location = `/escapeRooms/${escapeRoomId}/`;
   }
@@ -472,7 +473,7 @@ const updateSuperados = (puzzleOrder) => {
   ER.erState.latestRetoSuperado = ER.erState.retosSuperados.length ? Math.max(...ER.erState.retosSuperados) : null;
 }
 
-var insertContent = (type, payload, puzzles, index) => {
+var insertContent = (type, payload, puzzles, index, prevIndex) => {
   var content = "";
   switch(type){
     case "countdown":
@@ -482,7 +483,8 @@ var insertContent = (type, payload, puzzles, index) => {
       content = rankingEmptyTemplate();
       break;
     case "text":
-      content = `<div class="cke_editable" id="block-${index}">${escapeUnsafeHtml(payload.text)}</div>`;
+      const replacedText = (payload.text || "").toString().replaceAll("__ESCAPP_USER__",username).replaceAll("__ESCAPP_TOKEN__",token)
+      content = `<div class="cke_editable" id="block-${index}">${escapeUnsafeHtml(replacedText)}</div>`;
       break;
     case "progress":
       content = progressBarTemplate();
@@ -490,7 +492,12 @@ var insertContent = (type, payload, puzzles, index) => {
     default:
   }
   var htmlContent = $(blockTemplate(content, index));
-  $('#editor').append(htmlContent);
+  if (prevIndex === null) {
+    $('#editor').prepend(htmlContent);
+  } else {
+    $(htmlContent).insertAfter(`#content-${prevIndex}`);
+  }
+  
 };
 
 
@@ -508,25 +515,28 @@ const scrollToTargetAdjusted = (element) => {
 }
 
 const updateContent = (content) => {
-  var newIndexes = [];
+  var newIndexes = content.map(c=>parseInt(c.index,10));
   var first = null;
+  $('.content-block').each((_i,e)=>{
+    var id = parseInt($(e).data("id"),10);
+    if (newIndexes.indexOf(id) === -1) {
+      $(e).remove();
+    }
+  });
+
+  let prevIndex = null;
 
   for (var i in content) {
     var block = content[i];
     if ($(`#content-${block.index}`).length){ // It was already there
-      $('#editor').append($(`#content-${block.index}`));
+      //$('#editor').append($(`#content-${block.index}`));
     } else {
       first = first === null ? block.index : first;
-      insertContent(block.type, block.payload, block.puzzles, block.index);
+      insertContent(block.type, block.payload, block.puzzles, block.index, prevIndex);
+      prevIndex = block.index;
     }
-    newIndexes.push(block.index);
   }
-  $('.content-block').each((_i,e)=>{
-    var id = $(e).data("id");
-    if (newIndexes.indexOf(parseInt(id, 10)) === -1) {
-      $(e).remove();
-    }
-  });
+  
   if (first !== null && document.getElementById(`content-${first}`)) {
     scrollToTargetAdjusted(document.getElementById(`content-${first}`));
   }
@@ -622,7 +632,7 @@ const checkAvailHintsForPuzzle = (puzzleOrder) => {
 const yesCat = (categories, hints) => {
   $( ".hints-modal-main-content").hide();
   $( ".hints-modal-cats" ).html(catsTemplate(categories, hints));
-  $('.hints-modal-cats').show();
+  $( ".hints-modal-cats").show();
 };
 
 const chooseCat = async (cat) =>  {
@@ -760,9 +770,9 @@ const autoPlay = (newBlocks = []) => {
         try {
           $(`#block-${block} video`).each((_i,e)=>e.pause());
         } catch (e) {}
-        try {
-          $(`#block-${block} iframe`).each((_i,e)=>e.src = e.src.replace("autoplay=1","autoplay=0"));
-        } catch (e) {}
+        // try {
+        //   $(`#block-${block} iframe`).each((_i,e)=>e.src = e.src.replace("autoplay=1","autoplay=0"));
+        // } catch (e) {}
     }
   }
 }

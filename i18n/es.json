@@ -1040,7 +1040,10 @@
         "user": "usuario",
         "username": "E-mail",
         "wrongCredentials": "Error al iniciar sesión",
-        "turno": "Turno"
+        "turno": "Turno",
+        "man": "Hombre",
+        "woman": "Mujer",
+        "other": "Otro"
     },
     "hint": {
         "Hints": "Pistas",

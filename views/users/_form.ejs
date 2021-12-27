@@ -24,9 +24,9 @@
     <label for="gender"><span><%=i18n.user.gender%></span>
     <select  class="customInput" id="gender" name="gender" value="<%= user.gender %>" placeholder="<%=i18n.user.inputs.genderPlaceHolder %>" autocomplete="off">
         <option value <%= user.gender ? "" : "selected" %> <%= !user.id ? "selected" : ""%>/>
-        <option value="Femenino" <%= user.gender === "Femenino" ? "selected" : ""%>>Mujer</option>
-        <option value="Masculino" <%= user.gender === "Masculino" ? "selected" : ""%>>Hombre</option>
-        <option value="Otro" <%= user.gender === "Otro" ? "selected" : ""%>>Otro</option>
+        <option value="Femenino" <%= user.gender === "Femenino" ? "selected" : ""%>><%=i18n.user.woman%></option>
+        <option value="Masculino" <%= user.gender === "Masculino" ? "selected" : ""%>><%=i18n.user.man%></option>
+        <option value="Otro" <%= user.gender === "Otro" ? "selected" : ""%>><%=i18n.user.other%></option>
     </select></label>
 </div>
 <br />

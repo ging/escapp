@@ -21,7 +21,7 @@
         
         var rem_time = duration || 60;
         if (startTime && duration) {
-            rem_time = Math.floor( (duration*60*1000 - ( (now || new Date()) - startTime))/1000);
+            rem_time = Math.floor( (duration*60*1000 - ((now || new Date()) - startTime))/1000);
         }
         window.initCountdown = function () {
             $("countdown").html(`<div class="clockContainer" >

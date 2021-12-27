@@ -1051,7 +1051,10 @@
         "user": "user",
         "username": "E-mail",
         "wrongCredentials": "Login error. Please check your credentials",
-        "turno": "Shift"
+        "turno": "Shift",
+        "man": "Man",
+        "woman": "Woman",
+        "other": "Other"
     },
     "hint": {
         "Hints": "Hints",
