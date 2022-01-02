@@ -269,7 +269,6 @@ exports.checkAccess = async (user, escapeRoomId, i18n, waiting) => {
         if (escapeRoom) {
             const teams = await user.getTeamsAgregados(queries.user.erTeam(escapeRoomId));
             const participation = await checkTurnoAccess(teams, user, escapeRoom, true);
-
             // TODO comprobar author turno está en ER
             if (participation !== "AUTHOR" && teams && teams.length) {
                 const [team] = teams;
@@ -281,11 +280,14 @@ exports.checkAccess = async (user, escapeRoomId, i18n, waiting) => {
                     escapeRoom.puzzles = await getERPuzzles(escapeRoomId);
                 }
                 const erState = waiting ? {} : await getERState(escapeRoomId, team, escapeRoom.duration, escapeRoom.hintLimit, escapeRoom.puzzles.length, attendance, escapeRoom.scoreParticipation, escapeRoom.hintSuccess, escapeRoom.hintFailed, attendance, true);
-
+                console.log({erState})
+                //console.log({erState, escapeRoomId, escapeRoom, team, attendance});
                 // If (participation === "PARTICIPANT") {
                 //     Await automaticallySetAttendance(team, user.id, escapeRoom.automaticAttendance);
                 // }
                 return {participation, teamId, turnId, erState, "language": escapeRoom.forceLang, "teamInstructions": escapeRoom.teamInstructions};
+            } else if (participation === "AUTHOR") {
+                return {participation, "language": escapeRoom.forceLang};
             }
             return {participation, "language": escapeRoom.forceLang};
         }
@@ -488,6 +490,7 @@ exports.sendTurnMessage = sendTurnMessage;
  * Join rooms for team and turn
  */
 exports.initializeListeners = (escapeRoomId, turnId, teamId, user, waiting, i18n, teamInstructions, socket) => {
+    //console.log("initializeListeners", {escapeRoomId, turnId, teamId, user, waiting, i18n, teamInstructions, socket});
     if (waiting) {
         if (teamId) {
             socket.join(`teamId_waiting_${teamId}`);

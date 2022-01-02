@@ -45,7 +45,8 @@ exports.createServer = (server, sessionMiddleware) => {
                 const response = {code, "authentication": true, token, participation, msg, erState};
                 const turnId = studentTurnId || teacherTurnId;
 
-                if (user.isAdmin || participation && participation !== NOT_A_PARTICIPANT) {
+                console.log(participation);
+                if (participation && participation !== NOT_A_PARTICIPANT) {
                     initializeListeners(escapeRoomId, turnId, teamId, user, waiting, i18n, teamInstructions, socket);
                     if (turnId) {
                         sendInitialInfo(socket, response);
