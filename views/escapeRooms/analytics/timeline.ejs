@@ -209,8 +209,7 @@
             var incomplete = puzzleIds.filter(puzzle => !team.retos.find(r => r.id === puzzle));
             var idx = puzzleIds.indexOf(incomplete[0])
             %>
-              <span style="width:1px;height:56px;"></span>
-            
+
               <div class="step step-flex progress-puzzle-<%= idx % 6%>" style="width: <%=currently%>%;">
                   <div class="tooltip">
                     <div class="tooltip-info">
@@ -221,6 +220,7 @@
                     </div>
                 </div>
               </div>
+              <img class="door open" style="visibility:hidden;" src="/images/dooropen.png" alt="<%=i18n.analytics.timeline.openDoor%>"/>
           <% } %>
           <div class="requestedHints">
             <% for (let h in requestedHints) { %>
