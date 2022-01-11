@@ -170,6 +170,7 @@
             "errorCreatingHint": "An error occurred while creating the hint.",
             "errorCreatingPuzzle": "An error occurred while creating the puzzle.",
             "errorCreatingTeam": "An error occurred while creating the team.",
+            "errorCreatingTeamAlreadyExists": "A team with this name already exists in this escape room",
             "errorCreatingTurno": "An error occurred while creating the shift",
             "errorCreatingUser": "An error occurred while creating a new user",
             "errorDeletingER": "An error occurred while deleting the Escape Room",

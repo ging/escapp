@@ -166,6 +166,7 @@
             "errorCreatingHint": "Error al crear la pista",
             "errorCreatingPuzzle": "Error al crear el reto",
             "errorCreatingTeam": "Error al crear el equipo",
+            "errorCreatingTeamAlreadyExists": "Ya existe un equipo con este nombre en esta escape room",
             "errorCreatingTurno": "Error al crear el turno",
             "errorCreatingUser": "Error al crear el usuario",
             "errorDeletingER": "Error al borrar la Escape Room",

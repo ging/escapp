@@ -49,14 +49,22 @@ exports.create = async (req, res, next) => {
     const transaction = await sequelize.transaction();
 
     try {
-        const teamCreated = await models.team.create({ "name": body.name, "turnoId": params.turnoId}, {transaction});
+        const existsTeam = await models.team.findOne({"where": {"name": body.name, "turnoId": params.turnoId}}, {transaction});
 
-        await teamCreated.addTeamMembers(user.id, {transaction});
-        await models.participants.create({"attendance": false, "turnId": params.turnoId, "userId": user.id}, {transaction});
+        if (existsTeam && req.escapeRoom.teamSize !== 1) {
+            req.flash("error", i18n.common.flash.errorCreatingTeamAlreadyExists);
+            transaction.rollback();
+            res.redirect("back");
+        } else {
+            const teamCreated = await models.team.create({ "name": body.name, "turnoId": params.turnoId}, {transaction});
 
-        transaction.commit();
-        req.flash("success", req.escapeRoom.teamSize === 1 ? i18n.common.flash.successCreatingTeamSingle : i18n.common.flash.successCreatingTeam);
-        res.redirect(`/escapeRooms/${params.escapeRoomId}`);
+            await teamCreated.addTeamMembers(user.id, {transaction});
+            await models.participants.create({"attendance": false, "turnId": params.turnoId, "userId": user.id}, {transaction});
+
+            transaction.commit();
+            req.flash("success", req.escapeRoom.teamSize === 1 ? i18n.common.flash.successCreatingTeamSingle : i18n.common.flash.successCreatingTeam);
+            res.redirect(`/escapeRooms/${params.escapeRoomId}`);
+        }
     } catch (err) {
         transaction.rollback();
         if (err instanceof Sequelize.ValidationError) {

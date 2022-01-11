@@ -380,6 +380,7 @@ exports.puzzleStats = async (req, res, next) => {
         for (const p in escapeRoom.puzzles) {
             const pId = escapeRoom.puzzles[p].id;
             const missing = (resultSingle[pId] || []).length - (resultNo[pId] || []).length;
+
             if (missing > 0) {
                 resultNo[pId] = [...resultNo[pId] || [], ...Array(missing).fill(0)];
             }
@@ -675,7 +676,7 @@ exports.downloadRaw = async (req, res) => {
                     "hintQuizScore": parseInt(h.score, 10),
                     "eventComplete": h.success ? `HINT_OBTAINED_${hintId || "CUSTOM"}` : "HINT_FAILED_TO_OBTAIN",
                     "puzzleId": h.hint ? puzId : "",
-                    "puzzleName": h.hint ? escapeRoom.puzzles[puzId-1].title : ""
+                    "puzzleName": h.hint ? escapeRoom.puzzles[puzId - 1].title : ""
                 });
             }
         }

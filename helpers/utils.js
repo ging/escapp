@@ -65,7 +65,7 @@ exports.playInterface = async (name, req, res, next) => {
             "isStudent": false,
             "status": req.turn.status,
             "endPoint": name,
-            "token": token,
+            token,
             "layout": false
         });
     } else {
@@ -112,7 +112,7 @@ exports.playInterface = async (name, req, res, next) => {
             await exports.automaticallySetAttendance(team, req.session.user.id, req.escapeRoom.automaticAttendance);
             const hints = await models.requestedHint.findAll({"where": {"teamId": team.id, "success": true}, "include": [{"model": models.hint, "include": [{"model": models.puzzle, "attributes": ["order"]}]}], "order": [["createdAt", "ASC"]]});
 
-            res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom, cloudinary, "teams": [], team, "token": token, "userId": req.session.user.id, "turnoId": team.turno.id, "teamId": team.id, "isStudent": true, "hints": hints || [], "endPoint": name, "layout": false});
+            res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom, cloudinary, "teams": [], team, token, "userId": req.session.user.id, "turnoId": team.turno.id, "teamId": team.id, "isStudent": true, "hints": hints || [], "endPoint": name, "layout": false});
         } catch (err) {
             next(err);
         }
