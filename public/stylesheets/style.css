@@ -3288,7 +3288,7 @@ table.mainTable {
       display: inline-block;
       overflow: visible;
       z-index: 99999;
-      top: -12px;
+      top: 5px;
       color: white; }
       #mainSection > .main.timeline #timeline-chart .retosNoSuperados .failedPuzzle {
         position: absolute;
