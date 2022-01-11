@@ -209,7 +209,8 @@
             var incomplete = puzzleIds.filter(puzzle => !team.retos.find(r => r.id === puzzle));
             var idx = puzzleIds.indexOf(incomplete[0])
             %>
-              
+              <span style="width:1px;height:56px;"></span>
+            
               <div class="step step-flex progress-puzzle-<%= idx % 6%>" style="width: <%=currently%>%;">
                   <div class="tooltip">
                     <div class="tooltip-info">
