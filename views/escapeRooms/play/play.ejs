@@ -86,7 +86,7 @@
         <a class="navbar-brand" href="#" > 
             <%=escapeRoom.title%></a>
         <%if (isStudent && (!escapeRoom.teamSize || escapeRoom.teamSize > 1)) {%>
-            <span class="navbar-text" title="<%= session.user.username %>">
+            <span class="navbar-text  navbar-team-name" title="<%= session.user.username %>">
                 <b><%=i18n.team.Team%>: </b><%=team.name%>
             </span>
         <%} else if (isStudent) {%>
@@ -228,7 +228,7 @@
           </ul>
         </div>
       </nav>
-<div class="navbar navbar-expand-md" style="visibility:hidden;">
+<div class="navbar navbar-expand-lg" style="visibility:hidden;">
 <ul class="navbar-nav my-lg-0 ml-auto">
     <li class="nav-item ">
         <a class="nav-link" >

@@ -445,13 +445,13 @@
                 "noFile": "You haven't uploaded any files yet",
                 "questionNumber": "Number of questions",
                 "questionNumberExplanation": "Questions will be randomly picked from the MoodleXML file",
-                "questionNumberPlaceHolder": "How many questions per attempt doy you want?",
+                "questionNumberPlaceHolder": "How many questions per attempt do you want?",
                 "title": "Hint management",
                 "uploadFile": "Please upload a MoodleXML file"
             },
             "team": {
                 "explanation": "Here you can customize the interface that students will see on their computers when they are playing. You can add any information they need in order to participate: links, images, messages, the first clue, etc.",
-                "placeholder": "You can add a custom message, images, links... Do not forget to setup when you want to display this information by clicking in the eye icon on the left.",
+                "placeholder": "You can add a custom message, images, links... Do not forget to set up when you want to display this information by clicking in the eye icon on the left.",
                 "title": "Team interface"
             },
             "class": {

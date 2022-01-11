@@ -131,6 +131,29 @@
             end.setTime(startTime.getTime() + (duration*60*1000));
             let retosNoSuperadosTeam = retosNoSuperadosAll[team.id]
           %>
+          <div class="retosNoSuperados">
+            <% for (let rt in retosNoSuperadosTeam) { %>
+              <% if (rt !== null && rt != "null"){ %>
+                <% for (let rn of retosNoSuperadosTeam[rt]) { %>
+                  <%let rnTime = calculatePuzzleTime(rn.when, startTime); %>
+                  <div class="failedPuzzle" style="left: <%=puzzlePosition(rn.when, startTime)%>%;">
+                    <span class="material-icons">close</span>
+                    <div class="tooltip">
+                      <div class="tooltip-info">
+                        <b><%=puzzles[rt].title%></b>
+                      </div>
+                      <div class="tooltip-info">
+                        <b><%=i18n.analytics.timeline.failedToSolve%>: </b> <%= Math.round(rnTime)%>'
+                      </div>
+                      <div class="tooltip-info">
+                        <b><%=i18n.analytics.timeline.providedAnswer%>: </b> <%= rn.answer %>
+                      </div>
+                    </div>
+                  </div>
+                <% } %>
+              <% } %>
+            <% } %>
+          </div>
           <% 
           for (let r in team.retos) { 
             let teamRetosLen = team.retos.length;
@@ -153,6 +176,7 @@
                 </div>
               </div>
           <% } %>
+
           <%if ((!turnId || !turno.startTime || t==0)){%>
             <%if (now < end && (turno.startTime || team.retos.length !== puzzles.length)) {%>
               <span class="now-mark now-mark-now <%if (turnId && t==0 && turno.startTime) {%>now-mark-long<%}%>" 
@@ -224,29 +248,7 @@
               </div>
             <% } %>
           </div>
-          <div class="retosNoSuperados">
-            <% for (let rt in retosNoSuperadosTeam) { %>
-              <% if (rt !== null && rt != "null"){ %>
-                <% for (let rn of retosNoSuperadosTeam[rt]) { %>
-                  <%let rnTime = calculatePuzzleTime(rn.when, startTime); %>
-                  <div class="failedPuzzle" style="left: <%=puzzlePosition(rn.when, startTime)%>%;">
-                    <span class="material-icons">close</span>
-                    <div class="tooltip">
-                      <div class="tooltip-info">
-                        <b><%=puzzles[rt].title%></b>
-                      </div>
-                      <div class="tooltip-info">
-                        <b><%=i18n.analytics.timeline.failedToSolve%>: </b> <%= Math.round(rnTime)%>'
-                      </div>
-                      <div class="tooltip-info">
-                        <b><%=i18n.analytics.timeline.providedAnswer%>: </b> <%= rn.answer %>
-                      </div>
-                    </div>
-                  </div>
-                <% } %>
-              <% } %>
-            <% } %>
-          </div>
+
         </div>
     </div>
     <% } %>

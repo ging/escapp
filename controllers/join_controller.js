@@ -6,7 +6,6 @@ exports.checkJoinToken = (req, res, next) => {
     const token = req.query.token || req.body.token || "";
     const {i18n} = res.locals;
     const password = (req.turn ? req.turn.password || req.escapeRoom.invitation : req.escapeRoom.invitation) || "";
-
     if (token !== password) {
         // eslint-disable-next-line eqeqeq
         if (req.query.nocheck != 1) {
@@ -24,7 +23,6 @@ exports.checkJoinToken = (req, res, next) => {
 exports.main = (req, res, next) => {
     const {escapeRoom} = req;
     const token = req.query.token || req.body.token || "";
-
     try {
         if (req.session.user.isStudent) {
             res.render("escapeRooms/indexInvitation", {escapeRoom, token});
@@ -47,16 +45,26 @@ exports.indexTurnos = async (req, res, next) => {
         escapeRoom.turnos = req.turnos;
         const onlyOneTurn = checkOnlyOneTurn(escapeRoom);
         const onlyOneMember = checkTeamSizeOne(escapeRoom);
-
+        
         if (onlyOneTurn) {
-            if (onlyOneMember) {
-                req.params.turnoId = escapeRoom.turnos[0].id;
-                req.body.name = req.session.user.name;
-                req.user = await models.user.findByPk(req.session.user.id);
-                next();
+            const password = ((req.escapeRoom.turnos && req.escapeRoom.turnos[0] ) ? req.escapeRoom.turnos[0].password || req.escapeRoom.invitation : req.escapeRoom.invitation) || "";
+            if (token === password) {
+                if (onlyOneMember) {
+                    req.params.turnoId = escapeRoom.turnos[0].id;
+                    req.body.name = req.session.user.name;
+                    req.user = await models.user.findByPk(req.session.user.id);
+                    next();
+                } else {
+                    res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}&nocheck=1`);
+                }
             } else {
-                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}&nocheck=1`);
+                if (token) {
+                    res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}`);
+                } else {
+                    res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}&nocheck=1`);
+                }
             }
+            
         } else {
             res.render("turnos/_indexStudent.ejs", {"turnos": escapeRoom.turnos, escapeRoom, token});
         }

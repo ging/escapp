@@ -160,7 +160,7 @@ const onPuzzleResponse = async ({code, correctAnswer, solution, "puzzleOrder": p
       let correct = msg === i18n.correct ? '': escapeHtml(feedback);
       let time = 5000;
       try {
-        time = correct.split(" ").length*700;
+        time = correct.split(" ").length*1100;
       } catch(e){}
       createAlert("success", `<b>${i18n.newRetoSuperado}</b><br/> ${correct}`, false, time);
       const isLast = ER.erState.retosSuperados.length === ER.info.totalPuzzles;

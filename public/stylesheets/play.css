@@ -23,6 +23,23 @@
     padding: 35px 50px;
     padding-top: 0px;
 }
+
+ 
+
+.navbar-brand {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 30%;
+  padding: 0px;
+}
+
+#puzzle-check-btn {
+  margin:0;
+}
+
+
+
 @media (max-width: 800px) {
   .container-fluid {
       padding: 0px;
@@ -54,7 +71,7 @@ p {
   text-overflow:ellipsis; 
   overflow: hidden;
   padding-left: 10px;
-  max-width: 400px;
+  max-width: 70%;
 }
 .editor {
   box-sizing: border-box;
@@ -476,6 +493,10 @@ ranking {
     #navbar-collapse-div button {
       width: 100%;
     }
+
+    .puzzle-title {
+      max-width: 90%;
+    }
   
   
 }
@@ -506,4 +527,10 @@ ranking {
 
 .ql-align-right {
   text-align: right;
+}
+
+@media (max-width: 350px) {
+  .navbar-team-name {
+    display: none;
+  }
 }

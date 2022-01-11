@@ -1083,7 +1083,7 @@ body .daterangepicker {
     content: "";
     flex: 1; }
   .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper {
-    width: 19.9%;
+    width: 19.99%;
     padding: 10px;
     height: auto; }
     .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper:before {
@@ -3021,6 +3021,8 @@ body .daterangepicker {
     margin-bottom: 0px; }
   #mainSection .main.showStudent .status {
     text-align: center; }
+    #mainSection .main.showStudent .status .rounded {
+      margin-bottom: 10px; }
   #mainSection .main.showStudent #unjoin {
     text-align: right;
     position: relative; }
@@ -3286,7 +3288,7 @@ table.mainTable {
       display: inline-block;
       overflow: visible;
       z-index: 99999;
-      bottom: 5px;
+      top: -12px;
       color: white; }
       #mainSection > .main.timeline #timeline-chart .retosNoSuperados .failedPuzzle {
         position: absolute;

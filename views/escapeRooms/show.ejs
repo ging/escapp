@@ -80,7 +80,9 @@
                             </form>
                         </div>
                     </li>
+                    <%if(escapeRoom.teamInstructions  !=null && escapeRoom.classInstructions !=null && escapeRoom.classInstructions !=null){%>
                     <li><a href="/escapeRooms/<%= escapeRoom.id %>/clone?_method=PUT"><button class="showMenuButton cloneButton" ><%=i18n.showTeacher.actionList.clone%></button></a></li>
+                    <%}%>
 
             </ul>
         </div>
