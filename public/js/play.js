@@ -533,8 +533,9 @@ const updateContent = (content) => {
     } else {
       first = first === null ? block.index : first;
       insertContent(block.type, block.payload, block.puzzles, block.index, prevIndex);
-      prevIndex = block.index;
     }
+    prevIndex = block.index;
+
   }
   
   if (first !== null && document.getElementById(`content-${first}`)) {
