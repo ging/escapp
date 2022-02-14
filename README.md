@@ -4,7 +4,7 @@
 
 Escapp is a web platform for managing educational escape rooms. 
 
-Wath the [presentation video](https://www.youtube.com/watch?v=8lyekXZXs64)!
+Watch the [presentation video](https://www.youtube.com/watch?v=8lyekXZXs64)!
 
 Below is a list of all of escapp's features:
 
@@ -40,6 +40,14 @@ Escapp has been used to host several educational escape rooms both in-class and 
 - S. López-Pernas, A. Gordillo, E. Barra and J. Quemada, "Examining the Use of an Educational Escape Room for Teaching Programming in a Higher Education Setting," in IEEE Access, vol. 7, pp. 31723-31737, 2019, doi: [10.1109/ACCESS.2019.2902976](https://ieeexplore.ieee.org/document/8658086).
 
 - S. López-Pernas, A. Gordillo, E. Barra and J. Quemada, "Analyzing Learning Effectiveness and Students’ Perceptions of an Educational Escape Room in a Programming Course in Higher Education," in IEEE Access, vol. 7, pp. 184221-184234, 2019, doi: [10.1109/ACCESS.2019.2960312](https://ieeexplore.ieee.org/document/8936344).
+
+- S. López-Pernas, A. Gordillo, E. Barra and J. Quemada, "Escapp: A Web Platform for Conducting Educational Escape Rooms," in IEEE Access, vol. 9, pp. 38062-38077, 2021, doi: [10.1109/ACCESS.2021.3063711](https://ieeexplore.ieee.org/document/9369393).
+
+- A. Gordillo, D. López-Fernández, S. López-Pernas and J. Quemada, "Evaluating an Educational Escape Room Conducted Remotely for Teaching Software Engineering," in IEEE Access, vol. 8, pp. 225032-225051, 2020, doi: [10.1109/ACCESS.2020.3044380](https://ieeexplore.ieee.org/document/9292916).
+
+- S. López-Pernas, A. Gordillo, E. Barra and J. Quemada, "Comparing Face-to-Face and Remote Educational Escape Rooms for Learning Programming," in IEEE Access, vol. 9, pp. 59270-59285, 2021, doi: [10.1109/ACCESS.2021.3073601](https://ieeexplore.ieee.org/document/9405675).
+
+- S. López-Pernas, M. Saqr, A. Gordillo, E. Barra, "A Learning Analytics Perspective on Educational Escape Rooms," in Interactive Learning Environments, in-press, 2022, doi: [10.1080/10494820.2022.2041045](https://www.tandfonline.com/doi/full/10.1080/10494820.2022.2041045).
 
 Moreover, Escapp is being developed in the scope of two Educational Innovation Projects (PIE, in their Spanish acronym):
 * **[Propuesta y validación de una metodología para el uso de escape rooms educativas mediante una plataforma web](https://innovacioneducativa.upm.es/proyectosIE/informacion?anyo=2018-2019&id=2782)**
