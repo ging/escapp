@@ -244,7 +244,7 @@ exports.checkTurnoAccess = (teams, user, escapeRoom) => {
     return participation;
 };
 
-exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, puzzleOrder) => {
+exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, readOnly = false) => {
     // eslint-disable-next-line no-undefined
     const answer = solution === undefined || solution === null ? "" : solution;
     // eslint-disable-next-line no-undefined
@@ -268,7 +268,7 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
             status = 423;
             msg = puzzle.fail || i18n.escapeRoom.play.wrong;
         }
-        const participationCode = await exports.checkTurnoAccess(teams, user, escapeRoom, puzzleOrder);
+        const participationCode = await exports.checkTurnoAccess(teams, user, escapeRoom);
 
         participation = participationCode;
         alreadySolved = Boolean(await models.retosSuperados.findOne({"where": {"puzzleId": puzzle.id, "teamId": teams[0].id, "success": true}}, {transaction}));
@@ -276,11 +276,11 @@ exports.checkPuzzle = async (solution, puzzle, escapeRoom, teams, user, i18n, pu
             try {
                 if (correctAnswer) {
                     code = OK;
-                    if (!alreadySolved) {
+                    if (!alreadySolved && !readOnly) {
                         await models.retosSuperados.create({"puzzleId": puzzle.id, "teamId": teams[0].id, "success": true, answer}, {transaction});
                     }
                 } else {
-                    if (!alreadySolved) {
+                    if (!alreadySolved && !readOnly) {
                         await models.retosSuperados.create({"puzzleId": puzzle.id, "teamId": teams[0].id, "success": false, answer}, {transaction});
                     }
                     status = 423;

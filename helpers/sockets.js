@@ -3,7 +3,7 @@ const queries = require("../queries");
 const {models} = sequelize;
 const {calculateNextHint} = require("./hint");
 const {checkPuzzle, getRanking, authenticate, checkTurnoAccess, getERState, automaticallySetAttendance, getCurrentPuzzle, getContentForPuzzle, getERPuzzles} = require("./utils");
-const {getAuthMessageAndCode, OK, NOK, AUTHOR, PARTICIPANT, TOO_LATE, NOT_STARTED, ERROR, HINT_RESPONSE, TEAM_STARTED, PUZZLE_RESPONSE, TEAM_PROGRESS, INITIAL_INFO, START_PLAYING, REQUEST_HINT, SOLVE_PUZZLE, START, STOP, JOIN, JOIN_TEAM, JOIN_PARTICIPANT, LEAVE, LEAVE_TEAM, LEAVE_PARTICIPANT} = require("./apiCodes");
+const {getAuthMessageAndCode, OK, NOK, AUTHOR, PARTICIPANT, TOO_LATE, NOT_STARTED, ERROR, HINT_RESPONSE, TEAM_STARTED, PUZZLE_RESPONSE, TEAM_PROGRESS, INITIAL_INFO, START_PLAYING, REQUEST_HINT, CHECK_PUZZLE, SOLVE_PUZZLE, PUZZLE_CHECKED, START, STOP, JOIN, JOIN_TEAM, JOIN_PARTICIPANT, LEAVE, LEAVE_TEAM, LEAVE_PARTICIPANT} = require("./apiCodes");
 
 /**
  * Send message to the whole team
@@ -50,6 +50,8 @@ const startTeam = (teamId, code, authentication, participation, msg, erState) =>
 const hintResponse = (teamId, code, authentication, participation, hintOrder, puzzleOrder, category, msg) => sendTeamMessage({"type": HINT_RESPONSE, "payload": {code, authentication, participation, hintOrder, puzzleOrder, category, msg}}, teamId);
 // Response to puzzle solving attempt
 const puzzleResponse = (teamId, code, correctAnswer, solution, puzzleOrder, participation, authentication, erState, msg, participantMessage, content) => sendTeamMessage({"type": PUZZLE_RESPONSE, "payload": {code, correctAnswer, solution, puzzleOrder, participation, authentication, erState, msg, participantMessage, content}}, teamId);
+// Response to puzzle check (read-only)
+const puzzleChecked = (teamId, code, correctAnswer, solution, puzzleOrder, participation, authentication, erState, msg, participantMessage) => sendTeamMessage({"type": PUZZLE_CHECKED, "payload": {code, correctAnswer, solution, puzzleOrder, participation, authentication, erState, msg, participantMessage}}, teamId);
 // Announce that a team member has joined the room
 const joinResponse = (teamId, username, connectedMembers) => sendTeamMessage({"type": JOIN, "payload": {username, connectedMembers}}, teamId);
 const leaveResponse = (teamId, username, connectedMembers) => sendTeamMessage({"type": LEAVE, "payload": {username, connectedMembers}}, teamId);
@@ -359,6 +361,31 @@ exports.solvePuzzle = async (escapeRoomId, teamId, userId, puzzleOrderMinus, sol
 };
 
 /**
+ * Puzzle check response read only
+ */
+exports.checkPuzzle = async (escapeRoomId, teamId, userId, puzzleOrderMinus, solution, i18n) => {
+    try {
+        if (!puzzleOrderMinus && puzzleOrderMinus < 0) {
+            throw new Error(i18n.api.notFound);
+        }
+        const puzzleOrder = puzzleOrderMinus - 1;
+        const puzzle = await models.puzzle.findOne({"where": {"order": puzzleOrder, escapeRoomId}});
+        const team = await models.team.findByPk(teamId, queries.team.teamInfo(escapeRoomId));
+
+        if (!team && !puzzle) {
+            throw new Error(i18n.api.notFound);
+        }
+        const {body} = await checkPuzzle(solution, puzzle, team.turno.escapeRoom, [team], {"id": userId}, i18n, true);
+        const {code, correctAnswer, participation, authentication, msg, erState} = body;
+        puzzleChecked(teamId, code, correctAnswer, solution, puzzleOrderMinus, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
+    } catch (e) {
+        console.error(e);
+        puzzleChecked(teamId, ERROR, undefined, undefined, undefined, undefined, true, undefined, e.message);
+    }
+};
+
+
+/**
  * Send ranking to everyone in the turn
  */
 exports.broadcastRanking = (turnoId, teams, teamId, puzzleOrder) => {
@@ -497,6 +524,7 @@ exports.initializeListeners = (escapeRoomId, turnId, teamId, user, waiting, i18n
         }
     } else {
         if (teamId) {
+            socket.on(CHECK_PUZZLE, ({puzzleOrder, sol}) => exports.checkPuzzle(escapeRoomId, teamId, user.id, puzzleOrder, sol, i18n));
             socket.on(SOLVE_PUZZLE, ({puzzleOrder, sol}) => exports.solvePuzzle(escapeRoomId, teamId, user.id, puzzleOrder, sol, i18n, teamInstructions));
             socket.on(REQUEST_HINT, ({status, score, category}) => requestHint(escapeRoomId, teamId, user.id, status, score, category, i18n));
             socket.on(START_PLAYING, () => exports.startPlaying(user, teamId, turnId, escapeRoomId, i18n));

@@ -133,7 +133,7 @@ router.get("/escapeRooms/:escapeRoomId(\\d+)/project", sessionController.loginRe
 router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/play", sessionController.loginRequired, sessionController.adminOrAuthorRequired, playController.ranking, playController.classInterface);
 router.get("/escapeRooms/:escapeRoomId(\\d+)/turnos/:turnoId(\\d+)/finish", sessionController.loginRequired, sessionController.adminOrAuthorRequired, playController.ranking, playController.finish, playController.results);
 router.post("/escapeRooms/:escapeRoomId(\\d+)/confirm", sessionController.loginRequired, sessionController.adminOrAuthorRequired, participantController.confirmAttendance);
-router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles/:puzzleId(\\d+)/check", sessionController.loginRequired, sessionController.adminOrAuthorOrParticipantRequired, apiController.checkParticipantSession, apiController.checkPuzzle);
+router.post("/escapeRooms/:escapeRoomId(\\d+)/puzzles/:puzzleId(\\d+)/check", sessionController.loginRequired, sessionController.adminOrAuthorOrParticipantRequired, apiController.checkParticipantSession, apiController.checkPuzzleSolution);
 
 // Routes for the resource participants of a turn
 router.get("/escapeRooms/:escapeRoomId(\\d+)/participants", sessionController.loginRequired, sessionController.adminOrAuthorRequired, participantController.index);

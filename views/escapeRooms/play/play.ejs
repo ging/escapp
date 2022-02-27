@@ -106,7 +106,7 @@
                 <span class="navbar-text puzzle-title" id="puzzle-title" data-puzzle-order="<%= puzzle.order %>"><%=puzzle.title%>
                 </span>&nbsp;
                 </label>
-            <input class="form-control mr-sm-2 puzzle-input" id="puzzle-input" type="text" placeholder="<%=i18n.escapeRoom.play.writeSol%>" data-puzzle-order="<%= puzzle.order %>">
+            <input class="form-control mr-sm-2 puzzle-input" id="puzzle-input" type="text" autocomplete="off" placeholder="<%=i18n.escapeRoom.play.writeSol%>" data-puzzle-order="<%= puzzle.order %>">
             <button class="btn btn-success my-2 my-sm-0" id="puzzle-check-btn" data-toggle="tooltip" type="button" data-puzzle-order="<%= puzzle.order %>" title="<%=i18n.escapeRoom.play.check%>"><span class="material-icons ">check</span></button>
           </div>
           <%}%>

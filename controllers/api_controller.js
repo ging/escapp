@@ -1,6 +1,6 @@
 const {models} = require("../models");
 const { authenticate, checkPuzzle, checkTurnoAccess, getERState, automaticallySetAttendance, getRanking, getCurrentPuzzle, getContentForPuzzle, getERPuzzles} = require("../helpers/utils");
-const {puzzleResponse, broadcastRanking, sendJoinTeam, sendStartTeam} = require("../helpers/sockets");
+const {puzzleResponse, puzzleChecked, broadcastRanking, sendJoinTeam, sendStartTeam} = require("../helpers/sockets");
 const queries = require("../queries");
 const {OK, PARTICIPANT, NOK, NOT_STARTED, TOO_LATE, getAuthMessageAndCode} = require("../helpers/apiCodes");
 
@@ -77,7 +77,7 @@ exports.checkParticipantSession = async (req, res, next) => {
 };
 
 // POST /api/escapeRooms/:escapeRoomId/puzzles/:puzzleId/check
-exports.checkPuzzle = async (req, res, next) => {
+exports.solvePuzzle = async (req, res, next) => {
     const {puzzle, body, teams, escapeRoom, user} = req;
     const {i18n} = res.locals;
     const {solution} = body;
@@ -87,7 +87,7 @@ exports.checkPuzzle = async (req, res, next) => {
             escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
         }
 
-        req.response = await checkPuzzle(solution, puzzle, escapeRoom, teams, user, i18n, req.params.puzzleOrder);
+        req.response = await checkPuzzle(solution, puzzle, escapeRoom, teams, user, i18n);
         const {code, correctAnswer, participation, authentication, msg, alreadySolved, erState} = req.response.body;
 
         if (participation === PARTICIPANT) {
@@ -109,6 +109,32 @@ exports.checkPuzzle = async (req, res, next) => {
             } else {
                 puzzleResponse(team.id, code, correctAnswer, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
             }
+        }
+        next();
+    } catch (e) {
+        next(e);
+    }
+};
+
+// POST /api/escapeRooms/:escapeRoomId/puzzles/:puzzleId/check_solution
+exports.checkPuzzleSolution = async (req, res, next) => {
+    const {puzzle, body, teams, escapeRoom, user} = req;
+    const {i18n} = res.locals;
+    const {solution} = body;
+
+    try {
+        if (!escapeRoom.puzzles) {
+            escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
+        }
+
+        req.response = await checkPuzzle(solution, puzzle, escapeRoom, teams, user, i18n, true);
+        const {code, correctAnswer, participation, authentication, msg, erState} = req.response.body;
+
+        if (participation === PARTICIPANT) {
+            await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
+            const [team] = teams;
+
+            puzzleChecked(team.id, code, code == "OK" ? correctAnswer : null, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
         }
         next();
     } catch (e) {
