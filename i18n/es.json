@@ -423,7 +423,7 @@
                 "feedbackExplanation": "¿Deseas que se muestre a los alumnos la solución de las preguntas una vez respondidas?",
                 "hintFile": "Fichero de preguntas",
                 "allowCustomHints": "Permitir pistas manuales",
-                "allowCustomHintsExplanation": "Si se marca esta opción, cuando no queden más pistas automáticas se indicará a los alumnos que recurran al profesor. Sino, no se les permitirá seguir pidiendo pistas cuando se acaben las pistas autmáticas.", 
+                "allowCustomHintsExplanation": "Si se marca esta opción, cuando no queden más pistas automáticas se indicará a los alumnos que recurran al profesor. Sino, no se les permitirá seguir pidiendo pistas cuando se acaben las pistas automáticas.", 
                 "hintInterval": "Frecuencia de pistas",
                 "hintIntervalExplanation": "¿Cada cuántos minutos pueden pedir una pista los alumnos?",
                 "hintLimit": "Límite de pistas",
