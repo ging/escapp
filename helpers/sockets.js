@@ -507,6 +507,7 @@ exports.requestHint = requestHint;
  * Solve a puzzle
  */
 exports.puzzleResponse = puzzleResponse;
+exports.puzzleChecked = puzzleChecked;
 
 exports.sendTeamMessage = sendTeamMessage;
 exports.sendTurnMessage = sendTurnMessage;
