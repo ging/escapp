@@ -266,6 +266,7 @@
     var teamId = <%= team.id || "undefined"%>; 
     var token = "<%= token%>";
     var ER = {
+        "locale": "<%=i18n.lang%>",
         "info": {
             "escapeRoomPuzzles": <%- JSON.stringify(puzzles)%>,
             "totalPuzzles": <%= escapeRoom.puzzles.length %>,

@@ -483,7 +483,7 @@ var insertContent = (type, payload, puzzles, index, prevIndex) => {
       content = rankingEmptyTemplate();
       break;
     case "text":
-      const replacedText = (payload.text || "").toString().replaceAll("__ESCAPP_USER__",username).replaceAll("__ESCAPP_TOKEN__",token)
+      const replacedText = (payload.text || "").toString().replaceAll("__ESCAPP_USER__",username).replaceAll("__ESCAPP_TOKEN__",token).replaceAll("__ESCAPP_LOCALE__",i18n.locale)
       content = `<div class="cke_editable" id="block-${index}">${escapeUnsafeHtml(replacedText)}</div>`;
       break;
     case "progress":
