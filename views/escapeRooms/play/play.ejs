@@ -267,6 +267,7 @@
     var token = "<%= token%>";
     var ER = {
         "locale": "<%=i18n.lang%>",
+        "escappEndpoint": "<%=hostName + "/escapeRooms/" + escapeRoom.id %>",
         "info": {
             "escapeRoomPuzzles": <%- JSON.stringify(puzzles)%>,
             "totalPuzzles": <%= escapeRoom.puzzles.length %>,
