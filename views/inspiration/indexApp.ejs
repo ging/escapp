@@ -1,4 +1,4 @@
-<% include ../partials/_header.ejs %>
+<%- include ("../partials/_header.ejs") %>
 <div role="main" class="main resources escapeRooms apps ">
 	<h1><%=i18n.resources.title%></h1>
 <!-- 	<p><%=i18n.resources.intro%></p>
@@ -24,7 +24,7 @@
 		<% } %>
 	</div> -->
 	<div id="resourceList">
-		<% include ./resources.ejs %>
+		<%- include ("./resources.ejs") %>
 	</div>
 </div>
-<% include ../partials/_footer.ejs %>
+<%- include ("../partials/_footer.ejs") %>

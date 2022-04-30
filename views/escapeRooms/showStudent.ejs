@@ -1,5 +1,5 @@
 <% const turno = team.turno%>
-<% include ../partials/_header.ejs %>
+<%- include ("../partials/_header.ejs") %>
 <link rel="stylesheet" href="/stylesheets/vendor/quill.snow.css">
 <script src="/js/vendor/socket.io.js"></script>
 <script src="/js/vendor/jquery-ui.min.js"></script>
@@ -16,7 +16,7 @@
 	<div class="flex ">
 		<div class="flex-thumb attachmentShow animated">
 			<% var attachment = escapeRoom.attachment; %>
-			<% include ../attachments/_show %>
+			<%- include ("../attachments/_show") %>
 		</div>
 		<div class="flex-er-info animated fadeIn">
 			<h1><%=escapeRoom.title%></h1>
@@ -88,7 +88,7 @@
 
 	<br/><br/><br/>
 	<% if (turno.status !== "finished") { %>
-	<div id="dialog-start" title="">
+	<div id="dialog-start" title="" style="visibility:hidden;">
 		<div>
 			<p class="start-er"><%=i18n.showStudent.start%> <br/>
 				<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
@@ -131,7 +131,7 @@ $(()=>{
 		appendTo: '.main'
 	};
 	$("#dialog-start").dialog(dialogOptions);
-
+	$("#dialog-start").css("visibility","visible");
 	
 
 	const onJoin = (msg, e) => {
@@ -167,4 +167,4 @@ $(()=>{
 <% } %>
 </div>
 
-<% include ../partials/_footer %>
+<%- include ("../partials/_footer") %>

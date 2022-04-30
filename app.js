@@ -108,6 +108,7 @@ app.use(flash());
 // Dynamic Helper:
 app.use((req, res, next) => {
     // To use req.session in the views
+    console.log("kjjkj")
     res.locals.session = req.session;
     res.locals.url = req.url;
 

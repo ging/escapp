@@ -40,6 +40,6 @@
      var colors = [green, yellow, orange, red, purple, blue];
     </script>
     <%for (var i in charts) {%>
-        <%include _analytics_summary_chart.ejs%>
+        <%- include ("_analytics_summary_chart.ejs",{i}) %>
     <%}%>
 </div>

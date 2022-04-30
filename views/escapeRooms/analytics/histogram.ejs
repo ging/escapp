@@ -1,7 +1,7 @@
 <script src="/js/vendor/apexcharts.js"></script>
 <script src="/js/extractColor.js"></script>
 
-<% include ../../partials/_header.ejs %>
+<%- include ("../../partials/_header.ejs") %>
 <div role="main" class="main">
   <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "histogram"}) %>
 
@@ -138,4 +138,4 @@
 <br/>
 <br/>
 </div>
-<% include ../../partials/_footer %>
+<%- include ("../../partials/_footer") %>

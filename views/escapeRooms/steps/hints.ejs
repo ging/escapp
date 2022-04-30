@@ -1,4 +1,4 @@
-<% include ../../partials/_header.ejs %>
+<%- include ("../../partials/_header.ejs") %>
 <% var strategy = "FREE_HINTS"; %>
 
 <% if (escapeRoom.hintLimit === 0) { // No hints allowed
@@ -11,7 +11,7 @@
 <% var hintAppConditional = hintConditional && escapeRoom.hintApp; // Hint app methodology %>
 
 <div role="main" class="main steps step-hints">
-	<%- include ../../partials/_breadcrumbStep %>
+	<%- include ("../../partials/_breadcrumbStep") %>
 	<h1><%=i18n.escapeRoom.steps.hints.title%></h1>  
 	<p class="intro-paragraph">
     	<%=i18n.escapeRoom.steps.hints.explanation%>
@@ -182,4 +182,4 @@ $(function(){
 
 </script>
 
-<% include ../../partials/_scrollListener %>
+<%- include ("../../partials/_scrollListener") %>

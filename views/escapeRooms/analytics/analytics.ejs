@@ -1,4 +1,4 @@
-<% include ../../partials/_header.ejs %>
+<%- include("../../partials/_header.ejs") %>
 
 <div role="main" class="main summary">
     <div class="breadcrumbs-container">
@@ -23,11 +23,11 @@
             <%}%>
         </div>
         <div class="flex-container-right">
-            <%include _analytics_summary.ejs%>
+            <%- include ("_analytics_summary.ejs")%>
         </div>
     </div>
 
 
 
 </div>
-<% include ../../partials/_footer %>
+<%- include ("../../partials/_footer") %>

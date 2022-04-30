@@ -1,4 +1,4 @@
-<% include partials/_header.ejs %>
+<%- include ("./partials/_header.ejs") %>
 <div role="main" class="main errorPage">
 	<% if (!error.status || error.status !== 404) { %>
 		<h1><%= message %></h1>
@@ -59,4 +59,4 @@
 		</script>
 	<% } %>
 
-<% include partials/_footer %>
+<%- include ("./partials/_footer") %>

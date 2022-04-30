@@ -13,7 +13,7 @@
             <div class="hints-modal-no-left">
             </div>  
             <div class="hints-modal-main-content">
-                <%if (hintConditional){%>
+                <%if (locals.hintConditional){%>
                 <h4 id="requested-hints-title" >
                     <%=i18n.escapeRoom.play.requestedHints%>
                 </h4>
@@ -75,15 +75,15 @@
                 <%}%>
                 </ul>
                 <%}%>
-                <%const someMsg = retosSuperados.length;%>
+                <%const someMsg = locals.retosSuperados.length;%>
                 <h4 style="<%= someMsg ? '' : 'display: none;'%>" id="puzzle-messages-title">
                     <%=i18n.puzzle.retosSuperados%>
                 </h4>
                 <ul class="cardList retoList">
-                <% for (var p = 0; p < retosSuperados.length; p++) { %>
-                    <% var puz = retosSuperados[p];%>
+                <% for (var p = 0; p < locals.retosSuperados.length; p++) { %>
+                    <% var puz = locals.retosSuperados[p];%>
                     <% var found = escapeRoom.puzzles.find(r=>r.order === puz);%>
-                    <li class="card reto-puzzle-li <%=(p === (retosSuperados.length -1)) ? 'reto-puzzle-current':'' %>"> 
+                    <li class="card reto-puzzle-li <%=(p === (locals.retosSuperados.length -1)) ? 'reto-puzzle-current':'' %>"> 
                         <h6><b><%=found.title%></b></h6>
                         <% if (found && found.correct ) {%>
                         <p> <b><%=i18n.escapeRoom.play.msg%>:</b> <%=found.correct%></p>

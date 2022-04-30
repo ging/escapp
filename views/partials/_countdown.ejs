@@ -10,7 +10,7 @@
                 countdown = true;
                 startTime = new Date("<%=team.turno.startTime || team.startTime%>");
                 duration = <%=escapeRoom.duration || 0%>;
-                <% if (finish) { %>
+                <% if (locals.finish) { %>
                 <%var max = Math.max(...team.retos.map(a=>a.retosSuperados.createdAt))%>
                 now = <%-max ? "new Date("+max+")" : "false" %>,
         <% } %>
@@ -96,7 +96,7 @@
                     clearInterval(window.countdownChronoQuick);
                     window.countdownChrono = setInterval('chrono()', 1000);
                 }
-                <%if (finish) {%>
+                <%if (locals.finish) {%>
                 window.stopped = true;
                 <%}%>
             } else {

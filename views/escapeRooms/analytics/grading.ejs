@@ -1,4 +1,4 @@
-<% include ../../partials/_header.ejs %>
+<%- include ("../../partials/_header.ejs") %>
 
 <div role="main" class="main grading">
     <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "grading"}) %>
@@ -67,4 +67,4 @@
     <br/>
     <br/>
 </div>
-<% include ../../partials/_footer %>
+<%- include ("../../partials/_footer") %>

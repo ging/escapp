@@ -1,4 +1,4 @@
-<% include ../partials/_header.ejs %>
+<%- include ("../partials/_header.ejs") %>
 
 <div role="main" class="main escapeRoomShow">
     <div class="breadcrumbs-container">
@@ -90,7 +90,7 @@
             <div class="flexShow">
                 <div class="attachmentShow" >
                     <% var attachment = escapeRoom.attachment; %>
-                    <% include ../attachments/_show %>
+                    <%- include ("../attachments/_show") %>
                 </div> 
                 <div class="flexRow nextToPicture animated slideInUp" id="basic" style="animation-delay: 50ms;">
                     <div class="flexShowLeft">
@@ -151,7 +151,7 @@
                     </div>
                     <div class="flexShowRight">
                         <% var turnos = escapeRoom.turnos; %>
-                        <%  include ../turnos/_indexShow  %>
+                        <%-  include ("../turnos/_indexShow")  %>
                     </div>
                 </div>
                 <%}%>
@@ -301,7 +301,7 @@
     </div>
 </div>
 
-<% include ../partials/_footer %>
+<%- include ("../partials/_footer") %>
 <script>
     var escapeRoomId = "<%= escapeRoom.id%>";
     const previewHintApp = () => {
@@ -309,7 +309,7 @@
             'width='+screen.width*0.7+',height='+screen.height*0.7);
     };
 </script>
-<% include ../partials/_api %>
+<%- include ("../partials/_api") %>
 
 <script src="/js/vendor/jquery-ui.min.js"></script>
 <script type="text/javascript">

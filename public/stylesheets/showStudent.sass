@@ -1,90 +1,90 @@
 #mainSection
-	.main.showStudent
-		background-image: none
-		background: $bckg
-		.flex
-			display: flex
-			flex-direction: row-reverse
-			.flex-thumb
-				width: 25%
-				position: relative
-				padding-top: 22px
-				margin-left: 8px
-				img
-					width: 100%
-					border-width: 5px
-			.flex-er-info
-				flex: 1
-		.editor img
-			max-width: 100%
-			height: auto
-		.desc
-			font-family: Lato, sans-serif
-		.members
-			margin-bottom: 0px
-		.status
-			text-align: center
-			.rounded
-				margin-bottom: 10px
-		#unjoin
-			text-align: right
-			position: relative
-			.overlay-trigger
-				right: 12px
-				bottom: 60px
-				&::after
-					right: 10px
-					left: calc(100% - 50px)
-					top: 100%
-					border-color: white transparent transparent transparent
-		.pulseButton
-			margin-top: 10px
-			cursor: pointer
-			box-shadow: 0 0 2px 0px rgba(72, 193, 142, 0.5)
-			animation: pulseButton 2s infinite
-			&:hover
-				animation: none
+  .main.showStudent
+    background-image: none
+    background: $bckg
+    .flex
+      display: flex
+      flex-direction: row-reverse
+      .flex-thumb
+        width: 25%
+        position: relative
+        padding-top: 22px
+        margin-left: 8px
+        img
+          width: 100%
+          border-width: 5px
+      .flex-er-info
+        flex: 1
+    .editor img
+      max-width: 100%
+      height: auto
+    .desc
+      font-family: Lato, sans-serif
+    .members
+      margin-bottom: 0px
+    .status
+      text-align: center
+      .rounded
+        margin-bottom: 10px
+    #unjoin
+      text-align: right
+      position: relative
+      .overlay-trigger
+        right: 12px
+        bottom: 60px
+        &::after
+          right: 10px
+          left: calc(100% - 50px)
+          top: 100%
+          border-color: white transparent transparent transparent
+    .pulseButton
+      margin-top: 10px
+      cursor: pointer
+      box-shadow: 0 0 2px 0px rgba(72, 193, 142, 0.5)
+      animation: pulseButton 2s infinite
+      &:hover
+        animation: none
 
 .finish
-	.content
-		width: 100%
-	.finish-button
-		background-color: white
-		color: rgb(22, 25, 56)
-		border-color: white
-		border-style: solid
-		outline: 0px
-	@-webkit-keyframes pulseButton
-		0%
-			-webkit-box-shadow: 0 0 2px 0 rgba(72, 193, 142, 0.5)
-		70%
-			-webkit-box-shadow: 0 0 2px 10px transparent
-		100%
-			-webkit-box-shadow: 0 0 2px 0 transparent
+  .content
+    width: 100%
+  .finish-button
+    background-color: white
+    color: rgb(22, 25, 56)
+    border-color: white
+    border-style: solid
+    outline: 0px
+  @-webkit-keyframes pulseButton
+    0%
+      -webkit-box-shadow: 0 0 2px 0 rgba(72, 193, 142, 0.5)
+    70%
+      -webkit-box-shadow: 0 0 2px 10px transparent
+    100%
+      -webkit-box-shadow: 0 0 2px 0 transparent
 
-	@keyframes pulseButton
-		0%
-			-moz-box-shadow: 0 0 2px 0 rgba(72, 193, 142, 0.5)
-			box-shadow: 0 0 0 0 rgba(72, 193, 142, 0.5)
-		70%
-			-moz-box-shadow: 0 0 2px 10px transparent
-			box-shadow: 0 0 2px 10px transparent
-		100%
-			-moz-box-shadow: 0 0 2px 0 transparent
-			box-shadow: 0 0 2px 0 transparent
+  @keyframes pulseButton
+    0%
+      -moz-box-shadow: 0 0 2px 0 rgba(72, 193, 142, 0.5)
+      box-shadow: 0 0 0 0 rgba(72, 193, 142, 0.5)
+    70%
+      -moz-box-shadow: 0 0 2px 10px transparent
+      box-shadow: 0 0 2px 10px transparent
+    100%
+      -moz-box-shadow: 0 0 2px 0 transparent
+      box-shadow: 0 0 2px 0 transparent
 
 @media (max-width: 700px)
-	.finish
-		.ranking-table
-			*
-				font-size: 12px
-			.ranking-members
-				display: none
-	.showStudent
-		.flex
-			flex-direction: column
-			.flex-thumb
-				width: 100%	
-				margin-left: 0px
-			.flex-er-info
-				padding: 0px
+  .finish
+    .ranking-table
+      *
+        font-size: 12px
+      .ranking-members
+        display: none
+  .showStudent
+    .flex
+      flex-direction: column
+      .flex-thumb
+        width: 100%  
+        margin-left: 0px
+      .flex-er-info
+        padding: 0px

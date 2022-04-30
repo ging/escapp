@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<% include ../../partials/_header.ejs %>
+<%- include ("../../partials/_header.ejs") %>
 <div role="main" class="main steps step-turnos">
-	<%- include ../../partials/_breadcrumbStep %>
+	<%- include ("../../partials/_breadcrumbStep") %>
 
   	<h1><%=i18n.escapeRoom.steps.turnos.title%></h1>
 	<div class="contenedor">
@@ -13,7 +13,7 @@
 	        <h2>
 	            <span id="currentDate"></span>
 	        </h2>
-	        <% include ../../turnos/index %>
+	        <%- include ("../../turnos/index") %>
 	    </div>
 	</div>
 	<form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/turnos'  >
@@ -40,9 +40,9 @@
 		
 	</script>
 		
-	<% include ../../turnos/_turnosCommonLogic %>
+	<%- include ("../../turnos/_turnosCommonLogic") %>
 
-	<% include ../../turnos/_turnosEdit %>
+	<%- include ("../../turnos/_turnosEdit") %>
 
 	<br/>
 	<br/>

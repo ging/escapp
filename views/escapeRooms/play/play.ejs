@@ -16,8 +16,8 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootswatch/<%=escapeRoom[endPoint + "Appearance"] || "litera" %>.bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/play.css">
     <link rel="stylesheet" href="/stylesheets/vendor/animate.css">
-    <% include ../../partials/_icons.ejs %>
-    <% include ../../partials/_seo.ejs %>
+    <%- include ("../../partials/_icons.ejs") %>
+    <%- include ("../../partials/_seo.ejs") %>
 </head>
 <body>
     <% var currentlyWorkingOn = null %>
@@ -250,14 +250,14 @@
         <br/>
         <div class=" row-centered">
             <div class="col-xs-12">
-            <% include ../../partials/_countdown %>
-            <% include ../../partials/_ranking %>
+            <%- include ("../../partials/_countdown") %>
+            <%- include ("../../partials/_ranking") %>
             </div>
         </div>
     </div>
 </div>
 <% if (endPoint === "team") {%>
-    <% include ../../partials/_hints_modal %>
+    <%- include ("../../partials/_hints_modal",{retosSuperados}) %>
 
 <%}%>
 <script>

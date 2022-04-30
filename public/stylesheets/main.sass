@@ -1,197 +1,197 @@
 #mainSection
-	min-height: 100%
-	background: none
-	position: relative
-	#mainHeader, #mainFooter
-		text-align: center
-		display: flex
-		justify-content: space-between
-		align-items: flex-end
-		flex-direction: row
-		flex-wrap: nowrap
-		padding-bottom: 5px
-		.navBarIcon
-			@extend %scale-animation-up
-		#logoImg
-			width: 8%
-			// margin-top: 0px
-			// margin-bottom: 5px
-		#logoUpm
-			width: 5%
-			// margin-top: 0px
-			// margin-bottom: 5px
-			// float: right
-		.langs
-			width: auto
-			position: relative
-			margin: 0
-			color: $textpurple
-			margin-bottom: 5px
+  min-height: 100%
+  background: none
+  position: relative
+  #mainHeader, #mainFooter
+    text-align: center
+    display: flex
+    justify-content: space-between
+    align-items: flex-end
+    flex-direction: row
+    flex-wrap: nowrap
+    padding-bottom: 5px
+    .navBarIcon
+      @extend %scale-animation-up
+    #logoImg
+      width: 8%
+      // margin-top: 0px
+      // margin-bottom: 5px
+    #logoUpm
+      width: 5%
+      // margin-top: 0px
+      // margin-bottom: 5px
+      // float: right
+    .langs
+      width: auto
+      position: relative
+      margin: 0
+      color: $textpurple
+      margin-bottom: 5px
 
-	#mainHeader
-		height: 50px
-		display: flex
-		justify-content: space-between
-		align-items: center
-		background-color: $darkerpurple
-		width: 100%
-		z-index: 1
-		position: absolute
+  #mainHeader
+    height: 50px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    background-color: $darkerpurple
+    width: 100%
+    z-index: 1
+    position: absolute
 
-		.left, .right
-			padding: 10px
-			color: white
-		.right
-			text-overflow: ellipsis
-			overflow: hidden
-			flex: 1
-			text-align: right
-			font-family: Gugi
-		.inputFormField
-			margin-bottom: 5px
-			&:focus-within
-			label
-	   			color: white
-	.main
-		font-size: 22px
-		min-height: calc(100vh - 0em)
-		color: white
-		background-image: url("../images/background.png")
-		background-size: 100%
-		height: 100%
-		padding: 35px
-		padding-top: 70px !important
-		position: relative
-		
-		.breadcrumbs-container
-			text-align: left
-			margin-bottom: 30px
-			.breadcrumbs
-				a, span:not(.material-icons)
-					display: inline-block
-					font-size: 0.8em
-				a
-					&:hover
-						text-decoration: underline
-				.material-icons
-					color: $brightgreen
-				.select-wrapper
-					position: relative
-					.breadcrumb-select
-						border: none
-						color: white
-						-webkit-appearance: none
-						-moz-appearance: none
-						-ms-appearance: none
-						-o-appearance: none
-						appearance: none
-						width: 200px
-						text-align: left
-						text-overflow: ellipsis
-						overflow: hidden
-						white-space: nowrap
-						color: white
-						-webkit-text-fill-color: white !important
-						-webkit-text-stroke-color: white
-						background: none
-						font-family: Lato, sans-serif
-						padding-right: 20px
-						font-weight: 400
-						option
-							font-family: Lato, sans-serif
-						&:active, &:focus, &:hover
-							font-family: Lato !important
-						option
-							background: white
-							color: $darkerpurple
-			align-self: left
-		footer
-			margin-left: -35px
-		.align-right
-			text-align: right
-			&.flex-buttons
-				display: flex
-				justify-content: flex-end
-		.attachmentShow
-			img
-				max-width: 100%
-				border: 2px solid white
-		.overlay-trigger
-			display: none
-			background-color: white
-			position: absolute
-			width: 300px
-			z-index: 9999
-			padding: 10px
-			box-shadow: 0px 0px 5px white
-			p
-				margin: 0
-				margin-bottom: 10px
-				color: $darkerpurple
-			&::after
-				background: transparent
-				width: 0px
-				height: 0px
-				content: ' '
-				top: -16px
-				left: 10px
-				position: absolute
-				border-width: 8px
-				border-style: solid
-				margin-top: 0px
-				border-color: transparent transparent white transparent
+    .left, .right
+      padding: 10px
+      color: white
+    .right
+      text-overflow: ellipsis
+      overflow: hidden
+      flex: 1
+      text-align: right
+      font-family: Gugi
+    .inputFormField
+      margin-bottom: 5px
+      &:focus-within
+        label
+          color: white
+  .main
+    font-size: 22px
+    min-height: calc(100vh - 0em)
+    color: white
+    background-image: url("../images/background.png")
+    background-size: 100%
+    height: 100%
+    padding: 35px
+    padding-top: 70px !important
+    position: relative
+    
+    .breadcrumbs-container
+      text-align: left
+      margin-bottom: 30px
+      .breadcrumbs
+        a, span:not(.material-icons)
+          display: inline-block
+          font-size: 0.8em
+        a
+          &:hover
+            text-decoration: underline
+        .material-icons
+          color: $brightgreen
+        .select-wrapper
+          position: relative
+          .breadcrumb-select
+            border: none
+            color: white
+            -webkit-appearance: none
+            -moz-appearance: none
+            -ms-appearance: none
+            -o-appearance: none
+            appearance: none
+            width: 200px
+            text-align: left
+            text-overflow: ellipsis
+            overflow: hidden
+            white-space: nowrap
+            color: white
+            -webkit-text-fill-color: white !important
+            -webkit-text-stroke-color: white
+            background: none
+            font-family: Lato, sans-serif
+            padding-right: 20px
+            font-weight: 400
+            option
+              font-family: Lato, sans-serif
+            &:active, &:focus, &:hover
+              font-family: Lato !important
+            option
+              background: white
+              color: $darkerpurple
+      align-self: left
+    footer
+      margin-left: -35px
+    .align-right
+      text-align: right
+      &.flex-buttons
+        display: flex
+        justify-content: flex-end
+    .attachmentShow
+      img
+        max-width: 100%
+        border: 2px solid white
+    .overlay-trigger
+      display: none
+      background-color: white
+      position: absolute
+      width: 300px
+      z-index: 9999
+      padding: 10px
+      box-shadow: 0px 0px 5px white
+      p
+        margin: 0
+        margin-bottom: 10px
+        color: $darkerpurple
+      &::after
+        background: transparent
+        width: 0px
+        height: 0px
+        content: ' '
+        top: -16px
+        left: 10px
+        position: absolute
+        border-width: 8px
+        border-style: solid
+        margin-top: 0px
+        border-color: transparent transparent white transparent
 
-			button
-				outline: 0
-				cursor: pointer
-				border-radius: 20px
-				padding: 10px
-				text-align: center
-				font-size: 16px
-				border-width: 2px
-				border-style: solid
-				color: $darkerpurple
-				@extend %scale-animation-down
-		.addItem
-			background-color: #8994A7
-			color: #fff
-			font-size: 100px
-			padding: 10px 20px
-			border-width: 5px
-			border-style: solid
-			border-color: #D2D4DC
-			outline: 0
-		.connection
-			cursor: help
-			width: 20px
-			font-size: 16px
-			&.connected
-				color: $brightgreen
-			&.disconnected
-				color: $lightred
-			&.waiting
-				color: $brightyellow
+      button
+        outline: 0
+        cursor: pointer
+        border-radius: 20px
+        padding: 10px
+        text-align: center
+        font-size: 16px
+        border-width: 2px
+        border-style: solid
+        color: $darkerpurple
+        @extend %scale-animation-down
+    .addItem
+      background-color: #8994A7
+      color: #fff
+      font-size: 100px
+      padding: 10px 20px
+      border-width: 5px
+      border-style: solid
+      border-color: #D2D4DC
+      outline: 0
+    .connection
+      cursor: help
+      width: 20px
+      font-size: 16px
+      &.connected
+        color: $brightgreen
+      &.disconnected
+        color: $lightred
+      &.waiting
+        color: $brightyellow
 
 @media (min-width: 1200px)
-	#mainSection
-		.main
-			padding: 35px calc(50vw - 600px)
-			footer 
-				margin-left: calc(600px - 50vw)
+  #mainSection
+    .main
+      padding: 35px calc(50vw - 600px)
+      footer 
+        margin-left: calc(600px - 50vw)
 
 @media (max-width: 768px)
-	#mainHeader, #mainFooter
-		#logoImg
-			width: 17%
-		#logoUpm
-			width: 14%
+  #mainHeader, #mainFooter
+    #logoImg
+      width: 17%
+    #logoUpm
+      width: 14%
 @media (max-width: 576px)
-	#mainSection
-		#mainHeader, #mainFooter
-			#logoImg
-				width: 20%
-			#logoUpm
-				width: 14%
+  #mainSection
+    #mainHeader, #mainFooter
+      #logoImg
+        width: 20%
+      #logoUpm
+        width: 14%
 // Large devices (desktops, 992px and up)
 // @media (min-width: 992px)
 

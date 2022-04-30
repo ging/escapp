@@ -1,97 +1,97 @@
 #mainSection
-	.main
-		&.steps-new, &.steps-edit
-			.breadcrumbs-container
-				.breadcrumbs
-					.breadcrumb-select
-						width: 330px
-		.align-right.flex-buttons
-			flex-wrap: wrap
-			#previous
-				order: 1
-			#next
-				order: 2
-		.flexShow
-			width: 100%
-			.flexRow
-				width: 100%
-				display: flex
-				flex-wrap: wrap
-				flex-direction: row
-				padding-bottom: 20px
-				&:first-child
-					font-size: 26px
-				.flexShowRight
-					width: 100%
-					font-size: 24px
-					flex: 1
-					color: $textpurple
-					line-height: 32px
-					word-break: break-word
-					em
-						opacity: 0.3
-					img
-						width: 250px
-						border-radius:  5px
-				.preview-icon
-					background: transparent
-					border: none
-					font-size: 16px
-					color: white
-					vertical-align: middle
+  .main
+    &.steps-new, &.steps-edit
+      .breadcrumbs-container
+        .breadcrumbs
+          .breadcrumb-select
+            width: 330px
+    .align-right.flex-buttons
+      flex-wrap: wrap
+      #previous
+        order: 1
+      #next
+        order: 2
+    .flexShow
+      width: 100%
+      .flexRow
+        width: 100%
+        display: flex
+        flex-wrap: wrap
+        flex-direction: row
+        padding-bottom: 20px
+        &:first-child
+          font-size: 26px
+        .flexShowRight
+          width: 100%
+          font-size: 24px
+          flex: 1
+          color: $textpurple
+          line-height: 32px
+          word-break: break-word
+          em
+            opacity: 0.3
+          img
+            width: 250px
+            border-radius:  5px
+        .preview-icon
+          background: transparent
+          border: none
+          font-size: 16px
+          color: white
+          vertical-align: middle
 
-		.progress-buttons
-			border-radius: 25px
-			padding: 10px 20px
-			margin-right: 5px
-			margin-bottom: 5px
-			&#progress-save, &#save
-				border: 2px solid white
-				background-color: transparent
-				color: white
-	.progressBar
-	  position: absolute
-	  bottom: 0
-	  width: 50%
-	  left: 25%
-	  color: white
-	  text-align: center
-	  padding-bottom: 10px
-	  margin-bottom: 25px
-	  .progressText
-	    padding-bottom: 10px
-	    font-size: 14px
-	  .outterBar
-	    height: 10px
-	    border: 2px solid white
-	    border-radius: 5px
-	    position: relative
-	    z-index: 999
-	    overflow: hidden
-	    .innerBar
-	      background-color: white
-	      height: 100%
-	      position: absolute
-	      display: inline-block
-	      border: none
-	      border-radius: 0px
-	      border-width: 0px
-	      padding: 0px
-	      &:hover
-	        opacity: 0.7 !important
+    .progress-buttons
+      border-radius: 25px
+      padding: 10px 20px
+      margin-right: 5px
+      margin-bottom: 5px
+      &#progress-save, &#save
+        border: 2px solid white
+        background-color: transparent
+        color: white
+  .progressBar
+    position: absolute
+    bottom: 0
+    width: 50%
+    left: 25%
+    color: white
+    text-align: center
+    padding-bottom: 10px
+    margin-bottom: 25px
+    .progressText
+      padding-bottom: 10px
+      font-size: 14px
+    .outterBar
+      height: 10px
+      border: 2px solid white
+      border-radius: 5px
+      position: relative
+      z-index: 999
+      overflow: hidden
+      .innerBar
+        background-color: white
+        height: 100%
+        position: absolute
+        display: inline-block
+        border: none
+        border-radius: 0px
+        border-width: 0px
+        padding: 0px
+        &:hover
+          opacity: 0.7 !important
 
 @media (max-width: 992px)
-	.half-flex-container
-		flex-wrap: wrap
-		.left-half-flex, .right-half-flex
-			width: 100% !important
+  .half-flex-container
+    flex-wrap: wrap
+    .left-half-flex, .right-half-flex
+      width: 100% !important
 @media (max-width: 700px)
-	#mainSection
-		.main
-			.flexShow
-				.flexRow
-					flex-wrap: wrap
-					.flexShowLeft
-						width: 100%
-					.flexShowRight
-						width: 100%
+  #mainSection
+    .main
+      .flexShow
+        .flexRow
+          flex-wrap: wrap
+          .flexShowLeft
+            width: 100%
+          .flexShowRight
+            width: 100%

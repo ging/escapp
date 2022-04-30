@@ -6,13 +6,13 @@
 
         <div class="loginRight" style=" ">
            <% if(locals.register) { %>
-                <% include users/_form.ejs %>
+                <%- include("users/_form.ejs") %>
            <%  } else if (locals.resetPassword) { %>
-                <% include users/_resetPassword.ejs %>   
+                <%- include("users/_resetPassword.ejs") %>   
            <%  } else if (locals.resetPasswordHash) { %>
-                <% include users/_resetPasswordHash.ejs %>
+                <%- include("users/_resetPasswordHash.ejs") %>
            <%  } else { %>
-                <% include users/_login.ejs %>
+                <%- include("users/_login.ejs") %>
            <% } %>
           <ul class="langs">
                <li><a class="<%=(lang=="en"?"active":"")%>" href="/?clang=en">en</a></li> /
@@ -21,4 +21,4 @@
         </div>
     </div>
 </div>
-<% include partials/_header_logos.ejs %>
+<%- include ("partials/_header_logos.ejs") %>

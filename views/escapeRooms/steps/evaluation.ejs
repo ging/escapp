@@ -1,6 +1,6 @@
-<% include ../../partials/_header.ejs %>
+<%- include ("../../partials/_header.ejs") %>
 <div role="main" class="main steps step-evaluation">
-	<%- include ../../partials/_breadcrumbStep %>
+	<%- include ("../../partials/_breadcrumbStep") %>
   <h1><%=i18n.escapeRoom.steps.evaluation.title%></h1> 
   <p class="intro-paragraph">
 	<%=i18n.escapeRoom.steps.evaluation.gradingIntro%> 
@@ -99,7 +99,7 @@
 </div>
 
 <%- include('../../partials/_footer', {ignoreExtras: true}) %>
-<% include ../../partials/_scrollListener %>
+<%- include ("../../partials/_scrollListener") %>
 
 <script>
 	$(function(){

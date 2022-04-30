@@ -22,8 +22,8 @@ const formatDate = function (currentDate) {
 var pastDates = [];
 %>
 <div>
-<% for (var i in turnos) { %>
-<% 	var turn = turnos[i];
+<% for (var i in locals.turnos) { %>
+<% 	var turn = locals.turnos[i];
 	var date = new Date(turn.date);
 	var dateNoTime = new Date(turn.date);
 	dateNoTime.setHours(0,0,0,0); %>

@@ -1,5 +1,5 @@
 
-<% include ../partials/_header.ejs %>
+<%- include ("../partials/_header.ejs") %>
 
 <div role="main" class="main participants">
     <div class="breadcrumbs-container">
@@ -103,7 +103,7 @@
     <br/>
     <br/>
 </div>
-<% include ../partials/_footer %>
+<%- include ("../partials/_footer") %>
 <script>
     const overlayTrigger = (id, close) => {
         $('.overlay-trigger').hide();

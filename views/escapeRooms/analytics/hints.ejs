@@ -1,6 +1,6 @@
 <script src="/js/extractColor.js"></script>
 <script src="/js/vendor/apexcharts.js"></script>
-<% include ../../partials/_header.ejs %>
+<%- include ("../../partials/_header.ejs") %>
 <div role="main" class="main retosSuperados hintAnalytics">
     <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "hints"}) %>
     <h1><%=i18n.analytics.hints.title%></h1>
@@ -132,4 +132,4 @@
 	<br/>
 </div>
 
-<% include ../../partials/_footer %>
+<%- include ("../../partials/_footer") %>
