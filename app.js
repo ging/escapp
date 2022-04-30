@@ -21,7 +21,6 @@ const index = require("./routes/index"),
 
     app = express();// View engine setup
     // To compress all routes
-
 app.use(compression());
 // Security headers, commented because it fails with CSP
 // TODO, study options and configure accordingly
@@ -90,7 +89,6 @@ const sessionMiddleware = session({
 
 app.sessionMiddleware = sessionMiddleware;
 app.use(sessionMiddleware);
-
 app.use(methodOverride("_method", {
     "methods": [
         "POST",
@@ -99,19 +97,15 @@ app.use(methodOverride("_method", {
 }));
 app.use(express.static(path.join(__dirname, "public")));
 
-
 app.use(partials());
 require("./helpers/locals")(app);
 app.use(flash());
 
-
 // Dynamic Helper:
 app.use((req, res, next) => {
     // To use req.session in the views
-    console.log("kjjkj")
     res.locals.session = req.session;
     res.locals.url = req.url;
-
     next();
 });
 
@@ -148,6 +142,5 @@ app.use((err, req, res, next) => {
         res.json({"code": "ERROR", "msg": err.message});
     }
 });
-
 
 module.exports = app;

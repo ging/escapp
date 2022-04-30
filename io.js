@@ -1,11 +1,13 @@
 /* eslint-disable global-require */
 
-const socketio = require("socket.io");
+const { Server } = require("socket.io");
+
 const {checkAccess, getInfoFromSocket, socketAuthenticate, sendInitialInfo, initializeListeners } = require("./helpers/sockets");
 const {getAuthMessageAndCode, NOT_A_PARTICIPANT, NOK} = require("./helpers/apiCodes");
 
 exports.createServer = (server, sessionMiddleware) => {
-    const io = socketio(server, { "perMessageDeflate": false });
+    
+    const io = new Server(server,{"perMessageDeflate": false, "allowEIO3": true });
 
     io.use(function (socket, next) {
         sessionMiddleware(socket.request, socket.request.res, next);
