@@ -1,54 +1,56 @@
 const path = require("path");
 
 // Load ORM
-const Sequelize = require("sequelize");
-const url = process.env.DATABASE_URL || "sqlite:escapeRoom.sqlite";
+const { Sequelize } = require("sequelize");
+
+const url = process.env.DATABASE_URL;
 
 const sequelize = new Sequelize(url);// Import the definition of the Escape Room Table from escapeRoom.js
 
-sequelize.import(path.join(__dirname, "escapeRoom"));
+
+require(path.join(__dirname, "escapeRoom"))(sequelize, Sequelize.DataTypes);
 
 // Session
-sequelize.import(path.join(__dirname, "session"));
+require(path.join(__dirname, "session"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the Turns Table from turno.js
-sequelize.import(path.join(__dirname, "turno"));
+require(path.join(__dirname, "turno"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the Attachment Table from attachment.js
-sequelize.import(path.join(__dirname, "attachment"));
+require(path.join(__dirname, "attachment"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the User Table from user.js
-sequelize.import(path.join(__dirname, "user"));
+require(path.join(__dirname, "user"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the User Table from puzzle.js (Retos)
-sequelize.import(path.join(__dirname, "puzzle"));
+require(path.join(__dirname, "puzzle"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the User Table from hint.js (Pistas)
-sequelize.import(path.join(__dirname, "hint"));
+require(path.join(__dirname, "hint"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the Team Table from team.js
-sequelize.import(path.join(__dirname, "team"));
+require(path.join(__dirname, "team"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the Attachment Table from attachment.js
-sequelize.import(path.join(__dirname, "hintApp"));
+require(path.join(__dirname, "hintApp"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the Participants Table from participants.js
-sequelize.import(path.join(__dirname, "participants"));
+require(path.join(__dirname, "participants"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the Requested Hints Table from requestedHint.js
-sequelize.import(path.join(__dirname, "requestedHint"));
+require(path.join(__dirname, "requestedHint"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the Asset Table from attachment.js
-sequelize.import(path.join(__dirname, "asset"));
+require(path.join(__dirname, "asset"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the App Table from app.js
-sequelize.import(path.join(__dirname, "app"));
+require(path.join(__dirname, "app"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the Resource Table from app.js
-sequelize.import(path.join(__dirname, "resource"));
+require(path.join(__dirname, "resource"))(sequelize, Sequelize.DataTypes);
 
 // Import the definition of the RetosSuperados Table from retosSuperados.js
-sequelize.import(path.join(__dirname, "retosSuperados"));
+require(path.join(__dirname, "retosSuperados"))(sequelize, Sequelize.DataTypes);
 
 
 // Relation between models

@@ -345,8 +345,10 @@ exports.puzzleStats = async (req, res, next) => {
     try {
         escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
         escapeRoom.turnos = await getERTurnos(escapeRoom.id);
-        await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId, "order")).
-            map((team) => {
+        const teamList = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId, "order"));
+
+        if (teamList) {
+            teamList.map((team) => {
                 const {turno, startTime} = team;
                 const actualStartTime = turno.startTime || startTime;
                 const retosSuperados = getRetosSuperadosIdTime(team.retos, actualStartTime);
@@ -363,6 +365,7 @@ exports.puzzleStats = async (req, res, next) => {
 
                 return {"id": team.id, retosSuperados};
             });
+        }
         const retosNoSuperados = groupByTeamRetos(await models.team.findAll(queries.team.teamRetosNoSuperados(escapeRoom.id, turnId)), true);
 
         for (const t in retosNoSuperados) {
@@ -434,8 +437,10 @@ exports.histogram = async (req, res, next) => {
     try {
         escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
         escapeRoom.turnos = await getERTurnos(escapeRoom.id);
-        await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId)).
-            map((team) => {
+        const teamList = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, turnId));
+
+        if (teamList) {
+            teamList.map((team) => {
                 const {turno, startTime} = team;
                 const actualStartTime = turno.startTime || startTime;
                 const retosSuperados = getRetosSuperadosIdTime(team.retos, actualStartTime);
@@ -451,7 +456,7 @@ exports.histogram = async (req, res, next) => {
                 }
                 return {"id": team.id, retosSuperados};
             });
-
+        }
         res.render("escapeRooms/analytics/histogram", {"escapeRoom": req.escapeRoom, "puzzles": result, turnId});
     } catch (e) {
         console.error(e);

@@ -18,9 +18,9 @@ const compression = require("compression");
 dotenv.config();
 const api = require("./routes/api");
 const index = require("./routes/index"),
-
     app = express();// View engine setup
-    // To compress all routes
+
+// To compress all routes
 app.use(compression());
 // Security headers, commented because it fails with CSP
 // TODO, study options and configure accordingly
@@ -45,6 +45,8 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended": true}));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use(i18n({
     "translationsPath": path.join(__dirname, "i18n"),
     "siteLangs": ["en", "es"],
@@ -80,22 +82,30 @@ const sessionStore = new SequelizeStore({
 });
 
 const sessionMiddleware = session({
-    "secret": "Escape Room",
+    "secret": process.env.SECRET || "Escape Room",
     "store": sessionStore,
     "resave": false,
-    "cookie": {"path": "/", "httpOnly": true, "secure": app.get("env") === "production" && !process.env.HEROKU, "maxAge": null},
+    "cookie": {
+        "path": "/",
+        "httpOnly": true,
+        "secure": app.get("env") === "production" && !process.env.HEROKU,
+        "maxAge": null
+    },
     "saveUninitialized": false
 });
 
+
 app.sessionMiddleware = sessionMiddleware;
+
 app.use(sessionMiddleware);
+
 app.use(methodOverride("_method", {
     "methods": [
         "POST",
         "GET"
     ]
 }));
-app.use(express.static(path.join(__dirname, "public")));
+
 
 app.use(partials());
 require("./helpers/locals")(app);

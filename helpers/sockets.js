@@ -377,6 +377,7 @@ exports.checkPuzzle = async (escapeRoomId, teamId, userId, puzzleOrderMinus, sol
         }
         const {body} = await checkPuzzle(solution, puzzle, team.turno.escapeRoom, [team], {"id": userId}, i18n, true);
         const {code, correctAnswer, participation, authentication, msg, erState} = body;
+
         puzzleChecked(teamId, code, correctAnswer, solution, puzzleOrderMinus, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
     } catch (e) {
         console.error(e);
