@@ -134,7 +134,7 @@ exports.checkPuzzleSolution = async (req, res, next) => {
             await automaticallySetAttendance(teams[0], user.id, escapeRoom.automaticAttendance);
             const [team] = teams;
 
-            puzzleChecked(team.id, code, code == "OK" ? correctAnswer : null, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
+            puzzleChecked(team.id, code, code === "OK" ? correctAnswer : null, solution, puzzle.order + 1, participation, authentication, erState, msg, i18n.escapeRoom.api.participation[participation]);
         }
         next();
     } catch (e) {
