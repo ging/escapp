@@ -86,19 +86,25 @@ exports.create = (req, res, next) => {
             req.body.redir = redir;
             next();
         }).
-        catch(Sequelize.UniqueConstraintError, (error) => {
-            console.error(error);
-            req.flash("error", i18n.common.flash.errorExistingUser);
-            res.render("index", {user, "register": true, redir});
-        }).
-        catch(Sequelize.ValidationError, (error) => {
-            req.flash("error", i18n.common.validationError);
-            error.errors.forEach((err) => {
-                req.flash("error", validationError(err, i18n));
-            });
-            res.render("index", {user, "register": true, redir});
-        }).
-        catch((error) => next(error));
+        catch((error) => {
+            if (error instanceof Sequelize.UniqueConstraintError) {
+                req.flash("error", i18n.common.flash.errorExistingUser);
+                res.render("index", {user, "register": true, redir});
+            } else if (error instanceof Sequelize.ValidationError) {
+                req.flash("error", i18n.common.validationError);
+                error.errors.forEach((err) => {
+                    req.flash("error", validationError(err, i18n));
+                });
+                // console.log(error.errors[0])
+                // console.log(error.errors[0].validatorArgs)
+                // console.log(error.errors[0].path)
+                // console.log(error.errors[0].validatorKey)
+                res.render("index", {user, "register": true, redir});
+            } else {
+                next(error);
+            }
+           
+        }).catch(error=> next(error));
 };
 
 // GET /users/:userId/edit
@@ -141,9 +147,13 @@ exports.update = (req, res, next) => {
             req.flash("success", scs);
             res.redirect(`/users/${user_saved.id}/edit`);
         }).
-        catch(Sequelize.ValidationError, (error) => {
-            error.errors.forEach(({message}) => req.flash("error", message));
-            res.render("users/edit", {user});
+        catch((error) => {
+            if (error instanceof Sequelize.ValidationError){
+                error.errors.forEach(({message}) => req.flash("error", message));
+                res.render("users/edit", {user});
+            } else {
+                next(error);
+            }
         }).
         catch((error) => next(error));
 };

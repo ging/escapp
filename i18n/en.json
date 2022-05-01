@@ -1007,6 +1007,13 @@
             "resetPassword" : "Reset password",
             "save": "save"
         },
+        "attributes": {
+            "surname": "Surname",
+            "name": "Name",
+            "username": "E-mail",
+            "password": "Password",
+            "gender": "Gender"
+        },
         "role": "Role",
         "teacher": "Teacher",
         "student": "Student",

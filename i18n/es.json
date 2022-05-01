@@ -997,6 +997,13 @@
             "resetPassword" : "Recuperar contraseña",
             "save": "guardar"
         },
+        "attributes": {
+            "surname": "El apellido",
+            "name": "El nombre",
+            "username": "El e-mail",
+            "password": "La contraseña",
+            "gender": "El género"
+        },
         "role": "Rol",
         "teacher": "Profesor",
         "student": "Alumno",
