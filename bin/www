@@ -21,9 +21,9 @@ if (httpApp.get("env") === "production" && !process.env.HEROKU) {
   var fs = require('fs');
   var https = require('https');
   httpsApp.set('port', port);
-  var privateKey  = fs.readFileSync('/etc/ssl/private/escapp.dit.upm.es.llave.pem', 'utf8');
-  var certificate = fs.readFileSync('/etc/ssl/certs/escapp.dit.upm.es.certificado.pem', 'utf8');
-  var ca = fs.readFileSync('/etc/ssl/certs/cadDigiCertCA.pem', 'utf8');
+  var privateKey  = fs.readFileSync(process.env.HTTPS_PRIVATE_KEY, 'utf8');
+  var certificate = fs.readFileSync(process.env.HTTPS_CERTIFICATE, 'utf8');
+  var ca = fs.readFileSync(process.env.HTTPS_CA_CERT, 'utf8');
 
   var credentials = {key: privateKey, cert: certificate, ca};
   httpServer = https.createServer(credentials, httpsApp);
