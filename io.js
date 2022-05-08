@@ -6,7 +6,7 @@ const {checkAccess, getInfoFromSocket, socketAuthenticate, sendInitialInfo, init
 const {getAuthMessageAndCode, NOT_A_PARTICIPANT, NOK} = require("./helpers/apiCodes");
 
 exports.createServer = (server, sessionMiddleware) => {
-    const io = new Server(server, {"perMessageDeflate": false, "allowEIO3": true, "origin": "*" });
+    const io = new Server(server, {"perMessageDeflate": false, "allowEIO3": true, "cors": { "origin": "*", "methods": ["GET", "POST"]} });
 
     io.use(function (socket, next) {
         sessionMiddleware(socket.request, socket.request.res, next);

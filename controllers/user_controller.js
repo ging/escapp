@@ -95,16 +95,15 @@ exports.create = (req, res, next) => {
                 error.errors.forEach((err) => {
                     req.flash("error", validationError(err, i18n));
                 });
-                // console.log(error.errors[0])
-                // console.log(error.errors[0].validatorArgs)
-                // console.log(error.errors[0].path)
-                // console.log(error.errors[0].validatorKey)
+                // Console.log(error.errors[0])
+                // Console.log(error.errors[0].validatorArgs)
+                // Console.log(error.errors[0].path)
+                // Console.log(error.errors[0].validatorKey)
                 res.render("index", {user, "register": true, redir});
             } else {
                 next(error);
             }
-           
-        }).catch(error=> next(error));
+        }).catch((error) => next(error));
 };
 
 // GET /users/:userId/edit
@@ -148,7 +147,7 @@ exports.update = (req, res, next) => {
             res.redirect(`/users/${user_saved.id}/edit`);
         }).
         catch((error) => {
-            if (error instanceof Sequelize.ValidationError){
+            if (error instanceof Sequelize.ValidationError) {
                 error.errors.forEach(({message}) => req.flash("error", message));
                 res.render("users/edit", {user});
             } else {
