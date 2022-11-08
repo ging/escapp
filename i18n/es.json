@@ -288,7 +288,7 @@
             "hintsAllowed": {
                 "true": "El equipo puede pedir más pistas",
                 "false": "El equipo NO puede pedir más pistas"
-            }        
+            }
         },
         "play": {
             "check": "Comprobar",
@@ -423,7 +423,7 @@
                 "feedbackExplanation": "¿Deseas que se muestre a los alumnos la solución de las preguntas una vez respondidas?",
                 "hintFile": "Fichero de preguntas",
                 "allowCustomHints": "Permitir pistas manuales",
-                "allowCustomHintsExplanation": "Si se marca esta opción, cuando no queden más pistas automáticas se indicará a los alumnos que recurran al profesor. Sino, no se les permitirá seguir pidiendo pistas cuando se acaben las pistas automáticas.", 
+                "allowCustomHintsExplanation": "Si se marca esta opción, cuando no queden más pistas automáticas se indicará a los alumnos que recurran al profesor. Sino, no se les permitirá seguir pidiendo pistas cuando se acaben las pistas automáticas.",
                 "hintInterval": "Frecuencia de pistas",
                 "hintIntervalExplanation": "¿Cada cuántos minutos pueden pedir una pista los alumnos?",
                 "hintLimit": "Límite de pistas",
@@ -535,7 +535,7 @@
                 "passwordPlaceholder": "Contraseña para acceder al turno. Por defecto es la misma que para la escape room",
                 "passwordEmpty": "ninguna",
                 "capacity": "Aforo",
-                "capacityPlaceholder": "Máximo número de personas admitidas en este turno. Déjalo en blanco si no quieres limitarlo."    
+                "capacityPlaceholder": "Máximo número de personas admitidas en este turno. Déjalo en blanco si no quieres limitarlo."
             }
         },
         "general": {
@@ -638,7 +638,7 @@
                     "assembly": "Formar las partes de un objeto",
                     "info": "Extraer información",
                     "logic": "Lógica abstracta"
-                }, 
+                },
                 "resources": "Aqui podrás encontrar webs que ofrecen estos recursos."
             },
             "fourth": {
@@ -812,7 +812,7 @@
             "volver": "volver",
             "actions": "Acciones",
             "information": "Información"
-            
+
         },
         "messages": {
             "copyAria": "Input invisible para permitir copiar el link de invitación",
@@ -832,7 +832,7 @@
                 "specialShifts": "Turnos especiales"
 
             }
-            
+
         },
         "titles": {
             "appearance": "Apariencia",
@@ -994,6 +994,7 @@
             "notRegistered": "¿No tienes cuenta?",
             "register": "regístrate",
             "Register": "Regístrate",
+            "RegisterTeacher": "Regístrate como profesor",
             "resetPassword" : "Recuperar contraseña",
             "save": "guardar"
         },

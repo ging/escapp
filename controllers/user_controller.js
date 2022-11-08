@@ -29,21 +29,34 @@ exports.show = (req, res) => {
 };
 
 // GET /register
+//GET /register?teacher=true
 exports.new = (req, res) => {
     const user = {"name": "", "surname": "", "gender": "", "username": "", "password": ""};
+
+    console.log("HOLAAAAA", req.query.teacher)
 
     res.render("index", {
         user,
         "register": true,
+        "teacher": req.query.teacher,
         "redir": req.query.redir
     });
 };
 
+
 // POST /users
 exports.create = (req, res, next) => {
-    const {name, surname, gender, username, password, confirm_password, role} = req.body;
+    const {name, surname, gender, username, password, confirm_password} = req.body;
     const {redir} = req.query;
     const {i18n} = res.locals;
+
+    console.log("ADIOSSSSSSSSS:", req.query.teacher)
+    let role;
+    if(req.query.teacher==="true"){
+      role = "teacher";
+    } else {
+      role = "student";
+    }
 
     if (password !== confirm_password) {
         req.flash("error", i18n.common.flash.passwordsDoNotMatch);

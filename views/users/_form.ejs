@@ -3,10 +3,10 @@
         <%=i18n.user.messages.welcome%>
     </h1>
     <h2>
-        <%=i18n.user.actions.Register%>
+        <%=teacher ? i18n.user.actions.RegisterTeacher:i18n.user.actions.Register %>
     </h2>
-    <form method="post" class=" " action="/users<%=redir ? ("?redir="+redir) : "" %>">
-        <%}else{%>
+    <form method="post" class=" " action="/users<%="?teacher="+teacher%><%=redir ? ("&redir="+redir) : "" %>">
+<%}else{%>
     <form method="post" class="editUserForm" action="/users/<%=user.id%>?_method=PUT%>">
 <%}%>
 
@@ -34,17 +34,6 @@
 <div class="userField">
     <label for="username"><span><%=i18n.user.username%></span>
     <input type="email" <%=user.id?"disabled":""%> class="customInput" id="username" name="username" value="<%= user.username %>" required placeholder="<%=i18n.user.inputs.usernamePlaceHolder %>" autocomplete="off"/></label>
-        <div class="roleField">
-            
-            <label for="teacher" class="roleLabel">
-            <input class="chooseRole" type="radio" name="role" id="teacher" value="teacher"/>
-            <span><%=i18n.user.teacher%></span>
-            </label>
-            <label for="student" class="roleLabel">
-            <input class="chooseRole" type="radio" name="role" id="student" value="student" checked/>
-            <span><%=i18n.user.student%></span>
-            </label>
-        </div>
     </div>
     <br />
 <%}%>
@@ -62,14 +51,14 @@
 <%}%>
 <div class="userField">
         <label for="user_password"><span><%=i18n.user.password%></span>
-        <input type="password" class="customInput" id="user_password" name="password" 
+        <input type="password" class="customInput" id="user_password" name="password"
        <%if (!user.id) {%>  required <%}%>
          placeholder="<%=i18n.user.inputs.passwordPlaceHolder %>" autocomplete="nope"/></label>
 </div>
 <br />
 <div class="userField">
         <label for="user_confirm_password"><span><%=i18n.user.passwordConfirm%></span>
-        <input type="password" class="customInput" id="user_confirm_password" name="confirm_password" 
+        <input type="password" class="customInput" id="user_confirm_password" name="confirm_password"
         <%if (!user.id) {%> required <%}%>
          placeholder="<%=i18n.user.inputs.passwordConfirmPlaceHolder %>" autocomplete="nope"/></label>
 </div>
@@ -90,7 +79,7 @@
     <br />
     <a class="login" href="/"><%=i18n.user.actions.alreadyRegistered %></a>
 <%} else {%>
-    
+
     <br/>
     <a href="/"><button class="save white rounded" type="button"><%=i18n.common.back %></button></a>
     <button class="save editButton rounded" type="submit" value="edit"
@@ -117,7 +106,7 @@
             return false;
         }
     }
-    
+
 </script>
 
 </form>

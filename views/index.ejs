@@ -8,7 +8,7 @@
            <% if(locals.register) { %>
                 <%- include("users/_form.ejs") %>
            <%  } else if (locals.resetPassword) { %>
-                <%- include("users/_resetPassword.ejs") %>   
+                <%- include("users/_resetPassword.ejs") %>
            <%  } else if (locals.resetPasswordHash) { %>
                 <%- include("users/_resetPasswordHash.ejs") %>
            <%  } else { %>
