@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - ${PORT}:${PORT}
+    env_file:
+      - .env
+
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qUr&e95Gj1Sm*0o # URL-Encoded: qUr%26e95Gj1Sm%2A0o
+      - POSTGRES_DB=escapp_prod
+
+volumes:
+  db_data:
