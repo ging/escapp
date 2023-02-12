@@ -43,7 +43,7 @@
     "multer": "^1.4.4",
     "node-fetch": "^2.6.7",
     "nodemailer": "^6.7.2",
-    "nodemon": "^2.0.16",
+    "nodemon": "^2.0.20",
     "pg": "^8.7.3",
     "sass": "^1.51.0",
     "sequelize": "^6.19.0",
