@@ -2,7 +2,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build Status](https://travis-ci.com/ging/escapp.svg?branch=master)](https://travis-ci.com/ging/escapp)
 
-Escapp is a web platform for managing educational escape rooms. 
+Escapp is a web platform for managing educational escape rooms.  
 
 Watch the [presentation video](https://www.youtube.com/watch?v=8lyekXZXs64)!
 
@@ -48,6 +48,10 @@ Escapp has been used to host several educational escape rooms both in-class and 
 - S. López-Pernas, A. Gordillo, E. Barra and J. Quemada, "Comparing Face-to-Face and Remote Educational Escape Rooms for Learning Programming," in IEEE Access, vol. 9, pp. 59270-59285, 2021, doi: [10.1109/ACCESS.2021.3073601](https://ieeexplore.ieee.org/document/9405675).
 
 - S. López-Pernas, M. Saqr, A. Gordillo, E. Barra, "A Learning Analytics Perspective on Educational Escape Rooms," in Interactive Learning Environments, in-press, 2022, doi: [10.1080/10494820.2022.2041045](https://www.tandfonline.com/doi/full/10.1080/10494820.2022.2041045).
+  
+- E. Barra, S. López-Pernas, A. Gordillo, A. Pozo, A. Muñoz-Arcentales and J. Conde, "Empowering Database Learning Through Remote Educational Escape Rooms," in IEEE Internet Computing, vol. 28, no. 1, pp. 18-25, Jan.-Feb. 2024, doi: [10.1109/MIC.2023.3333199](https://ieeexplore.ieee.org/document/10325556).
+
+- D. López-Fernández, A. Gordillo, S. López-Pernas and E. Tovar, "Are Remote Educational Escape Rooms Designed During the Pandemic Useful in a Postpandemic Face-to-Face Setting?," in IEEE Internet Computing, vol. 28, no. 1, pp. 34-41, Jan.-Feb. 2024, doi: [10.1109/MIC.2023.3336057](https://ieeexplore.ieee.org/document/10328052).
 
 Moreover, Escapp is being developed in the scope of two Educational Innovation Projects (PIE, in their Spanish acronym):
 * **[Propuesta y validación de una metodología para el uso de escape rooms educativas mediante una plataforma web](https://innovacioneducativa.upm.es/proyectosIE/informacion?anyo=2018-2019&id=2782)**
