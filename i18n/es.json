@@ -1,7 +1,7 @@
 {
     "lang": "es",
     "locale": "es_ES",
-    "description": "Plataforma para gestionar escape rooms educativas",
+    "description": "Plataforma para gestionar Capture The Flag educativos",
     "analytics": {
         "charts": {
             "titles": { "retosSuperadosTeam": "Retos superados", "hintsByTeam":"Pistas solicitadas"}
@@ -76,15 +76,15 @@
         },
         "timeline": {
             "customHint": "Ayuda del profesor",
-            "openDoor": "El equipo ha conseguido finalizar la escape room",
-            "closedDoor": "El equipo ha comenzado la  escape room",
+            "openDoor": "El equipo ha conseguido finalizar el CTF",
+            "closedDoor": "El equipo ha comenzado el CTF",
             "title": "Cronograma",
             "nTeamsPuzzle": "Nº de equipos que han superado cada reto",
             "nTeamsPuzzleButton": "ver por equipo",
             "nPuzzlesTeam": "Nº de retos que ha superado cada equipo",
             "nPuzzlesTeamButton": "ver por reto",
             "failed": "Intento fallido",
-            "legendMsg": "Desplázate a la derecha para ver eventos que ocurrieron después de que acabase la cuenta atrás de la escape room. Pon el ratón encima de los retos o pistas para ver más información acerca de ellos.",
+            "legendMsg": "Desplázate a la derecha para ver eventos que ocurrieron después de que acabase la cuenta atrás del CTF. Pon el ratón encima de los retos o pistas para ver más información acerca de ellos.",
             "hint": "Pista",
             "score": "Puntuación",
             "solved": "Resuelto",
@@ -93,9 +93,9 @@
             "time": "Tiempo",
             "unsolved": "No resuelto",
             "showLegend": "Mostrar leyenda",
-            "puzzleExplanation": "La línea te tiempo muestra los retos en los que cada equipo estaba trabajando en cada momento de la escape room. Para cada reto resuelto, puedes consultar los minutos que tardaron en hacerlo. Si no aparecen los minutos es que no resolvieron el reto.",
+            "puzzleExplanation": "La línea te tiempo muestra los retos en los que cada equipo estaba trabajando en cada momento del CTF. Para cada reto resuelto, puedes consultar los minutos que tardaron en hacerlo. Si no aparecen los minutos es que no resolvieron el reto.",
             "now": "Momento actual",
-            "end": "Fin de la escape room",
+            "end": "Fin de la CTF",
             "hintFailed": "Pista no obtenida",
             "hintSucceeded": "Pista obtenida"
         }
@@ -105,7 +105,7 @@
         "userNotFound": "Usuario no encontrado",
         "correct": "¡Respuesta correcta!",
         "correctNotActive": "La respuesta es correcta pero no se ha registrado puesto que tu turno no está activo",
-        "correctNotParticipant": "La respuesta es correcta pero no se ha registrado puesto que no te has registrado en esta escape room",
+        "correctNotParticipant": "La respuesta es correcta pero no se ha registrado puesto que no te has registrado en este CTF",
         "correctTooLate": "La respuesta es correcta pero se ha acabado el tiempo",
         "message": "Mensaje",
         "ok": "ok",
@@ -113,15 +113,15 @@
         "forbidden": "Prohibido",
         "error": "Error",
         "wrong": "Respuesta incorrecta",
-        "isAuthor": "Eres el autor de esta escape room",
+        "isAuthor": "Eres el autor de este CTF",
         "wrongCredentials": "La combinación de usuario y contraseña es incorrecta",
         "wrongCredentialsToken": "La combinación de usuario y token es incorrecta",
-        "alreadyParticipating": "Ya habías comenzado a participar en esta escape room",
-        "notAParticipant": "No participas en esta escape room",
-        "participant": "Participas en esta escape room",
-        "notActive": "Participas en esta escape room pero tu turno no está activo",
-        "notStarted": "Participas en esta escape room pero no le has dado al botón de comenzar",
-        "tooLate": "Participas en esta escape room pero se ha pasado el tiempo"
+        "alreadyParticipating": "Ya habías comenzado a participar en esta CTF",
+        "notAParticipant": "No participas en esta CTF",
+        "participant": "Participas en esta CTF",
+        "notActive": "Participas en esta CTF pero tu turno no está activo",
+        "notStarted": "Participas en esta CTF pero no le has dado al botón de comenzar",
+        "tooLate": "Participas en esta CTF pero se ha pasado el tiempo"
     },
     "apps": {
         "newApp": "Nueva app",
@@ -154,7 +154,7 @@
         "filter": "filtrar",
         "Finish": "Finalizar",
         "finish": "finalizar",
-        "my": "Mis escape rooms",
+        "my": "Mis CTFs",
         "completado": "completado",
         "validationError": "Datos de entrada incorrectos",
         "flash": {
@@ -162,21 +162,21 @@
             "interestingInfo": "Información de interés",
             "success": "Tareas completadas con éxito",
             "errorActivatingTurno": "Error al activar/desactivar el turno",
-            "errorCreatingER": "Error al crear la Escape Room",
+            "errorCreatingER": "Error al crear la CTF",
             "errorCreatingHint": "Error al crear la pista",
             "errorCreatingPuzzle": "Error al crear el reto",
             "errorCreatingTeam": "Error al crear el equipo",
-            "errorCreatingTeamAlreadyExists": "Ya existe un equipo con este nombre en esta escape room",
+            "errorCreatingTeamAlreadyExists": "Ya existe un equipo con este nombre en esta CTF",
             "errorCreatingTurno": "Error al crear el turno",
             "errorCreatingUser": "Error al crear el usuario",
-            "errorDeletingER": "Error al borrar la Escape Room",
+            "errorDeletingER": "Error al borrar la CTF",
             "errorDeletingHint": "Error al borrar la pista",
             "errorDeletingPuzzle": "Error al borrar el reto",
             "errorDeletingTeam": "Error al borrar el equipo",
             "errorDeletingTurno": "Error al borrar el turno",
             "errorDeletingUser": "Error al borrar el usuario",
             "errorStudentLeave": "Error al desapuntarte. El turno está cerrado.",
-            "errorEditingER": "Error al editar la Escape Room",
+            "errorEditingER": "Error al editar la CTF",
             "errorEditingHint": "Error al editar la pista",
             "errorEditingPuzzle": "Error al editar el reto",
             "errorEditingTeam": "Error al editar el equipo",
@@ -193,21 +193,21 @@
             "resetPasswordSent": "Te hemos enviado un correo para recuperar tu contraseña",
             "resetPasswordUserNotFound": "Lo siento, no estás registrado en escapp",
             "successActivatingTurno": "Turno activado/desactivado con éxito",
-            "successCreatingER": "Escape room creada con éxito",
+            "successCreatingER": "CTF creada con éxito",
             "successCreatingHint": "Pista creada con éxito",
             "successCreatingPuzzle": "Reto creado con éxito",
             "successCreatingTeam": "Equipo creado con éxito",
-            "successCreatingTeamSingle": "Te has unido con éxito a la escape room",
+            "successCreatingTeamSingle": "Te has unido con éxito a la CTF",
             "successCreatingTurno": "Turno creado con éxito",
             "successCreatingUser": "Usuario creado con éxito",
-            "successDeletingER": "Escape room borrada con éxito",
+            "successDeletingER": "CTF borrada con éxito",
             "successDeletingHint": "Pista borrada con éxito",
             "successDeletingPuzzle": "Reto borrado con éxito",
             "successDeletingTeam": "Equipo borrado con éxito",
             "successDeletingTurno": "Turno borrado con éxito",
             "successResetingTurno": "Turno reiniciado con éxito",
             "successDeletingUser": "Usuario borrado con éxito",
-            "successEditingER": "Escape room editada con éxito",
+            "successEditingER": "CTF editada con éxito",
             "successEditingHint": "Pista editada con éxito",
             "successEditingHintApproach": "Configuración de pistas editada con éxito",
             "successEditingPuzzle": "Reto editado con éxito",
@@ -247,7 +247,7 @@
             "description": "Descripción",
             "authentication": "Indica si los parámetros de autenticación son correctos o no",
             "authenticationAPI": "Autenticación",
-            "authenticationAPIDesc": "Este endpoint te permite autenticarte en escapp y comprobar si puedes participar en una escape room determinada en un momento dado",
+            "authenticationAPIDesc": "Este endpoint te permite autenticarte en escapp y comprobar si puedes participar en una CTF determinada en un momento dado",
             "method": "Método",
             "email": "Correo electrónico del usuario",
             "password": "Contraseña del usuario",
@@ -257,29 +257,29 @@
             "response": "Respuesta",
             "sampleResponse": "Ejemplo de respuesta",
             "puzzleAPI": "Retos",
-            "puzzleAPIDesc": "Este endpoint permite resolver los retos de la escape room sin necesidad de emplear la interfaz de equipo de escapp",
+            "puzzleAPIDesc": "Este endpoint permite resolver los retos de la CTF sin necesidad de emplear la interfaz de equipo de escapp",
             "startAPI": "Participación",
-            "startAPIDesc": "Este endpoint te permite comenzar a participar en la escape room sin necesidad de darle al botón de comenzar en escapp",
-            "erState": "Objeto que indica el estado actual de la escape room para el equipo. Tiene 4 propiedades: <code>puzzlesSolved</code>, que contiene un array de los retos que el equipo ha superado (incluyendo el número, nombre, solución y mensaje de éxito); <code>hintsAllowed</code>, un booleano que indica si el equipo puede o no recibir más pistas; <code>progress</code>, que indica el porcentaje de retos superados, y <code>score</code>, que calcula la nota del participante según la rúbrica establecida por el profesor.",
+            "startAPIDesc": "Este endpoint te permite comenzar a participar en la CTF sin necesidad de darle al botón de comenzar en escapp",
+            "erState": "Objeto que indica el estado actual de la CTF para el equipo. Tiene 4 propiedades: <code>puzzlesSolved</code>, que contiene un array de los retos que el equipo ha superado (incluyendo el número, nombre, solución y mensaje de éxito); <code>hintsAllowed</code>, un booleano que indica si el equipo puede o no recibir más pistas; <code>progress</code>, que indica el porcentaje de retos superados, y <code>score</code>, que calcula la nota del participante según la rúbrica establecida por el profesor.",
             "code": {
                 "OK": "La petición ha tenido éxito total",
                 "NOK": "La petición no ha tenido éxito total"
             },
             "correctAnswer":"Booleano que vale <code>true</code> si la respuesta proporcionada es correcta y <code>false</code> si no lo es.",
             "participation": {
-                "PARTICIPANT": "Eres participante de esta escape room y el turno al que te has apuntado está activo ahora mismo",
-                "TOO_LATE": "Eres participante de esta escape room pero el turno al que te has apuntado ha terminado o te has quedado sin tiempo",
-                "NOT_ACTIVE": "Eres participante de esta escape room pero el turno al que te has apuntado aún no ha empezado",
-                "NOT_STARTED": "Eres participante de esta escape room pero no le has dado al botón de comenzar en la plataforma escapp o no has comenzado a través de la API",
-                "NOT_A_PARTICIPANT": "No eres participante de esta escape room",
-                "AUTHOR": "Eres el creador de esta escape room"
+                "PARTICIPANT": "Eres participante de esta CTF y el turno al que te has apuntado está activo ahora mismo",
+                "TOO_LATE": "Eres participante de esta CTF pero el turno al que te has apuntado ha terminado o te has quedado sin tiempo",
+                "NOT_ACTIVE": "Eres participante de esta CTF pero el turno al que te has apuntado aún no ha empezado",
+                "NOT_STARTED": "Eres participante de esta CTF pero no le has dado al botón de comenzar en la plataforma escapp o no has comenzado a través de la API",
+                "NOT_A_PARTICIPANT": "No eres participante de esta CTF",
+                "AUTHOR": "Eres el creador de esta CTF"
             },
             "participationStart": {
-                "PARTICIPANT": "Has comenzado con éxito la escape room",
+                "PARTICIPANT": "Has comenzado con éxito la CTF",
                 "TOO_LATE": "El turno al que te has apuntado ha terminado o te has quedado sin tiempo",
                 "NOT_ACTIVE": "El turno al que te has apuntado aún no ha empezado",
-                "NOT_A_PARTICIPANT": "No eres participante de esta escape room",
-                "AUTHOR": "Eres el creador de esta escape room"
+                "NOT_A_PARTICIPANT": "No eres participante de esta CTF",
+                "AUTHOR": "Eres el creador de esta CTF"
             },
             "token": {
                 "String": "El token de autenticación para usar la API"
@@ -339,7 +339,7 @@
         },
         "invitation": {
             "no": "no",
-            "wannaJoin": "¿Quieres unirte a la Escape Room de",
+            "wannaJoin": "¿Quieres unirte a la CTF de",
             "typePasscode": "Introduce la contraseña de acceso para",
             "yes": "sí",
             "scopes": {
@@ -349,12 +349,12 @@
         },
         "main": {
             "copyOf": "Copia de",
-            "createER": "Crear nueva escape room",
-            "noERTeacher": "No has creado ninguna escape room, gestiónalas desde aquí...",
-            "noERStudent": "No tienes ninguna escape room activa, utiliza en enlace original que te ha proporcionado tu profe para apuntarte.",
-            "yesERStudent": "Estas son las escape rooms disponibles",
-            "yesERTeacher": "Gestiona las escape rooms desde aquí...",
-            "notAvailable": "Escape Room no disponible"
+            "createER": "Crear nueva CTF",
+            "noERTeacher": "No has creado ninguna CTF, gestiónalas desde aquí...",
+            "noERStudent": "No tienes ninguna CTF activa, utiliza en enlace original que te ha proporcionado tu profe para apuntarte.",
+            "yesERStudent": "Estas son las CTFs disponibles",
+            "yesERTeacher": "Gestiona las CTFs desde aquí...",
+            "notAvailable": "CTF no disponible"
         },
         "steps": {
             "appearance": {
@@ -362,7 +362,7 @@
             },
             "assets": {
                 "title": "Galería de ficheros",
-                "dictDefaultMessage": "Arrastra los ficheros que necesitas para la escape room",
+                "dictDefaultMessage": "Arrastra los ficheros que necesitas para la CTF",
                 "dictFallbackMessage": "Intenta usar Google Chrome",
                 "dictFileTooBig": "El fichero es demasiado grande",
                 "dictInvalidFileTypedictResponseError": "Tipo de fichero no soportado",
@@ -375,18 +375,18 @@
             },
             "edit": {
                 "New": "Nueva",
-                "descriptionPlaceHolder": "Escribe la descripción de tu Escape Room. Esta será la información que se les presentará a los alumnos",
+                "descriptionPlaceHolder": "Escribe la descripción de tu CTF. Esta será la información que se les presentará a los alumnos",
                 "durationPlaceHolder": "¿Cual es el tiempo máximo del que disponen los alumnos?",
                 "forbiddenLateSubmissionsPlaceHolder": "No permitir resolver retos al acabarse la cuenta atrás",
-                "passwordPlaceHolder": "Proporciona una contraseña para restringir el acceso a la escape room",
+                "passwordPlaceHolder": "Proporciona una contraseña para restringir el acceso a la CTF",
                 "noFileUploaded": "No has subido ningún fichero",
                 "noImageUploaded": "No has subido ninguna imagen",
                 "subjectPlaceHolder": "¿A qué asignatura pertenece esta actividad?",
                 "teamSizePlaceHolder": "¿Cuántos alumnos puede haber en cada equipo? Déjalo en blanco si no quieres limitarlo",
                 "supportLinkPlaceHolder": "¿Adónde se dirigen los alumnos en caso de tener problemas?",
-                "title": "Configuración básica de la escape room",
-                "titlePlaceHolder": "¿Cómo se llama tu Escape Room?",
-                "videoPlaceHolder": "URL del vídeo de presentación de la Escape Room"
+                "title": "Configuración básica de la CTF",
+                "titlePlaceHolder": "¿Cómo se llama tu CTF?",
+                "videoPlaceHolder": "URL del vídeo de presentación de la CTF"
             },
             "evaluation": {
                 "eachHint": "Asigna una penalización o recompensa por solicitar una pista",
@@ -396,7 +396,7 @@
                 "hintSuccess": "Puntos por solicitud de pista conseguida",
                 "hintFailed": "Puntos por solicitud de pista fallida",
                 "justParticipating": "Asigna un porcentaje de la nota sólo por participar",
-                "forSurveys": "para crear las encuestas y cuestionarios de tu escape room",
+                "forSurveys": "para crear las encuestas y cuestionarios de tu CTF",
                 "or": "o",
                 "posttestField": "Post-test",
                 "posttestPlaceHolder": "Escribe el enlace al post-test",
@@ -409,13 +409,13 @@
                 "youCanUse": "Puedes utilizar",
                 "puzzle": "Reto",
                 "weight": "Peso",
-                "automaticAttendance": "Marcar asistencia automáticamente cuando un estudiante acceda a la escape room en su turno",
+                "automaticAttendance": "Marcar asistencia automáticamente cuando un estudiante acceda a la CTF en su turno",
                 "automaticAttendanceNone": "No marcar asistencia automáticamente en ningún caso",
                 "automaticAttendanceParticipant": "Marcar asistencia sólo a ese estudiante",
                 "automaticAttendanceTeam": "Marcar asistencia a todo el equipo"
             },
             "hints": {
-                "explanation": "En este apartado puedes configurar la estrategia de pistas a seguir durante la escape room. Hay tres estragias disponibles: no permitir pistas; permitir que el alumno obtenga una pista cuando la necesite sin proporcionar nada a cambio, y permitir que el alumno obtenga una pista tras responder correctamente a un cuestionario. Si habilitas las pistas, puedes configurar el límite de pistas que puede recibir cada equipo durante la escape room. Si eliges la última estrategia, sólo tienes que subir un fichero MoodleXML con una batería de preguntas e indicar cuántas se les muestran cada intento, cuántas deben acertar para lograr una pista y si se les muestra la respuesta correcta al finalizar cada intento.",
+                "explanation": "En este apartado puedes configurar la estrategia de pistas a seguir durante la CTF. Hay tres estragias disponibles: no permitir pistas; permitir que el alumno obtenga una pista cuando la necesite sin proporcionar nada a cambio, y permitir que el alumno obtenga una pista tras responder correctamente a un cuestionario. Si habilitas las pistas, puedes configurar el límite de pistas que puede recibir cada equipo durante la CTF. Si eliges la última estrategia, sólo tienes que subir un fichero MoodleXML con una batería de preguntas e indicar cuántas se les muestran cada intento, cuántas deben acertar para lograr una pista y si se les muestra la respuesta correcta al finalizar cada intento.",
                 "correctNumber": "Número de aciertos",
                 "correctNumberPlaceHolder": "¿Cuántas preguntas hay que acertar para obtener una pista?",
                 "moodleXMLExplanation": "Si quieres que los alumnos tengan que responder a una serie de preguntas para obtener una pista, sube un fichero MoodleXML que incluya una batería de preguntas",
@@ -442,17 +442,17 @@
                 "uploadFile": "Sube un fichero MoodleXML"
             },
             "team": {
-                "explanation": "En este apartado puedes personalizar la interfaz que los estudiantes verán en sus pantallas mientras jueguen a la escape room. Puedes añadir una pista inicial, enlaces, imágenes, etc.",
+                "explanation": "En este apartado puedes personalizar la interfaz que los estudiantes verán en sus pantallas mientras jueguen a la CTF. Puedes añadir una pista inicial, enlaces, imágenes, etc.",
                 "placeholder": "Añade un mensaje personalizado, imágenes, links... No te olvides de configurar cuándo quieres que sea visible esta información haciendo click en el icono del ojo a la izquierda",
                 "title": "Interfaz de equipo"
             },
             "class": {
-                "explanation": "En este apartado puedes personalizar la interfaz que proyectarás en el aula. Puedes añadir elementos como la cuenta atrás, el video introductorio o el ranking. Si los alumnos van a participar en la escape room de forma remota nunca verán esta interfaz, por lo que puedes saltarte este paso.",
+                "explanation": "En este apartado puedes personalizar la interfaz que proyectarás en el aula. Puedes añadir elementos como la cuenta atrás, el video introductorio o el ranking. Si los alumnos van a participar en la CTF de forma remota nunca verán esta interfaz, por lo que puedes saltarte este paso.",
                 "placeholder": "Añade la información que quieras proyectar a los alumnos",
                 "title": "Interfaz de clase"
             },
             "indications": {
-                "explanation": "En este apartado puedes personalizar las instrucciones que los alumnos recibirán antes de que comience la escape room desde el momento en el que se apunten. Por ejemplo, puedes recordarles que traigan algún material, indicarles que repasen parte del contenido de la asignatura o proporcionarles un vídeo para que visualicen.",
+                "explanation": "En este apartado puedes personalizar las instrucciones que los alumnos recibirán antes de que comience la CTF desde el momento en el que se apunten. Por ejemplo, puedes recordarles que traigan algún material, indicarles que repasen parte del contenido de la asignatura o proporcionarles un vídeo para que visualicen.",
                 "placeholder": "Añade instrucciones previas personalizadas",
                 "title": "Instrucciones previas",
                 "front": {
@@ -466,7 +466,7 @@
                     "setupVisualization": "Visualización",
                     "visualizationIntro": "¿Cuándo deseas mostrar este bloque de contenido?",
                     "visualizationStart": "Nada más empezar",
-                    "visualizationFinish": "Cuando superen la escape room",
+                    "visualizationFinish": "Cuando superen la CTF",
                     "visualizationSucceed": "Cuando los alumnos estén trabajando en los siguientes retos",
                     "accept": "aceptar",
                     "cancel": "cancelar",
@@ -492,7 +492,7 @@
             	"evaluation": "Evaluación"
             },
             "puzzles": {
-                "explanation": "En este apartado puedes configurar los distintos retos que componen la escape room. Ten en cuenta que deben seguir una estructura lineal, es decir, para resolver un reto es necesario haber resuelto el anterior. Debes especificar el nombre y descripción del reto, así como la solución del mismo. Si seleccionas la opción de monitorización automática para algún reto, en la interfaz de equipo no se permitirá resolver ese reto sino que debes hacerlo a través de la API de escapp. Adicionalmente puedes añadir pistas automáticas para cada reto, que se le proporcionaran a los alumnos cuando se queden atascados y pidan ayuda.",
+                "explanation": "En este apartado puedes configurar los distintos retos que componen la CTF. Ten en cuenta que deben seguir una estructura lineal, es decir, para resolver un reto es necesario haber resuelto el anterior. Debes especificar el nombre y descripción del reto, así como la solución del mismo. Si seleccionas la opción de monitorización automática para algún reto, en la interfaz de equipo no se permitirá resolver ese reto sino que debes hacerlo a través de la API de escapp. Adicionalmente puedes añadir pistas automáticas para cada reto, que se le proporcionaran a los alumnos cuando se queden atascados y pidan ayuda.",
                 "addNewHint": "añadir pista",
                 "addNewCategory": "añadir categoría",
                 "addNewPuzzles": "añadir reto",
@@ -532,14 +532,14 @@
                 "enrollmentPeriod": "Periodo de matriculación",
                 "enrollmentPeriodPlaceholder": "Periodo en el que los alumnos se podrán matricular en este turno",
                 "password": "Contraseña",
-                "passwordPlaceholder": "Contraseña para acceder al turno. Por defecto es la misma que para la escape room",
+                "passwordPlaceholder": "Contraseña para acceder al turno. Por defecto es la misma que para la CTF",
                 "passwordEmpty": "ninguna",
                 "capacity": "Aforo",
                 "capacityPlaceholder": "Máximo número de personas admitidas en este turno. Déjalo en blanco si no quieres limitarlo."    
             }
         },
         "general": {
-            "areYouSureDelete": "¿Seguro que deseas eliminar esta escape room?"
+            "areYouSureDelete": "¿Seguro que deseas eliminar esta CTF?"
         },
         "attributes": {
             "title": "El título",
@@ -590,8 +590,8 @@
     },
     "inspiration": {
         "downloadText": "descargar guía",
-        "intro": "¿No sabes por donde empezar a crear tu <em>escape room</em>? <br/> Sigue los siguientes pasos",
-        "title": "Guía para crear una escape room",
+        "intro": "¿No sabes por donde empezar a crear tu <em>CTF</em>? <br/> Sigue los siguientes pasos",
+        "title": "Guía para crear una CTF",
         "banner": {
             "design": "Diseña",
             "approach": "Planteamiento",
@@ -612,7 +612,7 @@
         "steps": {
             "first": {
                 "title": "Paso 1: Establecer el planteamiento general",
-                "intro": "Una buena manera de empezar a diseñar una <em>escape room</em> educativa es establecer cómo va a encajar la actividad dentro de la asignatura y así poder dimensionar correctamente la actividad.",
+                "intro": "Una buena manera de empezar a diseñar una <em>CTF</em> educativa es establecer cómo va a encajar la actividad dentro de la asignatura y así poder dimensionar correctamente la actividad.",
                 "list": {
                     "first": "Opcional u obligatoria",
                     "second": "Evaluable o extra",
@@ -624,7 +624,7 @@
             },
             "second": {
                 "title": "Paso 2: Definir los objetivos de aprendizaje",
-                "intro": "Una vez definida la actividad en el contexto de la asignatura en la cual se va a desarrollar, es necesario delimitar qué contenidos específicos del temario va a cubrir la <em>escape room</em>, al igual que ocurre en cualquier otra actividad didáctica. Se recomienda establecer primero unos objetivos generales y a continuación desgranar éstos en objetivos más específicos que los alumnos deben lograr para superar la actividad."
+                "intro": "Una vez definida la actividad en el contexto de la asignatura en la cual se va a desarrollar, es necesario delimitar qué contenidos específicos del temario va a cubrir la <em>CTF</em>, al igual que ocurre en cualquier otra actividad didáctica. Se recomienda establecer primero unos objetivos generales y a continuación desgranar éstos en objetivos más específicos que los alumnos deben lograr para superar la actividad."
             },
             "third": {
                 "title": "Paso 3: Escoger los retos",
@@ -643,7 +643,7 @@
             },
             "fourth": {
                 "title": "Paso 4: Seleccionar una temática apropiada",
-                "intro": "La temática es una de las piezas clave que diferencia una <em>escape room</em> de un ejercicio práctico en grupo. Se trata de la historia que envuelve toda la experiencia y que proporciona el carácter inmersivo del juego. Aporta sentido a las tareas que los alumnos deben realizar durante la <em>escape room</em> y cohesiona todas las pruebas de la actividad. Cuando desarrolles la temática has de tener en cuenta:",
+                "intro": "La temática es una de las piezas clave que diferencia una <em>CTF</em> de un ejercicio práctico en grupo. Se trata de la historia que envuelve toda la experiencia y que proporciona el carácter inmersivo del juego. Aporta sentido a las tareas que los alumnos deben realizar durante la <em>CTF</em> y cohesiona todas las pruebas de la actividad. Cuando desarrolles la temática has de tener en cuenta:",
                 "list": {
                     "first": "<strong>La narrativa</strong>,  el contexto temporal y el espacial",
                     "second": "<strong>El perfil del alumno</strong> al que va dirigido",
@@ -654,31 +654,31 @@
                     "adventure": "Aventuras",
                     "history": "Historia"
                 },
-                "booksAndMovies": "Una buena fuente de inspiración para seleccionar una temática son los libros, los videojuegos, y las películas y series famosas, ya que es probable que los alumnos conozcan la trama o los personajes de antemano.  Por supuesto, la asignatura en la que se enmarque la <em>escape room</em> ejercerá una gran influencia en la selección de la temática, puesto que los retos a superar deben estar apoyados por la narrativa. Algunos ejemplos de temáticas son:"
+                "booksAndMovies": "Una buena fuente de inspiración para seleccionar una temática son los libros, los videojuegos, y las películas y series famosas, ya que es probable que los alumnos conozcan la trama o los personajes de antemano.  Por supuesto, la asignatura en la que se enmarque la <em>CTF</em> ejercerá una gran influencia en la selección de la temática, puesto que los retos a superar deben estar apoyados por la narrativa. Algunos ejemplos de temáticas son:"
             },
             "fifth": {
                 "title": "Paso 5: Construir los retos, pistas y demás materiales",
-                "intro" : "Por último, con el diseño de la <em>escape room</em> y los recursos disponibles en mente, es hora de comenzar a construir todas las piezas.",
+                "intro" : "Por último, con el diseño de la <em>CTF</em> y los recursos disponibles en mente, es hora de comenzar a construir todas las piezas.",
                 "puzzles": {
                     "title": "Retos",
-                    "content": "Para construir los retos es común emplear recursos físicos como candados, llaves, cajas, equipamiento de laboratorio, rompecabezas, etc. En el caso de una <em>escape room</em> en las que muchos alumnos participan simultáneamente, este tipo de recursos pueden aumentar en gran medida el presupuesto necesario para la actividad. Una solución es combinar recursos físicos sencillos (de papel, por ejemplo) con recursos digitales gratuitos: aplicaciones móviles, sonidos, puzzles virtuales, etc."
+                    "content": "Para construir los retos es común emplear recursos físicos como candados, llaves, cajas, equipamiento de laboratorio, rompecabezas, etc. En el caso de una <em>CTF</em> en las que muchos alumnos participan simultáneamente, este tipo de recursos pueden aumentar en gran medida el presupuesto necesario para la actividad. Una solución es combinar recursos físicos sencillos (de papel, por ejemplo) con recursos digitales gratuitos: aplicaciones móviles, sonidos, puzzles virtuales, etc."
                 },
                 "hints": {
                     "title": "Pistas",
-                    "content": "Una parte esencial en el diseño de toda <em>escape room</em> son las pistas y ayudas. Es esencial evitar que los alumnos pasen demasiado tiempo en un mismo reto ya que, si esto ocurre, se corre el riesgo de que pierdan la motivación. Además, esa situación puede ser contraproducente desde el punto de vista pedagógico, ya que los alumnos no se enfrentarán  a la totalidad de los retos. Para evitar que la petición de ayuda sea constante, una posibilidad es idear una batería de preguntas que los alumnos tengan que intentar responder cada vez que necesiten una pista. Si consiguen acertar más de un número determinado de preguntas, conseguirán una pista. De esta manera los alumnos se ganarán el derecho a obtener ayuda y se ponen a prueba sus conocimientos teóricos acerca de la asignatura para complementar el contenido práctico que se pone en práctica en la <em>escape room</em>."
+                    "content": "Una parte esencial en el diseño de toda <em>CTF</em> son las pistas y ayudas. Es esencial evitar que los alumnos pasen demasiado tiempo en un mismo reto ya que, si esto ocurre, se corre el riesgo de que pierdan la motivación. Además, esa situación puede ser contraproducente desde el punto de vista pedagógico, ya que los alumnos no se enfrentarán  a la totalidad de los retos. Para evitar que la petición de ayuda sea constante, una posibilidad es idear una batería de preguntas que los alumnos tengan que intentar responder cada vez que necesiten una pista. Si consiguen acertar más de un número determinado de preguntas, conseguirán una pista. De esta manera los alumnos se ganarán el derecho a obtener ayuda y se ponen a prueba sus conocimientos teóricos acerca de la asignatura para complementar el contenido práctico que se pone en práctica en la <em>CTF</em>."
                 },
                 "instructions": {
                     "title": "Instrucciones",
-                    "intro": "Antes de comenzar el desarrollo de la actividad, es importante presentar el juego a los alumnos. Es importante aclarar cuáles son los límites de la actividad, si pueden salir de la sala, si pueden hacer uso de sus dispositivos móviles, si pueden hablar con los demás equipos, etc. A continuación, se les introduce a la temática presentando el objetivo a lograr en la <em>escape room</em> y dando indicaciones de por donde empezar. Esto se puede hacer en forma de videomensaje en el que un personaje (ya sea el profesor o un “actor”) apela a los alumnos para que le ayuden a resolver un misterio, crimen, enigma, etc. También se puede aproximar desde la perspectiva contraria, mostrando un video en el que el personaje ejerce un papel de villano que amenaza a los alumnos."
+                    "intro": "Antes de comenzar el desarrollo de la actividad, es importante presentar el juego a los alumnos. Es importante aclarar cuáles son los límites de la actividad, si pueden salir de la sala, si pueden hacer uso de sus dispositivos móviles, si pueden hablar con los demás equipos, etc. A continuación, se les introduce a la temática presentando el objetivo a lograr en la <em>CTF</em> y dando indicaciones de por donde empezar. Esto se puede hacer en forma de videomensaje en el que un personaje (ya sea el profesor o un “actor”) apela a los alumnos para que le ayuden a resolver un misterio, crimen, enigma, etc. También se puede aproximar desde la perspectiva contraria, mostrando un video en el que el personaje ejerce un papel de villano que amenaza a los alumnos."
                 }
             },
             "sixth": {
-                "title": "Paso 6: Probar la escape room",
-                "intro": "Detectar y arreglar los errores es crucial para el éxito de una <em>escape room</em> educativa, puesto que la presencia de un fallo podría tener consecuencias catastróficas en el desarrollo de la actividad. Por ello, es necesario probar los retos primero de forma individual y después realizar una simulación completa."
+                "title": "Paso 6: Probar la CTF",
+                "intro": "Detectar y arreglar los errores es crucial para el éxito de una <em>CTF</em> educativa, puesto que la presencia de un fallo podría tener consecuencias catastróficas en el desarrollo de la actividad. Por ello, es necesario probar los retos primero de forma individual y después realizar una simulación completa."
             },
             "seventh": {
                 "title": "Paso 7: Elaborar una forma de evaluar la experiencia",
-                "intro": "Existen varias maneras de evaluar si los alumnos han aprendido realizando la actividad. Una manera es mediante un grupo de control, comparando las notas de los alumnos que realizaron la escape room con los que no. Otra manera es realizando un test al principio de la escape room y al final, comprobando si ha habido un incremento significativo de los conocimientos de los alumnos. Por último, al final de la actividad es conveniente realizar una encuesta para conocer la opinión de los alumnos acerca de la escape room."
+                "intro": "Existen varias maneras de evaluar si los alumnos han aprendido realizando la actividad. Una manera es mediante un grupo de control, comparando las notas de los alumnos que realizaron la CTF con los que no. Otra manera es realizando un test al principio de la CTF y al final, comprobando si ha habido un incremento significativo de los conocimientos de los alumnos. Por último, al final de la actividad es conveniente realizar una encuesta para conocer la opinión de los alumnos acerca de la CTF."
             }
         }
     },
@@ -723,7 +723,7 @@
         "delete": "borrar",
         "outside": "Otros recursos ajenos a escapp",
         "fullscreen": "Compartir en pantalla completa",
-        "intro": "La siguiente colección de recursos se integra con los retos de tu escape room de escapp. Puedes personalizar distintos aspectos de los mismos y obtener un enlace para compartirlos con tus alumnos como parte de la escape room."
+        "intro": "La siguiente colección de recursos se integra con los retos de tu CTF de escapp. Puedes personalizar distintos aspectos de los mismos y obtener un enlace para compartirlos con tus alumnos como parte de la CTF."
 
     },
     "participant": {
@@ -731,9 +731,9 @@
         "areYouSureDelete": "¿Seguro que desea borrar este participante?",
         "back": "volver",
         "confirm": "confirmar asistencia",
-        "delete": "Quitar a este participante de la escape room",
+        "delete": "Quitar a este participante de la CTF",
         "download": "descargar",
-        "emptyER": "No hay participantes en esta escape room",
+        "emptyER": "No hay participantes en esta CTF",
         "emptyTurno": "No hay participantes en este turno",
         "errorSaving": "Ha ocurrido un error",
         "participantS": "participante(s)",
@@ -742,7 +742,7 @@
         "seeByTeam": "ver por equipo",
         "select": "marcar/desmarcar todos",
         "title": "Participantes",
-        "wrongToken": "Contraseña de acceso a la escape room incorrecta",
+        "wrongToken": "Contraseña de acceso a la CTF incorrecta",
         "connected": "Conectado",
         "waiting": "En espera",
         "disconnected": "Desonectado"
@@ -771,16 +771,16 @@
         "access": "acceder",
         "beforeLeave": "Antes de irte rellena el siguiente cuestionario",
         "beforeStart": "Antes de empezar rellena el siguiente cuestionario",
-        "opinion": "¡Tu opinión cuenta! Dinos lo que piensas de la escape room",
+        "opinion": "¡Tu opinión cuenta! Dinos lo que piensas de la CTF",
         "play": "comenzar",
         "results": "resultados",
         "Results": "Resultados",
-        "start": "¡La escape room acaba de empezar!",
+        "start": "¡La CTF acaba de empezar!",
         "join": "unirme",
         "supportLink": "Soporte",
         "sureUnjoin": "¿Seguro que deseas desapuntarte?",
-        "congrats": "¡Enhorabuena! Has terminado con éxito la escape room",
-        "resultsTitle": "Este es el ranking de resultados de la escape room",
+        "congrats": "¡Enhorabuena! Has terminado con éxito la CTF",
+        "resultsTitle": "Este es el ranking de resultados de la CTF",
         "unjoin": "desapuntarse"
     },
     "showTeacher": {
@@ -816,18 +816,18 @@
         },
         "messages": {
             "copyAria": "Input invisible para permitir copiar el link de invitación",
-            "freeHintsStrategy": "Esta escape room permite obtener pistas libremente",
-            "noHintsStrategy": "Esta escape room no permite obtener pistas",
-            "noHintControl": "Esta Escape Room no utiliza ningún mecanismo de control de pistas",
+            "freeHintsStrategy": "Esta CTF permite obtener pistas libremente",
+            "noHintsStrategy": "Esta CTF no permite obtener pistas",
+            "noHintControl": "Esta CTF no utiliza ningún mecanismo de control de pistas",
             "noVideo": "No hay vídeo",
             "copyTitle": "Copia el enlace",
             "qrTitle": "Genera un código QR para compartir",
-            "noShiftsShare": "No puedes compartir la escape room hasta que hayas establecido al menos un turno",
-            "noShiftsStart": "No puedes comenzar la escape room hasta que hayas establecido al menos un turno",
+            "noShiftsShare": "No puedes compartir la CTF hasta que hayas establecido al menos un turno",
+            "noShiftsStart": "No puedes comenzar la CTF hasta que hayas establecido al menos un turno",
             "join": {
-                "intro": "Para que tus alumnos puedan acceder a la escape room comparte con ellos el siguiente enlace:",
+                "intro": "Para que tus alumnos puedan acceder a la CTF comparte con ellos el siguiente enlace:",
                 "also": "También pueden acceder a ",
-                "register": " y, tras registrarse e iniciar sesión, seleccionar la escape room ",
+                "register": " y, tras registrarse e iniciar sesión, seleccionar la CTF ",
                 "password": " e introducir la contraseña ",
                 "specialShifts": "Turnos especiales"
 
@@ -849,29 +849,29 @@
             "survey": "Encuesta",
             "teamSize": "Tamaño máx. equipos",
             "scope": "Privacidad",
-            "supportLink": "Enlace de ayuda durante la escape room",
+            "supportLink": "Enlace de ayuda durante la CTF",
             "thumbnail": "Miniatura",
             "title": "Título",
             "turnos": "Turnos",
             "video": "Vídeo",
             "share": "Compartir",
-            "forceLang": "Forzar el idioma de escapp para los alumnos de esta escape room"
+            "forceLang": "Forzar el idioma de escapp para los alumnos de esta CTF"
         }
     },
     "team": {
         "add": "Añada un equipo",
-        "addMsg": "Tus compañeros podrán unirse a tu equipo cuando se registren en la escape room",
+        "addMsg": "Tus compañeros podrán unirse a tu equipo cuando se registren en la CTF",
         "addPlaceHolder": "Escribe el nombre del equipo",
-        "areYouSureDelete": "¿Seguro que deseas eliminar este equipo de la escape room?",
+        "areYouSureDelete": "¿Seguro que deseas eliminar este equipo de la CTF?",
         "areYouSureReset": "¿Seguro que deseas reiniciar el progreso de este equipo?",
         "back": "volver",
         "choose": "Selecciona un equipo ",
-        "delete": "Quitar este equipo de la escape room",
-        "emptyER": "No hay equipos en esta escape room",
+        "delete": "Quitar este equipo de la CTF",
+        "emptyER": "No hay equipos en esta CTF",
         "emptyTurno": "No hay equipos en este turno",
         "fullTeam": "Equipo completo. Por favor, elige otro equipo",
         "hasStarted": "¿Han comenzado?",
-        "alreadyFinished": "Este equipo ya ha terminado la escape room. Por favor, elige otro equipo",
+        "alreadyFinished": "Este equipo ya ha terminado la CTF. Por favor, elige otro equipo",
         "Members": "Integrantes",
         "noTeamYet": "No hay equipos todavía...",
         "notAvailable": "El equipo seleccionado no está disponible",
@@ -939,7 +939,7 @@
         },
         "noPlace": "Lugar no indicado",
         "place": "Lugar",
-        "activateTurnos": "Administrar los turnos de la escape room",
+        "activateTurnos": "Administrar los turnos de la CTF",
         "areYouSureStop": "¿Seguro que deseas detener este turno?",
         "areYouSureStartScheduledFor": "¿Seguro que deseas comenzar el turno programado para",
         "areYouSureStopScheduledFor": "¿Seguro que deseas detener el turno programado para",
@@ -952,12 +952,12 @@
             "pending": "Pendiente"
         },
         "fullTurno": "El turno seleccionado está lleno. Elige otro.",
-        "notActive": "Esta escape room no está activa para tu usuario",
+        "notActive": "Esta CTF no está activa para tu usuario",
         "selectActivate": "Selecciona el turno que quieres activar/desactivar",
         "selectStudent": "Selecciona un turno",
         "areYouSureReset": "¿Seguro que quieres reiniciar este turno? Todo el progreso de los alumnos se perderá",
         "resetProgress": "Reinicia el turno",
-        "noTurnAvailable": "No hay ningún turno disponible en esta escape room",
+        "noTurnAvailable": "No hay ningún turno disponible en esta CTF",
         "theres": "Queda",
         "thereare": "Quedan",
         "start": "Comenzar turno",
@@ -965,7 +965,7 @@
         "spot": "puesto libre",
         "spots": "puestos libres",
         "openSpots": "en este turno",
-        "todayEscapeRoom": "¡Este día se celebra la Escape Room!",
+        "todayEscapeRoom": "¡Este día se celebra la CTF!",
         "Turno": "Turno",
         "Links": "Enlaces",
         "statusMsg": {
@@ -1024,10 +1024,10 @@
             "doNotMatch": "Las contraseñas no coinciden",
             "fillIn": "Los campos de contraseña y confirmación de contraseña deben ser rellenados",
             "invalidDNI": "DNI erroneo, formato no válido",
-            "welcome": "Bienvenido a la plataforma de gestión de escape rooms ;)",
+            "welcome": "Bienvenido a la plataforma de gestión de CTF ;)",
             "wrongLetterDNI": "DNI erroneo, la letra del NIF no se corresponde",
             "notFound": "Usuario no encontrado",
-            "ensureRegistered": "Ha ocurrido un error. Asegúrate de que te has registrado correctamente en la Escape Room.",
+            "ensureRegistered": "Ha ocurrido un error. Asegúrate de que te has registrado correctamente en la CTF.",
             "emailConfirm":"Por favor, confirma tu correo electrónico haciendo click en el botón de confirmar",
             "emailConfirmButton":"confirmar",
             "emailResetPassword1":" Si recibes este mensaje es porque has solicitado recuperar tu contraseña en escapp.",
@@ -1068,11 +1068,11 @@
         "ok": "Mensaje enviado",
         "nok": "Envío fallido",
         "send": "enviar",
-        "everyone": "Todos los conectados a esta escape room",
+        "everyone": "Todos los conectados a este CTF",
         "shift": "Todos los conectados que pertenezcan al turno",
         "team": "Todos los conectados que pertenezcan al equipo",
         "participant": "Sólo a una persona (si está conectada)",
-        "waiting": "Enviar también a los participantes esperando para acceder a la escape room",
+        "waiting": "Enviar también a los participantes esperando para acceder al CTF",
         "msgPlaceholder": "Escribe aquí tu mensaje",
         "msgPlaceholder2": "Escribe aquí tu mensaje. Todos los usuarios de esta lista que estén conectados ahora mismo lo recibirán."
 

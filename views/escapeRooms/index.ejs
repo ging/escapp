@@ -49,7 +49,12 @@
                     >
                     <div class="escapeRoomItem <%= disabled ?' disabled':'' %>">
                         <div class="erFoto" style="text-align: center">
-                            <div class="bckgFoto" style="background-image: url(<% if (attachment) {%><%=attachment.url%><%} else {%>/images/placeholder.jpg<%}%>)"></div>
+                            <%
+                                var backgroundImageUrl = attachment ? attachment.url : '/images/placeholder.jpg';
+                            %>
+                            <div class="bckgFoto" style="background-image: url('<%= backgroundImageUrl %>')"></div>
+
+                            
                             <h2 class="escapeRoomTitle"><%= escapeRoom.title %></h2>
                         </div>
                         <% if (user && user.isStudent) {%>
