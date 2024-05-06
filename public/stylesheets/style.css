@@ -2990,12 +2990,12 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   flex: 7;
   padding: 30px;
   display: flex;
-  height: 100vh;
+  height: 80vh;
   justify-content: center;
   border-right: 3px solid black;
 }
 .portada .contenedor .loginLeft #imagenPortada {
-  max-height: 80%;
+  max-height: 70%;
   width: auto;
   max-width: 65%;
   align-self: center;
@@ -3006,7 +3006,7 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   text-align: center;
   width: 50%;
   flex: 3;
-  padding: 5em;
+  padding: 3em;
   position: relative;
 }
 .portada .contenedor .loginRight h2 {
