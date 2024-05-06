@@ -2990,7 +2990,7 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   flex: 7;
   padding: 30px;
   display: flex;
-  height: 80vh;
+  height: 100vh;
   justify-content: center;
   border-right: 3px solid black;
 }
