@@ -2641,7 +2641,7 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   min-height: calc(100vh - 0em);
   color: white;
   background-image: url("../images/background.png");
-  background-size: 100%;
+  background-size: contain;
   height: 100%;
   padding: 35px;
   padding-top: 70px !important;
@@ -3002,11 +3002,11 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
 }
 .portada .contenedor .loginRight {
   color: white;
-  background-color: #2A2A52;
+  background-color: #242746;
   text-align: center;
   width: 50%;
   flex: 3;
-  padding: 3em;
+  padding: 5em;
   position: relative;
 }
 .portada .contenedor .loginRight h2 {
