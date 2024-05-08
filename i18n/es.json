@@ -95,7 +95,7 @@
             "showLegend": "Mostrar leyenda",
             "puzzleExplanation": "La línea te tiempo muestra los retos en los que cada equipo estaba trabajando en cada momento del CTF. Para cada reto resuelto, puedes consultar los minutos que tardaron en hacerlo. Si no aparecen los minutos es que no resolvieron el reto.",
             "now": "Momento actual",
-            "end": "Fin de la CTF",
+            "end": "Fin del CTF",
             "hintFailed": "Pista no obtenida",
             "hintSucceeded": "Pista obtenida"
         }
@@ -116,12 +116,12 @@
         "isAuthor": "Eres el autor de este CTF",
         "wrongCredentials": "La combinación de usuario y contraseña es incorrecta",
         "wrongCredentialsToken": "La combinación de usuario y token es incorrecta",
-        "alreadyParticipating": "Ya habías comenzado a participar en esta CTF",
-        "notAParticipant": "No participas en esta CTF",
-        "participant": "Participas en esta CTF",
-        "notActive": "Participas en esta CTF pero tu turno no está activo",
-        "notStarted": "Participas en esta CTF pero no le has dado al botón de comenzar",
-        "tooLate": "Participas en esta CTF pero se ha pasado el tiempo"
+        "alreadyParticipating": "Ya habías comenzado a participar en este CTF",
+        "notAParticipant": "No participas en este CTF",
+        "participant": "Participas en este CTF",
+        "notActive": "Participas en este CTF pero tu turno no está activo",
+        "notStarted": "Participas en este CTF pero no le has dado al botón de comenzar",
+        "tooLate": "Participas en este CTF pero se ha pasado el tiempo"
     },
     "apps": {
         "newApp": "Nueva app",
@@ -162,21 +162,21 @@
             "interestingInfo": "Información de interés",
             "success": "Tareas completadas con éxito",
             "errorActivatingTurno": "Error al activar/desactivar el turno",
-            "errorCreatingER": "Error al crear la CTF",
+            "errorCreatingER": "Error al crear el CTF",
             "errorCreatingHint": "Error al crear la pista",
             "errorCreatingPuzzle": "Error al crear el reto",
             "errorCreatingTeam": "Error al crear el equipo",
-            "errorCreatingTeamAlreadyExists": "Ya existe un equipo con este nombre en esta CTF",
+            "errorCreatingTeamAlreadyExists": "Ya existe un equipo con este nombre en este CTF",
             "errorCreatingTurno": "Error al crear el turno",
             "errorCreatingUser": "Error al crear el usuario",
-            "errorDeletingER": "Error al borrar la CTF",
+            "errorDeletingER": "Error al borrar el CTF",
             "errorDeletingHint": "Error al borrar la pista",
             "errorDeletingPuzzle": "Error al borrar el reto",
             "errorDeletingTeam": "Error al borrar el equipo",
             "errorDeletingTurno": "Error al borrar el turno",
             "errorDeletingUser": "Error al borrar el usuario",
             "errorStudentLeave": "Error al desapuntarte. El turno está cerrado.",
-            "errorEditingER": "Error al editar la CTF",
+            "errorEditingER": "Error al editar el CTF",
             "errorEditingHint": "Error al editar la pista",
             "errorEditingPuzzle": "Error al editar el reto",
             "errorEditingTeam": "Error al editar el equipo",
@@ -197,7 +197,7 @@
             "successCreatingHint": "Pista creada con éxito",
             "successCreatingPuzzle": "Reto creado con éxito",
             "successCreatingTeam": "Equipo creado con éxito",
-            "successCreatingTeamSingle": "Te has unido con éxito a la CTF",
+            "successCreatingTeamSingle": "Te has unido con éxito a el CTF",
             "successCreatingTurno": "Turno creado con éxito",
             "successCreatingUser": "Usuario creado con éxito",
             "successDeletingER": "CTF borrada con éxito",
@@ -257,29 +257,29 @@
             "response": "Respuesta",
             "sampleResponse": "Ejemplo de respuesta",
             "puzzleAPI": "Retos",
-            "puzzleAPIDesc": "Este endpoint permite resolver los retos de la CTF sin necesidad de emplear la interfaz de equipo de CAPP The Flag",
+            "puzzleAPIDesc": "Este endpoint permite resolver los retos del CTF sin necesidad de emplear la interfaz de equipo de CAPP The Flag",
             "startAPI": "Participación",
-            "startAPIDesc": "Este endpoint te permite comenzar a participar en la CTF sin necesidad de darle al botón de comenzar en CAPP The Flag",
-            "erState": "Objeto que indica el estado actual de la CTF para el equipo. Tiene 4 propiedades: <code>puzzlesSolved</code>, que contiene un array de los retos que el equipo ha superado (incluyendo el número, nombre, solución y mensaje de éxito); <code>hintsAllowed</code>, un booleano que indica si el equipo puede o no recibir más pistas; <code>progress</code>, que indica el porcentaje de retos superados, y <code>score</code>, que calcula la nota del participante según la rúbrica establecida por el profesor.",
+            "startAPIDesc": "Este endpoint te permite comenzar a participar en el CTF sin necesidad de darle al botón de comenzar en CAPP The Flag",
+            "erState": "Objeto que indica el estado actual del CTF para el equipo. Tiene 4 propiedades: <code>puzzlesSolved</code>, que contiene un array de los retos que el equipo ha superado (incluyendo el número, nombre, solución y mensaje de éxito); <code>hintsAllowed</code>, un booleano que indica si el equipo puede o no recibir más pistas; <code>progress</code>, que indica el porcentaje de retos superados, y <code>score</code>, que calcula la nota del participante según la rúbrica establecida por el profesor.",
             "code": {
                 "OK": "La petición ha tenido éxito total",
                 "NOK": "La petición no ha tenido éxito total"
             },
             "correctAnswer":"Booleano que vale <code>true</code> si la respuesta proporcionada es correcta y <code>false</code> si no lo es.",
             "participation": {
-                "PARTICIPANT": "Eres participante de esta CTF y el turno al que te has apuntado está activo ahora mismo",
-                "TOO_LATE": "Eres participante de esta CTF pero el turno al que te has apuntado ha terminado o te has quedado sin tiempo",
-                "NOT_ACTIVE": "Eres participante de esta CTF pero el turno al que te has apuntado aún no ha empezado",
-                "NOT_STARTED": "Eres participante de esta CTF pero no le has dado al botón de comenzar en la plataforma CAPP The Flag o no has comenzado a través de la API",
-                "NOT_A_PARTICIPANT": "No eres participante de esta CTF",
-                "AUTHOR": "Eres el creador de esta CTF"
+                "PARTICIPANT": "Eres participante de este CTF y el turno al que te has apuntado está activo ahora mismo",
+                "TOO_LATE": "Eres participante de este CTF pero el turno al que te has apuntado ha terminado o te has quedado sin tiempo",
+                "NOT_ACTIVE": "Eres participante de este CTF pero el turno al que te has apuntado aún no ha empezado",
+                "NOT_STARTED": "Eres participante de este CTF pero no le has dado al botón de comenzar en la plataforma CAPP The Flag o no has comenzado a través de la API",
+                "NOT_A_PARTICIPANT": "No eres participante de este CTF",
+                "AUTHOR": "Eres el creador de este CTF"
             },
             "participationStart": {
-                "PARTICIPANT": "Has comenzado con éxito la CTF",
+                "PARTICIPANT": "Has comenzado con éxito el CTF",
                 "TOO_LATE": "El turno al que te has apuntado ha terminado o te has quedado sin tiempo",
                 "NOT_ACTIVE": "El turno al que te has apuntado aún no ha empezado",
-                "NOT_A_PARTICIPANT": "No eres participante de esta CTF",
-                "AUTHOR": "Eres el creador de esta CTF"
+                "NOT_A_PARTICIPANT": "No eres participante de este CTF",
+                "AUTHOR": "Eres el creador de este CTF"
             },
             "token": {
                 "String": "El token de autenticación para usar la API"
@@ -339,7 +339,7 @@
         },
         "invitation": {
             "no": "no",
-            "wannaJoin": "¿Quieres unirte a la CTF de",
+            "wannaJoin": "¿Quieres unirte a el CTF de",
             "typePasscode": "Introduce la contraseña de acceso para",
             "yes": "sí",
             "scopes": {
@@ -362,7 +362,7 @@
             },
             "assets": {
                 "title": "Galería de ficheros",
-                "dictDefaultMessage": "Arrastra los ficheros que necesitas para la CTF",
+                "dictDefaultMessage": "Arrastra los ficheros que necesitas para el CTF",
                 "dictFallbackMessage": "Intenta usar Google Chrome",
                 "dictFileTooBig": "El fichero es demasiado grande",
                 "dictInvalidFileTypedictResponseError": "Tipo de fichero no soportado",
@@ -378,15 +378,15 @@
                 "descriptionPlaceHolder": "Escribe la descripción de tu CTF. Esta será la información que se les presentará a los alumnos",
                 "durationPlaceHolder": "¿Cual es el tiempo máximo del que disponen los alumnos?",
                 "forbiddenLateSubmissionsPlaceHolder": "No permitir resolver retos al acabarse la cuenta atrás",
-                "passwordPlaceHolder": "Proporciona una contraseña para restringir el acceso a la CTF",
+                "passwordPlaceHolder": "Proporciona una contraseña para restringir el acceso a el CTF",
                 "noFileUploaded": "No has subido ningún fichero",
                 "noImageUploaded": "No has subido ninguna imagen",
                 "subjectPlaceHolder": "¿A qué asignatura pertenece esta actividad?",
                 "teamSizePlaceHolder": "¿Cuántos alumnos puede haber en cada equipo? Déjalo en blanco si no quieres limitarlo",
                 "supportLinkPlaceHolder": "¿Adónde se dirigen los alumnos en caso de tener problemas?",
-                "title": "Configuración básica de la CTF",
+                "title": "Configuración básica del CTF",
                 "titlePlaceHolder": "¿Cómo se llama tu CTF?",
-                "videoPlaceHolder": "URL del vídeo de presentación de la CTF"
+                "videoPlaceHolder": "URL del vídeo de presentación del CTF"
             },
             "evaluation": {
                 "eachHint": "Asigna una penalización o recompensa por solicitar una pista",
@@ -409,13 +409,13 @@
                 "youCanUse": "Puedes utilizar",
                 "puzzle": "Reto",
                 "weight": "Peso",
-                "automaticAttendance": "Marcar asistencia automáticamente cuando un estudiante acceda a la CTF en su turno",
+                "automaticAttendance": "Marcar asistencia automáticamente cuando un estudiante acceda a el CTF en su turno",
                 "automaticAttendanceNone": "No marcar asistencia automáticamente en ningún caso",
                 "automaticAttendanceParticipant": "Marcar asistencia sólo a ese estudiante",
                 "automaticAttendanceTeam": "Marcar asistencia a todo el equipo"
             },
             "hints": {
-                "explanation": "En este apartado puedes configurar la estrategia de pistas a seguir durante la CTF. Hay tres estragias disponibles: no permitir pistas; permitir que el alumno obtenga una pista cuando la necesite sin proporcionar nada a cambio, y permitir que el alumno obtenga una pista tras responder correctamente a un cuestionario. Si habilitas las pistas, puedes configurar el límite de pistas que puede recibir cada equipo durante la CTF. Si eliges la última estrategia, sólo tienes que subir un fichero MoodleXML con una batería de preguntas e indicar cuántas se les muestran cada intento, cuántas deben acertar para lograr una pista y si se les muestra la respuesta correcta al finalizar cada intento.",
+                "explanation": "En este apartado puedes configurar la estrategia de pistas a seguir durante el CTF. Hay tres estragias disponibles: no permitir pistas; permitir que el alumno obtenga una pista cuando la necesite sin proporcionar nada a cambio, y permitir que el alumno obtenga una pista tras responder correctamente a un cuestionario. Si habilitas las pistas, puedes configurar el límite de pistas que puede recibir cada equipo durante el CTF. Si eliges la última estrategia, sólo tienes que subir un fichero MoodleXML con una batería de preguntas e indicar cuántas se les muestran cada intento, cuántas deben acertar para lograr una pista y si se les muestra la respuesta correcta al finalizar cada intento.",
                 "correctNumber": "Número de aciertos",
                 "correctNumberPlaceHolder": "¿Cuántas preguntas hay que acertar para obtener una pista?",
                 "moodleXMLExplanation": "Si quieres que los alumnos tengan que responder a una serie de preguntas para obtener una pista, sube un fichero MoodleXML que incluya una batería de preguntas",
@@ -442,17 +442,17 @@
                 "uploadFile": "Sube un fichero MoodleXML"
             },
             "team": {
-                "explanation": "En este apartado puedes personalizar la interfaz que los estudiantes verán en sus pantallas mientras jueguen a la CTF. Puedes añadir una pista inicial, enlaces, imágenes, etc.",
+                "explanation": "En este apartado puedes personalizar la interfaz que los estudiantes verán en sus pantallas mientras jueguen a el CTF. Puedes añadir una pista inicial, enlaces, imágenes, etc.",
                 "placeholder": "Añade un mensaje personalizado, imágenes, links... No te olvides de configurar cuándo quieres que sea visible esta información haciendo click en el icono del ojo a la izquierda",
                 "title": "Interfaz de equipo"
             },
             "class": {
-                "explanation": "En este apartado puedes personalizar la interfaz que proyectarás en el aula. Puedes añadir elementos como la cuenta atrás, el video introductorio o el ranking. Si los alumnos van a participar en la CTF de forma remota nunca verán esta interfaz, por lo que puedes saltarte este paso.",
+                "explanation": "En este apartado puedes personalizar la interfaz que proyectarás en el aula. Puedes añadir elementos como la cuenta atrás, el video introductorio o el ranking. Si los alumnos van a participar en el CTF de forma remota nunca verán esta interfaz, por lo que puedes saltarte este paso.",
                 "placeholder": "Añade la información que quieras proyectar a los alumnos",
                 "title": "Interfaz de clase"
             },
             "indications": {
-                "explanation": "En este apartado puedes personalizar las instrucciones que los alumnos recibirán antes de que comience la CTF desde el momento en el que se apunten. Por ejemplo, puedes recordarles que traigan algún material, indicarles que repasen parte del contenido de la asignatura o proporcionarles un vídeo para que visualicen.",
+                "explanation": "En este apartado puedes personalizar las instrucciones que los alumnos recibirán antes de que comience el CTF desde el momento en el que se apunten. Por ejemplo, puedes recordarles que traigan algún material, indicarles que repasen parte del contenido de la asignatura o proporcionarles un vídeo para que visualicen.",
                 "placeholder": "Añade instrucciones previas personalizadas",
                 "title": "Instrucciones previas",
                 "front": {
@@ -466,7 +466,7 @@
                     "setupVisualization": "Visualización",
                     "visualizationIntro": "¿Cuándo deseas mostrar este bloque de contenido?",
                     "visualizationStart": "Nada más empezar",
-                    "visualizationFinish": "Cuando superen la CTF",
+                    "visualizationFinish": "Cuando superen el CTF",
                     "visualizationSucceed": "Cuando los alumnos estén trabajando en los siguientes retos",
                     "accept": "aceptar",
                     "cancel": "cancelar",
@@ -492,7 +492,7 @@
             	"evaluation": "Evaluación"
             },
             "puzzles": {
-                "explanation": "En este apartado puedes configurar los distintos retos que componen la CTF. Ten en cuenta que deben seguir una estructura lineal, es decir, para resolver un reto es necesario haber resuelto el anterior. Debes especificar el nombre y descripción del reto, así como la solución del mismo. Si seleccionas la opción de monitorización automática para algún reto, en la interfaz de equipo no se permitirá resolver ese reto sino que debes hacerlo a través de la API de CAPP The Flag. Adicionalmente puedes añadir pistas automáticas para cada reto, que se le proporcionaran a los alumnos cuando se queden atascados y pidan ayuda.",
+                "explanation": "En este apartado puedes configurar los distintos retos que componen el CTF. Ten en cuenta que deben seguir una estructura lineal, es decir, para resolver un reto es necesario haber resuelto el anterior. Debes especificar el nombre y descripción del reto, así como la solución del mismo. Si seleccionas la opción de monitorización automática para algún reto, en la interfaz de equipo no se permitirá resolver ese reto sino que debes hacerlo a través de la API de CAPP The Flag. Adicionalmente puedes añadir pistas automáticas para cada reto, que se le proporcionaran a los alumnos cuando se queden atascados y pidan ayuda.",
                 "addNewHint": "añadir pista",
                 "addNewCategory": "añadir categoría",
                 "addNewPuzzles": "añadir reto",
@@ -532,14 +532,14 @@
                 "enrollmentPeriod": "Periodo de matriculación",
                 "enrollmentPeriodPlaceholder": "Periodo en el que los alumnos se podrán matricular en este turno",
                 "password": "Contraseña",
-                "passwordPlaceholder": "Contraseña para acceder al turno. Por defecto es la misma que para la CTF",
+                "passwordPlaceholder": "Contraseña para acceder al turno. Por defecto es la misma que para el CTF",
                 "passwordEmpty": "ninguna",
                 "capacity": "Aforo",
                 "capacityPlaceholder": "Máximo número de personas admitidas en este turno. Déjalo en blanco si no quieres limitarlo."    
             }
         },
         "general": {
-            "areYouSureDelete": "¿Seguro que deseas eliminar esta CTF?"
+            "areYouSureDelete": "¿Seguro que deseas eliminar este CTF?"
         },
         "attributes": {
             "title": "El título",
@@ -673,12 +673,12 @@
                 }
             },
             "sixth": {
-                "title": "Paso 6: Probar la CTF",
+                "title": "Paso 6: Probar el CTF",
                 "intro": "Detectar y arreglar los errores es crucial para el éxito de una <em>CTF</em> educativa, puesto que la presencia de un fallo podría tener consecuencias catastróficas en el desarrollo de la actividad. Por ello, es necesario probar los retos primero de forma individual y después realizar una simulación completa."
             },
             "seventh": {
                 "title": "Paso 7: Elaborar una forma de evaluar la experiencia",
-                "intro": "Existen varias maneras de evaluar si los alumnos han aprendido realizando la actividad. Una manera es mediante un grupo de control, comparando las notas de los alumnos que realizaron la CTF con los que no. Otra manera es realizando un test al principio de la CTF y al final, comprobando si ha habido un incremento significativo de los conocimientos de los alumnos. Por último, al final de la actividad es conveniente realizar una encuesta para conocer la opinión de los alumnos acerca de la CTF."
+                "intro": "Existen varias maneras de evaluar si los alumnos han aprendido realizando la actividad. Una manera es mediante un grupo de control, comparando las notas de los alumnos que realizaron el CTF con los que no. Otra manera es realizando un test al principio del CTF y al final, comprobando si ha habido un incremento significativo de los conocimientos de los alumnos. Por último, al final de la actividad es conveniente realizar una encuesta para conocer la opinión de los alumnos acerca del CTF."
             }
         }
     },
@@ -723,7 +723,7 @@
         "delete": "borrar",
         "outside": "Otros recursos ajenos a CAPP The Flag",
         "fullscreen": "Compartir en pantalla completa",
-        "intro": "La siguiente colección de recursos se integra con los retos de tu CTF de CAPP The Flag. Puedes personalizar distintos aspectos de los mismos y obtener un enlace para compartirlos con tus alumnos como parte de la CTF."
+        "intro": "La siguiente colección de recursos se integra con los retos de tu CTF de CAPP The Flag. Puedes personalizar distintos aspectos de los mismos y obtener un enlace para compartirlos con tus alumnos como parte del CTF."
 
     },
     "participant": {
@@ -731,9 +731,9 @@
         "areYouSureDelete": "¿Seguro que desea borrar este participante?",
         "back": "volver",
         "confirm": "confirmar asistencia",
-        "delete": "Quitar a este participante de la CTF",
+        "delete": "Quitar a este participante del CTF",
         "download": "descargar",
-        "emptyER": "No hay participantes en esta CTF",
+        "emptyER": "No hay participantes en este CTF",
         "emptyTurno": "No hay participantes en este turno",
         "errorSaving": "Ha ocurrido un error",
         "participantS": "participante(s)",
@@ -742,7 +742,7 @@
         "seeByTeam": "ver por equipo",
         "select": "marcar/desmarcar todos",
         "title": "Participantes",
-        "wrongToken": "Contraseña de acceso a la CTF incorrecta",
+        "wrongToken": "Contraseña de acceso a el CTF incorrecta",
         "connected": "Conectado",
         "waiting": "En espera",
         "disconnected": "Desonectado"
@@ -771,16 +771,16 @@
         "access": "acceder",
         "beforeLeave": "Antes de irte rellena el siguiente cuestionario",
         "beforeStart": "Antes de empezar rellena el siguiente cuestionario",
-        "opinion": "¡Tu opinión cuenta! Dinos lo que piensas de la CTF",
+        "opinion": "¡Tu opinión cuenta! Dinos lo que piensas del CTF",
         "play": "comenzar",
         "results": "resultados",
         "Results": "Resultados",
-        "start": "¡La CTF acaba de empezar!",
+        "start": "¡El CTF acaba de empezar!",
         "join": "unirme",
         "supportLink": "Soporte",
         "sureUnjoin": "¿Seguro que deseas desapuntarte?",
-        "congrats": "¡Enhorabuena! Has terminado con éxito la CTF",
-        "resultsTitle": "Este es el ranking de resultados de la CTF",
+        "congrats": "¡Enhorabuena! Has terminado con éxito el CTF",
+        "resultsTitle": "Este es el ranking de resultados del CTF",
         "unjoin": "desapuntarse"
     },
     "showTeacher": {
@@ -816,18 +816,18 @@
         },
         "messages": {
             "copyAria": "Input invisible para permitir copiar el link de invitación",
-            "freeHintsStrategy": "Esta CTF permite obtener pistas libremente",
-            "noHintsStrategy": "Esta CTF no permite obtener pistas",
-            "noHintControl": "Esta CTF no utiliza ningún mecanismo de control de pistas",
+            "freeHintsStrategy": "Este CTF permite obtener pistas libremente",
+            "noHintsStrategy": "Este CTF no permite obtener pistas",
+            "noHintControl": "Este CTF no utiliza ningún mecanismo de control de pistas",
             "noVideo": "No hay vídeo",
             "copyTitle": "Copia el enlace",
             "qrTitle": "Genera un código QR para compartir",
-            "noShiftsShare": "No puedes compartir la CTF hasta que hayas establecido al menos un turno",
-            "noShiftsStart": "No puedes comenzar la CTF hasta que hayas establecido al menos un turno",
+            "noShiftsShare": "No puedes compartir el CTF hasta que hayas establecido al menos un turno",
+            "noShiftsStart": "No puedes comenzar el CTF hasta que hayas establecido al menos un turno",
             "join": {
-                "intro": "Para que tus alumnos puedan acceder a la CTF comparte con ellos el siguiente enlace:",
+                "intro": "Para que tus alumnos puedan acceder a el CTF comparte con ellos el siguiente enlace:",
                 "also": "También pueden acceder a ",
-                "register": " y, tras registrarse e iniciar sesión, seleccionar la CTF ",
+                "register": " y, tras registrarse e iniciar sesión, seleccionar el CTF ",
                 "password": " e introducir la contraseña ",
                 "specialShifts": "Turnos especiales"
 
@@ -849,29 +849,29 @@
             "survey": "Encuesta",
             "teamSize": "Tamaño máx. equipos",
             "scope": "Privacidad",
-            "supportLink": "Enlace de ayuda durante la CTF",
+            "supportLink": "Enlace de ayuda durante el CTF",
             "thumbnail": "Miniatura",
             "title": "Título",
             "turnos": "Turnos",
             "video": "Vídeo",
             "share": "Compartir",
-            "forceLang": "Forzar el idioma de CAPP The Flag para los alumnos de esta CTF"
+            "forceLang": "Forzar el idioma de CAPP The Flag para los alumnos de este CTF"
         }
     },
     "team": {
         "add": "Añada un equipo",
-        "addMsg": "Tus compañeros podrán unirse a tu equipo cuando se registren en la CTF",
+        "addMsg": "Tus compañeros podrán unirse a tu equipo cuando se registren en el CTF",
         "addPlaceHolder": "Escribe el nombre del equipo",
-        "areYouSureDelete": "¿Seguro que deseas eliminar este equipo de la CTF?",
+        "areYouSureDelete": "¿Seguro que deseas eliminar este equipo del CTF?",
         "areYouSureReset": "¿Seguro que deseas reiniciar el progreso de este equipo?",
         "back": "volver",
         "choose": "Selecciona un equipo ",
-        "delete": "Quitar este equipo de la CTF",
-        "emptyER": "No hay equipos en esta CTF",
+        "delete": "Quitar este equipo del CTF",
+        "emptyER": "No hay equipos en este CTF",
         "emptyTurno": "No hay equipos en este turno",
         "fullTeam": "Equipo completo. Por favor, elige otro equipo",
         "hasStarted": "¿Han comenzado?",
-        "alreadyFinished": "Este equipo ya ha terminado la CTF. Por favor, elige otro equipo",
+        "alreadyFinished": "Este equipo ya ha terminado el CTF. Por favor, elige otro equipo",
         "Members": "Integrantes",
         "noTeamYet": "No hay equipos todavía...",
         "notAvailable": "El equipo seleccionado no está disponible",
@@ -939,7 +939,7 @@
         },
         "noPlace": "Lugar no indicado",
         "place": "Lugar",
-        "activateTurnos": "Administrar los turnos de la CTF",
+        "activateTurnos": "Administrar los turnos del CTF",
         "areYouSureStop": "¿Seguro que deseas detener este turno?",
         "areYouSureStartScheduledFor": "¿Seguro que deseas comenzar el turno programado para",
         "areYouSureStopScheduledFor": "¿Seguro que deseas detener el turno programado para",
@@ -952,12 +952,12 @@
             "pending": "Pendiente"
         },
         "fullTurno": "El turno seleccionado está lleno. Elige otro.",
-        "notActive": "Esta CTF no está activa para tu usuario",
+        "notActive": "Este CTF no está activa para tu usuario",
         "selectActivate": "Selecciona el turno que quieres activar/desactivar",
         "selectStudent": "Selecciona un turno",
         "areYouSureReset": "¿Seguro que quieres reiniciar este turno? Todo el progreso de los alumnos se perderá",
         "resetProgress": "Reinicia el turno",
-        "noTurnAvailable": "No hay ningún turno disponible en esta CTF",
+        "noTurnAvailable": "No hay ningún turno disponible en este CTF",
         "theres": "Queda",
         "thereare": "Quedan",
         "start": "Comenzar turno",
@@ -965,7 +965,7 @@
         "spot": "puesto libre",
         "spots": "puestos libres",
         "openSpots": "en este turno",
-        "todayEscapeRoom": "¡Este día se celebra la CTF!",
+        "todayEscapeRoom": "¡Este día se celebra el CTF!",
         "Turno": "Turno",
         "Links": "Enlaces",
         "statusMsg": {
@@ -1027,7 +1027,7 @@
             "welcome": "Bienvenido a la plataforma de gestión de CTF ;)",
             "wrongLetterDNI": "DNI erroneo, la letra del NIF no se corresponde",
             "notFound": "Usuario no encontrado",
-            "ensureRegistered": "Ha ocurrido un error. Asegúrate de que te has registrado correctamente en la CTF.",
+            "ensureRegistered": "Ha ocurrido un error. Asegúrate de que te has registrado correctamente en el CTF.",
             "emailConfirm":"Por favor, confirma tu correo electrónico haciendo click en el botón de confirmar",
             "emailConfirmButton":"confirmar",
             "emailResetPassword1":" Si recibes este mensaje es porque has solicitado recuperar tu contraseña en CAPP The Flag.",

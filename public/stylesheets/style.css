@@ -1050,8 +1050,8 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
 #mainSection .main.escapeRoomShow .menuERShow .attachmentShow img {
   height: auto;
   width: auto;
-  max-height: 150px;
-  max-width: 150px;
+  max-height: 300px;
+  max-width: 300px;
 }
 #mainSection .main.escapeRoomShow .menuERShow .menuERShowLeft {
   margin-right: 50px;
