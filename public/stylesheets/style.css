@@ -2983,13 +2983,16 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   background-color: #161938;
 }
 .portada .contenedor .loginLeft {
+  background-image: url("../images/puzzle_bg.png");
+  background-size: contain;
   width: 50%;
   text-align: center;
   flex: 7;
   padding: 30px;
   display: flex;
-  height: 80vh;
+  height: 100vh;
   justify-content: center;
+  border-right: 3px solid black;
 }
 .portada .contenedor .loginLeft #imagenPortada {
   max-height: 70%;
@@ -2999,11 +3002,11 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
 }
 .portada .contenedor .loginRight {
   color: white;
-  background-color: #2A2A52;
+  background-color: #242746;
   text-align: center;
   width: 50%;
   flex: 3;
-  padding: 3em;
+  padding: 5em;
   position: relative;
 }
 .portada .contenedor .loginRight h2 {
