@@ -191,7 +191,7 @@
             "passwordsDoNotMatch": "Las contraseñas no coinciden",
             "problemSendingEmail": "Ha habido un problema con su petición",
             "resetPasswordSent": "Te hemos enviado un correo para recuperar tu contraseña",
-            "resetPasswordUserNotFound": "Lo siento, no estás registrado en escapp",
+            "resetPasswordUserNotFound": "Lo siento, no estás registrado en CAPP The Flag",
             "successActivatingTurno": "Turno activado/desactivado con éxito",
             "successCreatingER": "CTF creada con éxito",
             "successCreatingHint": "Pista creada con éxito",
@@ -247,7 +247,7 @@
             "description": "Descripción",
             "authentication": "Indica si los parámetros de autenticación son correctos o no",
             "authenticationAPI": "Autenticación",
-            "authenticationAPIDesc": "Este endpoint te permite autenticarte en escapp y comprobar si puedes participar en una CTF determinada en un momento dado",
+            "authenticationAPIDesc": "Este endpoint te permite autenticarte en CAPP The Flag y comprobar si puedes participar en una CTF determinada en un momento dado",
             "method": "Método",
             "email": "Correo electrónico del usuario",
             "password": "Contraseña del usuario",
@@ -257,9 +257,9 @@
             "response": "Respuesta",
             "sampleResponse": "Ejemplo de respuesta",
             "puzzleAPI": "Retos",
-            "puzzleAPIDesc": "Este endpoint permite resolver los retos de la CTF sin necesidad de emplear la interfaz de equipo de escapp",
+            "puzzleAPIDesc": "Este endpoint permite resolver los retos de la CTF sin necesidad de emplear la interfaz de equipo de CAPP The Flag",
             "startAPI": "Participación",
-            "startAPIDesc": "Este endpoint te permite comenzar a participar en la CTF sin necesidad de darle al botón de comenzar en escapp",
+            "startAPIDesc": "Este endpoint te permite comenzar a participar en la CTF sin necesidad de darle al botón de comenzar en CAPP The Flag",
             "erState": "Objeto que indica el estado actual de la CTF para el equipo. Tiene 4 propiedades: <code>puzzlesSolved</code>, que contiene un array de los retos que el equipo ha superado (incluyendo el número, nombre, solución y mensaje de éxito); <code>hintsAllowed</code>, un booleano que indica si el equipo puede o no recibir más pistas; <code>progress</code>, que indica el porcentaje de retos superados, y <code>score</code>, que calcula la nota del participante según la rúbrica establecida por el profesor.",
             "code": {
                 "OK": "La petición ha tenido éxito total",
@@ -270,7 +270,7 @@
                 "PARTICIPANT": "Eres participante de esta CTF y el turno al que te has apuntado está activo ahora mismo",
                 "TOO_LATE": "Eres participante de esta CTF pero el turno al que te has apuntado ha terminado o te has quedado sin tiempo",
                 "NOT_ACTIVE": "Eres participante de esta CTF pero el turno al que te has apuntado aún no ha empezado",
-                "NOT_STARTED": "Eres participante de esta CTF pero no le has dado al botón de comenzar en la plataforma escapp o no has comenzado a través de la API",
+                "NOT_STARTED": "Eres participante de esta CTF pero no le has dado al botón de comenzar en la plataforma CAPP The Flag o no has comenzado a través de la API",
                 "NOT_A_PARTICIPANT": "No eres participante de esta CTF",
                 "AUTHOR": "Eres el creador de esta CTF"
             },
@@ -492,7 +492,7 @@
             	"evaluation": "Evaluación"
             },
             "puzzles": {
-                "explanation": "En este apartado puedes configurar los distintos retos que componen la CTF. Ten en cuenta que deben seguir una estructura lineal, es decir, para resolver un reto es necesario haber resuelto el anterior. Debes especificar el nombre y descripción del reto, así como la solución del mismo. Si seleccionas la opción de monitorización automática para algún reto, en la interfaz de equipo no se permitirá resolver ese reto sino que debes hacerlo a través de la API de escapp. Adicionalmente puedes añadir pistas automáticas para cada reto, que se le proporcionaran a los alumnos cuando se queden atascados y pidan ayuda.",
+                "explanation": "En este apartado puedes configurar los distintos retos que componen la CTF. Ten en cuenta que deben seguir una estructura lineal, es decir, para resolver un reto es necesario haber resuelto el anterior. Debes especificar el nombre y descripción del reto, así como la solución del mismo. Si seleccionas la opción de monitorización automática para algún reto, en la interfaz de equipo no se permitirá resolver ese reto sino que debes hacerlo a través de la API de CAPP The Flag. Adicionalmente puedes añadir pistas automáticas para cada reto, que se le proporcionaran a los alumnos cuando se queden atascados y pidan ayuda.",
                 "addNewHint": "añadir pista",
                 "addNewCategory": "añadir categoría",
                 "addNewPuzzles": "añadir reto",
@@ -721,9 +721,9 @@
         "shareIntro": "Puedes usar este link para compartir el reto con tus alumnos",
         "edit": "editar",
         "delete": "borrar",
-        "outside": "Otros recursos ajenos a escapp",
+        "outside": "Otros recursos ajenos a CAPP The Flag",
         "fullscreen": "Compartir en pantalla completa",
-        "intro": "La siguiente colección de recursos se integra con los retos de tu CTF de escapp. Puedes personalizar distintos aspectos de los mismos y obtener un enlace para compartirlos con tus alumnos como parte de la CTF."
+        "intro": "La siguiente colección de recursos se integra con los retos de tu CTF de CAPP The Flag. Puedes personalizar distintos aspectos de los mismos y obtener un enlace para compartirlos con tus alumnos como parte de la CTF."
 
     },
     "participant": {
@@ -855,7 +855,7 @@
             "turnos": "Turnos",
             "video": "Vídeo",
             "share": "Compartir",
-            "forceLang": "Forzar el idioma de escapp para los alumnos de esta CTF"
+            "forceLang": "Forzar el idioma de CAPP The Flag para los alumnos de esta CTF"
         }
     },
     "team": {
@@ -1030,7 +1030,7 @@
             "ensureRegistered": "Ha ocurrido un error. Asegúrate de que te has registrado correctamente en la CTF.",
             "emailConfirm":"Por favor, confirma tu correo electrónico haciendo click en el botón de confirmar",
             "emailConfirmButton":"confirmar",
-            "emailResetPassword1":" Si recibes este mensaje es porque has solicitado recuperar tu contraseña en escapp.",
+            "emailResetPassword1":" Si recibes este mensaje es porque has solicitado recuperar tu contraseña en CAPP The Flag.",
             "emailResetPassword2":"Haz click en el siguiente link:"
         },
         "name": "Nombre",
