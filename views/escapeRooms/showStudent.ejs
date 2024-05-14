@@ -56,9 +56,7 @@
 			<% } else if(turno.status === "active" && !finished && (!team.startTime || (new Date(team.startTime.getTime() + escapeRoom.duration * 60000) > new Date()))) { %>
 				<span id ="start">
 					<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
-						<button class="rounded acceptButton pulseButton" onclick="clicked()">
-							<%=team.startTime ? i18n.showStudent.join : i18n.showStudent.play%>
-						</button>
+						
 					</form>
 				</span>
 			<%}%>
@@ -70,6 +68,7 @@
 			<% } %>
 			<% if(turno.status !== "finished" && !team.startTime){%>
 				<div id="unjoin" method="post" style="display: inline-block;">
+					
 					<button class="rounded deleteButton" onclick="overlayTrigger('unjoin')">
 						<%=i18n.showStudent.unjoin%>
 					</button>
