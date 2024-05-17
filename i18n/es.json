@@ -193,21 +193,21 @@
             "resetPasswordSent": "Te hemos enviado un correo para recuperar tu contraseña",
             "resetPasswordUserNotFound": "Lo siento, no estás registrado en CAPP The Flag",
             "successActivatingTurno": "Turno activado/desactivado con éxito",
-            "successCreatingER": "CTF creada con éxito",
+            "successCreatingER": "CTF creado con éxito",
             "successCreatingHint": "Pista creada con éxito",
             "successCreatingPuzzle": "Reto creado con éxito",
             "successCreatingTeam": "Equipo creado con éxito",
-            "successCreatingTeamSingle": "Te has unido con éxito a el CTF",
+            "successCreatingTeamSingle": "Te has unido con éxito al CTF",
             "successCreatingTurno": "Turno creado con éxito",
             "successCreatingUser": "Usuario creado con éxito",
-            "successDeletingER": "CTF borrada con éxito",
+            "successDeletingER": "CTF borrado con éxito",
             "successDeletingHint": "Pista borrada con éxito",
             "successDeletingPuzzle": "Reto borrado con éxito",
             "successDeletingTeam": "Equipo borrado con éxito",
             "successDeletingTurno": "Turno borrado con éxito",
             "successResetingTurno": "Turno reiniciado con éxito",
             "successDeletingUser": "Usuario borrado con éxito",
-            "successEditingER": "CTF editada con éxito",
+            "successEditingER": "CTF editado con éxito",
             "successEditingHint": "Pista editada con éxito",
             "successEditingHintApproach": "Configuración de pistas editada con éxito",
             "successEditingPuzzle": "Reto editado con éxito",
@@ -247,7 +247,7 @@
             "description": "Descripción",
             "authentication": "Indica si los parámetros de autenticación son correctos o no",
             "authenticationAPI": "Autenticación",
-            "authenticationAPIDesc": "Este endpoint te permite autenticarte en CAPP The Flag y comprobar si puedes participar en una CTF determinada en un momento dado",
+            "authenticationAPIDesc": "Este endpoint te permite autenticarte en CAPP The Flag y comprobar si puedes participar en un CTF determinado en un momento dado",
             "method": "Método",
             "email": "Correo electrónico del usuario",
             "password": "Contraseña del usuario",
@@ -339,7 +339,7 @@
         },
         "invitation": {
             "no": "no",
-            "wannaJoin": "¿Quieres unirte a el CTF de",
+            "wannaJoin": "¿Quieres unirte al CTF de",
             "typePasscode": "Introduce la contraseña de acceso para",
             "yes": "sí",
             "scopes": {
@@ -349,11 +349,11 @@
         },
         "main": {
             "copyOf": "Copia de",
-            "createER": "Crear nueva CTF",
-            "noERTeacher": "No has creado ninguna CTF, gestiónalas desde aquí...",
-            "noERStudent": "No tienes ninguna CTF activa, utiliza en enlace original que te ha proporcionado tu profe para apuntarte.",
-            "yesERStudent": "Estas son las CTFs disponibles",
-            "yesERTeacher": "Gestiona las CTFs desde aquí...",
+            "createER": "Crear nuevo CTF",
+            "noERTeacher": "No has creado ningún CTF, gestiónalas desde aquí...",
+            "noERStudent": "No tienes ningún CTF activo, utiliza en enlace original que te ha proporcionado tu profe para apuntarte.",
+            "yesERStudent": "Estos son los CTFs disponibles",
+            "yesERTeacher": "Gestiona los CTFs desde aquí...",
             "notAvailable": "CTF no disponible"
         },
         "steps": {
@@ -378,7 +378,7 @@
                 "descriptionPlaceHolder": "Escribe la descripción de tu CTF. Esta será la información que se les presentará a los alumnos",
                 "durationPlaceHolder": "¿Cual es el tiempo máximo del que disponen los alumnos?",
                 "forbiddenLateSubmissionsPlaceHolder": "No permitir resolver retos al acabarse la cuenta atrás",
-                "passwordPlaceHolder": "Proporciona una contraseña para restringir el acceso a el CTF",
+                "passwordPlaceHolder": "Proporciona una contraseña para restringir el acceso al CTF",
                 "noFileUploaded": "No has subido ningún fichero",
                 "noImageUploaded": "No has subido ninguna imagen",
                 "subjectPlaceHolder": "¿A qué asignatura pertenece esta actividad?",
@@ -409,7 +409,7 @@
                 "youCanUse": "Puedes utilizar",
                 "puzzle": "Reto",
                 "weight": "Peso",
-                "automaticAttendance": "Marcar asistencia automáticamente cuando un estudiante acceda a el CTF en su turno",
+                "automaticAttendance": "Marcar asistencia automáticamente cuando un estudiante acceda al CTF en su turno",
                 "automaticAttendanceNone": "No marcar asistencia automáticamente en ningún caso",
                 "automaticAttendanceParticipant": "Marcar asistencia sólo a ese estudiante",
                 "automaticAttendanceTeam": "Marcar asistencia a todo el equipo"
@@ -442,7 +442,7 @@
                 "uploadFile": "Sube un fichero MoodleXML"
             },
             "team": {
-                "explanation": "En este apartado puedes personalizar la interfaz que los estudiantes verán en sus pantallas mientras jueguen a el CTF. Puedes añadir una pista inicial, enlaces, imágenes, etc.",
+                "explanation": "En este apartado puedes personalizar la interfaz que los estudiantes verán en sus pantallas mientras jueguen al CTF. Puedes añadir una pista inicial, enlaces, imágenes, etc.",
                 "placeholder": "Añade un mensaje personalizado, imágenes, links... No te olvides de configurar cuándo quieres que sea visible esta información haciendo click en el icono del ojo a la izquierda",
                 "title": "Interfaz de equipo"
             },
@@ -591,7 +591,7 @@
     "inspiration": {
         "downloadText": "descargar guía",
         "intro": "¿No sabes por donde empezar a crear tu <em>CTF</em>? <br/> Sigue los siguientes pasos",
-        "title": "Guía para crear una CTF",
+        "title": "Guía para crear un CTF",
         "banner": {
             "design": "Diseña",
             "approach": "Planteamiento",
@@ -612,7 +612,7 @@
         "steps": {
             "first": {
                 "title": "Paso 1: Establecer el planteamiento general",
-                "intro": "Una buena manera de empezar a diseñar una <em>CTF</em> educativa es establecer cómo va a encajar la actividad dentro de la asignatura y así poder dimensionar correctamente la actividad.",
+                "intro": "Una buena manera de empezar a diseñar un <em>CTF</em> educativa es establecer cómo va a encajar la actividad dentro de la asignatura y así poder dimensionar correctamente la actividad.",
                 "list": {
                     "first": "Opcional u obligatoria",
                     "second": "Evaluable o extra",
@@ -624,7 +624,7 @@
             },
             "second": {
                 "title": "Paso 2: Definir los objetivos de aprendizaje",
-                "intro": "Una vez definida la actividad en el contexto de la asignatura en la cual se va a desarrollar, es necesario delimitar qué contenidos específicos del temario va a cubrir la <em>CTF</em>, al igual que ocurre en cualquier otra actividad didáctica. Se recomienda establecer primero unos objetivos generales y a continuación desgranar éstos en objetivos más específicos que los alumnos deben lograr para superar la actividad."
+                "intro": "Una vez definida la actividad en el contexto de la asignatura en la cual se va a desarrollar, es necesario delimitar qué contenidos específicos del temario va a cubrir el <em>CTF</em>, al igual que ocurre en cualquier otra actividad didáctica. Se recomienda establecer primero unos objetivos generales y a continuación desgranar éstos en objetivos más específicos que los alumnos deben lograr para superar la actividad."
             },
             "third": {
                 "title": "Paso 3: Escoger los retos",
@@ -643,7 +643,7 @@
             },
             "fourth": {
                 "title": "Paso 4: Seleccionar una temática apropiada",
-                "intro": "La temática es una de las piezas clave que diferencia una <em>CTF</em> de un ejercicio práctico en grupo. Se trata de la historia que envuelve toda la experiencia y que proporciona el carácter inmersivo del juego. Aporta sentido a las tareas que los alumnos deben realizar durante la <em>CTF</em> y cohesiona todas las pruebas de la actividad. Cuando desarrolles la temática has de tener en cuenta:",
+                "intro": "La temática es una de las piezas clave que diferencia una <em>CTF</em> de un ejercicio práctico en grupo. Se trata de la historia que envuelve toda la experiencia y que proporciona el carácter inmersivo del juego. Aporta sentido a las tareas que los alumnos deben realizar durante el <em>CTF</em> y cohesiona todas las pruebas de la actividad. Cuando desarrolles la temática has de tener en cuenta:",
                 "list": {
                     "first": "<strong>La narrativa</strong>,  el contexto temporal y el espacial",
                     "second": "<strong>El perfil del alumno</strong> al que va dirigido",
@@ -654,27 +654,27 @@
                     "adventure": "Aventuras",
                     "history": "Historia"
                 },
-                "booksAndMovies": "Una buena fuente de inspiración para seleccionar una temática son los libros, los videojuegos, y las películas y series famosas, ya que es probable que los alumnos conozcan la trama o los personajes de antemano.  Por supuesto, la asignatura en la que se enmarque la <em>CTF</em> ejercerá una gran influencia en la selección de la temática, puesto que los retos a superar deben estar apoyados por la narrativa. Algunos ejemplos de temáticas son:"
+                "booksAndMovies": "Una buena fuente de inspiración para seleccionar una temática son los libros, los videojuegos, y las películas y series famosas, ya que es probable que los alumnos conozcan la trama o los personajes de antemano.  Por supuesto, la asignatura en la que se enmarque el <em>CTF</em> ejercerá una gran influencia en la selección de la temática, puesto que los retos a superar deben estar apoyados por la narrativa. Algunos ejemplos de temáticas son:"
             },
             "fifth": {
                 "title": "Paso 5: Construir los retos, pistas y demás materiales",
-                "intro" : "Por último, con el diseño de la <em>CTF</em> y los recursos disponibles en mente, es hora de comenzar a construir todas las piezas.",
+                "intro" : "Por último, con el diseño de el <em>CTF</em> y los recursos disponibles en mente, es hora de comenzar a construir todas las piezas.",
                 "puzzles": {
                     "title": "Retos",
-                    "content": "Para construir los retos es común emplear recursos físicos como candados, llaves, cajas, equipamiento de laboratorio, rompecabezas, etc. En el caso de una <em>CTF</em> en las que muchos alumnos participan simultáneamente, este tipo de recursos pueden aumentar en gran medida el presupuesto necesario para la actividad. Una solución es combinar recursos físicos sencillos (de papel, por ejemplo) con recursos digitales gratuitos: aplicaciones móviles, sonidos, puzzles virtuales, etc."
+                    "content": "Para construir los retos es común emplear recursos físicos como candados, llaves, cajas, equipamiento de laboratorio, rompecabezas, etc. En el caso de un <em>CTF</em> en las que muchos alumnos participan simultáneamente, este tipo de recursos pueden aumentar en gran medida el presupuesto necesario para la actividad. Una solución es combinar recursos físicos sencillos (de papel, por ejemplo) con recursos digitales gratuitos: aplicaciones móviles, sonidos, puzzles virtuales, etc."
                 },
                 "hints": {
                     "title": "Pistas",
-                    "content": "Una parte esencial en el diseño de toda <em>CTF</em> son las pistas y ayudas. Es esencial evitar que los alumnos pasen demasiado tiempo en un mismo reto ya que, si esto ocurre, se corre el riesgo de que pierdan la motivación. Además, esa situación puede ser contraproducente desde el punto de vista pedagógico, ya que los alumnos no se enfrentarán  a la totalidad de los retos. Para evitar que la petición de ayuda sea constante, una posibilidad es idear una batería de preguntas que los alumnos tengan que intentar responder cada vez que necesiten una pista. Si consiguen acertar más de un número determinado de preguntas, conseguirán una pista. De esta manera los alumnos se ganarán el derecho a obtener ayuda y se ponen a prueba sus conocimientos teóricos acerca de la asignatura para complementar el contenido práctico que se pone en práctica en la <em>CTF</em>."
+                    "content": "Una parte esencial en el diseño de todo <em>CTF</em> son las pistas y ayudas. Es esencial evitar que los alumnos pasen demasiado tiempo en un mismo reto ya que, si esto ocurre, se corre el riesgo de que pierdan la motivación. Además, esa situación puede ser contraproducente desde el punto de vista pedagógico, ya que los alumnos no se enfrentarán  a la totalidad de los retos. Para evitar que la petición de ayuda sea constante, una posibilidad es idear una batería de preguntas que los alumnos tengan que intentar responder cada vez que necesiten una pista. Si consiguen acertar más de un número determinado de preguntas, conseguirán una pista. De esta manera los alumnos se ganarán el derecho a obtener ayuda y se ponen a prueba sus conocimientos teóricos acerca de la asignatura para complementar el contenido práctico que se pone en práctica en el <em>CTF</em>."
                 },
                 "instructions": {
                     "title": "Instrucciones",
-                    "intro": "Antes de comenzar el desarrollo de la actividad, es importante presentar el juego a los alumnos. Es importante aclarar cuáles son los límites de la actividad, si pueden salir de la sala, si pueden hacer uso de sus dispositivos móviles, si pueden hablar con los demás equipos, etc. A continuación, se les introduce a la temática presentando el objetivo a lograr en la <em>CTF</em> y dando indicaciones de por donde empezar. Esto se puede hacer en forma de videomensaje en el que un personaje (ya sea el profesor o un “actor”) apela a los alumnos para que le ayuden a resolver un misterio, crimen, enigma, etc. También se puede aproximar desde la perspectiva contraria, mostrando un video en el que el personaje ejerce un papel de villano que amenaza a los alumnos."
+                    "intro": "Antes de comenzar el desarrollo de la actividad, es importante presentar el juego a los alumnos. Es importante aclarar cuáles son los límites de la actividad, si pueden salir de la sala, si pueden hacer uso de sus dispositivos móviles, si pueden hablar con los demás equipos, etc. A continuación, se les introduce a la temática presentando el objetivo a lograr en el <em>CTF</em> y dando indicaciones de por donde empezar. Esto se puede hacer en forma de videomensaje en el que un personaje (ya sea el profesor o un “actor”) apela a los alumnos para que le ayuden a resolver un misterio, crimen, enigma, etc. También se puede aproximar desde la perspectiva contraria, mostrando un video en el que el personaje ejerce un papel de villano que amenaza a los alumnos."
                 }
             },
             "sixth": {
                 "title": "Paso 6: Probar el CTF",
-                "intro": "Detectar y arreglar los errores es crucial para el éxito de una <em>CTF</em> educativa, puesto que la presencia de un fallo podría tener consecuencias catastróficas en el desarrollo de la actividad. Por ello, es necesario probar los retos primero de forma individual y después realizar una simulación completa."
+                "intro": "Detectar y arreglar los errores es crucial para el éxito de un <em>CTF</em> educativo, puesto que la presencia de un fallo podría tener consecuencias catastróficas en el desarrollo de la actividad. Por ello, es necesario probar los retos primero de forma individual y después realizar una simulación completa."
             },
             "seventh": {
                 "title": "Paso 7: Elaborar una forma de evaluar la experiencia",
@@ -742,7 +742,7 @@
         "seeByTeam": "ver por equipo",
         "select": "marcar/desmarcar todos",
         "title": "Participantes",
-        "wrongToken": "Contraseña de acceso a el CTF incorrecta",
+        "wrongToken": "Contraseña de acceso al CTF incorrecta",
         "connected": "Conectado",
         "waiting": "En espera",
         "disconnected": "Desonectado"
@@ -825,7 +825,7 @@
             "noShiftsShare": "No puedes compartir el CTF hasta que hayas establecido al menos un turno",
             "noShiftsStart": "No puedes comenzar el CTF hasta que hayas establecido al menos un turno",
             "join": {
-                "intro": "Para que tus alumnos puedan acceder a el CTF comparte con ellos el siguiente enlace:",
+                "intro": "Para que tus alumnos puedan acceder al CTF comparte con ellos el siguiente enlace:",
                 "also": "También pueden acceder a ",
                 "register": " y, tras registrarse e iniciar sesión, seleccionar el CTF ",
                 "password": " e introducir la contraseña ",
@@ -952,7 +952,7 @@
             "pending": "Pendiente"
         },
         "fullTurno": "El turno seleccionado está lleno. Elige otro.",
-        "notActive": "Este CTF no está activa para tu usuario",
+        "notActive": "Este CTF no está activo para tu usuario",
         "selectActivate": "Selecciona el turno que quieres activar/desactivar",
         "selectStudent": "Selecciona un turno",
         "areYouSureReset": "¿Seguro que quieres reiniciar este turno? Todo el progreso de los alumnos se perderá",
