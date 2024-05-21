@@ -48,6 +48,8 @@
 		</div>
 	
 		<div class="status animated fadeIn">
+			<% var hasAutomaticPuzzle  = escapeRoom.puzzles.some(puzzle => puzzle.automatic); %>
+			
 
 			<% if (turno.status === "pending") { %>
 				<span id ="start">
@@ -56,9 +58,17 @@
 			<% } else if(turno.status === "active" && !finished && (!team.startTime || (new Date(team.startTime.getTime() + escapeRoom.duration * 60000) > new Date()))) { %>
 				<span id ="start">
 					<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/play" style="display: inline;">
-						<button class="rounded acceptButton pulseButton" onclick="clicked()">
-							<%=team.startTime ? i18n.showStudent.join : i18n.showStudent.play%>
-						</button>
+						<% if (hasAutomaticPuzzle && !team.startTime) { %>
+							<!-- Si tiene un puzzle automático y no ha empezado se muestra un botón deshabilitado -->
+							<button class="rounded acceptButton pulseButton" disabled>
+								<%= team.startTime ? i18n.showStudent.join : i18n.showStudent.play %>
+							</button>
+						<% } else { %>
+							<!-- Si no tiene un puzzle automático o si ya ha comenzado, se muestra un botón activo -->
+							<button class="rounded acceptButton pulseButton" onclick="clicked()">
+								<%= team.startTime ? i18n.showStudent.join : i18n.showStudent.play %>
+							</button>
+						<% } %>
 					</form>
 				</span>
 			<%}%>
