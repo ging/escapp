@@ -5,33 +5,27 @@
  */
 
 var httpApp = require('../app');
-var httpsApp = require('../app');
 var io = require('../io');
 var debug = require('debug')('web:server');
 var http = require('http');
-var https = require('https');
 
-/**
- * Get port from environment and store in Express.
- */
 
-if (httpApp.get("env") === "production" && !process.env.HEROKU) {
+
+if ( httpApp.get("env") === "production" && !process.env.HEROKU) {
+
+  // SOCKET.IO SERVER 
   var httpServer;
-  var port = normalizePort('443');
-  var fs = require('fs');
-  var https = require('https');
-  httpsApp.set('port', port);
-  var privateKey  = fs.readFileSync(process.env.HTTPS_PRIVATE_KEY, 'utf8');
-  var certificate = fs.readFileSync(process.env.HTTPS_CERTIFICATE, 'utf8');
-  var ca = fs.readFileSync(process.env.HTTPS_CA_CERT, 'utf8');
-
-  var credentials = {key: privateKey, cert: certificate, ca};
-  httpServer = https.createServer(credentials, httpsApp);
-  global.io = io.createServer(httpServer, httpsApp.sessionMiddleware);
-  httpServer.listen(port);
+  var port_s = normalizePort('8082');
+  httpApp.set('port', port_s);
+  httpServer = http.createServer(httpApp);
+  global.io = io.createServer(httpServer, httpApp.sessionMiddleware);
+  httpServer.listen(port_s);
   httpServer.on('error', onError);
   httpServer.on('listening', onListening);
-}  
+}
+
+  //  HTTP SERVER FOR THE APP
+
   var port = normalizePort(process.env.PORT || '3000');
   httpApp.set('port', port);
 
@@ -110,3 +104,28 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
