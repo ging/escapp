@@ -1,7 +1,7 @@
 {
     "lang": "en",
     "locale": "en_US",
-    "description": "Platform for managing educational escape rooms",
+    "description": "Platform for managing educational CTFs",
     "analytics": {
         "charts": {
             "titles": {
@@ -80,8 +80,8 @@
         },
         "timeline": {
             "customHint": "Help from the teacher",
-            "openDoor": "The team has successfully finished the escape room",
-            "closedDoor": "The team has started the escape room",
+            "openDoor": "The team has successfully finished the CTF",
+            "closedDoor": "The team has started the CTF",
             "nTeamsPuzzle": "Number of teams that completed each puzzle",
             "nTeamsPuzzleButton": "see by team",
             "nPuzzlesTeam": "Number of puzzles completed by each team",
@@ -96,10 +96,10 @@
             "title": "Timeline",
             "showLegend": "Show legend",
             "time": "Time",
-            "puzzleExplanation": "The timeline shows the puzzles each team of students were working on at every instant of the escape room. For each solved puzzle, the number of minutes it took each team to solve it is displayed. If a puzzle does not have a number on top, it means that students did not manage to solve it.",
+            "puzzleExplanation": "The timeline shows the puzzles each team of students were working on at every instant of the CTF. For each solved puzzle, the number of minutes it took each team to solve it is displayed. If a puzzle does not have a number on top, it means that students did not manage to solve it.",
             "unsolved": "Not solved",
             "now": "Current moment",
-            "end": "End of the escape room",
+            "end": "End of the CTF",
             "hintFailed": "Hint failed to obtain",
             "hintSucceeded": "Hint obtained"
         }
@@ -109,7 +109,7 @@
         "userNotFound": "User not found",
         "correct": "Correct answer!",
         "correctNotActive": "The answer is correct but you are not being tracked because your turn is not active",
-        "correctNotParticipant": "The answer is correct but you are not being tracked because you have not joined this escape room",
+        "correctNotParticipant": "The answer is correct but you are not being tracked because you have not joined this CTF",
         "correctTooLate": "The answer is correct but the time is up",
         "message": "Message",
         "ok": "ok",
@@ -117,15 +117,15 @@
         "notFound": "Not found",
         "error": "Error",
         "wrong": "Wrong answer",
-        "isAuthor": "You are the author of this escape room",
+        "isAuthor": "You are the author of this CTF",
         "wrongCredentials": "The email and password combination is incorrect",
         "wrongCredentialsToken": "The email and token combination is incorrect",
-        "notAParticipant": "You are not a participant of this escape room",
-        "alreadyParticipating": "You have already started participating in this escape room",
-        "participant": "You are a participant of this escape room",
-        "notActive": "You are a participant of this escape room but your shift is not active",
-        "notStarted": "You are a participant of this escape room but you have not clicked the start button",
-        "tooLate": "You are a participant of this escape room but your time is up"
+        "notAParticipant": "You are not a participant of this CTF",
+        "alreadyParticipating": "You have already started participating in this CTF",
+        "participant": "You are a participant of this CTF",
+        "notActive": "You are a participant of this CTF but your shift is not active",
+        "notStarted": "You are a participant of this CTF but you have not clicked the start button",
+        "tooLate": "You are a participant of this CTF but your time is up"
     },
     "apps": {
         "newApp": "New app",
@@ -147,7 +147,7 @@
         "delete": "delete",
         "download": "download",
         "edit": "edit",
-        "my": "My escape rooms",
+        "my": "My CTFs",
         "error": {
             "whoops": "Whoops!",
             "notFound": "It seems like we couldn't find the page you were looking for",
@@ -170,7 +170,7 @@
             "errorCreatingHint": "An error occurred while creating the hint.",
             "errorCreatingPuzzle": "An error occurred while creating the puzzle.",
             "errorCreatingTeam": "An error occurred while creating the team.",
-            "errorCreatingTeamAlreadyExists": "A team with this name already exists in this escape room",
+            "errorCreatingTeamAlreadyExists": "A team with this name already exists in this CTF",
             "errorCreatingTurno": "An error occurred while creating the shift",
             "errorCreatingUser": "An error occurred while creating a new user",
             "errorDeletingER": "An error occurred while deleting the Escape Room",
@@ -201,7 +201,7 @@
             "successCreatingHint": "Hint successfully created",
             "successCreatingPuzzle": "Puzzle successfully created",
             "successCreatingTeam": "Team successfully created",
-            "successCreatingTeamSingle": "You have successfully joined the escape room",
+            "successCreatingTeamSingle": "You have successfully joined the CTF",
             "successCreatingTurno": "Shift successfully created",
             "successCreatingUser": "User successfully created",
             "successDeletingER": "Escape Room successfully deleted",
@@ -250,7 +250,7 @@
             "description": "Description",
             "authentication": "Whether the authentication parameters are correct or not",
             "authenticationAPI": "Authentication",
-            "authenticationAPIDesc": "This endpoint allows you to authenticate in CAPP The Flag and verify whether you are allowed to participate in an escape room at a given time",
+            "authenticationAPIDesc": "This endpoint allows you to authenticate in CAPP The Flag and verify whether you are allowed to participate in an CTF at a given time",
             "method": "Method",
             "email": "User e-mail",
             "password": "User password",
@@ -262,28 +262,28 @@
             "puzzleAPI": "Puzzles",
             "puzzleAPIDesc": "This endpoint allows you to solve puzzles remotely without a need to access CAPP The Flag's team interface",
             "startAPI": "Participation",
-            "startAPIDesc": "This endpoint allows you to start participating in an escape room without a need to hit the start button in CAPP The Flag",
-            "erState": "Object indicating the current state of the escape room for the team. It has two properties: <code>puzzlesSolved</code>, which contains an array indicating which puzzles have been completed by the team (including the puzzle's name, number, solution, and success message);  <code>hintsAllowed</code>, a boolean indicating whether the team can request any more hints; <code>progress</code>, the percentage of puzzles solved, and <code>score</code>, the total score of the participant according to the grading rubric set up by the teacher.",
+            "startAPIDesc": "This endpoint allows you to start participating in an CTF without a need to hit the start button in CAPP The Flag",
+            "erState": "Object indicating the current state of the CTF for the team. It has two properties: <code>puzzlesSolved</code>, which contains an array indicating which puzzles have been completed by the team (including the puzzle's name, number, solution, and success message);  <code>hintsAllowed</code>, a boolean indicating whether the team can request any more hints; <code>progress</code>, the percentage of puzzles solved, and <code>score</code>, the total score of the participant according to the grading rubric set up by the teacher.",
             "code": {
                 "OK": "The answer provided for the puzzle is correct",
                 "NOK": "The answer provided for the puzzle is incorrect"
             },
             "correctAnswer":"Boolean whose value is <code>true</code> if the answer provided for the puzzle is correct and <code>false</code> otherwise.",
             "participation": {
-                "PARTICIPANT": "You are a participant of this escape room and the shift you signed up for is active",
-                "TOO_LATE": "You are a participant of this escape room but the shift you signed up for is finished or you have run out of time",
-                "NOT_ACTIVE": "You are a participant of this escape room but the shift you signed up for has not started yet",
-                "NOT_STARTED": "You are a participant of this escape room but you have not hit the start button on the CAPP The Flag platform or started via API",
-                "NOT_A_PARTICIPANT": "You are not a participant of this escape room",
-                "AUTHOR": "You are the author of this escape room"
+                "PARTICIPANT": "You are a participant of this CTF and the shift you signed up for is active",
+                "TOO_LATE": "You are a participant of this CTF but the shift you signed up for is finished or you have run out of time",
+                "NOT_ACTIVE": "You are a participant of this CTF but the shift you signed up for has not started yet",
+                "NOT_STARTED": "You are a participant of this CTF but you have not hit the start button on the CAPP The Flag platform or started via API",
+                "NOT_A_PARTICIPANT": "You are not a participant of this CTF",
+                "AUTHOR": "You are the author of this CTF"
             },
             "participationStart": {
-                "PARTICIPANT": "You have successfully started the escape room",
+                "PARTICIPANT": "You have successfully started the CTF",
                 "TOO_LATE": "The shift you signed up for is finished or you have run out of time",
                 "NOT_ACTIVE": "The shift you signed up for has not started yet",
                 "NOT_STARTED": "You have not hit the start button on the CAPP The Flag platform",
-                "NOT_A_PARTICIPANT": "You are not a participant of this escape room",
-                "AUTHOR": "You are the author of this escape room"
+                "NOT_A_PARTICIPANT": "You are not a participant of this CTF",
+                "AUTHOR": "You are the author of this CTF"
             },
             "token": {
                 "String": "The authentication token you can use for the API"
@@ -356,7 +356,7 @@
         },
         "main": {
             "copyOf": "Copy of",
-            "createER": "Create new escape room",
+            "createER": "Create new CTF",
             "noERTeacher": "You haven't created any Escape Rooms yet. Manage them from here",
             "noERStudent": "You haven't any active Escape Rooms yet, wait for your teacher's invitation.",
             "yesERStudent": "These are your Escape Rooms",
@@ -369,7 +369,7 @@
             },
             "assets": {
                 "title": "Asset upload",
-                "dictDefaultMessage": "Drop the files that you need to conduct the escape room",
+                "dictDefaultMessage": "Drop the files that you need to conduct the CTF",
                 "dictFallbackMessage": "Try to use Google Chrome",
                 "dictFileTooBig": "The file is too big",
                 "dictInvalidFileTypedictResponseError": "Invalid file type",
@@ -385,8 +385,8 @@
                 "descriptionPlaceHolder": "Write the Escape Room's description here. This information will be given to your students",
                 "durationPlaceHolder": "¿What time do students have to complete de Escape Room?",
                 "forbiddenLateSubmissionsPlaceHolder": "Do not allow to solve puzzles once the time is up",
-                "passwordPlaceHolder": "Provide a password to restrict access to the escape room",
-                "invitationPlaceHolder": "Provide a password to restrict access to the escape room",
+                "passwordPlaceHolder": "Provide a password to restrict access to the CTF",
+                "invitationPlaceHolder": "Provide a password to restrict access to the CTF",
                 "noFileUploaded": "No files have been uploaded yet",
                 "noImageUploaded": "No pictures have been uploaded yet",
                 "subjectPlaceHolder": "What subject does this activity belong to?",
@@ -418,7 +418,7 @@
                 "puzzle": "Puzzle",
                 "weight": "Weight",
                 "youCanUse": "You can use",
-                "automaticAttendance": "Take attendance automatically when a student accesses an escape room during his/her shift",
+                "automaticAttendance": "Take attendance automatically when a student accesses an CTF during his/her shift",
                 "automaticAttendanceNone": "Do not take attendance automatically whatsoever",
                 "automaticAttendanceParticipant": "Take attendance automatically only for that student",
                 "automaticAttendanceTeam": "Take attendance automatically for the whole team"
@@ -426,7 +426,7 @@
             "hints": {
                 "correctNumber": "Number of correct answers",
                 "correctNumberPlaceHolder": "How many correct answers do students need to obtain a hint?",
-                "explanation": "In this step you can select the hint strategy of your escape room. There are three strategies available: not allowing hints, allowing free hints, and requiring students to solve a quiz in order to obtain a hint. If you enable hints, you can set a limit of hints that students can obtain. If you choose the last strategy, you need to upload a MoodleXML file containing a battery of questions and indicate how many questions will be shown each attempt, how many they need to get right in order to pass, and whether the right answer should be shown to them after each attempt",
+                "explanation": "In this step you can select the hint strategy of your CTF. There are three strategies available: not allowing hints, allowing free hints, and requiring students to solve a quiz in order to obtain a hint. If you enable hints, you can set a limit of hints that students can obtain. If you choose the last strategy, you need to upload a MoodleXML file containing a battery of questions and indicate how many questions will be shown each attempt, how many they need to get right in order to pass, and whether the right answer should be shown to them after each attempt",
                 "moodleExplanation": "If you want students to answer a quiz in order to get a hint, please upload a MoodleXML with a battery of questions",
                 "feedback": "Feedback",
                 "feedbackExplanation": "Do you want to show students the correct answers once the quiz is completed?",
@@ -456,12 +456,12 @@
                 "title": "Team interface"
             },
             "class": {
-                "explanation": "Here you can customize the interface that you'll be able to screen in the classroom for all students to see. It can include the introductory video, the countdown, the leaderboard, etc. If students are participating in the escape room remotely, they will never see the class interface, so you can skip this step.",
+                "explanation": "Here you can customize the interface that you'll be able to screen in the classroom for all students to see. It can include the introductory video, the countdown, the leaderboard, etc. If students are participating in the CTF remotely, they will never see the class interface, so you can skip this step.",
                 "placeholder": "Add the information you want to project in the classroom",
                 "title": "Classroom interface"
             },
             "indications": {
-                "explanation": "Here you can customize the information students will see prior to the start of the escape room since the moment the sign up. For instance, you can remind them to bring certain material, tell them to review the course content, or provide them a video to watch.",
+                "explanation": "Here you can customize the information students will see prior to the start of the CTF since the moment the sign up. For instance, you can remind them to bring certain material, tell them to review the course content, or provide them a video to watch.",
                 "placeholder": "Add custom instructions",
                 "title": "Pre-activity instructions",
                 "front": {
@@ -475,7 +475,7 @@
                     "setupVisualization": "Visualization",
                     "visualizationIntro": "When do you wish to display this content block?",
                     "visualizationStart": "Right at the beginning",
-                    "visualizationFinish": "When they finish the escape room",
+                    "visualizationFinish": "When they finish the CTF",
                     "visualizationSucceed": "When students are working on the following puzzles",
                     "accept": "accept",
                     "cancel": "cancel",
@@ -502,7 +502,7 @@
                 "turnos": "Shifts"
             },
             "puzzles": {
-                "explanation": "In this step, you can specify the different puzzles that make up the escape room. Bear in mind that they must follow a linear structure, which means that in order to solve a puzzle, students need to have solved the previous one before. You need to specify the name and description of each puzzle, as well as its solution. If you check the automatic monitorization option for any puzzle, it will not be displayed in the team interface for students to solve. Instead, you need to use CAPP The Flag's API in order to solve it. In addition, you may add automatic hints for each puzzle, which will be handed to students when they get stuck and ask for help.",
+                "explanation": "In this step, you can specify the different puzzles that make up the CTF. Bear in mind that they must follow a linear structure, which means that in order to solve a puzzle, students need to have solved the previous one before. You need to specify the name and description of each puzzle, as well as its solution. If you check the automatic monitorization option for any puzzle, it will not be displayed in the team interface for students to solve. Instead, you need to use CAPP The Flag's API in order to solve it. In addition, you may add automatic hints for each puzzle, which will be handed to students when they get stuck and ask for help.",
                 "addNewHint": "add hint",
                 "addNewCategory": "add category",
                 "addNewPuzzles": "add puzzle",
@@ -538,18 +538,18 @@
                 "namePlaceholder": "Name to identify the shift",
                 "autonomous": "Autonomous",
                 "date": "Celebration date",
-                "datePlaceholder": "Date in which the escape room will take place",
+                "datePlaceholder": "Date in which the CTF will take place",
                 "enrollmentPeriod": "Enrollment period",
                 "enrollmentPeriodPlaceholder": "Period in which students can sign up for this shift",
                 "password": "Password",
-                "passwordPlaceholder": "Password to access the shift. By default it is the same you provided for the escape room",
+                "passwordPlaceholder": "Password to access the shift. By default it is the same you provided for the CTF",
                 "passwordEmpty": "none",
                 "capacity": "Capacity",             
                 "capacityPlaceholder": "Maximum people allowed in this shift. Leave it blank if you do not want to limit it"             
             }
         },
         "general": {
-            "areYouSureDelete": "Are you sure you want to delete this escape room?"
+            "areYouSureDelete": "Are you sure you want to delete this CTF?"
         },
         "attributes": {
             "title": "The title",
@@ -592,7 +592,7 @@
         "uploadNew": "upload a new one",
         "selectGamificationElements": "Insert gamification element",
         "countdown": "Countdown",
-        "countdownExplanation": "It shows the countdown of the time students have left to complete the escape room",
+        "countdownExplanation": "It shows the countdown of the time students have left to complete the CTF",
         "ranking": "Leaderboard",
         "rankingExplanation": "It shows the teams ordered by their level of performance",
         "progress": "Progress bar",
@@ -683,13 +683,13 @@
                 }
             },
             "sixth": {
-                "title": "Step 6: Test the escape room",
+                "title": "Step 6: Test the CTF",
                 "intro": "Detecting and fixing errors is crucial to the success of an educational Escape Room, since the presence of a failure could have catastrophic consequences in the development of the activity. It is necessary to test the challenges first individually and then perform a complete simulation."
             },
 
             "seventh": {
                 "title": "Step 7: Develop a way to evaluate the experience",
-                "intro": "There are several ways to evaluate if the students have learned doing the activity, one way is through a control group, comparing the notes of the students who made the escape room with those who did not. at the beginning of the escape room and at the end, checking if there has been a significant increase in the knowledge of the students Finally, at the end of the activity it is convenient to conduct a survey to know the opinion of the students about the escape room."
+                "intro": "There are several ways to evaluate if the students have learned doing the activity, one way is through a control group, comparing the notes of the students who made the CTF with those who did not. at the beginning of the CTF and at the end, checking if there has been a significant increase in the knowledge of the students Finally, at the end of the activity it is convenient to conduct a survey to know the opinion of the students about the CTF."
                 }
         }
     },
@@ -734,14 +734,14 @@
         "delete": "delete",
         "outside": "Other resources out of the scope of CAPP The Flag",
         "fullscreen": "Share in fullscreen",
-        "intro": "The collection of puzzles below allows you to connect digital puzzle applications with the puzzle outline that you defined for your CAPP The Flag escape room. You can customize their settings and share them with your students as a part of your escape room."
+        "intro": "The collection of puzzles below allows you to connect digital puzzle applications with the puzzle outline that you defined for your CAPP The Flag CTF. You can customize their settings and share them with your students as a part of your CTF."
     },
     "participant": {
         "attendanceSaved": "Attendance successfully saved",
         "areYouSureDelete": "Are you sure you wish to delete this participant?",
         "back": "back",
         "confirm": "confirm attendance",
-        "delete": "Delete this participant from the escape room",
+        "delete": "Delete this participant from the CTF",
         "download": "download",
         "emptyER": "There aren't any participants in this Escape Room yet",
         "emptyTurno": "There aren't any participants in this shift yet",
@@ -752,7 +752,7 @@
         "seeByTeam": "see by team",
         "select": "select/deselect all ",
         "title": "Participants",
-        "wrongToken": "Wrong password to access the escape room",
+        "wrongToken": "Wrong password to access the CTF",
         "connected": "Connected",
         "waiting": "Waiting",
         "disconnected": "Disconnected"
@@ -786,12 +786,12 @@
         "play": "play",
         "results": "results",
         "Results": "Results",
-        "start": "The escape room has just started!",
+        "start": "The CTF has just started!",
         "join": "join",
         "supportLink": "Support",
         "sureUnjoin": "Are you sure you want to leave the Escape Room?",
         "congrats": "Congratulations! You've successfully exited the Escape Room.",
-        "resultsTitle": "This is the escape room's leaderboard",
+        "resultsTitle": "This is the CTF's leaderboard",
         "unjoin": "leave"
     },
     "showTeacher": {
@@ -826,18 +826,18 @@
         },
         "messages": {
             "noHintControl": "This Escape Room does not have any hint system yet",
-            "freeHintsStrategy": "This escape room allows obtaining free hints",
-            "noHintsStrategy": "This escape room does not allow to obtain hints",
+            "freeHintsStrategy": "This CTF allows obtaining free hints",
+            "noHintsStrategy": "This CTF does not allow to obtain hints",
             "noVideo": "This Escape Room does not have any video yet",
             "copyAria": "Invisible input to enable copying invitation link",
             "copyTitle": "Copy the link",
             "qrTitle": "Generate a QR code to share",
-            "noShiftsShare": "You cannot share the escape room until you have created at least one shift",
-            "noShiftsStart": "You cannot start the escape room until you have created at least one shift",
+            "noShiftsShare": "You cannot share the CTF until you have created at least one shift",
+            "noShiftsStart": "You cannot start the CTF until you have created at least one shift",
             "join": {
-                "intro": "Share the following link with yout students so they can access the escape room:",
+                "intro": "Share the following link with yout students so they can access the CTF:",
                 "also": "They can also access ",
-                "register": " and, after signing up and login in, they can select the escape room entitled ",
+                "register": " and, after signing up and login in, they can select the CTF entitled ",
                 "password": " and introduce the following password ",
                 "specialShifts": "Special shifts"
             }
@@ -857,13 +857,13 @@
             "survey": "Survey",
             "teamSize": "Team capacity",
             "scope": "Privacy",
-            "supportLink": "Link to get support during the escape room",
+            "supportLink": "Link to get support during the CTF",
             "thumbnail": "Thumbnail",
             "title": "Title",
             "turnos": "Shifts",
             "video": "Video",
             "share": "Share",
-            "forceLang": "Force specific language in CAPP The Flag for the participants of this escape room"
+            "forceLang": "Force specific language in CAPP The Flag for the participants of this CTF"
 
         }
     },
@@ -871,18 +871,18 @@
         "add": "Add a team",
         "addMsg": "Your friends can add to this team when they join the Escape Room",
         "addPlaceHolder": "Write your team's name",
-        "areYouSureDelete": "Are you sure you want to remove this team from the escape room?",
+        "areYouSureDelete": "Are you sure you want to remove this team from the CTF?",
         "areYouSureReset": "Are you sure you want to reset this team's progress?",
         "back": "back",
         "choose": "Pick a team ",
-        "delete": "Remove this team from the escape room",
+        "delete": "Remove this team from the CTF",
         "deleteSuccess": "The team has been successfully removed",
         "deleteFail": "The team could not be removed",
         "emptyER": "There aren't any teams yet",
         "emptyTurno": "There aren't any teams in this shift yet",
         "fullTeam": "Complete team. Please choose another team",
         "hasStarted": "Have they started?",
-        "alreadyFinished": "This team has already finished the escape room. Please choose another team",
+        "alreadyFinished": "This team has already finished the CTF. Please choose another team",
         "Members": "Members",
         "noTeamYet": "There aren't any teams yet",
         "noResults": "No results",
@@ -956,7 +956,7 @@
         "todayEscapeRoom": "The Escape Room will be celebrated this day",
         "Turno": "Shift",
         "Links": "Links",
-        "activateTurnos": "Manage the escape room shifts",
+        "activateTurnos": "Manage the CTF shifts",
         "areYouSureStop": "Are you sure you want to stop this shift?",
         "areYouSureStopScheduledFor": "Are you sure you want to stop the shift scheduled for",
         "areYouSureStart": "Are you sure you want to start this shift?",
@@ -1079,11 +1079,11 @@
         "ok": "Message sent",
         "nok": "Message could not be sent",
         "send": "send",
-        "everyone": "Everyone connected to this escape room",
+        "everyone": "Everyone connected to this CTF",
         "shift": "Everyone connected that belongs to the shift",
         "team": "Everyone connected that belongs to the team",
         "participant": "Just one person (if connected)",
-        "waiting": "Include participants waiting to enter the escape room as well",
+        "waiting": "Include participants waiting to enter the CTF as well",
         "msgPlaceholder": "Write here your message",
         "msgPlaceholder2": "Write here your message. All the users in this list that are currently connected will receive it."
 
