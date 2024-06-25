@@ -2,9 +2,9 @@
 <div role="main" class="main participants teams turnos">
     <div class="breadcrumbs-container">
         <div class="breadcrumbs">
-            <a href="/escapeRooms"><%=i18n.common.my%></a>
+            <a href="/ctfs"><%=i18n.common.my%></a>
             <span class="material-icons">chevron_right</span>
-            <a href="/escapeRooms/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+            <a href="/ctfs/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
             <span class="material-icons">chevron_right</span>
             <span><%=i18n.turno.activateTurnosBC%></span>
         </div>
@@ -27,18 +27,18 @@
                 <div class="flex-cell flex-status"><b><%=i18n.turno.statuses[turno.status]%></b></div>
 
                 <div class="flex-cell flex-links">
-                    <a href="/escapeRooms/<%=escapeRoom.id%>/analytics?turnId=<%=turno.id%>">
+                    <a href="/ctfs/<%=escapeRoom.id%>/analytics?turnId=<%=turno.id%>">
                         <button class="turno-btn" title="<%=i18n.analytics.main.title%>" style="color: var(--mainpurple);">
                             <span class="material-icons">timeline</span>
                         </button>
                     </a>
-                    <a href="/escapeRooms/<%=escapeRoom.id%>/participants?turnId=<%=turno.id%>">
+                    <a href="/ctfs/<%=escapeRoom.id%>/participants?turnId=<%=turno.id%>">
                         <button class="turno-btn" title="<%=i18n.analytics.grading.attendance%>" style="color: var(--brightorange);" >
                             <span class="material-icons">fact_check</span>
                         </button>
                     </a>
                     
-                    <a href="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=turno.id%>/play">
+                    <a href="/ctfs/<%=escapeRoom.id%>/turnos/<%=turno.id%>/play">
                         <button class="turno-btn" title="<%=i18n.showTeacher.actionList.classInterface%>" >
                             <span class="material-icons">cast_for_education</span>
                         </button>
@@ -51,7 +51,7 @@
                                 <span class="material-icons">settings_backup_restore</span>
                             </button>
                             <div class="overlay-trigger" data-id="reset-<%=turno.id%>">
-                                <form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=turno.id%>/reset">
+                                <form method="POST" action="/ctfs/<%=escapeRoom.id%>/turnos/<%=turno.id%>/reset">
                                     <p><%=i18n.turno.areYouSureReset%></p>
                                     <button class="deleteButton" type="button" onclick="overlayTrigger('reset-<%=turno.id%>', true)"><%=i18n.common.cancel%></button>
                                     <button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
@@ -65,7 +65,7 @@
                                 <span class="material-icons"><%= turno.status === "active"? "stop" : "play_arrow"%></span>
                             </button>
                             <div class="overlay-trigger" data-id="activate-<%=turno.id%>">
-                                <form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/activate?_method=put">
+                                <form method="POST" action="/ctfs/<%=escapeRoom.id%>/activate?_method=put">
                                     <p><%=i18n.turno[turno.status === "active"? "areYouSureStop": "areYouSureStart"]%></p>
                                     <input type="hidden" id="turnSelected" name="turnSelected" value="<%=turno.id%>">
                                     <button class="deleteButton" type="button" onclick="overlayTrigger('reset-<%=turno.id%>', true)"><%=i18n.common.cancel%></button>

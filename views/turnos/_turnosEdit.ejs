@@ -8,7 +8,7 @@
 	<%let id = turno.id || "new"; %>
 	<%let title = turno.id ? i18n.escapeRoom.steps.turnos.editTitle : i18n.escapeRoom.steps.turnos.addTitle%>
 	<div class="dialog-turno" id="dialog-turno-<%=id%>" title="<%=title%>" style="display:none; height: auto;">
-		<form action="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=turno.id ? (turno.id + '?_method=put') : 'new'%>" method="POST" class="turno-form">
+		<form action="/ctfs/<%=escapeRoom.id%>/turnos/<%=turno.id ? (turno.id + '?_method=put') : 'new'%>" method="POST" class="turno-form">
 			<div class="turno-form-group">
 				<span class="material-icons">label</span>
 				<label class="light" for="place"> <%= i18n.escapeRoom.steps.turnos.name %></label>

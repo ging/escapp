@@ -5,7 +5,7 @@
         <h1><%=i18n.team.add%></h1>
         <div class="">
             <div>
-                <form method="POST" id="newForm" action="/escapeRooms/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams?token=<%=token%>">
+                <form method="POST" id="newForm" action="/ctfs/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams?token=<%=token%>">
                     <div>
                         <input type="text" id="name" class="teamName" required name="name" placeholder="<%=i18n.team.addPlaceHolder%>" autocomplete="off" maxlength="200"/>
                         <p class="centeredSmall"> <%=i18n.team.addMsg%>.</p>

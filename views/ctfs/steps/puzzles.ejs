@@ -1,0 +1,246 @@
+<%- include ("../../partials/_header.ejs") %>
+<div role="main" class="main step-puzzles">
+    <%- include ("../../partials/_breadcrumbStep") %>
+
+     <h1><%=i18n.escapeRoom.steps.puzzles.title%></h1>
+    <p class="intro-paragraph">
+        <%=i18n.escapeRoom.steps.puzzles.explanation%>
+    </p>
+    <div class="align-right">
+        <button class="rounded editButton" type="button" id="add-new-puzzle">
+            <!-- <span class="material-icons">control_point</span> -->
+            <%=i18n.escapeRoom.steps.puzzles.addNewPuzzles%>
+        </button>
+    </div>
+  <br/>
+  <br/>
+  <form method='POST' id="form" action='/ctfs/<%= escapeRoom.id %>/puzzles'>
+  <div id="sortable">
+
+    <% for(var reto in escapeRoom.puzzles) { %>
+        <% var puzzle = escapeRoom.puzzles[reto] %>
+        <%- include('../../partials/_puzzles_card', {reto, puzzle}) %>
+    	
+    <%}%>
+    </div>
+    <br/>
+    <div class="align-right flex-buttons" style="margin-bottom: 60px;">
+    <button class="progress-buttons" type="submit" value="<%=progress%>" id="progress-save" name="progress"><%=i18n.common.save%></button>
+    <button class="progress-buttons" type="submit" value="next" id="next" name="next"><%=i18n.common.next%></button>
+    <button class="progress-buttons" type="submit" value="previous" id="previous" name="previous"><%=i18n.common.previous%></button>
+    </div>
+  <%- include('../../partials/_progress', {progress}) %>
+</form>
+<br/>
+<br/>
+
+<div class="hidden-card">
+    <%- include('../../partials/_puzzles_card', {reto: 'new', puzzle: {id: 'new', hints: []}}) %>
+</div>  
+</div>
+<%- include('../../partials/_footer', {ignoreExtras: true}) %>
+<script src="/js/vendor/jquery.ui.sortable.min.js"></script>
+<script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>
+<script>
+  $( function() {
+    // Puzzle sortable
+
+    $(document).on('mousedown touchdown', '.handle', () => {
+        $('.puzzle-card > *:not(.showAlways)').slideUp({easing: "swing", duration: 100});
+        $('.puzzle-card').addClass('collapsed')
+    });
+    $(document).on('mouseup touchend', '.handle', () => {
+        $('.puzzle-card > *:not(.showAlways)').slideDown({easing: "swing", duration: 150});
+        $('.puzzle-card').removeClass('collapsed')
+        $('.puzzle-card > *:not(.showAlways)').show();
+    });
+
+    $( "#sortable" ).sortable({
+        handle: '.handle',
+        forcePlaceholderSize:true,
+        start: (event, ui) => {
+         $(ui.placeholder).height('105px');
+        },
+        stop: () => {
+            $('.puzzle-card > *:not(.showAlways)').slideDown({easing: "swing", duration: 200});
+            $('.puzzle-card').removeClass('collapsed')
+            $('.puzzle-card > *:not(.showAlways)').show();
+        },
+        update: (a,b)=>{
+            
+            $('.order').each((i,e)=> {
+                $(e).val(i);
+            })
+        }
+    });
+
+    // Hint sortable
+    $( ".hint-list" ).sortable({
+        handle: '.handle-hint',
+        cancel: ".hint-category",
+        update: (event,b)=>{
+            const movedHint = $(b.item[0]).closest('li');
+            const newCat = movedHint.prevAll('.hint-category').first();
+            const catInd = newCat.data('id') || 0;
+            movedHint.find('.hint-cat').val(catInd);
+
+            $(event.target).find('.hint-order').each((i,e)=> {
+                $(e).val(i);
+            })
+        }
+    });
+    // $('.handle').disableSelection();
+
+ 
+
+    $(document).on('click', '.addHint', (e) => {
+        const currentHintList = $(e.target.parentNode.parentNode).find('.hint-list');
+        const order = currentHintList.data('number');
+        const hintOrder = currentHintList.children('.hint-list-element').length;
+        const lastCategory = currentHintList.children('.hint-category').last()
+        const lastCat = lastCategory.length ? lastCategory.data('id') : 0;
+        const template = `
+        <li class="hint-list-element">
+            <div class="hint-li">
+                <span title="<%=i18n.escapeRoom.steps.puzzles.reorder%>" class="material-icons handle-hint">swap_vert</span>
+                <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][id]" value=""/>
+                <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][category]" class="hint-cat" value="${lastCat}"/>
+                <input type="hidden" name="puzzles[${order}][hints][${hintOrder}][order]" class="hint-order" value="${hintOrder}"/>
+                <input type="text" class="light" name="puzzles[${order}][hints][${hintOrder}][content]" maxlength="10000" placeholder="" required value=""/>
+                <button type="button" class="delete-hint" title="<%=i18n.escapeRoom.steps.puzzles.delete%>" >
+                  <span class="material-icons">clear</span> 
+                </button>
+            </div>
+        </li>
+        `;
+        $(template).appendTo(currentHintList);
+        currentHintList.sortable({
+            handle: '.handle-hint',
+            cancel: '.hint-category',
+            update: (event, ui) => {
+                const movedHint = $(ui.item[0]).closest('li');
+                const newCat = movedHint.prevAll('.hint-category').first();
+                const catInd = newCat.data('id') || 0;
+                movedHint.find('.hint-cat').val(catInd);
+                $(event.target).find('.hint-order').each((i,e)=> {
+                    $(e).val(i);
+                });
+
+            }
+        });
+        currentHintList.find('input[type=text]').last().focus();
+
+    });
+
+    $('#add-new-puzzle').on('click', ()=>{
+        let newCard = $('.hidden-card .puzzle-card').clone();
+        const order = $('.puzzle-card').length - 1;
+        newCard.find('.order').val(order);
+        newCard.find('.hint-list').data("number", order);
+        newCard.find( "input[name^='puzzles[new]'],select[name^='puzzles[new]']" ).each((i,e)=>{
+            e.name = e.name.replace('puzzles[new]','puzzles['+order+']');
+        });
+
+        newCard.appendTo('#sortable');
+        $('html, body').animate({
+            scrollTop: $(newCard).offset().top
+        }, 100);
+
+        newCard.find('input[type=text]').first().focus();
+    })
+
+    const catTemplate = (name, puzzle, cat) => {
+        return `<li class="hint-category" data-id="${cat}">
+            <span class="material-icons handle-cat">call_split</span>
+            <input class="light hint-category-name" value="${name || ""}" placeholder="<%=i18n.escapeRoom.steps.puzzles.newCat%>" name="puzzles[${puzzle}][categories][${cat}]"/>
+            ${cat === 0 ? "":`<button type="button" class="delete-cat" title="<%=i18n.escapeRoom.steps.puzzles.delete%>">
+                <span class="material-icons">clear</span>
+            </button>`}
+        </li>`
+
+    }
+
+    $(document).on('click', '.addCategory', (e) => {
+        const currentHintList = $(e.target.parentNode.parentNode).find('.hint-list');
+        const order = currentHintList.data('number');
+        const hintOrder = currentHintList.children('.hint-list-element').length;
+        const puzzleOrder = $(e.target.parentNode.parentNode.parentNode).find('.order').val()
+        if (currentHintList.find('.hint-category').length === 0) {
+            currentHintList.prepend(catTemplate("General", puzzleOrder, 0));
+        }
+        const nCats = currentHintList.children('.hint-category').length;
+        currentHintList.append(catTemplate(null, puzzleOrder, nCats));
+        currentHintList.find('.hint-category-name').last().focus();
+
+    });
+
+    $(document).on('click', '.delete-cat', (e) => {
+        // TODO Revisar esto y reorder puzzle
+        const catLi = e.target.parentNode.parentNode;
+        const ul = $(catLi.parentNode);
+        const catId = $(catLi).data('id');
+        const puzzleId = ul.data('number');
+        $(catLi).remove();
+        const cats = ul.children('.hint-category')
+        let catCount = -1;
+
+        if (cats.length === 1) {
+            cats.remove();
+            catCount = 0;
+        }
+
+        const listEls = ul.children();
+        listEls.each((i,e) => {
+            const el = $(e)
+            if (el.hasClass('hint-list-element')) {
+                el.find('.hint-cat').val(catCount);
+            } else if (el.hasClass('hint-category')) {
+                catCount++;
+                el.data('id', catCount);
+                el.find('.hint-category-name').attr('name',`puzzles[${puzzleId}][category][${catCount}]`);
+            }
+        });
+
+        
+    });
+
+    $(document).on('click', '.delete-hint', (e) => {
+        const actualHint = e.target.parentNode.parentNode.parentNode;
+        const parent = actualHint.parentNode;
+        actualHint.remove();
+        $(parent).find('.hint-order').each((i,e)=> {
+            $(e).val(i);
+        });
+    });
+
+    $(document).on('click', '.delete-puzzle', (e) => {
+        const actualPuzzle = e.target.parentNode.parentNode;
+        const parent = actualPuzzle.parentNode;
+        actualPuzzle.remove();
+        $(parent).find('.order').each((i,e)=> {
+            $(e).val(i);
+        });
+    })
+
+    $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            var inputs = $("form input:visible, form select");
+            var idx = (document.activeElement && (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT")) ? inputs.index(document.activeElement) : -1;
+            if (idx == inputs.length - 1) {
+                idx = -1;
+            } 
+            inputs[idx + 1].focus(); //  handles submit buttons
+            if (inputs[idx + 1].select) {
+                inputs[idx + 1].select();
+            }
+            return false;
+        }
+        
+    });
+
+    $("form input:visible, form select")[0].focus();
+});
+</script>
+
+

@@ -27,7 +27,7 @@ export const checkEscapp = async(solution) => {
     const email = window.email || urlParams.get('email');
     const password = window.password || urlParams.get('password');
     const isNotLegacy = email && password;
-    const URL = `${ESCAPP_HOST}/${isEmbeddedInEscapp() ? "" : "api/"}escapeRooms/${escapeRoomId}/puzzles/${puzzleId}/${isNotLegacy ? "submit" : "check"}`;
+    const URL = `${ESCAPP_HOST}/${isEmbeddedInEscapp() ? "" : "api/"}ctfs/${escapeRoomId}/puzzles/${puzzleId}/${isNotLegacy ? "submit" : "check"}`;
     const res = await fetch(URL, {
       "method": 'POST',
       "body": JSON.stringify(isNotLegacy ? {email, password, solution}:{token, solution}),

@@ -29,11 +29,11 @@ exports.saveInterface = async (name, req, res, next) => {
     escapeRoom[`${name}Appearance`] = body.appearance;
     try {
         await escapeRoom.save({"fields": [`${name}Instructions`, `${name}Appearance`]});
-        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep(name) : progressBar || nextStep(name)}`);
+        res.redirect(`/ctfs/${escapeRoom.id}/${isPrevious ? prevStep(name) : progressBar || nextStep(name)}`);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
             error.errors.forEach(({message}) => req.flash("error", message));
-            res.redirect(`/escapeRooms/${escapeRoom.id}/${name}`);
+            res.redirect(`/ctfs/${escapeRoom.id}/${name}`);
         } else {
             req.flash("error", `${i18n.common.flash.errorEditingER}: ${error.message}`);
             next(error);
@@ -52,7 +52,7 @@ exports.playInterface = async (name, req, res, next) => {
     const {token} = await models.user.findByPk(req.session.user.id);
 
     if (isAdmin || isAuthor) {
-        res.render("escapeRooms/play/play", {
+        res.render("ctfs/play/play", {
             "escapeRoom": req.escapeRoom,
             cloudinary,
             "team": {
@@ -107,13 +107,13 @@ exports.playInterface = async (name, req, res, next) => {
             const team = teams && teams[0] ? teams[0] : {};
 
             if (!team.startTime || team.turno.status !== "active" || exports.isTooLate(team, req.escapeRoom.forbiddenLateSubmissions, req.escapeRoom.duration) || team.retos.length === req.escapeRoom.puzzles.length) {
-                res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
+                res.redirect(`/ctfs/${req.escapeRoom.id}`);
                 return;
             }
             await exports.automaticallySetAttendance(team, req.session.user.id, req.escapeRoom.automaticAttendance);
             const hints = await models.requestedHint.findAll({"where": {"teamId": team.id, "success": true}, "include": [{"model": models.hint, "include": [{"model": models.puzzle, "attributes": ["order"]}]}], "order": [["createdAt", "ASC"]]});
 
-            res.render("escapeRooms/play/play", {"escapeRoom": req.escapeRoom, "hostName": process.env.APP_NAME ? `https://${process.env.APP_NAME}` : "http://localhost:3000", cloudinary, "teams": [], team, token, "userId": req.session.user.id, "turnoId": team.turno.id, "teamId": team.id, "isStudent": true, "hints": hints || [], "endPoint": name, "layout": false });
+            res.render("ctfs/play/play", {"escapeRoom": req.escapeRoom, "hostName": process.env.APP_NAME ? `https://${process.env.APP_NAME}` : "http://localhost:3000", cloudinary, "teams": [], team, token, "userId": req.session.user.id, "turnoId": team.turno.id, "teamId": team.id, "isStudent": true, "hints": hints || [], "endPoint": name, "layout": false });
         } catch (err) {
             next(err);
         }

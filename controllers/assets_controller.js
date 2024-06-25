@@ -16,7 +16,7 @@ exports.assets = async (req, res, next) => {
             return {id, public_id, url, mime, "name": filename};
         });
 
-        res.render("escapeRooms/steps/assets", {escapeRoom, assets, "progress": "assets"});
+        res.render("ctfs/steps/assets", {escapeRoom, assets, "progress": "assets"});
     } catch (e) {
         next(e);
     }
@@ -29,7 +29,7 @@ exports.assetsUpdate = (req, res /* , next*/) => {
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
 
-    res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("assets") : progressBar || nextStep("assets")}`);
+    res.redirect(`/ctfs/${escapeRoom.id}/${isPrevious ? prevStep("assets") : progressBar || nextStep("assets")}`);
 };
 
 // POST /escapeRooms/:escapeRoomId/uploadAssets
@@ -98,7 +98,7 @@ exports.browse = async (req, res, next) => {
             return {id, public_id, url, mime, "name": filename};
         });
 
-        res.render("escapeRooms/steps/assets", {"escapeRoom": req.escapeRoom, assets});
+        res.render("ctfs/steps/assets", {"escapeRoom": req.escapeRoom, assets});
     } catch (err) {
         next(err);
     }

@@ -45,7 +45,7 @@ exports.load = (req, res, next, turnId) => {
 exports.isTurnNotPending = (req, res, next) => {
     if (req.session.user.isStudent) {
         if (req.participant.teamsAgregados[0].turno.status === "pending") {
-            res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
+            res.redirect(`/ctfs/${req.escapeRoom.id}`);
             return;
         }
     }
@@ -57,7 +57,7 @@ exports.isTurnStarted = (req, res, next) => {
         const [team] = req.participant.teamsAgregados;
 
         if (!(team.startTime instanceof Date && isFinite(team.startTime))) {
-            res.redirect(`/escapeRooms/${req.escapeRoom.id}`);
+            res.redirect(`/ctfs/${req.escapeRoom.id}`);
             return;
         }
     }
@@ -73,7 +73,7 @@ exports.turnos = async (req, res, next) => {
 
         const {turnos} = escapeRoom;
 
-        res.render("escapeRooms/steps/turnos", {escapeRoom, turnos, "progress": "turnos"});
+        res.render("ctfs/steps/turnos", {escapeRoom, turnos, "progress": "turnos"});
     } catch (e) {
         next(e);
     }
@@ -95,7 +95,7 @@ exports.indexActivate = async (req, res, next) => {
 // PUT /escapeRooms/:escapeRoomId/activate
 exports.activate = async (req, res, next) => {
     const {escapeRoom, body} = req;
-    const back = `/escapeRooms/${escapeRoom.id}`;
+    const back = `/ctfs/${escapeRoom.id}`;
     const {i18n} = res.locals;
 
     try {
@@ -112,10 +112,10 @@ exports.activate = async (req, res, next) => {
         req.flash("success", turno.status === "active" ? i18n.turno.activated : i18n.turno.deactivated);
         if (turno.status === "active") {
             startTurno(turno.id);
-            res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${turno.id}/play`);
+            res.redirect(`/ctfs/${escapeRoom.id}/turnos/${turno.id}/play`);
         } else {
             stopTurno(turno.id);
-            res.redirect(`/escapeRooms/${escapeRoom.id}/analytics/ranking?turnId=${turno.id}`);
+            res.redirect(`/ctfs/${escapeRoom.id}/analytics/ranking?turnId=${turno.id}`);
         }
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
@@ -134,7 +134,7 @@ exports.create = async (req, res, next) => {
     const {date, place, from, to, capacity, password} = req.body;
     const {i18n} = res.locals;
     const modDate = date === "always" ? null : new Date(date);
-    const back = date === "always" ? `/escapeRooms/${req.escapeRoom.id}/turnos` : `/escapeRooms/${req.escapeRoom.id}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
+    const back = date === "always" ? `/ctfs/${req.escapeRoom.id}/turnos` : `/ctfs/${req.escapeRoom.id}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
 
     let turn = {
         "capacity": parseInt(capacity || 0, 10),
@@ -173,7 +173,7 @@ exports.create = async (req, res, next) => {
             } else {
                 req.flash("error", `${i18n.common.flash.errorCreatingTurno}`);
             }
-            res.render("escapeRooms/steps/turnos", {"escapeRoom": req.escapeRoom, "turnos": req.escapeRoom.turnos, "progress": "turnos", "error": "new"});
+            res.render("ctfs/steps/turnos", {"escapeRoom": req.escapeRoom, "turnos": req.escapeRoom.turnos, "progress": "turnos", "error": "new"});
         } catch (e) {
             console.error(e);
             next(e);
@@ -196,7 +196,7 @@ exports.update = async (req, res, next) => {
     turn.to = to ? new Date(to) : null;
     turn.password = password;
     turn.status = date === "always" && turn.status === "pending" ? "active" : turn.status;
-    const back = date === "always" ? `/escapeRooms/${req.escapeRoom.id}/turnos` : `/escapeRooms/${req.escapeRoom.id}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
+    const back = date === "always" ? `/ctfs/${req.escapeRoom.id}/turnos` : `/ctfs/${req.escapeRoom.id}/turnos?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}`;
 
     try {
         if (!isValidDate(turn.date) || !isValidDate(turn.from) || !isValidDate(turn.to)) {
@@ -222,7 +222,7 @@ exports.update = async (req, res, next) => {
             } else {
                 req.flash("error", `${i18n.common.flash.errorEditingTurno}`);
             }
-            res.render("escapeRooms/steps/turnos", {"escapeRoom": req.escapeRoom, "turnos": req.escapeRoom.turnos, "progress": "turnos", "error": turn.id});
+            res.render("ctfs/steps/turnos", {"escapeRoom": req.escapeRoom, "turnos": req.escapeRoom.turnos, "progress": "turnos", "error": turn.id});
         } catch (e) {
             console.error(e);
             next(e);
@@ -238,7 +238,7 @@ exports.destroy = async (req, res, next) => {
 
     try {
         const date = req.turn.date ? `?date=${modDate.getFullYear()}-${modDate.getMonth() + 1}-${modDate.getDate()}` : "";
-        const back = `/escapeRooms/${req.params.escapeRoomId}/turnos${date}`;
+        const back = `/ctfs/${req.params.escapeRoomId}/turnos${date}`;
 
         const teams = await req.turn.getTeams({"attributes": ["id"]});
         const teamIds = teams.map((t) => t.id);
@@ -263,7 +263,7 @@ exports.turnosUpdate = (req, res /* , next*/) => {
     const isPrevious = Boolean(body.previous);
     const progressBar = body.progress;
 
-    res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("turnos") : progressBar || nextStep("turnos")}`);
+    res.redirect(`/ctfs/${escapeRoom.id}/${isPrevious ? prevStep("turnos") : progressBar || nextStep("turnos")}`);
 };
 
 // POST /escapeRooms/:escapeRoomId/turnos/:turnoId/reset
@@ -272,7 +272,7 @@ exports.reset = async (req, res, next) => {
     const transaction = await sequelize.transaction();
 
     try {
-        const back = `/escapeRooms/${req.params.escapeRoomId}/activate`;
+        const back = `/ctfs/${req.params.escapeRoomId}/activate`;
         const ids = (await models.team.findAll({"where": {"turnoId": req.turn.id}})).map((t) => t.id);
         const status = req.turn.date ? "pending" : "active";
 

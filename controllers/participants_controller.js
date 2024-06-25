@@ -23,7 +23,7 @@ exports.checkIsNotParticipant = async (req, res, next) => {
 
         if (isParticipant) {
             req.flash("error", i18n.turno.alreadyIn);
-            res.redirect("/escapeRooms");
+            res.redirect("/ctfs");
         } else {
             next();
         }
@@ -53,7 +53,7 @@ exports.checkSomeTurnAvailable = async (req, res, next) => {
         }
     }
     req.flash("error", i18n.turno.noTurnAvailable);
-    res.redirect("/escapeRooms");
+    res.redirect("/ctfs");
 };
 
 exports.checkTurnAvailable = (req, res, next) => {
@@ -108,7 +108,7 @@ exports.index = async (req, res, next) => {
         if (req.query.csv) {
             createCsvFile(res, participants, "participants");
         } else {
-            res.render("escapeRooms/participants", {escapeRoom, participants, turnos, turnId, orderBy});
+            res.render("ctfs/participants", {escapeRoom, participants, turnos, turnId, orderBy});
         }
     } catch (e) {
         next(e);
@@ -135,7 +135,7 @@ exports.studentLeave = async (req, res, next) => {
     let {user} = req;
     const {turn} = req;
     const {i18n} = res.locals;
-    let redirectUrl = `/escapeRooms/${req.escapeRoom.id}/participants`;
+    let redirectUrl = `/ctfs/${req.escapeRoom.id}/participants`;
 
     try {
         if (req.user && req.user.id !== req.session.user.id && req.session.user.isStudent) {
@@ -163,7 +163,7 @@ exports.studentLeave = async (req, res, next) => {
         }
         await participant.destroy();
         if (req.session.user.isStudent) {
-            redirectUrl = `/users/${req.session.user.id}/escapeRooms`;
+            redirectUrl = `/users/${req.session.user.id}/ctfs`;
         }
 
         if (req.team.teamMembers.length <= 1) {

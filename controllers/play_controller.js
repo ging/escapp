@@ -55,7 +55,7 @@ exports.results = async (req, res, next) => {
         req.escapeRoom.puzzles = await getERPuzzles(req.escapeRoom.id);
 
         if (turnoId) {
-            res.render("escapeRooms/play/finish", {"escapeRoom": req.escapeRoom, "teams": req.teams, turnoId, teamId, "userId": req.session.user.id, "finish": req.finish});
+            res.render("ctfs/play/finish", {"escapeRoom": req.escapeRoom, "teams": req.teams, turnoId, teamId, "userId": req.session.user.id, "finish": req.finish});
         } else {
             res.redirect("back");
         }
@@ -106,7 +106,7 @@ exports.startPlaying = async (req, res, next) => {
         return;
     }
     next();
-    // Res.redirect(`/escapeRooms/${req.escapeRoom.id}/play`);
+    // Res.redirect(`/ctfs/${req.escapeRoom.id}/play`);
 };
 
 
@@ -118,7 +118,7 @@ exports.writeMessage = async (req, res) => {
     const teams = await models.team.findAll(queries.team.teamComplete(escapeRoom.id, undefined, "name", true));
     const {turnId} = req.query;
 
-    res.render("escapeRooms/messages", {escapeRoom, turnos, participants, teams, turnId});
+    res.render("ctfs/messages", {escapeRoom, turnos, participants, teams, turnId});
 };
 
 // POST /escapeRooms/:escapeRoomId/messages

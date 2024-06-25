@@ -1,0 +1,100 @@
+<%- include ("../partials/_header.ejs") %>
+<div role="main" class="main escapeRooms" >
+    <div class="escapeRoomList">
+        <% if (escapeRooms.length==0) { %>
+        <h1 role="title">
+            <% if (user && user.isStudent) { %>
+                <%=i18n.escapeRoom.main.noERStudent%>
+            <% } else { %>
+                <%=i18n.escapeRoom.main.noERTeacher%>
+            <% } %>
+        </h1>
+        <div class="flexBoxEscapeRooms">
+            <% if (user && !user.isStudent) { %>
+                <a href="/ctfs/new" class="escapeRoomItemWrapper animated bounceIn" title="<%=i18n.escapeRoom.main.createER%>">
+                    <div class="escapeRoomItem addItem addEscapeRoom gugi">
+                        <span>+</span>
+                    </div>
+                </a>
+            <% } %>
+        </div>
+        <% } else {  %>
+        <h1 role="title">
+            <% if (user && user.isStudent) { %>
+                <%=i18n.escapeRoom.main.yesERStudent%>
+            <% } else { %>
+                <%=i18n.escapeRoom.main.yesERTeacher%>
+            <% } %>
+        </h1>
+
+        <div class="flexBoxEscapeRooms">
+            <% for (var i in escapeRooms) { %>
+                <% var escapeRoom = escapeRooms[i]; %>
+                <% var attachment = escapeRoom.attachment; %>
+                <% var disabled = (user && user.isStudent && escapeRoom.disabled); %>
+                <% var href = "/ctfs/" + escapeRoom.id;
+                if (user && user.isStudent) {
+                    if (escapeRoom.isSignedUp) {
+                        href += "/play";
+                    } else {
+                        if (disabled) {
+                            href = "/ctfs/";
+                        } else {
+                            href += "/join";
+                        } 
+                    }
+                }%>
+                <a href="<%=href%>" <%-disabled ? "onclick='return false;'":'' %> class="escapeRoomItemWrapper animated bounceIn" title="<%=disabled ? i18n.escapeRoom.main.notAvailable :  escapeRoom.title.replace("\"","'")%>"style="animation-delay: <%=100*i%>ms;"
+                    
+                    >
+                    <div class="escapeRoomItem <%= disabled ?' disabled':'' %>">
+                        <div class="erFoto" style="text-align: center">
+                            <%
+                                var backgroundImageUrl = attachment ? attachment.url : '/images/placeholder.jpg';
+                            %>
+                            <div class="bckgFoto" style="background-image: url('<%= backgroundImageUrl %>')"></div>
+
+                            
+                            <h2 class="escapeRoomTitle"><%= escapeRoom.title %></h2>
+                        </div>
+                        <% if (user && user.isStudent) {%>
+                            <% if (escapeRoom.isSignedUp){ %>
+                            <div class="sign">
+                                <span class="material-icons">check</span>
+                            </div>
+                            <%} else if (!disabled){%>
+                            <div class="sign add">
+                                <span class="material-icons">add</span>
+                            </div>
+                            <%}%>
+                        <%}%>
+                    </div>
+                </a>
+            <% } %>
+            <% if (user && !user.isStudent) { %>
+            <a href="/ctfs/new" class="escapeRoomItemWrapper animated bounceIn" title="<%=i18n.escapeRoom.main.createER%>" style="animation-delay: <%=escapeRooms ? (escapeRooms.length * 100 + 100): 0 %>ms;">
+                <div class="escapeRoomItem addItem addEscapeRoom gugi" >
+                        <span>+</span>
+                </div>
+            </a>
+            <% } %>
+        </div>
+        <% } %>
+
+        <%if (pages > 1){%>
+            </br>
+            <%page = parseInt(page)%>
+            <div class="pagination align-right">
+                <a href="?page=1" title="<%=i18n.common.pagination.first%>"><span class="material-icons">first_page</span></a>
+                <%for (let p of pageArray) {%> 
+                    <a href="?page=<%=p%>" title="<%=i18n.common.pagination.page%> <%=p%>"><span><%-p === page ? `<strong>${p}</strong>`:p %></span></a>
+                <%}%>
+                <a href="?page=<%=pages%>" title="<%=i18n.common.pagination.last%>"><span class="material-icons">last_page</span></a>
+            </div>
+        <% } %>
+    </br>
+    </br>
+    <%- include ("../partials/_footer") %>
+    </div>
+</div>
+</div>

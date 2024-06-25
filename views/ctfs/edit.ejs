@@ -1,0 +1,10 @@
+<%- include ("../partials/_header.ejs") %>
+    <div role="main" class="main steps steps-edit">
+        <%- include ("../partials/_breadcrumbStep") %>
+
+        <h1><%=i18n.escapeRoom.steps.edit.title%></h1>
+        <form method="post" class="basicConfig" action="/ctfs/<%= escapeRoom.id %>?_method=PUT" enctype="multipart/form-data">
+            <%- include ("../partials/_form.ejs") %>
+        </form>
+    </div>
+<%- include ("../partials/_footer") %>

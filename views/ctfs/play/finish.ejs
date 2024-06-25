@@ -1,0 +1,39 @@
+<%- include ("../../partials/_header.ejs") %>
+
+<div role="main" class="main ranking finish">
+	<div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/ctfs"><%=i18n.common.my%></a>
+			<span class="material-icons">chevron_right</span>
+			<a href="/ctfs/<%=escapeRoom.id%>"><%=escapeRoom.title%></a>
+            <span class="material-icons">chevron_right</span>
+            <span><%=i18n.showStudent.Results%></span>
+        </div>
+	</div>
+	<div class="content">
+		<h1 style="text-align:center;"><%= (teams && teams.find(t=>t.id==teamId).finishTime) ? i18n.showStudent.congrats: i18n.showStudent.resultsTitle%></h1>
+		<% if (teams && teams.length >= 3 ) {%>
+			<%-include("../../partials/_podium")%>
+		<% } %>
+		<br/><br/>
+		<% if (teams.length > 0) { %>
+			<ranking/>
+			<%- include("../../partials/_ranking") %>
+		<% } %>
+	</div>
+<br/>
+<br/>
+<br/>
+
+</div>
+<!-- <script src="/js/vendor/socket.io.js"></script> -->
+<!-- <script src="/js/ranking.js"></script> -->
+<script>
+	var teamId = <%= teamId || "undefined"%>;
+	/*var userId = <%= session.user.id %>;
+	var escapeRoomId = "<%= escapeRoom.id%>";
+	var nPuzzles = "<%= escapeRoom.puzzles.length%>";
+    initSocketServer(<%= escapeRoom.id%>, teamId, <%=turnoId || "undefined" %>, userId);*/
+</script>
+<%- include ("../../partials/_footer") %>
+

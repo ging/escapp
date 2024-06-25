@@ -63,7 +63,7 @@ exports.create = async (req, res, next) => {
 
             transaction.commit();
             req.flash("success", req.escapeRoom.teamSize === 1 ? i18n.common.flash.successCreatingTeamSingle : i18n.common.flash.successCreatingTeam);
-            res.redirect(`/escapeRooms/${params.escapeRoomId}`);
+            res.redirect(`/ctfs/${params.escapeRoomId}`);
         }
     } catch (err) {
         transaction.rollback();
@@ -111,7 +111,7 @@ exports.index = async (req, res, next) => {
             team.connected = isTeamConnected(team.id);
             team.waiting = team.connected ? false : isTeamConnectedWaiting(team.id);
         }
-        res.render("escapeRooms/teams", {teams, escapeRoom, turnId});
+        res.render("ctfs/teams", {teams, escapeRoom, turnId});
     } catch (e) {
         console.error(e);
         next(e);
@@ -124,7 +124,7 @@ exports.indexTurnos = (req, res) => {
     const onlyOneMember = checkTeamSizeOne(escapeRoom);
 
     if (onlyOneMember) {
-        res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams?${token}`); // TODO Where?
+        res.redirect(`/ctfs/${escapeRoom.id}/turnos/${req.turn.id}/teams?${token}`); // TODO Where?
     } else {
         res.render("teams/index", {"turno": req.turn, escapeRoom, token});
     }

@@ -3002,11 +3002,11 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
 }
 .portada .contenedor .loginRight {
   color: white;
-  background-color: #242746;
+  background-color: #2A2A52;
   text-align: center;
   width: 50%;
   flex: 3;
-  padding: 5em;
+  padding: 3em;
   position: relative;
 }
 .portada .contenedor .loginRight h2 {

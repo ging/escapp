@@ -17,7 +17,7 @@
         },
         "removedfile": function(file) {
             if (file.id) {
-                fetch("/escapeRooms/"+ escapeRoomId +"/deleteAssets/" + file.id + "?method=DELETE",
+                fetch("/ctfs/"+ escapeRoomId +"/deleteAssets/" + file.id + "?method=DELETE",
                  {method: "POST"})
                 .then(res=> {
                     if (res.status === 200) {

@@ -3,7 +3,7 @@
         <% if (session.user) { %>
             <a title="<%=i18n.common.exit%>" href="/?_method=DELETE"><span class="navBarIcon material-icons">power_settings_new</span></a>
             <span style="display:inline-block;width:10px;"></span>
-            <a title="<%=i18n.common.mainPage%>" href="/escapeRooms"><span class="navBarIcon material-icons">home</span></a>
+            <a title="<%=i18n.common.mainPage%>" href="/ctfs"><span class="navBarIcon material-icons">home</span></a>
             <span style="display:inline-block;width:10px;"></span>
             <% if (!session.user.isStudent) { %>
                 <a title="<%=i18n.common.guide%>" href="/inspiration"><span class="navBarIcon material-icons">help_outline</span></a>

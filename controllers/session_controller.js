@@ -54,7 +54,7 @@ exports.logoutRequired = (req, res, next) => {
     if (!req.session.user) {
         next();
     } else {
-        res.redirect("/escapeRooms");
+        res.redirect("/ctfs");
     }
 };
 
@@ -198,7 +198,7 @@ exports.new = (req, res) => {
     const {redir} = req.query;
 
     if (req.session && req.session.user) {
-        res.redirect(redir ? redir : "/escapeRooms");
+        res.redirect(redir ? redir : "/ctfs");
         return;
     }
     res.render("index", {redir});
@@ -230,7 +230,7 @@ exports.create = async (req, res, next) => {
                 if (req.body.redir) {
                     res.redirect(req.body.redir);
                 } else {
-                    res.redirect("/escapeRooms");
+                    res.redirect("/ctfs");
                 }
             });
         } else {

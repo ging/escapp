@@ -24,7 +24,7 @@ exports.load = (req, res, next, hintId) => {
 exports.hintApp = async (req, res, next) => {
     try {
         req.escapeRoom.hintApp = await models.hintApp.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
-        res.render("escapeRooms/hintApp/hintApp", {"layout": false, "escapeRoom": req.escapeRoom });
+        res.render("ctfs/hintApp/hintApp", {"layout": false, "escapeRoom": req.escapeRoom });
     } catch (e) {
         next(e);
     }
@@ -34,7 +34,7 @@ exports.hintApp = async (req, res, next) => {
 exports.hintAppWrapper = async (req, res, next) => {
     try {
         req.escapeRoom.hintApp = await models.hintApp.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
-        res.render("escapeRooms/hintApp/hintAppScormWrapper", {"layout": false, "escapeRoom": req.escapeRoom});
+        res.render("ctfs/hintApp/hintAppScormWrapper", {"layout": false, "escapeRoom": req.escapeRoom});
     } catch (e) {
         next(e);
     }
@@ -64,7 +64,7 @@ exports.pistas = async (req, res, next) => {
         const {escapeRoom} = req;
 
         req.escapeRoom.hintApp = await models.hintApp.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
-        res.render("escapeRooms/steps/hints", { escapeRoom, "progress": "hints" });
+        res.render("ctfs/steps/hints", { escapeRoom, "progress": "hints" });
     } catch (e) {
         next(e);
     }
@@ -87,7 +87,7 @@ exports.pistasUpdate = async (req, res) => {
     escapeRoom.feedback = Boolean(feedback);
     escapeRoom.hintInterval = hintInterval || null;
     escapeRoom.allowCustomHints = Boolean(allowCustomHints);
-    const back = `/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("hints") : progressBar || nextStep("hints")}`;
+    const back = `/ctfs/${escapeRoom.id}/${isPrevious ? prevStep("hints") : progressBar || nextStep("hints")}`;
 
     try {
         await escapeRoom.save({"fields": ["numQuestions", "hintLimit", "numRight", "feedback", "allowCustomHints", "hintInterval"]});
@@ -142,6 +142,6 @@ exports.pistasUpdate = async (req, res) => {
         } else {
             req.flash("error", i18n.common.flash.errorEditingER);
         }
-        res.render("escapeRooms/hints", {escapeRoom});
+        res.render("ctfs/hints", {escapeRoom});
     }
 };

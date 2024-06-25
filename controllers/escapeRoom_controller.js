@@ -77,11 +77,11 @@ exports.index = async (req, res, next) => {
         const pages = Math.ceil(count / limit);
 
         if (page > pages && pages !== 0) {
-            res.redirect(`/escapeRooms?page=${pages}`);
+            res.redirect(`/ctfs?page=${pages}`);
         } else {
             const pageArray = paginate(page, pages, 5);
 
-            res.render("escapeRooms/index.ejs", {escapeRooms, cloudinary, user, count, page, pages, pageArray});
+            res.render("ctfs/index.ejs", {escapeRooms, cloudinary, user, count, page, pages, pageArray});
         }
     } catch (error) {
         next(error);
@@ -100,9 +100,9 @@ exports.show = async (req, res) => {
         const howManyRetos = await models.retosSuperados.count({"where": {"success": true, "teamId": team.id }});
         const finished = howManyRetos === escapeRoom.puzzles.length;
 
-        res.render("escapeRooms/showStudent", {escapeRoom, cloudinary, participant, team, finished});
+        res.render("ctfs/showStudent", {escapeRoom, cloudinary, participant, team, finished});
     } else {
-        res.render("escapeRooms/show", {escapeRoom, cloudinary, hostName, "email": req.session.user.username});
+        res.render("ctfs/show", {escapeRoom, cloudinary, hostName, "email": req.session.user.username});
     }
 };
 
@@ -110,7 +110,7 @@ exports.show = async (req, res) => {
 exports.new = (_req, res) => {
     const escapeRoom = {"title": "", "teacher": "", "subject": "", "duration": "", "description": "", "scope": false, "teamSize": "", "forceLang": ""};
 
-    res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
+    res.render("ctfs/new", {escapeRoom, "progress": "edit"});
 };
 
 // POST /escapeRooms/create
@@ -129,7 +129,7 @@ exports.create = async (req, res) => {
         req.flash("success", i18n.common.flash.successCreatingER);
 
         if (!req.file) {
-            res.redirect(`/escapeRooms/${escapeRoom.id}/turnos`);
+            res.redirect(`/ctfs/${escapeRoom.id}/turnos`);
             return;
         }
 
@@ -154,7 +154,7 @@ exports.create = async (req, res) => {
             console.error(error);
             req.flash("error", i18n.common.flash.errorFile);
         }
-        res.redirect(`/escapeRooms/${er.id}/${nextStep("edit")}`);
+        res.redirect(`/ctfs/${er.id}/${nextStep("edit")}`);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
             console.error(error);
@@ -165,7 +165,7 @@ exports.create = async (req, res) => {
             console.error(error.message);
             req.flash("error", i18n.common.flash.errorCreatingER);
         }
-        res.render("escapeRooms/new", {escapeRoom, "progress": "edit"});
+        res.render("ctfs/new", {escapeRoom, "progress": "edit"});
     }
 };
 
@@ -173,7 +173,7 @@ exports.create = async (req, res) => {
 exports.edit = async (req, res, next) => {
     try {
         req.escapeRoom.attachment = await models.attachment.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
-        res.render("escapeRooms/edit", {"escapeRoom": req.escapeRoom, "progress": "edit"});
+        res.render("ctfs/edit", {"escapeRoom": req.escapeRoom, "progress": "edit"});
     } catch (error) {
         next(error);
     }
@@ -206,7 +206,7 @@ exports.update = async (req, res) => {
                     attHelper.deleteResource(er.attachment.public_id, models.attachment);
                     er.attachment.destroy();
                 }
-                res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
+                res.redirect(`/ctfs/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
                 return;
             }
             try {
@@ -234,13 +234,13 @@ exports.update = async (req, res) => {
                     req.flash("error", i18n.common.flash.errorFile);
                     attHelper.deleteResource(uploadResult.public_id, models.attachment);
                 }
-                res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
+                res.redirect(`/ctfs/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
             } catch (error) {
                 console.error(error);
                 req.flash("error", i18n.common.flash.errorFile);
             }
         }
-        res.redirect(`/escapeRooms/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
+        res.redirect(`/ctfs/${req.escapeRoom.id}/${progressBar || nextStep("edit")}`);
     } catch (error) {
         console.error(error);
         // Console.error(error);
@@ -251,7 +251,7 @@ exports.update = async (req, res) => {
         } else {
             req.flash("error", i18n.common.flash.errorEditingER);
         }
-        res.render("escapeRooms/edit", {escapeRoom, "progress": "edit"});
+        res.render("ctfs/edit", {escapeRoom, "progress": "edit"});
     }
 };
 
@@ -262,7 +262,7 @@ exports.evaluation = async (req, res, next) => {
 
         escapeRoom.hintApp = await models.hintApp.findOne({"where": {"escapeRoomId": req.escapeRoom.id}});
 
-        res.render("escapeRooms/steps/evaluation", {escapeRoom, "progress": "evaluation"});
+        res.render("ctfs/steps/evaluation", {escapeRoom, "progress": "evaluation"});
     } catch (e) {
         next(e);
     }
@@ -299,7 +299,7 @@ exports.evaluationUpdate = async (req, res) => {
             }
         }
         await Promise.all(promises);
-        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("evaluation") : progressBar || nextStep("evaluation")}`);
+        res.redirect(`/ctfs/${escapeRoom.id}/${isPrevious ? prevStep("evaluation") : progressBar || nextStep("evaluation")}`);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
             error.errors.forEach((err) => {
@@ -308,7 +308,7 @@ exports.evaluationUpdate = async (req, res) => {
         } else {
             req.flash("error", i18n.common.flash.errorEditingER);
         }
-        res.render("escapeRooms/steps/evaluation", {escapeRoom, "progress": "evaluation"});
+        res.render("ctfs/steps/evaluation", {escapeRoom, "progress": "evaluation"});
     }
 };
 
@@ -318,7 +318,7 @@ exports.teamInterface = async (req, res, next) => {
         const {escapeRoom} = req;
 
         escapeRoom.puzzles = await getERPuzzles(escapeRoom.id);
-        res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "team", "endPoint": "team"});
+        res.render("ctfs/steps/instructions", {escapeRoom, "progress": "team", "endPoint": "team"});
     } catch (e) {
         req.flash("error", res.locals.i18n.common.flash.errorEditingER);
         next(e);
@@ -329,13 +329,13 @@ exports.teamInterface = async (req, res, next) => {
 exports.classInterface = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "class", "endPoint": "class"});
+    res.render("ctfs/steps/instructions", {escapeRoom, "progress": "class", "endPoint": "class"});
 };
 // GET /escapeRooms/:escapeRoomId/indications
 exports.indicationsInterface = (req, res) => {
     const {escapeRoom} = req;
 
-    res.render("escapeRooms/steps/instructions", {escapeRoom, "progress": "indications", "endPoint": "indications"});
+    res.render("ctfs/steps/instructions", {escapeRoom, "progress": "indications", "endPoint": "indications"});
 };
 
 // POST /escapeRooms/:escapeRoomId/class
@@ -360,7 +360,7 @@ exports.destroy = async (req, res, next) => {
         }
         await transaction.commit();
         req.flash("success", i18n.common.flash.successDeletingER);
-        res.redirect("/escapeRooms");
+        res.redirect("/ctfs");
     } catch (error) {
         await transaction.rollback();
         req.flash("error", `${i18n.common.flash.errorDeletingER}: ${error.message}`);
@@ -431,7 +431,7 @@ exports.clone = async (req, res, next) => {
         }, {include});
         const saved = await escapeRoom.save();
 
-        res.redirect(`/escapeRooms/${saved.id}/edit`);
+        res.redirect(`/ctfs/${saved.id}/edit`);
     } catch (err) {
         next(err);
     }

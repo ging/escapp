@@ -55,7 +55,7 @@ var pastDates = [];
 					<span><%=i18n.escapeRoom.play[turn.status === "active"? "stop" : "start"]%></span>
 				</button>
 				<div class="overlay-trigger" data-id="activate-<%=turn.id%>" >
-					<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/activate?_method=put">
+					<form method="POST" action="/ctfs/<%=escapeRoom.id%>/activate?_method=put">
 						<p><%=i18n.turno[turn.status === "active"? "areYouSureStop": "areYouSureStart"]%></p>
 						<input type="hidden" id="turnSelected" name="turnSelected" value="<%=turn.id%>">
 						<div class="flex-buttons">
@@ -71,7 +71,7 @@ var pastDates = [];
 					<span><%=i18n.turno.resetProgress%></span>
 				</button>
 				<div class="overlay-trigger" data-id="reset-<%=turn.id%>">
-					<form method="POST" action="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=turn.id%>/reset">
+					<form method="POST" action="/ctfs/<%=escapeRoom.id%>/turnos/<%=turn.id%>/reset">
 						<p><%=i18n.turno.areYouSureReset%></p>
 						<div class="flex-buttons">
 							<button class="deleteButton" type="button" onclick="overlayTrigger('reset-<%=turn.id%>', true)"><%=i18n.common.cancel%></button>
@@ -81,7 +81,7 @@ var pastDates = [];
 				</div>
 			</div>
 			<div class="flex-block">
-				<a href="/escapeRooms/<%=escapeRoom.id%>/participants?turnId=<%=turn.id%>">
+				<a href="/ctfs/<%=escapeRoom.id%>/participants?turnId=<%=turn.id%>">
 					<button class="turno-btn" title="<%=i18n.analytics.grading.attendance%>" >
 						<span class="material-icons" style="color: var(--brightorange);" >fact_check</span>
 						<span><%=i18n.analytics.grading.attendance%></span>
@@ -89,7 +89,7 @@ var pastDates = [];
 				</a>
 			</div>
 			<div class="flex-block">
-				<a href="/escapeRooms/<%=escapeRoom.id%>/turnos/<%=turn.id%>/play">
+				<a href="/ctfs/<%=escapeRoom.id%>/turnos/<%=turn.id%>/play">
 					<button class="turno-btn" title="<%=i18n.showTeacher.actionList.classInterface%>" >
 						<span class="material-icons" style="color: var(--brightblue);">cast_for_education</span>
 						<span><%=i18n.showTeacher.actionList.classInterface%></span>
@@ -97,7 +97,7 @@ var pastDates = [];
 				</a>
 			</div>
 			<div class="flex-block">
-				<a href="/escapeRooms/<%=escapeRoom.id%>/message?turnId=<%=turn.id%>">
+				<a href="/ctfs/<%=escapeRoom.id%>/message?turnId=<%=turn.id%>">
 					<button class="turno-btn" title="<%=i18n.message.title%>" >
 						<span class="material-icons" style="color: var(--lightred);">message</span>
 						<span><%=i18n.message.title%></span>
@@ -105,7 +105,7 @@ var pastDates = [];
 				</a>
 			</div>
 			<div class="flex-block">
-				<a href="/escapeRooms/<%=escapeRoom.id%>/analytics?turnId=<%=turn.id%>">
+				<a href="/ctfs/<%=escapeRoom.id%>/analytics?turnId=<%=turn.id%>">
 					<button class="turno-btn" title="<%=i18n.analytics.main.title%>" >
 						<span class="material-icons" style="color: var(--textpurple);">timeline</span>
 						<span><%=i18n.analytics.main.title%></span>

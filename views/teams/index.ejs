@@ -55,10 +55,10 @@
             <div>
             <div id="teamCarouselItems-hidden" class="hide"></div>
             <div class="create-new-team gugi"><%= i18n.team.doYouWantToCreate %></div>
-            <a class="add-team" href="/escapeRooms/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams/new?token=<%=token%>">
+            <a class="add-team" href="/ctfs/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams/new?token=<%=token%>">
                     <span class="material-icons">add_circle_outline</span>
             </a>
-                <form method='POST' id="form" action='/escapeRooms/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams/xxxx?_method=put&token=<%=token%>'>
+                <form method='POST' id="form" action='/ctfs/<%= escapeRoom.id %>/turnos/<%= turno.id %>/teams/xxxx?_method=put&token=<%=token%>'>
                     <div class="join-button-flex-container">
                         <a href="javascript:history.back()">
                             <button class="rounded deleteButton" type="button">

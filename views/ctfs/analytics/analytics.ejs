@@ -1,0 +1,33 @@
+<%- include("../../partials/_header.ejs") %>
+
+<div role="main" class="main summary">
+    <div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/ctfs"><%=i18n.common.my%></a>
+            <span class="material-icons">chevron_right</span>
+            <a href="/ctfs/<%=escapeRoom.id%>">
+                <%=escapeRoom.title%>
+            </a>
+            <span class="material-icons">chevron_right</span>
+            <span><%=i18n.analytics.main.title%></span>
+        </div>
+    </div>
+    <h1><%=i18n.analytics.main.title%></h1>
+<%var sections = analyticsSections()%>
+    <div class="flex-container analytics-menu">
+        <div class="flex-container-left animated slideInLeft">
+            <%var i = 0;
+            for (let title in sections) {
+            let {url, icon} = sections[title];%>
+            <%- include('_analytics_link', {url, icon, title: i18n.analytics.main[title], escapeRoom, i: i++}) %>
+            <%}%>
+        </div>
+        <div class="flex-container-right">
+            <%- include ("_analytics_summary.ejs")%>
+        </div>
+    </div>
+
+
+
+</div>
+<%- include ("../../partials/_footer") %>

@@ -1,0 +1,151 @@
+<script src="/js/vendor/apexcharts.js"></script>
+<script src="/js/extractColor.js"></script>
+
+<%- include ("../../partials/_header.ejs") %>
+<div role="main" class="main">
+  <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "progress"}) %>
+
+  <h1><%=i18n.analytics.progress.title%></h1>
+  <form method="get" class="participantsList" action="/ctfs/<%= escapeRoom.id %>/analytics/progress">
+    <div class="filters">
+        <label for="turnId"><%=i18n.turno.Turno%>
+            <select name="turnId" id="turnId">
+                <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turno.all%></option>
+                <% for (t in escapeRoom.turnos) { %>
+                <% var turno = escapeRoom.turnos[t] %>
+                <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
+                    <%if (turno.place) {%> <%=turno.place %> (<%}%><%= (turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen)%><%if (turno.place) {%>)<%}%>
+                </option>
+                <% } %>
+            </select>
+        </label>
+        <button type="submit" class="editButton filter-button" ><%=i18n.common.filter%></button>
+    </div>
+  </form>
+  <% if (teams && teams.length) {%>
+  <div id="chart"></div>
+  <script>
+    var escapeRoom = <%-JSON.stringify(escapeRoom)%>
+    var duration = escapeRoom.duration;
+    var nPuzzles = <%=(escapeRoom.puzzles||[]).length%>;
+    var teams = <%-JSON.stringify(teams) %>
+    var nTeams = teams.length;
+    const colors = [green, yellow, orange, red, purple, blue];
+    var size = 25;
+    var intervals =  Math.ceil(duration/size);
+    function currentPuzzle(team) {
+      let puzzles = new Array(size).fill(0);
+      let times = new Array(teams[team].retosSuperados.length)
+      for(let i = 0; i<teams[team].retosSuperados.length; i++){
+        times[i]= Math.round((size*teams[team].retosSuperados[i].time)/(duration*60));
+      }
+      for(let i = 0; i < times.length; i++) {
+        let start = times[i];
+        puzzles.fill(i+1, start, size);
+      }
+      return puzzles;
+    }
+
+    function formData(){
+      let series = new Array(nTeams);
+      for (let i=0; i<nTeams; i++){
+        let arrayTimes = currentPuzzle(i);
+        //en cada posicion del array se mete un objeto 
+        series[i] = { name: teams[i].name, data: arrayTimes };
+      }
+      return series;
+    }
+
+    function xAxis(){
+      let values = new Array(size);
+      for (let i = 0; i<=size; i++){
+        values[i]=i*intervals + "'";
+      }
+      return values;
+    }
+    const series = formData();
+    let options = {
+      chart: {
+        height: 380,
+        type: 'area',
+        locales: [{
+          "name": "en",
+          "options": {
+            "toolbar": {
+                "exportToSVG": "<%=i18n.analytics.main.chart.svg%>",
+                "exportToPNG": "<%=i18n.analytics.main.chart.png%>",
+                "menu": "Menu",
+            }
+          }
+        }],
+        defaultLocale: "en"
+      },
+      dataLabels: {
+        enabled: false
+      },
+      colors,
+      series,
+      fill: {
+        type: 'gradient',
+            gradient: {
+              opacityFrom: 0,
+              opacityTo: 0
+            }
+      },
+      xaxis: {
+        labels: {
+          style:{
+            colors: 'black',
+            fontSize: '11px',
+          }
+        },
+        crosshairs: {
+          show: true,
+          opacity: 1,
+          stroke: {
+            color: 'white',
+            width: 0.5,
+            dashArray: 5,
+          },
+          fill: {
+            type: 'solid',
+            color: 'white',
+          },
+        },
+        categories: xAxis(),
+      },
+      yaxis: {
+        show: true,
+        tickAmount: nPuzzles ,
+        min: 0,
+        max: nPuzzles ,
+        decimalsInFloat: 0,
+        labels: {
+          formatter: function (value) {
+            return value ? "<%=i18n.puzzle.Puzzle%> " + value : "<%=i18n.puzzle.start%>";
+          }, 
+          style: {
+            color: 'black'
+          }
+        },
+      },
+      legend: {
+        labels: {
+            colors:'black'
+        }
+      },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+    chart.render();
+
+</script>
+<%} else {%>
+  <p class="noResults"><%=i18n.team.noResults%></p>
+<%}%>
+<br/>
+<br/>
+<br/>
+</div>
+<%- include ("../../partials/_footer") %>

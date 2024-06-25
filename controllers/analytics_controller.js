@@ -71,7 +71,7 @@ exports.analytics = async (req, res, next) => {
         const summary = {nParticipants, sucessRate, bestTime, avgTeamSize, avgReqHints};
         const charts = {retosSuperadosTeam, hintsByTeam};
 
-        res.render("escapeRooms/analytics/analytics", {escapeRoom, turnId, summary, charts});
+        res.render("ctfs/analytics/analytics", {escapeRoom, turnId, summary, charts});
     } catch (e) {
         console.error(e);
         next(e);
@@ -100,7 +100,7 @@ exports.puzzlesByParticipants = async (req, res, next) => {
         });
 
         if (!csv) {
-            res.render("escapeRooms/analytics/retosSuperadosByParticipant", {escapeRoom, results, turnId, orderBy});
+            res.render("ctfs/analytics/retosSuperadosByParticipant", {escapeRoom, results, turnId, orderBy});
         } else {
             const resultsCsv = results.map((rslt) => {
                 const {id, name, surname, teamId, teamName, username, retosSuperados, total} = rslt;
@@ -147,7 +147,7 @@ exports.puzzlesByTeams = async (req, res, next) => {
         });
 
         if (!csv) {
-            res.render("escapeRooms/analytics/retosSuperadosByTeam", {escapeRoom, results, turnId});
+            res.render("ctfs/analytics/retosSuperadosByTeam", {escapeRoom, results, turnId});
         } else {
             const resultsCsv = results.map((rslt) => {
                 const {id, name, retosSuperados, total} = rslt;
@@ -179,7 +179,7 @@ exports.ranking = async (req, res, next) => {
         const teamsRanked = await models.team.findAll(queries.team.ranking(escapeRoom.id, turnId));
         const teams = getRetosSuperados(teamsRanked, escapeRoom.puzzles.length).sort(byRanking);
 
-        res.render("escapeRooms/analytics/ranking", {teams, escapeRoom, turnId});
+        res.render("ctfs/analytics/ranking", {teams, escapeRoom, turnId});
     } catch (e) {
         next(e);
     }
@@ -202,7 +202,7 @@ exports.hintsByParticipants = async (req, res, next) => {
         });
 
         if (!csv) {
-            res.render("escapeRooms/analytics/hints", {escapeRoom, results, turnId, orderBy, "single": true});
+            res.render("ctfs/analytics/hints", {escapeRoom, results, turnId, orderBy, "single": true});
         } else {
             const resultsCsv = [];
 
@@ -253,7 +253,7 @@ exports.hintsByTeams = async (req, res, next) => {
                 return {id, name, hintsSucceeded, hintsFailed};
             });
 
-            res.render("escapeRooms/analytics/hints", {escapeRoom, results, turnId, orderBy, "single": false});
+            res.render("ctfs/analytics/hints", {escapeRoom, results, turnId, orderBy, "single": false});
         } else {
             const resultsCsv = [];
 
@@ -302,7 +302,7 @@ exports.progress = async (req, res, next) => {
             return {id, name, "retosSuperados": actualStartTime ? retosSuperadosArr : []};
         });
 
-        res.render("escapeRooms/analytics/progress", {escapeRoom, "teams": result, turnId});
+        res.render("ctfs/analytics/progress", {escapeRoom, "teams": result, turnId});
     } catch (e) {
         console.error(e);
         next(e);
@@ -324,7 +324,7 @@ exports.timeline = async (req, res, next) => {
             team.connected = isTeamConnected(team.id);
             team.waiting = team.connected ? false : isTeamConnectedWaiting(team.id);
         }
-        res.render("escapeRooms/analytics/timeline", {"escapeRoom": req.escapeRoom, "teams": escapeRoom.teams, turnId});
+        res.render("ctfs/analytics/timeline", {"escapeRoom": req.escapeRoom, "teams": escapeRoom.teams, turnId});
     } catch (e) {
         console.error(e);
         next(e);
@@ -420,7 +420,7 @@ exports.puzzleStats = async (req, res, next) => {
                 "std": stats.std(resultNoPuzzle)
             };
         }
-        res.render("escapeRooms/analytics/puzzleStats", {"escapeRoom": req.escapeRoom, "puzzles": result, turnId, summary, summarySingle, summaryNo});
+        res.render("ctfs/analytics/puzzleStats", {"escapeRoom": req.escapeRoom, "puzzles": result, turnId, summary, summarySingle, summaryNo});
     } catch (e) {
         console.error(e);
         next(e);
@@ -457,7 +457,7 @@ exports.histogram = async (req, res, next) => {
                 return {"id": team.id, retosSuperados};
             });
         }
-        res.render("escapeRooms/analytics/histogram", {"escapeRoom": req.escapeRoom, "puzzles": result, turnId});
+        res.render("ctfs/analytics/histogram", {"escapeRoom": req.escapeRoom, "puzzles": result, turnId});
     } catch (e) {
         console.error(e);
         next(e);
@@ -535,7 +535,7 @@ exports.grading = async (req, res, next) => {
 
             createCsvFile(res, resultsCsv);
         } else {
-            res.render("escapeRooms/analytics/grading", {escapeRoom, turnos, puzzles, results, turnId, orderBy, hintConditional, hintAppConditional});
+            res.render("ctfs/analytics/grading", {escapeRoom, turnos, puzzles, results, turnId, orderBy, hintConditional, hintAppConditional});
         }
     } catch (e) {
         console.error(e);

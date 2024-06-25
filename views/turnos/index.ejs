@@ -15,7 +15,7 @@
 					<%= turn.place %> <br/>
 				<% } %>
 			</div>
-			<form method="POST" action="/escapeRooms/<%= escapeRoom.id %>/turnos/<%=turn.id%>?_method=DELETE">
+			<form method="POST" action="/ctfs/<%= escapeRoom.id %>/turnos/<%=turn.id%>?_method=DELETE">
         		<button type="submit" class="little-button less" title="<%=i18n.escapeRoom.steps.turnos.deleteTitle%>" >
         			<span class="material-icons">delete</span>
         		</button>

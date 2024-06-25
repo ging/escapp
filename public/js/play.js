@@ -40,7 +40,7 @@ const quizInstructionsTemplate = () => {
 };
 
 const quizTemplate = () => {
-  return `<iframe class="hintAppIframe" src="/escapeRooms/${escapeRoomId}/hintAppWrapper" lang="es"/>`
+  return `<iframe class="hintAppIframe" src="/ctfs/${escapeRoomId}/hintAppWrapper" lang="es"/>`
 };
 
 const catsTemplate = (categories, hints) => {
@@ -130,7 +130,7 @@ const onStart = () => {
 const onStop = async () => {
   alertMsg = createAlert("warning", i18n["timeUp"]);
   await forMs(10000);
-  window.location = `/escapeRooms/${escapeRoomId}/finish`;
+  window.location = `/ctfs/${escapeRoomId}/finish`;
 }
 
 const onJoin = ({ranking}) => {
@@ -274,7 +274,7 @@ const onHintResponse = async ({code, hintOrder: hintOrderPlus, puzzleOrder: puzz
 
 const onInitialInfo = ({code, erState, participation}) => {
   if (participation != "AUTHOR" && (code && code === "NOK")) {
-    window.location = `/escapeRooms/${escapeRoomId}/`;
+    window.location = `/ctfs/${escapeRoomId}/`;
   }
 
   if (erState && erState.ranking) {
@@ -299,7 +299,7 @@ const onRanking = ({ranking}) => {
 
 const onLeave = ({username, teamId, ranking}) => {
   if ((username && username === myUsername) || (teamId && teamId === myTeamId)) {
-    window.location.replace("/escapeRooms");
+    window.location.replace("/ctfs");
   } else if (ranking) {
     teams = ranking;
     $('ranking').html(rankingTemplate(teams, myTeamId));

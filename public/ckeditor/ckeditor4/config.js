@@ -81,10 +81,10 @@ CKEDITOR.editorConfig = function( config ) {
 	// };
 	config.toolbarCanCollapse = false;
     config.filebrowserUploadMethod = 'form';
-	config.filebrowserImageBrowseUrl =  '/escapeRooms/'+window.escapeRoomId+'/browse';
-	config.filebrowserBrowseUrl =  '/escapeRooms/'+window.escapeRoomId+'/browse';
-    config.filebrowserUploadUrl = '/escapeRooms/'+window.escapeRoomId+'/uploadAssets';
-    config.filebrowserImageUploadUrl = '/escapeRooms/'+window.escapeRoomId+'/uploadAssets';
+	config.filebrowserImageBrowseUrl =  '/ctfs/'+window.escapeRoomId+'/browse';
+	config.filebrowserBrowseUrl =  '/ctfs/'+window.escapeRoomId+'/browse';
+    config.filebrowserUploadUrl = '/ctfs/'+window.escapeRoomId+'/uploadAssets';
+    config.filebrowserImageUploadUrl = '/ctfs/'+window.escapeRoomId+'/uploadAssets';
     config.filebrowserWindowWidth = '640';
     config.filebrowserWindowHeight = '480';
 };

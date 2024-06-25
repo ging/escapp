@@ -6,7 +6,7 @@ const {getRanking} = require("../helpers/utils");
 // PUT /escapeRooms/:escapeRoomId/users/:userId/turnos/:turnoId/teams/:teamId
 exports.add = async (req, res, next) => {
     const {escapeRoom, turn, team, session, token} = req;
-    const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}`;
+    const direccion = req.body.redir || `/ctfs/${escapeRoom.id}`;
     const {startTime} = team;
     const {user} = session;
     const transaction = await sequelize.transaction();
@@ -17,7 +17,7 @@ exports.add = async (req, res, next) => {
 
         if (time && time + escapeRoom.duration < new Date()) { // Already finished
             req.flash("error", i18n.turno.tooLate);
-            res.redirect(`/escapeRooms/${escapeRoom.id}/join?token=${token}`);
+            res.redirect(`/ctfs/${escapeRoom.id}/join?token=${token}`);
             return;
         }
 

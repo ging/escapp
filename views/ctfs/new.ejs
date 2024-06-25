@@ -1,0 +1,16 @@
+<%- include ("../partials/_header.ejs") %>
+<div role="main" class="main steps steps-new">
+    <div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/ctfs"><%=i18n.common.my%></a>
+            <span class="material-icons">chevron_right</span>
+            <span><%=i18n.escapeRoom.steps.edit.New%></span>
+            </span>
+
+        </div>
+    </div>
+    <h1><%=i18n.escapeRoom.steps.edit.title%></h1>
+    <form class="basicConfig" method="post" action="/ctfs" enctype="multipart/form-data">
+        <%- include ("../partials/_form.ejs") %>
+    </form>
+</div>

@@ -50,7 +50,7 @@ exports.retos = async (req, res, next) => {
     try {
         req.escapeRoom.puzzles = await getERPuzzlesAndHints(req.escapeRoom.id);
 
-        res.render("escapeRooms/steps/puzzles", {"escapeRoom": req.escapeRoom, "progress": "puzzles" });
+        res.render("ctfs/steps/puzzles", {"escapeRoom": req.escapeRoom, "progress": "puzzles" });
     } catch (e) {
         next(e);
     }
@@ -144,7 +144,7 @@ exports.retosUpdate = async (req, res) => {
         const isPrevious = Boolean(body.previous);
         const progressBar = body.progress;
 
-        res.redirect(`/escapeRooms/${escapeRoom.id}/${isPrevious ? prevStep("puzzles") : progressBar || nextStep("puzzles")}`);
+        res.redirect(`/ctfs/${escapeRoom.id}/${isPrevious ? prevStep("puzzles") : progressBar || nextStep("puzzles")}`);
     } catch (error) {
         await transaction.rollback();
         if (error instanceof Sequelize.ValidationError) {
@@ -155,6 +155,6 @@ exports.retosUpdate = async (req, res) => {
             req.flash("error", i18n.common.flash.errorEditingER);
         }
         escapeRoom.puzzles = retos;
-        res.render("escapeRooms/steps/puzzles", {escapeRoom, "progress": "puzzles" });
+        res.render("ctfs/steps/puzzles", {escapeRoom, "progress": "puzzles" });
     }
 };

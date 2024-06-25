@@ -1,0 +1,90 @@
+<script src="/js/vendor/apexcharts.js"></script>
+<script src="/js/extractColor.js"></script>
+
+<%- include ("../../partials/_header.ejs") %>
+<div role="main" class="main">
+  <%- include("../../partials/_breadcrumbAnalyticsStep",{labels: analyticsSections(), current: "puzzleStats"}) %>
+
+  <h1><%=i18n.analytics.puzzleStats.title%></h1>
+
+<form method="get" class="participantsList" action="/ctfs/<%= escapeRoom.id %>/analytics/puzzles">
+<div class="filters">
+    <label for="turnId"><%=i18n.turno.Turno%>
+        <select name="turnId" id="turnId">
+            <option value="" <%= !turnId ? "selected": ""%> ><%=i18n.turno.all%></option>
+            <% for (t in escapeRoom.turnos) { %>
+            <% var turno = escapeRoom.turnos[t] %>
+            <option value="<%=turno.id%>" <%= turnId == turno.id ? "selected" : "" %> >
+                <%if (turno.place) {%> <%=turno.place %> (<%}%><%= (turno.date ? getFullDate(turno.date): i18n.turno.alwaysOpen)%><%if (turno.place) {%>)<%}%>
+            </option>
+            <% } %>
+        </select>
+    </label>
+    <button type="submit" class="editButton filter-button" ><%=i18n.common.filter%></button>
+</div>
+</form>
+<%function checkNaN(num) {
+    if (Number.isNaN(num)) {
+        return false
+    } else if (num == Infinity || num == -Infinity) {
+        return false;
+    } else {
+        return true;
+    }
+}
+%>
+<br/>
+<div class="centered" style="overflow-x: auto;">
+  <table class="mainTable mainTableCentered" style="font-size: 14px;">
+    <tr>
+      <th rowspan="2"><%=i18n.puzzle.Puzzle%></th>
+      <th rowspan="2">N</th>
+      <th colspan="5"><%=i18n.analytics.puzzleStats.cumulative%></th>
+      <th colspan="5"><%=i18n.analytics.puzzleStats.nonCumulative%></th>
+      <th colspan="5">Nº de intentos fallidos</th>
+    </tr>
+    <tr class="first">
+        <td>M</td>
+        <td>MED</td>
+        <td>SD</td>
+        <td>MIN</td>
+        <td>MAX</td>
+        <td>M</td>
+        <td>MED</td>
+        <td>SD</td>
+        <td>MIN</td>
+        <td>MAX</td>
+        <td>M</td>
+        <td>MED</td>
+        <td>SD</td>
+        <td>MIN</td>
+        <td>MAX</td>
+    </tr>
+  <% Math.round2 = (num) => Math.round(num * 100) / 100  %>
+  <% for (let p of escapeRoom.puzzles) {%>
+    <tr>
+      <td><strong><%=p.title%></strong></td>
+      <td><%if(summary[p.id] && checkNaN(summary[p.id].count)){%><%=(summary[p.id].count)%><%}else{%>0<%}%></td>
+      <td><%if(summary[p.id] && checkNaN(summary[p.id].mean)){%><%=secondsToDhms(summary[p.id].mean)%><%}else{%>-<%}%></td>
+      <td><%if(summary[p.id] && checkNaN(summary[p.id].median)){%><%=secondsToDhms(summary[p.id].median)%><%}else{%>-<%}%></td>
+      <td><%if(summary[p.id] && checkNaN(summary[p.id].std)){%><%=secondsToDhms(summary[p.id].std)%><%}else{%>-<%}%></td>
+      <td><%if(summary[p.id] && checkNaN(summary[p.id].min)){%><%=secondsToDhms(summary[p.id].min)%><%}else{%>-<%}%></td>
+      <td><%if(summary[p.id] && checkNaN(summary[p.id].max)){%><%=secondsToDhms(summary[p.id].max)%><%}else{%>-<%}%></td>
+      <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].mean)){%><%=secondsToDhms(summarySingle[p.id].mean)%><%}else{%>-<%}%></td>
+      <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].median)){%><%=secondsToDhms(summarySingle[p.id].median)%><%}else{%>-<%}%></td>
+      <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].std)){%><%=secondsToDhms(summarySingle[p.id].std)%><%}else{%>-<%}%></td>
+      <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].min)){%><%=secondsToDhms(summarySingle[p.id].min) || '0s'%><%}else{%>-<%}%></td>
+      <td><%if(summarySingle[p.id] && checkNaN(summarySingle[p.id].max)){%><%=secondsToDhms(summarySingle[p.id].max)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].mean)){%><%=Math.round2(summaryNo[p.id].mean)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].median)){%><%=Math.round2(summaryNo[p.id].median)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].std)){%><%=Math.round2(summaryNo[p.id].std)%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].min)){%><%=Math.round2(summaryNo[p.id].min) || '0'%><%}else{%>-<%}%></td>
+      <td><%if(summaryNo[p.id] && checkNaN(summaryNo[p.id].max)){%><%=Math.round2(summaryNo[p.id].max)%><%}else{%>-<%}%></td>
+    </tr>
+  <%}%>
+  </table>
+</div>
+<br/>
+<br/>
+</div>
+<%- include ("../../partials/_footer") %>

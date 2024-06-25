@@ -12,7 +12,7 @@ exports.checkJoinToken = (req, res, next) => {
         if (req.query.nocheck != 1) {
             req.flash("error", i18n.participant.wrongToken);
         }
-        res.redirect(`/escapeRooms/${req.escapeRoom.id}/${req.turn ? `turnos/${req.turn.id}/select` : "/join"}`);
+        res.redirect(`/ctfs/${req.escapeRoom.id}/${req.turn ? `turnos/${req.turn.id}/select` : "/join"}`);
     } else {
         req.token = token;
         next();
@@ -27,7 +27,7 @@ exports.main = (req, res, next) => {
 
     try {
         if (req.session.user.isStudent) {
-            res.render("escapeRooms/indexInvitation", {escapeRoom, token});
+            res.render("ctfs/indexInvitation", {escapeRoom, token});
         } else {
             res.status(403);
             next(new Error(403));
@@ -58,12 +58,12 @@ exports.indexTurnos = async (req, res, next) => {
                     req.user = await models.user.findByPk(req.session.user.id);
                     next();
                 } else {
-                    res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}&nocheck=1`);
+                    res.redirect(`/ctfs/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}&nocheck=1`);
                 }
             } else if (token) {
-                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}`);
+                res.redirect(`/ctfs/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}`);
             } else {
-                res.redirect(`/escapeRooms/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}&nocheck=1`);
+                res.redirect(`/ctfs/${escapeRoom.id}/turnos/${escapeRoom.turnos[0].id}/teams?token=${token}&nocheck=1`);
             }
         } else {
             res.render("turnos/_indexStudent.ejs", {"turnos": escapeRoom.turnos, escapeRoom, token});
@@ -85,12 +85,12 @@ exports.mainTurnos = (req, res, next) => {
             req.params.turnoId = req.body.turnSelected;
             next();
         } else {
-            const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams?token=${token}&nocheck=1`;
+            const direccion = req.body.redir || `/ctfs/${escapeRoom.id}/turnos/${req.turn.id}/teams?token=${token}&nocheck=1`;
 
             res.redirect(direccion);
         }
     } else {
-        res.render("escapeRooms/turnoPassword.ejs", {"turno": turn, escapeRoom, token});
+        res.render("ctfs/turnoPassword.ejs", {"turno": turn, escapeRoom, token});
     }
 };
 
@@ -103,7 +103,7 @@ exports.selectTurno = (req, res, next) => {
         req.body.name = req.session.user.name;
         next();
     } else {
-        const direccion = req.body.redir || `/escapeRooms/${escapeRoom.id}/turnos/${req.turn.id}/teams?token=${token}&nocheck=1`;
+        const direccion = req.body.redir || `/ctfs/${escapeRoom.id}/turnos/${req.turn.id}/teams?token=${token}&nocheck=1`;
 
         res.redirect(direccion);
     }

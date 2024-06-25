@@ -1,0 +1,356 @@
+<%- include ("../partials/_header.ejs") %>
+
+<div role="main" class="main escapeRoomShow">
+    <div class="breadcrumbs-container">
+        <div class="breadcrumbs">
+            <a href="/ctfs/%>"><%=i18n.common.my%></a>
+            <span class="material-icons">chevron_right</span>
+            <span><%=escapeRoom.title%></span>
+        </div>
+    </div>
+    <br class="escapeRoomItem">
+    <h1><%=i18n.escapeRoom.steps.edit.title%>:</h1>
+    <%if (session.user.isAdmin){%>
+    <h2 class="by-author"><%=i18n.common.see%> <a href="/users/<%=escapeRoom.authorId%>"><%=i18n.common.author%></a></h2>
+    <%}%>
+
+    <div class="menuERShow">
+        <div class="menuERShowLeft">
+            <ul class="menuERactionList animated slideInLeft gugi">
+                <li class="actionTitle"><%=i18n.showTeacher.actionList.setup%></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/edit"><%=i18n.showTeacher.actionList.basic%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/turnos"><%=i18n.showTeacher.actionList.turnos%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/puzzles"><%=i18n.showTeacher.actionList.puzzles%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/hints"><%=i18n.showTeacher.actionList.hintStrategy%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/indications"><%=i18n.showTeacher.actionList.indications%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/team"><%=i18n.showTeacher.actionList.teamInterface%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/class"><%=i18n.showTeacher.actionList.classInterface%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/evaluation"><%=i18n.showTeacher.actionList.evaluation%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                <li class="actionTitle"><%=i18n.showTeacher.actionList.management%></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/participants"><%=i18n.showTeacher.actionList.participants%> <span class="material-icons">keyboard_arrow_right</span></a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/teams"><%=i18n.showTeacher.actionList.teams%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/activate"><%=i18n.showTeacher.actionList.turnos%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/message"><%=i18n.showTeacher.actionList.message%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/analytics"><%=i18n.showTeacher.actionList.analytics%> <span class="material-icons">keyboard_arrow_right</span> </a></li>
+                    <li class="actionTitle"><%=i18n.showTeacher.actionList.actions%></li>
+                    <li><button id="compartir-button" class="showMenuButton acceptButton" <%- (escapeRoom.turnos && escapeRoom.turnos.length) ? '' : (' title=\"' + i18n.showTeacher.messages.noShiftsShare + '\" disabled') %> ><%=i18n.showTeacher.actionList.share%></button></li>
+                    <% const now = new Date();
+                    now.setHours(now.getHours() - now.getTimezoneOffset() / 60);%>
+                    <%let pendingShifts = escapeRoom.turnos.filter(turn=>turn.status === "pending" &&  (turn.date - now)/1000/60 < 60)%>
+                    <%for (let turn of pendingShifts) {%>
+                        <li>
+                           
+                            <button class="showMenuButton editButton" onclick="overlayTrigger('turno-<%=turn.id%>')">
+                                <%=i18n.showTeacher.actionList.activateTurno%> <%if(pendingShifts.length>1){%><%=getFullDate(turn.date)%> <%=i18n.showTeacher.actionList.shift%><%}%>
+                            </button>
+                            <div class="overlay-trigger" data-id="turno-<%=turn.id%>">
+                                <form method="POST" action="/ctfs/<%=escapeRoom.id%>/activate?_method=put">
+                                    <input type="hidden" id="turnSelected" name="turnSelected" value="<%=turn.id%>">                                    
+                                    <p><%=i18n.turno.areYouSureStartScheduledFor%> <%=getFullDate(turn.date)%>?</p>
+                                    <button class="deleteButton" type="button" onclick="overlayTrigger('turno-<%=turn.id%>', true)"><%=i18n.common.cancel%></button>
+                                    <button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
+                                </form>
+                            </div>
+                        </li>                 
+                     <%}%>
+                    <%let activeShifts = escapeRoom.turnos.filter(turn=>turn.status === "active" && turn.startTime)%>
+                    <%for (let turn of activeShifts) {%>
+                        <li>
+                            <button class="showMenuButton stopButton" onclick="overlayTrigger('turno-<%=turn.id%>')" >
+                                <%=i18n.showTeacher.actionList.stop%> <%if(activeShifts.length>1){%><%=getFullDate(turn.date)%> <%=i18n.showTeacher.actionList.shift%><%}%>
+                            </button>
+                            <div class="overlay-trigger" data-id="turno-<%=turn.id%>">
+                                <form method="POST" action="/ctfs/<%=escapeRoom.id%>/activate?_method=put">
+                                    <input type="hidden" id="turnSelected" name="turnSelected" value="<%=turn.id%>">                                    
+                                    <p><%=i18n.turno.areYouSureStopScheduledFor%> <%=getFullDate(turn.date)%>?</p>
+                                    <button class="deleteButton" type="button" onclick="overlayTrigger('turno-<%=turn.id%>', true)"><%=i18n.common.cancel%></button>
+                                    <button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
+                                </form>
+                            </div>
+                        </li>
+                    <%}%>
+                    <li>
+                        <button class="showMenuButton deleteButton" onclick="overlayTrigger('delete-er')"><%=i18n.showTeacher.actionList.delete%></button>
+
+                        <div class="overlay-trigger" data-id="delete-er">
+                            <form method="POST" action="/ctfs/<%= escapeRoom.id %>?_method=DELETE">
+                                <p><%=i18n.escapeRoom.general.areYouSureDelete%></p>
+                                <button class="deleteButton" type="button" onclick="overlayTrigger('delete-er', true)"><%=i18n.common.cancel%></button>
+                                <button class="acceptButton" type="submit"><%=i18n.common.accept%></button>
+                            </form>
+                        </div>
+                    </li>
+                    <%if(escapeRoom.teamInstructions  !=null && escapeRoom.classInstructions !=null && escapeRoom.classInstructions !=null){%>
+                    <li><a href="/ctfs/<%= escapeRoom.id %>/clone?_method=PUT"><button class="showMenuButton cloneButton" ><%=i18n.showTeacher.actionList.clone%></button></a></li>
+                    <%}%>
+
+            </ul>
+        </div>
+        <div class="menuERShowRight animated slideInUp" >
+            <div class="flexShow">
+                <div class="attachmentShow" >
+                    <% var attachment = escapeRoom.attachment; %>
+                    <%- include ("../attachments/_show") %>
+                </div> 
+                <div class="flexRow nextToPicture animated slideInUp" id="basic" style="animation-delay: 50ms;">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.title%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <%= escapeRoom.title %>
+                    </div>
+                </div>
+                <div class="flexRow nextToPicture animated slideInUp" style="animation-delay: 100ms;">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.subject%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <%= escapeRoom.subject %>
+                    </div>
+                </div>
+                <div class="flexRow nextToPicture animated slideInUp" style="animation-delay: 150ms;">
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.duration%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <%= escapeRoom.duration %> min.
+                    </div>
+                </div>
+                <%var delay = 150%>
+                <% if (escapeRoom.description){ %>
+                    <% delay += 50 %>
+
+                    <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
+                        <div class="flexShowLeft">
+                            <%=i18n.showTeacher.titles.description%>:
+                        </div>
+                        <div class="flexShowRight">
+                            <%= escapeRoom.description %>
+                        </div>
+                    </div>
+                <% } %>
+                <% if (escapeRoom.teamSize) { %>
+                <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
+                    <% delay += 50 %>
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.teamSize%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <%= escapeRoom.teamSize %>
+                    </div>
+                </div>
+                <%}%>
+            
+            
+                <% if (escapeRoom.turnos && escapeRoom.turnos.length) { %>
+                
+                <div class="flexRow animated slideInUp" style="animation-delay: <%=delay%>ms;">
+                    <% delay += 50 %>
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.turnos%>:
+                    </div>
+                    <div class="flexShowRight">
+                        <% var turnos = escapeRoom.turnos; %>
+                        <%-  include ("../turnos/_indexShow",{turnos})  %>
+                    </div>
+                </div>
+                <%}%>
+                <div class="flexRow animated slideInUp smallHidden" style="animation-delay: <%=delay%>ms;">
+                    <% delay += 200 %>
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.titles.puzzles%>:
+                        <% const someAutomatic = escapeRoom.puzzles && escapeRoom.puzzles.length > 0 && escapeRoom.puzzles.some(p=>p.automatic); %>
+                        <% if (someAutomatic) { %>
+                            <br/><button id="api-button"><span class="material-icons">info</span></button>
+                        <% } %>
+                    </div>
+                    <div class="flexShowRight previewPuzzles">
+                        <%if (escapeRoom.puzzles && escapeRoom.puzzles.length > 0) {%>
+                        <div class="flex-table-wrapper">
+                            <div class="flex-table animated jello">
+                                <div class="flex-row flex-row-title">
+                                    <div class="flex-cell flex-cell-retos">
+                                        <%=i18n.escapeRoom.steps.puzzles.puzzleTitle%>
+                                    </div>
+                                    <div class="flex-cell flex-cell-sol">
+                                        <%=i18n.escapeRoom.steps.puzzles.solution%>
+                                    </div>
+                                    <div class="flex-cell flex-cell-desc">
+                                        <%=i18n.escapeRoom.steps.puzzles.description%>
+                                    </div>
+                                    <div class="flex-cell flex-cell-pista">
+                                        <%=i18n.escapeRoom.steps.puzzles.hints%>
+                                    </div>
+                                </div>
+                                <% for(var reto in escapeRoom.puzzles) { %>
+                                <% var puzzle = escapeRoom.puzzles[reto] %>
+        
+                                <div class="flex-row">
+                                    <div class="flex-cell flex-cell-retos">
+                                        <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="title"><%= puzzle.title%></div>
+                                    </div>
+                                    <div class="flex-cell flex-cell-sol">
+                                        <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="sol"><%= puzzle.sol%></div>
+                                    </div>
+                                    <div class="flex-cell flex-cell-desc">
+                                        <div class="retoTextArea editable" data-reto="<%=puzzle.id%>" data-id="desc"><%= puzzle.desc%></div>
+                                    </div>
+                                    <div class="flex-cell flex-cell-pista">
+                                        <div class="retoTextArea hints-cell hints-cell-preview" data-reto="<%=puzzle.id%>" data-id="hint">
+                                            <ul class=" ">
+                                                <%if (puzzle.hints && puzzle.hints.length > 0) {%>
+                                                <% for (var p in puzzle.hints) { %>
+                                                    <% var nCats = (new Set(puzzle.hints.map(h=> h.category))).size %>
+                                                    <% var hint = puzzle.hints[p] %>
+                                                <li class="hint-text-preview">
+                                                        <% if (nCats > 1)  { %>
+                                                            <b>(<%= hint.category %>)</b>
+                                                        <%}%>
+                                                        <%= hint.content %>
+                                                </li>
+                                                <% } %>
+                                                <% } else {%>
+                                                <span class="no-pistas-preview">
+                                                    <%=i18n.escapeRoom.steps.puzzles.noCluesYet%>
+                                                </span>
+                                                <% } %>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        <%} else {%>
+                            <%=i18n.escapeRoom.steps.puzzles.noPuzzlesYet%>
+                        <%}%>
+                    </div>
+                </div>
+                <div class="flexRow animated slideInUp" id="pistas" style="animation-delay: <%=delay%>ms;">
+                    <% delay += 50 %>
+                    <div class="flexShowLeft">
+                        <%=i18n.showTeacher.actionList.hintStrategy%>:
+                        <% var hintConditional  = (!escapeRoom.hintLimit && escapeRoom.hintLimit !== 0 ) || escapeRoom.hintLimit > 0; // Hints allowed %>
+                        <% var hintAppConditional = hintConditional && Boolean(escapeRoom.hintApp); // Hint app methodology %>
+                    
+                    </div>
+                    <div class="flexShowRight">
+                        <% if (hintAppConditional) { %>
+                            <a class="show_link"  download="quiz" href="/ctfs/<%= escapeRoom.id%>/xml"><%=escapeRoom.hintApp.filename%></a>
+                            <button class="preview-icon" onclick="previewHintApp()"><span class="material-icons">remove_red_eye</span></button> 
+                        <% } else if (hintConditional) { %>
+                            <%=i18n.showTeacher.messages.freeHintsStrategy%>
+                        <% } else { %>
+                            <%=i18n.showTeacher.messages.noHintsStrategy%>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="flexShow">
+       
+    </div>
+</div>
+<br/>
+
+<br/>
+
+<div style="height: 100px"></div>
+
+<div id="dialog-share" title="<%=i18n.showTeacher.titles.share%>">
+    <div>
+        <% var invitationLink = hostName + "/ctfs/" + escapeRoom.id + "/join" + (escapeRoom.invitation ? ("?token=" + escapeRoom.invitation):"") %>
+        <h4><%=i18n.showTeacher.actionList.join%></h4>
+        <p class=join-instructions>
+            <%=i18n.showTeacher.messages.join.intro%>
+        </p>
+        <%-include("../partials/_copyLink",{invitationLink,key:"main"})%>
+        <p class="join-instructions">
+            <%if (!escapeRoom.scope){%>
+                <%=i18n.showTeacher.messages.join.also%> <a><%=hostName%></a>
+                <%=i18n.showTeacher.messages.join.register%>
+                "<span class="hl"><%=escapeRoom.title%></span>" 
+                <%if (escapeRoom.invitation){%>
+                    <%=i18n.showTeacher.messages.join.password%> "<span class="hl"><%=escapeRoom.invitation%></span>"
+                <%}%>
+            <%}%>
+        </p>
+        <%if (escapeRoom.turnos.some(t=>t.password)){%>
+        <h5><%=i18n.showTeacher.messages.join.specialShifts%></h5>
+            <%for(let turno of escapeRoom.turnos){%>
+                <%if (turno.password) {%>
+                    <% var invitationLink = hostName + "/ctfs/" + escapeRoom.id + "/turnos/" + turno.id + "/select?token=" + turno.password %>
+                    <p class="join-instructions join-turno" style="color: var(--lightred);"><b><%= turno.date ? getFullDate(turno.date) : i18n.turno.alwaysOpen  %> <%if(turno.place){%>(<%=turno.place%>)<%}%></b></p>
+                    <ul class="join-turno-list">
+                        <li>
+                            <%-include("../partials/_copyLink",{invitationLink,key: turno.id})%>
+                        </li>
+                        <li><b>Password:</b> <%=turno.password%></li>
+
+                    </ul>
+                    
+                <%}%>
+            <%}%>
+        <%}%>
+    </div>
+</div>
+
+<%- include ("../partials/_footer") %>
+<script>
+    var escapeRoomId = "<%= escapeRoom.id%>";
+    const previewHintApp = () => {
+        var newwindow = window.open('/ctfs/'+escapeRoomId+'/hintAppWrapper','',
+            'width='+screen.width*0.7+',height='+screen.height*0.7);
+    };
+</script>
+<%- include ("../partials/_api") %>
+
+<script src="/js/vendor/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    var dialogOptions = {
+        autoOpen: false,
+        resizable: false,
+        width: window.innerWidth > 900 ? 860 : window.innerWidth*0.8,
+        height: "auto",
+        modal: true,
+        show: {
+            effect: "scale",
+            duration: 400
+        },
+        hide: {
+            effect: "scale",
+            duration: 400
+        },
+        appendTo: '.main'
+    };
+    const overlayTrigger = (id, close) => {
+        $('.overlay-trigger').hide();
+        if (!close) {
+            $('.overlay-trigger[data-id="' + id + '"]').show();
+        }
+    };
+
+    $( function() {
+
+        // API usage
+        $("#dialog-preview-api").dialog({...dialogOptions, height: screen.height * 0.8});
+
+        $( "#api-button" ).on( "click", function() {
+            $( "#dialog-preview-api" ).dialog( "open" );
+        }); 
+
+        // Share ER link
+        $("#dialog-share").dialog(dialogOptions);
+
+        $( "#compartir-button" ).on( "click", function() {
+            $( "#dialog-share" ).dialog( "open" );
+        });
+        
+    });
+</script> 

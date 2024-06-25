@@ -12,7 +12,7 @@
         <input type="radio" id="sourceFile" name="file-gallery-source" value="url"/><%=i18n.gallery.selectFileFromList%></label>
           <button class="" id="uploadNew"><%=i18n.gallery.uploadNew%></button>
       </p>
-      <form method='POST' id="assetsForm" action='/escapeRooms/<%= escapeRoom.id %>/uploadAssets' class="dropzone" >
+      <form method='POST' id="assetsForm" action='/ctfs/<%= escapeRoom.id %>/uploadAssets' class="dropzone" >
           <input type="file" name="file" style="display:none;"/>
       </form>
       <% if (endPoint === "team" || endPoint === "class") { %>
