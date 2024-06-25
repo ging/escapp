@@ -166,21 +166,21 @@
             "interestingInfo": "Relevant information",
             "success": "Successfully completed tasks",
             "errorActivatingTurno": "An error occurred while activating/deactivating turns.",
-            "errorCreatingER": "An error occurred while setting up the Escape Room.",
+            "errorCreatingER": "An error occurred while setting up the CTF.",
             "errorCreatingHint": "An error occurred while creating the hint.",
             "errorCreatingPuzzle": "An error occurred while creating the puzzle.",
             "errorCreatingTeam": "An error occurred while creating the team.",
             "errorCreatingTeamAlreadyExists": "A team with this name already exists in this CTF",
             "errorCreatingTurno": "An error occurred while creating the shift",
             "errorCreatingUser": "An error occurred while creating a new user",
-            "errorDeletingER": "An error occurred while deleting the Escape Room",
+            "errorDeletingER": "An error occurred while deleting the CTF",
             "errorDeletingHint": "An error occurred while deleting the hint",
             "errorDeletingPuzzle": "An error occurred while deleting the puzzle",
             "errorDeletingTeam": "An error occurred while deleting the team",
             "errorDeletingTurno": "An error occurred while deleting the shift",
             "errorDeletingUser": "An error occurred while deleting the user",
             "errorStudentLeave": "An error occurred while leaving. Your shift is closed.",
-            "errorEditingER": "An error occurred while editing the Escape Room",
+            "errorEditingER": "An error occurred while editing the CTF",
             "errorEditingHint": "An error occurred while editing the hint",
             "errorEditingPuzzle": "An error occurred while editing the puzzle",
             "errorEditingTeam": "An error occurred while editing the team",
@@ -197,21 +197,21 @@
             "resetPasswordSent": "We have sent you an email with a link to reset your password",
             "resetPasswordUserNotFound": "Sorry, you are not registered in CAPP The Flag",
             "successActivatingTurno": "Shift successfully activated/deactivated",
-            "successCreatingER": "Escape Room successfully set up",
+            "successCreatingER": "CTF successfully set up",
             "successCreatingHint": "Hint successfully created",
             "successCreatingPuzzle": "Puzzle successfully created",
             "successCreatingTeam": "Team successfully created",
             "successCreatingTeamSingle": "You have successfully joined the CTF",
             "successCreatingTurno": "Shift successfully created",
             "successCreatingUser": "User successfully created",
-            "successDeletingER": "Escape Room successfully deleted",
+            "successDeletingER": "CTF successfully deleted",
             "successDeletingHint": "Hint successfully deleted",
             "successDeletingPuzzle": "Puzzle successfully deleted",
             "successDeletingTeam": "Team successfully deleted",
             "successDeletingTurno": "Shift successfully deleted",
             "successResetingTurno": "Shift successfully reset",
             "successDeletingUser": "User successfully deleted",
-            "successEditingER": "Escape Room successfully edited",
+            "successEditingER": "CTF successfully edited",
             "successEditingHint": "Hint successfully edited",
             "successEditingHintApproach": "Hint configuration successfully edited",
             "successEditingPuzzle": "Puzzle successfully edited",
@@ -304,7 +304,7 @@
             "autoPlayButton": "Play",
             "writeSol": "Write here the solution",
             "currentPuzzle": "Current puzzle",
-            "finish": "Congratulations! You've exited the Escape Room.",
+            "finish": "Congratulations! You've exited the CTF.",
             "failed": "Too bad! Please try again",
             "failMessage": "Too bad! Please keep trying",
             "dontClose": "There aren't any hints left. You may ask your teacher for help now. Don't close this message until they come",
@@ -346,7 +346,7 @@
         },
         "invitation": {
             "no": "no",
-            "wannaJoin": "Would you like to join this Escape Room?",
+            "wannaJoin": "Would you like to join this CTF?",
             "typePasscode": "Type the access passcode for",
             "yes": "yes",
             "scopes": {
@@ -357,11 +357,11 @@
         "main": {
             "copyOf": "Copy of",
             "createER": "Create new CTF",
-            "noERTeacher": "You haven't created any Escape Rooms yet. Manage them from here",
-            "noERStudent": "You haven't any active Escape Rooms yet, wait for your teacher's invitation.",
-            "yesERStudent": "These are your Escape Rooms",
-            "yesERTeacher": "Manage your Escape Rooms from here",
-            "notAvailable": "Escape Room not available"
+            "noERTeacher": "You haven't created any CTFs yet. Manage them from here",
+            "noERStudent": "You haven't any active CTFs yet, wait for your teacher's invitation.",
+            "yesERStudent": "These are your CTFs",
+            "yesERTeacher": "Manage your CTFs from here",
+            "notAvailable": "CTF not available"
         },
         "steps": {
             "appearance": {
@@ -382,8 +382,8 @@
             },
             "edit": {
                 "New": "New",
-                "descriptionPlaceHolder": "Write the Escape Room's description here. This information will be given to your students",
-                "durationPlaceHolder": "¿What time do students have to complete de Escape Room?",
+                "descriptionPlaceHolder": "Write the CTF's description here. This information will be given to your students",
+                "durationPlaceHolder": "¿What time do students have to complete de CTF?",
                 "forbiddenLateSubmissionsPlaceHolder": "Do not allow to solve puzzles once the time is up",
                 "passwordPlaceHolder": "Provide a password to restrict access to the CTF",
                 "invitationPlaceHolder": "Provide a password to restrict access to the CTF",
@@ -392,16 +392,16 @@
                 "subjectPlaceHolder": "What subject does this activity belong to?",
                 "teamSizePlaceHolder": "How many participants will have each team? Leave it blank if you do not want to limit it",
                 "supportLinkPlaceHolder": "Where should students go if they face any problems?",
-                "title": "Escape Room basic configuration",
-                "titlePlaceHolder": "What is the Escape Room's name?",
-                "videoPlaceHolder": "An URL dor the Escape Room's introduction video"
+                "title": "CTF basic configuration",
+                "titlePlaceHolder": "What is the CTF's name?",
+                "videoPlaceHolder": "An URL dor the CTF's introduction video"
 
             },
             "evaluation": {
                 "eachHint": "Assign a penalty or reward for requesting a hint",
                 "eachHintObtain": "Assign a penalty or reward for each hint obtained",
                 "eachPuzzle": "Assign a different percentage to each puzzle",
-                "forSurveys": "create surveys and quizes for your Escape Room",
+                "forSurveys": "create surveys and quizes for your CTF",
                 "hintSuccess": "Points for each hint request succeeded",
                 "hintFailed": "Points for each hint request failed",
                 "justParticipating": "Assign a percentage of the grade just for participating",
@@ -600,8 +600,8 @@
     },
     "inspiration": {
         "downloadText": "download",
-        "intro": "You don't know how to start creating the Escape Room? <br/> Follow these steps",
-        "title": "Escape Room setting up guide",
+        "intro": "You don't know how to start creating the CTF? <br/> Follow these steps",
+        "title": "CTF setting up guide",
         "banner": {
             "design": "Design",
             "approach": "General <br> approach",
@@ -622,7 +622,7 @@
         "steps": {
             "first": {
                 "title": "Step 1: Establish the general approach",
-                "intro": "A good way to start designing an educational Escape Room is to establish how the activity will fit within the subject and thus be able to correctly size the activity.",
+                "intro": "A good way to start designing an educational CTF is to establish how the activity will fit within the subject and thus be able to correctly size the activity.",
                 "list": {
                     "first": "Optional or mandatory",
                     "second": "Evaluable or extra",
@@ -634,7 +634,7 @@
             },
             "second": {
                 "title": "Paso 2: >Step 3: Choose the puzzles",
-                "intro": "Once the activity is defined in the context of the subject in which it will be developed, it is necessary to define what specific contents will cover the Escape Room. As it happens in any other didactic activity. It is recommended to first establish some general objectives and then break them down into more specific objectives that students must achieve to overcome the activity."
+                "intro": "Once the activity is defined in the context of the subject in which it will be developed, it is necessary to define what specific contents will cover the CTF. As it happens in any other didactic activity. It is recommended to first establish some general objectives and then break them down into more specific objectives that students must achieve to overcome the activity."
             },
             "third": {
                 "title": "Paso 3: Escoger los retos",
@@ -653,7 +653,7 @@
             },
             "fourth": {
                 "title": "Step 4: Select an appropriate theme",
-                "intro": "The theme is one of the key pieces that differentiates an Escape Room from a common practical exercise. It is about the story that surrounds the whole experience and that provides the immersive character of the game. It gives meaning to the tasks that students must perform during the Escape Room and cohesion all the tests of the activity. When you develop the theme you have to take into account: ",
+                "intro": "The theme is one of the key pieces that differentiates an CTF from a common practical exercise. It is about the story that surrounds the whole experience and that provides the immersive character of the game. It gives meaning to the tasks that students must perform during the CTF and cohesion all the tests of the activity. When you develop the theme you have to take into account: ",
                 "list": {
                     "first": "<strong> The narrative</strong>, the temporal and spatial context",
                     "second": "<strong> The student profile </strong> to which it is addressed",
@@ -664,27 +664,27 @@
                     "adventure": "Adventures",
                     "history": "History"
                 },
-                "booksAndMovies": "A good source of inspiration for selecting a theme is books, video games, famous movies or series, since it is likely that students know the plot or the characters beforehand. Of course, the subject in which the Escape Room is framed will have a great influence on the selection of the theme, since the challenges to overcome must be supported by the narrative. Some examples of themes are:"
+                "booksAndMovies": "A good source of inspiration for selecting a theme is books, video games, famous movies or series, since it is likely that students know the plot or the characters beforehand. Of course, the subject in which the CTF is framed will have a great influence on the selection of the theme, since the challenges to overcome must be supported by the narrative. Some examples of themes are:"
             },
             "fifth": {
                 "title": "Step 5: Build challenges, tracks and other materials",
-                "intro" : "Finally, with the design of the Escape Room and the available resources in mind, it is time to start building all the pieces.",
+                "intro" : "Finally, with the design of the CTF and the available resources in mind, it is time to start building all the pieces.",
                 "puzzles": {
                     "title": "Puzzles",
-                    "content": "To build challenges it is common to use physical resources such as locks, keys, boxes, laboratory equipment, puzzles, etc. However, an Escape Room in which many students participate simultaneously, these types of resources can greatly increase the budget required for the activity. One solution is to combine simple physical resources (paper, for example) with free digital resources: mobile applications, sounds, virtual puzzles, etc. You will find examples and resources in step 3."
+                    "content": "To build challenges it is common to use physical resources such as locks, keys, boxes, laboratory equipment, puzzles, etc. However, an CTF in which many students participate simultaneously, these types of resources can greatly increase the budget required for the activity. One solution is to combine simple physical resources (paper, for example) with free digital resources: mobile applications, sounds, virtual puzzles, etc. You will find examples and resources in step 3."
                 },
                 "hints": {
                     "title": "Hints",
-                    "content": "An essential part in the design of all Escape Rooms are the clues and aids It is essential to avoid that students spend too much time in the same challenge because, if this happens, there is a risk that In addition, this situation can be counterproductive from a pedagogical point of view, since students will not face all the challenges.To prevent the request for help from being constant, one possibility is to devise a battery of questions Students have to try to answer each time they need a clue, and if they can guess more than a certain number of questions, they will get a clue, in this way students will earn the right to get help and their theoretical knowledge is tested. of the subject to complement the practical content that is put into practice in the Escape Room."
+                    "content": "An essential part in the design of all CTFs are the clues and aids It is essential to avoid that students spend too much time in the same challenge because, if this happens, there is a risk that In addition, this situation can be counterproductive from a pedagogical point of view, since students will not face all the challenges.To prevent the request for help from being constant, one possibility is to devise a battery of questions Students have to try to answer each time they need a clue, and if they can guess more than a certain number of questions, they will get a clue, in this way students will earn the right to get help and their theoretical knowledge is tested. of the subject to complement the practical content that is put into practice in the CTF."
                 },
                 "instructions": {
                     "title": "Instructions",
-                    "intro": "Before starting the development of the activity, it is important to present the game to the students, it is important to clarify what the limits of the activity are, if they can leave the room, if they can use their mobile devices, if they can talk with the other teams, etc. Then, they are introduced to the theme presenting the goal to be achieved in the Escape Room and giving indications of where to start, this can be done in the form of video message in which a character (either the teacher or an “actor”) appeals to students to help solve a mystery, crime, enigma, etc. You can also approach from the opposite perspective, showing a video in the that the character plays a villain role that threatens the students. "
+                    "intro": "Before starting the development of the activity, it is important to present the game to the students, it is important to clarify what the limits of the activity are, if they can leave the room, if they can use their mobile devices, if they can talk with the other teams, etc. Then, they are introduced to the theme presenting the goal to be achieved in the CTF and giving indications of where to start, this can be done in the form of video message in which a character (either the teacher or an “actor”) appeals to students to help solve a mystery, crime, enigma, etc. You can also approach from the opposite perspective, showing a video in the that the character plays a villain role that threatens the students. "
                 }
             },
             "sixth": {
                 "title": "Step 6: Test the CTF",
-                "intro": "Detecting and fixing errors is crucial to the success of an educational Escape Room, since the presence of a failure could have catastrophic consequences in the development of the activity. It is necessary to test the challenges first individually and then perform a complete simulation."
+                "intro": "Detecting and fixing errors is crucial to the success of an educational CTF, since the presence of a failure could have catastrophic consequences in the development of the activity. It is necessary to test the challenges first individually and then perform a complete simulation."
             },
 
             "seventh": {
@@ -743,7 +743,7 @@
         "confirm": "confirm attendance",
         "delete": "Delete this participant from the CTF",
         "download": "download",
-        "emptyER": "There aren't any participants in this Escape Room yet",
+        "emptyER": "There aren't any participants in this CTF yet",
         "emptyTurno": "There aren't any participants in this shift yet",
         "errorSaving": "An error occurred",
         "participantS": "attendants",
@@ -789,8 +789,8 @@
         "start": "The CTF has just started!",
         "join": "join",
         "supportLink": "Support",
-        "sureUnjoin": "Are you sure you want to leave the Escape Room?",
-        "congrats": "Congratulations! You've successfully exited the Escape Room.",
+        "sureUnjoin": "Are you sure you want to leave the CTF?",
+        "congrats": "Congratulations! You've successfully exited the CTF.",
         "resultsTitle": "This is the CTF's leaderboard",
         "unjoin": "leave"
     },
@@ -825,10 +825,10 @@
             "information": "Information"
         },
         "messages": {
-            "noHintControl": "This Escape Room does not have any hint system yet",
+            "noHintControl": "This CTF does not have any hint system yet",
             "freeHintsStrategy": "This CTF allows obtaining free hints",
             "noHintsStrategy": "This CTF does not allow to obtain hints",
-            "noVideo": "This Escape Room does not have any video yet",
+            "noVideo": "This CTF does not have any video yet",
             "copyAria": "Invisible input to enable copying invitation link",
             "copyTitle": "Copy the link",
             "qrTitle": "Generate a QR code to share",
@@ -849,7 +849,7 @@
             "hints": "Hints",
             "instructions": "Instructions",
             "invitation": "Invitation",
-            "password": "Escape room password",
+            "password": "CTF password",
             "posttest": "Post-quiz",
             "pretest": "Pre-quiz",
             "puzzles": "Puzzles",
@@ -869,7 +869,7 @@
     },
     "team": {
         "add": "Add a team",
-        "addMsg": "Your friends can add to this team when they join the Escape Room",
+        "addMsg": "Your friends can add to this team when they join the CTF",
         "addPlaceHolder": "Write your team's name",
         "areYouSureDelete": "Are you sure you want to remove this team from the CTF?",
         "areYouSureReset": "Are you sure you want to reset this team's progress?",
@@ -949,11 +949,11 @@
         "place": "Location",
         "noPlace": "Place not specified",
         "fullTurno": "The shift you selected is full. Select another one",
-        "notActive": "This Escape Room isn't available for you right now",
+        "notActive": "This CTF isn't available for you right now",
         "selectActivate": "Select the shift you want to activate/deactivate",
         "selectStudent": "Select a shift",
         "areYouSureReset": "Are you sure you want to reset this shift? All of the students' progress will be lost",
-        "todayEscapeRoom": "The Escape Room will be celebrated this day",
+        "todayEscapeRoom": "The CTF will be celebrated this day",
         "Turno": "Shift",
         "Links": "Links",
         "activateTurnos": "Manage the CTF shifts",
@@ -1034,10 +1034,10 @@
             "doNotMatch": "Oops! passwords must match",
             "fillIn": "Both fields password and password confirmation must be filled in",
             "invalidDNI": "Invalid ID number. Wrong format",
-            "welcome": "Welcome to the Escape Room management platform ;)",
+            "welcome": "Welcome to the Capture The Flag management platform ;)",
             "wrongLetterDNI": "Oops! Invalid ID number, letter must match the number combination",
             "notFound": "User not found",
-            "ensureRegistered": "An error occurred. Please make sure you've correctly registered in the Escape Room",
+            "ensureRegistered": "An error occurred. Please make sure you've correctly registered in the CTF",
             "emailConfirm":"Please, confirm your e-mail address, by clicking the 'confirm' button below",
             "emailConfirmButton":"confirmar",
             "emailResetPassword1":"If you are receiving this e-mail is because you reset your password in CAPP The Flag.",
