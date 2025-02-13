@@ -21,6 +21,9 @@
       // margin-top: 0px
       // margin-bottom: 5px
       // float: right
+    #logoEU
+      width: 12%
+      min-width: 120px
     .langs
       width: auto
       position: relative
@@ -28,6 +31,7 @@
       color: $textpurple
       margin-bottom: 5px
 
+    
   #mainHeader
     height: 50px
     display: flex
@@ -37,7 +41,9 @@
     width: 100%
     z-index: 1
     position: absolute
-
+    #logoEU
+      position: fixed
+      bottom: 1em
     .left, .right
       padding: 10px
       color: white
@@ -185,6 +191,7 @@
       width: 17%
     #logoUpm
       width: 14%
+
 @media (max-width: 576px)
   #mainSection
     #mainHeader, #mainFooter

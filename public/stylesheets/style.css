@@ -1342,7 +1342,7 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   justify-content: flex-end;
   align-items: center;
   border-radius: 10px;
-  padding: 1vw;
+  padding: 0.5em;
   position: relative;
 }
 .escapeRooms .flexBoxEscapeRooms .escapeRoomItemWrapper .escapeRoomItem.disabled {
@@ -2602,6 +2602,10 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
 #mainSection #mainHeader #logoUpm, #mainSection #mainFooter #logoUpm {
   width: 5%;
 }
+#mainSection #mainHeader #logoEU, #mainSection #mainFooter #logoEU {
+  width: 12%;
+  min-width: 120px;
+}
 #mainSection #mainHeader .langs, #mainSection #mainFooter .langs {
   width: auto;
   position: relative;
@@ -2618,6 +2622,10 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   width: 100%;
   z-index: 1;
   position: absolute;
+}
+#mainSection #mainHeader #logoEU {
+  position: fixed;
+  bottom: 1em;
 }
 #mainSection #mainHeader .left, #mainSection #mainHeader .right {
   padding: 10px;
