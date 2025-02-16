@@ -9,7 +9,7 @@ exports.createServer = (server, sessionMiddleware) => {
     const io = new Server(server, {"perMessageDeflate": false, "allowEIO3": true, "cors": { "origin": "*", "methods": ["GET", "POST"]} });
 
     io.use(function (socket, next) {
-        sessionMiddleware(socket.request, socket.request.res, next);
+        sessionMiddleware(socket.request, socket.request.res || {}, next);
     });
 
     // TODO Discover what happens when server disconnects. Reconnection same socket id?

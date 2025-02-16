@@ -40,6 +40,7 @@ if (app.get("env") === "production" && !process.env.HEROKU) {
     });
 }
 
+
 app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -61,7 +62,9 @@ app.use(function (req, res, next) {
     next();
 });
 
+
 app.use("/api", api);
+
 
 app.get("/", function (req, res, next) {
     if (req.query.clang) {
@@ -71,6 +74,7 @@ app.get("/", function (req, res, next) {
         next();
     }
 });
+
 
 // Configuracion de la session para almacenarla en BBDD usando Sequelize.
 const sequelize = require("./models");
@@ -106,9 +110,9 @@ app.use(methodOverride("_method", {
     ]
 }));
 
-
 app.use(partials());
 require("./helpers/locals")(app);
+
 app.use(flash());
 
 // Dynamic Helper:
@@ -119,6 +123,11 @@ app.use((req, res, next) => {
     next();
 });
 
+// Middleware to set cookie consent status globally for views
+app.use((req, res, next) => {
+    res.locals.cookieAccepted = (req && req.cookies) ? req.cookies.cookieAccepted === "true" : false;
+    next();
+});
 
 app.use("/", index);
 

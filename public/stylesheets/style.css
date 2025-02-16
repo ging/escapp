@@ -1,7 +1,49 @@
 @charset "UTF-8";
 @font-face {
   font-family: "Gugi";
-  src: url("../../fonts/Gugi-Regular.eot?") format("eot"), url("../../fonts/Gugi-Regular.woff2") format("woff2"), url("../../fonts/Gugi-Regular.woff") format("woff"), url("../../fonts/Gugi-Regular.ttf") format("truetype"), url("../fonts/Gugi-Regular.svg#Gugi-Regular") format("svg");
+  src: url("../../fonts/Gugi/Gugi-Regular.eot?") format("eot"), url("../../fonts/Gugi/Gugi-Regular.woff2") format("woff2"), url("../../fonts/Gugi/Gugi-Regular.woff") format("woff"), url("../../fonts/Gugi/Gugi-Regular.ttf") format("truetype"), url("../../fonts/Gugi/Gugi-Regular.svg#Gugi-Regular") format("svg");
+}
+/* fallback */
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../../fonts/mi/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2") format("woff2");
+}
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 100 200;
+  src: url("../../fonts/Lato/Lato-Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 300;
+  src: url("../../fonts/Lato/Lato-Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400 500 600 700;
+  src: url("../../fonts/Lato/Lato-Regular.ttf") format("truetype");
 }
 button, input[type=submit] {
   background-color: white;
@@ -581,6 +623,35 @@ button[type=submit], input[type=submit][type=submit] {
 .apexcharts-menu .apexcharts-menu-itemss {
   color: #656683;
   font-family: Lato, sans-serif;
+}
+
+.cookie-container {
+  position: fixed;
+  margin: 10px;
+  right: 0px;
+  bottom: 0px;
+  background: #161938;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 600px;
+  border: 1px solid white;
+  z-index: 9999;
+}
+.cookie-container a {
+  color: #FAC855;
+  text-decoration: underline;
+}
+.cookie-container button {
+  border: none;
+  color: #161938;
+  padding: 5px 10px;
+  cursor: pointer;
+  background: #FAC855;
+  font-size: 1em;
 }
 
 body .daterangepicker {
@@ -2692,7 +2763,7 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   background: none;
   font-family: Lato, sans-serif;
   padding-right: 20px;
-  font-weight: 400;
+  font-weight: 300;
 }
 #mainSection .main .breadcrumbs-container .breadcrumbs .select-wrapper .breadcrumb-select option {
   font-family: Lato, sans-serif;
@@ -3755,7 +3826,6 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   .finish .ranking-table .ranking-members {
     display: none;
   }
-
   .showStudent .flex {
     flex-direction: column;
   }
