@@ -6,8 +6,6 @@
     <meta name="description" content="<%=i18n.description%>">
     <meta name="author" content="Universidad Politécnica de Madrid">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700">    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel='stylesheet' href="/stylesheets/style.css"/>
     <link rel="stylesheet" href="/stylesheets/vendor/animate.css">
     <link rel="stylesheet" href="/stylesheets/vendor/easy-alert.css">
@@ -22,7 +20,8 @@
     <%- include("./partials/_flash",{bs:false}) %>
 </div>
 
-
+<!-- Include the multilingual cookie notice -->
+<%- include('partials/_cookie') %>
 </body>
 
 

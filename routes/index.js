@@ -62,6 +62,7 @@ router.get("/", sessionController.new); // Login form
 router.post("/", sessionController.create); // Create sesion
 router.delete("/", sessionController.destroy); // Close sesion
 router.get("/register", sessionController.logoutRequired, userController.new);
+router.post("/accept-cookies", sessionController.cookieAccept);
 
 // Routes for the resource /users
 router.get("/users/:userId(\\d+)", sessionController.loginRequired, sessionController.adminOrMyselfRequired, userController.show);

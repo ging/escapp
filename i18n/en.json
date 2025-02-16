@@ -1087,5 +1087,11 @@
         "msgPlaceholder": "Write here your message",
         "msgPlaceholder2": "Write here your message. All the users in this list that are currently connected will receive it."
 
+    },
+    "cookies": {
+        "cookie_message": "We use only essential cookies to ensure the proper functioning of this site. No tracking or third-party cookies.",
+        "accept_button": "accept",
+        "privacy_policy": "Learn more",
+        "back_to_home": "Back to home"
     }
 }

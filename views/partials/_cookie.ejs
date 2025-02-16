@@ -1,0 +1,15 @@
+<% if (!cookieAccepted) { %>
+    <div id="cookie-notice" class="cookie-container">
+        <p><%= i18n.cookies.cookie_message %> </p>
+        <button id="accept-cookies" class="btn btn-info"><%= i18n.cookies.accept_button %></button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("accept-cookies")?.addEventListener("click", function () {
+                fetch("/accept-cookies", { method: "POST" })
+                    .then(() => document.getElementById("cookie-notice").style.display = "none");
+            });
+        });
+    </script>
+<% } %>
