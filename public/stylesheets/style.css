@@ -696,189 +696,194 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   text-align: center;
 }
 
-.main .no-close .ui-dialog-titlebar {
+.main .no-close .ui-dialog-titlebar, .portada .no-close .ui-dialog-titlebar {
   display: none;
 }
-.main #dialog-start > div {
+.main #dialog-start > div, .portada #dialog-start > div {
   text-align: center;
 }
-.main #dialog-preview-video, .main #dialog-preview-api, .main #dialog-share, .main #dialog-start {
+.main #dialog-preview-video, .main #dialog-preview-api, .main #dialog-share, .main #dialog-start, .portada #dialog-preview-video, .portada #dialog-preview-api, .portada #dialog-share, .portada #dialog-start {
   padding: 0;
   background-color: white;
   outline: none;
   border: none;
 }
-.main #dialog-preview-video #previewVideoContent, .main #dialog-preview-api #previewVideoContent, .main #dialog-share #previewVideoContent, .main #dialog-start #previewVideoContent {
+.main #dialog-preview-video #previewVideoContent, .main #dialog-preview-api #previewVideoContent, .main #dialog-share #previewVideoContent, .main #dialog-start #previewVideoContent, .portada #dialog-preview-video #previewVideoContent, .portada #dialog-preview-api #previewVideoContent, .portada #dialog-share #previewVideoContent, .portada #dialog-start #previewVideoContent {
   padding: 10px;
 }
-.main #api-button {
+.main #dialog-terms, .portada #dialog-terms {
+  background-color: white;
+  outline: none;
+  border: none;
+}
+.main #api-button, .portada #api-button {
   background: none;
   color: white;
   border: none;
 }
-.main #dialog-preview-api {
+.main #dialog-preview-api, .portada #dialog-preview-api {
   overflow: auto;
 }
-.main #dialog-preview-api, .main #dialog-share, .main #dialog-start {
+.main #dialog-preview-api, .main #dialog-share, .main #dialog-start, .main #dialog-terms, .portada #dialog-preview-api, .portada #dialog-share, .portada #dialog-start, .portada #dialog-terms {
   padding: 15px;
 }
-.main #dialog-preview-api hr, .main #dialog-share hr, .main #dialog-start hr {
+.main #dialog-preview-api hr, .main #dialog-share hr, .main #dialog-start hr, .main #dialog-terms hr, .portada #dialog-preview-api hr, .portada #dialog-share hr, .portada #dialog-start hr, .portada #dialog-terms hr {
   margin-bottom: 20px;
 }
-.main #dialog-preview-api h4, .main #dialog-share h4, .main #dialog-start h4 {
+.main #dialog-preview-api h4, .main #dialog-share h4, .main #dialog-start h4, .main #dialog-terms h4, .portada #dialog-preview-api h4, .portada #dialog-share h4, .portada #dialog-start h4, .portada #dialog-terms h4 {
   color: #48C18E;
   font-size: 20px;
   margin-top: 5px;
 }
-.main #dialog-preview-api .api-table td, .main #dialog-preview-api .api-table th, .main #dialog-share .api-table td, .main #dialog-share .api-table th, .main #dialog-start .api-table td, .main #dialog-start .api-table th {
+.main #dialog-preview-api .api-table td, .main #dialog-preview-api .api-table th, .main #dialog-share .api-table td, .main #dialog-share .api-table th, .main #dialog-start .api-table td, .main #dialog-start .api-table th, .main #dialog-terms .api-table td, .main #dialog-terms .api-table th, .portada #dialog-preview-api .api-table td, .portada #dialog-preview-api .api-table th, .portada #dialog-share .api-table td, .portada #dialog-share .api-table th, .portada #dialog-start .api-table td, .portada #dialog-start .api-table th, .portada #dialog-terms .api-table td, .portada #dialog-terms .api-table th {
   font-size: 14px;
   color: #656683;
 }
-.main #dialog-preview-api .api-table td code, .main #dialog-preview-api .api-table th code, .main #dialog-share .api-table td code, .main #dialog-share .api-table th code, .main #dialog-start .api-table td code, .main #dialog-start .api-table th code {
+.main #dialog-preview-api .api-table td code, .main #dialog-preview-api .api-table th code, .main #dialog-share .api-table td code, .main #dialog-share .api-table th code, .main #dialog-start .api-table td code, .main #dialog-start .api-table th code, .main #dialog-terms .api-table td code, .main #dialog-terms .api-table th code, .portada #dialog-preview-api .api-table td code, .portada #dialog-preview-api .api-table th code, .portada #dialog-share .api-table td code, .portada #dialog-share .api-table th code, .portada #dialog-start .api-table td code, .portada #dialog-start .api-table th code, .portada #dialog-terms .api-table td code, .portada #dialog-terms .api-table th code {
   font-family: monospace;
   color: #F47E84;
 }
-.main #dialog-preview-api .api-table th, .main #dialog-share .api-table th, .main #dialog-start .api-table th {
+.main #dialog-preview-api .api-table th, .main #dialog-share .api-table th, .main #dialog-start .api-table th, .main #dialog-terms .api-table th, .portada #dialog-preview-api .api-table th, .portada #dialog-share .api-table th, .portada #dialog-start .api-table th, .portada #dialog-terms .api-table th {
   color: #F47E84;
   font-weight: 600;
   text-align: left;
 }
-.main #dialog-preview-api .api-table pre.sample-fetch, .main #dialog-share .api-table pre.sample-fetch, .main #dialog-start .api-table pre.sample-fetch {
+.main #dialog-preview-api .api-table pre.sample-fetch, .main #dialog-share .api-table pre.sample-fetch, .main #dialog-start .api-table pre.sample-fetch, .main #dialog-terms .api-table pre.sample-fetch, .portada #dialog-preview-api .api-table pre.sample-fetch, .portada #dialog-share .api-table pre.sample-fetch, .portada #dialog-start .api-table pre.sample-fetch, .portada #dialog-terms .api-table pre.sample-fetch {
   color: white;
   padding: 15px;
   font-size: 14px;
   font-family: monospace;
   background-color: #656683;
 }
-.main #dialog-preview-api .show_link, .main #dialog-share .show_link, .main #dialog-start .show_link {
+.main #dialog-preview-api .show_link, .main #dialog-share .show_link, .main #dialog-start .show_link, .main #dialog-terms .show_link, .portada #dialog-preview-api .show_link, .portada #dialog-share .show_link, .portada #dialog-start .show_link, .portada #dialog-terms .show_link {
   color: #161938;
   text-decoration: underline;
   text-underline-position: under;
 }
-.main #dialog-preview-api .joinUrl, .main #dialog-share .joinUrl, .main #dialog-start .joinUrl {
+.main #dialog-preview-api .joinUrl, .main #dialog-share .joinUrl, .main #dialog-start .joinUrl, .main #dialog-terms .joinUrl, .portada #dialog-preview-api .joinUrl, .portada #dialog-share .joinUrl, .portada #dialog-start .joinUrl, .portada #dialog-terms .joinUrl {
   height: 10px;
   opacity: 0.01;
   width: 10px;
   padding: 2px;
   margin: 0px;
 }
-.main #dialog-preview-api .copy, .main #dialog-preview-api .qr, .main #dialog-share .copy, .main #dialog-share .qr, .main #dialog-start .copy, .main #dialog-start .qr {
+.main #dialog-preview-api .copy, .main #dialog-preview-api .qr, .main #dialog-share .copy, .main #dialog-share .qr, .main #dialog-start .copy, .main #dialog-start .qr, .main #dialog-terms .copy, .main #dialog-terms .qr, .portada #dialog-preview-api .copy, .portada #dialog-preview-api .qr, .portada #dialog-share .copy, .portada #dialog-share .qr, .portada #dialog-start .copy, .portada #dialog-start .qr, .portada #dialog-terms .copy, .portada #dialog-terms .qr {
   background: transparent;
   border: none;
   font-size: 1px;
   color: #F3945E;
   vertical-align: middle;
 }
-.main #dialog-preview-api .qr, .main #dialog-share .qr, .main #dialog-start .qr {
+.main #dialog-preview-api .qr, .main #dialog-share .qr, .main #dialog-start .qr, .main #dialog-terms .qr, .portada #dialog-preview-api .qr, .portada #dialog-share .qr, .portada #dialog-start .qr, .portada #dialog-terms .qr {
   color: #F47E84;
 }
-.main #dialog-preview-api .start-er, .main #dialog-share .start-er, .main #dialog-start .start-er {
+.main #dialog-preview-api .start-er, .main #dialog-share .start-er, .main #dialog-start .start-er, .main #dialog-terms .start-er, .portada #dialog-preview-api .start-er, .portada #dialog-share .start-er, .portada #dialog-start .start-er, .portada #dialog-terms .start-er {
   text-align: center;
 }
-.main #dialog-preview-api .start-er button.pulseButton, .main #dialog-share .start-er button.pulseButton, .main #dialog-start .start-er button.pulseButton {
+.main #dialog-preview-api .start-er button.pulseButton, .main #dialog-share .start-er button.pulseButton, .main #dialog-start .start-er button.pulseButton, .main #dialog-terms .start-er button.pulseButton, .portada #dialog-preview-api .start-er button.pulseButton, .portada #dialog-share .start-er button.pulseButton, .portada #dialog-start .start-er button.pulseButton, .portada #dialog-terms .start-er button.pulseButton {
   margin-top: 20px;
   font-size: 20px;
   cursor: pointer;
 }
-.main #dialog-preview-api .join-instructions, .main #dialog-preview-api .start-er, .main #dialog-share .join-instructions, .main #dialog-share .start-er, .main #dialog-start .join-instructions, .main #dialog-start .start-er {
+.main #dialog-preview-api .join-instructions, .main #dialog-preview-api .start-er, .main #dialog-share .join-instructions, .main #dialog-share .start-er, .main #dialog-start .join-instructions, .main #dialog-start .start-er, .main #dialog-terms .join-instructions, .main #dialog-terms .start-er, .portada #dialog-preview-api .join-instructions, .portada #dialog-preview-api .start-er, .portada #dialog-share .join-instructions, .portada #dialog-share .start-er, .portada #dialog-start .join-instructions, .portada #dialog-start .start-er, .portada #dialog-terms .join-instructions, .portada #dialog-terms .start-er {
   font-size: 18px;
   color: #161938;
 }
-.main #dialog-preview-api .join-instructions .fullscreen, .main #dialog-preview-api .start-er .fullscreen, .main #dialog-share .join-instructions .fullscreen, .main #dialog-share .start-er .fullscreen, .main #dialog-start .join-instructions .fullscreen, .main #dialog-start .start-er .fullscreen {
+.main #dialog-preview-api .join-instructions .fullscreen, .main #dialog-preview-api .start-er .fullscreen, .main #dialog-share .join-instructions .fullscreen, .main #dialog-share .start-er .fullscreen, .main #dialog-start .join-instructions .fullscreen, .main #dialog-start .start-er .fullscreen, .main #dialog-terms .join-instructions .fullscreen, .main #dialog-terms .start-er .fullscreen, .portada #dialog-preview-api .join-instructions .fullscreen, .portada #dialog-preview-api .start-er .fullscreen, .portada #dialog-share .join-instructions .fullscreen, .portada #dialog-share .start-er .fullscreen, .portada #dialog-start .join-instructions .fullscreen, .portada #dialog-start .start-er .fullscreen, .portada #dialog-terms .join-instructions .fullscreen, .portada #dialog-terms .start-er .fullscreen {
   line-height: 43px;
 }
-.main #dialog-preview-api .join-instructions .fullscreen #fullscreen-check, .main #dialog-preview-api .start-er .fullscreen #fullscreen-check, .main #dialog-share .join-instructions .fullscreen #fullscreen-check, .main #dialog-share .start-er .fullscreen #fullscreen-check, .main #dialog-start .join-instructions .fullscreen #fullscreen-check, .main #dialog-start .start-er .fullscreen #fullscreen-check {
+.main #dialog-preview-api .join-instructions .fullscreen #fullscreen-check, .main #dialog-preview-api .start-er .fullscreen #fullscreen-check, .main #dialog-share .join-instructions .fullscreen #fullscreen-check, .main #dialog-share .start-er .fullscreen #fullscreen-check, .main #dialog-start .join-instructions .fullscreen #fullscreen-check, .main #dialog-start .start-er .fullscreen #fullscreen-check, .main #dialog-terms .join-instructions .fullscreen #fullscreen-check, .main #dialog-terms .start-er .fullscreen #fullscreen-check, .portada #dialog-preview-api .join-instructions .fullscreen #fullscreen-check, .portada #dialog-preview-api .start-er .fullscreen #fullscreen-check, .portada #dialog-share .join-instructions .fullscreen #fullscreen-check, .portada #dialog-share .start-er .fullscreen #fullscreen-check, .portada #dialog-start .join-instructions .fullscreen #fullscreen-check, .portada #dialog-start .start-er .fullscreen #fullscreen-check, .portada #dialog-terms .join-instructions .fullscreen #fullscreen-check, .portada #dialog-terms .start-er .fullscreen #fullscreen-check {
   vertical-align: bottom;
 }
-.main #dialog-preview-api a, .main #dialog-share a, .main #dialog-start a {
+.main #dialog-preview-api a, .main #dialog-share a, .main #dialog-start a, .main #dialog-terms a, .portada #dialog-preview-api a, .portada #dialog-share a, .portada #dialog-start a, .portada #dialog-terms a {
   color: #48C18E;
 }
-.main #dialog-preview-api .hl, .main #dialog-share .hl, .main #dialog-start .hl {
+.main #dialog-preview-api .hl, .main #dialog-share .hl, .main #dialog-start .hl, .main #dialog-terms .hl, .portada #dialog-preview-api .hl, .portada #dialog-share .hl, .portada #dialog-start .hl, .portada #dialog-terms .hl {
   color: #36A2EB;
 }
-.main .dialog-turno {
+.main .dialog-turno, .portada .dialog-turno {
   background: white;
   padding: 10px;
   max-width: 100%;
 }
-.main .dialog-turno .flex-dialog-container {
+.main .dialog-turno .flex-dialog-container, .portada .dialog-turno .flex-dialog-container {
   position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-.main .dialog-turno .flex-dialog-container .flex-block {
+.main .dialog-turno .flex-dialog-container .flex-block, .portada .dialog-turno .flex-dialog-container .flex-block {
   width: 33.33%;
   padding: 10px;
 }
-.main .dialog-turno .flex-dialog-container .flex-block a {
+.main .dialog-turno .flex-dialog-container .flex-block a, .portada .dialog-turno .flex-dialog-container .flex-block a {
   width: 100%;
 }
-.main .dialog-turno .flex-dialog-container .flex-block button {
+.main .dialog-turno .flex-dialog-container .flex-block button, .portada .dialog-turno .flex-dialog-container .flex-block button {
   width: 100%;
   border: 2px solid rgba(101, 102, 131, 0.3);
   border-radius: 0px;
 }
-.main .dialog-turno .flex-dialog-container .flex-block button .material-icons {
+.main .dialog-turno .flex-dialog-container .flex-block button .material-icons, .portada .dialog-turno .flex-dialog-container .flex-block button .material-icons {
   color: var(--brightorange);
   display: block;
   font-size: 60px;
   margin-bottom: 15px;
 }
-.main .dialog-turno .flex-dialog-container .flex-block .overlay-trigger {
+.main .dialog-turno .flex-dialog-container .flex-block .overlay-trigger, .portada .dialog-turno .flex-dialog-container .flex-block .overlay-trigger {
   box-shadow: 0px 0px 5px #999 !important;
 }
-.main .dialog-turno .flex-dialog-container .flex-block .overlay-trigger .flex-buttons {
+.main .dialog-turno .flex-dialog-container .flex-block .overlay-trigger .flex-buttons, .portada .dialog-turno .flex-dialog-container .flex-block .overlay-trigger .flex-buttons {
   text-align: right;
 }
-.main .dialog-turno .flex-dialog-container .flex-block .overlay-trigger .flex-buttons button {
+.main .dialog-turno .flex-dialog-container .flex-block .overlay-trigger .flex-buttons button, .portada .dialog-turno .flex-dialog-container .flex-block .overlay-trigger .flex-buttons button {
   border: none !important;
   width: auto;
 }
 @media (max-width: 992px) {
-  .main .dialog-turno .flex-block {
+  .main .dialog-turno .flex-block, .portada .dialog-turno .flex-block {
     width: 50% !important;
   }
 }
 @media (max-width: 700px) {
-  .main .dialog-turno .flex-block {
+  .main .dialog-turno .flex-block, .portada .dialog-turno .flex-block {
     width: 100% !important;
   }
 }
-.main .ui-dialog {
+.main .ui-dialog, .portada .ui-dialog {
   outline: none !important;
   max-width: 90% !important;
   width: 850px !important;
 }
-.main .ui-dialog-title {
+.main .ui-dialog-title, .portada .ui-dialog-title {
   line-height: 50px;
   padding-left: 15px;
 }
-.main .ui-dialog-titlebar-close {
+.main .ui-dialog-titlebar-close, .portada .ui-dialog-titlebar-close {
   visibility: hidden;
   float: right;
   width: 50px;
 }
-.main .ui-button-icon-space {
+.main .ui-button-icon-space, .portada .ui-button-icon-space {
   visibility: visible;
 }
-.main .ui-button-icon-space:after {
+.main .ui-button-icon-space:after, .portada .ui-button-icon-space:after {
   content: "\e5cd";
   font-family: "Material Icons";
 }
-.main .ui-dialog .ui-dialog-titlebar {
+.main .ui-dialog .ui-dialog-titlebar, .portada .ui-dialog .ui-dialog-titlebar {
   background: white !important;
   border-color: white !important;
   color: #F47E84;
 }
-.main .ui-dialog {
+.main .ui-dialog, .portada .ui-dialog {
   z-index: 9998;
 }
-.main .ui-dialog.ui-corner-all {
+.main .ui-dialog.ui-corner-all, .portada .ui-dialog.ui-corner-all {
   border-radius: 0 !important;
   border-color: transparent !important;
 }
-.main .ui-widget-overlay {
+.main .ui-widget-overlay, .portada .ui-widget-overlay {
   z-index: 0;
   width: 100%;
   height: 100%;
