@@ -1,3 +1,4 @@
+<script src="/js/vendor/jquery-ui.min.js"></script>
 <%if (!user.id) {%>
     <h1 class="loginWelcomeMessage">
         <%=i18n.user.messages.welcome%>
@@ -79,8 +80,9 @@
 <div class="userField">
     <label for="accept_terms" ><span><%=i18n.user.acceptTerms%></span>
      <p>
-        <input type="checkbox" class="" id="accept_terms" name="accept_terms" checked required disabled readonly="true" onclick="javascript: return false;"/>
-        <%=i18n.user.terms%>
+        <input type="checkbox" class="" id="accept_terms" name="accept_terms" required/>
+        <%-i18n.user.terms%><br/>
+        
     </p>
 </label>
 </div>
@@ -101,9 +103,10 @@
 
 <%} %>
 
-
+</form>
 <script>
     function confirmPassword() {
+        
         var pw1 = document.getElementById('user_password').value;
         var pw2 = document.getElementById('user_confirm_password').value;
         if (!pw1 || !pw2) {
@@ -111,14 +114,20 @@
             return false;
         }
         if (pw1 === pw2) {
+            <%if (!user.id) {%>
+                if (!document.getElementById("accept_terms").checked) {
+                    $.easyAlert({message: "<%=i18n.common.flash.youMustAcceptTerms %>", alertType: 'danger', position: 'b l', time: 3000, autoHide: true})
+
+                    return false;
+                }
+            <%}%>
             return true;
         } else {
             $.easyAlert({message: "<%=i18n.user.messages.doNotMatch %>", alertType: 'danger', position: 'b l', time: 3000, autoHide: true})
             return false;
         }
-    }
+    }   
     
 </script>
 
-</form>
-</form>
+<style>body{height: 100vh;}</style>

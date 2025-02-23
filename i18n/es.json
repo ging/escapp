@@ -1010,7 +1010,7 @@
         "gender": "Género",
         "lang": "Idioma",
         "acceptTerms": "Condiciones de uso",
-        "terms": "Acepto ceder mis datos de uso de forma anonimizada con fines exclusivamente de investigación",
+        "terms": "Al registrarme, confirmo que he leído y acepto los <a href='/terms' target='_blank'>Términos de Uso</a> y la <a href='/privacy' target='_blank'>Política de Privacidad</a>",
         "inputs": {
             "editUser": "Editar usuario",
             "genderPlaceHolder": "Selecciona tu género",

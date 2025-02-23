@@ -1020,7 +1020,7 @@
         "gender": "Gender",
         "lang": "Language",
         "acceptTerms": "Terms and conditions",
-        "terms": "I hereby allow making use of my data in an anonymized way for research purposes exclusively.",
+        "terms": "By signing up, I acknowledge that I have read and agree to the <a href='/terms' target='_blank'>Terms of Use</a> and <a href='/privacy' target='_blank'>Privacy Policy</a>",
         "inputs": {
             "editUser": "Edit profile",
             "genderPlaceHolder": "Select your gender",
