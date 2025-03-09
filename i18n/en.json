@@ -698,6 +698,11 @@
         "en": "English",
         "es": "Spanish"
     },
+    "logos_eu": {
+        "img_url": "logo_eu_en.png",
+        "alt": "Co-funded by the European Union",
+        "link": "https://iglue.dit.upm.es"
+    },
     "resources": {
         "title": "Resources for creating puzzles",
         "coded": "Encoded messages",

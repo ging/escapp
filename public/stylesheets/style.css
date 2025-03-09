@@ -2680,7 +2680,7 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
 }
 #mainSection #mainHeader #logoEU, #mainSection #mainFooter #logoEU {
   width: 12%;
-  min-width: 120px;
+  min-width: 175px;
 }
 #mainSection #mainHeader #logoEU img, #mainSection #mainFooter #logoEU img {
   width: 100%;
@@ -3837,7 +3837,6 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
   .finish .ranking-table .ranking-members {
     display: none;
   }
-
   .showStudent .flex {
     flex-direction: column;
   }
