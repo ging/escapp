@@ -1,0 +1,27 @@
+<%- include ("../partials/_header.ejs") %>
+<div role="main" class="main escapeRooms" >
+    <div class="">
+
+
+    <h2><%= i18n.terms.title %></h2>
+    <p><%= i18n.terms.description %></p>
+    <p>
+        <a href="/terms" target="_blank"><button class="editButton rounded"><%= i18n.terms.view_terms %></button></a> 
+        <a href="/privacy" target="_blank"><button  class="editButton rounded"><%= i18n.terms.view_privacy %></button></a>
+    </p>
+
+ 
+    <form action="/accept-new" method="POST">
+        <button type="submit" class="acceptButton rounded"><%= i18n.terms.accept_button %></button>
+    </form>
+    
+  
+
+        
+         
+    </br>
+    </br>
+    <%- include ("../partials/_footer") %>
+    </div>
+</div>
+</div>

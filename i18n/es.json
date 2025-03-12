@@ -1082,5 +1082,13 @@
         "accept_button": "aceptar",
         "privacy_policy": "Más información",
         "back_to_home": "Volver a inicio"
-    }
+    },
+    "terms": {
+          "title": "Términos de uso y política de privacidad actualizados",
+          "description": "Hemos actualizado nuestros Términos de Uso y/o Política de Privacidad. Por favor, revísalos y acéptalos para continuar usando la plataforma.",
+          "accept_button": "Aceptar y continuar",
+          "view_terms": "Leer Términos de Uso",
+          "view_privacy": "Leer Política de Privacidad",
+          "error_accepting": "Error al aceptar la nueva política de privacidad y términos de uso"
+        }
 }

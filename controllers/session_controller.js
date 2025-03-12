@@ -1,6 +1,8 @@
 const {authenticate} = require("../helpers/utils");
 const {models} = require("../models");
 const query = require("../queries");
+const fs = require("fs")
+const path = require("path")
 /*
  * This variable contains the maximum inactivity time allowed without
  * Making requests.
@@ -44,6 +46,9 @@ exports.deleteExpiredUserSession = (req, res, next) => {
  */
 exports.loginRequired = (req, res, next) => {
     if (req.session.user) {
+        if (!req.session.user.lastAcceptedTermsDate | (req.session.user.lastAcceptedTermsDate < process.env.LAST_MODIFIED_TERMS_OR_POLICY)) {
+            res.redirect("/accept-new");
+        }
         next();
     } else {
         res.redirect(`/?redir=${req.param("redir") || req.url}`);
@@ -262,3 +267,95 @@ exports.cookieAccept = (req, res) => {
     });
     res.sendStatus(200);
 }
+
+
+exports.terms = (req, res, next) => {
+    const {i18n} = res.locals;
+    const currentLang = i18n.lang;
+    const op = {
+        root: path.join("public")
+    };
+    if (fs.existsSync('../public/terms/terms_'+currentLang+'.html')) {
+        res.sendFile('terms/terms_'+currentLang+'.html', op)
+    } else if (fs.existsSync('../public/terms/terms_'+currentLang+'.pdf')) {
+        res.sendFile('terms/terms_'+currentLang+'.pdf', op)
+    } else if (fs.existsSync('../public/terms/terms.html')) {
+        res.sendFile('terms/terms.html', op)
+    } else if (fs.existsSync('../public/terms/terms.pdf')) {
+        res.sendFile('terms/terms.pdf', op)
+    } else if (fs.existsSync('../public/terms/terms_en.html')) {
+        res.sendFile('terms/terms_en.html', op)
+    } else if (fs.existsSync('../public/terms/terms_en.pdf')) {
+        res.sendFile('terms/terms_en.pdf', op)
+    }else {
+        res.sendFile('default_terms/default.html', op, 
+            function (error) {
+                if (error) {
+                    next(error);
+                } else {
+                    console.log('File Sent');
+                }
+        });
+    }
+};
+
+exports.privacy = (req, res, next) => {
+    const {i18n} = res.locals;
+    const currentLang = i18n.lang;
+    const op = {
+        root: path.join("public")
+    };
+    if (fs.existsSync('../public/privacy/privacy_'+currentLang+'.html')) {
+        res.sendFile('privacy/privacy_'+currentLang+'.html', op)
+    } else if (fs.existsSync('../public/privacy/privacy_'+currentLang+'.pdf')) {
+        res.sendFile('privacy/privacy_'+currentLang+'.pdf', op)
+    } else if (fs.existsSync('../public/privacy/privacy.html')) {
+        res.sendFile('privacy/privacy.html', op)
+    } else if (fs.existsSync('../public/privacy/privacy.pdf')) {
+        res.sendFile('privacy/privacy.pdf', op)
+    } else if (fs.existsSync('../public/privacy/privacy_en.html')) {
+        res.sendFile('privacy/privacy_en.html', op)
+    } else if (fs.existsSync('../public/privacy/privacy_en.pdf')) {
+        res.sendFile('privacy/privacy_en.pdf', op)
+    } else {
+        res.sendFile('default_privacy/default.html', op, 
+            function (error) {
+                console.log(error)
+                if (error) {
+                    next(error);
+                } else {
+                    console.log('File Sent');
+                }
+        });
+    }
+};
+
+exports.acceptNewShow = (req, res, next) => {
+    res.render("users/new_terms", {});
+}
+
+exports.acceptNew = async (req, res, next) => {
+    const {i18n} = res.locals;
+    try {
+        if (!req.session.user) {
+            return res.status(401).send({ error: i18n.api.unauthorized });
+        }
+
+        const userId = req.session.user.id;
+        const lastAcceptedTermsDate =  new Date();
+        // Update the lastAcceptedTermsDate in the database
+        await models.user.update(
+            { lastAcceptedTermsDate: lastAcceptedTermsDate },
+            { where: { id: userId } }
+        );
+
+        // Update session user data
+        req.session.user.lastAcceptedTermsDate = lastAcceptedTermsDate;
+
+        // Redirect user to dashboard or another relevant page
+        res.redirect('/'); // Adjust this route if needed
+    } catch (error) {
+        console.error(i18n.terms.error_accepting, error);
+        next(error);
+    }
+};

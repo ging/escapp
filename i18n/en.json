@@ -1093,5 +1093,17 @@
         "accept_button": "accept",
         "privacy_policy": "Learn more",
         "back_to_home": "Back to home"
+    },
+    "terms": {
+        "title": "Updated Terms of Use & Privacy Policy",
+        "description": "We have updated our Terms of Use and/or Privacy Policy. Please review and accept them to continue using the platform.",
+        "accept_button": "Accept and Continue",
+        "view_terms": "Read Terms of Use",
+        "view_privacy": "Read Privacy Policy",
+        "error_accepting": "Error updating terms and privacy policy acceptance"
+    
     }
+      
+      
+      
 }

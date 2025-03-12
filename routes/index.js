@@ -16,8 +16,7 @@ const resourceController = require("../controllers/resource_controller");
 const resourceAppController = require("../controllers/resource_app_controller");
 const apiController = require("../controllers/api_controller");
 const joinController = require("../controllers/join_controller");
-const fs = require("fs")
-const path = require("path")
+
 
 const multer = require("multer"),
     upload = multer({"dest": "./uploads/"});
@@ -65,7 +64,10 @@ router.post("/", sessionController.create); // Create sesion
 router.delete("/", sessionController.destroy); // Close sesion
 router.get("/register", sessionController.logoutRequired, userController.new);
 router.post("/accept-cookies", sessionController.cookieAccept);
-
+router.get("/terms", sessionController.terms);
+router.get("/privacy", sessionController.privacy);
+router.get("/accept-new", sessionController.acceptNewShow);
+router.post("/accept-new", sessionController.acceptNew);
 // Routes for the resource /users
 router.get("/users/:userId(\\d+)", sessionController.loginRequired, sessionController.adminOrMyselfRequired, userController.show);
 router.get("/users/password-reset", sessionController.logoutRequired, userController.resetPassword);
@@ -193,64 +195,5 @@ router.delete("/resources/:resourceId", sessionController.loginRequired, session
 
 
 router.get("/escapeRooms/:escapeRoomId/browse", sessionController.loginRequired, sessionController.adminOrAuthorRequired, assetsController.browse);
-router.get("/terms", (req, res, next) => {
-    const {i18n} = res.locals;
-    const currentLang = i18n.lang;
-    const op = {
-        root: path.join("./public")
-    };
-    if (fs.existsSync('public/terms/terms_'+currentLang+'.html')) {
-        res.sendFile('terms/terms_'+currentLang+'.html', op)
-    } else if (fs.existsSync('public/terms/terms_'+currentLang+'.pdf')) {
-        res.sendFile('terms/terms_'+currentLang+'.pdf', op)
-    } else if (fs.existsSync('public/terms/terms.html')) {
-        res.sendFile('terms/terms.html', op)
-    } else if (fs.existsSync('public/terms/terms.pdf')) {
-        res.sendFile('terms/terms.pdf', op)
-    } else if (fs.existsSync('public/terms/terms_en.html')) {
-        res.sendFile('terms/terms_en.html', op)
-    } else if (fs.existsSync('public/terms/terms_en.pdf')) {
-        res.sendFile('terms/terms_en.pdf', op)
-    }else {
-        console.log(fs.existsSync('public/default_terms/default.html'))
-        res.sendFile('default_terms/default.html', op, 
-            function (error) {
-                if (error) {
-                    next(error);
-                } else {
-                    console.log('File Sent');
-                }
-        });
-    }
-});
-router.get("/privacy", (req, res, next) => {
-    const {i18n} = res.locals;
-    const currentLang = i18n.lang;
-    const op = {
-        root: path.join("./public")
-    };
-    if (fs.existsSync('public/privacy/privacy_'+currentLang+'.html')) {
-        res.sendFile('privacy/privacy_'+currentLang+'.html', op)
-    } else if (fs.existsSync('public/privacy/privacy_'+currentLang+'.pdf')) {
-        res.sendFile('privacy/privacy_'+currentLang+'.pdf', op)
-    } else if (fs.existsSync('public/privacy/privacy.html')) {
-        res.sendFile('privacy/privacy.html', op)
-    } else if (fs.existsSync('public/privacy/privacy.pdf')) {
-        res.sendFile('privacy/privacy.pdf', op)
-    } else if (fs.existsSync('public/privacy/privacy_en.html')) {
-        res.sendFile('privacy/privacy_en.html', op)
-    } else if (fs.existsSync('public/privacy/privacy_en.pdf')) {
-        res.sendFile('privacy/privacy_en.pdf', op)
-    }else {
-        console.log(fs.existsSync('public/default_privacy/default.html'))
-        res.sendFile('default_privacy/default.html', op, 
-            function (error) {
-                if (error) {
-                    next(error);
-                } else {
-                    console.log('File Sent');
-                }
-        });
-    }
-});
+
 module.exports = router;
