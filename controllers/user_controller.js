@@ -61,7 +61,8 @@ exports.create = (req, res, next) => {
             gender,
             "username": (username || "").toLowerCase(),
             password,
-            lang
+            lang,
+            "lastAcceptedTermsDate": new Date()
         }),
         isStudent = role === "student",
         isTeacher = role === "teacher";
@@ -79,7 +80,7 @@ exports.create = (req, res, next) => {
     user.isStudent = Boolean(isStudent);
 
     // Save into the data base
-    user.save({"fields": ["name", "surname", "gender", "username", "password", "isStudent", "salt", "token", "lang"]}).
+    user.save({"fields": ["name", "surname", "gender", "username", "password", "isStudent", "salt", "token", "lang", "lastAcceptedTermsDate"]}).
         then(() => { // Render the users page
             req.flash("success", i18n.common.flash.successCreatingUser);
             req.body.login = username;

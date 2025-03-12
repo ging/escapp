@@ -125,7 +125,7 @@ app.use((req, res, next) => {
 
 // Middleware to set cookie consent status globally for views
 app.use((req, res, next) => {
-    res.locals.cookieAccepted = (req && req.cookies) ? req.cookies.cookieAccepted === "true" : false;
+    res.locals.cookieAccepted = req && req.cookies ? req.cookies.cookieAccepted === "true" : false;
     next();
 });
 
