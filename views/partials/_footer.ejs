@@ -6,5 +6,7 @@
         <li><a class="<%=(lang=="es"?"active":"")%>" href="/?clang=es">es</a></li>
     </ul> -->
     <% } %>
-    <img id="logoEU" alt="Co-funded by the EU" src="/images/eu.png"   />
+    <a id="logoEU" href="<%=i18n.logos_eu['link']%>" target="_blank">
+        <img alt="<%=i18n.logos_eu.alt%>" src="/images/<%=i18n.logos_eu.img_url%>" />
+    </a>
 </footer>

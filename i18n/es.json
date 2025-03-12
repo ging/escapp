@@ -687,6 +687,11 @@
         "en": "Inglés",
         "es": "Español"
     },
+    "logos_eu": {
+        "img_url": "logo_eu_es.png",
+        "alt": "Cofinanciado por la Unión Europea",
+        "link": "https://iglue.dit.upm.es/es"
+    },
     "resources": {
         "title": "Recursos para crear retos",
         "coded": "Mensajes codificados",

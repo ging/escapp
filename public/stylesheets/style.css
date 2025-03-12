@@ -2680,7 +2680,10 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
 }
 #mainSection #mainHeader #logoEU, #mainSection #mainFooter #logoEU {
   width: 12%;
-  min-width: 120px;
+  min-width: 175px;
+}
+#mainSection #mainHeader #logoEU img, #mainSection #mainFooter #logoEU img {
+  width: 100%;
 }
 #mainSection #mainHeader .langs, #mainSection #mainFooter .langs {
   width: auto;
@@ -2702,6 +2705,9 @@ body .daterangepicker .calendar-time .hourselect option, body .daterangepicker .
 #mainSection #mainHeader #logoEU {
   position: fixed;
   bottom: 1em;
+}
+#mainSection #mainHeader #logoEU img {
+  width: 100%;
 }
 #mainSection #mainHeader .left, #mainSection #mainHeader .right {
   padding: 10px;
