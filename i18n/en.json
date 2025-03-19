@@ -698,6 +698,11 @@
         "en": "English",
         "es": "Spanish"
     },
+    "logos_eu": {
+        "img_url": "logo_eu_en.png",
+        "alt": "Co-funded by the European Union",
+        "link": "https://iglue.dit.upm.es"
+    },
     "resources": {
         "title": "Resources for creating puzzles",
         "coded": "Encoded messages",
@@ -1021,7 +1026,7 @@
         "gender": "Gender",
         "lang": "Language",
         "acceptTerms": "Terms and conditions",
-        "terms": "I hereby allow making use of my data in an anonymized way for research purposes exclusively.",
+        "terms": "By signing up, I acknowledge that I have read and agree to the <a href='/terms' target='_blank'>Terms of Use</a> and <a href='/privacy' target='_blank'>Privacy Policy</a>",
         "inputs": {
             "editUser": "Edit profile",
             "genderPlaceHolder": "Select your gender",
@@ -1088,5 +1093,20 @@
         "msgPlaceholder": "Write here your message",
         "msgPlaceholder2": "Write here your message. All the users in this list that are currently connected will receive it."
 
+    },
+    "cookies": {
+        "cookie_message": "We use only essential cookies to ensure the proper functioning of this site. No tracking or third-party cookies.",
+        "accept_button": "accept",
+        "privacy_policy": "Learn more",
+        "back_to_home": "Back to home"
+    },
+    "terms": {
+        "title": "Updated Terms of Use & Privacy Policy",
+        "description": "We have updated our Terms of Use and/or Privacy Policy. Please review and accept them to continue using the platform.",
+        "accept_button": "Accept and Continue",
+        "view_terms": "Read Terms of Use",
+        "view_privacy": "Read Privacy Policy",
+        "error_accepting": "Error updating terms and privacy policy acceptance"
+    
     }
 }

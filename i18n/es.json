@@ -687,6 +687,11 @@
         "en": "Inglés",
         "es": "Español"
     },
+    "logos_eu": {
+        "img_url": "logo_eu_es.png",
+        "alt": "Cofinanciado por la Unión Europea",
+        "link": "https://iglue.dit.upm.es/es"
+    },
     "resources": {
         "title": "Recursos para crear retos",
         "coded": "Mensajes codificados",
@@ -1011,7 +1016,7 @@
         "gender": "Género",
         "lang": "Idioma",
         "acceptTerms": "Condiciones de uso",
-        "terms": "Acepto ceder mis datos de uso de forma anonimizada con fines exclusivamente de investigación",
+        "terms": "Al registrarme, confirmo que he leído y acepto los <a href='/terms' target='_blank'>Términos de Uso</a> y la <a href='/privacy' target='_blank'>Política de Privacidad</a>",
         "inputs": {
             "editUser": "Editar usuario",
             "genderPlaceHolder": "Selecciona tu género",
@@ -1077,5 +1082,19 @@
         "msgPlaceholder": "Escribe aquí tu mensaje",
         "msgPlaceholder2": "Escribe aquí tu mensaje. Todos los usuarios de esta lista que estén conectados ahora mismo lo recibirán."
 
-    }
+    },
+    "cookies": {
+        "cookie_message": "Usamos solo cookies esenciales para garantizar el funcionamiento adecuado de este sitio. No utilizamos cookies de seguimiento ni de terceros.",
+        "accept_button": "aceptar",
+        "privacy_policy": "Más información",
+        "back_to_home": "Volver a inicio"
+    },
+    "terms": {
+          "title": "Términos de uso y política de privacidad actualizados",
+          "description": "Hemos actualizado nuestros Términos de Uso y/o Política de Privacidad. Por favor, revísalos y acéptalos para continuar usando la plataforma.",
+          "accept_button": "Aceptar y continuar",
+          "view_terms": "Leer Términos de Uso",
+          "view_privacy": "Leer Política de Privacidad",
+          "error_accepting": "Error al aceptar la nueva política de privacidad y términos de uso"
+        }
 }

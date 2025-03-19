@@ -60,6 +60,10 @@ module.exports = function (sequelize, DataTypes) {
             "type": DataTypes.STRING,
             "allowNull": true,
             "validate": {"isIn": [["en", "es"]]}
+        },
+        "lastAcceptedTermsDate": {
+            "type": DataTypes.DATE,
+            "allowNull": true
         }
     });
 

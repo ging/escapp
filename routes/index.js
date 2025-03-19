@@ -17,6 +17,7 @@ const resourceAppController = require("../controllers/resource_app_controller");
 const apiController = require("../controllers/api_controller");
 const joinController = require("../controllers/join_controller");
 
+
 const multer = require("multer"),
     upload = multer({"dest": "./uploads/"});
 
@@ -62,7 +63,11 @@ router.get("/", sessionController.new); // Login form
 router.post("/", sessionController.create); // Create sesion
 router.delete("/", sessionController.destroy); // Close sesion
 router.get("/register", sessionController.logoutRequired, userController.new);
-
+router.post("/accept-cookies", sessionController.cookieAccept);
+router.get("/terms", sessionController.terms);
+router.get("/privacy", sessionController.privacy);
+router.get("/accept-new", sessionController.acceptNewShow);
+router.post("/accept-new", sessionController.acceptNew);
 // Routes for the resource /users
 router.get("/users/:userId(\\d+)", sessionController.loginRequired, sessionController.adminOrMyselfRequired, userController.show);
 router.get("/users/password-reset", sessionController.logoutRequired, userController.resetPassword);
@@ -190,4 +195,5 @@ router.delete("/resources/:resourceId", sessionController.loginRequired, session
 
 
 router.get("/escapeRooms/:escapeRoomId/browse", sessionController.loginRequired, sessionController.adminOrAuthorRequired, assetsController.browse);
+
 module.exports = router;

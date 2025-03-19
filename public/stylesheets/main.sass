@@ -21,6 +21,11 @@
       // margin-top: 0px
       // margin-bottom: 5px
       // float: right
+    #logoEU
+      width: 12%
+      min-width: 175px
+      img
+        width: 100%
     .langs
       width: auto
       position: relative
@@ -28,6 +33,7 @@
       color: $textpurple
       margin-bottom: 5px
 
+    
   #mainHeader
     height: 50px
     display: flex
@@ -37,7 +43,11 @@
     width: 100%
     z-index: 1
     position: absolute
-
+    #logoEU
+      position: fixed
+      bottom: 1em
+      img
+        width: 100%
     .left, .right
       padding: 10px
       color: white
@@ -96,7 +106,7 @@
             background: none
             font-family: Lato, sans-serif
             padding-right: 20px
-            font-weight: 400
+            font-weight: 300
             option
               font-family: Lato, sans-serif
             &:active, &:focus, &:hover
@@ -185,6 +195,7 @@
       width: 17%
     #logoUpm
       width: 14%
+
 @media (max-width: 576px)
   #mainSection
     #mainHeader, #mainFooter
